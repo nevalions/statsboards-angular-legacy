@@ -9,6 +9,7 @@ import {IBaseIdElse} from "../type/base.type";
   imports: [],
   templateUrl: './season.component.html',
 })
+
 export class SeasonComponent implements OnInit{
   constructor(
     public seasonService: SeasonService
@@ -20,8 +21,8 @@ export class SeasonComponent implements OnInit{
     return item.year?.toString() ?? '';
   }
 
-  mapItemToRoute(item: IBaseIdElse): any[] {
-    return ['/', item.id];
+  seasonRoute(item: IBaseIdElse): any[] {
+    return ['/seasons/year/', item.year];
   }
 
   ngOnInit() {

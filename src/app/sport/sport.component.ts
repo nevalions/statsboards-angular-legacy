@@ -3,13 +3,11 @@ import {SportService} from "../services/sport.service";
 import {IBaseIdElse} from "../type/base.type";
 import {Observable, of} from "rxjs";
 
-
 @Component({
   selector: 'app-sport',
   standalone: true,
   imports: [],
   templateUrl: './sport.component.html',
-
 })
 
 export class SportComponent implements OnInit {
@@ -23,8 +21,8 @@ export class SportComponent implements OnInit {
     return item.title ?? '';
   }
 
-  mapItemToRoute(item: IBaseIdElse): any[] {
-    return ['/', item.id];
+  sportRout(item: IBaseIdElse): any[] {
+    return ['/sports/id/', item.id];
   }
 
   ngOnInit() {
