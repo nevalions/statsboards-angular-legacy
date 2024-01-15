@@ -1,7 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {SeasonService} from "../services/season.service";
-import {Observable, of} from "rxjs";
+import {map, Observable, of} from "rxjs";
 import {IBaseIdElse} from "../type/base.type";
+import { SortService } from "../services/sort.service";
 
 @Component({
   selector: 'app-season',
@@ -26,7 +27,9 @@ export class SeasonComponent implements OnInit{
   }
 
   ngOnInit() {
-    this.dataList$ = this.seasonService.findAll();
+    this.dataList$ = this.seasonService.findAll().pipe(
+      map(data => SortService.sort(data, 'year', false))
+    );
   }
 
 }

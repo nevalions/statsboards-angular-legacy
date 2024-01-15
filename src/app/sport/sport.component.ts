@@ -1,7 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {SportService} from "../services/sport.service";
 import {IBaseIdElse} from "../type/base.type";
-import {Observable, of} from "rxjs";
+import {map, Observable, of} from "rxjs";
+import {SortService} from "../services/sort.service";
 
 @Component({
   selector: 'app-sport',
@@ -26,7 +27,9 @@ export class SportComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.dataList$ = this.sportService.findAll();
+    this.dataList$ = this.sportService.findAll().pipe(
+      map(data => SortService.sort(data, 'title', true))
+    );
   }
 
 }
