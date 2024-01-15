@@ -12,8 +12,7 @@ import {IBaseIdElse} from "../type/base.type";
 export class SeasonComponent implements OnInit{
   constructor(
     public seasonService: SeasonService
-  ) {
-  }
+  ) {}
 
   dataList$: Observable<IBaseIdElse[]> = of([]);
 

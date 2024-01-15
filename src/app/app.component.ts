@@ -19,11 +19,11 @@ import {SeasonDropdownComponent} from "./season/season-dropdown/season-dropdown.
     SportComponent,
     SeasonComponent,
     SidebarComponent,
+    SportDropdownComponent,
+    SeasonDropdownComponent,
     TuiRootModule,
     TuiDialogModule,
     TuiAlertModule,
-    SportDropdownComponent,
-    SeasonDropdownComponent
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.less'
