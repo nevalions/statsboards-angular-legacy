@@ -1,21 +1,14 @@
-import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {SportService} from "../services/sport.service";
-import {TuiSvgModule} from "@taiga-ui/core";
-
 import {IBaseIdElse} from "../type/base.type";
 import {Observable, of} from "rxjs";
-import {DropDownMenuComponent} from "../shared/ui/dropdownmenu/dropdownmenu.component";
 
 
 @Component({
   selector: 'app-sport',
   standalone: true,
-  imports: [
-    TuiSvgModule,
-    DropDownMenuComponent
-  ],
+  imports: [],
   templateUrl: './sport.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 
 })
 

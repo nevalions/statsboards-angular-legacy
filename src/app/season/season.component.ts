@@ -1,20 +1,13 @@
-import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {SeasonService} from "../services/season.service";
 import {Observable, of} from "rxjs";
 import {IBaseIdElse} from "../type/base.type";
-import {TUI_ARROW} from "@taiga-ui/kit";
-import {DropDownMenuComponent} from "../shared/ui/dropdownmenu/dropdownmenu.component";
-import {TuiSvgModule} from "@taiga-ui/core";
 
 @Component({
   selector: 'app-season',
   standalone: true,
-  imports: [
-    TuiSvgModule,
-    DropDownMenuComponent
-  ],
+  imports: [],
   templateUrl: './season.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SeasonComponent implements OnInit{
   constructor(
@@ -36,6 +29,4 @@ export class SeasonComponent implements OnInit{
     this.dataList$ = this.seasonService.findAll();
   }
 
-
-  protected readonly arrow = TUI_ARROW;
 }
