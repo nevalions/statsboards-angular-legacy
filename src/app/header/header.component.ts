@@ -5,7 +5,7 @@ import {Component, Input} from '@angular/core';
   standalone: true,
   imports: [],
   templateUrl: './header.component.html',
-  styleUrl: './header.component.scss'
+  styleUrl: './header.component.less'
 })
 
 export class HeaderComponent {
