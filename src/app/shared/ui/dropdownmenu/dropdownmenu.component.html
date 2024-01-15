@@ -1,10 +1,13 @@
-<tui-hosted-dropdown [content]='content'>
+<tui-hosted-dropdown
+  [content]='content'
+  class="tui-space_vertical-4 tui-space_horizontal-2"
+>
   <button
     tuiButton
     type="button"
     [iconRight]="arrow"
   >
-    Sports
+    {{ title }}
   </button>
 </tui-hosted-dropdown>
 <ng-template #content>

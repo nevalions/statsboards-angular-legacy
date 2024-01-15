@@ -6,6 +6,7 @@ import {HeaderComponent} from "./header/header.component";
 import {SportComponent} from "./sport/sport.component";
 import {SeasonComponent} from "./season/season.component";
 import {SidebarComponent} from "./shared/ui/sidebar/sidebar.component";
+import {SportDropdownComponent} from "./sport/sport-dropdown/sport-dropdown.component";
 
 @Component({
   selector: 'app-root',
@@ -19,7 +20,8 @@ import {SidebarComponent} from "./shared/ui/sidebar/sidebar.component";
     SidebarComponent,
     TuiRootModule,
     TuiDialogModule,
-    TuiAlertModule
+    TuiAlertModule,
+    SportDropdownComponent
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.less'

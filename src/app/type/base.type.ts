@@ -18,6 +18,6 @@ export interface IBaseYear {
   year?: number;
 }
 
-export interface IBaseIdTitle extends IBaseID, IBaseTitle, IBaseName, IBaseYear {
+export interface IBaseIdElse extends IBaseID, IBaseTitle, IBaseName, IBaseYear {
 
 }

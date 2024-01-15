@@ -1,8 +1,8 @@
 import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {SportService} from "../services/sport.service";
 import {TuiSvgModule} from "@taiga-ui/core";
-import {TUI_ARROW} from "@taiga-ui/kit";
-import {IBaseIdTitle} from "../type/base.type";
+
+import {IBaseIdElse} from "../type/base.type";
 import {Observable, of} from "rxjs";
 import {DropDownMenuComponent} from "../shared/ui/dropdownmenu/dropdownmenu.component";
 
@@ -18,19 +18,19 @@ import {DropDownMenuComponent} from "../shared/ui/dropdownmenu/dropdownmenu.comp
   changeDetection: ChangeDetectionStrategy.OnPush,
 
 })
+
 export class SportComponent implements OnInit {
   constructor(
     public sportService: SportService
   ) {}
 
-  dataList$: Observable<IBaseIdTitle[]> = of([]);
-  readonly arrow = TUI_ARROW;
+  dataList$: Observable<IBaseIdElse[]> = of([]);
 
-  mapItemToLabel(item: IBaseIdTitle): string {
+  mapItemToLabel(item: IBaseIdElse): string {
     return item.title ?? '';
   }
 
-  mapItemToRoute(item: IBaseIdTitle): any[] {
+  mapItemToRoute(item: IBaseIdElse): any[] {
     return ['/', item.id];
   }
 
