@@ -1,0 +1,14 @@
+<button
+  tuiButton
+  type="button"
+  (click)="toggle(true)"
+  (tuiActiveZoneChange)="toggle($event)"
+>
+  Show sidebar
+  <div *tuiSidebar="open; direction: 'right'">
+    <tui-accordion [rounded]="false" >
+      <tui-accordion-item borders="top-bottom">
+      </tui-accordion-item>
+    </tui-accordion>
+  </div>
+</button>

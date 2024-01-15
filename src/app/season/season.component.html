@@ -1,0 +1,14 @@
+<div class="seasons-list">
+  @if(dataList$ | async; as seasons){
+    <nav>
+      <ul></ul>
+      @for(season of seasons; track season.id){
+        <li>
+          {{ season.year }}
+        </li>
+      } @empty {
+        <li>No Seasons in DB</li>
+      }
+    </nav>
+  }
+</div>

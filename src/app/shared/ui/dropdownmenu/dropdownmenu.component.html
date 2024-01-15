@@ -1,0 +1,37 @@
+<tui-hosted-dropdown [content]='content'>
+  <button
+    tuiButton
+    type="button"
+    [iconRight]="arrow"
+  >
+    Sports
+  </button>
+</tui-hosted-dropdown>
+<ng-template #content>
+  @if(dataList | async; as data){
+    <tui-data-list role="menu">
+      @for(item of data; track item.id){
+        <tui-opt-group>
+          <a
+            #rla="routerLinkActive"
+            role="menuitemradio"
+            routerLinkActive
+            tuiOption
+            [attr.aria-checked]="rla.isActive"
+            [routerLink]="mapItemToRoute(item)"
+          >
+            {{ mapItemToLabel(item) }}
+            @if("rla.isActive"){
+              <tui-svg
+                src="tuiIconCheck"
+              ></tui-svg>
+            }
+          </a>
+        </tui-opt-group>
+      }
+      @empty {
+        No Sports in DB
+      }
+    </tui-data-list>
+  }
+</ng-template>
