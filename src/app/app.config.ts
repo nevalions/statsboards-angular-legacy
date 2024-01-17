@@ -1,11 +1,11 @@
 import { provideAnimations } from "@angular/platform-browser/animations";
 import { TuiRootModule } from "@taiga-ui/core";
-import {ApplicationConfig, importProvidersFrom, inject} from '@angular/core';
+import {ApplicationConfig, importProvidersFrom} from '@angular/core';
 import {
-  NavigationError,
+
   provideRouter,
   withComponentInputBinding,
-  withNavigationErrorHandler,
+
   withRouterConfig
 } from '@angular/router';
 

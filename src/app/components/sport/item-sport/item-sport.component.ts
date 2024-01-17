@@ -1,7 +1,7 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {SportService} from "../../../services/sport.service";
 import {ISport} from "../../../type/sport";
-import {catchError, Observable, of, switchMap} from "rxjs";
+import {Observable, of, switchMap} from "rxjs";
 import {tap} from "rxjs/operators";
 import {AsyncPipe} from "@angular/common";
 import {ActivatedRoute, Router} from "@angular/router";

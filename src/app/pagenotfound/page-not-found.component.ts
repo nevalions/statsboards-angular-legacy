@@ -21,9 +21,7 @@ export class PageNotFoundComponent implements OnInit{
   errorStatus:number = 404;
   errorStatusText: string ='NOT FOUND';
 
-  constructor(
-    private router: Router
-  ){}
+  constructor(){}
 
   ngOnInit() {
     const state = history.state as NavigationStateError;
