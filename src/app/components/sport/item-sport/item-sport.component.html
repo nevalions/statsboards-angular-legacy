@@ -2,19 +2,46 @@
   <div class="sport content">
     <div class="sport content__title">
       @if(this.item$ | async; as item) {
-        <h3 class="tui-text_h3">{{item.title}}</h3>
+        <h3 class="tui-text_h3">{{item.title | uppercase}}</h3>
       } @else {
         <h3 class="tui-text_h3">Sport not found</h3>
       }
     </div>
-    <div class="sport content__body">LIST OF COMP</div>
+    <div class="sport content__body">
+      <div class="one_col_container">
+        <div class="sport content__body__title"><h3>LIST OF COMP</h3></div>
+<!--        <app-list-of-items-island></app-list-of-items-island>-->
+<!--        <div class="list-of-items-with-data">-->
+<!--          <div class="item-with-data-island">-->
+<!--          <a-->
+<!--            href="#"-->
+<!--            rel="noreferrer"-->
+<!--            size="l"-->
+<!--            target="_self"-->
+<!--            tuiIsland-->
+<!--            textAlign="center"-->
+<!--            [hoverable]="true"-->
+<!--          >-->
+<!--            <div class="tui-island__content">-->
+<!--              <figure class="tui-island__figure">-->
+<!--                <div class="some-figure"></div>-->
+<!--              </figure>-->
+<!--              <div>-->
+<!--                <h3 class="tui-island__title">Tournament</h3>-->
+<!--                <p class="tui-island__paragraph"></p>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </a>-->
+<!--          </div>-->
+<!--        </div>-->
+      </div>
+    </div>
   </div>
+
   <aside>
     <h4>ASIDE MENU</h4>
     <hr>
-    <tui-select>
-      Select Season
-    </tui-select>
+    <app-season-dropdown></app-season-dropdown>
     <a
       appearance="primary"
       href=""

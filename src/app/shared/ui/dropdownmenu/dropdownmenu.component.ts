@@ -27,7 +27,7 @@ export class DropDownMenuComponent {
   @Input() title: string = 'Menu';
   @Input() dataList: Observable<IBaseIdElse[]> | undefined;
   @Input() mapItemToLabel: (item: IBaseIdElse) => string = () => '';
-  @Input() mapItemToRoute: (item: IBaseIdElse) => any[] = () => [];
+  @Input() mapItemToRoute: (item: IBaseIdElse) => any = () => [];
   @Input() arrow: PolymorpheusContent<any>;
   @Input() emptyMessage: string = 'No data available';
 

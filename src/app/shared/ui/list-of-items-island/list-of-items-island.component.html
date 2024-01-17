@@ -1,0 +1,32 @@
+<div class="list-of-items-with-data">
+  @if(data | async; as dataI){
+    @for(item of dataI; track item.id){
+  <div class="item-with-data-island">
+    <a
+      [href]="formatPath(item)"
+      rel="noreferrer"
+      size="l"
+      target="_self"
+      tuiIsland
+      textAlign="center"
+      [hoverable]="true"
+    >
+      <div class="tui-island__content">
+        <figure class="tui-island__figure">
+          <div class="some-figure"></div>
+        </figure>
+        <div>
+          <h3 class="tui-island__title">{{ item[titleProperty] }}</h3>
+          <p class="tui-island__paragraph"></p>
+        </div>
+      </div>
+    </a>
+  </div>
+    } @empty {
+      No Links
+    }
+  } @else {
+    'Oops'
+  }
+</div>
+

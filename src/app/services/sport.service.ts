@@ -5,6 +5,7 @@ import {HttpClient} from "@angular/common/http";
 import {catchError, Subject, throwError} from "rxjs";
 import {tap} from "rxjs/operators";
 import {Router} from "@angular/router";
+import {ErrorHandlingService} from "./error.service";
 
 @Injectable({
   providedIn: 'root'
@@ -14,32 +15,37 @@ export class SportService extends BaseApiService<ISport> {
   constructor(
     http: HttpClient,
     private router: Router,
+    errorHandlingService: ErrorHandlingService
   ) {
-    super('sports', http);
+    super(
+      'sports',
+      http,
+      errorHandlingService
+      );
   }
 
-  findById(id: number) {
-    return this.http.get<ISport>(`${this.endpoint}/id/${id}`)
-      .pipe(
-        tap((sport: ISport) => {
-          this.itemSig.next(sport)
-        }),
-        catchError((error) => {
-          // console.error.type.ts('Error occurred:', error.type.ts);
-          this.router.navigateByUrl('/error404', {
-            state: {
-              errorStatus: error.status,
-              errorStatusText: error.statusText
-            }
-            }
-          ).then(success => {
-            if (success){
-              console.log('Redirected to Error page')
-            }
-          });
-          return throwError(() => error);
-        })
-      )
-  };
+  // findById(id: number) {
+  //   return this.http.get<ISport>(`${this.endpoint}/id/${id}`)
+  //     .pipe(
+  //       tap((sport: ISport) => {
+  //         this.itemSig.next(sport)
+  //       }),
+  //       catchError((error) => {
+  //         // console.error.type.ts('Error occurred:', error.type.ts);
+  //         this.router.navigateByUrl('/error404', {
+  //           state: {
+  //             errorStatus: error.status,
+  //             errorStatusText: error.statusText
+  //           }
+  //           }
+  //         ).then(success => {
+  //           if (success){
+  //             console.log('Redirected to Error page')
+  //           }
+  //         });
+  //         return throwError(() => error);
+  //       })
+  //     )
+  // };
 
 }
