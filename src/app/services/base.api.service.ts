@@ -1,6 +1,6 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import {BehaviorSubject, catchError, Observable, throwError} from "rxjs";
+import {BehaviorSubject, catchError, Observable} from "rxjs";
 import { tap } from 'rxjs/operators';
 import {ErrorHandlingService} from "./error.service";
 

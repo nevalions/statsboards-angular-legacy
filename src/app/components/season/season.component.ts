@@ -4,7 +4,6 @@ import {map, Observable, of} from "rxjs";
 import {IBaseIdElse} from "../../type/base.type";
 import { SortService } from "../../services/sort.service";
 import {ListOfItemsIslandComponent} from "../../shared/ui/list-of-items-island/list-of-items-island.component";
-import {ISeason} from "../../type/season";
 
 @Component({
   selector: 'app-season',

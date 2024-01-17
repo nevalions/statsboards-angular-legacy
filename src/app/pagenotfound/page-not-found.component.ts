@@ -1,6 +1,5 @@
 import {Component, OnInit} from '@angular/core';
 import {TuiBlockStatusModule} from "@taiga-ui/layout";
-import {Router} from "@angular/router";
 import {NavigationStateError} from "../type/error.type";
 import {UpperCasePipe} from "@angular/common";
 

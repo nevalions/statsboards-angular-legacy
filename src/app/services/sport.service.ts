@@ -2,8 +2,7 @@ import {Injectable} from "@angular/core";
 import { ISport } from "../type/sport";
 import { BaseApiService } from "./base.api.service";
 import {HttpClient} from "@angular/common/http";
-import {catchError, Subject, throwError} from "rxjs";
-import {tap} from "rxjs/operators";
+import {Subject} from "rxjs";
 import {Router} from "@angular/router";
 import {ErrorHandlingService} from "./error.service";
 
