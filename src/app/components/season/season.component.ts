@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
-import {SeasonService} from "../services/season.service";
+import {SeasonService} from "../../services/season.service";
 import {map, Observable, of} from "rxjs";
-import {IBaseIdElse} from "../type/base.type";
-import { SortService } from "../services/sort.service";
+import {IBaseIdElse} from "../../type/base.type";
+import { SortService } from "../../services/sort.service";
 
 @Component({
   selector: 'app-season',

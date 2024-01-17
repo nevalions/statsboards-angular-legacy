@@ -1,0 +1,30 @@
+<div class="sport container">
+  <div class="sport content">
+    <div class="sport content__title">
+      @if(this.item$ | async; as item) {
+        <h3 class="tui-text_h3">{{item.title}}</h3>
+      } @else {
+        <h3 class="tui-text_h3">Sport not found</h3>
+      }
+    </div>
+    <div class="sport content__body">LIST OF COMP</div>
+  </div>
+  <aside>
+    <h4>ASIDE MENU</h4>
+    <hr>
+    <tui-select>
+      Select Season
+    </tui-select>
+    <a
+      appearance="primary"
+      href=""
+      tuiButton
+      type="button"
+      class=""
+    >
+      Create
+    </a>
+
+  </aside>
+</div>
+

@@ -3,7 +3,7 @@ import {TuiActiveZoneModule} from "@taiga-ui/cdk";
 import {TuiAccordionModule} from "@taiga-ui/kit";
 import {TuiButtonModule, TuiLinkModule} from "@taiga-ui/core";
 import {TuiSidebarModule} from "@taiga-ui/addon-mobile";
-import {SportComponent} from "../../../sport/sport.component";
+import {SportComponent} from "../../../components/sport/sport.component";
 
 @Component({
   selector: 'app-sidebar',

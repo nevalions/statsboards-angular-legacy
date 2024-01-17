@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import {TUI_ARROW} from "@taiga-ui/kit";
 import {SeasonComponent} from "../season.component";
-import {DropDownMenuComponent} from "../../shared/ui/dropdownmenu/dropdownmenu.component";
+import {DropDownMenuComponent} from "../../../shared/ui/dropdownmenu/dropdownmenu.component";
 
 @Component({
   selector: 'app-season-dropdown',

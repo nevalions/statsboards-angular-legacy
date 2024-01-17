@@ -12,8 +12,8 @@ export abstract class BaseApiService<T> {
   data$: Observable<T[]> = this.data.asObservable();
 
   protected constructor(
-    private endpoint: string,
-    private readonly http: HttpClient,
+    protected endpoint: string,
+    protected readonly http: HttpClient,
   ) { }
 
   findAll(): Observable<T[]> {

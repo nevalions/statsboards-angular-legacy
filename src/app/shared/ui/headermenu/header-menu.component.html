@@ -1,0 +1,20 @@
+<nav>
+    @if(dataList | async; as data){
+      @for(item of data; track item.id){
+      <a
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{exact: true}"
+        [routerLink]="mapItemToRoute(item)"
+        ariaCurrentWhenActive="page"
+        tuiLink
+      >
+
+        {{ item.title }}
+      </a>
+      } @empty {
+        No Items Added
+        }
+    } @else {
+      None
+    }
+</nav>

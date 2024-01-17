@@ -1,8 +1,9 @@
 import {Component, OnInit} from '@angular/core';
-import {SportService} from "../services/sport.service";
-import {IBaseIdElse} from "../type/base.type";
+import {SportService} from "../../services/sport.service";
+import {IBaseIdElse} from "../../type/base.type";
 import {map, Observable, of} from "rxjs";
-import {SortService} from "../services/sort.service";
+import {SortService} from "../../services/sort.service";
+import {tap} from "rxjs/operators";
 
 @Component({
   selector: 'app-sport',
@@ -23,12 +24,14 @@ export class SportComponent implements OnInit {
   }
 
   sportRout(item: IBaseIdElse): any[] {
-    return ['/sports/id/', item.id];
+    return [`/sports/id/`, item.id];
   }
 
   ngOnInit() {
-    this.dataList$ = this.sportService.findAll().pipe(
-      map(data => SortService.sort(data, 'title', true))
+    this.dataList$ = this.sportService.findAll()
+      .pipe(
+        tap(data => console.log(data)),
+        map(data => SortService.sort(data, 'title', true))
     );
   }
 

@@ -1,1 +1,18 @@
-<div class="tui-text_h1">{{ title }}</div>
+<header>
+  <div class="">
+    <h1 class="tui-text_h2">
+      <a
+        tuiLink
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{exact: true}"
+        routerLink="/"
+        ariaCurrentWhenActive="page"
+      >
+        {{ title }}
+      </a>
+    </h1>
+  </div>
+  <div class="">
+    <app-sport-nav></app-sport-nav>
+  </div>
+</header>
