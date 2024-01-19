@@ -38,4 +38,25 @@ export abstract class BaseApiService<T> {
         }),
       );
   }
+
+  findByFirstKeyValueAndSecondItemSecondKeyValue(
+    firstItem: string,
+    firstKey: string,
+    firstValue: any,
+    secondItem: string,
+    secondKey: string,
+    secondValue: number,
+    optionalValue?: any
+  ): Observable<T[]> {
+    return this.http.get<T[]>(`${firstItem}/${firstKey}/${firstValue}/${secondItem}/${secondKey}/${secondValue}/${optionalValue}`)
+      .pipe(
+        tap(items => console.log(
+          `Received Sport Year  /API/
+          ${firstItem}/${firstKey}/${firstValue}/${secondItem}/${secondKey}/${secondValue}/${optionalValue}
+          \ndata:`, items
+          )
+        ),
+        catchError(this.errorHandlingService.handleError),
+      );
+  }
 }

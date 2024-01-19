@@ -2,7 +2,7 @@ import { TuiRootModule, TuiDialogModule, TuiAlertModule } from "@taiga-ui/core";
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
-import {HeaderComponent} from "./header/header.component";
+import {HeaderComponent} from "./components/header/header.component";
 import {SportComponent} from "./components/sport/sport.component";
 import {SeasonComponent} from "./components/season/season.component";
 import {SidebarComponent} from "./shared/ui/sidebar/sidebar.component";

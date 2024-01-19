@@ -1,5 +1,5 @@
 import {Component, Input} from '@angular/core';
-import {SportNavComponent} from "../components/sport/sport-nav/sport-nav.component";
+import {SportNavComponent} from "../sport/sport-nav/sport-nav.component";
 import {TuiLinkModule} from "@taiga-ui/core";
 import {RouterLink, RouterLinkActive} from "@angular/router";
 

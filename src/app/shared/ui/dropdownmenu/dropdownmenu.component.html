@@ -1,18 +1,23 @@
 <tui-hosted-dropdown
   [content]='content'
-  class=""
+  class="hosted__list"
+  tuiDropdownLimitWidth="fixed"
 >
-  <button
+  <a
     tuiButton
     type="button"
     [iconRight]="arrow"
+    class="btn__list"
   >
     {{ title }}
-  </button>
+  </a>
 </tui-hosted-dropdown>
 <ng-template #content>
   @if(dataList | async; as data){
-    <tui-data-list role="menu">
+    <tui-data-list
+      role="menu"
+      class="data__list"
+    >
       @for(item of data; track item.id){
         <tui-opt-group>
           <a
@@ -22,6 +27,7 @@
             tuiOption
             [attr.aria-checked]="rla.isActive"
             [routerLink]="mapItemToRoute(item)"
+            class="item__data__list"
           >
             {{ mapItemToLabel(item) }}
             @if("rla.isActive"){
@@ -33,7 +39,7 @@
         </tui-opt-group>
       }
       @empty {
-        No Sports in DB
+        <tui-loader [inheritColor]="true"></tui-loader>
       }
     </tui-data-list>
   }

@@ -20,8 +20,6 @@ export class SeasonComponent implements OnInit{
   ) {}
   dataList$: Observable<IBaseIdElse[]> = of([]);
 
-  // item: ISeason = {id:1, year:2000};
-
   mapItemToLabel(item: IBaseIdElse): string {
     return item.year?.toString() ?? '';
   }
@@ -30,6 +28,11 @@ export class SeasonComponent implements OnInit{
 
   seasonRoute(item: IBaseIdElse): any[] {
     return [`/seasons/year/` + item.year];
+  }
+
+  seasonTournamentRoute(item: IBaseIdElse): any[] {
+    const baseUrl = `/seasons/year/${item.year}`;
+    return item.routeInfo ? [`${baseUrl}${item.routeInfo}`] : [baseUrl];
   }
 
   seasonHref(item: IBaseIdElse): string {

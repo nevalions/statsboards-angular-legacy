@@ -4,6 +4,7 @@ import {IBaseIdElse} from "../../type/base.type";
 import {map, Observable, of} from "rxjs";
 import {SortService} from "../../services/sort.service";
 import {tap} from "rxjs/operators";
+import {currentYear} from "../../base/constants";
 
 @Component({
   selector: 'app-sport',
@@ -24,7 +25,7 @@ export class SportComponent implements OnInit {
   }
 
   sportRout(item: IBaseIdElse): any[] {
-    return [`/sports/id/`, item.id];
+    return [`/seasons/year/${currentYear}/sports/id/${item.id}/tournaments`];
   }
 
   ngOnInit() {

@@ -1,3 +1,5 @@
+@import '@taiga-ui/core/styles/taiga-ui-local.less';
+
 html {
   height: 100%;
 }
@@ -87,6 +89,12 @@ aside > * {
   background-color: darkgreen;
 }
 
+.content__body__title__center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .content__body {
   padding: 20px;
   display: flex;
@@ -108,4 +116,32 @@ aside > * {
 
 .list-of-items-with-data {
   padding: 10px;
+}
+
+.flex__fullwidth_center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 100%;
+}
+
+
+
+
+// This goes into global, non-encapsulated styles
+[tuiWrapper][data-appearance='create'] {
+  background: var(--tui-positive-night-hover);
+  color: #fff;
+
+  .wrapper-hover({
+    background: var(--tui-positive-hover);;
+  });
+
+  .wrapper-active({
+    background: var(--tui-positive-hover);;
+  });
+
+  .wrapper-disabled({
+    background: var(--tui-base-07);
+  });
 }

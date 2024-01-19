@@ -11,6 +11,7 @@ import {TuiButtonModule} from "@taiga-ui/core";
 import {SeasonDropdownComponent} from "../../season/season-dropdown/season-dropdown.component";
 import {ListOfItemsIslandComponent} from "../../../shared/ui/list-of-items-island/list-of-items-island.component";
 
+
 @Component({
   selector: 'app-item-sport',
   standalone: true,
@@ -29,6 +30,7 @@ import {ListOfItemsIslandComponent} from "../../../shared/ui/list-of-items-islan
 })
 export class ItemSportComponent implements OnInit{
   item$: Observable<ISport> = of({} as ISport);
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,

@@ -19,5 +19,5 @@ export interface IBaseYear {
 }
 
 export interface IBaseIdElse extends IBaseID, IBaseTitle, IBaseName, IBaseYear {
-
+  routeInfo?: string;
 }
