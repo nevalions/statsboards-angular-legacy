@@ -10,7 +10,6 @@ import {map, Observable, of} from "rxjs";
 import {ITournament} from "../../../type/tournament.type";
 import {IMatchFullData} from "../../../type/match.type";
 import {tap} from "rxjs/operators";
-import {IBaseIdElse} from "../../../type/base.type";
 import {ListOfMatchesComponent} from "../../../shared/ui/list-of-matches/list-of-matches.component";
 import {SortService} from "../../../services/sort.service";
 
@@ -40,7 +39,7 @@ export class ItemTournamentComponent implements OnInit{
   tournament$: Observable<ITournament> = of({} as ITournament)
   matches$: Observable<IMatchFullData[]> = of([])
 
-  itemsPerPage = 4; // Define items per page
+  itemsPerPage = 4;
   currentPageIndex = 1;
 
   constructor(

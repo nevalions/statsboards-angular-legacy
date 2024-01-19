@@ -1,5 +1,4 @@
 import {Component, Input} from '@angular/core';
-import {Observable} from "rxjs";
 import {AsyncPipe, DatePipe} from "@angular/common";
 import {IMatchFullData} from "../../../type/match.type";
 import {TuiLoaderModule} from "@taiga-ui/core";
