@@ -93,7 +93,7 @@ export class ItemSportWithSeasonComponent implements OnInit{
         .pipe(
           map(([sport, seasons]) => {
             const seasonsWithSportId = seasons.
-            map(season => ({...season, sport_id: secondValue}));
+            map(season => ({...season, sport_id: sport.id}));
             return SortService.sort(seasonsWithSportId, 'year', false);
           })
         ).subscribe(sortedSeasonsWithSportId => this.seasons$ = of(sortedSeasonsWithSportId));
