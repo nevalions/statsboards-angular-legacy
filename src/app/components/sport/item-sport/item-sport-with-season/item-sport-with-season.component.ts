@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {combineLatest, map, Observable, of, shareReplay, switchMap} from "rxjs";
-import {ActivatedRoute, Router} from "@angular/router";
+import {ActivatedRoute} from "@angular/router";
 import {tap} from "rxjs/operators";
 import {AsyncPipe, UpperCasePipe} from "@angular/common";
 import {TuiBlockStatusModule} from "@taiga-ui/layout";
@@ -100,7 +100,7 @@ export class ItemSportWithSeasonComponent implements OnInit{
         ).subscribe(sortedSeasonsWithSportId => this.seasons$ = of(sortedSeasonsWithSportId));
 
       this.items$ = this.route.paramMap.pipe(
-        switchMap(params => {
+        switchMap(() => {
           const id = secondValue;
           return this.tournamentService.findByFirstKeyValueAndSecondItemSecondKeyValue(
             firstItem,
