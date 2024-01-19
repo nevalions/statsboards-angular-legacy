@@ -4,17 +4,19 @@ import {ItemSportComponent} from "./components/sport/item-sport/item-sport.compo
 import {PageNotFoundComponent} from "./pagenotfound/page-not-found.component";
 import {HomeComponent} from "./components/home/home.component";
 import {SeasonComponent} from "./components/season/season.component";
-import {
-  ItemSportWithSeasonComponent
-} from "./components/sport/item-sport/item-sport-with-season/item-sport-with-season.component";
+import {ItemSportWithSeasonComponent} from "./components/sport/item-sport/item-sport-with-season/item-sport-with-season.component";
+import {TournamentComponent} from "./components/tournament/tournament.component";
+import {ItemTournamentComponent} from "./components/tournament/item-tournament/item-tournament.component";
 
 export const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'seasons', component: SeasonComponent},
   { path: 'seasons/year/:year' , component: SeasonComponent },
-  { path: 'seasons/year/:year/sports/id/:id/tournaments', component: ItemSportWithSeasonComponent },
+  { path: 'seasons/year/:year/sports/id/:id/tournaments', component: ItemSportWithSeasonComponent},
   { path: 'sports', component: SportComponent },
   { path: 'sports/id/:id', component: ItemSportComponent },
+  { path: 'tournaments', component: TournamentComponent },
+  { path: 'tournaments/id/:id', component: ItemTournamentComponent },
   { path: 'error404', component: PageNotFoundComponent },
 
   { path: '**', component: PageNotFoundComponent},

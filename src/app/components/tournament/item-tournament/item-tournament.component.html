@@ -1,0 +1,54 @@
+<div class="tournament container">
+  <div class="tournament content">
+    <div class="tournament content__title">
+      @if(this.tournament$ | async; as tournament) {
+        <h3 class="tui-text_h3">{{tournament.title | uppercase}}</h3>
+      } @else {
+        <h3 class="tui-text_h3">
+          <tui-loader [inheritColor]="true"></tui-loader>
+        </h3>
+      }
+    </div>
+    <div class="tournament content__body">
+      <div class="one_col_container">
+        <div class="tournament content__body__title">
+          <h3>LIST OF MATCHES</h3>
+        </div>
+<!--        <div class="tournament content__body__title">-->
+<!--          <h4>YEAR {{ this.year }}</h4>-->
+<!--        </div>-->
+        <hr>
+        <app-list-of-items-island
+          [data]="matches$"
+          [formatPath]="matchHref"
+          [titleProperty]="islandTitleProperty"
+        ></app-list-of-items-island>
+
+      </div>
+    </div>
+  </div>
+  <aside>
+    <h4>ASIDE MENU</h4>
+    <hr>
+    <div class="block__fullwidth_center" style="display: block">
+<!--      <app-dropdownmenu-->
+<!--        [title]="'Select Season'"-->
+<!--        [dataList]="seasons$"-->
+<!--        [mapItemToLabel]="mapItemToLabel"-->
+<!--        [mapItemToRoute]="seasonSportRoute"-->
+<!--        [arrow]="arrow"-->
+<!--        [emptyMessage]="'Items Not Found'">-->
+<!--      </app-dropdownmenu>-->
+    </div>
+    <a
+      appearance="create"
+      href=""
+      tuiButton
+      type="button"
+      class="btn__create"
+    >
+      Create Match
+    </a>
+
+  </aside>
+</div>

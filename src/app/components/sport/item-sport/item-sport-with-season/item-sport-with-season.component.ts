@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, OnInit, ViewEncapsulation} from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
 import {combineLatest, map, Observable, of, shareReplay, switchMap} from "rxjs";
 import {ActivatedRoute} from "@angular/router";
 import {tap} from "rxjs/operators";
@@ -10,12 +10,13 @@ import {SeasonDropdownComponent} from "../../../season/season-dropdown/season-dr
 import {ListOfItemsIslandComponent} from "../../../../shared/ui/list-of-items-island/list-of-items-island.component";
 import {ITournament} from "../../../../type/tournament.type";
 import {TournamentService} from "../../../../services/tournament.service";
-import {ISeasonAndSport, ISport} from "../../../../type/sport";
+import {ISeasonAndSport, ISport} from "../../../../type/sport.type";
 import {SportService} from "../../../../services/sport.service";
 import {IBaseIdElse} from "../../../../type/base.type";
 import {DropDownMenuComponent} from "../../../../shared/ui/dropdownmenu/dropdownmenu.component";
 import {SeasonService} from "../../../../services/season.service";
 import {SortService} from "../../../../services/sort.service";
+import {IMatchFullData} from "../../../../type/match.type";
 
 @Component({
   selector: 'app-item-sport-with-season',
@@ -39,9 +40,12 @@ import {SortService} from "../../../../services/sort.service";
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ItemSportWithSeasonComponent implements OnInit{
+  @ViewChild(ListOfItemsIslandComponent)
+  comp!: ListOfItemsIslandComponent<ITournament>;
+
   items$: Observable<ITournament[]> = of({} as ITournament[]);
   sport$: Observable<ISport> = of({} as ISport);
-  seasons$: Observable<IBaseIdElse[]> = of({} as IBaseIdElse[]);
+  seasons$: Observable<IBaseIdElse[]> = of([]);
   year: number = 0;
 
   constructor(
@@ -57,11 +61,7 @@ export class ItemSportWithSeasonComponent implements OnInit{
 
   islandTitleProperty: keyof IBaseIdElse = 'title';
 
-  // seasonSportRoute(item: IBaseIdElse): any[]{
-  //   return [`/seasons/year/${item.year}/sports/id/1/tournaments`];
-  // }
-
-  seasonSportRoute(item: ISeasonAndSport): any[]{
+  seasonSportRoute(item: ISeasonAndSport): any{
     return [`/seasons/year/${item.year}/sports/id/${item.sport_id}/tournaments`];
   }
 
@@ -94,7 +94,7 @@ export class ItemSportWithSeasonComponent implements OnInit{
         .pipe(
           map(([sport, seasons]) => {
             const seasonsWithSportId = seasons.
-            map(season => ({...season, sport_id: sport.id}));
+            map(season => ({...season, sport_id: secondValue}));
             return SortService.sort(seasonsWithSportId, 'year', false);
           })
         ).subscribe(sortedSeasonsWithSportId => this.seasons$ = of(sortedSeasonsWithSportId));

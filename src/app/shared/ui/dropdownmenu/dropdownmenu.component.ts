@@ -1,9 +1,9 @@
-import {Component, Input} from '@angular/core';
+import {Component, Input, ViewChild} from '@angular/core';
 import {AsyncPipe} from "@angular/common";
 import {RouterLink, RouterLinkActive} from "@angular/router";
 import {
   TuiButtonModule,
-  TuiDataListModule,
+  TuiDataListModule, TuiHostedDropdownComponent,
   TuiHostedDropdownModule,
   TuiLoaderModule,
   TuiSvgModule
@@ -11,7 +11,7 @@ import {
 import {IBaseIdElse} from "../../../type/base.type";
 import {min, Observable} from "rxjs";
 import {PolymorpheusContent} from '@tinkoff/ng-polymorpheus'
-import {ISeasonAndSport} from "../../../type/sport";
+import {ISeasonAndSport} from "../../../type/sport.type";
 
 @Component({
   selector: 'app-dropdownmenu',
@@ -31,6 +31,16 @@ import {ISeasonAndSport} from "../../../type/sport";
 })
 
 export class DropDownMenuComponent {
+  @ViewChild(
+    TuiHostedDropdownComponent,
+    { static: false }
+  ) dropdown: TuiHostedDropdownComponent | undefined;
+
+  closeDropdown() {
+    if (this.dropdown) {
+      this.dropdown.updateOpen(false);
+    }
+  }
 
   @Input() title: string = 'Menu';
   @Input() dataList: Observable<IBaseIdElse[]> | undefined;

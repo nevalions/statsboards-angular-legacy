@@ -1,3 +1,5 @@
+import {IMatch, IMatchFullData} from "./match.type";
+
 export interface IBaseID {
   id: number;
 }

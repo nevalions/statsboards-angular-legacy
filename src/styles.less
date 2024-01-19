@@ -118,12 +118,31 @@ aside > * {
   padding: 10px;
 }
 
-.flex__fullwidth_center {
-  display: flex;
+.fullwidth_center() {
   justify-content: center;
   align-items: center;
   min-width: 100%;
 }
+
+.block__fullwidth_center {
+  display: block;
+  .fullwidth_center();
+}
+
+.flex__fullwidth_center {
+  display: flex;
+  .fullwidth_center();
+}
+
+
+
+
+
+
+
+
+
+
 
 
 

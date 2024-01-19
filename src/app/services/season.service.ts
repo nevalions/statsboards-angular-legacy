@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { ISeason } from "../type/season";
+import { ISeason } from "../type/season.type";
 import { BaseApiService } from "./base.api.service";
 import {HttpClient} from "@angular/common/http";
 import {ErrorHandlingService} from "./error.service";

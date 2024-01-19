@@ -2,13 +2,12 @@
     @if(dataList | async; as data){
       @for(item of data; track item.id){
       <a
-        routerLinkActive="active"
-        [routerLinkActiveOptions]="{exact: true}"
-        [routerLink]="mapItemToRoute(item)"
-        ariaCurrentWhenActive="page"
-        tuiLink
-      >
 
+        routerLinkActive="active"
+        [routerLink]="mapItemToRoute(item)"
+        tuiLink
+        ariaCurrentWhenActive="page"
+      >
         {{ item.title }}
       </a>
       } @empty {

@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {SportService} from "../../../services/sport.service";
-import {ISport} from "../../../type/sport";
+import {ISport} from "../../../type/sport.type";
 import {Observable, of, switchMap} from "rxjs";
 import {tap} from "rxjs/operators";
 import {AsyncPipe, UpperCasePipe} from "@angular/common";

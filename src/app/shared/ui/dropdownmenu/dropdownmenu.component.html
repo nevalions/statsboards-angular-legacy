@@ -28,12 +28,13 @@
             [attr.aria-checked]="rla.isActive"
             [routerLink]="mapItemToRoute(item)"
             class="item__data__list"
+            (click)="closeDropdown()"
           >
             {{ mapItemToLabel(item) }}
-            @if("rla.isActive"){
-<!--              <tui-svg-->
-<!--                src="tuiIconCheck"-->
-<!--              ></tui-svg>-->
+            @if(rla.isActive){
+              <tui-svg
+                src="tuiIconCheck"
+              ></tui-svg>
             }
           </a>
         </tui-opt-group>
