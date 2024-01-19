@@ -16,7 +16,6 @@ import {IBaseIdElse} from "../../../../type/base.type";
 import {DropDownMenuComponent} from "../../../../shared/ui/dropdownmenu/dropdownmenu.component";
 import {SeasonService} from "../../../../services/season.service";
 import {SortService} from "../../../../services/sort.service";
-import {IMatchFullData} from "../../../../type/match.type";
 
 @Component({
   selector: 'app-item-sport-with-season',

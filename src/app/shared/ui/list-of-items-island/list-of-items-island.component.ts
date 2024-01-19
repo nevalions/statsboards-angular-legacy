@@ -1,7 +1,6 @@
 import {Component, Input} from '@angular/core';
 import {TuiIslandModule} from "@taiga-ui/kit";
 import {Observable} from "rxjs";
-import {IBaseIdElse} from "../../../type/base.type";
 import {AsyncPipe} from "@angular/common";
 import {TuiLoaderModule} from "@taiga-ui/core";
 

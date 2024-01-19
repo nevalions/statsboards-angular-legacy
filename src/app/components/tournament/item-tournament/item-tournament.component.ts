@@ -5,12 +5,10 @@ import {DropDownMenuComponent} from "../../../shared/ui/dropdownmenu/dropdownmen
 import {ListOfItemsIslandComponent} from "../../../shared/ui/list-of-items-island/list-of-items-island.component";
 import {TuiButtonModule, TuiLoaderModule} from "@taiga-ui/core";
 import {ActivatedRoute} from "@angular/router";
-import {SportService} from "../../../services/sport.service";
 import {TournamentService} from "../../../services/tournament.service";
-import {SeasonService} from "../../../services/season.service";
-import {map, Observable, of} from "rxjs";
+import {Observable, of} from "rxjs";
 import {ITournament} from "../../../type/tournament.type";
-import {IMatch, IMatchFullData} from "../../../type/match.type";
+import {IMatchFullData} from "../../../type/match.type";
 import {tap} from "rxjs/operators";
 import {IBaseIdElse} from "../../../type/base.type";
 

@@ -5,7 +5,7 @@ import {Subject} from "rxjs";
 import {Router} from "@angular/router";
 import {ErrorHandlingService} from "./error.service";
 import {ITournament} from "../type/tournament.type";
-import {IMatch, IMatchFullData} from "../type/match.type";
+import {IMatchFullData} from "../type/match.type";
 import {tap} from "rxjs/operators";
 
 @Injectable({
