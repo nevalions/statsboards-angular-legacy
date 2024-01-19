@@ -1,0 +1,36 @@
+
+  @if(data){
+    @for(item of data; track item.id){
+      <div class="item-with-data-island">
+        <a
+          [href]="formatPath(item)"
+          rel="noreferrer"
+          size="l"
+          target="_self"
+          tuiIsland
+          textAlign="center"
+          [hoverable]="true"
+        >
+          <div class="tui-island__content">
+            <figure class="tui-island__figure">
+              <div class="some-figure">WEEK {{ item.match.week }}</div>
+            </figure>
+            <div>
+              <h3 class="tui-island__title content__body__title__center">
+                {{ item.teams_data.team_a.title }} vs {{item.teams_data.team_b.title}}
+              </h3>
+              <h4 class="tui-island__title content__body__title__center">
+                {{ item.match_data.score_team_a }} : {{ item.match_data.score_team_b }}
+              </h4>
+              <p class="tui-island__paragraph">{{ item.match.match_date | date:"dd MMM yyyy, HH:mm" }}</p>
+            </div>
+          </div>
+        </a>
+      </div>
+    } @empty {
+      No Items Found
+    }
+  } @else {
+  <tui-loader [inheritColor]="true"></tui-loader>
+}
+

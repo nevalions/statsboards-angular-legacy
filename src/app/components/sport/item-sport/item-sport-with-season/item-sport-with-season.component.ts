@@ -86,7 +86,7 @@ export class ItemSportWithSeasonComponent implements OnInit{
     );
 
       this.seasons$ = allSeasons$.pipe(
-        map(data => SortService.sort(data, 'year', false))
+        map(data => SortService.sort(data, '-year'))
       );
 
       combineLatest([this.sport$, allSeasons$])
@@ -94,7 +94,7 @@ export class ItemSportWithSeasonComponent implements OnInit{
           map(([sport, seasons]) => {
             const seasonsWithSportId = seasons.
             map(season => ({...season, sport_id: sport.id}));
-            return SortService.sort(seasonsWithSportId, 'year', false);
+            return SortService.sort(seasonsWithSportId, '-year');
           })
         ).subscribe(sortedSeasonsWithSportId => this.seasons$ = of(sortedSeasonsWithSportId));
 

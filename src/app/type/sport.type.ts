@@ -1,7 +1,7 @@
 import {IBaseID, IBaseDescription, IBaseIdElse} from "./base.type";
 
 export interface ISport extends IBaseID, IBaseDescription{
-  title: string
+  title: string;
 }
 
 export interface ISportWithYear extends ISport {

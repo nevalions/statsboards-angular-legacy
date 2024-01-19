@@ -16,8 +16,12 @@
           <div class="some-figure"></div>
         </figure>
         <div>
-          <h3 class="tui-island__title">{{ item[titleProperty] }}</h3>
-          <p class="tui-island__paragraph"></p>
+          <h3 class="tui-island__title">
+            {{ item[titleProperty] }}
+          </h3>
+          <p class="tui-island__paragraph">
+            @if(item[paragraphProperty]) { {{ item[paragraphProperty] }} } @else {}
+          </p>
         </div>
       </div>
     </a>

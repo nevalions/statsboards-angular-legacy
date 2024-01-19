@@ -43,7 +43,7 @@ export class SeasonComponent implements OnInit{
 
   ngOnInit() {
     this.dataList$ = this.seasonService.findAll().pipe(
-      map(data => SortService.sort(data, 'year', false))
+      map(data => SortService.sort(data, '-year'))
     );
   }
 

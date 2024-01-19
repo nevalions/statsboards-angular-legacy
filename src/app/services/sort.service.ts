@@ -1,17 +1,23 @@
 export class SortService {
-  static sort(data: any[], property: string, isAscending: boolean = true) {
+  static sort(data: any[], ...properties: string[]): any[] {
     return data.sort((a, b) => {
-      const propertyA = a[property];
-      const propertyB = b[property];
+      for (let property of properties) {
+        const isAscending = !property.startsWith('-');
+        const nestedProperties = (isAscending ? property : property.slice(1)).split(".");
+        let propertyA = this.getNestedProperty(a, nestedProperties);
+        let propertyB = this.getNestedProperty(b, nestedProperties);
 
-      // Check if property values are numbers
-      if (!isNaN(propertyA) && !isNaN(propertyB)) {
-        // Numeric sorting
-        return (isAscending ? 1 : -1) * (propertyA - propertyB);
-      } else {
-        // String sorting
-        return (isAscending ? 1 : -1) * propertyA.localeCompare(propertyB);
+        if (propertyA < propertyB) {
+          return isAscending ? -1 : 1;
+        } else if (propertyA > propertyB) {
+          return isAscending ? 1 : -1;
+        }
       }
+      return 0;
     });
+  }
+
+  private static getNestedProperty(obj: any, properties: string[]) {
+    return properties.reduce((prev, curr) => prev && prev[curr], obj);
   }
 }

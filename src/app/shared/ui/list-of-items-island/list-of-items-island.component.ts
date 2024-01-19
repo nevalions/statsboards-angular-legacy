@@ -16,9 +16,10 @@ import {TuiLoaderModule} from "@taiga-ui/core";
   styleUrl: './list-of-items-island.component.less'
 })
 
-export class ListOfItemsIslandComponent<T extends {id: number}> {
+export class ListOfItemsIslandComponent<T extends {id: number, p?: string}> {
   @Input() data: Observable<T[]> | undefined;
   @Input() emptyMessage: string = 'No data available';
   @Input() formatPath: (item: T) => string = () => '';
   @Input() titleProperty: keyof T = 'id';
+  @Input() paragraphProperty: keyof T = 'p';
 }

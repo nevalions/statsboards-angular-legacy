@@ -2,7 +2,9 @@
   <div class="tournament content">
     <div class="tournament content__title">
       @if(this.tournament$ | async; as tournament) {
-        <h3 class="tui-text_h3">{{tournament.title | uppercase}}</h3>
+        <h3 class="tui-text_h3">
+          {{tournament.title | uppercase}}
+        </h3>
       } @else {
         <h3 class="tui-text_h3">
           <tui-loader [inheritColor]="true"></tui-loader>
@@ -14,16 +16,27 @@
         <div class="tournament content__body__title">
           <h3>LIST OF MATCHES</h3>
         </div>
-<!--        <div class="tournament content__body__title">-->
-<!--          <h4>YEAR {{ this.year }}</h4>-->
-<!--        </div>-->
         <hr>
-        <app-list-of-items-island
-          [data]="matches$"
-          [formatPath]="matchHref"
-          [titleProperty]="islandTitleProperty"
-        ></app-list-of-items-island>
-
+        <div class="list-of-items-with-data" style="padding: 20px">
+          @if (matches$ | async; as matches) {
+            @if (matches.length > itemsPerPage){
+              <div class="pagination flex__fullwidth_center">
+                <tui-pagination
+                  [index]="currentPageIndex - 1"
+                  [length]="Math.ceil(matches.length / itemsPerPage)"
+                  (indexChange)="setPage($event + 1)"
+                ></tui-pagination>
+                </div>
+            }
+          }
+          @if(matches$ | async; as matches) {
+          <app-list-of-matches
+            [data]="matches | slice: (currentPageIndex - 1) * itemsPerPage : currentPageIndex * itemsPerPage"
+            [formatPath] = 'matchHref'
+            >
+          </app-list-of-matches>
+          }
+        </div>
       </div>
     </div>
   </div>

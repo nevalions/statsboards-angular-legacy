@@ -32,7 +32,7 @@ export class SportComponent implements OnInit {
     this.dataList$ = this.sportService.findAll()
       .pipe(
         tap(data => console.log(data)),
-        map(data => SortService.sort(data, 'title', true))
+        map(data => SortService.sort(data, 'title'))
     );
   }
 
