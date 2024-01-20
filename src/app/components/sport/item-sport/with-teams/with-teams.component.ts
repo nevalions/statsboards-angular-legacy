@@ -2,7 +2,7 @@ import {ChangeDetectionStrategy, Component, OnInit, ViewEncapsulation} from '@an
 import {ListOfItemsIslandComponent} from "../../../../shared/ui/list-of-items-island/list-of-items-island.component";
 import {map, Observable, of, switchMap} from "rxjs";
 import {ITeam} from "../../../../type/team.type";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, ParamMap} from "@angular/router";
 import {TeamService} from "../../../../services/team.service";
 import {tap} from "rxjs/operators";
 import {SortService} from "../../../../services/sort.service";
@@ -40,31 +40,25 @@ export class WithTeamsComponent implements OnInit{
   }
 
   ngOnInit() {
-    this.route.params.subscribe(params => {
-      const firstItem = 'sports'
-      const firstKey = 'id'
-      const firstValue = this.route.snapshot.parent?.params['id']; //get id from parent rout
+    this.route.parent?.params.subscribe(() => {
+      const firstItem = 'sports';
+      const firstKey = 'id';
+      const firstValue = this.route.snapshot.parent?.params['id']; //get id from parent route
       const optionalValue = 'teams'
 
-      this.teams$ = this.route.paramMap.pipe(
-        switchMap(() => {
-          const id = firstValue;
-          return this.teamService.findByFirstKeyValue(
-            firstItem,
-            firstKey,
-            id,
-            optionalValue
-          )
-            .pipe(
-              tap(
-                items =>
-                  console.log(`Items fetched by findByFirstKeyValue: ID ${id}`,
-                    items,)
-              ),
-              map(data => SortService.sort(data, 'title'))
-            )
-        }))
-    })
+      this.teams$ = this.teamService.findByFirstKeyValue(
+        firstItem,
+        firstKey,
+        firstValue,
+        optionalValue
+      )
+        .pipe(
+          tap(items =>
+            console.log(`Items fetched by findByFirstKeyValue: ID ${firstValue}`, items,)
+          ),
+          map(data => SortService.sort(data, 'title'))
+        );
+    });
   }
 
   setPage(pageIndex: number) {

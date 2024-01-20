@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {BehaviorSubject, combineLatest, Observable, switchMap} from 'rxjs';
+import {combineLatest, Observable} from 'rxjs';
 import { map } from 'rxjs/operators';
 import {PagedDataArgs} from "../type/base.type";
 
