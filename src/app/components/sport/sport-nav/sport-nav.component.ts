@@ -2,7 +2,6 @@ import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {SportComponent} from "../sport.component";
 import {HeaderMenuComponent} from "../../../shared/ui/headermenu/header-menu.component";
 import {IBaseIdElse} from "../../../type/base.type";
-import {currentYear} from "../../../base/constants";
 
 @Component({
   selector: 'app-sport-nav',
