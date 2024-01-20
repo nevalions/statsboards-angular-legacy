@@ -1,5 +1,7 @@
-<app-list-of-items-island
-  [data]="dataList$"
-  [formatPath]="seasonHref"
-  [titleProperty]="titleProperty"
-></app-list-of-items-island>
+@if(dataList$ | async; as dataList){
+  <app-list-of-items-island
+    [data]="dataList"
+    [formatPath]="seasonHref"
+    [titleProperty]="titleProperty"
+  ></app-list-of-items-island>
+}

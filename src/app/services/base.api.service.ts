@@ -19,11 +19,14 @@ export abstract class BaseApiService<T> {
   ) {
   }
 
-  findAll(): Observable<T[]> {
-    return this.http.get<T[]>(this.endpoint)
+  findAll(postValue?: string): Observable<T[]> {
+
+    const finalEndpoint = postValue ? `${this.endpoint}/${postValue}` : this.endpoint;
+
+    return this.http.get<T[]>(finalEndpoint)
       .pipe(
         tap((items: T[]) => {
-          console.log(`Received /API/${this.endpoint.toUpperCase()} \ndata:`, items);
+          console.log(`Received /API/${finalEndpoint.toUpperCase()} \ndata:`, items);
           this.data.next(items);
         })
       );
@@ -36,6 +39,24 @@ export abstract class BaseApiService<T> {
         catchError(error => {
           return this.errorHandlingService.handleError(error); // Call handleError of ErrorHandlingService
         }),
+      );
+  }
+
+  findByFirstKeyValue(
+    firstItem: string,
+    firstKey: string,
+    firstValue: any,
+    optionalValue?: any
+  ): Observable<T[]> {
+    return this.http.get<T[]>(`${firstItem}/${firstKey}/${firstValue}/${optionalValue}`)
+      .pipe(
+        tap(items => console.log(
+            `Received Sport Year  /API/
+          ${firstItem}/${firstKey}/${firstValue}/${optionalValue}
+          \ndata:`, items
+          )
+        ),
+        catchError(this.errorHandlingService.handleError),
       );
   }
 

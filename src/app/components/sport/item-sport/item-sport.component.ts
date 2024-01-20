@@ -4,7 +4,7 @@ import {ISport} from "../../../type/sport.type";
 import {Observable, of, switchMap} from "rxjs";
 import {tap} from "rxjs/operators";
 import {AsyncPipe, UpperCasePipe} from "@angular/common";
-import {ActivatedRoute, Router} from "@angular/router";
+import {ActivatedRoute, Router, RouterOutlet} from "@angular/router";
 import {TuiBlockStatusModule} from "@taiga-ui/layout";
 import {TuiIslandModule, TuiSelectModule} from "@taiga-ui/kit";
 import {TuiButtonModule} from "@taiga-ui/core";
@@ -23,7 +23,8 @@ import {ListOfItemsIslandComponent} from "../../../shared/ui/list-of-items-islan
     TuiIslandModule,
     UpperCasePipe,
     SeasonDropdownComponent,
-    ListOfItemsIslandComponent
+    ListOfItemsIslandComponent,
+    RouterOutlet
   ],
   templateUrl: './item-sport.component.html',
   styleUrl: './item-sport.component.less'

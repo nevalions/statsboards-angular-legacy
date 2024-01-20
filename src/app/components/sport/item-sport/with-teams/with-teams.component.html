@@ -1,0 +1,18 @@
+<div class="sport content__body__title"><h3>LIST OF TEAMS</h3></div>
+@if (teams$ | async; as teams) {
+  @if (teams.length > itemsPerPage){
+    <div class="pagination flex__fullwidth_center">
+      <tui-pagination
+        [index]="currentPageIndex - 1"
+        [length]="Math.ceil(teams.length / itemsPerPage)"
+        (indexChange)="setPage($event + 1)"
+      ></tui-pagination>
+    </div>
+  }
+  <app-list-of-items-island
+    [data]="teams | slice: (currentPageIndex - 1) * itemsPerPage : currentPageIndex * itemsPerPage"
+    [formatPath]="teamHref"
+    [titleProperty]="islandTitleProperty">
+  </app-list-of-items-island>
+}
+

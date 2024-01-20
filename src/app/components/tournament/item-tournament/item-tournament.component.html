@@ -15,9 +15,6 @@
       <div class="one_col_container">
         <div class="tournament content__body__title">
           <h3>LIST OF MATCHES</h3>
-        </div>
-        <hr>
-        <div class="list-of-items-with-data" style="padding: 20px">
           @if (matches$ | async; as matches) {
             @if (matches.length > itemsPerPage){
               <div class="pagination flex__fullwidth_center">
@@ -26,9 +23,11 @@
                   [length]="Math.ceil(matches.length / itemsPerPage)"
                   (indexChange)="setPage($event + 1)"
                 ></tui-pagination>
-                </div>
+              </div>
             }
           }
+        </div>
+        <div class="list-of-items-with-data" style="padding: 20px">
           @if(matches$ | async; as matches) {
           <app-list-of-matches
             [data]="matches | slice: (currentPageIndex - 1) * itemsPerPage : currentPageIndex * itemsPerPage"
@@ -44,14 +43,6 @@
     <h4>ASIDE MENU</h4>
     <hr>
     <div class="block__fullwidth_center" style="display: block">
-<!--      <app-dropdownmenu-->
-<!--        [title]="'Select Season'"-->
-<!--        [dataList]="seasons$"-->
-<!--        [mapItemToLabel]="mapItemToLabel"-->
-<!--        [mapItemToRoute]="seasonSportRoute"-->
-<!--        [arrow]="arrow"-->
-<!--        [emptyMessage]="'Items Not Found'">-->
-<!--      </app-dropdownmenu>-->
     </div>
     <a
       appearance="create"

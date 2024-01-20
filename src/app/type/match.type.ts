@@ -1,5 +1,5 @@
 import {IBaseID} from "./base.type";
-import {ITeamData} from "./team.type";
+import {ITeam} from "./team.type";
 import {IMatchData} from "./matchdata.type";
 
 export interface IMatch extends IBaseID{
@@ -12,8 +12,8 @@ export interface IMatch extends IBaseID{
 }
 
 export interface IMatchTeamsData {
-  team_a: ITeamData;
-  team_b: ITeamData;
+  team_a: ITeam;
+  team_b: ITeam;
 }
 
 export interface IMatchFullData {

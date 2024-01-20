@@ -1,6 +1,6 @@
 <div class="list-of-items-with-data">
-  @if(data | async; as dataI){
-    @for(item of dataI; track item.id){
+  @if(data){
+    @for(item of data; track item.id){
   <div class="item-with-data-island">
     <a
       [href]="formatPath(item)"

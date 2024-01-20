@@ -18,12 +18,13 @@
           <h4>YEAR {{ this.year }}</h4>
         </div>
         <hr>
-        <app-list-of-items-island
-            [data]="items$"
-            [formatPath]="seasonHref"
-            [titleProperty]="islandTitleProperty"
-        ></app-list-of-items-island>
-
+        @if(items$ | async; as item) {
+          <app-list-of-items-island
+              [data]="item"
+              [formatPath]="seasonHref"
+              [titleProperty]="islandTitleProperty"
+          ></app-list-of-items-island>
+        }
       </div>
     </div>
   </div>
