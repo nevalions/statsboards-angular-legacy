@@ -87,8 +87,7 @@ export class ItemTournamentComponent implements OnInit{
   }
 
   onSearch() {
-    const searchTerm = this.testForm.get('nameValue')?.value || '';
-    this.searchText = searchTerm;
+    this.searchText = this.testForm.get('nameValue')?.value || '';
     this.loadMatches();
   }
 
