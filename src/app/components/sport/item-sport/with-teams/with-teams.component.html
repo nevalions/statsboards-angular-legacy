@@ -1,4 +1,20 @@
-<div class="sport content__body__title"><h3>LIST OF TEAMS</h3></div>
+<div
+  class="content__body__title"
+>
+  <h2>LIST OF TEAMS</h2>
+  <div>
+    <a
+      appearance="create"
+      size="m"
+      href=""
+      tuiButton
+      type="button"
+      class="btn__create"
+    >
+    Create Team
+    </a>
+  </div>
+</div>
 @if (teams$ | async; as teams) {
   @if (teams.length > itemsPerPage){
     <div class="pagination flex__fullwidth_center">
@@ -15,4 +31,3 @@
     [titleProperty]="islandTitleProperty">
   </app-list-of-items-island>
 }
-

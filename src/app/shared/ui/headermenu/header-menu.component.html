@@ -1,15 +1,43 @@
 <nav>
     @if(dataList | async; as data){
       @for(item of data; track item.id){
-      <a
+        <div
+          tuiDropdownHover
+          [tuiDropdown]="content"
+        >
+          <a
+            routerLinkActive="active"
+            [routerLink]="mapItemToSportRoute(item)"
+            tuiLink
+            ariaCurrentWhenActive="page"
+          >
+            {{ item.title }}
+          </a>
 
-        routerLinkActive="active"
-        [routerLink]="mapItemToRoute(item)"
-        tuiLink
-        ariaCurrentWhenActive="page"
-      >
-        {{ item.title }}
-      </a>
+        </div>
+        <ng-template #content>
+          <tui-data-list role="menu">
+            <tui-opt-group>
+              <a
+              routerLinkActive="active"
+              [routerLink]="mapItemToTeamsRoute(item)"
+              tuiOption
+              ariaCurrentWhenActive="page"
+            >
+              TEAMS
+            </a>
+            <a
+              routerLinkActive="active"
+              [routerLink]="mapItemToPayersRoute(item)"
+              tuiOption
+              ariaCurrentWhenActive="page"
+            >
+              PLAYERS
+            </a>
+              </tui-opt-group>
+          </tui-data-list>
+        </ng-template>
+
       } @empty {
         No Items Added
         }

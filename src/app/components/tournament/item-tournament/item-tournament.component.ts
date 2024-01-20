@@ -12,6 +12,8 @@ import {IMatchFullData} from "../../../type/match.type";
 import {tap} from "rxjs/operators";
 import {ListOfMatchesComponent} from "../../../shared/ui/list-of-matches/list-of-matches.component";
 import {SortService} from "../../../services/sort.service";
+import {CreateButtonComponent} from "../../../shared/ui/buttons/create-button/create-button.component";
+import {BodyTitleComponent} from "../../../shared/ui/body/body-title/body-title.component";
 
 @Component({
   selector: 'app-item-tournament',
@@ -25,7 +27,9 @@ import {SortService} from "../../../services/sort.service";
     UpperCasePipe,
     ListOfMatchesComponent,
     SlicePipe,
-    TuiPaginationModule
+    TuiPaginationModule,
+    CreateButtonComponent,
+    BodyTitleComponent
   ],
   templateUrl: './item-tournament.component.html',
   styleUrl: './item-tournament.component.less',

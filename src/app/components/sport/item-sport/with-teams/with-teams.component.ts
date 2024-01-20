@@ -2,12 +2,13 @@ import {ChangeDetectionStrategy, Component, OnInit, ViewEncapsulation} from '@an
 import {ListOfItemsIslandComponent} from "../../../../shared/ui/list-of-items-island/list-of-items-island.component";
 import {map, Observable, of} from "rxjs";
 import {ITeam} from "../../../../type/team.type";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, RouterLink} from "@angular/router";
 import {TeamService} from "../../../../services/team.service";
 import {tap} from "rxjs/operators";
 import {SortService} from "../../../../services/sort.service";
 import {AsyncPipe, SlicePipe} from "@angular/common";
 import {TuiPaginationModule} from "@taiga-ui/kit";
+import {TuiButtonModule} from "@taiga-ui/core";
 
 @Component({
   selector: 'app-with-teams',
@@ -16,7 +17,9 @@ import {TuiPaginationModule} from "@taiga-ui/kit";
     ListOfItemsIslandComponent,
     AsyncPipe,
     TuiPaginationModule,
-    SlicePipe
+    SlicePipe,
+    RouterLink,
+    TuiButtonModule,
   ],
   templateUrl: './with-teams.component.html',
   styleUrl: './with-teams.component.less',
