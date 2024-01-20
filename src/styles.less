@@ -8,8 +8,8 @@ html {
 
 body {
   display: grid;
-  grid-template-rows: auto;
-  grid-template-columns: auto;
+  grid-template-rows: 100%;
+  grid-template-columns: 100%;
 
   font: var(--tui-font-text-m);
   background-color: var(--tui-base-07);
@@ -80,7 +80,7 @@ aside > * {
 }
 
 .content__title{
-  display: flex;
+  display: grid;
   justify-content: center;  /* align horizontal */
   align-items: center;      /* align vertical */
   background-color: darkgreen;
@@ -104,15 +104,17 @@ aside > * {
   display: grid;
   grid-template-columns: 100%;
   //flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
+  justify-content: center;
+  align-items: start;
   background-color: white;
 }
 
 .one_col_container{
   display: grid;
-  grid-template-columns: auto;
+  grid-template-columns: 100%;
   min-width: 100%;
+  justify-content: flex-start;
+  align-items: flex-start;
 }
 
 .list-of-items-with-data * {
@@ -137,6 +139,11 @@ aside > * {
 
 .flex__fullwidth_center {
   display: flex;
+  .fullwidth_center();
+}
+
+.grid__fullwidth_center {
+  display: grid;
   .fullwidth_center();
 }
 

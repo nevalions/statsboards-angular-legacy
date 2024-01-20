@@ -1,9 +1,15 @@
 import {ChangeDetectionStrategy, Component, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
-import {TUI_ARROW, TuiPaginationModule} from "@taiga-ui/kit";
+import {
+  TUI_ARROW,
+  TuiDataListWrapperModule,
+  TuiFilterByInputPipeModule,
+  TuiInputModule,
+  TuiPaginationModule, TuiStringifyContentPipeModule
+} from "@taiga-ui/kit";
 import {AsyncPipe, SlicePipe, UpperCasePipe} from "@angular/common";
 import {DropDownMenuComponent} from "../../../shared/ui/dropdownmenu/dropdownmenu.component";
 import {ListOfItemsIslandComponent} from "../../../shared/ui/list-of-items-island/list-of-items-island.component";
-import {TuiButtonModule, TuiLoaderModule} from "@taiga-ui/core";
+import {TuiButtonModule, TuiHintModule, TuiLoaderModule} from "@taiga-ui/core";
 import {ActivatedRoute} from "@angular/router";
 import {TournamentService} from "../../../services/tournament.service";
 import {map, Observable, of} from "rxjs";
@@ -14,6 +20,7 @@ import {ListOfMatchesComponent} from "../../../shared/ui/list-of-matches/list-of
 import {SortService} from "../../../services/sort.service";
 import {CreateButtonComponent} from "../../../shared/ui/buttons/create-button/create-button.component";
 import {BodyTitleComponent} from "../../../shared/ui/body/body-title/body-title.component";
+import {FormControl, FormGroup, FormsModule, ReactiveFormsModule} from "@angular/forms";
 
 @Component({
   selector: 'app-item-tournament',
@@ -29,7 +36,14 @@ import {BodyTitleComponent} from "../../../shared/ui/body/body-title/body-title.
     SlicePipe,
     TuiPaginationModule,
     CreateButtonComponent,
-    BodyTitleComponent
+    BodyTitleComponent,
+    TuiInputModule,
+    TuiHintModule,
+    ReactiveFormsModule,
+    FormsModule,
+    TuiDataListWrapperModule,
+    TuiFilterByInputPipeModule,
+    TuiStringifyContentPipeModule
   ],
   templateUrl: './item-tournament.component.html',
   styleUrl: './item-tournament.component.less',
@@ -37,6 +51,23 @@ import {BodyTitleComponent} from "../../../shared/ui/body/body-title/body-title.
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ItemTournamentComponent implements OnInit{
+
+  searchText: string = '';
+  testForm = new FormGroup({
+    nameValue: new FormControl(''),
+  });
+
+
+  readonly form = new FormGroup({
+    match: new FormControl(),
+  });
+
+  readonly stringify = ({match}: IMatchFullData): string => match.week.toString();
+
+  readonly matcherMatch = (match: IMatchFullData, search: string): boolean =>
+    match.match.week.toString().toLowerCase().startsWith(search.toLowerCase());
+
+
   @ViewChild(ListOfItemsIslandComponent)
   comp!: ListOfItemsIslandComponent<IMatchFullData>;
 
@@ -53,6 +84,36 @@ export class ItemTournamentComponent implements OnInit{
 
   matchHref(item: IMatchFullData): string {
     return `/matches/id/${item.id}`;
+  }
+
+  onSearch() {
+    const searchTerm = this.testForm.get('nameValue')?.value || '';
+    this.searchText = searchTerm;
+    this.loadMatches();
+  }
+
+  loadMatches() {
+    this.route.params.subscribe(params => {
+      const tournamentId = Number([params['id']]);
+      this.matches$ = this.tournamentService.findMatchByTournamentId(tournamentId)
+        .pipe(
+          map(items => this.filterMatches(items)),
+          tap(filteredItems =>
+            console.log(`Filtered Matches in Tournament ID: ${tournamentId}`, filteredItems)
+          ),
+          map(items => SortService.sort(items, 'match.week', '-match.match_date'))
+        );
+    });
+  }
+
+  filterMatches(matches: IMatchFullData[]): IMatchFullData[] {
+    if (!this.searchText) {
+      return matches;
+    }
+    const lowerCaseSearch = this.searchText.toLowerCase();
+    return matches.filter(match =>
+      match.match.week.toString().includes(lowerCaseSearch)
+    );
   }
 
   protected readonly arrow = TUI_ARROW;
