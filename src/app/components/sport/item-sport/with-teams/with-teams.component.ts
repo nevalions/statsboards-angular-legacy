@@ -1,8 +1,8 @@
 import {ChangeDetectionStrategy, Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {ListOfItemsIslandComponent} from "../../../../shared/ui/list-of-items-island/list-of-items-island.component";
-import {map, Observable, of, switchMap} from "rxjs";
+import {map, Observable, of} from "rxjs";
 import {ITeam} from "../../../../type/team.type";
-import {ActivatedRoute, ParamMap} from "@angular/router";
+import {ActivatedRoute} from "@angular/router";
 import {TeamService} from "../../../../services/team.service";
 import {tap} from "rxjs/operators";
 import {SortService} from "../../../../services/sort.service";
