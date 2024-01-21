@@ -9,6 +9,7 @@ import {SortService} from "../../../../services/sort.service";
 import {AsyncPipe, SlicePipe} from "@angular/common";
 import {TuiPaginationModule} from "@taiga-ui/kit";
 import {TuiButtonModule} from "@taiga-ui/core";
+import {ListOfTeamsComponent} from "../../../team/list-of-teams/list-of-teams.component";
 
 @Component({
   selector: 'app-with-teams',
@@ -20,6 +21,7 @@ import {TuiButtonModule} from "@taiga-ui/core";
     SlicePipe,
     RouterLink,
     TuiButtonModule,
+    ListOfTeamsComponent,
   ],
   templateUrl: './with-teams.component.html',
   styleUrl: './with-teams.component.less',

@@ -8,6 +8,7 @@ import {ItemSportWithSeasonComponent} from "./components/sport/item-sport/item-s
 import {TournamentComponent} from "./components/tournament/tournament.component";
 import {ItemTournamentComponent} from "./components/tournament/item-tournament/item-tournament.component";
 import {WithTeamsComponent} from "./components/sport/item-sport/with-teams/with-teams.component";
+import {TeamComponent} from "./components/team/team.component";
 
 export const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -26,8 +27,20 @@ export const routes: Routes = [
     ],
   },
   { path: 'tournaments', component: TournamentComponent },
-  { path: 'tournaments/id/:id', component: ItemTournamentComponent },
-  { path: 'error404', component: PageNotFoundComponent },
+  {
+    path: 'tournaments/id/:id',
+    component: ItemTournamentComponent,
+    children: [
+      {
+        path: 'teams',
+        redirectTo: '',
+      }
+    ]
+  }
+  ,
+  { path: 'teams', component: TeamComponent },
+  { path: 'teams/id/:id', redirectTo: '' },
 
+  { path: 'error404', component: PageNotFoundComponent },
   { path: '**', component: PageNotFoundComponent},
 ];

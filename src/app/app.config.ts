@@ -12,9 +12,14 @@ import {
 import { routes } from './app.routes';
 import {provideHttpClient, withFetch, withInterceptors} from "@angular/common/http";
 import {AuthInterceptor} from "./interceptors/auth.interceptor";
+import {tuiInputNumberOptionsProvider} from "@taiga-ui/kit";
 
 export const appConfig: ApplicationConfig = {
   providers: [
+    tuiInputNumberOptionsProvider({
+      decimal: 'never',
+      step: 1,
+    }),
     provideAnimations(),
     provideRouter(
       routes,

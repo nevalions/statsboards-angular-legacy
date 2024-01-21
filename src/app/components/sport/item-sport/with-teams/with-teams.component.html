@@ -1,33 +1,42 @@
-<div
-  class="content__body__title"
->
-  <h2>LIST OF TEAMS</h2>
-  <div>
-    <a
-      appearance="create"
-      size="m"
-      href=""
-      tuiButton
-      type="button"
-      class="btn__create"
-    >
-    Create Team
-    </a>
-  </div>
-</div>
-@if (teams$ | async; as teams) {
-  @if (teams.length > itemsPerPage){
-    <div class="pagination flex__fullwidth_center">
-      <tui-pagination
-        [index]="currentPageIndex - 1"
-        [length]="Math.ceil(teams.length / itemsPerPage)"
-        (indexChange)="setPage($event + 1)"
-      ></tui-pagination>
-    </div>
-  }
-  <app-list-of-items-island
-    [data]="teams | slice: (currentPageIndex - 1) * itemsPerPage : currentPageIndex * itemsPerPage"
-    [formatPath]="teamHref"
-    [titleProperty]="islandTitleProperty">
-  </app-list-of-items-island>
-}
+<app-list-of-teams
+  [itemsPerPage]="itemsPerPage"
+  [currentPageIndex]="currentPageIndex"
+  [teams$]="teams$"
+  [formatPath]="teamHref"
+  [titleProperty]="islandTitleProperty"
+></app-list-of-teams>
+
+
+<!--<div-->
+<!--  class="content__body__title"-->
+<!--&gt;-->
+<!--  <h2>LIST OF TEAMS</h2>-->
+<!--  <div>-->
+<!--    <a-->
+<!--      appearance="create"-->
+<!--      size="m"-->
+<!--      href=""-->
+<!--      tuiButton-->
+<!--      type="button"-->
+<!--      class="btn__create"-->
+<!--    >-->
+<!--    Create Team-->
+<!--    </a>-->
+<!--  </div>-->
+<!--</div>-->
+<!--@if (teams$ | async; as teams) {-->
+<!--  @if (teams.length > itemsPerPage){-->
+<!--    <div class="pagination flex__fullwidth_center">-->
+<!--      <tui-pagination-->
+<!--        [index]="currentPageIndex - 1"-->
+<!--        [length]="Math.ceil(teams.length / itemsPerPage)"-->
+<!--        (indexChange)="setPage($event + 1)"-->
+<!--      ></tui-pagination>-->
+<!--    </div>-->
+<!--  }-->
+<!--  <app-list-of-items-island-->
+<!--    [data]="teams | slice: (currentPageIndex - 1) * itemsPerPage : currentPageIndex * itemsPerPage"-->
+<!--    [formatPath]="teamHref"-->
+<!--    [titleProperty]="islandTitleProperty">-->
+<!--  </app-list-of-items-island>-->
+<!--}-->

@@ -3,7 +3,7 @@ import {
   TUI_ARROW,
   TuiDataListWrapperModule,
   TuiFilterByInputPipeModule,
-  TuiInputModule,
+  TuiInputModule, TuiInputNumberModule,
   TuiPaginationModule, TuiStringifyContentPipeModule
 } from "@taiga-ui/kit";
 import {AsyncPipe, SlicePipe, UpperCasePipe} from "@angular/common";
@@ -21,6 +21,7 @@ import {SortService} from "../../../services/sort.service";
 import {CreateButtonComponent} from "../../../shared/ui/buttons/create-button/create-button.component";
 import {BodyTitleComponent} from "../../../shared/ui/body/body-title/body-title.component";
 import {FormControl, FormGroup, FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {TuiValueChangesModule} from "@taiga-ui/cdk";
 
 @Component({
   selector: 'app-item-tournament',
@@ -43,7 +44,9 @@ import {FormControl, FormGroup, FormsModule, ReactiveFormsModule} from "@angular
     FormsModule,
     TuiDataListWrapperModule,
     TuiFilterByInputPipeModule,
-    TuiStringifyContentPipeModule
+    TuiStringifyContentPipeModule,
+    TuiInputNumberModule,
+    TuiValueChangesModule,
   ],
   templateUrl: './item-tournament.component.html',
   styleUrl: './item-tournament.component.less',
@@ -57,14 +60,13 @@ export class ItemTournamentComponent implements OnInit{
     nameValue: new FormControl(''),
   });
 
-
   readonly form = new FormGroup({
     match: new FormControl(),
   });
 
   readonly stringify = ({match}: IMatchFullData): string => match.week.toString();
 
-  readonly matcherMatch = (match: IMatchFullData, search: string): boolean =>
+  readonly matcherM = (match: IMatchFullData, search: string): boolean =>
     match.match.week.toString().toLowerCase().startsWith(search.toLowerCase());
 
 
@@ -109,7 +111,7 @@ export class ItemTournamentComponent implements OnInit{
     if (!this.searchText) {
       return matches;
     }
-    const lowerCaseSearch = this.searchText.toLowerCase();
+    const lowerCaseSearch = this.searchText.toString().toLowerCase();
     return matches.filter(match =>
       match.match.week.toString().includes(lowerCaseSearch)
     );
