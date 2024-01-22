@@ -1,0 +1,51 @@
+<div
+  class="content__body__title"
+>
+  <h2>LIST OF TEAMS</h2>
+  <div>
+    <a
+      appearance="create"
+      size="m"
+      href=""
+      tuiButton
+      type="button"
+      class="btn__create"
+    >
+    NEW TEAM
+    </a>
+  </div>
+</div>
+@if (teams$ | async; as teams) {
+  @if (teams.length > itemsPerPage){
+    <div class="pagination flex__fullwidth_center">
+      <tui-pagination
+        [index]="currentPageIndex - 1"
+        [length]="Math.ceil(teams.length / itemsPerPage)"
+        (indexChange)="setPage($event + 1)"
+      ></tui-pagination>
+    </div>
+  }
+
+  <app-form-search-text
+    [data$]="teams$"
+    [searchTitle]="'team name'"
+    [parameter]="'title'"
+  ></app-form-search-text>
+
+  <app-list-of-items-island
+    [data$]="teams$"
+    [formatPath]="formatPath"
+    [titleProperty]="titleProperty">
+  </app-list-of-items-island>
+}
+
+
+<!--  [data$]="teams$ | slice: (currentPageIndex - 1) * itemsPerPage : currentPageIndex * itemsPerPage"-->
+
+    <!--  <app-form-search-auto-complete-->
+  <!--    [data$]="teams$"-->
+  <!--    [searchTitle]="'team name'"-->
+  <!--    [stringify]="stringifyFunc"-->
+  <!--    [searchMatcher]="matcherFunc"-->
+  <!--  ></app-form-search-auto-complete>-->
+

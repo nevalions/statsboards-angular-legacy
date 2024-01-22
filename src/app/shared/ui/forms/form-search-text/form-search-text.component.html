@@ -1,0 +1,18 @@
+<div class="search block__fullwidth_center">
+  <div class="" style="display: block; padding: 10px; min-width: 100%">
+    <div class="tui-form__row">
+      <form
+        [formGroup]="searchForm"
+      >
+        <tui-input
+          formControlName="searchValue"
+          (tuiValueChanges)="onSearch()"
+          style="min-width: max-content"
+          [tuiTextfieldCleaner]="true"
+        >
+          SEARCH BY {{ searchTitle | uppercase }}
+        </tui-input>
+      </form>
+    </div>
+  </div>
+</div>

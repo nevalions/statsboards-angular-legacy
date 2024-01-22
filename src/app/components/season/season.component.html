@@ -1,6 +1,6 @@
 @if(dataList$ | async; as dataList){
   <app-list-of-items-island
-    [data]="dataList"
+    [data$]="dataList$"
     [formatPath]="seasonHref"
     [titleProperty]="titleProperty"
   ></app-list-of-items-island>

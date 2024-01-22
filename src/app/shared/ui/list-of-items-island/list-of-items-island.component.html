@@ -1,5 +1,5 @@
 <div class="list-of-items-with-data">
-  @if(data){
+  @if(data$ | async; as data){
     @for(item of data; track item.id){
   <div class="item-with-data-island">
     <a

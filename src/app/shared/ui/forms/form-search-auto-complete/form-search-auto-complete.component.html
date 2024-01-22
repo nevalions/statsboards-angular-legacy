@@ -1,0 +1,22 @@
+@if(data$ | async; as items){
+  <form
+    class="b-form"
+    [formGroup]="searchForm"
+  >
+    <tui-combo-box
+      formControlName="searchValue"
+      [stringify]="stringify"
+      (tuiValueChanges)="onSearch()"
+
+      [tuiTextfieldCleaner]="true"
+    >
+      SEARCH BY {{ searchTitle | uppercase }}
+      <tui-data-list-wrapper
+        *tuiDataList
+        [itemContent]="stringify | tuiStringifyContent"
+        [items]="items | tuiFilterByInput: searchMatcher"
+
+      ></tui-data-list-wrapper>
+    </tui-combo-box>
+  </form>
+}

@@ -20,7 +20,7 @@
         <hr>
         @if(items$ | async; as item) {
           <app-list-of-items-island
-              [data]="item"
+              [data$]="items$"
               [formatPath]="seasonHref"
               [titleProperty]="islandTitleProperty"
           ></app-list-of-items-island>

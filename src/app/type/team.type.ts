@@ -6,6 +6,7 @@ export interface ITeam extends IBaseID{
   team_eesl_id?: number | null;
   team_logo_url?: string;
   sport_id: number;
+
 }
 
 
