@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {SportService} from "../../../services/sport.service";
 import {ISport} from "../../../type/sport.type";
 import {Observable, of, switchMap} from "rxjs";
@@ -30,12 +30,12 @@ import {ListOfItemsIslandComponent} from "../../../shared/ui/list-of-items-islan
   styleUrl: './item-sport.component.less'
 })
 export class ItemSportComponent implements OnInit{
+  sportService = inject(SportService)
+
   item$: Observable<ISport> = of({} as ISport);
 
   constructor(
     private route: ActivatedRoute,
-    private router: Router,
-    private sportService: SportService
   ) {}
 
 
