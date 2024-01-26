@@ -27,8 +27,10 @@ export abstract class BaseApiService<T> {
       .pipe(
         tap((items: T[]) => {
           console.log(`Received /API/${finalEndpoint.toUpperCase()} \ndata:`, items);
-          this.data.next(items);
-        })
+        }),
+        catchError(error => {
+          return this.errorHandlingService.handleError(error);
+        }),
       );
   }
 
