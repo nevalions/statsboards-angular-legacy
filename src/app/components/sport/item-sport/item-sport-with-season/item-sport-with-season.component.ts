@@ -35,7 +35,7 @@ import {SortService} from "../../../../services/sort.service";
   ],
   templateUrl: './item-sport-with-season.component.html',
   styleUrl: './item-sport-with-season.component.less',
-  encapsulation: ViewEncapsulation.None,
+  encapsulation: ViewEncapsulation.None, //helps with full width of buttons select season
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ItemSportWithSeasonComponent implements OnInit{

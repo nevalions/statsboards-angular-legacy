@@ -5,11 +5,14 @@ import {map, Observable, of} from "rxjs";
 import {SortService} from "../../services/sort.service";
 import {tap} from "rxjs/operators";
 import {currentYear} from "../../base/constants";
+import {RouterOutlet} from "@angular/router";
 
 @Component({
   selector: 'app-sport',
   standalone: true,
-  imports: [],
+  imports: [
+    RouterOutlet
+  ],
   templateUrl: './sport.component.html',
 })
 

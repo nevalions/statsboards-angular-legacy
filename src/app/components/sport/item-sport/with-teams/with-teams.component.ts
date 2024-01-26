@@ -1,8 +1,8 @@
-import {ChangeDetectionStrategy, Component, OnInit, ViewEncapsulation} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, OnInit, ViewEncapsulation} from '@angular/core';
 import {ListOfItemsIslandComponent} from "../../../../shared/ui/list-of-items-island/list-of-items-island.component";
-import {map, Observable, of} from "rxjs";
+import {map, Observable, of, switchMap} from "rxjs";
 import {ITeam} from "../../../../type/team.type";
-import {ActivatedRoute, RouterLink} from "@angular/router";
+import {ActivatedRoute, Params, RouterLink} from "@angular/router";
 import {TeamService} from "../../../../services/team.service";
 import {tap} from "rxjs/operators";
 import {SortService} from "../../../../services/sort.service";
@@ -29,14 +29,15 @@ import {ListOfTeamsComponent} from "../../../team/list-of-teams/list-of-teams.co
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WithTeamsComponent implements OnInit{
+  private route = inject(ActivatedRoute)
+  private teamService =  inject(TeamService)
+
   teams$: Observable<ITeam[]> = of([]);
 
   itemsPerPage = 5;
   currentPageIndex = 1;
 
   constructor(
-    private route: ActivatedRoute,
-    private teamService: TeamService,
   ) {}
 
   islandTitleProperty: keyof ITeam = 'title';
@@ -45,25 +46,32 @@ export class WithTeamsComponent implements OnInit{
   }
 
   ngOnInit() {
-    this.route.parent?.params.subscribe(() => {
-      const firstItem = 'sports';
-      const firstKey = 'id';
-      const firstValue = this.route.snapshot.parent?.params['id']; //get id from parent route
-      const optionalValue = 'teams'
+    this.teams$ = this.getTeams$();
+  }
 
-      this.teams$ = this.teamService.findByFirstKeyValue(
-        firstItem,
-        firstKey,
-        firstValue,
-        optionalValue
-      )
-        .pipe(
-          tap(items =>
-            console.log(`Items fetched by findByFirstKeyValue: ID ${firstValue}`, items,)
-          ),
-          map(data => SortService.sort(data, 'title'))
-        );
-    });
+  getTeams$(): Observable<ITeam[]> {
+    return this.route.parent?.params.pipe(
+      switchMap(params => this.fetchTeamsByParams(params)),
+    ) ?? of([]);
+  }
+
+  fetchTeamsByParams(params: Params): Observable<ITeam[]> {
+    const firstItem = 'sports';
+    const firstKey = 'id';
+    const firstValue = params['id']; // Get id from parent route
+    const optionalValue = 'teams';
+
+    return this.teamService.findByFirstKeyValue(
+      firstItem,
+      firstKey,
+      firstValue,
+      optionalValue
+    ).pipe(
+      tap(items =>
+        console.log(`Items fetched by findByFirstKeyValue: ID ${firstValue}`, items)
+      ),
+      map(data => SortService.sort(data, 'title'))
+    );
   }
 
   setPage(pageIndex: number) {
