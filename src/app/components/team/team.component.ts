@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, inject, OnInit, signal, Signal} from '@angular/core';
 import {WithTeamsComponent} from "../sport/item-sport/with-teams/with-teams.component";
 import {map, Observable, of} from "rxjs";
 import {ITeam} from "../../type/team.type";
