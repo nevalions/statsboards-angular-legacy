@@ -15,16 +15,11 @@ export const routes: Routes = [
   { path: 'seasons', component: SeasonComponent},
   { path: 'seasons/year/:year' , component: SeasonComponent },
   { path: 'seasons/year/:year/sports/id/:id/tournaments', component: ItemSportWithSeasonComponent},
-  { path: 'sports', component: SportComponent },
   {
-    path: 'sports/id/:id',
-    component: ItemSportComponent,
-    children: [
-      {
-        path: 'teams',
-        component: WithTeamsComponent,
-      },
-    ],
+    path: 'sports',
+    component: SportComponent,
+    loadChildren: () =>
+      import('./components/sport/sport.routes').then(r => r.SPORT_ROUTES)
   },
   { path: 'tournaments', component: TournamentComponent },
   {
