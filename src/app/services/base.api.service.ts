@@ -20,9 +20,7 @@ export abstract class BaseApiService<T> {
   }
 
   findAll(postValue?: string): Observable<T[]> {
-
     const finalEndpoint = postValue ? `${this.endpoint}/${postValue}` : this.endpoint;
-
     return this.http.get<T[]>(finalEndpoint)
       .pipe(
         tap((items: T[]) => {
