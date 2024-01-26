@@ -51,27 +51,8 @@ export class WithTeamsComponent implements OnInit{
 
   getTeams$(): Observable<ITeam[]> {
     return this.route.parent?.params.pipe(
-      switchMap(params => this.fetchTeamsByParams(params)),
+      switchMap(params => this.teamService.fetchTeamsBySportId(params)),
     ) ?? of([]);
-  }
-
-  fetchTeamsByParams(params: Params): Observable<ITeam[]> {
-    const firstItem = 'sports';
-    const firstKey = 'id';
-    const firstValue = params['id']; // Get id from parent route
-    const optionalValue = 'teams';
-
-    return this.teamService.findByFirstKeyValue(
-      firstItem,
-      firstKey,
-      firstValue,
-      optionalValue
-    ).pipe(
-      tap(items =>
-        console.log(`Items fetched by findByFirstKeyValue: ID ${firstValue}`, items)
-      ),
-      map(data => SortService.sort(data, 'title'))
-    );
   }
 
   setPage(pageIndex: number) {

@@ -23,6 +23,7 @@ export class SportService extends BaseApiService<ISport> {
       );
   }
 
+
 }
   // findById(id: number) {
   //   return this.http.get<ISport>(`${this.endpoint}/id/${id}`)
