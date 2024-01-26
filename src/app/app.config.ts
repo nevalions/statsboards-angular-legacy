@@ -26,12 +26,13 @@ export const appConfig: ApplicationConfig = {
       withRouterConfig({
         onSameUrlNavigation: 'reload'}
       ),
-      withComponentInputBinding()),
-      provideHttpClient(
-        withInterceptors(
-          [AuthInterceptor]
-        ),
-        withFetch()
+      withComponentInputBinding()
+    ),
+    provideHttpClient(
+      withInterceptors(
+        [AuthInterceptor]
+      ),
+      withFetch()
     ),
     importProvidersFrom(TuiRootModule),
   ]
