@@ -1,8 +1,10 @@
-<app-header-menu
+@if(dataList$ | async){<app-header-menu
   [dataList]="dataList$"
   [mapItemToLabel]="mapItemToLabel"
   [mapItemToSportRoute]="sportRoutWithSeason"
   [mapItemToTeamsRoute]="sportTeamsRout"
   [mapItemToPayersRoute]="sportPlayersRout"
 >
-</app-header-menu>
+</app-header-menu>} @else {
+  <tui-loader [inheritColor]="true"></tui-loader>
+}

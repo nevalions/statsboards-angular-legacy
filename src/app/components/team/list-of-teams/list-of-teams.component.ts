@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component, inject, Input, OnInit} from '@angular/core';
 import {AsyncPipe, SlicePipe} from "@angular/common";
 import {ListOfItemsIslandComponent} from "../../../shared/ui/list-of-items-island/list-of-items-island.component";
-import {TuiButtonModule} from "@taiga-ui/core";
+import {TuiButtonModule, TuiLoaderModule} from "@taiga-ui/core";
 import {TuiPaginationModule} from "@taiga-ui/kit";
 import {ITeam} from "../../../type/team.type";
 import {Observable, of} from "rxjs";
@@ -22,7 +22,8 @@ import {PaginationService} from "../../../services/pagination.service";
     TuiButtonModule,
     TuiPaginationModule,
     FormSearchAutoCompleteComponent,
-    FormSearchTextComponent
+    FormSearchTextComponent,
+    TuiLoaderModule
   ],
 
   templateUrl: './list-of-teams.component.html',

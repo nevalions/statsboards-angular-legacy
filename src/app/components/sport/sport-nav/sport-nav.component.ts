@@ -5,12 +5,16 @@ import {IBaseIdElse} from "../../../type/base.type";
 import {tap} from "rxjs/operators";
 import {map} from "rxjs";
 import {SortService} from "../../../services/sort.service";
+import {TuiLoaderModule} from "@taiga-ui/core";
+import {AsyncPipe} from "@angular/common";
 
 @Component({
   selector: 'app-sport-nav',
   standalone: true,
   imports: [
-    HeaderMenuComponent
+    HeaderMenuComponent,
+    TuiLoaderModule,
+    AsyncPipe
   ],
   templateUrl: './sport-nav.component.html',
   styleUrl: './sport-nav.component.less',

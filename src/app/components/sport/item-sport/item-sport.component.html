@@ -4,7 +4,7 @@
       @if(item$ | async; as item) {
         <h3 class="tui-text_h3">{{item.title | uppercase}}</h3>
       } @else {
-        <h3 class="tui-text_h3">Sport not found</h3>
+        <tui-loader [inheritColor]="true"></tui-loader>
       }
     </div>
     <div class="sport content__body">

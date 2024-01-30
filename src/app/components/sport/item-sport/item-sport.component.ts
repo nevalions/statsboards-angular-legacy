@@ -7,7 +7,7 @@ import {AsyncPipe, UpperCasePipe} from "@angular/common";
 import {ActivatedRoute, Router, RouterOutlet} from "@angular/router";
 import {TuiBlockStatusModule} from "@taiga-ui/layout";
 import {TuiIslandModule, TuiSelectModule} from "@taiga-ui/kit";
-import {TuiButtonModule} from "@taiga-ui/core";
+import {TuiButtonModule, TuiLoaderModule} from "@taiga-ui/core";
 import {SeasonDropdownComponent} from "../../season/season-dropdown/season-dropdown.component";
 import {ListOfItemsIslandComponent} from "../../../shared/ui/list-of-items-island/list-of-items-island.component";
 
@@ -24,7 +24,8 @@ import {ListOfItemsIslandComponent} from "../../../shared/ui/list-of-items-islan
     UpperCasePipe,
     SeasonDropdownComponent,
     ListOfItemsIslandComponent,
-    RouterOutlet
+    RouterOutlet,
+    TuiLoaderModule
   ],
   templateUrl: './item-sport.component.html',
   styleUrl: './item-sport.component.less'

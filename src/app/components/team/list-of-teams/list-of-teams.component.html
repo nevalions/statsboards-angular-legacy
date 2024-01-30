@@ -36,10 +36,13 @@
   [parameter]="'title'"
 ></app-form-search-text>
 
-<app-list-of-items-island
-  [data$]="paginationService.paginatedItems$"
-  [formatPath]="formatPath"
-  [titleProperty]="titleProperty">
-</app-list-of-items-island>
-
+@if(teams$ | async) {
+  <app-list-of-items-island
+    [data$]="paginationService.paginatedItems$"
+    [formatPath]="formatPath"
+    [titleProperty]="titleProperty">
+  </app-list-of-items-island>
+} @else {
+  <tui-loader [inheritColor]="true"></tui-loader>
+}
 
