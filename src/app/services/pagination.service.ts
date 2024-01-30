@@ -14,7 +14,7 @@ export class PaginationService<T> {
   currentPageIndex: BehaviorSubject<number> = new BehaviorSubject(1);
 
   // Declare totalPages$ Observable
-  totalPages$: Observable<number> = of(1);
+  totalPages$: Observable<number> = of(0);
 
   // Declare paginatedItems$ Observable
   paginatedItems$: Observable<T[]> = of([]);

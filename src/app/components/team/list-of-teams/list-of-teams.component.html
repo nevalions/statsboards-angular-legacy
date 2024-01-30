@@ -16,18 +16,6 @@
   </div>
 </div>
 
-<app-form-search-text
-  [data$]="teams$"
-  [searchTitle]="'team name'"
-  [parameter]="'title'"
-></app-form-search-text>
-
-<app-list-of-items-island
-  [data$]="paginationService.paginatedItems$"
-  [formatPath]="formatPath"
-  [titleProperty]="titleProperty">
-</app-list-of-items-island>
-
 @if (teams$ | async; as teams) {
   @if (teams.length > paginationService.itemsPerPage.value){
     @if (paginationService.totalPages$ | async; as totalPages) {
@@ -41,3 +29,17 @@
     }
   }
 }
+
+<app-form-search-text
+  [data$]="teams$"
+  [searchTitle]="'team name'"
+  [parameter]="'title'"
+></app-form-search-text>
+
+<app-list-of-items-island
+  [data$]="paginationService.paginatedItems$"
+  [formatPath]="formatPath"
+  [titleProperty]="titleProperty">
+</app-list-of-items-island>
+
+
