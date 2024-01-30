@@ -22,8 +22,11 @@ export class PaginationService<T> {
   constructor() {}
 
   initializePagination(data$: Observable<T[]>): void {
-    this.totalPages$ = data$.pipe(
-      map(teams => Math.ceil(teams.length / this.itemsPerPage.value)),
+    this.totalPages$ = combineLatest([
+      data$,
+      this.itemsPerPage
+    ]).pipe(
+      map(([items, itemsPerPage]) => Math.ceil(items.length / itemsPerPage)) // note the change here
     );
 
     this.paginatedItems$ = combineLatest([

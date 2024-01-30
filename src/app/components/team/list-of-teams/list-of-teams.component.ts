@@ -4,7 +4,7 @@ import {ListOfItemsIslandComponent} from "../../../shared/ui/list-of-items-islan
 import {TuiButtonModule, TuiLoaderModule} from "@taiga-ui/core";
 import {TuiInputNumberModule, TuiPaginationModule} from "@taiga-ui/kit";
 import {ITeam} from "../../../type/team.type";
-import {debounce, debounceTime, distinctUntilChanged, Observable, of} from "rxjs";
+import {Observable, of} from "rxjs";
 import {
   FormSearchAutoCompleteComponent
 } from "../../../shared/ui/forms/form-search-auto-complete/form-search-auto-complete.component";
@@ -63,17 +63,5 @@ export class ListOfTeamsComponent implements OnInit{
     // Set initial value of itemPerPageForm based on paginationService's itemsPerPage
     this.itemPerPageForm.get('itemPerPageValue')?.setValue(this.paginationService.itemsPerPage.value);
 
-    // this.changePaginationPerPage();
   }
-
-  // changePaginationPerPage() {
-  //   this.itemPerPageForm.get('itemPerPageValue')?.valueChanges.pipe(
-  //     debounceTime(100),
-  //     distinctUntilChanged()
-  //   ).subscribe(query => {
-  //     if (Number(query)) {
-  //       this.paginationService.itemsPerPage.next(Number(query))
-  //     }
-  //   })
-  // }
 }

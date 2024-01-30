@@ -40,6 +40,7 @@ export class paginationWithItemsPerPage implements OnInit, OnDestroy {
   }
 
   setCurrentPage(pageIndex: number) {
+    // Change your current page index as required
     this.paginationService.setPage(pageIndex + 1);
   }
 
