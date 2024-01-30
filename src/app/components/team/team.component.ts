@@ -1,6 +1,6 @@
-import {Component, inject, OnInit, signal, Signal} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {WithTeamsComponent} from "../sport/item-sport/with-teams/with-teams.component";
-import {BehaviorSubject, map, Observable, of} from "rxjs";
+import {map, Observable, of} from "rxjs";
 import {ITeam} from "../../type/team.type";
 import {ActivatedRoute, RouterOutlet} from "@angular/router";
 import {TeamService} from "../../services/team.service";
@@ -31,9 +31,6 @@ import {
 export class TeamComponent implements OnInit{
   teams$: Observable<ITeam[]> = of([]);
 
-  itemsPerPage = 5;
-  currentPageIndex: BehaviorSubject<number> = new BehaviorSubject(1);
-
   constructor(
     private route: ActivatedRoute,
     private teamService: TeamService,
@@ -56,9 +53,4 @@ export class TeamComponent implements OnInit{
     });
   }
 
-  // setPage(pageIndex: number) {
-  //   this.currentPageIndex.set(pageIndex);
-  // }
-
-  protected readonly Math = Math;
 }

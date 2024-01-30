@@ -8,13 +8,13 @@ import { map } from 'rxjs/operators';
 export class PaginationService<T> {
 
   // Declare itemsPerPage as BehaviorSubject to allow it to be dynamically updated
-  itemsPerPage: BehaviorSubject<number> = new BehaviorSubject(2);
+  itemsPerPage: BehaviorSubject<number> = new BehaviorSubject(4);
 
   // Maintain current page index as a BehaviorSubject
   currentPageIndex: BehaviorSubject<number> = new BehaviorSubject(1);
 
   // Declare totalPages$ Observable
-  totalPages$: Observable<number> = of(0);
+  totalPages$: Observable<number> = of(1);
 
   // Declare paginatedItems$ Observable
   paginatedItems$: Observable<T[]> = of([]);

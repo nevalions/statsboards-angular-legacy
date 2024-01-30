@@ -35,49 +35,30 @@ export class ListOfTeamsComponent implements OnInit{
   searchListService = inject(SearchListService)
   paginationService = inject(PaginationService);
 
-  @Input() itemsPerPage: number = 4;
-  @Input() currentPageIndex: BehaviorSubject<number> = new BehaviorSubject(1);
-  public totalPages: number = 0;
+  // @Input() itemsPerPage: number = 4;
+  // @Input() currentPageIndex: BehaviorSubject<number> = new BehaviorSubject(1);
+  // public totalPages: number = 0;
 
   @Input() emptyMessage: string = 'No teams available';
   @Input() teams$: Observable<ITeam[]> = of([]);
-  paginatedTeams$: Observable<ITeam[]> = of([]);
+  // paginatedTeams$: Observable<ITeam[]> = of([]);
   @Input() formatPath: (item: ITeam) => string = () => '';
   @Input() titleProperty: keyof ITeam  = 'id';
 
-  protected readonly Math = Math;
+  // protected readonly Math = Math;
 
-  setPage(pageIndex: number) {
-    console.log('Setting page to', pageIndex)
-    this.currentPageIndex.next(pageIndex);
-  }
+  // setPage(pageIndex: number) {
+  //   console.log('Setting page to', pageIndex)
+  //   this.currentPageIndex.next(pageIndex);
+  // }
 
 
   ngOnInit() {
-    this.searchListService.filteredData$.pipe(
-    map((teams)=> Math.ceil(teams.length / this.itemsPerPage)),
-      ).subscribe(pages => {
-        this.totalPages = pages;
-      });
+    // update searchListService
+    this.searchListService.updateData(this.teams$);
 
-    this.paginatedTeams$ = combineLatest([
-      this.searchListService.filteredData$,
-      this.currentPageIndex.asObservable(),
-    ]).pipe(
-      map(([teams, currentPageIndex]) => {
-        console.log('Teams:', teams);
-        console.log('Current Page:', currentPageIndex);
-        console.log('Items per page', this.itemsPerPage)
-        const start = (currentPageIndex - 1) * this.itemsPerPage;
-        const end = currentPageIndex * this.itemsPerPage;
-        return teams.slice(start, end);
-      }),
-      tap(paginatedTeams => console.log('Paginated Teams:', paginatedTeams))
-    );
-
-    this.paginatedTeams$.subscribe(paginatedTeams => {
-      console.log('Paginated Teams Inside Subscribe:', paginatedTeams);
-    });
+    // initialize paginationService with filteredData from SearchListService to apply pagination on search result
+    this.paginationService.initializePagination(this.searchListService.filteredData$);
   }
 }
 
