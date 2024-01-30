@@ -24,7 +24,6 @@ export class SearchListService<T> {
     this.filteredDataSubject$.next(this.allData$.getValue());
     return;
   }
-
   // Your existing filter code
   const filteredData = this.filterItems(this.allData$.getValue(), searchString, parameter);
   this.filteredDataSubject$.next(filteredData);

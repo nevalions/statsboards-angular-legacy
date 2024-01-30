@@ -1,0 +1,28 @@
+@if (items$ | async; as items) {
+  <div class="pagination" style="display: flex; justify-content: space-between; align-items: center;">
+  @if (items.length > paginationService.itemsPerPage.value) {
+    @if (paginationService.totalPages$ | async; as totalPages) {
+        <div style="flex: 1;"></div>
+        <div style="flex: 2; text-align: center;">
+          <tui-pagination
+            [index]="paginationService.currentPageIndex.value - 1"
+            [length]="totalPages"
+            (indexChange)="setCurrentPage($event)"
+          ></tui-pagination>
+        </div>
+        <div style="flex: 1;">
+          <form
+            [formGroup]="itemPerPageForm"
+          >
+            <tui-input-number
+              formControlName="itemPerPageValue"
+              class="b-form"
+            >
+              ITEMS PER PAGE
+            </tui-input-number>
+          </form>
+        </div>
+    }
+  }
+  </div>
+}

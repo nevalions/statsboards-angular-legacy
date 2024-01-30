@@ -26,6 +26,7 @@ import {SportNavComponent} from "./components/sport/sport-nav/sport-nav.componen
     TuiDialogModule,
     TuiAlertModule,
     SportNavComponent,
+
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.less'
