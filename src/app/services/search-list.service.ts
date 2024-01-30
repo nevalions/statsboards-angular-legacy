@@ -7,7 +7,7 @@ import { BehaviorSubject } from 'rxjs';
 export class SearchListService<T> {
 
   private filteredDataSubject = new BehaviorSubject<T[]>([]);
-  filteredData$ = this.filteredDataSubject.asObservable();
+  public filteredData$ = this.filteredDataSubject.asObservable();
 
   updateFilteredData(data: T[]) {
     // console.log('FFFFFFFFILLLLL', data)

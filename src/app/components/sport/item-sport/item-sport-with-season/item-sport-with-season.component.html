@@ -18,7 +18,12 @@
           <h4>YEAR {{ this.year }}</h4>
         </div>
         <hr>
-        @if(items$ | async; as item) {
+        @if(items$ | async;) {
+          <app-form-search-text
+              [data$]="items$"
+              [searchTitle]="'tournament title'"
+              [parameter]="'title'"
+          ></app-form-search-text>
           <app-list-of-items-island
               [data$]="items$"
               [formatPath]="seasonHref"
@@ -35,7 +40,7 @@
       <app-dropdownmenu
         [title]="'Select Season'"
         [dataList]="seasons$"
-        [mapItemToLabel]="mapItemToLabel"
+        [mapItemToLabel]="mapItemToLabelYear"
         [mapItemToRoute]="seasonSportRoute"
         [arrow]="arrow"
         [emptyMessage]="'Items Not Found'">

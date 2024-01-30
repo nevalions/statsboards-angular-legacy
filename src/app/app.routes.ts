@@ -14,7 +14,7 @@ export const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'seasons', component: SeasonComponent},
   { path: 'seasons/year/:year' , component: SeasonComponent },
-  { path: 'seasons/year/:year/sports/id/:id/tournaments', component: ItemSportWithSeasonComponent},
+  // { path: 'seasons/year/:year/sports/id/:id/tournaments', component: ItemSportWithSeasonComponent},
   {
     path: 'sports',
     component: SportComponent,

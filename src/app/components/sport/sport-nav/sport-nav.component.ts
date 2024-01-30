@@ -1,7 +1,10 @@
-import {ChangeDetectionStrategy, Component} from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {SportComponent} from "../sport.component";
 import {HeaderMenuComponent} from "../../../shared/ui/headermenu/header-menu.component";
 import {IBaseIdElse} from "../../../type/base.type";
+import {tap} from "rxjs/operators";
+import {map} from "rxjs";
+import {SortService} from "../../../services/sort.service";
 
 @Component({
   selector: 'app-sport-nav',
@@ -13,7 +16,7 @@ import {IBaseIdElse} from "../../../type/base.type";
   styleUrl: './sport-nav.component.less',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SportNavComponent extends SportComponent{
+export class SportNavComponent extends SportComponent implements OnInit{
 
   sportTeamsRout(item: IBaseIdElse): any[] {
     return [`/sports/id/${item.id}/teams`];
@@ -21,6 +24,14 @@ export class SportNavComponent extends SportComponent{
 
   sportPlayersRout(item: IBaseIdElse): any[] {
     return [`/sports/id/${item.id}/players`];
+  }
+
+  ngOnInit() {
+    this.dataList$ = this.sportService.findAll()
+      .pipe(
+        tap(data => console.log(data)),
+        map(data => SortService.sort(data, 'title'))
+    );
   }
 
 }

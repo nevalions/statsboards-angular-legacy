@@ -51,7 +51,7 @@ export class WithTeamsComponent implements OnInit{
 
   getTeams$(): Observable<ITeam[]> {
     return this.route.parent?.params.pipe(
-      switchMap(params => this.teamService.fetchTeamsBySportId(params)),
+      switchMap(id => this.teamService.fetchTeamsBySportId(id)),
     ) ?? of([]);
   }
 

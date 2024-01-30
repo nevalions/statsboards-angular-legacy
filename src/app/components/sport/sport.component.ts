@@ -16,7 +16,7 @@ import {RouterOutlet} from "@angular/router";
   templateUrl: './sport.component.html',
 })
 
-export class SportComponent implements OnInit {
+export class SportComponent{
   constructor(
     public sportService: SportService
   ) {}
@@ -27,16 +27,19 @@ export class SportComponent implements OnInit {
     return item.title ?? '';
   }
 
-  sportRout(item: IBaseIdElse): any[] {
-    return [`/seasons/year/${currentYear}/sports/id/${item.id}/tournaments`];
+  sportRoutWithSeason(item: IBaseIdElse): any[] {
+    return [`/sports/id/${item.id}/season/${currentYear}/tournaments`];
   }
 
-  ngOnInit() {
-    this.dataList$ = this.sportService.findAll()
-      .pipe(
-        tap(data => console.log(data)),
-        map(data => SortService.sort(data, 'title'))
-    );
-  }
+
+
+
+  // ngOnInit() {
+  //   this.dataList$ = this.sportService.findAll()
+  //     .pipe(
+  //       tap(data => console.log(data)),
+  //       map(data => SortService.sort(data, 'title'))
+  //   );
+  // }
 
 }

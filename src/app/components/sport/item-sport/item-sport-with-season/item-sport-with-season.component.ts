@@ -16,6 +16,9 @@ import {IBaseIdElse} from "../../../../type/base.type";
 import {DropDownMenuComponent} from "../../../../shared/ui/dropdownmenu/dropdownmenu.component";
 import {SeasonService} from "../../../../services/season.service";
 import {SortService} from "../../../../services/sort.service";
+import {SportComponent} from "../../sport.component";
+import {currentYear} from "../../../../base/constants";
+import {FormSearchTextComponent} from "../../../../shared/ui/forms/form-search-text/form-search-text.component";
 
 @Component({
   selector: 'app-item-sport-with-season',
@@ -31,14 +34,15 @@ import {SortService} from "../../../../services/sort.service";
     ListOfItemsIslandComponent,
     DropDownMenuComponent,
     TuiDataListModule,
-    TuiLoaderModule
+    TuiLoaderModule,
+    FormSearchTextComponent
   ],
   templateUrl: './item-sport-with-season.component.html',
   styleUrl: './item-sport-with-season.component.less',
   encapsulation: ViewEncapsulation.None, //helps with full width of buttons select season
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ItemSportWithSeasonComponent implements OnInit{
+export class ItemSportWithSeasonComponent extends SportComponent implements OnInit{
   @ViewChild(ListOfItemsIslandComponent)
   comp!: ListOfItemsIslandComponent<ITournament>;
 
@@ -47,21 +51,23 @@ export class ItemSportWithSeasonComponent implements OnInit{
   seasons$: Observable<IBaseIdElse[]> = of([]);
   year: number = 0;
 
-  constructor(
+    constructor(
     private route: ActivatedRoute,
-    private sportService: SportService,
+    public override sportService: SportService,
     private tournamentService: TournamentService,
     private seasonService: SeasonService,
-  ) {}
+  ) {
+    super(sportService);  // Calling super and providing the necessary services
+  }
 
-  mapItemToLabel(item: IBaseIdElse): string {
+  mapItemToLabelYear(item: IBaseIdElse): string {
     return item.year?.toString() ?? '';
   }
 
   islandTitleProperty: keyof IBaseIdElse = 'title';
 
   seasonSportRoute(item: ISeasonAndSport): any{
-    return [`/seasons/year/${item.year}/sports/id/${item.sport_id}/tournaments`];
+    return [`/sports/id/${item.sport_id}/season/${item.year}/tournaments`];
   }
 
   seasonHref(item: IBaseIdElse): string {
