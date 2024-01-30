@@ -1,22 +1,46 @@
 import { Injectable } from '@angular/core';
-import {combineLatest, Observable, of, switchMap} from 'rxjs';
+import {BehaviorSubject, Observable, combineLatest, of} from 'rxjs';
 import { map } from 'rxjs/operators';
-import {PagedDataArgs} from "../type/base.type";
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class PaginationService<T> {
-  paginateData(data$: Observable<T[]>, currentPageIndex: number, itemsPerPage: number): Observable<T[]> {
-    return data$.pipe(
-      switchMap((data) => {
-        const startIndex = (currentPageIndex - 1) * itemsPerPage;
-        const endIndex = startIndex + itemsPerPage;
-        const paginatedData = data.slice(startIndex, endIndex);
-        return of(paginatedData);
+
+  // Declare itemsPerPage as BehaviorSubject to allow it to be dynamically updated
+  itemsPerPage: BehaviorSubject<number> = new BehaviorSubject(2);
+
+  // Maintain current page index as a BehaviorSubject
+  currentPageIndex: BehaviorSubject<number> = new BehaviorSubject(1);
+
+  // Declare totalPages$ Observable
+  totalPages$: Observable<number> = of(0);
+
+  // Declare paginatedItems$ Observable
+  paginatedItems$: Observable<T[]> = of([]);
+
+  constructor() {}
+
+  initializePagination(data$: Observable<T[]>): void {
+    this.totalPages$ = data$.pipe(
+      map(teams => Math.ceil(teams.length / this.itemsPerPage.value)),
+    );
+
+    this.paginatedItems$ = combineLatest([
+      data$,
+      this.currentPageIndex,
+      this.itemsPerPage
+    ]).pipe(
+      map(([items, currentPageIndex, itemsPerPage]) => {
+        const start = (currentPageIndex - 1) * itemsPerPage;
+        const end = currentPageIndex * itemsPerPage;
+        return items.slice(start, end);
       })
     );
   }
-}
 
+  setPage(pageIndex: number): void {
+    this.currentPageIndex.next(pageIndex);
+  }
+}
 

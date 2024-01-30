@@ -17,17 +17,3 @@ export const SPORT_ROUTES: Routes = [
   { path: 'id/:id/season/:year/tournaments', component: ItemSportWithSeasonComponent },
 
 ];
-
-// export const SPORT_ROUTES: Routes = [
-//   { path: '', component: SportComponent },
-//   {
-//     path: 'id/:id',
-//     component: ItemSportComponent,
-//     children: [
-//       {
-//         path: 'teams',
-//         component: WithTeamsComponent,
-//       },
-//     ],
-//   },
-// ];

@@ -35,13 +35,13 @@ export class ListOfItemsIslandComponent<T extends { id: number, p?: string }>
   ) {}
 
   ngOnInit() {
-    this.subscription = this.searchListService.filteredData$
-      .subscribe(data => {
-        console.log('Data emitted:', data);
-
-        this.data$ = this.searchListService.filteredData$
-
-      });
+    // this.subscription = this.searchListService.filteredData$
+    //   .subscribe(data => {
+    //     console.log('Data emitted:', data);
+    //
+    //     this.data$ = this.searchListService.filteredData$
+    //
+    //   });
   }
 
   ngOnDestroy() {

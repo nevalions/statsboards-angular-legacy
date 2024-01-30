@@ -19,8 +19,8 @@
   @if (teams.length > itemsPerPage){
     <div class="pagination flex__fullwidth_center">
       <tui-pagination
-        [index]="currentPageIndex - 1"
-        [length]="Math.ceil(teams.length / itemsPerPage)"
+        [index]="currentPageIndex.value - 1"
+        [length]="totalPages"
         (indexChange)="setPage($event + 1)"
       ></tui-pagination>
     </div>
@@ -33,7 +33,7 @@
   ></app-form-search-text>
 
   <app-list-of-items-island
-    [data$]="teams$"
+    [data$]="paginatedTeams$"
     [formatPath]="formatPath"
     [titleProperty]="titleProperty">
   </app-list-of-items-island>

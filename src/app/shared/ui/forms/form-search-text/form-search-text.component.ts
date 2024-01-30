@@ -2,7 +2,7 @@ import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnDestroy, OnIn
 import {FormControl, FormGroup, ReactiveFormsModule} from "@angular/forms";
 import {TuiInputModule, TuiInputMonthRangeModule} from "@taiga-ui/kit";
 import {UpperCasePipe} from "@angular/common";
-import {map, Observable, of, startWith, Subscription, switchMap} from "rxjs";
+import {debounceTime, distinctUntilChanged, map, Observable, of, startWith, Subscription, switchMap} from "rxjs";
 import {TuiTextfieldControllerModule} from "@taiga-ui/core";
 import {TuiValueChangesModule} from "@taiga-ui/cdk";
 import {tap} from "rxjs/operators";
@@ -29,7 +29,6 @@ export class FormSearchTextComponent<T> implements OnInit, OnDestroy {
   @Input() searchString: string = '';
   @Input() parameter: string = 'id';
 
-  // @Output() filteredData$: EventEmitter<T[]> = new EventEmitter<T[]>(true);
 
   searchForm = new FormGroup({
     searchValue: new FormControl(''),
@@ -42,23 +41,27 @@ export class FormSearchTextComponent<T> implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.onSearch(); // Trigger search on component initialization
+    this.searchForm.get('searchValue')?.valueChanges.pipe(
+    startWith(''),  /* Add this line */
+    debounceTime(300),
+    distinctUntilChanged()
+    )
+      .subscribe(query => {
+        if (query !== null) {
+          this.onSearch(query);
+        }});
   }
 
-  onSearch() {
-    const searchString = this.searchForm.get('searchValue')?.value || '';
-    this.subscription?.unsubscribe();
+  onSearch(searchString?: string) {
+  this.subscription?.unsubscribe();
 
-    this.subscription = this.data$
-      .pipe(
-        map((items) => this.filterItems(items, searchString)),
-        switchMap((filteredItems) => {
-          // console.log('ffffffffffff', filteredItems)
-          this.searchListService.updateFilteredData(filteredItems);
-          return of(filteredItems);
-        })
-      )
-      .subscribe();
+  this.subscription = this.data$
+    .pipe(
+      map((items) => this.filterItems(items, searchString ?? ''))
+    )
+    .subscribe(filteredItems => {
+      this.searchListService.updateFilteredData(filteredItems);
+    });
   }
 
   private filterItems(items: T[], searchString: string): T[] {

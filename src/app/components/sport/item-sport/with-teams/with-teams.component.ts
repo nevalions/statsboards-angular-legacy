@@ -1,6 +1,6 @@
-import {ChangeDetectionStrategy, Component, inject, OnInit, ViewEncapsulation} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, Input, OnInit, signal, ViewEncapsulation} from '@angular/core';
 import {ListOfItemsIslandComponent} from "../../../../shared/ui/list-of-items-island/list-of-items-island.component";
-import {map, Observable, of, switchMap} from "rxjs";
+import {BehaviorSubject, map, Observable, of, switchMap} from "rxjs";
 import {ITeam} from "../../../../type/team.type";
 import {ActivatedRoute, Params, RouterLink} from "@angular/router";
 import {TeamService} from "../../../../services/team.service";
@@ -34,8 +34,8 @@ export class WithTeamsComponent implements OnInit{
 
   teams$: Observable<ITeam[]> = of([]);
 
-  itemsPerPage = 5;
-  currentPageIndex = 1;
+  itemsPerPage = 2;
+  currentPageIndex: BehaviorSubject<number> = new BehaviorSubject(1);
 
   constructor(
   ) {}
@@ -55,9 +55,9 @@ export class WithTeamsComponent implements OnInit{
     ) ?? of([]);
   }
 
-  setPage(pageIndex: number) {
-    this.currentPageIndex = pageIndex;
-  }
+  // setPage(pageIndex: number) {
+  //   this.currentPageIndexSignal.set(pageIndex);
+  // }
 
   protected readonly Math = Math;
 }
