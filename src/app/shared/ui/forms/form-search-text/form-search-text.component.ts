@@ -23,61 +23,67 @@ import {SearchListService} from "../../../../services/search-list.service";
   styleUrl: './form-search-text.component.less',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FormSearchTextComponent<T> implements OnInit, OnDestroy {
-  @Input() searchTitle: string = ''
-  @Input() data$: Observable<T[]> = of({} as T[]);
-  @Input() searchString: string = '';
+export class FormSearchTextComponent<T> implements OnInit{
+  @Input() searchTitle: string = '';
   @Input() parameter: string = 'id';
-
+  @Input() data$: Observable<T[]> = of([]);
 
   searchForm = new FormGroup({
     searchValue: new FormControl(''),
   });
 
-  private subscription?: Subscription;
-
-  constructor(
-    private searchListService: SearchListService<T>
-  ) {}
+  constructor(public searchListService: SearchListService<T>) {}
 
   ngOnInit() {
+    this.searchListService.updateData(this.data$);
     this.searchForm.get('searchValue')?.valueChanges.pipe(
-    startWith(''),  /* Add this line */
-    debounceTime(300),
-    distinctUntilChanged()
+      startWith(''),
+      debounceTime(300),
+      distinctUntilChanged()
     )
       .subscribe(query => {
-        if (query !== null) {
-          this.onSearch(query);
-        }});
-  }
-
-  onSearch(searchString?: string) {
-  this.subscription?.unsubscribe();
-
-  this.subscription = this.data$
-    .pipe(
-      map((items) => this.filterItems(items, searchString ?? ''))
-    )
-    .subscribe(filteredItems => {
-      this.searchListService.updateFilteredData(filteredItems);
-    });
-  }
-
-  private filterItems(items: T[], searchString: string): T[] {
-    if (searchString === '') {
-      return items;
-    }
-    else {
-      const lowerCaseSearch = searchString.toLowerCase();
-      return items.filter((item) => {
-        const paramValue = String(item[this.parameter as keyof T]).toLowerCase();
-        return paramValue.startsWith(lowerCaseSearch);
+        if (query) {
+          this.searchListService.updateFilteredData(query, this.parameter);
+        } else {
+          // This will be triggered when the search input is cleared
+          this.searchListService.updateFilteredData('', this.parameter);
+        }
       });
-    }
   }
 
-  ngOnDestroy() {
-    this.subscription?.unsubscribe();
-  }
+  onSearch() {
+    const searchString = this.searchForm.get('searchValue')!.value;
+    if (searchString) {
+      this.searchListService.updateFilteredData(searchString, this.parameter);
+    }}
 }
+
+//   onSearch(searchString?: string) {
+//   this.subscription?.unsubscribe();
+//
+//   this.subscription = this.data$
+//     .pipe(
+//       map((items) => this.filterItems(items, searchString ?? ''))
+//     )
+//     .subscribe(filteredItems => {
+//       this.searchListService.updateFilteredData(filteredItems);
+//     });
+//   }
+//
+//   private filterItems(items: T[], searchString: string): T[] {
+//     if (searchString === '') {
+//       return items;
+//     }
+//     else {
+//       const lowerCaseSearch = searchString.toLowerCase();
+//       return items.filter((item) => {
+//         const paramValue = String(item[this.parameter as keyof T]).toLowerCase();
+//         return paramValue.startsWith(lowerCaseSearch);
+//       });
+//     }
+//   }
+//
+//   ngOnDestroy() {
+//     this.subscription?.unsubscribe();
+//   }
+// }

@@ -35,7 +35,7 @@ export class ListOfTeamsComponent implements OnInit{
   searchListService = inject(SearchListService)
   paginationService = inject(PaginationService);
 
-  @Input() itemsPerPage: number = 2;
+  @Input() itemsPerPage: number = 4;
   @Input() currentPageIndex: BehaviorSubject<number> = new BehaviorSubject(1);
   public totalPages: number = 0;
 

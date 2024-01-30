@@ -34,7 +34,7 @@ export class WithTeamsComponent implements OnInit{
 
   teams$: Observable<ITeam[]> = of([]);
 
-  itemsPerPage = 2;
+  itemsPerPage = 4;
   currentPageIndex: BehaviorSubject<number> = new BehaviorSubject(1);
 
   constructor(
