@@ -28,43 +28,44 @@ export class paginationWithItemsPerPage implements OnInit, OnDestroy {
   @Input() items$: Observable<any[]> = of([]);
 
   itemPerPageForm: FormGroup = new FormGroup({
-  itemPerPageValue: new FormControl(null, [
-    Validators.min(1),
-    Validators.max(1)
-  ]),
-});
-
-
+  itemPerPageValue: new FormControl(
+    {value: 4, disabled: false},
+    [
+      Validators.min(1),
+      Validators.max(1)
+    ]),
+  });
 
   ngOnInit() {
-    this.valueChangeSubscription = this.itemPerPageForm.get('itemPerPageValue')!.valueChanges.pipe(
-      debounceTime(50),
-      distinctUntilChanged()
-    ).subscribe(newValue => {
-      if (Number(newValue)) {
-        this.paginationService.itemsPerPage.next(Number(newValue));
-      }
-    });
+    this.valueChangeSubscription = this.itemPerPageForm.get('itemPerPageValue')!.valueChanges
+      .pipe(
+        debounceTime(50),
+        distinctUntilChanged()
+      ).subscribe(newValue => {
+        if (Number(newValue)) {
+          this.paginationService.itemsPerPage.next(Number(newValue));
+        }
+      });
 
     this.paginationService.totalPages$.subscribe(totalPages => {
     // Update the max validator dynamically when totalPages$ changes
     this.itemPerPageForm.get('itemPerPageValue')?.setValidators([
       Validators.min(1),
-      Validators.max(totalPages - 1),
+      Validators.max(totalPages),
     ]);
 
     // Trigger revalidation to ensure current value complies with the new max
     this.itemPerPageForm.get('itemPerPageValue')?.setValue(this.paginationService.itemsPerPage.value);
   });
 
-    this.paginationService.totalPages$
-      .pipe(take(1))
-      .subscribe(totalPages => {
-    const initialPerPageValue = Math.max(
-      1, Math.min(this.paginationService.itemsPerPage.value, totalPages - 1)
-    );
-    this.itemPerPageForm.get('itemPerPageValue')?.setValue(initialPerPageValue);
-  });
+  //   this.paginationService.totalPages$
+  //     .pipe(take(1))
+  //     .subscribe(totalPages => {
+  //   const initialPerPageValue = Math.max(
+  //     1, Math.min(this.paginationService.itemsPerPage.value, totalPages - 1)
+  //   );
+  //   this.itemPerPageForm.get('itemPerPageValue')?.setValue(initialPerPageValue);
+  // });
   }
 
   setCurrentPage(pageIndex: number) {

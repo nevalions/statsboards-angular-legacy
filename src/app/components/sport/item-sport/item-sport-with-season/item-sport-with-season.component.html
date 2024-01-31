@@ -18,17 +18,23 @@
           <h4>YEAR {{ this.year }}</h4>
         </div>
         <hr>
-        @if(items$ | async;) {
+        @if(tournaments$ | async) {
+          <app-pagination-with-items-per-page
+            [items$]="tournaments$"
+          >
+          </app-pagination-with-items-per-page>
           <app-form-search-text
-              [data$]="items$"
-              [searchTitle]="'tournament title'"
-              [parameter]="'title'"
+            [data$]="tournaments$"
+            [searchTitle]="'tournament title'"
+            [parameter]="'title'"
           ></app-form-search-text>
           <app-list-of-items-island
-              [data$]="items$"
-              [formatPath]="seasonHref"
+              [data$]="paginationService.paginatedItems$"
+              [formatPath]="tournamentItemHref"
               [titleProperty]="islandTitleProperty"
           ></app-list-of-items-island>
+        } @else {
+          <tui-loader [inheritColor]="true"></tui-loader>
         }
       </div>
     </div>
@@ -39,7 +45,7 @@
     <div class="block__fullwidth_center" style="display: block">
       <app-dropdownmenu
         [title]="'Select Season'"
-        [dataList]="seasons$"
+        [dataList]="seasonsWithSportId$"
         [mapItemToLabel]="mapItemToLabelYear"
         [mapItemToRoute]="seasonSportRoute"
         [arrow]="arrow"

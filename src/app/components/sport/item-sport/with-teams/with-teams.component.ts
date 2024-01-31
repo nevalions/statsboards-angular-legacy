@@ -34,14 +34,11 @@ export class WithTeamsComponent implements OnInit{
 
   teams$: Observable<ITeam[]> = of([]);
 
-  itemsPerPage = 4;
-  currentPageIndex: BehaviorSubject<number> = new BehaviorSubject(1);
-
   constructor(
   ) {}
 
   islandTitleProperty: keyof ITeam = 'title';
-  teamHref(item: ITeam): string {
+  teamItemHref(item: ITeam): string {
     return `teams/id/${item.id}`;
   }
 
@@ -55,9 +52,4 @@ export class WithTeamsComponent implements OnInit{
     ) ?? of([]);
   }
 
-  // setPage(pageIndex: number) {
-  //   this.currentPageIndexSignal.set(pageIndex);
-  // }
-
-  protected readonly Math = Math;
 }

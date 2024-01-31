@@ -60,7 +60,7 @@ export abstract class BaseApiService<T> {
       );
   }
 
-  findByFirstKeyValueAndSecondItemSecondKeyValue(
+  findByFirstItemKeyValueAndSecondItemSecondKeyValue(
     firstItem: string,
     firstKey: string,
     firstValue: any,
@@ -72,7 +72,7 @@ export abstract class BaseApiService<T> {
     return this.http.get<T[]>(`${firstItem}/${firstKey}/${firstValue}/${secondItem}/${secondKey}/${secondValue}/${optionalValue}`)
       .pipe(
         tap(items => console.log(
-          `Received Sport Year  /API/
+          `Received Sport Year TOURNAMENTS /API/
           ${firstItem}/${firstKey}/${firstValue}/${secondItem}/${secondKey}/${secondValue}/${optionalValue}
           \ndata:`, items
           )

@@ -28,10 +28,8 @@ export class SportComponent{
   }
 
   sportRoutWithSeason(item: IBaseIdElse): any[] {
-    return [`/sports/id/${item.id}/season/${currentYear}/tournaments`];
+    return [`/sports/id/${item.id}/seasons/${currentYear}/tournaments`];
   }
-
-
 
 
   // ngOnInit() {

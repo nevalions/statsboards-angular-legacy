@@ -96,7 +96,7 @@ export class ItemTournamentComponent implements OnInit{
   loadMatches() {
     this.route.params.subscribe(params => {
       const tournamentId = Number([params['id']]);
-      this.matches$ = this.tournamentService.findMatchByTournamentId(tournamentId)
+      this.matches$ = this.tournamentService.fetchMatchByTournamentId(tournamentId)
         .pipe(
           map(items => this.filterMatches(items)),
           tap(filteredItems =>
@@ -124,7 +124,7 @@ export class ItemTournamentComponent implements OnInit{
       const tournamentId = Number([params['id']])
       this.tournament$ = this.tournamentService.findById(tournamentId)
 
-      this.matches$ = this.tournamentService.findMatchByTournamentId(tournamentId)
+      this.matches$ = this.tournamentService.fetchMatchByTournamentId(tournamentId)
         .pipe(
           tap(items =>
             console.log(`Matches in Tournament ID: ${tournamentId}`, items)

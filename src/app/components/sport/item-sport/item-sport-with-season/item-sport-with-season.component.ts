@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
 import {combineLatest, map, Observable, of, shareReplay, switchMap} from "rxjs";
 import {ActivatedRoute} from "@angular/router";
 import {tap} from "rxjs/operators";
@@ -19,6 +19,11 @@ import {SortService} from "../../../../services/sort.service";
 import {SportComponent} from "../../sport.component";
 import {currentYear} from "../../../../base/constants";
 import {FormSearchTextComponent} from "../../../../shared/ui/forms/form-search-text/form-search-text.component";
+import {
+  paginationWithItemsPerPage
+} from "../../../../shared/ui/pagination/pagination-with-items-per-page/pagination-with-items-per-page.component";
+import {SearchListService} from "../../../../services/search-list.service";
+import {PaginationService} from "../../../../services/pagination.service";
 
 @Component({
   selector: 'app-item-sport-with-season',
@@ -35,30 +40,29 @@ import {FormSearchTextComponent} from "../../../../shared/ui/forms/form-search-t
     DropDownMenuComponent,
     TuiDataListModule,
     TuiLoaderModule,
-    FormSearchTextComponent
+    FormSearchTextComponent,
+    paginationWithItemsPerPage
   ],
   templateUrl: './item-sport-with-season.component.html',
   styleUrl: './item-sport-with-season.component.less',
   encapsulation: ViewEncapsulation.None, //helps with full width of buttons select season
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ItemSportWithSeasonComponent extends SportComponent implements OnInit{
-  @ViewChild(ListOfItemsIslandComponent)
-  comp!: ListOfItemsIslandComponent<ITournament>;
+export class ItemSportWithSeasonComponent implements OnInit{
+  private route = inject(ActivatedRoute)
+  private sportService = inject(SportService)
+  private tournamentService = inject(TournamentService)
+  private seasonService = inject(SeasonService)
 
-  items$: Observable<ITournament[]> = of({} as ITournament[]);
+  searchListService = inject(SearchListService)
+  paginationService = inject(PaginationService)
+
+  tournaments$: Observable<ITournament[]> = of({} as ITournament[]);
   sport$: Observable<ISport> = of({} as ISport);
-  seasons$: Observable<IBaseIdElse[]> = of([]);
+  seasonsWithSportId$: Observable<IBaseIdElse[]> = of([]);
   year: number = 0;
 
-    constructor(
-    private route: ActivatedRoute,
-    public override sportService: SportService,
-    private tournamentService: TournamentService,
-    private seasonService: SeasonService,
-  ) {
-    super(sportService);  // Calling super and providing the necessary services
-  }
+  constructor() {}
 
   mapItemToLabelYear(item: IBaseIdElse): string {
     return item.year?.toString() ?? '';
@@ -67,64 +71,39 @@ export class ItemSportWithSeasonComponent extends SportComponent implements OnIn
   islandTitleProperty: keyof IBaseIdElse = 'title';
 
   seasonSportRoute(item: ISeasonAndSport): any{
-    return [`/sports/id/${item.sport_id}/season/${item.year}/tournaments`];
+    return [`/sports/id/${item.sport_id}/seasons/${item.year}/tournaments`];
   }
 
-  seasonHref(item: IBaseIdElse): string {
+  tournamentItemHref(item: IBaseIdElse): string {
     return `/tournaments/id/${item.id}`;
   }
 
   ngOnInit() {
-    this.route.params.subscribe(params => {
-      const firstItem = 'seasons'
-      const firstKey = 'year'
-      const firstValue = Number([params['year']])
-      const secondItem = 'sports'
-      const secondKey = 'id'
-      const secondValue = Number([params['id']])
-      const optionalValue = 'tournaments'
+    this.route.params.pipe(
+      switchMap(params => {
+        const { id, year } = params;
+        const sportId = Number(id);
+        const seasonYear = Number(year);
 
-      this.year = firstValue;
-      this.sport$ = this.sportService.findById(secondValue);
+        // Validate id and year
+        if (isNaN(sportId) || isNaN(seasonYear)) {
+          return of([]);
+        }
+        this.year = seasonYear;
+        this.seasonsWithSportId$ = this.seasonService.getSeasonsWithSportId(sportId);
+        this.sport$ = this.sportService.findById(sportId);
 
-      const allSeasons$ = this.seasonService.findAll().pipe(
-      shareReplay(1),
-    );
-
-      this.seasons$ = allSeasons$.pipe(
-        map(data => SortService.sort(data, '-year'))
-      );
-
-      combineLatest([this.sport$, allSeasons$])
-        .pipe(
-          map(([sport, seasons]) => {
-            const seasonsWithSportId = seasons.
-            map(season => ({...season, sport_id: sport.id}));
-            return SortService.sort(seasonsWithSportId, '-year');
-          })
-        ).subscribe(sortedSeasonsWithSportId => this.seasons$ = of(sortedSeasonsWithSportId));
-
-      this.items$ = this.route.paramMap.pipe(
-        switchMap(() => {
-          const id = secondValue;
-          return this.tournamentService.findByFirstKeyValueAndSecondItemSecondKeyValue(
-            firstItem,
-            firstKey,
-            firstValue,
-            secondItem,
-            secondKey,
-            id,
-            optionalValue
-          )
-            .pipe(
-              tap(
-                items =>
-                  console.log(`Items fetched by findByValueAndSecondId: ID ${id}`,
-                    items,)
-              ),
-            )
-        }))
-    })
+        // call the refactored `getTournamentsBySportAndSeason` method
+        return this.tournamentService.fetchTournamentsBySportAndSeason(
+          { id: sportId, year: seasonYear }
+        );
+      }),
+      tap((tournaments: ITournament[]) => {
+        this.tournaments$ = of(tournaments);
+        this.searchListService.updateData(this.tournaments$);
+        this.paginationService.initializePagination(this.searchListService.filteredData$);
+      })
+    ).subscribe();
   }
 
   protected readonly arrow = TUI_ARROW;

@@ -41,7 +41,7 @@ import {
 })
 export class ListOfTeamsComponent implements OnInit{
   searchListService = inject(SearchListService)
-  paginationService = inject(PaginationService);
+  paginationService = inject(PaginationService)
 
   @Input() emptyMessage: string = 'No teams available';
   @Input() teams$: Observable<ITeam[]> = of([]);
@@ -50,10 +50,8 @@ export class ListOfTeamsComponent implements OnInit{
   @Input() titleProperty: keyof ITeam  = 'id';
 
   ngOnInit() {
-    // update searchListService
-    this.searchListService.updateData(this.teams$);
 
-    // initialize paginationService with filteredData from SearchListService to apply pagination on search result
+    this.searchListService.updateData(this.teams$);
     this.paginationService.initializePagination(this.searchListService.filteredData$);
 
   }
