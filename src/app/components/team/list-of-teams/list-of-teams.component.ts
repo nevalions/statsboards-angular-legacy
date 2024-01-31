@@ -49,9 +49,9 @@ export class ListOfTeamsComponent implements OnInit{
   @Input() formatPath: (item: ITeam) => string = () => '';
   @Input() titleProperty: keyof ITeam  = 'id';
 
-  itemPerPageForm = new FormGroup({
-    itemPerPageValue: new FormControl(),
-  });
+  // itemPerPageForm = new FormGroup({
+  //   itemPerPageValue: new FormControl(),
+  // });
 
   ngOnInit() {
     // update searchListService
@@ -61,7 +61,7 @@ export class ListOfTeamsComponent implements OnInit{
     this.paginationService.initializePagination(this.searchListService.filteredData$);
 
     // Set initial value of itemPerPageForm based on paginationService's itemsPerPage
-    this.itemPerPageForm.get('itemPerPageValue')?.setValue(this.paginationService.itemsPerPage.value);
+    // this.itemPerPageForm.get('itemPerPageValue')?.setValue(this.paginationService.itemsPerPage.value);
 
   }
 }
