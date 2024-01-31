@@ -43,14 +43,19 @@
     <h4>ASIDE MENU</h4>
     <hr>
     <div class="block__fullwidth_center" style="display: block">
-      <app-dropdownmenu
-        [title]="'Select Season'"
-        [dataList]="seasonsWithSportId$"
-        [mapItemToLabel]="mapItemToLabelYear"
-        [mapItemToRoute]="seasonSportRoute"
-        [arrow]="arrow"
-        [emptyMessage]="'Items Not Found'">
-      </app-dropdownmenu>
+      @if (sport$ | async; as sport) {
+        <app-sport-with-season-dropdown
+          [sportId]="sport.id"
+        ></app-sport-with-season-dropdown>
+      }
+<!--      <app-dropdownmenu-->
+<!--        [title]="'Select Season'"-->
+<!--        [dataList]="seasonsWithSportId$"-->
+<!--        [mapItemToLabel]="mapItemToLabelYear"-->
+<!--        [mapItemToRoute]="seasonSportRoute"-->
+<!--        [arrow]="arrow"-->
+<!--        [emptyMessage]="'Items Not Found'">-->
+<!--      </app-dropdownmenu>-->
     </div>
     <a
       appearance="create"

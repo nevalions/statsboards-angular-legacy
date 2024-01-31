@@ -35,6 +35,7 @@ export class ListOfItemsIslandComponent<T extends { id: number, p?: string }>
   ) {}
 
   ngOnInit() {
+    // BRAKES CHILD IF INIT
     // this.subscription = this.searchListService.filteredData$
     //   .subscribe(data => {
     //     console.log('Data emitted:', data);

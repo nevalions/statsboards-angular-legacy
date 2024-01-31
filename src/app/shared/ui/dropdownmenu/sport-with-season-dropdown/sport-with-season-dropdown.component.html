@@ -1,0 +1,10 @@
+<div class="block__fullwidth_center" style="display: block">
+  <app-dropdownmenu
+    [title]="'Select Season'"
+    [dataList]="seasonsWithSportId$"
+    [mapItemToLabel]="mapItemToLabelYear"
+    [mapItemToRoute]="seasonSportRoute"
+    [arrow]="arrow"
+    [emptyMessage]="'Items Not Found'">
+  </app-dropdownmenu>
+</div>

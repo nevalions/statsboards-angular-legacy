@@ -24,6 +24,9 @@ import {
 } from "../../../../shared/ui/pagination/pagination-with-items-per-page/pagination-with-items-per-page.component";
 import {SearchListService} from "../../../../services/search-list.service";
 import {PaginationService} from "../../../../services/pagination.service";
+import {
+  SportWithSeasonDropdownComponent
+} from "../../../../shared/ui/dropdownmenu/sport-with-season-dropdown/sport-with-season-dropdown.component";
 
 @Component({
   selector: 'app-item-sport-with-season',
@@ -41,7 +44,8 @@ import {PaginationService} from "../../../../services/pagination.service";
     TuiDataListModule,
     TuiLoaderModule,
     FormSearchTextComponent,
-    paginationWithItemsPerPage
+    paginationWithItemsPerPage,
+    SportWithSeasonDropdownComponent
   ],
   templateUrl: './item-sport-with-season.component.html',
   styleUrl: './item-sport-with-season.component.less',
@@ -64,15 +68,15 @@ export class ItemSportWithSeasonComponent implements OnInit{
 
   constructor() {}
 
-  mapItemToLabelYear(item: IBaseIdElse): string {
-    return item.year?.toString() ?? '';
-  }
-
+  // mapItemToLabelYear(item: IBaseIdElse): string {
+  //   return item.year?.toString() ?? '';
+  // }
+  //
   islandTitleProperty: keyof IBaseIdElse = 'title';
-
-  seasonSportRoute(item: ISeasonAndSport): any{
-    return [`/sports/id/${item.sport_id}/seasons/${item.year}/tournaments`];
-  }
+  //
+  // seasonSportRoute(item: ISeasonAndSport): any{
+  //   return [`/sports/id/${item.sport_id}/seasons/${item.year}/tournaments`];
+  // }
 
   tournamentItemHref(item: IBaseIdElse): string {
     return `/tournaments/id/${item.id}`;
@@ -90,7 +94,7 @@ export class ItemSportWithSeasonComponent implements OnInit{
           return of([]);
         }
         this.year = seasonYear;
-        this.seasonsWithSportId$ = this.seasonService.getSeasonsWithSportId(sportId);
+        // this.seasonsWithSportId$ = this.seasonService.getSeasonsWithSportId(sportId);
         this.sport$ = this.sportService.findById(sportId);
 
         // call the refactored `getTournamentsBySportAndSeason` method
