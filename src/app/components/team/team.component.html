@@ -1,24 +1,18 @@
-
 <div class="team container">
   <div class="team content">
-    <div class="team content__title">
-        <h3 class="tui-text_h3">{{ 'TEAMS' | uppercase}}</h3>
-    </div>
-    <div class="team content__body">
-      <div class="one_col_container">
-        <app-list-of-teams
-          [teams$]="teams$"
-          [formatPath]="teamHref"
-          [titleProperty]="islandTitleProperty"
-        ></app-list-of-teams>
-        <router-outlet></router-outlet>
-      </div>
-    </div>
+    <router-outlet></router-outlet>
+    <!--    <div class="team content__title">-->
+    <!--      <h3 class="tui-text_h3">{{ 'TEAMS' | uppercase }}</h3>-->
+    <!--    </div>-->
+    <!--    <div class="team content__body">-->
+    <!--      <div class="one_col_container">-->
+    <!--        <app-list-of-teams-->
+    <!--          [teams$]="teams$"-->
+    <!--          [formatPath]="teamHref"-->
+    <!--          [titleProperty]="islandTitleProperty"-->
+    <!--        ></app-list-of-teams>-->
+    <!--        <router-outlet></router-outlet>-->
+    <!--      </div>-->
+    <!--    </div>-->
   </div>
-
-  <aside>
-    <h4>ASIDE MENU</h4>
-    <hr>
-    <router-outlet name="aside"></router-outlet>
-  </aside>
 </div>
