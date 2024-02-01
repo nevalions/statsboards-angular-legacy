@@ -1,13 +1,11 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  inject,
   OnInit,
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
 import {
-  TUI_ARROW,
   TuiDataListWrapperModule,
   TuiFilterByInputPipeModule,
   TuiInputModule,
@@ -41,7 +39,6 @@ import {
 } from '@angular/forms';
 import { TuiValueChangesModule } from '@taiga-ui/cdk';
 import { ListOfTeamsComponent } from '../../team/list-of-teams/list-of-teams.component';
-import { TeamService } from '../../../services/team.service';
 import { ITeam } from '../../../type/team.type';
 import { ListOfTeamsSmallComponent } from '../../team/list-of-teams-small/list-of-teams-small.component';
 
@@ -78,7 +75,7 @@ import { ListOfTeamsSmallComponent } from '../../team/list-of-teams-small/list-o
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ItemTournamentComponent implements OnInit {
-  private teamService = inject(TeamService);
+  // private teamService = inject(TeamService);
   teams$: Observable<ITeam[]> = of([]);
 
   searchText: string = '';
@@ -102,8 +99,8 @@ export class ItemTournamentComponent implements OnInit {
   tournament$: Observable<ITournament> = of({} as ITournament);
   matches$: Observable<IMatchFullData[]> = of([]);
 
-  itemsPerPage = 4;
-  currentPageIndex = 1;
+  // itemsPerPage = 4;
+  // currentPageIndex = 1;
 
   constructor(
     private route: ActivatedRoute,
