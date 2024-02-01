@@ -1,6 +1,7 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  inject,
   OnInit,
   ViewChild,
   ViewEncapsulation,
@@ -76,11 +77,16 @@ import { ListOfTeamsSmallComponent } from '../../team/list-of-teams-small/list-o
 })
 export class ItemTournamentComponent implements OnInit {
   // private teamService = inject(TeamService);
+  private route = inject(ActivatedRoute);
+  private tournamentService = inject(TournamentService);
+
+  tournament$: Observable<ITournament> = of({} as ITournament);
+  matches$: Observable<IMatchFullData[]> = of([]);
   teams$: Observable<ITeam[]> = of([]);
 
   searchText: string = '';
-  testForm = new FormGroup({
-    nameValue: new FormControl(''),
+  matchWeekSearchForm = new FormGroup({
+    matchWeek: new FormControl(''),
   });
 
   readonly form = new FormGroup({
@@ -93,19 +99,13 @@ export class ItemTournamentComponent implements OnInit {
   readonly matcherM = (match: IMatchFullData, search: string): boolean =>
     match.match.week.toString().toLowerCase().startsWith(search.toLowerCase());
 
-  @ViewChild(ListOfItemsIslandComponent)
-  comp!: ListOfItemsIslandComponent<IMatchFullData>;
-
-  tournament$: Observable<ITournament> = of({} as ITournament);
-  matches$: Observable<IMatchFullData[]> = of([]);
+  // @ViewChild(ListOfItemsIslandComponent)
+  // comp!: ListOfItemsIslandComponent<IMatchFullData>;
 
   // itemsPerPage = 4;
   // currentPageIndex = 1;
 
-  constructor(
-    private route: ActivatedRoute,
-    private tournamentService: TournamentService,
-  ) {}
+  constructor() {}
 
   islandTeamTitleProperty: keyof ITeam = 'title';
 
@@ -118,7 +118,7 @@ export class ItemTournamentComponent implements OnInit {
   }
 
   onSearch() {
-    this.searchText = this.testForm.get('nameValue')?.value || '';
+    this.searchText = this.matchWeekSearchForm.get('matchWeek')?.value || '';
     this.loadMatches();
   }
 

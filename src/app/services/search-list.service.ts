@@ -1,43 +1,44 @@
 import { Injectable } from '@angular/core';
-import {BehaviorSubject, map, Observable, of} from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { FilteringService } from './filter.service';
+import { FilterStrategy } from '../type/filter.type';
 
 @Injectable({
   providedIn: 'root',
 })
-
 export class SearchListService<T> {
   private allData$ = new BehaviorSubject<T[]>([]);
   private filteredDataSubject$ = new BehaviorSubject<T[]>([]);
   public filteredData$ = this.filteredDataSubject$.asObservable();
 
+  private defaultFilterStrategy: FilterStrategy = 'startsWith';
+
+  constructor(private filteringService: FilteringService) {}
 
   updateData(data$: Observable<T[]>): void {
-    data$.subscribe(data => {
+    data$.subscribe((data) => {
       this.allData$.next(data);
-      this.filteredDataSubject$.next(data); // Add this line
+      this.filteredDataSubject$.next(data);
     });
   }
 
-  updateFilteredData(searchString?: string, parameter?: string): void {
-  if (!searchString) {
-    // Return all data if searchString is empty
-    this.filteredDataSubject$.next(this.allData$.getValue());
-    return;
-  }
-  // Your existing filter code
-  const filteredData = this.filterItems(this.allData$.getValue(), searchString, parameter);
-  this.filteredDataSubject$.next(filteredData);
-}
-
-  public filterItems(items: T[], searchString?: string, parameter?: string): T[] {
+  updateFilteredData(
+    searchString?: string,
+    parameter?: string,
+    filterStrategy: FilterStrategy = this.defaultFilterStrategy,
+  ): void {
     if (!searchString) {
-      return items;
+      // Return all data if searchString is empty
+      this.filteredDataSubject$.next(this.allData$.getValue());
+      return;
     }
 
-    const lowerCaseSearch = searchString.toLowerCase();
-    return items.filter((item) => {
-      const paramValue = String(item[parameter as keyof T]).toLowerCase();
-      return paramValue.startsWith(lowerCaseSearch);
-    });
+    const filteredData = this.filteringService.filterItems(
+      this.allData$.getValue(),
+      searchString,
+      parameter!,
+      filterStrategy,
+    );
+    this.filteredDataSubject$.next(filteredData);
   }
 }

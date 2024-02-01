@@ -18,6 +18,7 @@ import {
 import { TuiTextfieldControllerModule } from '@taiga-ui/core';
 import { TuiValueChangesModule } from '@taiga-ui/cdk';
 import { SearchListService } from '../../../../services/search-list.service';
+import { FilterStrategy } from '../../../../type/filter.type';
 
 @Component({
   selector: 'app-form-search-text',
@@ -39,6 +40,8 @@ export class FormSearchTextComponent<T> implements OnInit {
   @Input() parameter: string = 'id';
   @Input() data$: Observable<T[]> = of([]);
 
+  @Input() filter: FilterStrategy = 'startsWith';
+
   searchForm = new FormGroup({
     searchValue: new FormControl(''),
   });
@@ -57,7 +60,11 @@ export class FormSearchTextComponent<T> implements OnInit {
       )
       .subscribe((query) => {
         if (query) {
-          this.searchListService.updateFilteredData(query, this.parameter);
+          this.searchListService.updateFilteredData(
+            query,
+            this.parameter,
+            'startsWith',
+          );
         }
       });
   }

@@ -65,66 +65,37 @@
     <!--    </div>-->
 
 
-    @if (matches$ | async; as items) {
-      <form
-        class="b-form"
-        [formGroup]="form"
-      >
-        <tui-input
-          formControlName="match"
-        >
-          Match Week
-          <tui-data-list-wrapper
-            *tuiDataList
-            [itemContent]="stringify | tuiStringifyContent"
-            [items]="items | tuiFilterByInput: matcherM"
-          ></tui-data-list-wrapper>
-        </tui-input>
-      </form>
-    }
+    <!--    <div class="search block__fullwidth_center">-->
 
-    <div class="search block__fullwidth_center">
-
-      <!--          <div class="" style="display: block; padding: 10px; min-width: 100%">-->
-      <!--            <div class="tui-form__row">-->
-      <!--            <form-->
-      <!--              [formGroup]="testForm"-->
-      <!--            >-->
-      <!--                <tui-input-->
-      <!--                  formControlName="nameValue"-->
-      <!--                >-->
-      <!--                  Search by WEEK-->
-      <!--                  <input-->
-      <!--                    style="min-width: max-content"-->
-      <!--                    (change)="onSearch()"-->
-      <!--                    tuiTextfield-->
-      <!--                  />-->
-      <!--                </tui-input>-->
+    <!--          <div class="" style="display: block; padding: 10px; min-width: 100%">-->
+    <!--            <div class="tui-form__row">-->
+    <!--            <form-->
+    <!--              [formGroup]="testForm"-->
+    <!--            >-->
+    <!--                <tui-input-->
+    <!--                  formControlName="nameValue"-->
+    <!--                >-->
+    <!--                  Search by WEEK-->
+    <!--                  <input-->
+    <!--                    style="min-width: max-content"-->
+    <!--                    (change)="onSearch()"-->
+    <!--                    tuiTextfield-->
+    <!--                  />-->
+    <!--                </tui-input>-->
 
 
-      <!--            </form>-->
-      <!--            </div>-->
-      <!--          </div>-->
+    <!--            </form>-->
+    <!--            </div>-->
+    <!--          </div>-->
 
 
-      <div class="" style="display: block; padding: 10px;">
-        <div class="tui-form__row">
-          <form
-            [formGroup]="testForm"
-          >
-            <tui-input-number
-              formControlName="nameValue"
-              class="b-form"
-              (tuiValueChanges)="onSearch()"
-            >
-              WEEK
-            </tui-input-number>
+    <!--      <div class="" style="display: block; padding: 10px;">-->
+    <!--        <div class="tui-form__row">-->
 
-          </form>
-        </div>
-      </div>
+    <!--        </div>-->
+    <!--      </div>-->
 
-    </div>
+    <!--    </div>-->
 
     <!--    @if (matches$ | async; as matches) {-->
     <!--      @if (matches.length > itemsPerPage) {-->
@@ -138,15 +109,51 @@
     <!--      }-->
     <!--    }-->
     <div class="tournament with__aside">
-      <div class="list-of-items-with-data" style="padding: 20px">
-        @if (matches$ | async) {
-          <app-list-of-matches
-            [data$]="matches$"
-            [formatPath]='matchHref'
-          >
-          </app-list-of-matches>
-        }
+      <div class="one_col_container">
+        <div class="filters flex__fullwidth_center">
+          @if (matches$ | async; as items) {
+            <form
+              class="b-form"
+              [formGroup]="form"
+              style="width: 60%"
+            >
+              <tui-input
+                formControlName="match"
+              >
+                Match Week
+                <tui-data-list-wrapper
+                  *tuiDataList
+                  [itemContent]="stringify | tuiStringifyContent"
+                  [items]="items | tuiFilterByInput: matcherM"
+                ></tui-data-list-wrapper>
+              </tui-input>
+            </form>
+            <form
+              [formGroup]="matchWeekSearchForm"
+            >
+              <tui-input-number
+                formControlName="matchWeek"
+                class="b-form"
+                (tuiValueChanges)="onSearch()"
+              >
+                WEEK
+              </tui-input-number>
+
+            </form>
+          }
+        </div>
+        <div class="list-of-items-with-data" style="padding: 20px">
+          @if (matches$ | async) {
+            <app-list-of-matches
+              [data$]="matches$"
+              [formatPath]='matchHref'
+            >
+            </app-list-of-matches>
+          }
+        </div>
       </div>
+
+
       <aside>
         <h4>TEAMS</h4>
         <app-list-of-teams-small
