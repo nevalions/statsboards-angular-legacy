@@ -10,6 +10,7 @@
   }
 </div>
 
+
 <div class="tournament content__body">
   <div class="one_col_container">
     <div class="tournament content__body__title">
@@ -21,47 +22,47 @@
       ></app-create-button>
     </div>
 
-    <div class="filters flex__fullwidth_center">
+    <!--    <div class="filters flex__fullwidth_center">-->
 
 
-      <form
-        style="padding: 10px"
-        [formGroup]="testForm"
-      >
-        <tui-input
-          formControlName="nameValue"
-        >
-          Search by WEEK
-          <input
-            style="min-width: max-content"
-            (change)="onSearch()"
-            tuiTextfield
-          />
-        </tui-input>
-      </form>
+    <!--      <form-->
+    <!--        style="padding: 10px"-->
+    <!--        [formGroup]="testForm"-->
+    <!--      >-->
+    <!--        <tui-input-->
+    <!--          formControlName="nameValue"-->
+    <!--        >-->
+    <!--          Search by WEEK-->
+    <!--          <input-->
+    <!--            style="min-width: max-content"-->
+    <!--            (change)="onSearch()"-->
+    <!--            tuiTextfield-->
+    <!--          />-->
+    <!--        </tui-input>-->
+    <!--      </form>-->
 
-      <form
-        style="padding: 10px"
-        [formGroup]="testForm"
-      >
-        <tui-input-number
-          formControlName="nameValue"
-          class="b-form"
-          (tuiValueChanges)="onSearch()"
-        >
-          WEEK
-        </tui-input-number>
+    <!--      <form-->
+    <!--        style="padding: 10px"-->
+    <!--        [formGroup]="testForm"-->
+    <!--      >-->
+    <!--        <tui-input-number-->
+    <!--          formControlName="nameValue"-->
+    <!--          class="b-form"-->
+    <!--          (tuiValueChanges)="onSearch()"-->
+    <!--        >-->
+    <!--          WEEK-->
+    <!--        </tui-input-number>-->
 
-      </form>
-
-
-      <div class="" style="display: grid; padding: 10px">FILTER</div>
-      <div class="" style="display: grid; padding: 10px">FILTER</div>
-      <div class="" style="display: grid; padding: 10px">FILTER</div>
-      <div class="" style="display: grid; padding: 10px">FILTER</div>
+    <!--      </form>-->
 
 
-    </div>
+    <!--      <div class="" style="display: grid; padding: 10px">FILTER</div>-->
+    <!--      <div class="" style="display: grid; padding: 10px">FILTER</div>-->
+    <!--      <div class="" style="display: grid; padding: 10px">FILTER</div>-->
+    <!--      <div class="" style="display: grid; padding: 10px">FILTER</div>-->
+
+
+    <!--    </div>-->
 
 
     @if (matches$ | async; as items) {
@@ -105,6 +106,7 @@
       <!--            </div>-->
       <!--          </div>-->
 
+
       <div class="" style="display: block; padding: 10px;">
         <div class="tui-form__row">
           <form
@@ -124,28 +126,49 @@
 
     </div>
 
-    @if (matches$ | async; as matches) {
-      @if (matches.length > itemsPerPage) {
-        <div class="pagination" style="display: grid">
-          <tui-pagination
-            [index]="currentPageIndex - 1"
-            [length]="Math.ceil(matches.length / itemsPerPage)"
-            (indexChange)="setPage($event + 1)"
-          ></tui-pagination>
-        </div>
-      }
-    }
-
-    <div class="list-of-items-with-data" style="padding: 20px">
-      @if (matches$ | async; as matches) {
-        <app-list-of-matches
-          [data]="matches | slice: (currentPageIndex - 1) * itemsPerPage : currentPageIndex * itemsPerPage"
-          [formatPath]='matchHref'
-        >
-        </app-list-of-matches>
-      }
+    <!--    @if (matches$ | async; as matches) {-->
+    <!--      @if (matches.length > itemsPerPage) {-->
+    <!--        <div class="pagination" style="display: grid">-->
+    <!--          <tui-pagination-->
+    <!--            [index]="currentPageIndex - 1"-->
+    <!--            [length]="Math.ceil(matches.length / itemsPerPage)"-->
+    <!--            (indexChange)="setPage($event + 1)"-->
+    <!--          ></tui-pagination>-->
+    <!--        </div>-->
+    <!--      }-->
+    <!--    }-->
+    <div class="tournament with__aside">
+      <div class="list-of-items-with-data" style="padding: 20px">
+        @if (matches$ | async) {
+          <app-list-of-matches
+            [data$]="matches$"
+            [formatPath]='matchHref'
+          >
+          </app-list-of-matches>
+        }
+      </div>
+      <aside>
+        <h4>TEAMS</h4>
+        <app-list-of-teams-small
+          [teams$]="teams$"
+          [formatPath]="teamItemHref"
+          [titleProperty]="islandTeamTitleProperty"
+        ></app-list-of-teams-small>
+      </aside>
     </div>
+
+
+    <!--    <div class="list-of-items-with-data" style="padding: 20px">-->
+    <!--      @if (matches$ | async; as matches) {-->
+    <!--        <app-list-of-matches-->
+    <!--          [data$]="matches | slice: (currentPageIndex - 1) * itemsPerPage : currentPageIndex * itemsPerPage"-->
+    <!--          [formatPath]='matchHref'-->
+    <!--        >-->
+    <!--        </app-list-of-matches>-->
+    <!--      }-->
+    <!--    </div>-->
 
   </div>
 </div>
+
 

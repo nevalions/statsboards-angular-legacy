@@ -11,7 +11,7 @@
       type="button"
       class="btn__create"
     >
-    NEW TEAM
+      NEW TEAM
     </a>
   </div>
 </div>
@@ -27,12 +27,18 @@
   [parameter]="'title'"
 ></app-form-search-text>
 
-@if(teams$ | async) {
-  <app-list-of-items-island
-    [data$]="paginationService.paginatedItems$"
+@if (teams$ | async) {
+  <app-list-of-teams-small
+    [teams$]="paginationService.paginatedItems$"
     [formatPath]="formatPath"
-    [titleProperty]="titleProperty">
-  </app-list-of-items-island>
+    [titleProperty]="titleProperty"
+    [_size]="'l'"
+  ></app-list-of-teams-small>
+  <!--  <app-list-of-items-island-->
+    <!--    [data$]="paginationService.paginatedItems$"-->
+    <!--    [formatPath]="formatPath"-->
+    <!--    [titleProperty]="titleProperty">-->
+    <!--  </app-list-of-items-island>-->
 } @else {
   <tui-loader [inheritColor]="true"></tui-loader>
 }
