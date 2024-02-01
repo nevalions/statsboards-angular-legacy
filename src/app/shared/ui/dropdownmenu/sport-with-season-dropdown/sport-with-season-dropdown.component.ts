@@ -28,7 +28,6 @@ export class SportWithSeasonDropdownComponent implements OnInit{
 
   protected readonly arrow = TUI_ARROW;
 
-
   seasonSportRoute(item: ISeasonAndSport): any{
     return [`/sports/id/${item.sport_id}/seasons/${item.year}/tournaments`];
   }

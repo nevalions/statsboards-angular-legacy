@@ -1,6 +1,12 @@
-<tui-root>
-  <app-header [title]="title"></app-header>
-  <main>
-      <router-outlet></router-outlet>
-  </main>
-</tui-root>
+<div class="super main_container">
+  <tui-root>
+    <app-header [title]="title"></app-header>
+    <main>
+      <div class="main container">
+        <div class="main content">
+          <router-outlet></router-outlet>
+        </div>
+      </div>
+    </main>
+  </tui-root>
+</div>

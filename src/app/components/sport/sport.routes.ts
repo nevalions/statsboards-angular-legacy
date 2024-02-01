@@ -14,6 +14,8 @@ export const SPORT_ROUTES: Routes = [
       },
     ],
   },
-  { path: 'id/:id/seasons/:year/tournaments', component: ItemSportWithSeasonComponent },
+  { path: 'id/:id/seasons/:year/tournaments',
+    component: ItemSportWithSeasonComponent
+  },
 
 ];

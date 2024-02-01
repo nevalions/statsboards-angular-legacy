@@ -1,51 +1,113 @@
-<div class="tournament container">
+<div class="tournament content__title">
+  @if (this.tournament$ | async; as tournament) {
+    <h3 class="tui-text_h3">
+      {{ tournament.title | uppercase }}
+    </h3>
+  } @else {
+    <h3 class="tui-text_h3">
+      <tui-loader [inheritColor]="true"></tui-loader>
+    </h3>
+  }
+</div>
 
-  <div class="tournament content">
-
-    <div class="tournament content__title">
-      @if(this.tournament$ | async; as tournament) {
-        <h3 class="tui-text_h3">
-          {{tournament.title | uppercase}}
-        </h3>
-      } @else {
-        <h3 class="tui-text_h3">
-          <tui-loader [inheritColor]="true"></tui-loader>
-        </h3>
-      }
+<div class="tournament content__body">
+  <div class="one_col_container">
+    <div class="tournament content__body__title">
+      <app-body-title
+        titleMany='matches'
+      ></app-body-title>
+      <app-create-button
+        title='match'
+      ></app-create-button>
     </div>
 
-    <div class="tournament content__body">
-      <div class="one_col_container">
-        <div class="tournament content__body__title">
-            <app-body-title
-              titleMany = 'matches'
-            ></app-body-title>
-            <app-create-button
-              title = 'match'
-            ></app-create-button>
-        </div>
-
-        <div class="filters flex__fullwidth_center">
+    <div class="filters flex__fullwidth_center">
 
 
+      <form
+        style="padding: 10px"
+        [formGroup]="testForm"
+      >
+        <tui-input
+          formControlName="nameValue"
+        >
+          Search by WEEK
+          <input
+            style="min-width: max-content"
+            (change)="onSearch()"
+            tuiTextfield
+          />
+        </tui-input>
+      </form>
+
+      <form
+        style="padding: 10px"
+        [formGroup]="testForm"
+      >
+        <tui-input-number
+          formControlName="nameValue"
+          class="b-form"
+          (tuiValueChanges)="onSearch()"
+        >
+          WEEK
+        </tui-input-number>
+
+      </form>
+
+
+      <div class="" style="display: grid; padding: 10px">FILTER</div>
+      <div class="" style="display: grid; padding: 10px">FILTER</div>
+      <div class="" style="display: grid; padding: 10px">FILTER</div>
+      <div class="" style="display: grid; padding: 10px">FILTER</div>
+
+
+    </div>
+
+
+    @if (matches$ | async; as items) {
+      <form
+        class="b-form"
+        [formGroup]="form"
+      >
+        <tui-input
+          formControlName="match"
+        >
+          Match Week
+          <tui-data-list-wrapper
+            *tuiDataList
+            [itemContent]="stringify | tuiStringifyContent"
+            [items]="items | tuiFilterByInput: matcherM"
+          ></tui-data-list-wrapper>
+        </tui-input>
+      </form>
+    }
+
+    <div class="search block__fullwidth_center">
+
+      <!--          <div class="" style="display: block; padding: 10px; min-width: 100%">-->
+      <!--            <div class="tui-form__row">-->
+      <!--            <form-->
+      <!--              [formGroup]="testForm"-->
+      <!--            >-->
+      <!--                <tui-input-->
+      <!--                  formControlName="nameValue"-->
+      <!--                >-->
+      <!--                  Search by WEEK-->
+      <!--                  <input-->
+      <!--                    style="min-width: max-content"-->
+      <!--                    (change)="onSearch()"-->
+      <!--                    tuiTextfield-->
+      <!--                  />-->
+      <!--                </tui-input>-->
+
+
+      <!--            </form>-->
+      <!--            </div>-->
+      <!--          </div>-->
+
+      <div class="" style="display: block; padding: 10px;">
+        <div class="tui-form__row">
           <form
-            style="padding: 10px"
-            [formGroup]="testForm"
-          >
-            <tui-input
-              formControlName="nameValue"
-            >
-              Search by WEEK
-              <input
-                style="min-width: max-content"
-                (change)="onSearch()"
-                tuiTextfield
-              />
-            </tui-input>
-          </form>
-
-          <form
-            style="padding: 10px"
             [formGroup]="testForm"
           >
             <tui-input-number
@@ -57,109 +119,33 @@
             </tui-input-number>
 
           </form>
-
-
-          <div class="" style="display: grid; padding: 10px">FILTER</div>
-          <div class="" style="display: grid; padding: 10px">FILTER</div>
-          <div class="" style="display: grid; padding: 10px">FILTER</div>
-          <div class="" style="display: grid; padding: 10px">FILTER</div>
-
-
         </div>
-
-
-        @if(matches$ | async; as items){
-          <form
-            class="b-form"
-            [formGroup]="form"
-          >
-            <tui-input
-              formControlName="match"
-            >
-              Match Week
-              <tui-data-list-wrapper
-                *tuiDataList
-                [itemContent]="stringify | tuiStringifyContent"
-                [items]="items | tuiFilterByInput: matcherM"
-              ></tui-data-list-wrapper>
-            </tui-input>
-          </form>
-        }
-
-        <div class="search block__fullwidth_center">
-
-<!--          <div class="" style="display: block; padding: 10px; min-width: 100%">-->
-<!--            <div class="tui-form__row">-->
-<!--            <form-->
-<!--              [formGroup]="testForm"-->
-<!--            >-->
-<!--                <tui-input-->
-<!--                  formControlName="nameValue"-->
-<!--                >-->
-<!--                  Search by WEEK-->
-<!--                  <input-->
-<!--                    style="min-width: max-content"-->
-<!--                    (change)="onSearch()"-->
-<!--                    tuiTextfield-->
-<!--                  />-->
-<!--                </tui-input>-->
-
-
-<!--            </form>-->
-<!--            </div>-->
-<!--          </div>-->
-
-          <div class="" style="display: block; padding: 10px;">
-            <div class="tui-form__row">
-              <form
-                [formGroup]="testForm"
-              >
-                <tui-input-number
-                  formControlName="nameValue"
-                  class="b-form"
-                  (tuiValueChanges)="onSearch()"
-                >
-                  WEEK
-                </tui-input-number>
-
-              </form>
-            </div>
-          </div>
-
-        </div>
-
-        @if (matches$ | async; as matches) {
-          @if (matches.length > itemsPerPage){
-            <div class="pagination" style="display: grid">
-              <tui-pagination
-                [index]="currentPageIndex - 1"
-                [length]="Math.ceil(matches.length / itemsPerPage)"
-                (indexChange)="setPage($event + 1)"
-              ></tui-pagination>
-            </div>
-          }
-        }
-
-        <div class="list-of-items-with-data" style="padding: 20px">
-          @if(matches$ | async; as matches) {
-          <app-list-of-matches
-            [data]="matches | slice: (currentPageIndex - 1) * itemsPerPage : currentPageIndex * itemsPerPage"
-            [formatPath] = 'matchHref'
-            >
-          </app-list-of-matches>
-          }
-        </div>
-
       </div>
+
     </div>
+
+    @if (matches$ | async; as matches) {
+      @if (matches.length > itemsPerPage) {
+        <div class="pagination" style="display: grid">
+          <tui-pagination
+            [index]="currentPageIndex - 1"
+            [length]="Math.ceil(matches.length / itemsPerPage)"
+            (indexChange)="setPage($event + 1)"
+          ></tui-pagination>
+        </div>
+      }
+    }
+
+    <div class="list-of-items-with-data" style="padding: 20px">
+      @if (matches$ | async; as matches) {
+        <app-list-of-matches
+          [data]="matches | slice: (currentPageIndex - 1) * itemsPerPage : currentPageIndex * itemsPerPage"
+          [formatPath]='matchHref'
+        >
+        </app-list-of-matches>
+      }
+    </div>
+
   </div>
-
-  <aside>
-    <h4>ASIDE MENU</h4>
-    <hr>
-    <div class="block__fullwidth_center" style="display: block">
-    </div>
-
-
-  </aside>
 </div>
+

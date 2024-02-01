@@ -1,34 +1,32 @@
-<div class="sport container">
-  <div class="sport content">
-    <div class="sport content__title">
-      @if(item$ | async; as item) {
-        <h3 class="tui-text_h3">{{item.title | uppercase}}</h3>
-      } @else {
-        <tui-loader [inheritColor]="true"></tui-loader>
-      }
-    </div>
-    <div class="sport content__body">
-      <div class="one_col_container">
-        <router-outlet></router-outlet>
-      </div>
-    </div>
-  </div>
-
-  <aside>
-    <h4>ASIDE MENU</h4>
-    <hr>
-    <router-outlet name="aside"></router-outlet>
-<!--    <app-season-dropdown></app-season-dropdown>-->
-    <a
-      appearance="primary"
-      href=""
-      tuiButton
-      type="button"
-      class=""
-    >
-      Create
-    </a>
-
-  </aside>
+<div class="sport content__title">
+  @if (item$ | async; as item) {
+    <h3 class="tui-text_h3">{{ item.title | uppercase }}</h3>
+  } @else {
+    <tui-loader [inheritColor]="true"></tui-loader>
+  }
 </div>
+<div class="sport content__body">
+  <div class="one_col_container">
+    <router-outlet></router-outlet>
+  </div>
+</div>
+
+
+<!--  <aside>-->
+<!--    <h4>ASIDE MENU</h4>-->
+<!--    <hr>-->
+<!--    <router-outlet name="aside"></router-outlet>-->
+<!--&lt;!&ndash;    <app-season-dropdown></app-season-dropdown>&ndash;&gt;-->
+<!--    <a-->
+<!--      appearance="primary"-->
+<!--      href=""-->
+<!--      tuiButton-->
+<!--      type="button"-->
+<!--      class=""-->
+<!--    >-->
+<!--      Create-->
+<!--    </a>-->
+
+<!--  </aside>-->
+
 

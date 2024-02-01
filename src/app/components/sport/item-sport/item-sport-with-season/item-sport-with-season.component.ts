@@ -27,6 +27,8 @@ import {PaginationService} from "../../../../services/pagination.service";
 import {
   SportWithSeasonDropdownComponent
 } from "../../../../shared/ui/dropdownmenu/sport-with-season-dropdown/sport-with-season-dropdown.component";
+import {CreateButtonComponent} from "../../../../shared/ui/buttons/create-button/create-button.component";
+import {BodyTitleComponent} from "../../../../shared/ui/body/body-title/body-title.component";
 
 @Component({
   selector: 'app-item-sport-with-season',
@@ -45,7 +47,9 @@ import {
     TuiLoaderModule,
     FormSearchTextComponent,
     paginationWithItemsPerPage,
-    SportWithSeasonDropdownComponent
+    SportWithSeasonDropdownComponent,
+    CreateButtonComponent,
+    BodyTitleComponent
   ],
   templateUrl: './item-sport-with-season.component.html',
   styleUrl: './item-sport-with-season.component.less',
@@ -63,20 +67,11 @@ export class ItemSportWithSeasonComponent implements OnInit{
 
   tournaments$: Observable<ITournament[]> = of({} as ITournament[]);
   sport$: Observable<ISport> = of({} as ISport);
-  seasonsWithSportId$: Observable<IBaseIdElse[]> = of([]);
   year: number = 0;
 
   constructor() {}
 
-  // mapItemToLabelYear(item: IBaseIdElse): string {
-  //   return item.year?.toString() ?? '';
-  // }
-  //
   islandTitleProperty: keyof IBaseIdElse = 'title';
-  //
-  // seasonSportRoute(item: ISeasonAndSport): any{
-  //   return [`/sports/id/${item.sport_id}/seasons/${item.year}/tournaments`];
-  // }
 
   tournamentItemHref(item: IBaseIdElse): string {
     return `/tournaments/id/${item.id}`;
@@ -94,10 +89,8 @@ export class ItemSportWithSeasonComponent implements OnInit{
           return of([]);
         }
         this.year = seasonYear;
-        // this.seasonsWithSportId$ = this.seasonService.getSeasonsWithSportId(sportId);
         this.sport$ = this.sportService.findById(sportId);
 
-        // call the refactored `getTournamentsBySportAndSeason` method
         return this.tournamentService.fetchTournamentsBySportAndSeason(
           { id: sportId, year: seasonYear }
         );
@@ -109,6 +102,4 @@ export class ItemSportWithSeasonComponent implements OnInit{
       })
     ).subscribe();
   }
-
-  protected readonly arrow = TUI_ARROW;
 }
