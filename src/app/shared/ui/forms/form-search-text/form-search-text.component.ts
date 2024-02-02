@@ -54,18 +54,16 @@ export class FormSearchTextComponent<T> implements OnInit {
     this.searchForm
       .get('searchValue')
       ?.valueChanges.pipe(
-        startWith(''),
+        // startWith(''),
         debounceTime(300),
         distinctUntilChanged(),
       )
       .subscribe((query) => {
-        if (query) {
-          this.searchListService.updateFilteredData(
-            query,
-            this.parameter,
-            'startsWith',
-          );
-        }
+        this.searchListService.updateFilteredData(
+          query!,
+          this.parameter,
+          this.filter,
+        );
       });
   }
 

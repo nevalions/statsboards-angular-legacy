@@ -2,8 +2,8 @@ import {
   ChangeDetectionStrategy,
   Component,
   inject,
+  OnDestroy,
   OnInit,
-  ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
 import {
@@ -24,12 +24,11 @@ import {
 } from '@taiga-ui/core';
 import { ActivatedRoute } from '@angular/router';
 import { TournamentService } from '../../../services/tournament.service';
-import { map, Observable, of } from 'rxjs';
+import { map, Observable, of, Subject, switchMap, takeUntil } from 'rxjs';
 import { ITournament } from '../../../type/tournament.type';
 import { IMatchFullData } from '../../../type/match.type';
 import { tap } from 'rxjs/operators';
 import { ListOfMatchesComponent } from '../../../shared/ui/list-of-matches/list-of-matches.component';
-import { SortService } from '../../../services/sort.service';
 import { CreateButtonComponent } from '../../../shared/ui/buttons/create-button/create-button.component';
 import { BodyTitleComponent } from '../../../shared/ui/body/body-title/body-title.component';
 import {
@@ -42,6 +41,11 @@ import { TuiValueChangesModule } from '@taiga-ui/cdk';
 import { ListOfTeamsComponent } from '../../team/list-of-teams/list-of-teams.component';
 import { ITeam } from '../../../type/team.type';
 import { ListOfTeamsSmallComponent } from '../../team/list-of-teams-small/list-of-teams-small.component';
+import { SearchListService } from '../../../services/search-list.service';
+import { PaginationService } from '../../../services/pagination.service';
+import { FormSearchTextComponent } from '../../../shared/ui/forms/form-search-text/form-search-text.component';
+import { paginationWithItemsPerPage } from '../../../shared/ui/pagination/pagination-with-items-per-page/pagination-with-items-per-page.component';
+import { FormSearchAutoCompleteComponent } from '../../../shared/ui/forms/form-search-auto-complete/form-search-auto-complete.component';
 
 @Component({
   selector: 'app-item-tournament',
@@ -69,41 +73,31 @@ import { ListOfTeamsSmallComponent } from '../../team/list-of-teams-small/list-o
     TuiValueChangesModule,
     ListOfTeamsComponent,
     ListOfTeamsSmallComponent,
+    FormSearchTextComponent,
+    paginationWithItemsPerPage,
+    FormSearchAutoCompleteComponent,
   ],
   templateUrl: './item-tournament.component.html',
   styleUrl: './item-tournament.component.less',
   encapsulation: ViewEncapsulation.None,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.Default,
 })
-export class ItemTournamentComponent implements OnInit {
-  // private teamService = inject(TeamService);
+export class ItemTournamentComponent implements OnInit, OnDestroy {
+  private readonly onDestroy = new Subject<void>();
+
   private route = inject(ActivatedRoute);
   private tournamentService = inject(TournamentService);
+
+  searchListService = inject(SearchListService);
+  paginationService = inject(PaginationService);
 
   tournament$: Observable<ITournament> = of({} as ITournament);
   matches$: Observable<IMatchFullData[]> = of([]);
   teams$: Observable<ITeam[]> = of([]);
 
-  searchText: string = '';
-  matchWeekSearchForm = new FormGroup({
-    matchWeek: new FormControl(''),
+  readonly formWeek = new FormGroup({
+    matchWeekSearch: new FormControl(1),
   });
-
-  readonly form = new FormGroup({
-    match: new FormControl(),
-  });
-
-  readonly stringify = ({ match }: IMatchFullData): string =>
-    match.week.toString();
-
-  readonly matcherM = (match: IMatchFullData, search: string): boolean =>
-    match.match.week.toString().toLowerCase().startsWith(search.toLowerCase());
-
-  // @ViewChild(ListOfItemsIslandComponent)
-  // comp!: ListOfItemsIslandComponent<IMatchFullData>;
-
-  // itemsPerPage = 4;
-  // currentPageIndex = 1;
 
   constructor() {}
 
@@ -117,58 +111,118 @@ export class ItemTournamentComponent implements OnInit {
     return `/matches/id/${item.id}`;
   }
 
-  onSearch() {
-    this.searchText = this.matchWeekSearchForm.get('matchWeek')?.value || '';
-    this.loadMatches();
-  }
-
-  loadMatches() {
-    this.route.params.subscribe((params) => {
-      const tournamentId = Number([params['id']]);
-      this.matches$ = this.tournamentService
-        .fetchMatchByTournamentId(tournamentId)
-        .pipe(
-          map((items) => this.filterMatches(items)),
-          tap((filteredItems) =>
-            console.log(
-              `Filtered Matches in Tournament ID: ${tournamentId}`,
-              filteredItems,
-            ),
-          ),
-          map((items) =>
-            SortService.sort(items, 'match.week', '-match.match_date'),
-          ),
-        );
-    });
-  }
-
-  filterMatches(matches: IMatchFullData[]): IMatchFullData[] {
-    if (!this.searchText) {
-      return matches;
-    }
-    const lowerCaseSearch = this.searchText.toString().toLowerCase();
-    return matches.filter((match) =>
-      match.match.week.toString().includes(lowerCaseSearch),
-    );
-  }
-
   ngOnInit() {
-    this.route.params.subscribe((params) => {
-      const tournamentId = Number([params['id']]);
-      this.tournament$ = this.tournamentService.findById(tournamentId);
-      this.teams$ =
-        this.tournamentService.fetchTeamsByTournamentId(tournamentId);
+    this.route.params
+      .pipe(
+        switchMap((params) => {
+          const tournamentId = Number([params['id']]);
+          this.tournament$ = this.tournamentService.findById(tournamentId);
+          this.teams$ =
+            this.tournamentService.fetchTeamsByTournamentId(tournamentId);
 
-      this.matches$ =
-        this.tournamentService.fetchMatchByTournamentId(tournamentId);
-      // .pipe(
-      //   tap((items) =>
-      //     console.log(`Matches in Tournament ID: ${tournamentId}`, items),
-      //   ),
-      //   map((items) =>
-      //     SortService.sort(items, 'match.week', '-match.match_date'),
-      //   ),
-      // );
-    });
+          return this.tournamentService.fetchMatchByTournamentId(tournamentId);
+        }),
+        map((matches: IMatchFullData[]) => {
+          this.searchListService.updateData(of(matches));
+          this.paginationService.initializePagination(
+            this.searchListService.filteredData$,
+          );
+
+          return matches;
+        }),
+      )
+      .subscribe((matches: IMatchFullData[]) => {
+        this.matches$ = of(matches);
+      });
+
+    this.onSearch();
   }
+
+  ngOnDestroy() {
+    // Signal to all subscriptions to complete.
+    this.onDestroy.next();
+    this.onDestroy.complete();
+  }
+
+  onSearch() {
+    this.formWeek
+      .get('matchWeekSearch')!
+      .valueChanges.pipe(
+        // Unsubscribe when the component is destroyed.
+        takeUntil(this.onDestroy),
+      )
+      .subscribe((matchWeekSearch) => {
+        this.searchListService.updateFilteredData(
+          String(matchWeekSearch).toString(),
+          'match.week',
+        );
+      });
+  }
+
+  readonly stringify = (match: IMatchFullData): string =>
+    match?.match?.week?.toString();
+  // `${teams_data?.team_a?.title?.toString()} vs ${teams_data?.team_b?.title?.toString()}` ||
+  // '';
+
+  readonly matcherM = (match: IMatchFullData, search: string): boolean =>
+    match?.match?.week
+      ?.toString()
+      .toLowerCase()
+      .includes(search.toLowerCase()) ?? false;
 }
+
+// searchText: string = '';
+// matchWeekSearchForm = new FormGroup({
+//   matchWeek: new FormControl(''),
+// });
+//
+// readonly form = new FormGroup({
+//   match: new FormControl(),
+// });
+//
+// readonly stringify = ({ match }: IMatchFullData): string =>
+//   match.week.toString();
+//
+// readonly matcherM = (match: IMatchFullData, search: string): boolean =>
+//   match.match.week.toString().toLowerCase().startsWith(search.toLowerCase());
+
+// @ViewChild(ListOfItemsIslandComponent)
+// comp!: ListOfItemsIslandComponent<IMatchFullData>;
+
+// itemsPerPage = 4;
+// currentPageIndex = 1;
+
+// onSearch() {
+//   this.searchText = this.matchWeekSearchForm.get('matchWeek')?.value || '';
+//   this.loadMatches();
+// }
+//
+// loadMatches() {
+//   this.route.params.subscribe((params) => {
+//     const tournamentId = Number([params['id']]);
+//     this.matches$ = this.tournamentService
+//       .fetchMatchByTournamentId(tournamentId)
+//       .pipe(
+//         map((items) => this.filterMatches(items)),
+//         tap((filteredItems) =>
+//           console.log(
+//             `Filtered Matches in Tournament ID: ${tournamentId}`,
+//             filteredItems,
+//           ),
+//         ),
+//         map((items) =>
+//           SortService.sort(items, 'match.week', '-match.match_date'),
+//         ),
+//       );
+//   });
+// }
+//
+// filterMatches(matches: IMatchFullData[]): IMatchFullData[] {
+//   if (!this.searchText) {
+//     return matches;
+//   }
+//   const lowerCaseSearch = this.searchText.toString().toLowerCase();
+//   return matches.filter((match) =>
+//     match.match.week.toString().includes(lowerCaseSearch),
+//   );
+// }

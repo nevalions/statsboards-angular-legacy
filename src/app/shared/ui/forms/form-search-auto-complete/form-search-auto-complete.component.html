@@ -1,4 +1,4 @@
-@if(data$ | async; as items){
+@if (data$ | async; as items) {
   <form
     class="b-form"
     [formGroup]="searchForm"
@@ -7,7 +7,6 @@
       formControlName="searchValue"
       [stringify]="stringify"
       (tuiValueChanges)="onSearch()"
-
       [tuiTextfieldCleaner]="true"
     >
       SEARCH BY {{ searchTitle | uppercase }}
@@ -15,8 +14,9 @@
         *tuiDataList
         [itemContent]="stringify | tuiStringifyContent"
         [items]="items | tuiFilterByInput: searchMatcher"
-
       ></tui-data-list-wrapper>
     </tui-combo-box>
   </form>
+} @else {
+  <tui-loader></tui-loader>
 }
