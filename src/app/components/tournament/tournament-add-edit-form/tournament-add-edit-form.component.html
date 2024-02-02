@@ -1,0 +1,37 @@
+<button
+  appearance="create"
+  size="m"
+  tuiButton
+  type="button"
+  (click)="showDialog()"
+>
+  NEW TOURNAMENT
+</button>
+<ng-template
+  let-observer
+  [tuiDialogOptions]="{label: 'Add New tournament', size: 'm'}"
+  [(tuiDialog)]="open"
+>
+  <form
+    [formGroup]="tournamentForm"
+    (ngSubmit)="onSubmit(); observer.complete()"
+  >
+    <p></p>
+    <tui-input
+      formControlName="tournamentTitle"
+      tuiAutoFocus
+    >
+      Tournament Title
+    </tui-input>
+    <p>
+      <button
+        appearance="create"
+        tuiButton
+        type="submit"
+
+      >
+        Add
+      </button>
+    </p>
+  </form>
+</ng-template>

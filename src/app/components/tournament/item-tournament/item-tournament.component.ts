@@ -23,7 +23,7 @@ import {
   TuiLoaderModule,
 } from '@taiga-ui/core';
 import { ActivatedRoute } from '@angular/router';
-import { TournamentService } from '../../../services/tournament.service';
+import { TournamentService } from '../tournament.service';
 import { map, Observable, of, Subject, switchMap, takeUntil } from 'rxjs';
 import { ITournament } from '../../../type/tournament.type';
 import { IMatchFullData } from '../../../type/match.type';

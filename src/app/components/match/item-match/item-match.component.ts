@@ -49,10 +49,19 @@ export class ItemMatchComponent implements OnInit {
       .subscribe();
   }
 
-  navigateToLink() {
+  navigateToScoreboardAdmin() {
     if (this.matchId) {
       window.open(
         `http://0.0.0.0:9000/matches/id/${this.matchId}/scoreboard/`,
+        '_blank',
+      );
+    }
+  }
+
+  navigateToScoreboardDisplay() {
+    if (this.matchId) {
+      window.open(
+        `http://0.0.0.0:9000/matches/id/${this.matchId}/scoreboard/hd/`,
         '_blank',
       );
     }

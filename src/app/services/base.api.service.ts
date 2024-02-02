@@ -8,10 +8,6 @@ import { ErrorHandlingService } from './error.service';
   providedIn: 'root',
 })
 export abstract class BaseApiService<T> {
-  private data: BehaviorSubject<T[]> = new BehaviorSubject<T[]>([]);
-
-  data$: Observable<T[]> = this.data.asObservable();
-
   protected constructor(
     protected endpoint: string,
     protected readonly http: HttpClient,
@@ -26,6 +22,23 @@ export abstract class BaseApiService<T> {
       tap((items: T[]) => {
         console.log(
           `Received /API/${finalEndpoint.toUpperCase()} \ndata:`,
+          items,
+        );
+      }),
+      catchError((error) => {
+        return this.errorHandlingService.handleError(error);
+      }),
+    );
+  }
+
+  addItem(postData: T, postValue?: string): Observable<T> {
+    const finalEndpoint = postValue
+      ? `${this.endpoint}/${postValue}`
+      : this.endpoint;
+    return this.http.post<T>(finalEndpoint, postData).pipe(
+      tap((items: T) => {
+        console.log(
+          `POSTED /API/${finalEndpoint.toUpperCase()} \ndata:`,
           items,
         );
       }),
