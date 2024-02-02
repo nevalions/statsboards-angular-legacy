@@ -21,14 +21,17 @@
         <app-create-button
           title='match'
         ></app-create-button>
-        <button
-          appearance="secondary-destructive"
-          size="m"
-          tuiButton
-          type="button"
-          (click)="onDelete()"
-        >DELETE TOURNAMENT
-        </button>
+        <app-tournament-delete-form
+          (delete)="onDelete()"
+        ></app-tournament-delete-form>
+        <!--        <button-->
+        <!--          appearance="secondary-destructive"-->
+        <!--          size="m"-->
+        <!--          tuiButton-->
+        <!--          type="button"-->
+        <!--          (click)="onDelete()"-->
+        <!--        >DELETE TOURNAMENT-->
+        <!--        </button>-->
       </div>
     } @else {
       <tui-loader [inheritColor]="true"></tui-loader>

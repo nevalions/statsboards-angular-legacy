@@ -1,0 +1,41 @@
+<button
+  appearance="destructive"
+  size="m"
+  tuiButton
+  type="button"
+  (click)="showDialog()"
+>
+  DELETE TOURNAMENT
+</button>
+<ng-template
+  let-observer
+  [tuiDialogOptions]="{label: 'DELETE TOURNAMENT?', size: 'm'}"
+  [(tuiDialog)]="open"
+>
+  <div class="tui-form__row flex__fullwidth_center">
+    <form
+      [formGroup]="tournamentDeleteForm"
+      (ngSubmit)="onSubmit(); observer.complete()"
+    >
+      <p>
+        <button
+          appearance="destructive"
+          tuiButton
+          type="submit"
+          style="padding: 10px"
+        >
+          DELETE
+        </button>
+        <button
+          appearance="secondary"
+          tuiButton
+          type="button"
+          style="padding: 10px"
+          (click)="observer.complete()"
+        >
+          CANCEL
+        </button>
+      </p>
+    </form>
+  </div>
+</ng-template>

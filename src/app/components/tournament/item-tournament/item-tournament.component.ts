@@ -49,6 +49,7 @@ import { FormSearchAutoCompleteComponent } from '../../../shared/ui/forms/form-s
 import { SeasonService } from '../../../services/season.service';
 import { tap } from 'rxjs/operators';
 import { ISeason } from '../../../type/season.type';
+import { TournamentDeleteFormComponent } from '../tournament-delete-form/tournament-delete-form.component';
 
 @Component({
   selector: 'app-item-tournament',
@@ -79,6 +80,7 @@ import { ISeason } from '../../../type/season.type';
     FormSearchTextComponent,
     paginationWithItemsPerPage,
     FormSearchAutoCompleteComponent,
+    TournamentDeleteFormComponent,
   ],
   templateUrl: './item-tournament.component.html',
   styleUrl: './item-tournament.component.less',
