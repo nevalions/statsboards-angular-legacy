@@ -22,6 +22,8 @@ import { SearchListService } from '../../../services/search-list.service';
 export class ListOfItemsIslandComponent<T extends { id: number; p?: string }>
   implements OnInit, OnDestroy
 {
+  @Input() itemData: T = {} as T;
+
   @Input() emptyMessage: string = 'No data available';
   @Input() formatPath: (item: T) => string = () => '';
   @Input() titleProperty: keyof T = 'id';
@@ -34,18 +36,9 @@ export class ListOfItemsIslandComponent<T extends { id: number; p?: string }>
 
   private subscription?: Subscription;
 
-  constructor(private searchListService: SearchListService<T>) {}
+  constructor() {}
 
-  ngOnInit() {
-    // BRAKES CHILD IF INIT
-    // this.subscription = this.searchListService.filteredData$
-    //   .subscribe(data => {
-    //     console.log('Data emitted:', data);
-    //
-    //     this.data$ = this.searchListService.filteredData$
-    //
-    //   });
-  }
+  ngOnInit() {}
 
   ngOnDestroy() {
     this.subscription?.unsubscribe();

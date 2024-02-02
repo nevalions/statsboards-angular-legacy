@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   inject,
+  Input,
   OnDestroy,
   OnInit,
   ViewEncapsulation,
@@ -87,12 +88,12 @@ import { ISeason } from '../../../type/season.type';
 export class ItemTournamentComponent implements OnInit, OnDestroy {
   private readonly onDestroy = new Subject<void>();
 
-  // private location = inject(Location);
-
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   private tournamentService = inject(TournamentService);
   private seasonService = inject(SeasonService);
+
+  @Input() itemData: ISeason = {} as ISeason;
 
   searchListService = inject(SearchListService);
   paginationService = inject(PaginationService);
@@ -171,14 +172,13 @@ export class ItemTournamentComponent implements OnInit, OnDestroy {
         switchMap((tournament) =>
           this.seasonService
             .findById(tournament.season_id)
-            .pipe(map((season) => ({ tournament, season }))),
-        ),
-        switchMap(
-          ({ tournament, season }) =>
-            this.tournamentService
-              .deleteTournament(tournament.id!)
-              .pipe(map(() => ({ tournament, season }))),
-          // Still outputting a pair after the deletion
+            .pipe(
+              switchMap((season) =>
+                this.tournamentService
+                  .deleteTournament(tournament.id!)
+                  .pipe(map(() => ({ tournament, season }))),
+              ),
+            ),
         ),
       )
       .subscribe(({ tournament, season }) => {
