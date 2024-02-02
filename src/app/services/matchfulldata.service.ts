@@ -1,31 +1,20 @@
 import { Injectable } from '@angular/core';
 import { BaseApiService } from './base.api.service';
 import { HttpClient } from '@angular/common/http';
-import { Observable, Subject } from 'rxjs';
 import { Router } from '@angular/router';
 import { ErrorHandlingService } from './error.service';
-import { IMatch, IMatchFullData } from '../type/match.type';
+import { IMatchFullData } from '../type/match.type';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
-export class MatchService extends BaseApiService<IMatch> {
-  itemSig: Subject<IMatch> = new Subject<IMatch>();
-
+export class MatchFullDataService extends BaseApiService<IMatchFullData> {
   constructor(
     http: HttpClient,
     private router: Router,
     errorHandlingService: ErrorHandlingService,
   ) {
     super('matches', http, errorHandlingService);
-  }
-
-  fetchFullMatchDataById(id: number): Observable<IMatchFullData> {
-    return this.findByFirstKeyValue(
-      'matches',
-      'id',
-      id,
-      'scoreboard/full_data',
-    );
   }
 }

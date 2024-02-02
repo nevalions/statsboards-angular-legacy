@@ -1,1 +1,11 @@
-<p>item-match works!</p>
+<div class="match content__body">
+  <div class="one_col_container">
+    @if (match$ | async; as match) {
+      <h1>
+        {{ match.match.match_date | date:"dd MMM yyyy, HH:mm" }}
+      </h1>
+    } @else {
+      <tui-loader></tui-loader>
+    }
+  </div>
+</div>
