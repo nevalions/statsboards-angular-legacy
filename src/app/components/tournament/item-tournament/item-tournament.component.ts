@@ -14,7 +14,7 @@ import {
   TuiPaginationModule,
   TuiStringifyContentPipeModule,
 } from '@taiga-ui/kit';
-import { AsyncPipe, SlicePipe, UpperCasePipe } from '@angular/common';
+import { AsyncPipe, SlicePipe, UpperCasePipe, Location } from '@angular/common';
 import { DropDownMenuComponent } from '../../../shared/ui/dropdownmenu/dropdownmenu.component';
 import { ListOfItemsIslandComponent } from '../../../shared/ui/list-of-items-island/list-of-items-island.component';
 import {
@@ -22,12 +22,11 @@ import {
   TuiHintModule,
   TuiLoaderModule,
 } from '@taiga-ui/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { TournamentService } from '../tournament.service';
 import { map, Observable, of, Subject, switchMap, takeUntil } from 'rxjs';
 import { ITournament } from '../../../type/tournament.type';
 import { IMatchFullData } from '../../../type/match.type';
-import { tap } from 'rxjs/operators';
 import { ListOfMatchesComponent } from '../../../shared/ui/list-of-matches/list-of-matches.component';
 import { CreateButtonComponent } from '../../../shared/ui/buttons/create-button/create-button.component';
 import { BodyTitleComponent } from '../../../shared/ui/body/body-title/body-title.component';
@@ -46,6 +45,9 @@ import { PaginationService } from '../../../services/pagination.service';
 import { FormSearchTextComponent } from '../../../shared/ui/forms/form-search-text/form-search-text.component';
 import { paginationWithItemsPerPage } from '../../../shared/ui/pagination/pagination-with-items-per-page/pagination-with-items-per-page.component';
 import { FormSearchAutoCompleteComponent } from '../../../shared/ui/forms/form-search-auto-complete/form-search-auto-complete.component';
+import { SeasonService } from '../../../services/season.service';
+import { tap } from 'rxjs/operators';
+import { ISeason } from '../../../type/season.type';
 
 @Component({
   selector: 'app-item-tournament',
@@ -85,13 +87,18 @@ import { FormSearchAutoCompleteComponent } from '../../../shared/ui/forms/form-s
 export class ItemTournamentComponent implements OnInit, OnDestroy {
   private readonly onDestroy = new Subject<void>();
 
+  // private location = inject(Location);
+
   private route = inject(ActivatedRoute);
+  private router = inject(Router);
   private tournamentService = inject(TournamentService);
+  private seasonService = inject(SeasonService);
 
   searchListService = inject(SearchListService);
   paginationService = inject(PaginationService);
 
   tournament$: Observable<ITournament> = of({} as ITournament);
+
   matches$: Observable<IMatchFullData[]> = of([]);
   teams$: Observable<ITeam[]> = of([]);
 
@@ -139,7 +146,6 @@ export class ItemTournamentComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    // Signal to all subscriptions to complete.
     this.onDestroy.next();
     this.onDestroy.complete();
   }
@@ -155,6 +161,31 @@ export class ItemTournamentComponent implements OnInit, OnDestroy {
         this.searchListService.updateFilteredData(
           String(matchWeekSearch).toString(),
           'match.week',
+        );
+      });
+  }
+
+  onDelete() {
+    this.tournament$
+      .pipe(
+        switchMap((tournament) =>
+          this.seasonService
+            .findById(tournament.season_id)
+            .pipe(map((season) => ({ tournament, season }))),
+        ),
+        switchMap(
+          ({ tournament, season }) =>
+            this.tournamentService
+              .deleteTournament(tournament.id!)
+              .pipe(map(() => ({ tournament, season }))),
+          // Still outputting a pair after the deletion
+        ),
+      )
+      .subscribe(({ tournament, season }) => {
+        const sport_id = tournament.sport_id;
+        const year = season.year;
+        this.router.navigateByUrl(
+          `/sports/id/${sport_id}/seasons/${year}/tournaments`,
         );
       });
   }

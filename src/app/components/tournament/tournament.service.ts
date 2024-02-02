@@ -14,8 +14,6 @@ import { ITeam } from '../../type/team.type';
   providedIn: 'root',
 })
 export class TournamentService extends BaseApiService<ITournament> {
-  // itemSig: Subject<ITournament> = new Subject<ITournament>();
-  // matchesSig: Subject<IMatchFullData[]> = new Subject<IMatchFullData[]>();
   private tournamentsSubject = new BehaviorSubject<ITournament[]>([]);
   public tournaments$ = this.tournamentsSubject.asObservable();
 
@@ -55,6 +53,20 @@ export class TournamentService extends BaseApiService<ITournament> {
       .subscribe();
   }
 
+  deleteTournament(id: number): Observable<any> {
+    return new Observable<any>((subscriber) => {
+      this.deleteItem(id).subscribe(() => {
+        const tournamentFiltered = this.tournamentsSubject.value.filter(
+          (t) => t.id !== id,
+        );
+        this.tournamentsSubject.next(tournamentFiltered);
+        subscriber.next(tournamentFiltered);
+        subscriber.complete();
+      });
+    });
+  }
+
+  //TODO replace with base
   fetchMatchByTournamentId(id: number) {
     return this.http
       .get<IMatchFullData[]>(`${this.endpoint}/id/${id}/matches/all/data`)
@@ -66,6 +78,7 @@ export class TournamentService extends BaseApiService<ITournament> {
       );
   }
 
+  //TODO replace with base
   fetchTeamsByTournamentId(id: number): Observable<ITeam[]> {
     return this.http.get<ITeam[]>(`${this.endpoint}/id/${id}/teams`).pipe(
       tap((items) => console.log(`TEAMS from TOURNAMENT ID ${id}`, items)),

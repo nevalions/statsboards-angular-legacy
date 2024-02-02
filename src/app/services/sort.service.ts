@@ -3,9 +3,15 @@ export class SortService {
     return data.sort((a, b) => {
       for (let property of properties) {
         const isAscending = !property.startsWith('-');
-        const nestedProperties = (isAscending ? property : property.slice(1)).split(".");
+        const nestedProperties = (
+          isAscending ? property : property.slice(1)
+        ).split('.');
         let propertyA = this.getNestedProperty(a, nestedProperties);
         let propertyB = this.getNestedProperty(b, nestedProperties);
+
+        propertyA = propertyA.toLowerCase();
+
+        propertyB = propertyB.toLowerCase();
 
         if (propertyA < propertyB) {
           return isAscending ? -1 : 1;

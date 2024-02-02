@@ -8,23 +8,15 @@
         <app-body-title
           titleMany='tournaments'
         ></app-body-title>
-        {{ sport.id }}
-        <app-tournament-add-edit-form
-          [sport_Id]="sport.id"
-          [addTournament]="tournamentService.addTournament.bind(tournamentService)"
-        ></app-tournament-add-edit-form>
-        <!--        <button-->
-        <!--          appearance="create"-->
-        <!--          size="m"-->
-        <!--          tuiButton-->
-        <!--          (click)="showDialog()"-->
-        <!--        >NEW TOURNAMENT-->
-        <!--        </button>-->
-        <!--                <app-create-button-->
-        <!--                  [title]="'tournament'"-->
-        <!--                  (click)="addTournament()"-->
-        <!--                ></app-create-button>-->
-
+        @if (this.season$ | async; as season) {
+          <app-tournament-add-edit-form
+            [sport_Id]="sport.id"
+            [season_Id]="season.id"
+            [addTournament]="tournamentService.addTournament.bind(tournamentService)"
+          ></app-tournament-add-edit-form>
+        } @else {
+          <tui-loader></tui-loader>
+        }
         <app-sport-with-season-dropdown
           [sportId]="sport.id"
         ></app-sport-with-season-dropdown>

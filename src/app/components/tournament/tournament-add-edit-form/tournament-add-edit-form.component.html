@@ -17,18 +17,38 @@
     (ngSubmit)="onSubmit(); observer.complete()"
   >
     <p></p>
-    <tui-input
-      formControlName="tournamentTitle"
-      tuiAutoFocus
-    >
-      Tournament Title
-    </tui-input>
+    <div class="tui-form__row">
+      <tui-input
+        formControlName="tournamentTitle"
+        tuiAutoFocus
+      >
+        Tournament Title
+
+        <span class="tui-required"></span>
+      </tui-input>
+      <tui-error
+        formControlName="tournamentTitle"
+        [error]="[] | tuiFieldError | async"
+      ></tui-error>
+    </div>
+
+    <div class="tui-form__row">
+      <tui-textarea
+        formControlName="tournamentDescription"
+      >
+        Tournament Description
+      </tui-textarea>
+      <tui-error
+        formControlName="tournamentDescription"
+        [error]="[] | tuiFieldError | async"
+      ></tui-error>
+    </div>
     <p>
       <button
         appearance="create"
         tuiButton
         type="submit"
-
+        [disabled]="!tournamentForm.valid"
       >
         Add
       </button>

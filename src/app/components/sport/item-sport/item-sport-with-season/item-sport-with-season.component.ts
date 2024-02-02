@@ -72,13 +72,16 @@ import { TournamentAddEditFormComponent } from '../../../tournament/tournament-a
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ItemSportWithSeasonComponent implements OnInit, OnDestroy {
-  private ngUnsubscribe = new Subject();
+  private ngUnsubscribe = new Subject<void>();
 
   private route = inject(ActivatedRoute);
   private sportService = inject(SportService);
   tournamentService = inject(TournamentService);
+  seasonService = inject(SeasonService);
 
-  public tournaments$ = this.tournamentService.tournaments$;
+  tournaments$ = this.tournamentService.tournaments$;
+  seasons$ = this.seasonService.seasons$;
+  season$ = this.seasonService.season$;
 
   searchListService = inject(SearchListService);
   paginationService = inject(PaginationService);
@@ -103,17 +106,18 @@ export class ItemSportWithSeasonComponent implements OnInit, OnDestroy {
         const sportId = Number(id);
         const seasonYear = Number(year);
 
-        // Validate id and year
         if (isNaN(sportId) || isNaN(seasonYear)) {
           return;
         }
         this.year = seasonYear;
+        // console.log(this.year);
+        this.seasonService.getSeasonByYear(this.year);
         this.sport$ = this.sportService.findById(sportId);
 
         this.tournamentService.refreshTournaments(sportId, seasonYear);
       });
 
-    // subscribe to tournament updates
+    // subscribe to updates
     this.tournamentService.tournaments$
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((tournaments: ITournament[]) => {
@@ -124,40 +128,8 @@ export class ItemSportWithSeasonComponent implements OnInit, OnDestroy {
       });
   }
 
-  // private tournamentsSubject = new BehaviorSubject<ITournament[]>([]);
-  // public tournaments$ = this.tournamentsSubject.asObservable();
-
-  // private readonly dialogs!: TuiDialogService;
-  // private readonly dialog = this.dialogs.open;
-  //
-  // data: ITournament = {
-  //   title: 'New Tournament 99',
-  //   description: 'string',
-  //   tournament_logo_url: 'www',
-  //   season_id: 6,
-  //   sport_id: 1,
-  // };
-
-  // showDialog(): void {
-  //   this.dialog.subscribe({
-  //     next: (data) => {
-  //       console.info(`Dialog emitted data = ${data}`);
-  //     },
-  //     complete: () => {
-  //       console.info('Dialog closed');
-  //     },
-  //   });
-  // }
-
-  // addTournament() {
-  //   this.tournamentService.addItem(this.data).subscribe((res) => {
-  //     console.log('HTTP response', res);
-  //     this.tournamentsSubject.next([...this.tournamentsSubject.value, res]);
-  //   });
-  // }
-
   ngOnDestroy() {
-    // this.ngUnsubscribe.next();
+    this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
   }
 }

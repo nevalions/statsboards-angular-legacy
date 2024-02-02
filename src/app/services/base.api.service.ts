@@ -48,6 +48,17 @@ export abstract class BaseApiService<T> {
     );
   }
 
+  deleteItem(id: number): Observable<T> {
+    return this.http.delete<T>(`${this.endpoint}/id/${id}`).pipe(
+      tap(() => {
+        console.log(`DELETED /API/${this.endpoint.toUpperCase()}/${id}`);
+      }),
+      catchError((error) => {
+        return this.errorHandlingService.handleError(error);
+      }),
+    );
+  }
+
   findById(id: number): Observable<T> {
     return this.http.get<T>(`${this.endpoint}/id/${id}`).pipe(
       tap((item) =>
@@ -66,21 +77,25 @@ export abstract class BaseApiService<T> {
     firstItem: string,
     firstKey: string,
     firstValue: any,
-    optionalValue?: any,
+    optionalValue?: any | undefined,
   ): Observable<any> {
-    return this.http
-      .get<any>(`${firstItem}/${firstKey}/${firstValue}/${optionalValue}`)
-      .pipe(
-        tap((items) =>
-          console.log(
-            `Received  /API/
-          ${firstItem}/${firstKey}/${firstValue}/${optionalValue}
-          \ndata:`,
-            items,
-          ),
+    let finalEndpoint = `${firstItem}/${firstKey}/${firstValue}`;
+
+    if (optionalValue !== null && optionalValue !== undefined) {
+      finalEndpoint += `/${optionalValue}`;
+    }
+
+    return this.http.get<any>(finalEndpoint).pipe(
+      tap((items) =>
+        console.log(
+          `Received  /API/${firstItem}/${firstKey}/${firstValue}` +
+            (optionalValue ? `/${optionalValue}` : '') +
+            `\n data:`,
+          items,
         ),
-        catchError(this.errorHandlingService.handleError),
-      );
+      ),
+      catchError(this.errorHandlingService.handleError),
+    );
   }
 
   findByFirstItemKeyValueAndSecondItemSecondKeyValue(
