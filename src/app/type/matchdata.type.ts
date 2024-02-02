@@ -1,6 +1,6 @@
-import {IBaseID} from "./base.type";
+import { IBaseID } from './base.type';
 
-export interface IMatchData extends IBaseID{
+export interface IMatchData extends IBaseID {
   score_team_a?: number;
   score_team_b?: number;
   timeout_team_a?: string;

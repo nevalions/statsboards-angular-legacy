@@ -28,4 +28,15 @@ export class MatchService extends BaseApiService<IMatch> {
       'scoreboard/full_data',
     );
   }
+
+  fetchFullMatchDataWithScoreboardSettingsById(
+    id: number,
+  ): Observable<IMatchFullData> {
+    return this.findByFirstKeyValue(
+      'matches',
+      'id',
+      id,
+      'scoreboard/full_data/scoreboard_settings',
+    );
+  }
 }

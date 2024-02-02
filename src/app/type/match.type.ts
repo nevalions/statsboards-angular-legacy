@@ -1,8 +1,8 @@
-import {IBaseID} from "./base.type";
-import {ITeam} from "./team.type";
-import {IMatchData} from "./matchdata.type";
+import { IBaseID } from './base.type';
+import { ITeam } from './team.type';
+import { IMatchData } from './matchdata.type';
 
-export interface IMatch extends IBaseID{
+export interface IMatch extends IBaseID {
   match_date: Date;
   week: number;
   match_eesl_id?: number;
@@ -23,4 +23,52 @@ export interface IMatchFullData {
   match: IMatch;
   teams_data: IMatchTeamsData;
   match_data: IMatchData;
+}
+
+export function getDefaultFullData(): IMatchFullData {
+  return {
+    id: 0,
+    match_id: 0,
+    status_code: 0,
+    match: {
+      id: 0,
+      match_date: new Date(),
+      week: 0,
+      team_a_id: 0,
+      team_b_id: 0,
+      tournament_id: 0,
+    },
+    teams_data: {
+      team_a: {
+        id: 0,
+        title: 'Loading...',
+        description: 'Loading...',
+        sport_id: 1,
+      },
+      team_b: {
+        id: 0,
+        title: 'Loading...',
+        description: 'Loading...',
+        sport_id: 1,
+      },
+    },
+    match_data: {
+      id: 0,
+      match_id: 0,
+      score_team_a: 0,
+      score_team_b: 0,
+      timeout_team_a: '',
+      qtr: '',
+      gameclock_status: '',
+      playclock_status: '',
+      down: '',
+      game_status: '',
+      field_length: 100,
+      timeout_team_b: '',
+      gameclock: 0,
+      playclock: null,
+      ball_on: 50,
+      distance: '',
+    },
+  };
 }

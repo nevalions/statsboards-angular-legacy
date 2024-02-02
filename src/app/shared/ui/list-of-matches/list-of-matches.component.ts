@@ -13,7 +13,6 @@ import { Observable, of } from 'rxjs';
   styleUrl: './list-of-matches.component.less',
 })
 export class ListOfMatchesComponent {
-  // @Input() data: IMatchFullData[] = [];
   @Input() data$: Observable<IMatchFullData[]> = of([]);
   @Input() emptyMessage: string = 'No data available';
   @Input() formatPath: (item: IMatchFullData) => string = () => '';
