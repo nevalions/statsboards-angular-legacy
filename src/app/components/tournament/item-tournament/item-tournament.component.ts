@@ -50,6 +50,7 @@ import { SeasonService } from '../../../services/season.service';
 import { tap } from 'rxjs/operators';
 import { ISeason } from '../../../type/season.type';
 import { TournamentDeleteFormComponent } from '../tournament-delete-form/tournament-delete-form.component';
+import { DeleteDialogComponent } from '../../../shared/ui/dialogs/delete-dialog/delete-dialog.component';
 
 @Component({
   selector: 'app-item-tournament',
@@ -81,6 +82,7 @@ import { TournamentDeleteFormComponent } from '../tournament-delete-form/tournam
     paginationWithItemsPerPage,
     FormSearchAutoCompleteComponent,
     TournamentDeleteFormComponent,
+    DeleteDialogComponent,
   ],
   templateUrl: './item-tournament.component.html',
   styleUrl: './item-tournament.component.less',

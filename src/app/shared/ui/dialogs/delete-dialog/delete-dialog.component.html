@@ -1,0 +1,54 @@
+<button
+  appearance="destructive"
+  [class]="buttonClass"
+  [size]="buttonSize"
+  tuiButton
+  type="button"
+  (click)="showDialog()"
+>
+  {{ action | uppercase }} {{ item | uppercase }}
+</button>
+<ng-template
+  let-observer
+  [tuiDialogOptions]="{label: action.toUpperCase() + ' ' + item.toUpperCase() + '?', size: 'm'}"
+  [(tuiDialog)]="open"
+>
+  <div class="tui-form__row flex__fullwidth_center">
+    <form
+      [formGroup]="itemDeleteForm"
+      (ngSubmit)="onSubmit(); observer.complete()"
+    >
+      <p style="text-align: center; padding:10px; background-color: var(--tui-negative-hover)">
+        All {{ item | uppercase }}'s stats will be lost!
+      </p>
+      <p style="text-align: center; padding:10px;">
+        <tui-checkbox-labeled
+          formControlName="checkboxToAction"
+          size="l"
+        >
+          I have read understood and confirm my agreement.
+        </tui-checkbox-labeled>
+      </p>
+      <p>
+        <button
+          appearance="destructive"
+          tuiButton
+          type="submit"
+          style="padding: 10px"
+          [disabled]="!itemDeleteForm.get('checkboxToAction')?.value"
+        >
+          DELETE
+        </button>
+        <button
+          appearance="secondary"
+          tuiButton
+          type="button"
+          style="padding: 10px"
+          (click)="observer.complete()"
+        >
+          CANCEL
+        </button>
+      </p>
+    </form>
+  </div>
+</ng-template>

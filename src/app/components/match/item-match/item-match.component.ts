@@ -1,12 +1,13 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { Observable, of, switchMap } from 'rxjs';
 import { getDefaultFullData, IMatchFullData } from '../../../type/match.type';
-import { ActivatedRoute } from '@angular/router';
-import { MatchService } from '../../../services/match.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { MatchService } from '../match.service';
 import { tap } from 'rxjs/operators';
 import { AsyncPipe, DatePipe } from '@angular/common';
 import { TuiButtonModule, TuiLoaderModule } from '@taiga-ui/core';
 import { TuiIslandModule } from '@taiga-ui/kit';
+import { DeleteDialogComponent } from '../../../shared/ui/dialogs/delete-dialog/delete-dialog.component';
 
 @Component({
   selector: 'app-item-match',
@@ -17,12 +18,15 @@ import { TuiIslandModule } from '@taiga-ui/kit';
     DatePipe,
     TuiIslandModule,
     TuiButtonModule,
+    DeleteDialogComponent,
   ],
   templateUrl: './item-match.component.html',
   styleUrl: './item-match.component.less',
 })
 export class ItemMatchComponent implements OnInit {
   route = inject(ActivatedRoute);
+  router = inject(Router);
+
   matchService = inject(MatchService);
   matchId: number | undefined;
 
@@ -64,6 +68,24 @@ export class ItemMatchComponent implements OnInit {
         `http://0.0.0.0:9000/matches/id/${this.matchId}/scoreboard/hd/`,
         '_blank',
       );
+    }
+  }
+
+  onDelete() {
+    if (this.matchId) {
+      this.match$.subscribe((match: IMatchFullData) => {
+        if (match && match.match && match.match.tournament_id) {
+          const tournamentId = match.match.tournament_id;
+
+          // Now that you have the tournamentId, proceed with the deletion
+          this.matchService.deleteMatch(match.id).subscribe(() => {
+            this.router.navigateByUrl(`/tournaments/id/${tournamentId}`);
+            console.log(`Match ID: ${match.id} deleted successfully.`);
+          });
+        } else {
+          console.error('Invalid match object or missing tournament_id.');
+        }
+      });
     }
   }
 }
