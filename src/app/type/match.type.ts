@@ -2,7 +2,8 @@ import { IBaseID } from './base.type';
 import { ITeam } from './team.type';
 import { IMatchData } from './matchdata.type';
 
-export interface IMatch extends IBaseID {
+export interface IMatch {
+  id?: number;
   match_date: Date;
   week: number;
   match_eesl_id?: number;

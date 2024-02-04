@@ -51,6 +51,7 @@ import { tap } from 'rxjs/operators';
 import { ISeason } from '../../../type/season.type';
 import { TournamentDeleteFormComponent } from '../tournament-delete-form/tournament-delete-form.component';
 import { DeleteDialogComponent } from '../../../shared/ui/dialogs/delete-dialog/delete-dialog.component';
+import { AddEditMatchComponent } from '../../match/add-edit-match/add-edit-match.component';
 
 @Component({
   selector: 'app-item-tournament',
@@ -83,6 +84,7 @@ import { DeleteDialogComponent } from '../../../shared/ui/dialogs/delete-dialog/
     FormSearchAutoCompleteComponent,
     TournamentDeleteFormComponent,
     DeleteDialogComponent,
+    AddEditMatchComponent,
   ],
   templateUrl: './item-tournament.component.html',
   styleUrl: './item-tournament.component.less',
@@ -132,7 +134,9 @@ export class ItemTournamentComponent implements OnInit, OnDestroy {
           this.teams$ =
             this.tournamentService.fetchTeamsByTournamentId(tournamentId);
 
-          return this.tournamentService.fetchMatchByTournamentId(tournamentId);
+          return this.tournamentService.fetchMatchesByTournamentId(
+            tournamentId,
+          );
         }),
         map((matches: IMatchFullData[]) => {
           this.searchListService.updateData(of(matches));

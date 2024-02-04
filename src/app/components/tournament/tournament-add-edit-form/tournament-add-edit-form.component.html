@@ -48,9 +48,19 @@
         appearance="create"
         tuiButton
         type="submit"
+        size="m"
         [disabled]="!tournamentForm.valid"
       >
         Add
+      </button>
+      <button
+        appearance="secondary"
+        tuiButton
+        type="button"
+        style="padding: 10px"
+        (click)="observer.complete()"
+      >
+        CANCEL
       </button>
     </p>
   </form>

@@ -1,0 +1,141 @@
+<button
+  appearance="create"
+  size="m"
+  tuiButton
+  type="button"
+  (click)="showDialog()"
+>
+  NEW MATCH
+</button>
+
+<ng-template
+  let-observer
+  [tuiDialogOptions]="{label: 'Add New match', size: 'm'}"
+  [(tuiDialog)]="open"
+>
+  <form
+    [formGroup]="matchForm"
+    (ngSubmit)="onSubmit(); observer.complete()"
+  >
+    <p></p>
+    <div class="tui-form__row">
+      <tui-input-date
+        formControlName="match_date"
+        tuiAutoFocus
+      >
+        Match Date
+        <span class="tui-required"></span>
+      </tui-input-date>
+      <tui-error
+        formControlName="match_date"
+        [error]="[] | tuiFieldError | async"
+      ></tui-error>
+    </div>
+
+    <div class="tui-form__row">
+      <tui-input-number
+        formControlName="week"
+      >
+        Match Week
+      </tui-input-number>
+      <tui-error
+        formControlName="week"
+        [error]="[] | tuiFieldError | async"
+      ></tui-error>
+    </div>
+    @if (teams$ | async) {
+
+      <tui-select
+        *tuiLet="teams$ | async as items"
+        class="b-form"
+        formControlName="team_a"
+      >
+        Select HOME team
+        <tui-data-list-wrapper
+          *tuiDataList
+          size="l"
+          [itemContent]="content"
+          [items]="items"
+        ></tui-data-list-wrapper>
+
+      </tui-select>
+
+      <ng-template
+        #content
+        let-data
+      >
+        <div class="template">
+          <tui-avatar
+            size="xs"
+            class="avatar"
+            [text]="data.title.toString()"
+          ></tui-avatar>
+          <div class="name">{{ data.title }}</div>
+        </div>
+      </ng-template>
+
+      <tui-select
+        *tuiLet="teams$ | async as items"
+        class="b-form"
+        formControlName="team_b"
+      >
+        Select AWAY team
+        <tui-data-list-wrapper
+          *tuiDataList
+          size="l"
+          [itemContent]="content"
+          [items]="items"
+        ></tui-data-list-wrapper>
+
+      </tui-select>
+
+      <ng-template
+        #content
+        let-data
+      >
+        <div class="template">
+          <tui-avatar
+            size="xs"
+            class="avatar"
+            [text]="data.title.toString()"
+          ></tui-avatar>
+          <div class="name">{{ data.title }}</div>
+        </div>
+      </ng-template>
+
+    }
+
+    <div class="tui-form__row">
+      <tui-input-number
+        formControlName="match_eesl_id"
+      >
+        Match EESL ID
+      </tui-input-number>
+      <tui-error
+        formControlName="match_eesl_id"
+        [error]="[] | tuiFieldError | async"
+      ></tui-error>
+    </div>
+    <div class="tui-form__row">
+      <p>
+        <button
+          appearance="create"
+          tuiButton
+          type="submit"
+          [disabled]="!matchForm.valid"
+        >
+          Add
+        </button>
+        <button
+          appearance="secondary"
+          tuiButton
+          type="button"
+          style="padding: 10px"
+          (click)="observer.complete()"
+        >
+          CANCEL
+        </button>
+      </p>
+    </div>
+  </form>
+</ng-template>

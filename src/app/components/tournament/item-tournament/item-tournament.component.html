@@ -11,7 +11,6 @@
   }
 </div>
 
-
 <div class="tournament content__body">
   <div class="one_col_container">
     @if (this.tournament$ | async; as tournament) {
@@ -19,24 +18,24 @@
         <app-body-title
           titleMany='matches'
         ></app-body-title>
-        <app-create-button
-          title='match'
-        ></app-create-button>
+        @if (tournament.id) {
+          @if (teams$ | async; ) {
+            <app-add-edit-match
+              [tournamentId]="tournament.id"
+              [teams$]="teams$"
+            ></app-add-edit-match>
+          }
+        } @else {
+          <tui-loader></tui-loader>
+        }
+        <!--        <app-create-button-->
+        <!--          title='match'-->
+        <!--        ></app-create-button>-->
         <app-delete-dialog
           [item]="'Tournament'"
           (delete)="onDelete()"
         ></app-delete-dialog>
-        <!--        <app-tournament-delete-form-->
-        <!--          (delete)="onDelete()"-->
-        <!--        ></app-tournament-delete-form>-->
-        <!--        <button-->
-        <!--          appearance="secondary-destructive"-->
-        <!--          size="m"-->
-        <!--          tuiButton-->
-        <!--          type="button"-->
-        <!--          (click)="onDelete()"-->
-        <!--        >DELETE TOURNAMENT-->
-        <!--        </button>-->
+
       </div>
     } @else {
       <tui-loader [inheritColor]="true"></tui-loader>
