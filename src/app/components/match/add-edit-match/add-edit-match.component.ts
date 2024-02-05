@@ -37,6 +37,8 @@ import { IMatch, IMatchFullData } from '../../../type/match.type';
 import { TournamentService } from '../../tournament/tournament.service';
 import { Observable, of } from 'rxjs';
 import { ITeam } from '../../../type/team.type';
+import { DateTimeService } from '../../../services/date-time.service';
+import { SelectTeamComponent } from '../../../shared/ui/forms/select-team/select-team.component';
 
 @Component({
   selector: 'app-add-edit-match',
@@ -61,6 +63,7 @@ import { ITeam } from '../../../type/team.type';
     TuiAvatarModule,
     FormsModule,
     TuiInputDateTimeModule,
+    SelectTeamComponent,
   ],
   templateUrl: './add-edit-match.component.html',
   styleUrl: './add-edit-match.component.less',
@@ -71,6 +74,7 @@ import { ITeam } from '../../../type/team.type';
   ],
 })
 export class AddEditMatchComponent implements OnInit {
+  dateTimeService = inject(DateTimeService);
   @Input() addMatch!: (data: any) => void;
   @Input() tournamentId!: number;
   @Input() teams$: Observable<ITeam[]> = of([]);
@@ -105,54 +109,34 @@ export class AddEditMatchComponent implements OnInit {
     if (this.matchForm.valid) {
       const formValue = this.matchForm.getRawValue();
 
-      // console.log('team_a:', formValue.team_a);
-      // console.log('team_b:', formValue.team_b);
-
       const tui_date = formValue.match_date!;
-      // console.log(tui_date);
+      const js_date = this.dateTimeService.convertTuiDateTime(tui_date);
 
-      let js_date;
+      if (js_date) {
+        let team_a_id = null;
+        let team_b_id = null;
 
-      if (tui_date[0] instanceof TuiDay && tui_date[1] instanceof TuiTime) {
-        const tuiDay = tui_date[0];
-        const tuiTime = tui_date[1];
+        if (formValue.team_a && !isNaN(formValue.team_a.id!)) {
+          team_a_id = formValue.team_a.id;
+        }
 
-        js_date = new Date(
-          tuiDay.year,
-          tuiDay.month - 1, // JavaScript counts months from 0 to 11
-          tuiDay.day,
-          tuiTime.hours,
-          tuiTime.minutes,
-        );
-      } else {
-        console.error(
-          'match_date array does not contain TuiDay and TuiTime instances',
-        );
-      }
+        if (formValue.team_b && !isNaN(formValue.team_b.id!)) {
+          team_b_id = formValue.team_b.id;
+        }
 
-      let team_a_id = null;
-      let team_b_id = null;
+        if (team_a_id && team_b_id) {
+          const data: IMatch = {
+            match_date: js_date,
+            week: formValue.week!,
+            team_a_id: team_a_id,
+            team_b_id: team_b_id,
+            tournament_id: this.tournamentId,
+            match_eesl_id: formValue.match_eesl_id!,
+          };
 
-      if (formValue.team_a && !isNaN(formValue.team_a.id!)) {
-        team_a_id = formValue.team_a.id;
-      }
-
-      if (formValue.team_b && !isNaN(formValue.team_b.id!)) {
-        team_b_id = formValue.team_b.id;
-      }
-
-      if (team_a_id && team_b_id) {
-        const data: IMatch = {
-          match_date: js_date!,
-          week: formValue.week!,
-          team_a_id: team_a_id,
-          team_b_id: team_b_id,
-          tournament_id: this.tournamentId,
-          match_eesl_id: formValue.match_eesl_id!,
-        };
-
-        console.log(data);
-        this.addMatch(data);
+          console.log(data);
+          this.addMatch(data);
+        }
       }
     }
   }
