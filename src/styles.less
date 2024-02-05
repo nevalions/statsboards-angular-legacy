@@ -184,6 +184,7 @@ aside > * {
 .flex__fullwidth_center {
   display: flex;
   gap: 10px;
+  flex-wrap: wrap;
   .fullwidth_center();
 }
 
@@ -213,7 +214,7 @@ aside > * {
 
 
 @media screen and (max-width: 600px) {
-  .container, .content__body__title {
+  .container, .content__body__title, .with__aside {
     padding: 30px;
     grid-template-columns: 100%;
     justify-content: center; /* align horizontal */

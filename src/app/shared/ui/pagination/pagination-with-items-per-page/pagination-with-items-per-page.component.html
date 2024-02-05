@@ -1,9 +1,9 @@
 @if (items$ | async; as items) {
-  <div class="pagination" style="display: flex; justify-content: space-between; align-items: center;">
-  @if (items.length > paginationService.itemsPerPage.value) {
-    @if (paginationService.totalPages$ | async; as totalPages) {
+  <div class="pagination" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
+    @if (items.length > paginationService.itemsPerPage.value) {
+      @if (paginationService.totalPages$ | async; as totalPages) {
         <div style="flex: 1;"></div>
-        <div style="flex: 2; text-align: center;">
+        <div style="flex: 2; text-align: center; padding: 10px">
           <tui-pagination
             [index]="paginationService.currentPageIndex.value - 1"
             [length]="totalPages"
@@ -22,7 +22,7 @@
             </tui-input-number>
           </form>
         </div>
+      }
     }
-  }
   </div>
 }
