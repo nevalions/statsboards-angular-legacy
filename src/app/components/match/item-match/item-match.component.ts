@@ -42,9 +42,7 @@ export class ItemMatchComponent implements OnInit {
           const matchId = Number(params['id']);
           this.matchId = matchId;
           // console.log(matchId);
-          return this.matchWithFullDataService.fetchFullMatchDataWithScoreboardSettingsById(
-            matchId,
-          );
+          return this.matchWithFullDataService.fetchMatchWithDataById(matchId);
         }),
         tap((match: IMatchFullData) => {
           this.match$ = of(match);

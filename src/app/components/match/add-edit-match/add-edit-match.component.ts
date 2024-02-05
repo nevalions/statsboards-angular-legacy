@@ -14,12 +14,18 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { TuiAutoFocusModule, TuiDay, TuiLetModule } from '@taiga-ui/cdk';
+import {
+  TuiAutoFocusModule,
+  TuiDay,
+  TuiLetModule,
+  TuiTime,
+} from '@taiga-ui/cdk';
 import {
   TuiAvatarModule,
   TuiDataListWrapperModule,
   TuiFieldErrorPipeModule,
   TuiInputDateModule,
+  TuiInputDateTimeModule,
   TuiInputModule,
   TuiInputNumberModule,
   tuiItemsHandlersProvider,
@@ -54,6 +60,7 @@ import { ITeam } from '../../../type/team.type';
     TuiLetModule,
     TuiAvatarModule,
     FormsModule,
+    TuiInputDateTimeModule,
   ],
   templateUrl: './add-edit-match.component.html',
   styleUrl: './add-edit-match.component.less',
@@ -69,11 +76,14 @@ export class AddEditMatchComponent implements OnInit {
   @Input() teams$: Observable<ITeam[]> = of([]);
 
   current_date = new Date();
-  tui_current_date = new TuiDay(
-    this.current_date.getFullYear(),
-    this.current_date.getMonth(),
-    this.current_date.getDate(),
-  );
+  tui_current_date = [
+    new TuiDay(
+      this.current_date.getFullYear(),
+      this.current_date.getMonth(),
+      this.current_date.getDate(),
+    ),
+    new TuiTime(12, 0),
+  ];
 
   matchForm = new FormGroup({
     match_date: new FormControl(this.tui_current_date, [Validators.required]),
@@ -95,11 +105,30 @@ export class AddEditMatchComponent implements OnInit {
     if (this.matchForm.valid) {
       const formValue = this.matchForm.getRawValue();
 
-      console.log('team_a:', formValue.team_a);
-      console.log('team_b:', formValue.team_b);
+      // console.log('team_a:', formValue.team_a);
+      // console.log('team_b:', formValue.team_b);
 
-      let tui_date = formValue.match_date!;
-      let js_date = new Date(tui_date.year, tui_date.month - 1, tui_date.day);
+      const tui_date = formValue.match_date!;
+      // console.log(tui_date);
+
+      let js_date;
+
+      if (tui_date[0] instanceof TuiDay && tui_date[1] instanceof TuiTime) {
+        const tuiDay = tui_date[0];
+        const tuiTime = tui_date[1];
+
+        js_date = new Date(
+          tuiDay.year,
+          tuiDay.month - 1, // JavaScript counts months from 0 to 11
+          tuiDay.day,
+          tuiTime.hours,
+          tuiTime.minutes,
+        );
+      } else {
+        console.error(
+          'match_date array does not contain TuiDay and TuiTime instances',
+        );
+      }
 
       let team_a_id = null;
       let team_b_id = null;
@@ -114,7 +143,7 @@ export class AddEditMatchComponent implements OnInit {
 
       if (team_a_id && team_b_id) {
         const data: IMatch = {
-          match_date: js_date,
+          match_date: js_date!,
           week: formValue.week!,
           team_a_id: team_a_id,
           team_b_id: team_b_id,

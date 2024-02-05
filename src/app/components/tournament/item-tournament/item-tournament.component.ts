@@ -100,7 +100,6 @@ export class ItemTournamentComponent implements OnInit, OnDestroy {
   private router = inject(Router);
   private tournamentService = inject(TournamentService);
   private seasonService = inject(SeasonService);
-  matchService = inject(MatchService);
   matchWithFullDataService = inject(MatchFullDataService);
 
   @Input() itemData: ISeason = {} as ISeason;
@@ -110,7 +109,6 @@ export class ItemTournamentComponent implements OnInit, OnDestroy {
 
   tournament$: Observable<ITournament> = of({} as ITournament);
 
-  // matches$: Observable<IMatchFullData[]> = of([]);
   matchesWithFullData$: Observable<IMatchFullData[]> =
     this.matchWithFullDataService.matchesWithFullData$;
   teams$: Observable<ITeam[]> = of([]);
@@ -156,35 +154,6 @@ export class ItemTournamentComponent implements OnInit, OnDestroy {
 
     this.onSearch();
   }
-
-  //   ngOnInit() {
-  //   this.route.params
-  //     .pipe(
-  //       switchMap((params) => {
-  //         const tournamentId = Number([params['id']]);
-  //         this.tournament$ = this.tournamentService.findById(tournamentId);
-  //         this.teams$ =
-  //           this.tournamentService.fetchTeamsByTournamentId(tournamentId);
-  //
-  //         return this.tournamentService.fetchMatchesByTournamentId(
-  //           tournamentId,
-  //         );
-  //       }),
-  //       map((matches: IMatchFullData[]) => {
-  //         this.searchListService.updateData(of(matches));
-  //         this.paginationService.initializePagination(
-  //           this.searchListService.filteredData$,
-  //         );
-  //
-  //         return matches;
-  //       }),
-  //     )
-  //     .subscribe((matches: IMatchFullData[]) => {
-  //       this.matches$ = of(matches);
-  //     });
-  //
-  //   this.onSearch();
-  // }
 
   ngOnDestroy() {
     this.ngUnsubscribe.next();
@@ -241,59 +210,3 @@ export class ItemTournamentComponent implements OnInit, OnDestroy {
       .toLowerCase()
       .includes(search.toLowerCase()) ?? false;
 }
-
-// searchText: string = '';
-// matchWeekSearchForm = new FormGroup({
-//   matchWeek: new FormControl(''),
-// });
-//
-// readonly form = new FormGroup({
-//   match: new FormControl(),
-// });
-//
-// readonly stringify = ({ match }: IMatchFullData): string =>
-//   match.week.toString();
-//
-// readonly matcherM = (match: IMatchFullData, search: string): boolean =>
-//   match.match.week.toString().toLowerCase().startsWith(search.toLowerCase());
-
-// @ViewChild(ListOfItemsIslandComponent)
-// comp!: ListOfItemsIslandComponent<IMatchFullData>;
-
-// itemsPerPage = 4;
-// currentPageIndex = 1;
-
-// onSearch() {
-//   this.searchText = this.matchWeekSearchForm.get('matchWeek')?.value || '';
-//   this.loadMatches();
-// }
-//
-// loadMatches() {
-//   this.route.params.subscribe((params) => {
-//     const tournamentId = Number([params['id']]);
-//     this.matches$ = this.tournamentService
-//       .fetchMatchByTournamentId(tournamentId)
-//       .pipe(
-//         map((items) => this.filterMatches(items)),
-//         tap((filteredItems) =>
-//           console.log(
-//             `Filtered Matches in Tournament ID: ${tournamentId}`,
-//             filteredItems,
-//           ),
-//         ),
-//         map((items) =>
-//           SortService.sort(items, 'match.week', '-match.match_date'),
-//         ),
-//       );
-//   });
-// }
-//
-// filterMatches(matches: IMatchFullData[]): IMatchFullData[] {
-//   if (!this.searchText) {
-//     return matches;
-//   }
-//   const lowerCaseSearch = this.searchText.toString().toLowerCase();
-//   return matches.filter((match) =>
-//     match.match.week.toString().includes(lowerCaseSearch),
-//   );
-// }

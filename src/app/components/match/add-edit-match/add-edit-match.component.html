@@ -19,13 +19,13 @@
   >
     <p></p>
     <div class="tui-form__row">
-      <tui-input-date
+      <tui-input-date-time
         formControlName="match_date"
         tuiAutoFocus
       >
         Match Date
         <span class="tui-required"></span>
-      </tui-input-date>
+      </tui-input-date-time>
       <tui-error
         formControlName="match_date"
         [error]="[] | tuiFieldError | async"
