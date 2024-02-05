@@ -23,6 +23,7 @@
             <app-add-edit-match
               [tournamentId]="tournament.id"
               [teams$]="teams$"
+              [addMatch]="matchService.addMatch.bind(matchService)"
             ></app-add-edit-match>
           }
         } @else {
@@ -42,7 +43,7 @@
     }
     <div class="tournament with__aside">
       <div class="one_col_container">
-        @if (matches$ | async; as items) {
+        @if (matchesWithFullData$ | async; as items) {
           <div class="filters flex__fullwidth_center">
             <form
               [formGroup]="formWeek"
@@ -56,14 +57,14 @@
             </form>
 
             <app-form-search-text
-              [data$]="matches$"
+              [data$]="matchesWithFullData$"
               [searchTitle]="'team'"
               [parameter]="'teams_data.team_a.title + teams_data.team_b.title'"
               [filter]="'includes'"
             ></app-form-search-text>
 
             <app-pagination-with-items-per-page
-              [items$]="matches$"
+              [items$]="matchesWithFullData$"
             ></app-pagination-with-items-per-page>
 
 

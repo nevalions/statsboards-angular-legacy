@@ -23,7 +23,7 @@ import {
   TuiHintModule,
   TuiLoaderModule,
 } from '@taiga-ui/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { TournamentService } from '../tournament.service';
 import { map, Observable, of, Subject, switchMap, takeUntil } from 'rxjs';
 import { ITournament } from '../../../type/tournament.type';
@@ -52,6 +52,7 @@ import { ISeason } from '../../../type/season.type';
 import { TournamentDeleteFormComponent } from '../tournament-delete-form/tournament-delete-form.component';
 import { DeleteDialogComponent } from '../../../shared/ui/dialogs/delete-dialog/delete-dialog.component';
 import { AddEditMatchComponent } from '../../match/add-edit-match/add-edit-match.component';
+import { MatchService } from '../../match/match.service';
 
 @Component({
   selector: 'app-item-tournament',
@@ -92,12 +93,13 @@ import { AddEditMatchComponent } from '../../match/add-edit-match/add-edit-match
   changeDetection: ChangeDetectionStrategy.Default,
 })
 export class ItemTournamentComponent implements OnInit, OnDestroy {
-  private readonly onDestroy = new Subject<void>();
+  private readonly ngUnsubscribe = new Subject<void>();
 
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   private tournamentService = inject(TournamentService);
   private seasonService = inject(SeasonService);
+  matchService = inject(MatchService);
 
   @Input() itemData: ISeason = {} as ISeason;
 
@@ -106,7 +108,9 @@ export class ItemTournamentComponent implements OnInit, OnDestroy {
 
   tournament$: Observable<ITournament> = of({} as ITournament);
 
-  matches$: Observable<IMatchFullData[]> = of([]);
+  // matches$: Observable<IMatchFullData[]> = of([]);
+  matchesWithFullData$: Observable<IMatchFullData[]> =
+    this.matchService.matchesWithFullData$;
   teams$: Observable<ITeam[]> = of([]);
 
   readonly formWeek = new FormGroup({
@@ -127,36 +131,60 @@ export class ItemTournamentComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.route.params
-      .pipe(
-        switchMap((params) => {
-          const tournamentId = Number([params['id']]);
-          this.tournament$ = this.tournamentService.findById(tournamentId);
-          this.teams$ =
-            this.tournamentService.fetchTeamsByTournamentId(tournamentId);
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe((params: Params) => {
+        const tournamentId = Number([params['id']]);
+        this.tournament$ = this.tournamentService.findById(tournamentId);
+        this.teams$ =
+          this.tournamentService.fetchTeamsByTournamentId(tournamentId);
 
-          return this.tournamentService.fetchMatchesByTournamentId(
-            tournamentId,
-          );
-        }),
-        map((matches: IMatchFullData[]) => {
-          this.searchListService.updateData(of(matches));
-          this.paginationService.initializePagination(
-            this.searchListService.filteredData$,
-          );
+        this.matchService.refreshMatchesInTournament(tournamentId);
+      });
 
-          return matches;
-        }),
-      )
+    this.matchService.matchesWithFullData$
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((matches: IMatchFullData[]) => {
-        this.matches$ = of(matches);
+        this.searchListService.updateData(of(matches));
+        this.paginationService.initializePagination(
+          this.searchListService.filteredData$,
+        );
       });
 
     this.onSearch();
   }
 
+  //   ngOnInit() {
+  //   this.route.params
+  //     .pipe(
+  //       switchMap((params) => {
+  //         const tournamentId = Number([params['id']]);
+  //         this.tournament$ = this.tournamentService.findById(tournamentId);
+  //         this.teams$ =
+  //           this.tournamentService.fetchTeamsByTournamentId(tournamentId);
+  //
+  //         return this.tournamentService.fetchMatchesByTournamentId(
+  //           tournamentId,
+  //         );
+  //       }),
+  //       map((matches: IMatchFullData[]) => {
+  //         this.searchListService.updateData(of(matches));
+  //         this.paginationService.initializePagination(
+  //           this.searchListService.filteredData$,
+  //         );
+  //
+  //         return matches;
+  //       }),
+  //     )
+  //     .subscribe((matches: IMatchFullData[]) => {
+  //       this.matches$ = of(matches);
+  //     });
+  //
+  //   this.onSearch();
+  // }
+
   ngOnDestroy() {
-    this.onDestroy.next();
-    this.onDestroy.complete();
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
   }
 
   onSearch() {
@@ -164,7 +192,7 @@ export class ItemTournamentComponent implements OnInit, OnDestroy {
       .get('matchWeekSearch')!
       .valueChanges.pipe(
         // Unsubscribe when the component is destroyed.
-        takeUntil(this.onDestroy),
+        takeUntil(this.ngUnsubscribe),
       )
       .subscribe((matchWeekSearch) => {
         this.searchListService.updateFilteredData(

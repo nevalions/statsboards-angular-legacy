@@ -16,6 +16,10 @@ import { TournamentService } from '../tournament/tournament.service';
 export class MatchService extends BaseApiService<IMatch> {
   private matchesSubject = new BehaviorSubject<IMatch[]>([]);
   public matches$ = this.matchesSubject.asObservable();
+  private matchesWithFullDataSubject = new BehaviorSubject<IMatchFullData[]>(
+    [],
+  );
+  public matchesWithFullData$ = this.matchesWithFullDataSubject.asObservable();
 
   private tournamentService = inject(TournamentService);
 
@@ -39,8 +43,8 @@ export class MatchService extends BaseApiService<IMatch> {
   refreshMatchesInTournament(tournament_id: number): void {
     this.tournamentService
       .fetchMatchesByTournamentId(tournament_id)
-      .subscribe((matches: IMatch[]) => {
-        this.matchesSubject.next(matches);
+      .subscribe((matches: IMatchFullData[]) => {
+        this.matchesWithFullDataSubject.next(matches);
       });
   }
 
@@ -56,6 +60,8 @@ export class MatchService extends BaseApiService<IMatch> {
             'match_date',
           );
           this.matchesSubject.next(updatedMatches);
+
+          this.refreshMatchesInTournament(match.tournament_id);
         }),
       )
       .subscribe();
