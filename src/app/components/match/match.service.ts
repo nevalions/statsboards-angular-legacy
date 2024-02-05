@@ -16,10 +16,6 @@ import { TournamentService } from '../tournament/tournament.service';
 export class MatchService extends BaseApiService<IMatch> {
   private matchesSubject = new BehaviorSubject<IMatch[]>([]);
   public matches$ = this.matchesSubject.asObservable();
-  private matchesWithFullDataSubject = new BehaviorSubject<IMatchFullData[]>(
-    [],
-  );
-  public matchesWithFullData$ = this.matchesWithFullDataSubject.asObservable();
 
   private tournamentService = inject(TournamentService);
 
@@ -31,51 +27,12 @@ export class MatchService extends BaseApiService<IMatch> {
     super('matches', http, errorHandlingService);
   }
 
-  fetchFullMatchDataById(id: number): Observable<IMatchFullData> {
-    return this.findByFirstKeyValue(
-      'matches',
-      'id',
-      id,
-      'scoreboard/full_data',
-    );
-  }
-
   refreshMatchesInTournament(tournament_id: number): void {
     this.tournamentService
-      .fetchMatchesByTournamentId(tournament_id)
-      .subscribe((matches: IMatchFullData[]) => {
-        this.matchesWithFullDataSubject.next(matches);
+      .fetchAllMatchesWithDataByTournamentId(tournament_id)
+      .subscribe((matches: IMatch[]) => {
+        this.matchesSubject.next(matches);
       });
-  }
-
-  addMatch(newMatch: IMatch): void {
-    this.addItem(newMatch)
-      .pipe(
-        tap((match: IMatch) => {
-          console.log(`ADDED MATCH`, match);
-          let updatedMatches: IMatch[] = [...this.matchesSubject.value, match];
-          updatedMatches = SortService.sort(
-            updatedMatches,
-            'week',
-            'match_date',
-          );
-          this.matchesSubject.next(updatedMatches);
-
-          this.refreshMatchesInTournament(match.tournament_id);
-        }),
-      )
-      .subscribe();
-  }
-
-  fetchFullMatchDataWithScoreboardSettingsById(
-    id: number,
-  ): Observable<IMatchFullData> {
-    return this.findByFirstKeyValue(
-      'matches',
-      'id',
-      id,
-      'scoreboard/full_data/scoreboard_settings',
-    );
   }
 
   deleteMatch(id: number): Observable<any> {

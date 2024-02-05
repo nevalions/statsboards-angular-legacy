@@ -8,6 +8,7 @@ import { AsyncPipe, DatePipe } from '@angular/common';
 import { TuiButtonModule, TuiLoaderModule } from '@taiga-ui/core';
 import { TuiIslandModule } from '@taiga-ui/kit';
 import { DeleteDialogComponent } from '../../../shared/ui/dialogs/delete-dialog/delete-dialog.component';
+import { MatchFullDataService } from '../matchfulldata.service';
 
 @Component({
   selector: 'app-item-match',
@@ -26,8 +27,8 @@ import { DeleteDialogComponent } from '../../../shared/ui/dialogs/delete-dialog/
 export class ItemMatchComponent implements OnInit {
   route = inject(ActivatedRoute);
   router = inject(Router);
-
   matchService = inject(MatchService);
+  matchWithFullDataService = inject(MatchFullDataService);
   matchId: number | undefined;
 
   match$: Observable<IMatchFullData> = of(getDefaultFullData());
@@ -41,7 +42,7 @@ export class ItemMatchComponent implements OnInit {
           const matchId = Number(params['id']);
           this.matchId = matchId;
           // console.log(matchId);
-          return this.matchService.fetchFullMatchDataWithScoreboardSettingsById(
+          return this.matchWithFullDataService.fetchFullMatchDataWithScoreboardSettingsById(
             matchId,
           );
         }),

@@ -67,7 +67,7 @@ export class TournamentService extends BaseApiService<ITournament> {
   }
 
   //TODO replace with base
-  fetchMatchesByTournamentId(id: number) {
+  fetchAllMatchesWithDataByTournamentId(id: number) {
     return this.http
       .get<IMatchFullData[]>(`${this.endpoint}/id/${id}/matches/all/data`)
       .pipe(

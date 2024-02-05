@@ -17,3 +17,13 @@ export interface IMatchData extends IBaseID {
   ball_on?: number;
   distance?: string;
 }
+
+export interface IScoreboard {
+  is_qtr?: boolean;
+  is_time?: boolean;
+  is_playclock?: boolean;
+  is_downdistance?: boolean;
+  team_a_color?: string;
+  team_b_color?: string;
+  match_id: 0;
+}

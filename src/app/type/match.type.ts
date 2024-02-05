@@ -1,6 +1,6 @@
 import { IBaseID } from './base.type';
 import { ITeam } from './team.type';
-import { IMatchData } from './matchdata.type';
+import { IMatchData, IScoreboard } from './matchdata.type';
 
 export interface IMatch {
   id?: number;
@@ -24,6 +24,16 @@ export interface IMatchFullData {
   match: IMatch;
   teams_data: IMatchTeamsData;
   match_data: IMatchData;
+}
+
+export interface IMatchFullDataWithScoreboard {
+  id: number;
+  match_id: number;
+  status_code: number;
+  match: IMatch;
+  teams_data: IMatchTeamsData;
+  match_data: IMatchData;
+  scoreboard: IScoreboard;
 }
 
 export function getDefaultFullData(): IMatchFullData {

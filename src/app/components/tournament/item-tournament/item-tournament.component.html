@@ -23,7 +23,7 @@
             <app-add-edit-match
               [tournamentId]="tournament.id"
               [teams$]="teams$"
-              [addMatch]="matchService.addMatch.bind(matchService)"
+              [addMatch]="matchWithFullDataService.addMatchWithFullData.bind(matchWithFullDataService)"
             ></app-add-edit-match>
           }
         } @else {

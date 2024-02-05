@@ -53,6 +53,7 @@ import { TournamentDeleteFormComponent } from '../tournament-delete-form/tournam
 import { DeleteDialogComponent } from '../../../shared/ui/dialogs/delete-dialog/delete-dialog.component';
 import { AddEditMatchComponent } from '../../match/add-edit-match/add-edit-match.component';
 import { MatchService } from '../../match/match.service';
+import { MatchFullDataService } from '../../match/matchfulldata.service';
 
 @Component({
   selector: 'app-item-tournament',
@@ -100,6 +101,7 @@ export class ItemTournamentComponent implements OnInit, OnDestroy {
   private tournamentService = inject(TournamentService);
   private seasonService = inject(SeasonService);
   matchService = inject(MatchService);
+  matchWithFullDataService = inject(MatchFullDataService);
 
   @Input() itemData: ISeason = {} as ISeason;
 
@@ -110,7 +112,7 @@ export class ItemTournamentComponent implements OnInit, OnDestroy {
 
   // matches$: Observable<IMatchFullData[]> = of([]);
   matchesWithFullData$: Observable<IMatchFullData[]> =
-    this.matchService.matchesWithFullData$;
+    this.matchWithFullDataService.matchesWithFullData$;
   teams$: Observable<ITeam[]> = of([]);
 
   readonly formWeek = new FormGroup({
@@ -138,10 +140,12 @@ export class ItemTournamentComponent implements OnInit, OnDestroy {
         this.teams$ =
           this.tournamentService.fetchTeamsByTournamentId(tournamentId);
 
-        this.matchService.refreshMatchesInTournament(tournamentId);
+        this.matchWithFullDataService.refreshMatchesWithDataInTournament(
+          tournamentId,
+        );
       });
 
-    this.matchService.matchesWithFullData$
+    this.matchWithFullDataService.matchesWithFullData$
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((matches: IMatchFullData[]) => {
         this.searchListService.updateData(of(matches));
