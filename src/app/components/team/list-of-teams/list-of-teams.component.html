@@ -1,19 +1,23 @@
 <div
-  class="content__body__title"
+  class="content__body__title__flex"
 >
   <h2>LIST OF TEAMS</h2>
-  <div>
-    <a
-      appearance="create"
-      size="m"
-      href=""
-      tuiButton
-      type="button"
-      class="btn__create"
-    >
-      NEW TEAM
-    </a>
-  </div>
+  @if (this.sportId) {
+    <div>
+      <a
+        appearance="create"
+        size="m"
+        href=""
+        tuiButton
+        type="button"
+        class="btn__create"
+      >
+        NEW TEAM
+      </a>
+    </div>
+  } @else {
+    <tui-loader></tui-loader>
+  }
 </div>
 
 <app-pagination-with-items-per-page

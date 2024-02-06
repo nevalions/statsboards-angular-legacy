@@ -30,7 +30,7 @@ import { ListOfItemsIslandComponent } from '../../../../shared/ui/list-of-items-
 import { ITournament } from '../../../../type/tournament.type';
 import { TournamentService } from '../../../tournament/tournament.service';
 import { ISport } from '../../../../type/sport.type';
-import { SportService } from '../../../../services/sport.service';
+import { SportService } from '../../sport.service';
 import { IBaseIdElse } from '../../../../type/base.type';
 import { DropDownMenuComponent } from '../../../../shared/ui/dropdownmenu/dropdownmenu.component';
 import { SeasonService } from '../../../../services/season.service';

@@ -1,16 +1,15 @@
-import {Component, inject, OnInit} from '@angular/core';
-import {SportService} from "../../../services/sport.service";
-import {ISport} from "../../../type/sport.type";
-import {Observable, of, switchMap} from "rxjs";
-import {tap} from "rxjs/operators";
-import {AsyncPipe, UpperCasePipe} from "@angular/common";
-import {ActivatedRoute, Router, RouterOutlet} from "@angular/router";
-import {TuiBlockStatusModule} from "@taiga-ui/layout";
-import {TuiIslandModule, TuiSelectModule} from "@taiga-ui/kit";
-import {TuiButtonModule, TuiLoaderModule} from "@taiga-ui/core";
-import {SeasonDropdownComponent} from "../../season/season-dropdown/season-dropdown.component";
-import {ListOfItemsIslandComponent} from "../../../shared/ui/list-of-items-island/list-of-items-island.component";
-
+import { Component, inject, OnInit } from '@angular/core';
+import { SportService } from '../sport.service';
+import { ISport } from '../../../type/sport.type';
+import { Observable, of, switchMap } from 'rxjs';
+import { tap } from 'rxjs/operators';
+import { AsyncPipe, UpperCasePipe } from '@angular/common';
+import { ActivatedRoute, Router, RouterOutlet } from '@angular/router';
+import { TuiBlockStatusModule } from '@taiga-ui/layout';
+import { TuiIslandModule, TuiSelectModule } from '@taiga-ui/kit';
+import { TuiButtonModule, TuiLoaderModule } from '@taiga-ui/core';
+import { SeasonDropdownComponent } from '../../season/season-dropdown/season-dropdown.component';
+import { ListOfItemsIslandComponent } from '../../../shared/ui/list-of-items-island/list-of-items-island.component';
 
 @Component({
   selector: 'app-item-sport',
@@ -25,30 +24,26 @@ import {ListOfItemsIslandComponent} from "../../../shared/ui/list-of-items-islan
     SeasonDropdownComponent,
     ListOfItemsIslandComponent,
     RouterOutlet,
-    TuiLoaderModule
+    TuiLoaderModule,
   ],
   templateUrl: './item-sport.component.html',
-  styleUrl: './item-sport.component.less'
+  styleUrl: './item-sport.component.less',
 })
-export class ItemSportComponent implements OnInit{
-  sportService = inject(SportService)
+export class ItemSportComponent implements OnInit {
+  sportService = inject(SportService);
 
-  item$: Observable<ISport> = of({} as ISport);
+  sport$: Observable<ISport> = of({} as ISport);
 
-  constructor(
-    private route: ActivatedRoute,
-  ) {}
-
+  constructor(private route: ActivatedRoute) {}
 
   ngOnInit() {
-    this.item$ = this.route.paramMap.pipe(
-      switchMap(params => {
+    this.sport$ = this.route.paramMap.pipe(
+      switchMap((params) => {
         const id = Number(params.get('id'));
-        return this.sportService.findById(id)
-          .pipe(
-            tap(sport => console.log(`Sport item ID:${sport.id}`)),
-          )
-      })
+        return this.sportService
+          .findById(id)
+          .pipe(tap((sport) => console.log(`Sport item ID:${sport.id}`)));
+      }),
     );
   }
 }

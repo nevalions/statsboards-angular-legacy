@@ -53,19 +53,6 @@ export class TournamentService extends BaseApiService<ITournament> {
       .subscribe();
   }
 
-  deleteTournament(id: number): Observable<any> {
-    return new Observable<any>((subscriber) => {
-      this.deleteItem(id).subscribe(() => {
-        const tournamentFiltered = this.tournamentsSubject.value.filter(
-          (t) => t.id !== id,
-        );
-        this.tournamentsSubject.next(tournamentFiltered);
-        subscriber.next(tournamentFiltered);
-        subscriber.complete();
-      });
-    });
-  }
-
   //TODO replace with base
   fetchAllMatchesWithDataByTournamentId(id: number) {
     return this.http
@@ -115,5 +102,18 @@ export class TournamentService extends BaseApiService<ITournament> {
       ),
       map((data) => SortService.sort(data, 'title')),
     );
+  }
+
+  deleteTournament(id: number): Observable<any> {
+    return new Observable<any>((subscriber) => {
+      this.deleteItem(id).subscribe(() => {
+        const tournamentFiltered = this.tournamentsSubject.value.filter(
+          (t) => t.id !== id,
+        );
+        this.tournamentsSubject.next(tournamentFiltered);
+        subscriber.next(tournamentFiltered);
+        subscriber.complete();
+      });
+    });
   }
 }

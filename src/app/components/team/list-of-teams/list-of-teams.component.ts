@@ -19,6 +19,7 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TuiValueChangesModule } from '@taiga-ui/cdk';
 import { paginationWithItemsPerPage } from '../../../shared/ui/pagination/pagination-with-items-per-page/pagination-with-items-per-page.component';
 import { ListOfTeamsSmallComponent } from '../list-of-teams-small/list-of-teams-small.component';
+import { DeleteDialogComponent } from '../../../shared/ui/dialogs/delete-dialog/delete-dialog.component';
 
 @Component({
   selector: 'app-list-of-teams',
@@ -37,6 +38,7 @@ import { ListOfTeamsSmallComponent } from '../list-of-teams-small/list-of-teams-
     TuiValueChangesModule,
     paginationWithItemsPerPage,
     ListOfTeamsSmallComponent,
+    DeleteDialogComponent,
   ],
 
   templateUrl: './list-of-teams.component.html',
@@ -46,6 +48,7 @@ import { ListOfTeamsSmallComponent } from '../list-of-teams-small/list-of-teams-
 export class ListOfTeamsComponent implements OnInit {
   searchListService = inject(SearchListService);
   paginationService = inject(PaginationService);
+  @Input() sportId!: number;
 
   @Input() emptyMessage: string = 'No teams available';
   @Input() teams$: Observable<ITeam[]> = of([]);

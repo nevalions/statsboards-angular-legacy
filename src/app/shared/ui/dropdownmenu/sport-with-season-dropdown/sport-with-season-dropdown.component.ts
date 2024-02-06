@@ -2,7 +2,7 @@ import { Component, inject, Input, OnInit } from '@angular/core';
 import { TUI_ARROW } from '@taiga-ui/kit';
 import { DropDownMenuComponent } from '../dropdownmenu.component';
 import { ISeasonAndSport, ISport } from '../../../../type/sport.type';
-import { SportService } from '../../../../services/sport.service';
+import { SportService } from '../../../../components/sport/sport.service';
 import { TournamentService } from '../../../../components/tournament/tournament.service';
 import { SeasonService } from '../../../../services/season.service';
 import { Observable, of } from 'rxjs';
