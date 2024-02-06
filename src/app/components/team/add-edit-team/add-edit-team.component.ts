@@ -1,12 +1,75 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import {
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
+import { ITeam } from '../../../type/team.type';
+import { AsyncPipe } from '@angular/common';
+import { TuiAutoFocusModule } from '@taiga-ui/cdk';
+import {
+  TuiButtonModule,
+  TuiDialogModule,
+  TuiErrorModule,
+} from '@taiga-ui/core';
+import {
+  TuiFieldErrorPipeModule,
+  TuiInputModule,
+  TuiTextareaModule,
+} from '@taiga-ui/kit';
 
 @Component({
   selector: 'app-add-edit-team',
   standalone: true,
-  imports: [],
+  imports: [
+    AsyncPipe,
+    ReactiveFormsModule,
+    TuiAutoFocusModule,
+    TuiButtonModule,
+    TuiDialogModule,
+    TuiErrorModule,
+    TuiFieldErrorPipeModule,
+    TuiInputModule,
+    TuiTextareaModule,
+  ],
   templateUrl: './add-edit-team.component.html',
-  styleUrl: './add-edit-team.component.less'
+  styleUrl: './add-edit-team.component.less',
 })
 export class AddEditTeamComponent {
+  @Input() addTeam!: (data: any) => void;
+  @Input() sportId!: number;
 
+  teamForm = new FormGroup({
+    teamTitle: new FormControl('', [
+      Validators.required,
+      Validators.minLength(3),
+    ]),
+    teamDescription: new FormControl(''),
+    teamLogoUrl: new FormControl(''),
+    teamEeslId: new FormControl(undefined),
+  });
+
+  open: boolean = false;
+
+  showDialog(): void {
+    this.open = true;
+  }
+
+  onSubmit(): void {
+    if (this.teamForm.valid) {
+      const formValue = this.teamForm.getRawValue();
+
+      const data: ITeam = {
+        title: formValue.teamTitle!,
+        description: formValue.teamDescription!,
+        team_logo_url: formValue.teamLogoUrl!,
+        team_eesl_id: formValue.teamEeslId,
+        sport_id: this.sportId,
+      };
+
+      console.log(formValue.teamTitle, data.sport_id);
+      this.addTeam(data);
+    }
+  }
 }

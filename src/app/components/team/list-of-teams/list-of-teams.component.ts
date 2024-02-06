@@ -20,6 +20,9 @@ import { TuiValueChangesModule } from '@taiga-ui/cdk';
 import { paginationWithItemsPerPage } from '../../../shared/ui/pagination/pagination-with-items-per-page/pagination-with-items-per-page.component';
 import { ListOfTeamsSmallComponent } from '../list-of-teams-small/list-of-teams-small.component';
 import { DeleteDialogComponent } from '../../../shared/ui/dialogs/delete-dialog/delete-dialog.component';
+import { AddEditTeamComponent } from '../add-edit-team/add-edit-team.component';
+import { SportService } from '../../sport/sport.service';
+import { TeamService } from '../team.service';
 
 @Component({
   selector: 'app-list-of-teams',
@@ -39,6 +42,7 @@ import { DeleteDialogComponent } from '../../../shared/ui/dialogs/delete-dialog/
     paginationWithItemsPerPage,
     ListOfTeamsSmallComponent,
     DeleteDialogComponent,
+    AddEditTeamComponent,
   ],
 
   templateUrl: './list-of-teams.component.html',
@@ -48,6 +52,8 @@ import { DeleteDialogComponent } from '../../../shared/ui/dialogs/delete-dialog/
 export class ListOfTeamsComponent implements OnInit {
   searchListService = inject(SearchListService);
   paginationService = inject(PaginationService);
+  teamService = inject(TeamService);
+
   @Input() sportId!: number;
 
   @Input() emptyMessage: string = 'No teams available';

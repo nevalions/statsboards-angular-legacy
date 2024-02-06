@@ -61,6 +61,19 @@ export class TeamService extends BaseApiService<ITeam> {
     );
   }
 
+  addTeam(newTeam: ITeam): void {
+    this.addItem(newTeam)
+      .pipe(
+        tap((team: ITeam) => {
+          console.log('ADDED TEAM', team);
+          let updatedTeams = [...this.teamsSubject.value, team];
+          updatedTeams = SortService.sort(updatedTeams, 'title');
+          this.teamsSubject.next(updatedTeams);
+        }),
+      )
+      .subscribe();
+  }
+
   deleteTeam(id: number): Observable<ITeam> {
     return new Observable<any>((subscriber) => {
       this.deleteItem(id).subscribe(() => {

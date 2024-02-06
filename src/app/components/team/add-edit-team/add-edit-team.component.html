@@ -1,1 +1,67 @@
-<p>add-edit-team works!</p>
+<button
+  appearance="create"
+  size="m"
+  tuiButton
+  type="button"
+  (click)="showDialog()"
+>
+  NEW TEAM
+</button>
+<ng-template
+  let-observer
+  [tuiDialogOptions]="{label: 'Add New team', size: 'm'}"
+  [(tuiDialog)]="open"
+>
+  <form
+    [formGroup]="teamForm"
+    (ngSubmit)="onSubmit(); observer.complete()"
+  >
+    <p></p>
+    <div class="tui-form__row">
+      <tui-input
+        formControlName="teamTitle"
+        tuiAutoFocus
+      >
+        Team Title
+
+        <span class="tui-required"></span>
+      </tui-input>
+      <tui-error
+        formControlName="teamTitle"
+        [error]="[] | tuiFieldError | async"
+      ></tui-error>
+    </div>
+
+    <div class="tui-form__row">
+      <tui-textarea
+        formControlName="teamDescription"
+      >
+        Team Description
+      </tui-textarea>
+      <tui-error
+        formControlName="teamDescription"
+        [error]="[] | tuiFieldError | async"
+      ></tui-error>
+    </div>
+    <p>
+      <button
+        appearance="create"
+        tuiButton
+        type="submit"
+        size="m"
+        [disabled]="!teamForm.valid"
+      >
+        Add
+      </button>
+      <button
+        appearance="secondary"
+        tuiButton
+        type="button"
+        style="padding: 10px"
+        (click)="observer.complete()"
+      >
+        CANCEL
+      </button>
+    </p>
+  </form>
+</ng-template>

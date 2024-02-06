@@ -3,18 +3,10 @@
 >
   <h2>LIST OF TEAMS</h2>
   @if (this.sportId) {
-    <div>
-      <a
-        appearance="create"
-        size="m"
-        href=""
-        tuiButton
-        type="button"
-        class="btn__create"
-      >
-        NEW TEAM
-      </a>
-    </div>
+    <app-add-edit-team
+      [sportId]="sportId"
+      [addTeam]="teamService.addTeam.bind(teamService)"
+    ></app-add-edit-team>
   } @else {
     <tui-loader></tui-loader>
   }

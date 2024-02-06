@@ -51,7 +51,6 @@ export class WithTeamsComponent implements OnInit, OnDestroy {
 
   private route = inject(ActivatedRoute);
   private teamService = inject(TeamService);
-  private sportService = inject(SportService);
   sportId!: number;
 
   teams$ = this.teamService.teams$;
@@ -79,18 +78,6 @@ export class WithTeamsComponent implements OnInit, OnDestroy {
         this.teamService.refreshTeamsInSport(this.sportId);
       });
   }
-
-  // ngOnInit() {
-  //   this.teams$ = this.getTeams$();
-  // }
-  //
-  // getTeams$(): Observable<ITeam[]> {
-  //   return (
-  //     this.route.parent?.params.pipe(
-  //       switchMap((id) => this.teamService.fetchAllTeamsBySportId(id)),
-  //     ) ?? of([])
-  //   );
-  // }
 
   ngOnDestroy() {
     this.ngUnsubscribe.next();
