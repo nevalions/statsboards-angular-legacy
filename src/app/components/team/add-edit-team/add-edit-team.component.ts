@@ -16,6 +16,7 @@ import {
 import {
   TuiFieldErrorPipeModule,
   TuiInputModule,
+  TuiInputNumberModule,
   TuiTextareaModule,
 } from '@taiga-ui/kit';
 
@@ -32,6 +33,7 @@ import {
     TuiFieldErrorPipeModule,
     TuiInputModule,
     TuiTextareaModule,
+    TuiInputNumberModule,
   ],
   templateUrl: './add-edit-team.component.html',
   styleUrl: './add-edit-team.component.less',
@@ -42,6 +44,10 @@ export class AddEditTeamComponent {
 
   teamForm = new FormGroup({
     teamTitle: new FormControl('', [
+      Validators.required,
+      Validators.minLength(3),
+    ]),
+    teamCity: new FormControl('', [
       Validators.required,
       Validators.minLength(3),
     ]),
@@ -62,6 +68,7 @@ export class AddEditTeamComponent {
 
       const data: ITeam = {
         title: formValue.teamTitle!,
+        city: formValue.teamCity!,
         description: formValue.teamDescription!,
         team_logo_url: formValue.teamLogoUrl!,
         team_eesl_id: formValue.teamEeslId,

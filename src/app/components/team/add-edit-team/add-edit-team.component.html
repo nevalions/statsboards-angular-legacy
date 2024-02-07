@@ -33,6 +33,20 @@
     </div>
 
     <div class="tui-form__row">
+      <tui-input
+        formControlName="teamCity"
+        tuiAutoFocus
+      >
+        Team City
+        <span class="tui-required"></span>
+      </tui-input>
+      <tui-error
+        formControlName="teamCity"
+        [error]="[] | tuiFieldError | async"
+      ></tui-error>
+    </div>
+
+    <div class="tui-form__row">
       <tui-textarea
         formControlName="teamDescription"
       >
@@ -43,6 +57,32 @@
         [error]="[] | tuiFieldError | async"
       ></tui-error>
     </div>
+
+    <div class="tui-form__row">
+      <tui-input
+        formControlName="teamLogoUrl"
+        tuiAutoFocus
+      >
+        Team Logo Url
+      </tui-input>
+      <tui-error
+        formControlName="teamLogoUrl"
+        [error]="[] | tuiFieldError | async"
+      ></tui-error>
+    </div>
+
+    <div class="tui-form__row">
+      <tui-input-number
+        formControlName="teamEeslId"
+      >
+        Match EESL ID
+      </tui-input-number>
+      <tui-error
+        formControlName="teamEeslId"
+        [error]="[] | tuiFieldError | async"
+      ></tui-error>
+    </div>
+
     <p>
       <button
         appearance="create"

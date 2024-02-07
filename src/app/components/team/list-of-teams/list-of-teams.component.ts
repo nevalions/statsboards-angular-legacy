@@ -23,6 +23,7 @@ import { DeleteDialogComponent } from '../../../shared/ui/dialogs/delete-dialog/
 import { AddEditTeamComponent } from '../add-edit-team/add-edit-team.component';
 import { SportService } from '../../sport/sport.service';
 import { TeamService } from '../team.service';
+import { ListOfTeamsWithCityComponent } from '../list-of-teams-with-city/list-of-teams-with-city.component';
 
 @Component({
   selector: 'app-list-of-teams',
@@ -43,6 +44,7 @@ import { TeamService } from '../team.service';
     ListOfTeamsSmallComponent,
     DeleteDialogComponent,
     AddEditTeamComponent,
+    ListOfTeamsWithCityComponent,
   ],
 
   templateUrl: './list-of-teams.component.html',
