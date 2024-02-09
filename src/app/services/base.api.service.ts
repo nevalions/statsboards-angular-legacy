@@ -1,6 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, catchError, Observable, shareReplay } from 'rxjs';
+import {
+  BehaviorSubject,
+  catchError,
+  map,
+  Observable,
+  shareReplay,
+} from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { ErrorHandlingService } from './error.service';
 
@@ -14,7 +20,7 @@ export abstract class BaseApiService<T> {
   protected constructor(
     protected endpoint: string,
     protected readonly http: HttpClient,
-    private errorHandlingService: ErrorHandlingService,
+    protected errorHandlingService: ErrorHandlingService,
   ) {}
 
   findAll(postValue?: string): Observable<T[]> {
@@ -38,8 +44,30 @@ export abstract class BaseApiService<T> {
     const finalEndpoint = postValue
       ? `${this.endpoint}/${postValue}`
       : this.endpoint;
+
     return this.http.post<T>(finalEndpoint, postData).pipe(
       tap((items: T) => {
+        console.log(
+          `POSTED /API/${finalEndpoint.toUpperCase()} \ndata:`,
+          items,
+        );
+      }),
+      map((response) => {
+        console.log('Server response:', response);
+        return response;
+      }),
+      catchError((error) => {
+        return this.errorHandlingService.handleError(error);
+      }),
+    );
+  }
+
+  addAnyItem(postData: any, postValue?: string): Observable<any> {
+    const finalEndpoint = postValue
+      ? `${this.endpoint}/${postValue}`
+      : this.endpoint;
+    return this.http.post<any>(finalEndpoint, postData).pipe(
+      tap((items: any) => {
         console.log(
           `POSTED /API/${finalEndpoint.toUpperCase()} \ndata:`,
           items,
@@ -53,6 +81,17 @@ export abstract class BaseApiService<T> {
 
   deleteItem(id: number): Observable<T> {
     return this.http.delete<T>(`${this.endpoint}/id/${id}`).pipe(
+      tap(() => {
+        console.log(`DELETED /API/${this.endpoint.toUpperCase()}/${id}`);
+      }),
+      catchError((error) => {
+        return this.errorHandlingService.handleError(error);
+      }),
+    );
+  }
+
+  deleteAnyItem(id: number): Observable<any> {
+    return this.http.delete<any>(`${this.endpoint}/id/${id}`).pipe(
       tap(() => {
         console.log(`DELETED /API/${this.endpoint.toUpperCase()}/${id}`);
       }),

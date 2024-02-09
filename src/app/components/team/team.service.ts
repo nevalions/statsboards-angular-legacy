@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, map, Observable, Subject } from 'rxjs';
 import { Params, Router } from '@angular/router';
 import { ErrorHandlingService } from '../../services/error.service';
-import { ITeam } from '../../type/team.type';
+import { ITeam, ITeamTournament } from '../../type/team.type';
 import { tap } from 'rxjs/operators';
 import { SortService } from '../../services/sort.service';
 import { TournamentService } from '../tournament/tournament.service';
@@ -16,7 +16,8 @@ export class TeamService extends BaseApiService<ITeam> {
   private teamsSubject = new BehaviorSubject<ITeam[]>([]);
   public teams$ = this.teamsSubject.asObservable();
 
-  private tournamentService = inject(TournamentService);
+  // public teamsInTournamentSubject = new BehaviorSubject<ITeam[]>([]);
+  // public teamsInTournament$ = this.teamsInTournamentSubject.asObservable();
 
   constructor(
     http: HttpClient,
@@ -32,12 +33,25 @@ export class TeamService extends BaseApiService<ITeam> {
     });
   }
 
+  // refreshTeamsInTournament(tournamentId: number): void {
+  //   this.fetchTeamsByTournamentId(tournamentId).subscribe((teams: ITeam[]) => {
+  //     this.teamsInTournamentSubject.next(teams);
+  //   });
+  // }
+
   fetchTeamsBySportId(id: number): Observable<ITeam[]> {
     return this.findByFirstKeyValue('sports', 'id', id, 'teams').pipe(
       tap((teams) => console.log(`TEAMS from SPORT ID: ${id}`, teams)),
       map((data) => SortService.sort(data, 'title')),
     );
   }
+
+  // fetchTeamsByTournamentId(id: number): Observable<ITeam[]> {
+  //   return this.findByFirstKeyValue('tournaments', 'id', id, 'teams').pipe(
+  //     tap((teams) => console.log(`TEAMS from TOURNAMENT ID: ${id}`, teams)),
+  //     map((data) => SortService.sort(data, 'title')),
+  //   );
+  // }
 
   fetchAllTeamsBySportId(params: Params): Observable<ITeam[]> {
     const firstItem = 'sports';

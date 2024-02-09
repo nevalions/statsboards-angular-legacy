@@ -9,6 +9,7 @@ import {
 } from '@angular/core';
 import {
   TuiDataListWrapperModule,
+  TuiElasticContainerModule,
   TuiFilterByInputPipeModule,
   TuiInputModule,
   TuiInputNumberModule,
@@ -54,6 +55,9 @@ import { DeleteDialogComponent } from '../../../shared/ui/dialogs/delete-dialog/
 import { AddEditMatchComponent } from '../../match/add-edit-match/add-edit-match.component';
 import { MatchService } from '../../match/match.service';
 import { MatchFullDataService } from '../../match/matchfulldata.service';
+import { TeamTournamentService } from '../../../services/team-tournament.service';
+import { AddTeamToTournamentComponent } from '../../team/add-team-to-tournament/add-team-to-tournament.component';
+import { TeamService } from '../../team/team.service';
 
 @Component({
   selector: 'app-item-tournament',
@@ -87,6 +91,8 @@ import { MatchFullDataService } from '../../match/matchfulldata.service';
     TournamentDeleteFormComponent,
     DeleteDialogComponent,
     AddEditMatchComponent,
+    AddTeamToTournamentComponent,
+    TuiElasticContainerModule,
   ],
   templateUrl: './item-tournament.component.html',
   styleUrl: './item-tournament.component.less',
@@ -99,20 +105,21 @@ export class ItemTournamentComponent implements OnInit, OnDestroy {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   private tournamentService = inject(TournamentService);
+  teamService = inject(TeamService);
   private seasonService = inject(SeasonService);
   matchWithFullDataService = inject(MatchFullDataService);
-
-  @Input() itemData: ISeason = {} as ISeason;
+  teamTournamentService = inject(TeamTournamentService);
 
   searchListService = inject(SearchListService);
   paginationService = inject(PaginationService);
 
   tournament$: Observable<ITournament> = of({} as ITournament);
+  tournamentId!: number;
 
   matchesWithFullData$: Observable<IMatchFullData[]> =
     this.matchWithFullDataService.matchesWithFullData$;
-  teams$: Observable<ITeam[]> = of([]);
-
+  // teams$: Observable<ITeam[]> = of([]);
+  teamsInTournament$ = this.teamTournamentService.teamsInTournament$;
   readonly formWeek = new FormGroup({
     matchWeekSearch: new FormControl(1),
   });
@@ -122,7 +129,7 @@ export class ItemTournamentComponent implements OnInit, OnDestroy {
   islandTeamTitleProperty: keyof ITeam = 'title';
 
   teamItemHref(item: ITeam): string {
-    return `/teams/id/${item.id}`;
+    return `/tournaments${this.tournamentId}/teams/id/${item.id}`;
   }
 
   matchHref(item: IMatchFullData): string {
@@ -133,13 +140,14 @@ export class ItemTournamentComponent implements OnInit, OnDestroy {
     this.route.params
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((params: Params) => {
-        const tournamentId = Number([params['id']]);
-        this.tournament$ = this.tournamentService.findById(tournamentId);
-        this.teams$ =
-          this.tournamentService.fetchTeamsByTournamentId(tournamentId);
+        this.tournamentId = Number([params['id']]);
+        this.tournament$ = this.tournamentService.findById(this.tournamentId);
+        // this.teams$ =
+        //   this.tournamentService.fetchTeamsByTournamentId(tournamentId);
 
+        this.teamTournamentService.refreshTeamsInTournament(this.tournamentId);
         this.matchWithFullDataService.refreshMatchesWithDataInTournament(
-          tournamentId,
+          this.tournamentId,
         );
       });
 
@@ -197,6 +205,12 @@ export class ItemTournamentComponent implements OnInit, OnDestroy {
           `/sports/id/${sport_id}/seasons/${year}/tournaments`,
         );
       });
+  }
+
+  onTeamRemoveFromTournament(teamId: number, tournamentId: number) {
+    this.teamTournamentService
+      .deleteTeamTournament(teamId, tournamentId)
+      .subscribe();
   }
 
   readonly stringify = (match: IMatchFullData): string =>

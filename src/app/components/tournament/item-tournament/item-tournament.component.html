@@ -19,19 +19,16 @@
           titleMany='matches'
         ></app-body-title>
         @if (tournament.id) {
-          @if (teams$ | async; ) {
+          @if (teamsInTournament$ | async; as teams) {
             <app-add-edit-match
               [tournamentId]="tournament.id"
-              [teams$]="teams$"
+              [teams$]="teamsInTournament$"
               [addMatch]="matchWithFullDataService.addMatchWithFullData.bind(matchWithFullDataService)"
             ></app-add-edit-match>
           }
         } @else {
           <tui-loader></tui-loader>
         }
-        <!--        <app-create-button-->
-        <!--          title='match'-->
-        <!--        ></app-create-button>-->
         <app-delete-dialog
           [item]="'Tournament'"
           (delete)="onDelete()"
@@ -85,12 +82,44 @@
 
 
       <aside>
-        <h4>TEAMS</h4>
-        <app-list-of-teams-small
-          [teams$]="teams$"
-          [formatPath]="teamItemHref"
-          [titleProperty]="islandTeamTitleProperty"
-        ></app-list-of-teams-small>
+        <h4 style="text-align: center">TEAMS</h4>
+        @if (tournament$ | async; as tournament) {
+          @if (teamsInTournament$ | async; as teams) {
+            @for (team of teams; track team.id) {
+
+              <tui-elastic-container>
+                <div style="display: flex; justify-content: space-between; align-items: center">
+                  <button
+                    appearance="whiteblock"
+                    size="xl"
+                    tuiButton
+                    type="button"
+                    style="width: 80%"
+                  > {{ team.title }}
+                  </button>
+                  <button
+                    appearance="flat"
+                    icon="tuiIconClose"
+                    shape="rounded"
+                    size="s"
+                    title="Remove"
+                    tuiIconButton
+                    (click)="onTeamRemoveFromTournament(team.id!, tournament.id!)"
+                  ></button>
+                </div>
+              </tui-elastic-container>
+
+            }
+          } @else {
+            <tui-loader></tui-loader>
+          }
+        }
+        @if (this.tournament$ | async; as tournament) {
+          <app-add-team-to-tournament
+            [tournamentId]="tournament.id!"
+            [sportId]="tournament.sport_id"
+          ></app-add-team-to-tournament>
+        }
       </aside>
     </div>
 
@@ -224,7 +253,3 @@
 <!--        </app-list-of-matches>-->
 <!--      }-->
 <!--    </div>-->
-
-
-
-

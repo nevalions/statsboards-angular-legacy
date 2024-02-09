@@ -68,7 +68,7 @@ export class MatchFullDataService extends BaseApiService<IMatchFullData> {
           updatedMatches = SortService.sort(
             updatedMatches,
             'week',
-            'match_date',
+            '-match_date',
           );
           this.matchesWithFullDataSubject.next(updatedMatches);
         }),

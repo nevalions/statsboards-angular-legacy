@@ -1,5 +1,3 @@
-import { IBaseID } from './base.type';
-
 export interface ITeam {
   id?: number;
   title: string;
@@ -8,4 +6,10 @@ export interface ITeam {
   team_eesl_id?: number | null;
   team_logo_url?: string;
   sport_id: number;
+}
+
+export interface ITeamTournament {
+  id?: number;
+  team_id: number;
+  tournament_id: number;
 }

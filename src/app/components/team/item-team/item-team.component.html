@@ -1,1 +1,28 @@
-<p>item-team works!</p>
+<div class="tournament content__title">
+  @if (team$ | async; as team) {
+    <h3 class="tui-text_h3">
+      {{ team.title | uppercase }}
+    </h3>
+    <p class="content__title_description">{{ team.city }}</p>
+  } @else {
+    <h3 class="tui-text_h3">
+      <tui-loader [inheritColor]="true"></tui-loader>
+    </h3>
+  }
+</div>
+
+<div class="tournament content__body">
+  <div class="one_col_container">
+    <div class="tournament content__body__title__flex">
+      @if (team$ | async; as team) {
+        <h3>Players List</h3>
+      } @else {
+        <tui-loader></tui-loader>
+      }
+      <app-delete-dialog
+        [item]="'Team'"
+        (delete)="onDelete()"
+      ></app-delete-dialog>
+    </div>
+  </div>
+</div>

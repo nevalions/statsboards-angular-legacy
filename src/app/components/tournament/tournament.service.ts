@@ -65,14 +65,6 @@ export class TournamentService extends BaseApiService<ITournament> {
       );
   }
 
-  //TODO replace with base
-  fetchTeamsByTournamentId(id: number): Observable<ITeam[]> {
-    return this.http.get<ITeam[]>(`${this.endpoint}/id/${id}/teams`).pipe(
-      tap((items) => console.log(`TEAMS from TOURNAMENT ID ${id}`, items)),
-      map((data) => SortService.sort(data, 'title')),
-    );
-  }
-
   fetchTournamentsBySportAndSeason(params: {
     id: number;
     year: number;
