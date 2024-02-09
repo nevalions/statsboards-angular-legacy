@@ -9,6 +9,7 @@ import { TuiButtonModule, TuiLoaderModule } from '@taiga-ui/core';
 import { TuiIslandModule } from '@taiga-ui/kit';
 import { DeleteDialogComponent } from '../../../shared/ui/dialogs/delete-dialog/delete-dialog.component';
 import { MatchFullDataService } from '../matchfulldata.service';
+import { DeleteButtonComponent } from '../../../shared/ui/buttons/delete-button/delete-button.component';
 
 @Component({
   selector: 'app-item-match',
@@ -20,6 +21,7 @@ import { MatchFullDataService } from '../matchfulldata.service';
     TuiIslandModule,
     TuiButtonModule,
     DeleteDialogComponent,
+    DeleteButtonComponent,
   ],
   templateUrl: './item-match.component.html',
   styleUrl: './item-match.component.less',
@@ -69,6 +71,12 @@ export class ItemMatchComponent implements OnInit {
       );
     }
   }
+
+  // open: boolean = false;
+  //
+  // showDialog(): void {
+  //   this.open = true;
+  // }
 
   onDelete() {
     if (this.matchId) {

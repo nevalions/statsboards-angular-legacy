@@ -29,6 +29,9 @@
         } @else {
           <tui-loader></tui-loader>
         }
+        <app-delete-button
+          [item]="'Tournament'"
+        ></app-delete-button>
         <app-delete-dialog
           [item]="'Tournament'"
           (delete)="onDelete()"

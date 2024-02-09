@@ -1,0 +1,10 @@
+<button
+  appearance="destructive"
+  [class]="buttonClass"
+  [size]="buttonSize"
+  tuiButton
+  type="button"
+  (click)="onButtonClick()"
+>
+  {{ action | uppercase }} {{ item | uppercase }}
+</button>

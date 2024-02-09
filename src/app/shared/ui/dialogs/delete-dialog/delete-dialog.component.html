@@ -1,13 +1,13 @@
-<button
-  appearance="destructive"
-  [class]="buttonClass"
-  [size]="buttonSize"
-  tuiButton
-  type="button"
-  (click)="showDialog()"
->
-  {{ action | uppercase }} {{ item | uppercase }}
-</button>
+<!--<button-->
+<!--  appearance="destructive"-->
+<!--  [class]="buttonClass"-->
+<!--  [size]="buttonSize"-->
+<!--  tuiButton-->
+<!--  type="button"-->
+<!--  (click)="showDialog()"-->
+<!--&gt;-->
+<!--  {{ action | uppercase }} {{ item | uppercase }}-->
+<!--</button>-->
 <ng-template
   let-observer
   [tuiDialogOptions]="{label: action.toUpperCase() + ' ' + item.toUpperCase() + '?', size: 'm'}"

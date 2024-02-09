@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -18,6 +18,7 @@ import {
 import { TitleCasePipe, UpperCasePipe } from '@angular/common';
 import { UiTuiSizeType } from '../../../../type/ui.type';
 import { TuiCheckboxLabeledModule } from '@taiga-ui/kit';
+import { DialogService } from '../../../../services/dialog.service';
 
 @Component({
   selector: 'app-delete-dialog',
@@ -35,6 +36,8 @@ import { TuiCheckboxLabeledModule } from '@taiga-ui/kit';
   styleUrl: './delete-dialog.component.less',
 })
 export class DeleteDialogComponent {
+  dialogService = inject(DialogService);
+
   @Input() item: string = 'item';
   @Input() buttonSize: UiTuiSizeType = 'm';
   @Input() buttonClass: string = '';
@@ -49,8 +52,15 @@ export class DeleteDialogComponent {
 
   open: boolean = false;
 
-  showDialog(): void {
-    this.open = true;
+  constructor() {
+    this.dialogService.getDialogEvent().subscribe(() => {
+      this.showDialog(true);
+    });
+  }
+
+  //
+  showDialog(open: boolean): void {
+    this.open = open;
   }
 
   onSubmit(): void {

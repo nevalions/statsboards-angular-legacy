@@ -58,6 +58,7 @@ import { MatchFullDataService } from '../../match/matchfulldata.service';
 import { TeamTournamentService } from '../../../services/team-tournament.service';
 import { AddTeamToTournamentComponent } from '../../team/add-team-to-tournament/add-team-to-tournament.component';
 import { TeamService } from '../../team/team.service';
+import { DeleteButtonComponent } from '../../../shared/ui/buttons/delete-button/delete-button.component';
 
 @Component({
   selector: 'app-item-tournament',
@@ -93,6 +94,7 @@ import { TeamService } from '../../team/team.service';
     AddEditMatchComponent,
     AddTeamToTournamentComponent,
     TuiElasticContainerModule,
+    DeleteButtonComponent,
   ],
   templateUrl: './item-tournament.component.html',
   styleUrl: './item-tournament.component.less',
