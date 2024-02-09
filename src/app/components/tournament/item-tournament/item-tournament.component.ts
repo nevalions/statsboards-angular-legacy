@@ -129,7 +129,11 @@ export class ItemTournamentComponent implements OnInit, OnDestroy {
   islandTeamTitleProperty: keyof ITeam = 'title';
 
   teamItemHref(item: ITeam): string {
-    return `/tournaments${this.tournamentId}/teams/id/${item.id}`;
+    return `/tournaments/${this.tournamentId}/teams/id/${item.id}`;
+  }
+
+  navigateTo(route: string): void {
+    this.router.navigateByUrl(route);
   }
 
   matchHref(item: IMatchFullData): string {
