@@ -5,13 +5,23 @@ import { Observable, Subject } from 'rxjs';
   providedIn: 'root',
 })
 export class DialogService {
-  private subject = new Subject<any>();
+  private subjects = new Map<string, Subject<any>>();
 
-  showDialog() {
-    this.subject.next(undefined);
+  showDialog(dialogId: string) {
+    let subject = this.subjects.get(dialogId);
+    if (subject === undefined) {
+      subject = new Subject();
+      this.subjects.set(dialogId, subject);
+    }
+    subject.next(undefined);
   }
 
-  getDialogEvent(): Observable<any> {
-    return this.subject.asObservable();
+  getDialogEvent(dialogId: string): Observable<any> {
+    let subject = this.subjects.get(dialogId);
+    if (subject === undefined) {
+      subject = new Subject();
+      this.subjects.set(dialogId, subject);
+    }
+    return subject.asObservable();
   }
 }

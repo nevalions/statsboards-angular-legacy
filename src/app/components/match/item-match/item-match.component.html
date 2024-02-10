@@ -48,12 +48,12 @@
                 SCOREBOARD VIEW
               </button>
               <app-delete-button
-                [item]="'Match'"
+                [item]="buttonTitle"
                 class="tui-island__footer-button"
                 style="padding: 10px"
               ></app-delete-button>
               <app-delete-dialog
-                [item]="'Match'"
+                [item]="buttonTitle"
                 (delete)="onDelete()"
               ></app-delete-dialog>
 

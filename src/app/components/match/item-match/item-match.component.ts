@@ -35,6 +35,8 @@ export class ItemMatchComponent implements OnInit {
 
   match$: Observable<IMatchFullData> = of(getDefaultFullData());
 
+  buttonTitle: string = 'Match';
+
   constructor() {}
 
   ngOnInit() {

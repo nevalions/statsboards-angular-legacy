@@ -18,7 +18,6 @@ import {
 import { TuiLetModule } from '@taiga-ui/cdk';
 import { TeamService } from '../team.service';
 import { TeamTournamentService } from '../../../services/team-tournament.service';
-import { TournamentService } from '../../tournament/tournament.service';
 
 @Component({
   selector: 'app-add-team-to-tournament',

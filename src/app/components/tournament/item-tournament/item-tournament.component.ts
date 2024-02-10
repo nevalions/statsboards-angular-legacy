@@ -59,6 +59,8 @@ import { TeamTournamentService } from '../../../services/team-tournament.service
 import { AddTeamToTournamentComponent } from '../../team/add-team-to-tournament/add-team-to-tournament.component';
 import { TeamService } from '../../team/team.service';
 import { DeleteButtonComponent } from '../../../shared/ui/buttons/delete-button/delete-button.component';
+import { DeleteButtonIconComponent } from '../../../shared/ui/buttons/delete-button-icon/delete-button-icon.component';
+import { tuiIconClose } from '@taiga-ui/icons';
 
 @Component({
   selector: 'app-item-tournament',
@@ -95,6 +97,7 @@ import { DeleteButtonComponent } from '../../../shared/ui/buttons/delete-button/
     AddTeamToTournamentComponent,
     TuiElasticContainerModule,
     DeleteButtonComponent,
+    DeleteButtonIconComponent,
   ],
   templateUrl: './item-tournament.component.html',
   styleUrl: './item-tournament.component.less',
@@ -107,8 +110,8 @@ export class ItemTournamentComponent implements OnInit, OnDestroy {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   private tournamentService = inject(TournamentService);
-  teamService = inject(TeamService);
   private seasonService = inject(SeasonService);
+
   matchWithFullDataService = inject(MatchFullDataService);
   teamTournamentService = inject(TeamTournamentService);
 
@@ -120,18 +123,21 @@ export class ItemTournamentComponent implements OnInit, OnDestroy {
 
   matchesWithFullData$: Observable<IMatchFullData[]> =
     this.matchWithFullDataService.matchesWithFullData$;
-  // teams$: Observable<ITeam[]> = of([]);
+
   teamsInTournament$ = this.teamTournamentService.teamsInTournament$;
+
   readonly formWeek = new FormGroup({
     matchWeekSearch: new FormControl(1),
   });
+
+  buttonTitle: string = 'Tournament';
 
   constructor() {}
 
   islandTeamTitleProperty: keyof ITeam = 'title';
 
   teamItemHref(item: ITeam): string {
-    return `/tournaments/${this.tournamentId}/teams/id/${item.id}`;
+    return `/tournaments/id/${this.tournamentId}/teams/id/${item.id}`;
   }
 
   navigateTo(route: string): void {

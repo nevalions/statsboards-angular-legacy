@@ -30,10 +30,11 @@
           <tui-loader></tui-loader>
         }
         <app-delete-button
-          [item]="'Tournament'"
+          [item]="buttonTitle"
+          [dialogId]="'deleteDialog'"
         ></app-delete-button>
         <app-delete-dialog
-          [item]="'Tournament'"
+          [item]="buttonTitle"
           (delete)="onDelete()"
         ></app-delete-dialog>
 
@@ -101,15 +102,19 @@
                     (click)="navigateTo(teamItemHref(team))"
                   > {{ team.title }}
                   </button>
-                  <button
-                    appearance="flat"
-                    icon="tuiIconClose"
-                    shape="rounded"
-                    size="s"
-                    title="Remove"
-                    tuiIconButton
-                    (click)="onTeamRemoveFromTournament(team.id!, tournament.id!)"
-                  ></button>
+                  <app-delete-button-icon
+                    [dialogId]="'removeDialog'"
+                  ></app-delete-button-icon>
+
+                  <!--                  <button-->
+                  <!--                    appearance="flat"-->
+                  <!--                    icon="tuiIconClose"-->
+                  <!--                    shape="rounded"-->
+                  <!--                    size="s"-->
+                  <!--                    title="Remove"-->
+                  <!--                    tuiIconButton-->
+                  <!--                    (click)="onTeamRemoveFromTournament(team.id!, tournament.id!)"-->
+                  <!--                  ></button>-->
                 </div>
               </tui-elastic-container>
 
