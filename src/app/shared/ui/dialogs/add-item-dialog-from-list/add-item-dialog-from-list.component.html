@@ -40,14 +40,10 @@
       </div>
       <div class="tui-form__row">
         <p>
-          <button
-            appearance="create"
-            tuiButton
-            type="submit"
-            [disabled]="!itemAddForm.valid"
-          >
-            {{ action | uppercase }}
-          </button>
+          <app-create-button-in-form
+            [action]="'add'"
+            [disabled]="!itemAddForm.valid">
+          </app-create-button-in-form>
           <button
             appearance="secondary"
             tuiButton

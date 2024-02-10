@@ -20,7 +20,7 @@ import { TuiDataListWrapperModule, TuiSelectModule } from '@taiga-ui/kit';
 import { TuiLetModule } from '@taiga-ui/cdk';
 import { DialogService } from '../../../../services/dialog.service';
 import { Observable, of, Subscription } from 'rxjs';
-import { ITeam } from '../../../../type/team.type';
+import { CreateButtonInFormComponent } from '../../buttons/create-button-in-form/create-button-in-form.component';
 
 @Component({
   selector: 'app-add-item-dialog-from-list',
@@ -36,6 +36,7 @@ import { ITeam } from '../../../../type/team.type';
     TuiSelectModule,
     TitleCasePipe,
     UpperCasePipe,
+    CreateButtonInFormComponent,
   ],
   templateUrl: './add-item-dialog-from-list.component.html',
   styleUrl: './add-item-dialog-from-list.component.less',
@@ -59,7 +60,7 @@ export class AddItemDialogFromListComponent<T> implements OnInit, OnDestroy {
   });
 
   ngOnInit(): void {
-    console.log(this.dialogId); // logging dialogId
+    // console.log(this.dialogId); // logging dialogId
     this.dialogSubscription = this.dialogService
       .getDialogEvent(this.dialogId)
       .subscribe(() => {

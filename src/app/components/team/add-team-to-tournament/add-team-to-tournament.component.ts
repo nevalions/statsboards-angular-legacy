@@ -1,13 +1,7 @@
-import { Component, inject, Input, OnInit } from '@angular/core';
-import { combineLatest, map, Observable, of } from 'rxjs';
+import { Component, inject, Input } from '@angular/core';
+import { combineLatest, map, Observable } from 'rxjs';
 import { ITeam, ITeamTournament } from '../../../type/team.type';
-import {
-  FormControl,
-  FormGroup,
-  FormsModule,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TuiButtonModule, TuiDialogModule } from '@taiga-ui/core';
 import { AsyncPipe } from '@angular/common';
 import {
@@ -94,31 +88,4 @@ export class AddTeamToTournamentComponent {
       this.teamTournamentService.addTeamTournament(data).subscribe();
     }
   }
-
-  // onSubmit(): void {
-  //   if (this.teamTournamentForm.valid) {
-  //     const formValue = this.teamTournamentForm.getRawValue();
-  //     const team = formValue.teamToAdd;
-  //
-  //     if (team && team.id && this.tournamentId) {
-  //       const data: ITeamTournament = {
-  //         team_id: team.id,
-  //         tournament_id: this.tournamentId,
-  //       };
-  //
-  //       this.teamTournamentService.addTeamTournament(data).subscribe();
-  //       this.teamTournamentForm.reset();
-  //     }
-  //   }
-  // }
 }
-
-// teamTournamentForm = new FormGroup({
-//   teamToAdd: new FormControl<ITeam | null>(null, Validators.required),
-// });
-//
-// open: boolean = false;
-//
-// showDialog(): void {
-//   this.open = true;
-// }
