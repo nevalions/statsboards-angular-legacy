@@ -44,15 +44,9 @@
             [action]="'add'"
             [disabled]="!itemAddForm.valid">
           </app-create-button-in-form>
-          <button
-            appearance="secondary"
-            tuiButton
-            type="button"
-            style="padding: 10px"
+          <app-cancel-button-in-form
             (click)="observer.complete()"
-          >
-            CANCEL
-          </button>
+          ></app-cancel-button-in-form>
         </p>
       </div>
     }

@@ -40,6 +40,7 @@ import { ITeam } from '../../../type/team.type';
 import { DateTimeService } from '../../../services/date-time.service';
 import { SelectTeamComponent } from '../../../shared/ui/forms/select-team/select-team.component';
 import { CreateButtonInFormComponent } from '../../../shared/ui/buttons/create-button-in-form/create-button-in-form.component';
+import { CancelButtonInFormComponent } from '../../../shared/ui/buttons/cancel-button-in-form/cancel-button-in-form.component';
 
 @Component({
   selector: 'app-add-edit-match',
@@ -66,6 +67,7 @@ import { CreateButtonInFormComponent } from '../../../shared/ui/buttons/create-b
     TuiInputDateTimeModule,
     SelectTeamComponent,
     CreateButtonInFormComponent,
+    CancelButtonInFormComponent,
   ],
   templateUrl: './add-edit-match.component.html',
   styleUrl: './add-edit-match.component.less',

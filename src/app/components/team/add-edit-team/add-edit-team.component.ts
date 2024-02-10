@@ -20,6 +20,7 @@ import {
   TuiTextareaModule,
 } from '@taiga-ui/kit';
 import { CreateButtonInFormComponent } from '../../../shared/ui/buttons/create-button-in-form/create-button-in-form.component';
+import { CancelButtonInFormComponent } from '../../../shared/ui/buttons/cancel-button-in-form/cancel-button-in-form.component';
 
 @Component({
   selector: 'app-add-edit-team',
@@ -36,6 +37,7 @@ import { CreateButtonInFormComponent } from '../../../shared/ui/buttons/create-b
     TuiTextareaModule,
     TuiInputNumberModule,
     CreateButtonInFormComponent,
+    CancelButtonInFormComponent,
   ],
   templateUrl: './add-edit-team.component.html',
   styleUrl: './add-edit-team.component.less',

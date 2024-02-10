@@ -21,6 +21,7 @@ import { TuiAutoFocusModule } from '@taiga-ui/cdk';
 import { ITournament } from '../../../type/tournament.type';
 import { AsyncPipe } from '@angular/common';
 import { CreateButtonInFormComponent } from '../../../shared/ui/buttons/create-button-in-form/create-button-in-form.component';
+import { CancelButtonInFormComponent } from '../../../shared/ui/buttons/cancel-button-in-form/cancel-button-in-form.component';
 
 @Component({
   selector: 'app-tournament-add-edit-form',
@@ -37,6 +38,7 @@ import { CreateButtonInFormComponent } from '../../../shared/ui/buttons/create-b
     TuiErrorModule,
     TuiTextareaModule,
     CreateButtonInFormComponent,
+    CancelButtonInFormComponent,
   ],
   templateUrl: './tournament-add-edit-form.component.html',
   styleUrl: './tournament-add-edit-form.component.less',

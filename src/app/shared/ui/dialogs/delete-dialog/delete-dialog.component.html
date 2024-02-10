@@ -20,24 +20,13 @@
         </tui-checkbox-labeled>
       </p>
       <p>
-        <button
-          appearance="destructive"
-          tuiButton
-          type="submit"
-          style="padding: 10px"
+        <app-delete-button-in-form
+          [action]="action"
           [disabled]="!itemDeleteForm.get('checkboxToAction')?.value"
-        >
-          {{ action | uppercase }}
-        </button>
-        <button
-          appearance="secondary"
-          tuiButton
-          type="button"
-          style="padding: 10px"
+        ></app-delete-button-in-form>
+        <app-cancel-button-in-form
           (click)="observer.complete()"
-        >
-          CANCEL
-        </button>
+        ></app-cancel-button-in-form>
       </p>
     </form>
   </div>

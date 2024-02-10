@@ -21,6 +21,7 @@ import { TuiLetModule } from '@taiga-ui/cdk';
 import { DialogService } from '../../../../services/dialog.service';
 import { Observable, of, Subscription } from 'rxjs';
 import { CreateButtonInFormComponent } from '../../buttons/create-button-in-form/create-button-in-form.component';
+import { CancelButtonInFormComponent } from '../../buttons/cancel-button-in-form/cancel-button-in-form.component';
 
 @Component({
   selector: 'app-add-item-dialog-from-list',
@@ -37,6 +38,7 @@ import { CreateButtonInFormComponent } from '../../buttons/create-button-in-form
     TitleCasePipe,
     UpperCasePipe,
     CreateButtonInFormComponent,
+    CancelButtonInFormComponent,
   ],
   templateUrl: './add-item-dialog-from-list.component.html',
   styleUrl: './add-item-dialog-from-list.component.less',

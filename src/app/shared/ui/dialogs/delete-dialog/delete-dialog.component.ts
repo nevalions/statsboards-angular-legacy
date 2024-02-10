@@ -13,21 +13,14 @@ import {
   FormsModule,
   ReactiveFormsModule,
 } from '@angular/forms';
-import {
-  TuiButtonModule,
-  TuiDialogModule,
-  TuiDialogSize,
-  TuiSizeL,
-  TuiSizeM,
-  TuiSizeS,
-  TuiSizeXL,
-  TuiSizeXS,
-} from '@taiga-ui/core';
+import { TuiButtonModule, TuiDialogModule } from '@taiga-ui/core';
 import { TitleCasePipe, UpperCasePipe } from '@angular/common';
-import { UiTuiSizeType } from '../../../../type/ui.type';
+
 import { TuiCheckboxLabeledModule } from '@taiga-ui/kit';
 import { DialogService } from '../../../../services/dialog.service';
 import { Subscription } from 'rxjs';
+import { DeleteButtonInFormComponent } from '../../buttons/delete-button-in-form/delete-button-in-form.component';
+import { CancelButtonInFormComponent } from '../../buttons/cancel-button-in-form/cancel-button-in-form.component';
 
 @Component({
   selector: 'app-delete-dialog',
@@ -40,6 +33,8 @@ import { Subscription } from 'rxjs';
     ReactiveFormsModule,
     TitleCasePipe,
     TuiCheckboxLabeledModule,
+    DeleteButtonInFormComponent,
+    CancelButtonInFormComponent,
   ],
   templateUrl: './delete-dialog.component.html',
   styleUrl: './delete-dialog.component.less',

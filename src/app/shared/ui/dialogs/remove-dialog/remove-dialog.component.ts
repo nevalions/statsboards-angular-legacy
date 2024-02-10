@@ -18,6 +18,8 @@ import { TuiCheckboxLabeledModule } from '@taiga-ui/kit';
 import { UpperCasePipe } from '@angular/common';
 import { DialogService } from '../../../../services/dialog.service';
 import { Subscription } from 'rxjs';
+import { CancelButtonInFormComponent } from '../../buttons/cancel-button-in-form/cancel-button-in-form.component';
+import { DeleteButtonInFormComponent } from '../../buttons/delete-button-in-form/delete-button-in-form.component';
 
 @Component({
   selector: 'app-remove-dialog',
@@ -29,6 +31,8 @@ import { Subscription } from 'rxjs';
     TuiCheckboxLabeledModule,
     TuiDialogModule,
     UpperCasePipe,
+    CancelButtonInFormComponent,
+    DeleteButtonInFormComponent,
   ],
   templateUrl: './remove-dialog.component.html',
   styleUrl: './remove-dialog.component.less',
