@@ -49,8 +49,8 @@ export class ItemMatchComponent implements OnInit {
           return this.matchWithFullDataService.fetchMatchWithDataById(matchId);
         }),
         tap((match: IMatchFullData) => {
-          this.match$ = of(match);
           console.log('Match data:', match);
+          this.match$ = of(match);
         }),
       )
       .subscribe();
