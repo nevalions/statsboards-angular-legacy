@@ -118,16 +118,10 @@
     </div>
     <div class="tui-form__row">
       <p>
-        <button
-          appearance="create"
-          tuiButton
-          size="l"
-          type="submit"
-          style="padding: 10px"
+        <app-create-button-in-form
+          [action]="'add'"
           [disabled]="!matchForm.valid"
-        >
-          ADD
-        </button>
+        ></app-create-button-in-form>
         <button
           appearance="secondary"
           tuiButton

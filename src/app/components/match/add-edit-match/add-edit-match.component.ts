@@ -39,6 +39,7 @@ import { Observable, of } from 'rxjs';
 import { ITeam } from '../../../type/team.type';
 import { DateTimeService } from '../../../services/date-time.service';
 import { SelectTeamComponent } from '../../../shared/ui/forms/select-team/select-team.component';
+import { CreateButtonInFormComponent } from '../../../shared/ui/buttons/create-button-in-form/create-button-in-form.component';
 
 @Component({
   selector: 'app-add-edit-match',
@@ -64,6 +65,7 @@ import { SelectTeamComponent } from '../../../shared/ui/forms/select-team/select
     FormsModule,
     TuiInputDateTimeModule,
     SelectTeamComponent,
+    CreateButtonInFormComponent,
   ],
   templateUrl: './add-edit-match.component.html',
   styleUrl: './add-edit-match.component.less',

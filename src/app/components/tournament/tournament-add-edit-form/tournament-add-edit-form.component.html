@@ -44,15 +44,10 @@
       ></tui-error>
     </div>
     <p>
-      <button
-        appearance="create"
-        tuiButton
-        type="submit"
-        size="m"
+      <app-create-button-in-form
+        [action]="'add'"
         [disabled]="!tournamentForm.valid"
-      >
-        Add
-      </button>
+      ></app-create-button-in-form>
       <button
         appearance="secondary"
         tuiButton

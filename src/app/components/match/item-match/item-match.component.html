@@ -51,10 +51,12 @@
                 [item]="buttonTitle"
                 class="tui-island__footer-button"
                 style="padding: 10px"
+                [dialogId]="'deleteDialog'"
               ></app-delete-button>
               <app-delete-dialog
                 [item]="buttonTitle"
                 (delete)="onDelete()"
+                [dialogId]="'deleteDialog'"
               ></app-delete-dialog>
 
             </div>
