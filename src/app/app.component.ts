@@ -4,59 +4,36 @@ import {
   TuiAlertModule,
   TuiLinkModule,
   TuiLoaderModule,
+  TuiButtonModule,
 } from '@taiga-ui/core';
 import {
   ChangeDetectionStrategy,
   Component,
-  inject,
-  Input,
-  OnDestroy,
-  OnInit,
   ViewEncapsulation,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Location, CommonModule } from '@angular/common';
 import {
-  ActivatedRoute,
-  ActivatedRouteSnapshot,
-  ActivationEnd,
   NavigationEnd,
   Router,
   RouterLink,
   RouterOutlet,
 } from '@angular/router';
 import { HeaderComponent } from './components/header/header.component';
-import { SportComponent } from './components/sport/sport.component';
-import { SeasonComponent } from './components/season/season.component';
-import { SidebarComponent } from './shared/ui/sidebar/sidebar.component';
-import { SportDropdownComponent } from './components/sport/sport-dropdown/sport-dropdown.component';
-import { SeasonDropdownComponent } from './components/season/season-dropdown/season-dropdown.component';
-import { SportNavComponent } from './components/sport/sport-nav/sport-nav.component';
+
 import { HomeComponent } from './components/home/home.component';
 import { TuiBreadcrumbsModule } from '@taiga-ui/kit';
-import {
-  async,
-  filter,
-  map,
-  mergeMap,
-  Observable,
-  of,
-  Subject,
-  takeUntil,
-} from 'rxjs';
-import { Breadcrumb, BreadcrumbService } from './services/breadcrub.service';
-import { BreadcrumbGuard } from './guard/breadcrumb.guard';
+import { tuiIconArrowLeftLarge } from '@taiga-ui/icons';
 
 @Component({
   selector: 'app-root',
   standalone: true,
   imports: [
+    TuiButtonModule,
     RouterLink,
     RouterOutlet,
     CommonModule,
     HomeComponent,
     HeaderComponent,
-    SportComponent,
-    SeasonComponent,
     TuiRootModule,
     TuiDialogModule,
     TuiAlertModule,
@@ -68,10 +45,29 @@ import { BreadcrumbGuard } from './guard/breadcrumb.guard';
   styleUrl: './app.component.less',
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  // providers: [BreadcrumbGuard],
 })
 export class AppComponent {
   title = 'StatsBoards';
+
+  showBackButton: boolean = false;
+
+  constructor(
+    private location: Location,
+    private router: Router,
+  ) {
+    // Initialize navigation end event subscription to check current URL
+    this.router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        this.showBackButton = event.url !== '/' && event.url !== '/home';
+      }
+    });
+  }
+
+  // a method to go back.
+  goBack() {
+    this.location.back();
+  }
+
   // private ngUnsubscribe = new Subject<void>();
   // breadcrumbs$: Observable<Breadcrumb[]> = this.breadcrumbService.breadcrumbs$;
   //
