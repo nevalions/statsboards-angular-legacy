@@ -52,7 +52,7 @@ export class RemoveDialogComponent implements OnInit, OnDestroy {
   constructor() {}
 
   ngOnInit(): void {
-    console.log(this.dialogId); // logging dialogId
+    // console.log(this.dialogId); // logging dialogId
     this.dialogSubscription = this.dialogService
       .getDialogEvent(this.dialogId)
       .subscribe(() => {

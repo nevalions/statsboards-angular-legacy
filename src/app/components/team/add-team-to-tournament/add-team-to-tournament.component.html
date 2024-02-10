@@ -1,73 +1,72 @@
-<button
-  appearance="create"
-  size="m"
-  tuiButton
-  type="button"
-  (click)="showDialog()"
->
-  ADD TEAM
-</button>
+<app-add-item-dialog-from-list
+  [item]="'team'"
+  [parentItem]="'tournament'"
+  [itemsList$]="availableTeams$"
+  [dialogId]="dialogId"
+  (add)="onAdd($event)"
+></app-add-item-dialog-from-list>
 
-<ng-template
-  let-observer
-  [tuiDialogOptions]="{label: 'Add Team to Tournament', size: 'm'}"
-  [(tuiDialog)]="open"
->
-  <form
-    [formGroup]="teamTournamentForm"
-    (ngSubmit)="onSubmit(); observer.complete()"
-  >
-    <p></p>
-    @if (availableTeams$ | async) {
-      <div class="tui-form__row">
 
-        <tui-select
-          *tuiLet="availableTeams$ | async as items"
-          class="b-form"
-          formControlName="teamToAdd"
-          style="padding-left: 10px; padding-right: 10px;"
-        >
-          Select Team
-          <tui-data-list-wrapper
-            *tuiDataList
-            size="l"
-            [itemContent]="content"
-            [items]="items"
-          ></tui-data-list-wrapper>
+<!--<ng-template-->
+<!--  let-observer-->
+<!--  [tuiDialogOptions]="{label: 'Add Team to Tournament', size: 'm'}"-->
+<!--  [(tuiDialog)]="open"-->
+<!--&gt;-->
+<!--  <form-->
+<!--    [formGroup]="teamTournamentForm"-->
+<!--    (ngSubmit)="onSubmit(); observer.complete()"-->
+<!--  >-->
+<!--    <p></p>-->
+<!--    @if (availableTeams$ | async) {-->
+<!--      <div class="tui-form__row">-->
 
-        </tui-select>
+<!--        <tui-select-->
+<!--          *tuiLet="availableTeams$ | async as items"-->
+<!--          class="b-form"-->
+<!--          formControlName="teamToAdd"-->
+<!--          style="padding-left: 10px; padding-right: 10px;"-->
+<!--        >-->
+<!--          Select Team-->
+<!--          <tui-data-list-wrapper-->
+<!--            *tuiDataList-->
+<!--            size="l"-->
+<!--            [itemContent]="content"-->
+<!--            [items]="items"-->
+<!--          ></tui-data-list-wrapper>-->
 
-        <ng-template
-          #content
-          let-data
-        >
-          <div class="template">
+<!--        </tui-select>-->
 
-            <div>{{ data.title }}</div>
-          </div>
-        </ng-template>
-      </div>
-      <div class="tui-form__row">
-        <p>
-          <button
-            appearance="create"
-            tuiButton
-            type="submit"
-            [disabled]="!teamTournamentForm.valid"
-          >
-            Add
-          </button>
-          <button
-            appearance="secondary"
-            tuiButton
-            type="button"
-            style="padding: 10px"
-            (click)="observer.complete()"
-          >
-            CANCEL
-          </button>
-        </p>
-      </div>
-    }
-  </form>
-</ng-template>
+<!--        <ng-template-->
+<!--          #content-->
+<!--          let-data-->
+<!--        >-->
+<!--          <div class="template">-->
+
+<!--            <div>{{ data.title }}</div>-->
+<!--          </div>-->
+<!--        </ng-template>-->
+<!--      </div>-->
+<!--      <div class="tui-form__row">-->
+<!--        <p>-->
+<!--          <button-->
+<!--            appearance="create"-->
+<!--            tuiButton-->
+<!--            type="submit"-->
+<!--            [disabled]="!teamTournamentForm.valid"-->
+<!--          >-->
+<!--            Add-->
+<!--          </button>-->
+<!--          <button-->
+<!--            appearance="secondary"-->
+<!--            tuiButton-->
+<!--            type="button"-->
+<!--            style="padding: 10px"-->
+<!--            (click)="observer.complete()"-->
+<!--          >-->
+<!--            CANCEL-->
+<!--          </button>-->
+<!--        </p>-->
+<!--      </div>-->
+<!--    }-->
+<!--  </form>-->
+<!--</ng-template>-->

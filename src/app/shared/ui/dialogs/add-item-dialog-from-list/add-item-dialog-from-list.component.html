@@ -1,0 +1,64 @@
+<ng-template
+  let-observer
+  [tuiDialogOptions]="{
+  label: action.toUpperCase() + ' ' + item.toUpperCase() + ' TO ' + parentItem.toUpperCase(), size: 'm'
+  }"
+  [(tuiDialog)]="open"
+>
+  <form
+    [formGroup]="itemAddForm"
+    (ngSubmit)="onSubmit(); observer.complete()"
+  >
+    <p></p>
+    @if (itemsList$ | async) {
+      <div class="tui-form__row">
+
+        <tui-select
+          *tuiLet="itemsList$ | async as items"
+          class="b-form"
+          formControlName="itemToAdd"
+          style="padding-left: 10px; padding-right: 10px;"
+        >
+          Select {{ item | titlecase }}
+          <tui-data-list-wrapper
+            *tuiDataList
+            size="l"
+            [itemContent]="content"
+            [items]="items"
+          ></tui-data-list-wrapper>
+
+        </tui-select>
+
+        <ng-template
+          #content
+          let-data
+        >
+          <div class="template">
+            <div>{{ data.title }}</div>
+          </div>
+        </ng-template>
+      </div>
+      <div class="tui-form__row">
+        <p>
+          <button
+            appearance="create"
+            tuiButton
+            type="submit"
+            [disabled]="!itemAddForm.valid"
+          >
+            {{ action | uppercase }}
+          </button>
+          <button
+            appearance="secondary"
+            tuiButton
+            type="button"
+            style="padding: 10px"
+            (click)="observer.complete()"
+          >
+            CANCEL
+          </button>
+        </p>
+      </div>
+    }
+  </form>
+</ng-template>

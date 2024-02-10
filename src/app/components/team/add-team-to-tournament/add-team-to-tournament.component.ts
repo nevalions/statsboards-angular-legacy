@@ -18,6 +18,7 @@ import {
 import { TuiLetModule } from '@taiga-ui/cdk';
 import { TeamService } from '../team.service';
 import { TeamTournamentService } from '../../../services/team-tournament.service';
+import { AddItemDialogFromListComponent } from '../../../shared/ui/dialogs/add-item-dialog-from-list/add-item-dialog-from-list.component';
 
 @Component({
   selector: 'app-add-team-to-tournament',
@@ -31,6 +32,7 @@ import { TeamTournamentService } from '../../../services/team-tournament.service
     TuiDataListWrapperModule,
     TuiLetModule,
     TuiSelectModule,
+    AddItemDialogFromListComponent,
   ],
   templateUrl: './add-team-to-tournament.component.html',
   styleUrl: './add-team-to-tournament.component.less',
@@ -43,6 +45,8 @@ import { TeamTournamentService } from '../../../services/team-tournament.service
 export class AddTeamToTournamentComponent {
   teamTournamentService = inject(TeamTournamentService);
   teamService = inject(TeamService);
+
+  @Input() dialogId: string = 'addTeamToTournamentDialog';
 
   private _sportId!: number;
   private _tournamentId!: number;
@@ -70,16 +74,6 @@ export class AddTeamToTournamentComponent {
   tournamentTeams$ = this.teamTournamentService.teamsInTournament$;
   allTeams$ = this.teamService.teams$;
 
-  teamTournamentForm = new FormGroup({
-    teamToAdd: new FormControl<ITeam | null>(null, Validators.required),
-  });
-
-  open: boolean = false;
-
-  showDialog(): void {
-    this.open = true;
-  }
-
   // create availableTeams$ as a getter so it always reflects the current state of allTeams$ and tournamentTeams$
   get availableTeams$(): Observable<ITeam[]> {
     return combineLatest([this.allTeams$, this.tournamentTeams$]).pipe(
@@ -90,20 +84,41 @@ export class AddTeamToTournamentComponent {
     );
   }
 
-  onSubmit(): void {
-    if (this.teamTournamentForm.valid) {
-      const formValue = this.teamTournamentForm.getRawValue();
-      const team = formValue.teamToAdd;
+  onAdd(team: ITeam | null | undefined): void {
+    if (team && team.id && this.tournamentId) {
+      const data: ITeamTournament = {
+        team_id: team.id,
+        tournament_id: this.tournamentId,
+      };
 
-      if (team && team.id && this.tournamentId) {
-        const data: ITeamTournament = {
-          team_id: team.id,
-          tournament_id: this.tournamentId,
-        };
-
-        this.teamTournamentService.addTeamTournament(data).subscribe();
-        this.teamTournamentForm.reset();
-      }
+      this.teamTournamentService.addTeamTournament(data).subscribe();
     }
   }
+
+  // onSubmit(): void {
+  //   if (this.teamTournamentForm.valid) {
+  //     const formValue = this.teamTournamentForm.getRawValue();
+  //     const team = formValue.teamToAdd;
+  //
+  //     if (team && team.id && this.tournamentId) {
+  //       const data: ITeamTournament = {
+  //         team_id: team.id,
+  //         tournament_id: this.tournamentId,
+  //       };
+  //
+  //       this.teamTournamentService.addTeamTournament(data).subscribe();
+  //       this.teamTournamentForm.reset();
+  //     }
+  //   }
+  // }
 }
+
+// teamTournamentForm = new FormGroup({
+//   teamToAdd: new FormControl<ITeam | null>(null, Validators.required),
+// });
+//
+// open: boolean = false;
+//
+// showDialog(): void {
+//   this.open = true;
+// }

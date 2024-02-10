@@ -117,9 +117,15 @@
           } @else {
             <tui-loader></tui-loader>
           }
+          <app-create-button-show-dialog
+            [item]="'Team'"
+            [dialogId]="'addTeamToTournamentDialog' + tournament.id"
+          ></app-create-button-show-dialog>
           <app-add-team-to-tournament
             [tournamentId]="tournament.id!"
             [sportId]="tournament.sport_id"
+            [dialogId]="'addTeamToTournamentDialog' + tournament.id"
+
           ></app-add-team-to-tournament>
         }
       </aside>

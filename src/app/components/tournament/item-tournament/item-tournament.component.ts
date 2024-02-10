@@ -62,6 +62,8 @@ import { DeleteButtonComponent } from '../../../shared/ui/buttons/delete-button/
 import { DeleteButtonIconComponent } from '../../../shared/ui/buttons/delete-button-icon/delete-button-icon.component';
 import { tuiIconClose } from '@taiga-ui/icons';
 import { RemoveDialogComponent } from '../../../shared/ui/dialogs/remove-dialog/remove-dialog.component';
+import { CreateButtonShowDialogComponent } from '../../../shared/ui/buttons/create-button-show-dialog/create-button-show-dialog.component';
+import { AddItemDialogFromListComponent } from '../../../shared/ui/dialogs/add-item-dialog-from-list/add-item-dialog-from-list.component';
 
 @Component({
   selector: 'app-item-tournament',
@@ -100,6 +102,8 @@ import { RemoveDialogComponent } from '../../../shared/ui/dialogs/remove-dialog/
     DeleteButtonComponent,
     DeleteButtonIconComponent,
     RemoveDialogComponent,
+    CreateButtonShowDialogComponent,
+    AddItemDialogFromListComponent,
   ],
   templateUrl: './item-tournament.component.html',
   styleUrl: './item-tournament.component.less',
