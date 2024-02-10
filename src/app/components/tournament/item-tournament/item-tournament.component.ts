@@ -61,6 +61,7 @@ import { TeamService } from '../../team/team.service';
 import { DeleteButtonComponent } from '../../../shared/ui/buttons/delete-button/delete-button.component';
 import { DeleteButtonIconComponent } from '../../../shared/ui/buttons/delete-button-icon/delete-button-icon.component';
 import { tuiIconClose } from '@taiga-ui/icons';
+import { RemoveDialogComponent } from '../../../shared/ui/dialogs/remove-dialog/remove-dialog.component';
 
 @Component({
   selector: 'app-item-tournament',
@@ -98,6 +99,7 @@ import { tuiIconClose } from '@taiga-ui/icons';
     TuiElasticContainerModule,
     DeleteButtonComponent,
     DeleteButtonIconComponent,
+    RemoveDialogComponent,
   ],
   templateUrl: './item-tournament.component.html',
   styleUrl: './item-tournament.component.less',

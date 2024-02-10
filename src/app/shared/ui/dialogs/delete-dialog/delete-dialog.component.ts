@@ -40,6 +40,7 @@ export class DeleteDialogComponent {
 
   @Input() item: string = 'item';
   @Input() action: string = 'delete';
+  @Input() dialogId: string = 'deleteDialog';
   @Output() delete = new EventEmitter<void>();
 
   itemDeleteForm = new FormGroup({
@@ -49,7 +50,7 @@ export class DeleteDialogComponent {
   open: boolean = false;
 
   constructor() {
-    this.dialogService.getDialogEvent('deleteDialog').subscribe(() => {
+    this.dialogService.getDialogEvent(this.dialogId).subscribe(() => {
       this.showDialog(true);
     });
   }

@@ -103,18 +103,13 @@
                   > {{ team.title }}
                   </button>
                   <app-delete-button-icon
-                    [dialogId]="'removeDialog'"
+                    [dialogId]="'removeDialog' + team.id"
                   ></app-delete-button-icon>
-
-                  <!--                  <button-->
-                  <!--                    appearance="flat"-->
-                  <!--                    icon="tuiIconClose"-->
-                  <!--                    shape="rounded"-->
-                  <!--                    size="s"-->
-                  <!--                    title="Remove"-->
-                  <!--                    tuiIconButton-->
-                  <!--                    (click)="onTeamRemoveFromTournament(team.id!, tournament.id!)"-->
-                  <!--                  ></button>-->
+                  <app-remove-dialog
+                    [item]="team.title | uppercase"
+                    [dialogId]="'removeDialog' + team.id"
+                    (delete)="onTeamRemoveFromTournament(team.id!, tournament.id!)"
+                  ></app-remove-dialog>
                 </div>
               </tui-elastic-container>
 
@@ -122,8 +117,6 @@
           } @else {
             <tui-loader></tui-loader>
           }
-        }
-        @if (this.tournament$ | async; as tournament) {
           <app-add-team-to-tournament
             [tournamentId]="tournament.id!"
             [sportId]="tournament.sport_id"
@@ -134,131 +127,3 @@
 
   </div>
 </div>
-
-<!--    <div class="filters flex__fullwidth_center">-->
-
-
-<!--      <form-->
-<!--        style="padding: 10px"-->
-<!--        [formGroup]="testForm"-->
-<!--      >-->
-<!--        <tui-input-->
-<!--          formControlName="nameValue"-->
-<!--        >-->
-<!--          Search by WEEK-->
-<!--          <input-->
-<!--            style="min-width: max-content"-->
-<!--            (change)="onSearch()"-->
-<!--            tuiTextfield-->
-<!--          />-->
-<!--        </tui-input>-->
-<!--      </form>-->
-
-<!--      <form-->
-<!--        style="padding: 10px"-->
-<!--        [formGroup]="testForm"-->
-<!--      >-->
-<!--        <tui-input-number-->
-<!--          formControlName="nameValue"-->
-<!--          class="b-form"-->
-<!--          (tuiValueChanges)="onSearch()"-->
-<!--        >-->
-<!--          WEEK-->
-<!--        </tui-input-number>-->
-
-<!--      </form>-->
-
-
-<!--      <div class="" style="display: grid; padding: 10px">FILTER</div>-->
-<!--      <div class="" style="display: grid; padding: 10px">FILTER</div>-->
-<!--      <div class="" style="display: grid; padding: 10px">FILTER</div>-->
-<!--      <div class="" style="display: grid; padding: 10px">FILTER</div>-->
-
-
-<!--    </div>-->
-
-
-<!--    <div class="search block__fullwidth_center">-->
-
-<!--          <div class="" style="display: block; padding: 10px; min-width: 100%">-->
-<!--            <div class="tui-form__row">-->
-<!--            <form-->
-<!--              [formGroup]="testForm"-->
-<!--            >-->
-<!--                <tui-input-->
-<!--                  formControlName="nameValue"-->
-<!--                >-->
-<!--                  Search by WEEK-->
-<!--                  <input-->
-<!--                    style="min-width: max-content"-->
-<!--                    (change)="onSearch()"-->
-<!--                    tuiTextfield-->
-<!--                  />-->
-<!--                </tui-input>-->
-
-
-<!--            </form>-->
-<!--            </div>-->
-<!--          </div>-->
-
-
-<!--      <div class="" style="display: block; padding: 10px;">-->
-<!--        <div class="tui-form__row">-->
-
-<!--        </div>-->
-<!--      </div>-->
-
-<!--    </div>-->
-
-<!--    @if (matches$ | async; as matches) {-->
-<!--      @if (matches.length > itemsPerPage) {-->
-<!--        <div class="pagination" style="display: grid">-->
-<!--          <tui-pagination-->
-<!--            [index]="currentPageIndex - 1"-->
-<!--            [length]="Math.ceil(matches.length / itemsPerPage)"-->
-<!--            (indexChange)="setPage($event + 1)"-->
-<!--          ></tui-pagination>-->
-<!--        </div>-->
-<!--      }-->
-<!--    }-->
-
-
-<!--            <form-->
-<!--              class="b-form"-->
-<!--              [formGroup]="form"-->
-<!--              style="width: 60%"-->
-<!--            >-->
-<!--              <tui-input-->
-<!--                formControlName="match"-->
-<!--              >-->
-<!--                Match Week-->
-<!--                <tui-data-list-wrapper-->
-<!--                  *tuiDataList-->
-<!--                  [itemContent]="stringify | tuiStringifyContent"-->
-<!--                  [items]="items | tuiFilterByInput: matcherM"-->
-<!--                ></tui-data-list-wrapper>-->
-<!--              </tui-input>-->
-<!--            </form>-->
-<!--            <form-->
-<!--              [formGroup]="matchWeekSearchForm"-->
-<!--            >-->
-<!--              &lt;!&ndash;              <tui-input-number&ndash;&gt;-->
-<!--              &lt;!&ndash;                formControlName="matchWeek"&ndash;&gt;-->
-<!--              &lt;!&ndash;                class="b-form"&ndash;&gt;-->
-<!--              &lt;!&ndash;                (tuiValueChanges)="onSearch()"&ndash;&gt;-->
-<!--              &lt;!&ndash;              >&ndash;&gt;-->
-<!--              &lt;!&ndash;                WEEK&ndash;&gt;-->
-<!--              &lt;!&ndash;              </tui-input-number>&ndash;&gt;-->
-
-<!--            </form>-->
-
-
-<!--    <div class="list-of-items-with-data" style="padding: 20px">-->
-<!--      @if (matches$ | async; as matches) {-->
-<!--        <app-list-of-matches-->
-<!--          [data$]="matches | slice: (currentPageIndex - 1) * itemsPerPage : currentPageIndex * itemsPerPage"-->
-<!--          [formatPath]='matchHref'-->
-<!--        >-->
-<!--        </app-list-of-matches>-->
-<!--      }-->
-<!--    </div>-->
