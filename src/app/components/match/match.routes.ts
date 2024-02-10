@@ -7,11 +7,6 @@ export const MATCH_ROUTES: Routes = [
   {
     path: 'id/:id',
     component: ItemMatchComponent,
-    // children: [
-    //   {
-    //     path: 'teams',
-    //     redirectTo: '',
-    //   },
-    // ],
+    data: { breadcrumbs: [{ caption: 'Match' }] },
   },
 ];

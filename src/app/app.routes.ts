@@ -6,9 +6,14 @@ import { SeasonComponent } from './components/season/season.component';
 import { TournamentComponent } from './components/tournament/tournament.component';
 import { TeamComponent } from './components/team/team.component';
 import { MatchComponent } from './components/match/match.component';
+import { breadcrumbResolver } from './resolvers/breadcrumb.resolver';
 
 export const routes: Routes = [
-  { path: '', component: HomeComponent },
+  {
+    path: '',
+    component: HomeComponent,
+    data: { breadcrumb: { caption: 'Home', routerLink: '/' } },
+  },
   { path: 'seasons', component: SeasonComponent },
   { path: 'seasons/year/:year', component: SeasonComponent },
   {
