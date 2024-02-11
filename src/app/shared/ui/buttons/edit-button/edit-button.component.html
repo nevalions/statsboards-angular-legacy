@@ -1,0 +1,10 @@
+<button
+  appearance="primary"
+  [class]="buttonClass"
+  [size]="buttonSize"
+  tuiButton
+  type="button"
+  (click)="onButtonClick(dialogId)"
+>
+  {{ action | uppercase }} {{ item | uppercase }}
+</button>

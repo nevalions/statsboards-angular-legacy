@@ -56,8 +56,8 @@ export class MatchFullDataService extends BaseApiService<IMatchFullData> {
       });
   }
 
-  addMatchWithFullData(newMatch: IMatchFullData): void {
-    this.addItem(newMatch, 'create_with_full_data')
+  addMatchWithFullData(newMatch: IMatch): void {
+    this.addAnyItem(newMatch, 'create_with_full_data')
       .pipe(
         tap((match: IMatchFullData) => {
           console.log(`ADDED MATCH`, match);
@@ -67,8 +67,8 @@ export class MatchFullDataService extends BaseApiService<IMatchFullData> {
           ];
           updatedMatches = SortService.sort(
             updatedMatches,
-            'week',
-            '-match_date',
+            'match.week',
+            '-match.match_date',
           );
           this.matchesWithFullDataSubject.next(updatedMatches);
         }),

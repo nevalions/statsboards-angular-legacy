@@ -1,16 +1,16 @@
-<button
-  appearance="create"
-  size="m"
-  tuiButton
-  type="button"
-  (click)="showDialog()"
->
-  NEW MATCH
-</button>
+<!--<button-->
+<!--  appearance="create"-->
+<!--  size="m"-->
+<!--  tuiButton-->
+<!--  type="button"-->
+<!--  (click)="showDialog()"-->
+<!--&gt;-->
+<!--  NEW MATCH-->
+<!--</button>-->
 
 <ng-template
   let-observer
-  [tuiDialogOptions]="{label: 'Add New match', size: 'm'}"
+  [tuiDialogOptions]="{label: action.toUpperCase() + ' MATCH', size: 'm'}"
   [(tuiDialog)]="open"
 >
   <form
@@ -86,22 +86,7 @@
             [itemContent]="content"
             [items]="items"
           ></tui-data-list-wrapper>
-
         </tui-select>
-
-        <!--        <ng-template-->
-        <!--          #content-->
-        <!--          let-data-->
-        <!--        >-->
-        <!--          <div class="template">-->
-        <!--            <tui-avatar-->
-        <!--              size="l"-->
-        <!--              class="avatar"-->
-        <!--              [text]="data.title.toString()"-->
-        <!--            ></tui-avatar>-->
-        <!--            <div class="name">{{ data.title }}</div>-->
-        <!--          </div>-->
-        <!--        </ng-template>-->
       </div>
     }
 
@@ -119,7 +104,7 @@
     <div class="tui-form__row">
       <p>
         <app-create-button-in-form
-          [action]="'add'"
+          [action]="action"
           [disabled]="!matchForm.valid"
         ></app-create-button-in-form>
         <app-cancel-button-in-form

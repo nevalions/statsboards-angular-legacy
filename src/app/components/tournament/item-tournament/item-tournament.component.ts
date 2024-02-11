@@ -28,7 +28,7 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 import { TournamentService } from '../tournament.service';
 import { map, Observable, of, Subject, switchMap, takeUntil } from 'rxjs';
 import { ITournament } from '../../../type/tournament.type';
-import { IMatchFullData } from '../../../type/match.type';
+import { IMatch, IMatchFullData } from '../../../type/match.type';
 import { ListOfMatchesComponent } from '../../../shared/ui/list-of-matches/list-of-matches.component';
 import { CreateButtonComponent } from '../../../shared/ui/buttons/create-button/create-button.component';
 import { BodyTitleComponent } from '../../../shared/ui/body/body-title/body-title.component';
@@ -117,6 +117,7 @@ export class ItemTournamentComponent implements OnInit, OnDestroy {
   private router = inject(Router);
   private tournamentService = inject(TournamentService);
   private seasonService = inject(SeasonService);
+  matchService = inject(MatchService);
 
   matchWithFullDataService = inject(MatchFullDataService);
   teamTournamentService = inject(TeamTournamentService);
@@ -160,8 +161,6 @@ export class ItemTournamentComponent implements OnInit, OnDestroy {
       .subscribe((params: Params) => {
         this.tournamentId = Number([params['id']]);
         this.tournament$ = this.tournamentService.findById(this.tournamentId);
-        // this.teams$ =
-        //   this.tournamentService.fetchTeamsByTournamentId(tournamentId);
 
         this.teamTournamentService.refreshTeamsInTournament(this.tournamentId);
         this.matchWithFullDataService.refreshMatchesWithDataInTournament(
@@ -223,6 +222,14 @@ export class ItemTournamentComponent implements OnInit, OnDestroy {
           `/sports/id/${sport_id}/seasons/${year}/tournaments`,
         );
       });
+  }
+
+  onMatchAdd(match: IMatch | null | undefined): void {
+    if (match && this.tournamentId) {
+      this.matchWithFullDataService.addMatchWithFullData(match);
+    } else {
+      console.log('Match data is empty');
+    }
   }
 
   onTeamRemoveFromTournament(teamId: number, tournamentId: number) {

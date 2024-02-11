@@ -20,10 +20,16 @@
         ></app-body-title>
         @if (tournament.id) {
           @if (teamsInTournament$ | async; as teams) {
+            <app-create-button-show-dialog
+              [item]="'Match'"
+              [dialogId]="'addDialog'"
+            ></app-create-button-show-dialog>
             <app-add-edit-match
+              [action]="'add'"
+              [dialogId]="'addDialog'"
               [tournamentId]="tournament.id"
               [teams$]="teamsInTournament$"
-              [addMatch]="matchWithFullDataService.addMatchWithFullData.bind(matchWithFullDataService)"
+              (addEvent)="onMatchAdd($event)"
             ></app-add-edit-match>
           }
         } @else {

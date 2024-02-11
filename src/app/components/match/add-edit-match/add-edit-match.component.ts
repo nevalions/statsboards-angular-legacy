@@ -1,4 +1,12 @@
-import { Component, inject, Input, OnInit } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  inject,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+} from '@angular/core';
 import {
   TuiButtonModule,
   TuiDialogModule,
@@ -35,12 +43,14 @@ import {
 import { ITournament } from '../../../type/tournament.type';
 import { IMatch, IMatchFullData } from '../../../type/match.type';
 import { TournamentService } from '../../tournament/tournament.service';
-import { Observable, of } from 'rxjs';
-import { ITeam } from '../../../type/team.type';
+import { Observable, of, Subscription } from 'rxjs';
+import { ITeam, ITeamTournament } from '../../../type/team.type';
 import { DateTimeService } from '../../../services/date-time.service';
 import { SelectTeamComponent } from '../../../shared/ui/forms/select-team/select-team.component';
 import { CreateButtonInFormComponent } from '../../../shared/ui/buttons/create-button-in-form/create-button-in-form.component';
 import { CancelButtonInFormComponent } from '../../../shared/ui/buttons/cancel-button-in-form/cancel-button-in-form.component';
+import { DialogService } from '../../../services/dialog.service';
+import { MatchService } from '../match.service';
 
 @Component({
   selector: 'app-add-edit-match',
@@ -77,11 +87,20 @@ import { CancelButtonInFormComponent } from '../../../shared/ui/buttons/cancel-b
     }),
   ],
 })
-export class AddEditMatchComponent implements OnInit {
+export class AddEditMatchComponent implements OnInit, OnDestroy {
   dateTimeService = inject(DateTimeService);
-  @Input() addMatch!: (data: any) => void;
+  dialogService = inject(DialogService);
+  matchService = inject(MatchService);
+  private dialogSubscription: Subscription | undefined;
+
+  @Input() action: string = 'add';
+  @Input() dialogId: string = 'addDialog';
+
   @Input() tournamentId!: number;
   @Input() teams$: Observable<ITeam[]> = of([]);
+
+  @Output() addEvent = new EventEmitter<any>();
+  @Output() editEvent = new EventEmitter<any>();
 
   current_date = new Date();
   tui_current_date = [
@@ -103,11 +122,32 @@ export class AddEditMatchComponent implements OnInit {
 
   open: boolean = false;
 
-  showDialog(): void {
-    this.open = true;
+  showDialog(open: boolean): void {
+    this.open = open;
   }
 
-  ngOnInit() {}
+  ngOnInit(): void {
+    // console.log(this.dialogId); // logging dialogId
+    this.dialogSubscription = this.dialogService
+      .getDialogEvent(this.dialogId)
+      .subscribe(() => {
+        this.showDialog(true);
+      });
+  }
+
+  ngOnDestroy(): void {
+    if (this.dialogSubscription) {
+      this.dialogSubscription.unsubscribe();
+    }
+  }
+
+  onMatchAdd(match: IMatch | null | undefined): void {
+    if (match) {
+      this.matchService.addItem(match).subscribe();
+    } else {
+      console.log('Match data is empty');
+    }
+  }
 
   onSubmit(): void {
     if (this.matchForm.valid) {
@@ -138,8 +178,12 @@ export class AddEditMatchComponent implements OnInit {
             match_eesl_id: formValue.match_eesl_id!,
           };
 
-          console.log(data);
-          this.addMatch(data);
+          if (this.action === 'add') {
+            console.log(data);
+            this.addEvent.emit(data);
+          } else if (this.action === 'edit') {
+            this.editEvent.emit(data);
+          }
         }
       }
     }
