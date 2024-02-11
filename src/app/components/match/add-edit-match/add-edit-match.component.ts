@@ -43,7 +43,16 @@ import {
 import { ITournament } from '../../../type/tournament.type';
 import { IMatch, IMatchFullData } from '../../../type/match.type';
 import { TournamentService } from '../../tournament/tournament.service';
-import { Observable, of, Subscription } from 'rxjs';
+import {
+  combineLatest,
+  map,
+  Observable,
+  of,
+  Subscription,
+  switchMap,
+  take,
+  takeUntil,
+} from 'rxjs';
 import { ITeam, ITeamTournament } from '../../../type/team.type';
 import { DateTimeService } from '../../../services/date-time.service';
 import { SelectTeamComponent } from '../../../shared/ui/forms/select-team/select-team.component';
@@ -51,6 +60,7 @@ import { CreateButtonInFormComponent } from '../../../shared/ui/buttons/create-b
 import { CancelButtonInFormComponent } from '../../../shared/ui/buttons/cancel-button-in-form/cancel-button-in-form.component';
 import { DialogService } from '../../../services/dialog.service';
 import { MatchService } from '../match.service';
+import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-add-edit-match',
@@ -90,11 +100,13 @@ import { MatchService } from '../match.service';
 export class AddEditMatchComponent implements OnInit, OnDestroy {
   dateTimeService = inject(DateTimeService);
   dialogService = inject(DialogService);
-  matchService = inject(MatchService);
   private dialogSubscription: Subscription | undefined;
 
   @Input() action: string = 'add';
   @Input() dialogId: string = 'addDialog';
+
+  @Input() editMatch: IMatch = {} as IMatch;
+  @Input() match$: Observable<IMatchFullData> = of({} as IMatchFullData);
 
   @Input() tournamentId!: number;
   @Input() teams$: Observable<ITeam[]> = of([]);
@@ -113,11 +125,12 @@ export class AddEditMatchComponent implements OnInit, OnDestroy {
   ];
 
   matchForm = new FormGroup({
+    id: new FormControl<number | null | undefined>(undefined),
     match_date: new FormControl(this.tui_current_date, [Validators.required]),
     week: new FormControl(1, [Validators.min(1), Validators.required]),
     team_a: new FormControl<ITeam | null>(null, [Validators.required]),
     team_b: new FormControl<ITeam | null>(null, [Validators.required]),
-    match_eesl_id: new FormControl(undefined),
+    match_eesl_id: new FormControl<number | undefined>(undefined),
   });
 
   open: boolean = false;
@@ -126,8 +139,46 @@ export class AddEditMatchComponent implements OnInit, OnDestroy {
     this.open = open;
   }
 
+  private initForm(): void {
+    this.match$
+      .pipe(
+        switchMap((match) =>
+          this.teams$.pipe(
+            take(1),
+            tap((teams) => console.log('Teams Data Form: ', teams)), // log the teams data
+            map((teams) => ({ match, teams })), // combine match and teams into a single object
+          ),
+        ),
+      )
+      .subscribe(({ match, teams }) => {
+        if (this.action === 'edit' && match) {
+          let team_a = teams.find((team) => team.id === match.match.team_a_id);
+          let team_b = teams.find((team) => team.id === match.match.team_b_id);
+
+          if (team_a && team_b) {
+            console.log('Setting form values');
+            this.matchForm.setValue({
+              id: match.match.id,
+              match_date: this.dateTimeService.convertJsDateTime(
+                new Date(match.match.match_date),
+              ),
+              week: match.match.week,
+              team_a: team_a,
+              team_b: team_b,
+              match_eesl_id: match.match.match_eesl_id,
+            });
+          }
+        }
+      });
+  }
+
   ngOnInit(): void {
-    // console.log(this.dialogId); // logging dialogId
+    console.log(this.dialogId);
+    console.log(this.action);
+    this.initForm();
+
+    this.matchForm.valueChanges.subscribe((value) => console.log(value));
+
     this.dialogSubscription = this.dialogService
       .getDialogEvent(this.dialogId)
       .subscribe(() => {
@@ -138,14 +189,6 @@ export class AddEditMatchComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     if (this.dialogSubscription) {
       this.dialogSubscription.unsubscribe();
-    }
-  }
-
-  onMatchAdd(match: IMatch | null | undefined): void {
-    if (match) {
-      this.matchService.addItem(match).subscribe();
-    } else {
-      console.log('Match data is empty');
     }
   }
 
@@ -169,7 +212,8 @@ export class AddEditMatchComponent implements OnInit, OnDestroy {
         }
 
         if (team_a_id && team_b_id) {
-          const data: IMatch = {
+          let data: IMatch = {
+            id: this.matchForm.get('id')?.value,
             match_date: js_date,
             week: formValue.week!,
             team_a_id: team_a_id,

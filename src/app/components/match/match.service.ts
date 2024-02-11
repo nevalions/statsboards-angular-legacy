@@ -9,6 +9,7 @@ import { ITournament } from '../../type/tournament.type';
 import { tap } from 'rxjs/operators';
 import { SortService } from '../../services/sort.service';
 import { TournamentService } from '../tournament/tournament.service';
+import { MatchFullDataService } from './matchfulldata.service';
 
 @Injectable({
   providedIn: 'root',
@@ -17,7 +18,10 @@ export class MatchService extends BaseApiService<IMatch> {
   private matchesSubject = new BehaviorSubject<IMatch[]>([]);
   public matches$ = this.matchesSubject.asObservable();
 
+  private matchWithFullDataService = inject(MatchFullDataService);
   private tournamentService = inject(TournamentService);
+
+  matchWithFullData$ = this.matchWithFullDataService.matchWithFullData$;
 
   constructor(
     http: HttpClient,
@@ -33,6 +37,20 @@ export class MatchService extends BaseApiService<IMatch> {
       .subscribe((matches: IMatch[]) => {
         this.matchesSubject.next(matches);
       });
+  }
+
+  editMatch(id: number | string, data: IMatch): Observable<IMatch> {
+    return this.editItem(id, data).pipe(
+      tap((updatedMatch: IMatch) => {
+        this.matchWithFullDataService.refreshMatchWithFullData(
+          updatedMatch.id!,
+        );
+        const updatedMatches = this.matchesSubject.value.map((match) =>
+          match.id === updatedMatch.id ? updatedMatch : match,
+        );
+        this.matchesSubject.next(updatedMatches);
+      }),
+    );
   }
 
   deleteMatch(id: number): Observable<any> {

@@ -1,15 +1,36 @@
-import { Component, inject, OnInit } from '@angular/core';
-import { Observable, of, switchMap } from 'rxjs';
-import { getDefaultFullData, IMatchFullData } from '../../../type/match.type';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
+import {
+  filter,
+  Observable,
+  of,
+  Subject,
+  switchMap,
+  take,
+  takeUntil,
+} from 'rxjs';
+import {
+  getDefaultFullData,
+  IMatch,
+  IMatchFullData,
+} from '../../../type/match.type';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { MatchService } from '../match.service';
 import { tap } from 'rxjs/operators';
 import { AsyncPipe, DatePipe } from '@angular/common';
-import { TuiButtonModule, TuiLoaderModule } from '@taiga-ui/core';
+import {
+  TuiAppearance,
+  TuiButtonModule,
+  TuiLoaderModule,
+} from '@taiga-ui/core';
 import { TuiIslandModule } from '@taiga-ui/kit';
 import { DeleteDialogComponent } from '../../../shared/ui/dialogs/delete-dialog/delete-dialog.component';
 import { MatchFullDataService } from '../matchfulldata.service';
 import { DeleteButtonComponent } from '../../../shared/ui/buttons/delete-button/delete-button.component';
+import { EditButtonComponent } from '../../../shared/ui/buttons/edit-button/edit-button.component';
+import { CreateButtonShowDialogComponent } from '../../../shared/ui/buttons/create-button-show-dialog/create-button-show-dialog.component';
+import { AddEditMatchComponent } from '../add-edit-match/add-edit-match.component';
+import { TeamTournamentService } from '../../../services/team-tournament.service';
+import { ITeam } from '../../../type/team.type';
 
 @Component({
   selector: 'app-item-match',
@@ -22,18 +43,25 @@ import { DeleteButtonComponent } from '../../../shared/ui/buttons/delete-button/
     TuiButtonModule,
     DeleteDialogComponent,
     DeleteButtonComponent,
+    EditButtonComponent,
+    CreateButtonShowDialogComponent,
+    AddEditMatchComponent,
   ],
   templateUrl: './item-match.component.html',
   styleUrl: './item-match.component.less',
 })
-export class ItemMatchComponent implements OnInit {
+export class ItemMatchComponent implements OnInit, OnDestroy {
+  private readonly ngUnsubscribe = new Subject<void>();
+
   route = inject(ActivatedRoute);
   router = inject(Router);
   matchService = inject(MatchService);
   matchWithFullDataService = inject(MatchFullDataService);
-  matchId: number | undefined;
+  teamTournamentService = inject(TeamTournamentService);
 
-  match$: Observable<IMatchFullData> = of(getDefaultFullData());
+  matchId: number | undefined;
+  match$ = this.matchWithFullDataService.matchWithFullData$;
+  teamsInTournament$: Observable<ITeam[]> = of([]);
 
   buttonTitle: string = 'Match';
 
@@ -41,19 +69,35 @@ export class ItemMatchComponent implements OnInit {
 
   ngOnInit() {
     this.route.params
-      .pipe(
-        switchMap((params) => {
-          const matchId = Number(params['id']);
-          this.matchId = matchId;
-          // console.log(matchId);
-          return this.matchWithFullDataService.fetchMatchWithDataById(matchId);
-        }),
-        tap((match: IMatchFullData) => {
-          console.log('Match data:', match);
-          this.match$ = of(match);
-        }),
-      )
-      .subscribe();
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe((params: Params) => {
+        this.matchId = Number(params['id']);
+        this.matchWithFullDataService.refreshMatchWithFullData(this.matchId);
+
+        // Subscribe to dataLoaded which indicates when data has finished loading
+        this.matchWithFullDataService.dataLoaded
+          .pipe(
+            takeUntil(this.ngUnsubscribe),
+            filter((isLoaded) => isLoaded), // Only allow isLoaded === true to pass by
+          )
+          .subscribe((isLoaded) => {
+            this.match$.pipe(take(1)).subscribe((match) => {
+              // console.log('Match data:', match); // logging match data
+
+              const tournamentId = match.match.tournament_id;
+              this.teamsInTournament$ =
+                this.teamTournamentService.fetchTeamsByTournamentId(
+                  tournamentId,
+                );
+            });
+
+            this.teamsInTournament$
+              .pipe(takeUntil(this.ngUnsubscribe))
+              .subscribe((teams) => {
+                // console.log('Teams data:', teams); // logging teams data
+              });
+          });
+      });
   }
 
   navigateToScoreboardAdmin() {
@@ -74,11 +118,15 @@ export class ItemMatchComponent implements OnInit {
     }
   }
 
-  // open: boolean = false;
-  //
-  // showDialog(): void {
-  //   this.open = true;
-  // }
+  onMatchEdit(match: IMatch | null | undefined): void {
+    console.log(match);
+    if (match && match.id) {
+      console.log(match);
+      this.matchService.editMatch(match.id, match).subscribe((match) => {});
+    } else {
+      console.log('Match data is empty');
+    }
+  }
 
   onDelete() {
     if (this.matchId) {
@@ -97,4 +145,11 @@ export class ItemMatchComponent implements OnInit {
       });
     }
   }
+
+  ngOnDestroy() {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
+  }
+
+  protected readonly TuiAppearance = TuiAppearance;
 }

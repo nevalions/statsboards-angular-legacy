@@ -27,4 +27,15 @@ export class DateTimeService {
       return null;
     }
   }
+
+  convertJsDateTime(js_date: Date): (TuiDay | TuiTime)[] {
+    const tuiDay = new TuiDay(
+      js_date.getFullYear(),
+      js_date.getMonth() + 1,
+      js_date.getDate(),
+    );
+    const tuiTime = new TuiTime(js_date.getHours(), js_date.getMinutes());
+
+    return [tuiDay, tuiTime];
+  }
 }

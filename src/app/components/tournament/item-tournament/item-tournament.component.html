@@ -21,6 +21,7 @@
         @if (tournament.id) {
           @if (teamsInTournament$ | async; as teams) {
             <app-create-button-show-dialog
+              [action]="'add'"
               [item]="'Match'"
               [dialogId]="'addDialog'"
             ></app-create-button-show-dialog>

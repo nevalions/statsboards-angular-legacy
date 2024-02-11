@@ -3,7 +3,7 @@ import { ITeam } from './team.type';
 import { IMatchData, IScoreboard } from './matchdata.type';
 
 export interface IMatch {
-  id?: number;
+  id?: number | null;
   match_date: Date;
   week: number;
   match_eesl_id?: number;

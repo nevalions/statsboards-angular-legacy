@@ -3,8 +3,12 @@ import { BaseApiService } from '../../services/base.api.service';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { ErrorHandlingService } from '../../services/error.service';
-import { IMatch, IMatchFullData } from '../../type/match.type';
-import { BehaviorSubject, Observable } from 'rxjs';
+import {
+  getDefaultFullData,
+  IMatch,
+  IMatchFullData,
+} from '../../type/match.type';
+import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
 import { TournamentService } from '../tournament/tournament.service';
 import { tap } from 'rxjs/operators';
 import { SortService } from '../../services/sort.service';
@@ -21,10 +25,17 @@ export class MatchFullDataService extends BaseApiService<IMatchFullData> {
     super('matches', http, errorHandlingService);
   }
 
+  dataLoaded = new Subject<boolean>();
+
   private matchesWithFullDataSubject = new BehaviorSubject<IMatchFullData[]>(
     [],
   );
   public matchesWithFullData$ = this.matchesWithFullDataSubject.asObservable();
+
+  matchWithFullDataSubject = new BehaviorSubject<IMatchFullData>(
+    getDefaultFullData(),
+  );
+  public matchWithFullData$ = this.matchWithFullDataSubject.asObservable();
 
   private tournamentService = inject(TournamentService);
 
@@ -45,6 +56,15 @@ export class MatchFullDataService extends BaseApiService<IMatchFullData> {
       'id',
       id,
       'scoreboard/full_data/scoreboard_settings',
+    );
+  }
+
+  refreshMatchWithFullData(id: number): void {
+    this.fetchFullMatchDataWithScoreboardSettingsById(id).subscribe(
+      (match: IMatchFullData) => {
+        this.matchWithFullDataSubject.next(match);
+        this.dataLoaded.next(true); // Emit true when data has finished loading
+      },
     );
   }
 

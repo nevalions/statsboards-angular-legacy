@@ -1,67 +1,78 @@
 <div class="match content__body">
   <div class="one_col_container">
     <div class="item-with-data-island">
-      @if (match$ | async; as match) {
-        <tui-island
-          size="l"
-          textAlign="center"
-        >
-          <div class="tui-island__content">
-            <!--          <figure class="tui-island__figure">-->
-            <!--            <div class="some-figure">WEEK {{ match.match?.week }}</div>-->
-            <!--          </figure>-->
-            <div>
-              <h3 class="tui-island__title content__body__title__center">
-                {{ match.teams_data.team_a.title }} vs {{ match.teams_data.team_b.title }}
-              </h3>
-              <h4 class="tui-island__title content__body__title__center">
-                {{ match.match_data.score_team_a }} : {{ match.match_data.score_team_b }}
-              </h4>
-              <p class="tui-island__paragraph">{{ match.match.match_date | date:"dd MMM yyyy, HH:mm" }}</p>
-              <button
-                appearance="flat"
-                size="xl"
-                tuiButton
-                type="button"
-                class="tui-island__footer-button"
-              >
-                EDIT
-              </button>
-              <button
-                appearance="flat"
-                size="xl"
-                tuiButton
-                type="button"
-                class="tui-island__footer-button"
-                (click)="navigateToScoreboardAdmin()"
-              >
-                SCOREBOARD ADMIN
-              </button>
-              <button
-                appearance="flat"
-                size="xl"
-                tuiButton
-                type="button"
-                class="tui-island__footer-button"
-                (click)="navigateToScoreboardDisplay()"
-              >
-                SCOREBOARD VIEW
-              </button>
-              <app-delete-button
-                [item]="buttonTitle"
-                class="tui-island__footer-button"
-                style="padding: 10px"
-                [dialogId]="'deleteDialog'"
-              ></app-delete-button>
-              <app-delete-dialog
-                [item]="buttonTitle"
-                (delete)="onDelete()"
-                [dialogId]="'deleteDialog'"
-              ></app-delete-dialog>
+      @if (match$ | async; as matchWithFullData) {
+        @if (teamsInTournament$ | async; as teams) {
+          <tui-island
+            size="l"
+            textAlign="center"
+          >
+            <div class="tui-island__content">
+              <!--          <figure class="tui-island__figure">-->
+              <!--            <div class="some-figure">WEEK {{ match.match?.week }}</div>-->
+              <!--          </figure>-->
+              <div>
+                <h3 class="tui-island__title content__body__title__center">
+                  {{ matchWithFullData.teams_data.team_a.title }} vs {{ matchWithFullData.teams_data.team_b.title }}
+                </h3>
+                <h4 class="tui-island__title content__body__title__center">
+                  {{ matchWithFullData.match_data.score_team_a }} : {{ matchWithFullData.match_data.score_team_b }}
+                </h4>
+                <p
+                  class="tui-island__paragraph">{{ matchWithFullData.match.match_date | date:"dd MMM yyyy, HH:mm" }}</p>
 
+                <app-edit-button
+                  [appearance]="TuiAppearance.Flat"
+                  [buttonClass]="'tui-island__footer-button'"
+                  [buttonSize]="'l'"
+                  [action]="'edit'"
+                  [item]="'Match'"
+                  [dialogId]="'editDialog'"
+                ></app-edit-button>
+                <app-add-edit-match
+                  [teams$]="teamsInTournament$"
+                  [match$]="match$"
+                  [action]="'edit'"
+                  [dialogId]="'editDialog'"
+                  (editEvent)="onMatchEdit($event)"
+                ></app-add-edit-match>
+
+                <button
+                  appearance="flat"
+                  size="xl"
+                  tuiButton
+                  type="button"
+                  class="tui-island__footer-button"
+                  (click)="navigateToScoreboardAdmin()"
+                >
+                  SCOREBOARD ADMIN
+                </button>
+                <button
+                  appearance="flat"
+                  size="xl"
+                  tuiButton
+                  type="button"
+                  class="tui-island__footer-button"
+                  (click)="navigateToScoreboardDisplay()"
+                >
+                  SCOREBOARD VIEW
+                </button>
+                <app-delete-button
+                  [item]="buttonTitle"
+                  [buttonClass]="'tui-island__footer-button'"
+                  style="padding: 0"
+                  [dialogId]="'deleteDialog'"
+                ></app-delete-button>
+                <app-delete-dialog
+                  [item]="buttonTitle"
+                  (delete)="onDelete()"
+                  [dialogId]="'deleteDialog'"
+                ></app-delete-dialog>
+
+              </div>
             </div>
-          </div>
-        </tui-island>
+          </tui-island>
+        }
       } @else {
         <tui-loader></tui-loader>
       }
