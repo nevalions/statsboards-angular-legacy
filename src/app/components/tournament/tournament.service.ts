@@ -53,6 +53,10 @@ export class TournamentService extends BaseApiService<ITournament> {
       .subscribe();
   }
 
+  addTournamentStore(newTournament: ITournament): Observable<ITournament> {
+    return this.addItem(newTournament);
+  }
+
   //TODO replace with base
   fetchAllMatchesWithDataByTournamentId(id: number) {
     return this.http

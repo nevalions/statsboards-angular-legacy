@@ -43,6 +43,11 @@ import { SportWithSeasonDropdownComponent } from '../../../../shared/ui/dropdown
 import { CreateButtonComponent } from '../../../../shared/ui/buttons/create-button/create-button.component';
 import { BodyTitleComponent } from '../../../../shared/ui/body/body-title/body-title.component';
 import { TournamentAddEditFormComponent } from '../../../tournament/tournament-add-edit-form/tournament-add-edit-form.component';
+import { provideState, provideStore } from '@ngrx/store';
+import {
+  tournamentFeatureKey,
+  tournamentReducer,
+} from '../../../tournament/store/reducers';
 
 @Component({
   selector: 'app-item-sport-with-season',
@@ -66,6 +71,7 @@ import { TournamentAddEditFormComponent } from '../../../tournament/tournament-a
     BodyTitleComponent,
     TournamentAddEditFormComponent,
   ],
+  providers: [],
   templateUrl: './item-sport-with-season.component.html',
   styleUrl: './item-sport-with-season.component.less',
   encapsulation: ViewEncapsulation.None, //helps with full width of buttons select season

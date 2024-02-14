@@ -7,6 +7,13 @@ import { TournamentComponent } from './components/tournament/tournament.componen
 import { TeamComponent } from './components/team/team.component';
 import { MatchComponent } from './components/match/match.component';
 import { breadcrumbResolver } from './resolvers/breadcrumb.resolver';
+import { provideState } from '@ngrx/store';
+import {
+  tournamentFeatureKey,
+  tournamentReducer,
+} from './components/tournament/store/reducers';
+import { provideEffects } from '@ngrx/effects';
+import * as createTournamentEffect from './components/tournament/store/effects';
 
 export const routes: Routes = [
   {
@@ -21,6 +28,10 @@ export const routes: Routes = [
     component: SportComponent,
     loadChildren: () =>
       import('./components/sport/sport.routes').then((r) => r.SPORT_ROUTES),
+    providers: [
+      provideState(tournamentFeatureKey, tournamentReducer),
+      provideEffects(createTournamentEffect),
+    ],
   },
 
   {
@@ -30,6 +41,7 @@ export const routes: Routes = [
       import('./components/tournament/tournament.routes').then(
         (r) => r.TOURNAMENT_ROUTES,
       ),
+    providers: [provideState(tournamentFeatureKey, tournamentReducer)],
   },
 
   {
