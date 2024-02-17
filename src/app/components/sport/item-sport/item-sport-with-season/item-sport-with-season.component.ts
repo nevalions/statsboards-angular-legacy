@@ -91,14 +91,12 @@ export class ItemSportWithSeasonComponent implements OnInit {
     fromRouter.getRouterSelectors().selectRouteParams,
   );
 
-  private route = inject(ActivatedRoute);
   private sportService = inject(SportService);
 
   searchListService = inject(SearchListService);
   paginationService = inject(PaginationService);
 
   sport$: Observable<ISport> = of({} as ISport);
-  year: number = 1900;
 
   constructor() {}
 
@@ -128,17 +126,11 @@ export class ItemSportWithSeasonComponent implements OnInit {
       const sportId = Number(id);
       const seasonYear = Number(year);
 
-      if (isNaN(sportId) || isNaN(seasonYear)) {
-        return;
-      }
-      this.year = seasonYear;
-
-      this.loadSeasonByYear(this.year);
+      this.loadSeasonByYear(seasonYear);
       this.sport$ = this.sportService.findById(sportId);
 
-      this.loadSportSeasonTournaments(id, year);
+      this.loadSportSeasonTournaments(sportId, seasonYear);
     });
-    // subscribe to update
     this.tournaments$.subscribe((tournaments: ITournament[]) => {
       this.searchListService.updateData(of(tournaments));
       this.paginationService.initializePagination(
@@ -147,12 +139,3 @@ export class ItemSportWithSeasonComponent implements OnInit {
     });
   }
 }
-
-// tournaments$ = this.tournamentService.tournaments$;
-// tournaments$ = this.store.select((state) => state.tournamentStore.itemsList);
-// seasons$ = this.seasonService.seasons$;
-
-// ngOnDestroy() {
-//   this.ngUnsubscribe.next();
-//   this.ngUnsubscribe.complete();
-// }
