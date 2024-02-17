@@ -125,14 +125,6 @@ const tournamentFeature = createFeature({
       },
     ),
     on(
-      tournamentActions.getTournamentsBySportAndSeasonSuccess,
-      (state, action) => ({
-        ...state,
-        isLoading: false,
-        itemsList: action.tournaments,
-      }),
-    ),
-    on(
       tournamentActions.getTournamentsBySportAndSeasonFailure,
       (state, action) => ({
         ...state,

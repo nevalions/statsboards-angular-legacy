@@ -14,7 +14,7 @@ export class TournamentEffects {
       return this.actions$.pipe(
         ofType(tournamentActions.create),
         switchMap(({ request }) => {
-          return this.tournamentService.addTournamentStore(request).pipe(
+          return this.tournamentService.addItem(request).pipe(
             map((currentTournament: ITournament) => {
               return tournamentActions.createdSuccessfully({
                 currentTournament,

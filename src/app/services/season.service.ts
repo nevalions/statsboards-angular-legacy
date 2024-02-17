@@ -36,6 +36,15 @@ export class SeasonService extends BaseApiService<ISeason> {
       .subscribe();
   }
 
+  getSeasonByYearReturn(year: number) {
+    return this.findByFirstKeyValue('seasons', 'year', year).pipe(
+      tap((season: ISeason) => {
+        console.log(`SEASON BY ${year}`, season);
+        this.seasonSubject.next(season);
+      }),
+    );
+  }
+
   getSeasonsWithSportId(sport_id: number): Observable<ISeason[]> {
     return this.findAll().pipe(
       map((data) =>

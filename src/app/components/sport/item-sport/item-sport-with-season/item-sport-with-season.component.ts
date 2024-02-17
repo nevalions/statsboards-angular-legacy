@@ -41,6 +41,9 @@ import {
 } from '../../../tournament/store/reducers';
 import { tournamentActions } from '../../../tournament/store/actions';
 import * as fromRouter from '@ngrx/router-store';
+import { SeasonState } from '../../../season/store/reducers';
+import { ISeason } from '../../../../type/season.type';
+import { seasonActions } from '../../../season/store/actions';
 
 @Component({
   selector: 'app-item-sport-with-season',
@@ -75,7 +78,11 @@ export class ItemSportWithSeasonComponent implements OnInit {
   // crudStore: Store<{ crud: crudStoreInterface<ITournament> }> = inject(Store);
   // tournamentActions = crudActions<ITournament>();
   tournamentStore: Store<{ tournament: TournamentState }> = inject(Store);
+  seasonStore: Store<{ season: SeasonState }> = inject(Store);
 
+  season$: Observable<ISeason | null | undefined> = this.seasonStore.select(
+    (state) => state.season.currentItem,
+  );
   tournaments$: Observable<ITournament[]> = this.tournamentStore.select(
     (state) => state.tournament.itemsList,
   );
@@ -86,9 +93,6 @@ export class ItemSportWithSeasonComponent implements OnInit {
 
   private route = inject(ActivatedRoute);
   private sportService = inject(SportService);
-  seasonService = inject(SeasonService);
-
-  season$ = this.seasonService.season$;
 
   searchListService = inject(SearchListService);
   paginationService = inject(PaginationService);
@@ -113,8 +117,11 @@ export class ItemSportWithSeasonComponent implements OnInit {
     );
   }
 
+  loadSeasonByYear(year: number) {
+    this.seasonStore.dispatch(seasonActions.getSeasonByYear({ year: year }));
+  }
+
   ngOnInit() {
-    // this.route.params.subscribe((params) => {
     this.routeParams$.subscribe((params) => {
       console.log(params);
       const { id, year } = params;
@@ -125,13 +132,13 @@ export class ItemSportWithSeasonComponent implements OnInit {
         return;
       }
       this.year = seasonYear;
-      // console.log(this.year);
-      this.seasonService.getSeasonByYear(this.year);
+
+      this.loadSeasonByYear(this.year);
       this.sport$ = this.sportService.findById(sportId);
 
       this.loadSportSeasonTournaments(id, year);
     });
-    // subscribe to updates
+    // subscribe to update
     this.tournaments$.subscribe((tournaments: ITournament[]) => {
       this.searchListService.updateData(of(tournaments));
       this.paginationService.initializePagination(

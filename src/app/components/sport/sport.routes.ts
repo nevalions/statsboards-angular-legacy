@@ -12,6 +12,9 @@ import { provideEffects } from '@ngrx/effects';
 import * as createTournamentEffect from '../tournament/store/effects';
 import * as getTournamentsBySportAndSeasonEffect from '../tournament/store/effects';
 import { TournamentEffects } from '../tournament/store/effects';
+import { SeasonService } from '../../services/season.service';
+import { SeasonEffects } from '../season/store/effects';
+import { seasonFeatureKey, seasonReducer } from '../season/store/reducers';
 
 export const SPORT_ROUTES: Routes = [
   { path: '', component: SportComponent },
@@ -30,7 +33,9 @@ export const SPORT_ROUTES: Routes = [
     component: ItemSportWithSeasonComponent,
     providers: [
       provideState(tournamentFeatureKey, tournamentReducer),
+      provideState(seasonFeatureKey, seasonReducer),
       provideEffects(
+        SeasonEffects,
         TournamentEffects,
         // createTournamentEffect,
         // getTournamentsBySportAndSeasonEffect,

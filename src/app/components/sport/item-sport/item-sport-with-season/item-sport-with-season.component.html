@@ -1,45 +1,44 @@
-@if (this.sport$ | async; as sport) {
-  <div class="sport content__title">
-    <h3 class="tui-text_h3">{{ sport.title | uppercase }}</h3>
-  </div>
-  <div class="sport content__body">
-    <div class="one_col_container">
-      <div class="sport content__body__title__flex">
-        <app-body-title
-          titleMany='tournaments'
-        ></app-body-title>
-        @if (this.season$ | async; as season) {
+@if (sport$ | async; as sport) {
+  @if (season$ | async; as season) {
+    <div class="sport content__title">
+      <h3 class="tui-text_h3">{{ sport.title | uppercase }}</h3>
+    </div>
+    <div class="sport content__body">
+      <div class="one_col_container">
+        <div class="sport content__body__title__flex">
+          <app-body-title
+            titleMany='tournaments'
+          ></app-body-title>
+
           <app-tournament-add-edit-form
             [sport_Id]="sport.id!"
             [season_Id]="season.id!"
 
           ></app-tournament-add-edit-form>
-        } @else {
-          <tui-loader></tui-loader>
-        }
-        <app-sport-with-season-dropdown
-          [sportId]="sport.id!"
-        ></app-sport-with-season-dropdown>
-      </div>
-      <div class="sport content__body__title">
 
-        <h4>YEAR {{ this.year }}</h4>
-      </div>
-      <hr>
-      @if (tournaments$ | async; as tours) {
-        <!--        @for (t of tours; track t.id) {-->
-          <!--          {{ t.id }} {{ t.title }}-->
-          <!--        }-->
-        <app-pagination-with-items-per-page
-          [items$]="tournaments$"
-        ></app-pagination-with-items-per-page>
+          <app-sport-with-season-dropdown
+            [sportId]="sport.id!"
+          ></app-sport-with-season-dropdown>
+        </div>
+        <div class="sport content__body__title">
 
-        <app-form-search-text
-          [data$]="tournaments$"
-          [searchTitle]="'tournament title'"
-          [parameter]="'title'"
-        ></app-form-search-text>
-        @if (season$ | async; as season) {
+          <h4>YEAR {{ season.year }}</h4>
+        </div>
+        <hr>
+        @if (tournaments$ | async; as tours) {
+          <!--        @for (t of tours; track t.id) {-->
+            <!--          {{ t.id }} {{ t.title }}-->
+            <!--        }-->
+          <app-pagination-with-items-per-page
+            [items$]="tournaments$"
+          ></app-pagination-with-items-per-page>
+
+          <app-form-search-text
+            [data$]="tournaments$"
+            [searchTitle]="'tournament title'"
+            [parameter]="'title'"
+          ></app-form-search-text>
+
           <app-list-of-items-island
             [itemData]="season"
             [data$]="paginationService.paginatedItems$"
@@ -47,14 +46,13 @@
             [titleProperty]="islandTitleProperty"
           ></app-list-of-items-island>
         }
-      } @else {
-        <tui-loader [inheritColor]="true"></tui-loader>
-      }
-    </div>
-  </div>
 
-} @else {
-  <h3 class="tui-text_h3">
-    <tui-loader [inheritColor]="true"></tui-loader>
-  </h3>
+      </div>
+    </div>
+
+  } @else {
+    <h3 class="tui-text_h3">
+      <tui-loader [inheritColor]="true"></tui-loader>
+    </h3>
+  }
 }
