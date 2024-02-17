@@ -48,8 +48,7 @@ import { FormSearchTextComponent } from '../../../shared/ui/forms/form-search-te
 import { paginationWithItemsPerPage } from '../../../shared/ui/pagination/pagination-with-items-per-page/pagination-with-items-per-page.component';
 import { FormSearchAutoCompleteComponent } from '../../../shared/ui/forms/form-search-auto-complete/form-search-auto-complete.component';
 import { SeasonService } from '../../../services/season.service';
-import { tap } from 'rxjs/operators';
-import { ISeason } from '../../../type/season.type';
+
 import { TournamentDeleteFormComponent } from '../tournament-delete-form/tournament-delete-form.component';
 import { DeleteDialogComponent } from '../../../shared/ui/dialogs/delete-dialog/delete-dialog.component';
 import { AddEditMatchComponent } from '../../match/add-edit-match/add-edit-match.component';
@@ -57,13 +56,17 @@ import { MatchService } from '../../match/match.service';
 import { MatchFullDataService } from '../../match/matchfulldata.service';
 import { TeamTournamentService } from '../../../services/team-tournament.service';
 import { AddTeamToTournamentComponent } from '../../team/add-team-to-tournament/add-team-to-tournament.component';
-import { TeamService } from '../../team/team.service';
+
 import { DeleteButtonComponent } from '../../../shared/ui/buttons/delete-button/delete-button.component';
 import { DeleteButtonIconComponent } from '../../../shared/ui/buttons/delete-button-icon/delete-button-icon.component';
 import { tuiIconClose } from '@taiga-ui/icons';
 import { RemoveDialogComponent } from '../../../shared/ui/dialogs/remove-dialog/remove-dialog.component';
 import { CreateButtonShowDialogComponent } from '../../../shared/ui/buttons/create-button-show-dialog/create-button-show-dialog.component';
 import { AddItemDialogFromListComponent } from '../../../shared/ui/dialogs/add-item-dialog-from-list/add-item-dialog-from-list.component';
+import { Store } from '@ngrx/store';
+import { TournamentState } from '../store/reducers';
+import { tournamentActions } from '../store/actions';
+import * as fromRouter from '@ngrx/router-store';
 
 @Component({
   selector: 'app-item-tournament',
@@ -110,8 +113,14 @@ import { AddItemDialogFromListComponent } from '../../../shared/ui/dialogs/add-i
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.Default,
 })
-export class ItemTournamentComponent implements OnInit, OnDestroy {
-  private readonly ngUnsubscribe = new Subject<void>();
+export class ItemTournamentComponent implements OnInit {
+  tournamentStore: Store<{ tournament: TournamentState }> = inject(Store);
+  tournament$ = this.tournamentStore.select(
+    (state) => state.tournament.currentItem,
+  );
+  routeId$: Observable<string | undefined> = this.tournamentStore.select(
+    fromRouter.getRouterSelectors().selectRouteParam('id'),
+  );
 
   private route = inject(ActivatedRoute);
   private router = inject(Router);
@@ -125,7 +134,7 @@ export class ItemTournamentComponent implements OnInit, OnDestroy {
   searchListService = inject(SearchListService);
   paginationService = inject(PaginationService);
 
-  tournament$: Observable<ITournament> = of({} as ITournament);
+  // tournament$: Observable<ITournament> = of({} as ITournament);
   tournamentId!: number;
 
   matchesWithFullData$: Observable<IMatchFullData[]> =
@@ -155,43 +164,69 @@ export class ItemTournamentComponent implements OnInit, OnDestroy {
     return `/matches/id/${item.id}`;
   }
 
-  ngOnInit() {
-    this.route.params
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe((params: Params) => {
-        this.tournamentId = Number([params['id']]);
-        this.tournament$ = this.tournamentService.findById(this.tournamentId);
+  loadTournament(id: number) {
+    this.tournamentStore.dispatch(tournamentActions.get({ id: id }));
+  }
 
-        this.teamTournamentService.refreshTeamsInTournament(this.tournamentId);
+  ngOnInit() {
+    this.routeId$.subscribe((id) => {
+      if (id) {
+        // check if id is defined
+        this.tournamentId = Number(id);
+        this.loadTournament(Number(id));
+
+        this.teamTournamentService.refreshTeamsInTournament(Number(id));
         this.matchWithFullDataService.refreshMatchesWithDataInTournament(
           this.tournamentId,
         );
-      });
+      }
+    });
 
-    this.matchWithFullDataService.matchesWithFullData$
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe((matches: IMatchFullData[]) => {
+    this.matchWithFullDataService.matchesWithFullData$.subscribe(
+      (matches: IMatchFullData[]) => {
         this.searchListService.updateData(of(matches));
         this.paginationService.initializePagination(
           this.searchListService.filteredData$,
         );
-      });
+      },
+    );
 
     this.onSearch();
   }
 
-  ngOnDestroy() {
-    this.ngUnsubscribe.next();
-    this.ngUnsubscribe.complete();
-  }
+  //   this.route.params
+  //     .pipe(takeUntil(this.ngUnsubscribe))
+  //     .subscribe((params: Params) => {
+  //       const t_id = Number([params['id']]);
+  //       this.tournamentId = t_id;
+  //       // this.tournament$ = this.tournamentService.findById(this.tournamentId);
+  //       this.tournamentStore.dispatch(tournamentActions.get({ id: t_id }));
+  //
+  //       this.teamTournamentService.refreshTeamsInTournament(t_id);
+  //       this.matchWithFullDataService.refreshMatchesWithDataInTournament(
+  //         this.tournamentId,
+  //       );
+  //     });
+  //
+  //   this.matchWithFullDataService.matchesWithFullData$
+  //     .pipe(takeUntil(this.ngUnsubscribe))
+  //     .subscribe((matches: IMatchFullData[]) => {
+  //       this.searchListService.updateData(of(matches));
+  //       this.paginationService.initializePagination(
+  //         this.searchListService.filteredData$,
+  //       );
+  //     });
+  //
+  //   this.onSearch();
+  // }
 
   onSearch() {
     this.formWeek
       .get('matchWeekSearch')!
-      .valueChanges.pipe(
-        // Unsubscribe when the component is destroyed.
-        takeUntil(this.ngUnsubscribe),
-      )
+      .valueChanges.pipe
+      // Unsubscribe when the component is destroyed.
+      // takeUntil(this.ngUnsubscribe),
+      ()
       .subscribe((matchWeekSearch) => {
         this.searchListService.updateFilteredData(
           String(matchWeekSearch).toString(),
@@ -201,27 +236,30 @@ export class ItemTournamentComponent implements OnInit, OnDestroy {
   }
 
   onDelete() {
-    this.tournament$
-      .pipe(
-        switchMap((tournament) =>
-          this.seasonService
-            .findById(tournament.season_id)
-            .pipe(
-              switchMap((season) =>
-                this.tournamentService
-                  .deleteTournament(tournament.id!)
-                  .pipe(map(() => ({ tournament, season }))),
-              ),
-            ),
-        ),
-      )
-      .subscribe(({ tournament, season }) => {
-        const sport_id = tournament.sport_id;
-        const year = season.year;
-        this.router.navigateByUrl(
-          `/sports/id/${sport_id}/seasons/${year}/tournaments`,
-        );
-      });
+    this.tournamentStore.dispatch(
+      tournamentActions.delete({ id: this.tournamentId }),
+    );
+    // this.tournament$
+    //   .pipe(
+    //     switchMap((tournament) =>
+    //       this.seasonService
+    //         .findById(tournament.season_id)
+    //         .pipe(
+    //           switchMap((season) =>
+    //             this.tournamentService
+    //               .deleteTournament(tournament.id!)
+    //               .pipe(map(() => ({ tournament, season }))),
+    //           ),
+    //         ),
+    //     ),
+    //   )
+    //   .subscribe(({ tournament, season }) => {
+    //     const sport_id = tournament.sport_id;
+    //     const year = season.year;
+    //     this.router.navigateByUrl(
+    //       `/sports/id/${sport_id}/seasons/${year}/tournaments`,
+    //     );
+    //   });
   }
 
   onMatchAdd(match: IMatch | null | undefined): void {

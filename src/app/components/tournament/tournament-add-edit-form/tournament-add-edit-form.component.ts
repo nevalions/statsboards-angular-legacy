@@ -24,9 +24,7 @@ import { CreateButtonInFormComponent } from '../../../shared/ui/buttons/create-b
 import { CancelButtonInFormComponent } from '../../../shared/ui/buttons/cancel-button-in-form/cancel-button-in-form.component';
 import { Store } from '@ngrx/store';
 import { tournamentActions } from '../store/actions';
-
-import { selectIsSubmitting } from '../store/reducers';
-import { crudStoreInterface } from '../../../type/store.intarface';
+import { selectIsSubmitting, TournamentState } from '../store/reducers';
 
 @Component({
   selector: 'app-tournament-add-edit-form',
@@ -49,10 +47,10 @@ import { crudStoreInterface } from '../../../type/store.intarface';
   styleUrl: './tournament-add-edit-form.component.less',
 })
 export class TournamentAddEditFormComponent {
-  store: Store<{ tournament: crudStoreInterface<ITournament> }> = inject(Store);
-  isSubmitting$ = this.store.select(selectIsSubmitting);
+  store: Store<{ tournament: TournamentState }> = inject(Store);
 
-  @Input() addTournament!: (data: any) => void;
+  isSubmitting$ = this.store.select((state) => state.tournament.isSubmitting);
+
   @Input() sport_Id!: number;
   @Input() season_Id!: number;
 
@@ -79,13 +77,19 @@ export class TournamentAddEditFormComponent {
         title: formValue.tournamentTitle!,
         description: 'string',
         tournament_logo_url: 'www',
-        season_id: 6,
+        season_id: this.season_Id,
         sport_id: this.sport_Id,
       };
 
-      console.log(formValue.tournamentTitle, data.sport_id);
-      this.store.dispatch(tournamentActions.create({ request: data }));
-      // this.addTournament(data);
+      this.store.dispatch(
+        tournamentActions.create({
+          request: data,
+        }),
+      );
     }
   }
 }
+
+// console.log(formValue.tournamentTitle, data.sport_id);
+
+// this.addTournament(data);

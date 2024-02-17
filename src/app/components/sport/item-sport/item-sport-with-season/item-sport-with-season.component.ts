@@ -2,33 +2,24 @@ import {
   ChangeDetectionStrategy,
   Component,
   inject,
-  OnDestroy,
   OnInit,
   ViewEncapsulation,
 } from '@angular/core';
-import {
-  BehaviorSubject,
-  Observable,
-  of,
-  Subject,
-  switchMap,
-  takeUntil,
-} from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
-import { tap } from 'rxjs/operators';
+
 import { AsyncPipe, UpperCasePipe } from '@angular/common';
 import { TuiBlockStatusModule } from '@taiga-ui/layout';
 import { TuiIslandModule, TuiSelectModule } from '@taiga-ui/kit';
 import {
   TuiButtonModule,
   TuiDataListModule,
-  TuiDialogService,
   TuiLoaderModule,
 } from '@taiga-ui/core';
 import { SeasonDropdownComponent } from '../../../season/season-dropdown/season-dropdown.component';
 import { ListOfItemsIslandComponent } from '../../../../shared/ui/list-of-items-island/list-of-items-island.component';
 import { ITournament } from '../../../../type/tournament.type';
-import { TournamentService } from '../../../tournament/tournament.service';
+
 import { ISport } from '../../../../type/sport.type';
 import { SportService } from '../../sport.service';
 import { IBaseIdElse } from '../../../../type/base.type';
@@ -43,11 +34,13 @@ import { SportWithSeasonDropdownComponent } from '../../../../shared/ui/dropdown
 import { CreateButtonComponent } from '../../../../shared/ui/buttons/create-button/create-button.component';
 import { BodyTitleComponent } from '../../../../shared/ui/body/body-title/body-title.component';
 import { TournamentAddEditFormComponent } from '../../../tournament/tournament-add-edit-form/tournament-add-edit-form.component';
-import { provideState, provideStore } from '@ngrx/store';
+import { createSelector, Store } from '@ngrx/store';
 import {
-  tournamentFeatureKey,
-  tournamentReducer,
+  selectItemsList,
+  TournamentState,
 } from '../../../tournament/store/reducers';
+import { tournamentActions } from '../../../tournament/store/actions';
+import * as fromRouter from '@ngrx/router-store';
 
 @Component({
   selector: 'app-item-sport-with-season',
@@ -77,23 +70,31 @@ import {
   encapsulation: ViewEncapsulation.None, //helps with full width of buttons select season
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ItemSportWithSeasonComponent implements OnInit, OnDestroy {
-  private ngUnsubscribe = new Subject<void>();
+export class ItemSportWithSeasonComponent implements OnInit {
+  // private crudStateObj = crudState<ITournament>();
+  // crudStore: Store<{ crud: crudStoreInterface<ITournament> }> = inject(Store);
+  // tournamentActions = crudActions<ITournament>();
+  tournamentStore: Store<{ tournament: TournamentState }> = inject(Store);
+
+  tournaments$: Observable<ITournament[]> = this.tournamentStore.select(
+    (state) => state.tournament.itemsList,
+  );
+
+  routeParams$ = this.tournamentStore.select(
+    fromRouter.getRouterSelectors().selectRouteParams,
+  );
 
   private route = inject(ActivatedRoute);
   private sportService = inject(SportService);
-  tournamentService = inject(TournamentService);
   seasonService = inject(SeasonService);
 
-  tournaments$ = this.tournamentService.tournaments$;
-  seasons$ = this.seasonService.seasons$;
   season$ = this.seasonService.season$;
 
   searchListService = inject(SearchListService);
   paginationService = inject(PaginationService);
 
   sport$: Observable<ISport> = of({} as ISport);
-  year: number = 0;
+  year: number = 1900;
 
   constructor() {}
 
@@ -103,39 +104,48 @@ export class ItemSportWithSeasonComponent implements OnInit, OnDestroy {
     return `/tournaments/id/${item.id}`;
   }
 
-  ngOnInit() {
-    // initialize data
-    this.route.params
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe((params) => {
-        const { id, year } = params;
-        const sportId = Number(id);
-        const seasonYear = Number(year);
-
-        if (isNaN(sportId) || isNaN(seasonYear)) {
-          return;
-        }
-        this.year = seasonYear;
-        // console.log(this.year);
-        this.seasonService.getSeasonByYear(this.year);
-        this.sport$ = this.sportService.findById(sportId);
-
-        this.tournamentService.refreshTournaments(sportId, seasonYear);
-      });
-
-    // subscribe to updates
-    this.tournamentService.tournaments$
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe((tournaments: ITournament[]) => {
-        this.searchListService.updateData(of(tournaments));
-        this.paginationService.initializePagination(
-          this.searchListService.filteredData$,
-        );
-      });
+  loadSportSeasonTournaments(sportId: number, seasonYear: number) {
+    this.tournamentStore.dispatch(
+      tournamentActions.getTournamentsBySportAndSeason({
+        id: sportId,
+        year: seasonYear,
+      }),
+    );
   }
 
-  ngOnDestroy() {
-    this.ngUnsubscribe.next();
-    this.ngUnsubscribe.complete();
+  ngOnInit() {
+    // this.route.params.subscribe((params) => {
+    this.routeParams$.subscribe((params) => {
+      console.log(params);
+      const { id, year } = params;
+      const sportId = Number(id);
+      const seasonYear = Number(year);
+
+      if (isNaN(sportId) || isNaN(seasonYear)) {
+        return;
+      }
+      this.year = seasonYear;
+      // console.log(this.year);
+      this.seasonService.getSeasonByYear(this.year);
+      this.sport$ = this.sportService.findById(sportId);
+
+      this.loadSportSeasonTournaments(id, year);
+    });
+    // subscribe to updates
+    this.tournaments$.subscribe((tournaments: ITournament[]) => {
+      this.searchListService.updateData(of(tournaments));
+      this.paginationService.initializePagination(
+        this.searchListService.filteredData$,
+      );
+    });
   }
 }
+
+// tournaments$ = this.tournamentService.tournaments$;
+// tournaments$ = this.store.select((state) => state.tournamentStore.itemsList);
+// seasons$ = this.seasonService.seasons$;
+
+// ngOnDestroy() {
+//   this.ngUnsubscribe.next();
+//   this.ngUnsubscribe.complete();
+// }

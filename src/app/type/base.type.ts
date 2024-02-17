@@ -1,7 +1,7 @@
-import {BehaviorSubject, Observable} from "rxjs";
+import { BehaviorSubject, Observable } from 'rxjs';
 
 export interface IBaseID {
-  id: number;
+  id?: number;
 }
 
 export interface IBaseDescription {

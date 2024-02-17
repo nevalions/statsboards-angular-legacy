@@ -10,15 +10,15 @@
         ></app-body-title>
         @if (this.season$ | async; as season) {
           <app-tournament-add-edit-form
-            [sport_Id]="sport.id"
-            [season_Id]="season.id"
-            [addTournament]="tournamentService.addTournament.bind(tournamentService)"
+            [sport_Id]="sport.id!"
+            [season_Id]="season.id!"
+
           ></app-tournament-add-edit-form>
         } @else {
           <tui-loader></tui-loader>
         }
         <app-sport-with-season-dropdown
-          [sportId]="sport.id"
+          [sportId]="sport.id!"
         ></app-sport-with-season-dropdown>
       </div>
       <div class="sport content__body__title">
@@ -26,7 +26,10 @@
         <h4>YEAR {{ this.year }}</h4>
       </div>
       <hr>
-      @if (tournaments$ | async) {
+      @if (tournaments$ | async; as tours) {
+        <!--        @for (t of tours; track t.id) {-->
+          <!--          {{ t.id }} {{ t.title }}-->
+          <!--        }-->
         <app-pagination-with-items-per-page
           [items$]="tournaments$"
         ></app-pagination-with-items-per-page>

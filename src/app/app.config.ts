@@ -23,6 +23,7 @@ import { provideStore } from '@ngrx/store';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { isDeclaration } from '@angular/compiler-cli/src/ngtsc/util/src/typescript';
 import { provideEffects } from '@ngrx/effects';
+import { provideRouterStore, routerReducer } from '@ngrx/router-store';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -40,8 +41,9 @@ export const appConfig: ApplicationConfig = {
     ),
     provideHttpClient(withInterceptors([AuthInterceptor]), withFetch()),
     importProvidersFrom(TuiRootModule),
-    provideStore(),
+    provideStore({ router: routerReducer }),
     provideEffects(),
+    provideRouterStore(),
     provideStoreDevtools({
       maxAge: 25,
       logOnly: !isDevMode(),

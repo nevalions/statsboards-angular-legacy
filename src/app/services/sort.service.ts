@@ -1,6 +1,6 @@
 export class SortService {
   static sort(data: any[], ...properties: string[]): any[] {
-    return data.sort((a, b) => this.compareProperties(a, b, properties));
+    return [...data].sort((a, b) => this.compareProperties(a, b, properties));
   }
 
   private static compareProperties(

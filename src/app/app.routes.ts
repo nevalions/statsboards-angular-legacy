@@ -28,10 +28,10 @@ export const routes: Routes = [
     component: SportComponent,
     loadChildren: () =>
       import('./components/sport/sport.routes').then((r) => r.SPORT_ROUTES),
-    providers: [
-      provideState(tournamentFeatureKey, tournamentReducer),
-      provideEffects(createTournamentEffect),
-    ],
+    // providers: [
+    //   provideState(tournamentFeatureKey, tournamentReducer),
+    //   provideEffects(createTournamentEffect),
+    // ],
   },
 
   {
@@ -41,7 +41,7 @@ export const routes: Routes = [
       import('./components/tournament/tournament.routes').then(
         (r) => r.TOURNAMENT_ROUTES,
       ),
-    providers: [provideState(tournamentFeatureKey, tournamentReducer)],
+    // providers: [provideState(tournamentFeatureKey, tournamentReducer)],
   },
 
   {
