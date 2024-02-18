@@ -29,8 +29,12 @@ export const tournamentActions = createActionGroup({
     'Updated successfully': props<{ updatedTournament: ITournament }>(),
     'Update failure': emptyProps(),
 
-    Delete: props<{ id: number }>(),
-    'Deleted successfully': props<{ id: number }>(),
+    Delete: props<{ id: number; sportId: number; year: number }>(),
+    'Deleted successfully': props<{
+      id: number;
+      sportId: number;
+      year: number;
+    }>(),
     'Delete failure': emptyProps(),
   },
 });

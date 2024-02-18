@@ -14,16 +14,11 @@ import { TournamentEffects } from './store/effects';
 export const TOURNAMENT_ROUTES: Routes = [
   { path: '', component: TournamentComponent },
   {
-    path: 'id/:id',
+    path: ':tournament_id/season/:season_id',
     component: ItemTournamentComponent,
     providers: [
       provideState(tournamentFeatureKey, tournamentReducer),
-      provideEffects(
-        TournamentEffects,
-        // getTournamentByIdEffect,
-        // deleteTournamentEffect,
-        // navigateOnTournamentDeletion$,
-      ),
+      provideEffects(TournamentEffects),
     ],
     data: { breadcrumbs: [{ caption: 'Tournament' }] },
     children: [

@@ -26,7 +26,16 @@ import {
 } from '@taiga-ui/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { TournamentService } from '../tournament.service';
-import { map, Observable, of, Subject, switchMap, takeUntil } from 'rxjs';
+import {
+  combineLatest,
+  map,
+  Observable,
+  of,
+  Subject,
+  switchMap,
+  take,
+  takeUntil,
+} from 'rxjs';
 import { ITournament } from '../../../type/tournament.type';
 import { IMatch, IMatchFullData } from '../../../type/match.type';
 import { ListOfMatchesComponent } from '../../../shared/ui/list-of-matches/list-of-matches.component';
@@ -118,8 +127,18 @@ export class ItemTournamentComponent implements OnInit {
   tournament$ = this.tournamentStore.select(
     (state) => state.tournament.currentItem,
   );
-  routeId$: Observable<string | undefined> = this.tournamentStore.select(
-    fromRouter.getRouterSelectors().selectRouteParam('id'),
+  tournamentId$ = this.tournamentStore.select(
+    (state) => state.tournament.currentItem?.id,
+  );
+  tournamentSportId$ = this.tournamentStore.select(
+    (state) => state.tournament.currentItem?.sport_id,
+  );
+
+  // routeId$: Observable<string | undefined> = this.tournamentStore.select(
+  //   fromRouter.getRouterSelectors().selectRouteParam('id'),
+  // );
+  routeParams$: Observable<Params> = this.tournamentStore.select(
+    fromRouter.getRouterSelectors().selectRouteParams,
   );
 
   private route = inject(ActivatedRoute);
@@ -165,33 +184,39 @@ export class ItemTournamentComponent implements OnInit {
   }
 
   loadTournament(id: number) {
+    console.log(id);
     this.tournamentStore.dispatch(tournamentActions.get({ id: id }));
   }
 
   ngOnInit() {
-    this.routeId$.subscribe((id) => {
-      if (id) {
-        // check if id is defined
-        this.tournamentId = Number(id);
-        this.loadTournament(Number(id));
+    this.route.paramMap.subscribe((params) => {
+      let tournamentId = params.get('tournament_id');
+      let seasonId = params.get('season_id');
+      console.log(tournamentId, seasonId);
 
-        this.teamTournamentService.refreshTeamsInTournament(Number(id));
+      if (tournamentId && seasonId) {
+        this.tournamentId = Number(tournamentId);
+        this.loadTournament(Number(tournamentId));
+
+        this.teamTournamentService.refreshTeamsInTournament(
+          Number(tournamentId),
+        );
         this.matchWithFullDataService.refreshMatchesWithDataInTournament(
           this.tournamentId,
         );
+
+        this.matchWithFullDataService.matchesWithFullData$.subscribe(
+          (matches: IMatchFullData[]) => {
+            this.searchListService.updateData(of(matches));
+            this.paginationService.initializePagination(
+              this.searchListService.filteredData$,
+            );
+          },
+        );
+      } else {
+        console.log('Params are empty');
       }
     });
-
-    this.matchWithFullDataService.matchesWithFullData$.subscribe(
-      (matches: IMatchFullData[]) => {
-        this.searchListService.updateData(of(matches));
-        this.paginationService.initializePagination(
-          this.searchListService.filteredData$,
-        );
-      },
-    );
-
-    this.onSearch();
   }
 
   //   this.route.params
@@ -236,9 +261,19 @@ export class ItemTournamentComponent implements OnInit {
   }
 
   onDelete() {
-    this.tournamentStore.dispatch(
-      tournamentActions.delete({ id: this.tournamentId }),
-    );
+    // combineLatest([this.tournamentId$, this.tournamentSportId$, this.year$])
+    //   .pipe(take(1)) // to automatically complete the observable after first emitted value
+    //   .subscribe(([tournamentId, tournamentSportId, year]) => {
+    //     if (tournamentId && tournamentSportId) {
+    //       this.tournamentStore.dispatch(
+    //         tournamentActions.delete({
+    //           id: tournamentId,
+    //           sportId: tournamentSportId,
+    //           year: year,
+    //         }),
+    //       );
+    //     }
+    //   });
     // this.tournament$
     //   .pipe(
     //     switchMap((tournament) =>

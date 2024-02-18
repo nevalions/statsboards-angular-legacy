@@ -14,6 +14,17 @@ import {
 } from './components/tournament/store/reducers';
 import { provideEffects } from '@ngrx/effects';
 import * as createTournamentEffect from './components/tournament/store/effects';
+import {
+  seasonFeatureKey,
+  seasonReducer,
+} from './components/season/store/reducers';
+import {
+  sportFeatureKey,
+  sportReducer,
+} from './components/sport/store/reducers';
+import { SeasonEffects } from './components/season/store/effects';
+import { TournamentEffects } from './components/tournament/store/effects';
+import { SportEffects } from './components/sport/store/effects';
 
 export const routes: Routes = [
   {
@@ -24,24 +35,19 @@ export const routes: Routes = [
   { path: 'seasons', component: SeasonComponent },
   { path: 'seasons/year/:year', component: SeasonComponent },
   {
-    path: 'sports',
+    path: 'sport',
     component: SportComponent,
     loadChildren: () =>
       import('./components/sport/sport.routes').then((r) => r.SPORT_ROUTES),
-    // providers: [
-    //   provideState(tournamentFeatureKey, tournamentReducer),
-    //   provideEffects(createTournamentEffect),
-    // ],
   },
 
   {
-    path: 'tournaments',
+    path: 'tournament',
     component: TournamentComponent,
     loadChildren: () =>
       import('./components/tournament/tournament.routes').then(
         (r) => r.TOURNAMENT_ROUTES,
       ),
-    // providers: [provideState(tournamentFeatureKey, tournamentReducer)],
   },
 
   {

@@ -39,12 +39,18 @@
             [parameter]="'title'"
           ></app-form-search-text>
 
-          <app-list-of-items-island
-            [itemData]="season"
+          <app-island-list-of-tournaments
             [data$]="paginationService.paginatedItems$"
             [formatPath]="tournamentItemHref"
-            [titleProperty]="islandTitleProperty"
-          ></app-list-of-items-island>
+          ></app-island-list-of-tournaments>
+
+
+          <!--          <app-list-of-items-island-->
+            <!--            [itemData]="season"-->
+            <!--            [data$]="paginationService.paginatedItems$"-->
+            <!--            [formatPath]="tournamentItemHref"-->
+            <!--            [titleProperty]="islandTitleProperty"-->
+            <!--          ></app-list-of-items-island>-->
         } @else {
           <tui-loader></tui-loader>
         }

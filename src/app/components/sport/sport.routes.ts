@@ -21,7 +21,7 @@ import { SportEffects } from './store/effects';
 export const SPORT_ROUTES: Routes = [
   { path: '', component: SportComponent },
   {
-    path: 'id/:id',
+    path: ':sport_id',
     component: ItemSportComponent,
     children: [
       {
@@ -31,19 +31,12 @@ export const SPORT_ROUTES: Routes = [
     ],
   },
   {
-    path: 'id/:id/seasons/:year/tournaments',
+    path: ':sport_id/season/:year/tournaments',
     component: ItemSportWithSeasonComponent,
     providers: [
       provideState(tournamentFeatureKey, tournamentReducer),
       provideState(seasonFeatureKey, seasonReducer),
-      provideState(sportFeatureKey, sportReducer),
-      provideEffects(
-        SeasonEffects,
-        TournamentEffects,
-        SportEffects,
-        // createTournamentEffect,
-        // getTournamentsBySportAndSeasonEffect,
-      ),
+      provideEffects(SeasonEffects, TournamentEffects),
     ],
   },
 ];

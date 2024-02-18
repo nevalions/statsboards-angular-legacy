@@ -82,11 +82,14 @@ export class TournamentEffects {
     () => {
       return this.actions$.pipe(
         ofType(tournamentActions.delete),
-        switchMap(({ id }) => {
-          // const _id = typeof id === 'string' ? Number(id) : id;
+        switchMap(({ id, sportId, year }) => {
           return this.tournamentService.deleteItem(id).pipe(
             map(() => {
-              return tournamentActions.deletedSuccessfully({ id: id });
+              return tournamentActions.deletedSuccessfully({
+                id: id,
+                sportId: sportId,
+                year: year,
+              });
             }),
             catchError(() => {
               return of(tournamentActions.deleteFailure());
@@ -102,7 +105,11 @@ export class TournamentEffects {
     () => {
       return this.actions$.pipe(
         ofType(tournamentActions.deletedSuccessfully),
-        tap(() => this.router.navigateByUrl('/')),
+        tap(({ sportId, year }) => {
+          this.router.navigateByUrl(
+            `/sports/id/${sportId}/seasons/${year}/tournaments`,
+          );
+        }),
       );
     },
     { dispatch: false },

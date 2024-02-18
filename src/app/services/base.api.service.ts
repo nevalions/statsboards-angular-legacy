@@ -145,13 +145,17 @@ export abstract class BaseApiService<T> {
     optionalValue?: any | undefined,
   ): Observable<any> {
     const cacheKey = `${firstItem}/${firstKey}/${firstValue}${optionalValue ? `/${optionalValue}` : ''}`;
+    // console.log(cacheKey);
 
     if (!this.cache$ByFirstKeyValue[cacheKey]) {
       let finalEndpoint = `${firstItem}/${firstKey}/${firstValue}`;
+      // console.log(finalEndpoint);
 
       if (optionalValue !== null && optionalValue !== undefined) {
         finalEndpoint += `/${optionalValue}`;
       }
+
+      // console.log(finalEndpoint);
 
       this.cache$ByFirstKeyValue[cacheKey] = this.http
         .get<any>(finalEndpoint)

@@ -41,6 +41,8 @@ import { ISeason } from '../../../../type/season.type';
 import { seasonActions } from '../../../season/store/actions';
 import { SportState } from '../../store/reducers';
 import { sportActions } from '../../store/actions';
+import { IslandListOfTournamentsComponent } from '../../../tournament/island-list-of-tournaments/island-list-of-tournaments.component';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-item-sport-with-season',
@@ -63,6 +65,7 @@ import { sportActions } from '../../store/actions';
     CreateButtonComponent,
     BodyTitleComponent,
     TournamentAddEditFormComponent,
+    IslandListOfTournamentsComponent,
   ],
   providers: [],
   templateUrl: './item-sport-with-season.component.html',
@@ -77,6 +80,7 @@ export class ItemSportWithSeasonComponent implements OnInit {
   tournamentStore: Store<{ tournament: TournamentState }> = inject(Store);
   seasonStore: Store<{ season: SeasonState }> = inject(Store);
   sportStore: Store<{ sport: SportState }> = inject(Store);
+  route = inject(ActivatedRoute);
 
   season$: Observable<ISeason | null | undefined> = this.seasonStore.select(
     (state) => state.season.currentItem,
@@ -99,8 +103,8 @@ export class ItemSportWithSeasonComponent implements OnInit {
 
   islandTitleProperty: keyof IBaseIdElse = 'title';
 
-  tournamentItemHref(item: IBaseIdElse): string {
-    return `/tournaments/id/${item.id}`;
+  tournamentItemHref(item: ITournament): string {
+    return `/tournament/${item.id}/season/${item.season_id}`;
   }
 
   loadSportSeasonTournaments(sportId: number, seasonYear: number) {
@@ -121,21 +125,27 @@ export class ItemSportWithSeasonComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.routeParams$.subscribe((params) => {
-      console.log(params);
-      const { id, year } = params;
-      const sportId = Number(id);
-      const seasonYear = Number(year);
+    this.route.paramMap.subscribe((params) => {
+      let sportId = params.get('sport_id');
+      let year = params.get('year');
+      console.log(sportId, year);
+      if (sportId && year) {
+        const id = Number(sportId);
+        const seasonYear = Number(year);
 
-      this.loadSeasonByYear(seasonYear);
-      this.loadSport(sportId);
-      this.loadSportSeasonTournaments(sportId, seasonYear);
-    });
-    this.tournaments$.subscribe((tournaments: ITournament[]) => {
-      this.searchListService.updateData(of(tournaments));
-      this.paginationService.initializePagination(
-        this.searchListService.filteredData$,
-      );
+        this.loadSeasonByYear(seasonYear);
+        this.loadSport(id);
+        this.loadSportSeasonTournaments(id, seasonYear);
+
+        this.tournaments$.subscribe((tournaments: ITournament[]) => {
+          this.searchListService.updateData(of(tournaments));
+          this.paginationService.initializePagination(
+            this.searchListService.filteredData$,
+          );
+        });
+      } else {
+        console.log('Params are empty');
+      }
     });
   }
 }

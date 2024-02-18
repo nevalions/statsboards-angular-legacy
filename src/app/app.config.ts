@@ -19,11 +19,16 @@ import {
 } from '@angular/common/http';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { tuiInputNumberOptionsProvider } from '@taiga-ui/kit';
-import { provideStore } from '@ngrx/store';
+import { provideState, provideStore } from '@ngrx/store';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { isDeclaration } from '@angular/compiler-cli/src/ngtsc/util/src/typescript';
 import { provideEffects } from '@ngrx/effects';
 import { provideRouterStore, routerReducer } from '@ngrx/router-store';
+import {
+  sportFeatureKey,
+  sportReducer,
+} from './components/sport/store/reducers';
+import { SportEffects } from './components/sport/store/effects';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -44,6 +49,8 @@ export const appConfig: ApplicationConfig = {
     provideStore({ router: routerReducer }),
     provideEffects(),
     provideRouterStore(),
+    provideState(sportFeatureKey, sportReducer),
+    provideEffects(SportEffects),
     provideStoreDevtools({
       maxAge: 25,
       logOnly: !isDevMode(),

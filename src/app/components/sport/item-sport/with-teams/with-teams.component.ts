@@ -1,4 +1,5 @@
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
   inject,
@@ -19,7 +20,14 @@ import {
   takeUntil,
 } from 'rxjs';
 import { ITeam } from '../../../../type/team.type';
-import { ActivatedRoute, Params, RouterLink } from '@angular/router';
+import {
+  ActivatedRoute,
+  ActivationEnd,
+  ParamMap,
+  Params,
+  Router,
+  RouterLink,
+} from '@angular/router';
 import { TeamService } from '../../../team/team.service';
 import { tap } from 'rxjs/operators';
 import { SortService } from '../../../../services/sort.service';
@@ -28,6 +36,7 @@ import { TuiPaginationModule } from '@taiga-ui/kit';
 import { TuiButtonModule } from '@taiga-ui/core';
 import { ListOfTeamsComponent } from '../../../team/list-of-teams/list-of-teams.component';
 import { SportService } from '../../sport.service';
+import { ItemSportComponent } from '../item-sport.component';
 
 @Component({
   selector: 'app-with-teams',
@@ -46,41 +55,29 @@ import { SportService } from '../../sport.service';
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class WithTeamsComponent implements OnInit, OnDestroy {
-  private readonly ngUnsubscribe = new Subject<void>();
-
-  private route = inject(ActivatedRoute);
+export class WithTeamsComponent
+  extends ItemSportComponent
+  implements AfterViewInit
+{
   private teamService = inject(TeamService);
-  sportId!: number;
 
   teams$ = this.teamService.teams$;
-
-  // teams$: Observable<ITeam[]> = of([]);
-
-  constructor() {}
-
   islandTeamTitleProperty: keyof ITeam = 'title';
 
   teamItemHref(item: ITeam): string {
     return `teams/id/${item.id}`;
   }
 
-  ngOnInit() {
-    if (!this.route.parent) {
-      console.error('No parent route found');
-      return;
-    }
-
-    this.route.parent?.params
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe((params) => {
-        this.sportId = Number(params['id']);
-        this.teamService.refreshTeamsInSport(this.sportId);
-      });
-  }
-
-  ngOnDestroy() {
-    this.ngUnsubscribe.next();
-    this.ngUnsubscribe.complete();
+  ngAfterViewInit() {
+    this.sportId$.subscribe((sportId) => {
+      if (sportId) {
+        console.log('Sport ID is available:', sportId);
+        this.teamService.refreshTeamsInSport(sportId);
+      } else {
+        console.error(
+          'Sport ID is not defined. Check your route configuration.',
+        );
+      }
+    });
   }
 }

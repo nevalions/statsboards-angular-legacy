@@ -19,9 +19,7 @@ import { SearchListService } from '../../../services/search-list.service';
   styleUrl: './list-of-items-island.component.less',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ListOfItemsIslandComponent<T extends { id: number; p?: string }>
-  implements OnInit, OnDestroy
-{
+export class ListOfItemsIslandComponent<T extends { id: number; p?: string }> {
   @Input() itemData: T = {} as T;
 
   @Input() emptyMessage: string = 'No data available';
@@ -33,14 +31,4 @@ export class ListOfItemsIslandComponent<T extends { id: number; p?: string }>
   @Input() data$: Observable<T[]> = of({} as T[]);
   @Input() _size: TuiSizeL | TuiSizeS = 'l';
   @Input() hoverable: boolean = true;
-
-  private subscription?: Subscription;
-
-  constructor() {}
-
-  ngOnInit() {}
-
-  ngOnDestroy() {
-    this.subscription?.unsubscribe();
-  }
 }
