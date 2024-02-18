@@ -1,13 +1,17 @@
-import { Component, inject, Input, OnInit } from '@angular/core';
+import {
+  Component,
+  inject,
+  Input,
+  OnChanges,
+  SimpleChanges,
+} from '@angular/core';
 import { TUI_ARROW } from '@taiga-ui/kit';
 import { DropDownMenuComponent } from '../dropdownmenu.component';
 import { ISeasonAndSport, ISport } from '../../../../type/sport.type';
-import { SportService } from '../../../../components/sport/sport.service';
-import { TournamentService } from '../../../../components/tournament/tournament.service';
-import { SeasonService } from '../../../../services/season.service';
-import { Observable, of } from 'rxjs';
 import { IBaseIdElse } from '../../../../type/base.type';
-import { ActivatedRoute } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { SeasonState } from '../../../../components/season/store/reducers';
+import { seasonActions } from '../../../../components/season/store/actions';
 
 @Component({
   selector: 'app-sport-with-season-dropdown',
@@ -16,13 +20,13 @@ import { ActivatedRoute } from '@angular/router';
   templateUrl: './sport-with-season-dropdown.component.html',
   styleUrl: './sport-with-season-dropdown.component.less',
 })
-export class SportWithSeasonDropdownComponent implements OnInit {
-  private route = inject(ActivatedRoute);
-  private sportService = inject(SportService);
-  private seasonService = inject(SeasonService);
+export class SportWithSeasonDropdownComponent implements OnChanges {
+  seasonStore: Store<{ season: SeasonState }> = inject(Store);
+  seasonsWithSportId$ = this.seasonStore.select(
+    (state) => state.season.itemsList,
+  );
 
-  @Input() sportId: number = 1;
-  seasonsWithSportId$: Observable<IBaseIdElse[]> = of([]);
+  @Input() sportId!: number;
 
   protected readonly arrow = TUI_ARROW;
 
@@ -34,9 +38,11 @@ export class SportWithSeasonDropdownComponent implements OnInit {
     return item.year?.toString() ?? '';
   }
 
-  ngOnInit() {
-    this.seasonsWithSportId$ = this.seasonService.getSeasonsWithSportId(
-      this.sportId,
-    );
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['sportId']) {
+      this.seasonStore.dispatch(
+        seasonActions.getSeasonsWithSportId({ sportId: this.sportId }),
+      );
+    }
   }
 }

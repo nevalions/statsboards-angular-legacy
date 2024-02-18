@@ -6,7 +6,6 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { ActivatedRoute } from '@angular/router';
 
 import { AsyncPipe, UpperCasePipe } from '@angular/common';
 import { TuiBlockStatusModule } from '@taiga-ui/layout';
@@ -21,10 +20,9 @@ import { ListOfItemsIslandComponent } from '../../../../shared/ui/list-of-items-
 import { ITournament } from '../../../../type/tournament.type';
 
 import { ISport } from '../../../../type/sport.type';
-import { SportService } from '../../sport.service';
+
 import { IBaseIdElse } from '../../../../type/base.type';
 import { DropDownMenuComponent } from '../../../../shared/ui/dropdownmenu/dropdownmenu.component';
-import { SeasonService } from '../../../../services/season.service';
 
 import { FormSearchTextComponent } from '../../../../shared/ui/forms/form-search-text/form-search-text.component';
 import { paginationWithItemsPerPage } from '../../../../shared/ui/pagination/pagination-with-items-per-page/pagination-with-items-per-page.component';
@@ -34,16 +32,15 @@ import { SportWithSeasonDropdownComponent } from '../../../../shared/ui/dropdown
 import { CreateButtonComponent } from '../../../../shared/ui/buttons/create-button/create-button.component';
 import { BodyTitleComponent } from '../../../../shared/ui/body/body-title/body-title.component';
 import { TournamentAddEditFormComponent } from '../../../tournament/tournament-add-edit-form/tournament-add-edit-form.component';
-import { createSelector, Store } from '@ngrx/store';
-import {
-  selectItemsList,
-  TournamentState,
-} from '../../../tournament/store/reducers';
+import { Store } from '@ngrx/store';
+import { TournamentState } from '../../../tournament/store/reducers';
 import { tournamentActions } from '../../../tournament/store/actions';
 import * as fromRouter from '@ngrx/router-store';
 import { SeasonState } from '../../../season/store/reducers';
 import { ISeason } from '../../../../type/season.type';
 import { seasonActions } from '../../../season/store/actions';
+import { SportState } from '../../store/reducers';
+import { sportActions } from '../../store/actions';
 
 @Component({
   selector: 'app-item-sport-with-season',
@@ -79,6 +76,7 @@ export class ItemSportWithSeasonComponent implements OnInit {
   // tournamentActions = crudActions<ITournament>();
   tournamentStore: Store<{ tournament: TournamentState }> = inject(Store);
   seasonStore: Store<{ season: SeasonState }> = inject(Store);
+  sportStore: Store<{ sport: SportState }> = inject(Store);
 
   season$: Observable<ISeason | null | undefined> = this.seasonStore.select(
     (state) => state.season.currentItem,
@@ -86,17 +84,16 @@ export class ItemSportWithSeasonComponent implements OnInit {
   tournaments$: Observable<ITournament[]> = this.tournamentStore.select(
     (state) => state.tournament.itemsList,
   );
+  sport$: Observable<ISport | null | undefined> = this.sportStore.select(
+    (state) => state.sport.currentItem,
+  );
 
   routeParams$ = this.tournamentStore.select(
     fromRouter.getRouterSelectors().selectRouteParams,
   );
 
-  private sportService = inject(SportService);
-
   searchListService = inject(SearchListService);
   paginationService = inject(PaginationService);
-
-  sport$: Observable<ISport> = of({} as ISport);
 
   constructor() {}
 
@@ -119,6 +116,10 @@ export class ItemSportWithSeasonComponent implements OnInit {
     this.seasonStore.dispatch(seasonActions.getSeasonByYear({ year: year }));
   }
 
+  loadSport(id: number) {
+    this.sportStore.dispatch(sportActions.get({ id: id }));
+  }
+
   ngOnInit() {
     this.routeParams$.subscribe((params) => {
       console.log(params);
@@ -127,8 +128,7 @@ export class ItemSportWithSeasonComponent implements OnInit {
       const seasonYear = Number(year);
 
       this.loadSeasonByYear(seasonYear);
-      this.sport$ = this.sportService.findById(sportId);
-
+      this.loadSport(sportId);
       this.loadSportSeasonTournaments(sportId, seasonYear);
     });
     this.tournaments$.subscribe((tournaments: ITournament[]) => {

@@ -107,6 +107,21 @@ const seasonFeature = createFeature({
       errors: action,
     })),
 
+    on(seasonActions.getSeasonsWithSportId, (state) => ({
+      ...state,
+      isLoading: true,
+    })),
+    on(seasonActions.getAllSeasonsWithSportIDSuccess, (state, action) => ({
+      ...state,
+      isLoading: false,
+      itemsList: action.seasons,
+    })),
+    on(seasonActions.getAllSeasonsWithSportIDFailure, (state, action) => ({
+      ...state,
+      isLoading: false,
+      errors: action,
+    })),
+
     on(seasonActions.getSeasonByYear, (state) => ({
       ...state,
       isLoading: true,

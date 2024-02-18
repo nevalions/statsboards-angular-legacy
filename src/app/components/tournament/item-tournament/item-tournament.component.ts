@@ -47,7 +47,7 @@ import { PaginationService } from '../../../services/pagination.service';
 import { FormSearchTextComponent } from '../../../shared/ui/forms/form-search-text/form-search-text.component';
 import { paginationWithItemsPerPage } from '../../../shared/ui/pagination/pagination-with-items-per-page/pagination-with-items-per-page.component';
 import { FormSearchAutoCompleteComponent } from '../../../shared/ui/forms/form-search-auto-complete/form-search-auto-complete.component';
-import { SeasonService } from '../../../services/season.service';
+import { SeasonService } from '../../season/season.service';
 
 import { TournamentDeleteFormComponent } from '../tournament-delete-form/tournament-delete-form.component';
 import { DeleteDialogComponent } from '../../../shared/ui/dialogs/delete-dialog/delete-dialog.component';

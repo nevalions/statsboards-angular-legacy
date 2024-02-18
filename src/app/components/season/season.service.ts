@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
-import { ISeason } from '../type/season.type';
-import { BaseApiService } from './base.api.service';
+import { ISeason } from '../../type/season.type';
+import { BaseApiService } from '../../services/base.api.service';
 import { HttpClient } from '@angular/common/http';
-import { ErrorHandlingService } from './error.service';
+import { ErrorHandlingService } from '../../services/error.service';
 import { Params } from '@angular/router';
 import { BehaviorSubject, map, Observable, of, shareReplay } from 'rxjs';
-import { IBaseIdElse } from '../type/base.type';
-import { SortService } from './sort.service';
+import { IBaseIdElse } from '../../type/base.type';
+import { SortService } from '../../services/sort.service';
 import { combineLatest } from 'rxjs/internal/operators/combineLatest';
-import { ITournament } from '../type/tournament.type';
+import { ITournament } from '../../type/tournament.type';
 import { tap } from 'rxjs/operators';
 
 @Injectable({

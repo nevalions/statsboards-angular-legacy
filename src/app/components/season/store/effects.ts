@@ -4,7 +4,7 @@ import { seasonActions } from './actions';
 import { catchError, map, mergeMap, of, switchMap } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { Router } from '@angular/router';
-import { SeasonService } from '../../../services/season.service';
+import { SeasonService } from '../season.service';
 import { ISeason } from '../../../type/season.type';
 
 @Injectable()
@@ -94,6 +94,24 @@ export class SeasonEffects {
     },
     { functional: true },
   );
+
+  getSeasonsWithSportIdEffect = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(seasonActions.getSeasonsWithSportId),
+      switchMap(({ sportId }) => {
+        return this.seasonService.getSeasonsWithSportId(sportId).pipe(
+          map((seasons: ISeason[]) => {
+            return seasonActions.getAllSeasonsWithSportIDSuccess({
+              seasons,
+            });
+          }),
+          catchError(() => {
+            return of(seasonActions.getAllSeasonsWithSportIDFailure());
+          }),
+        );
+      }),
+    );
+  });
 
   // getTournamentsBySportAndSeasonEffect = createEffect(
   //   () => {

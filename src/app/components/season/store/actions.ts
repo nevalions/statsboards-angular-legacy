@@ -20,6 +20,10 @@ export const seasonActions = createActionGroup({
     'Get all items success': props<{ seasons: ISeason[] }>(),
     'Get all items failure': emptyProps(),
 
+    GetSeasonsWithSportId: props<{ sportId: number }>(),
+    'Get all seasons with sport ID success': props<{ seasons: ISeason[] }>(),
+    'Get all seasons with sport ID failure': emptyProps(),
+
     Update: props<{ id: number; newSeasonData: ISeason }>(),
     'Updated successfully': props<{ updatedSeason: ISeason }>(),
     'Update failure': emptyProps(),
