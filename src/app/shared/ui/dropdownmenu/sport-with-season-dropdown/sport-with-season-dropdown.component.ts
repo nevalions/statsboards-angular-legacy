@@ -31,7 +31,7 @@ export class SportWithSeasonDropdownComponent implements OnChanges {
   protected readonly arrow = TUI_ARROW;
 
   seasonSportRoute(item: ISeasonAndSport): any {
-    return [`/sports/id/${item.sport_id}/seasons/${item.year}/tournaments`];
+    return [`/sport/${item.sport_id}/season/${item.year}/tournaments`];
   }
 
   mapItemToLabelYear(item: IBaseIdElse): string {

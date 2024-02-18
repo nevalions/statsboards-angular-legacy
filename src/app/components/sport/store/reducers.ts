@@ -97,11 +97,14 @@ const sportFeature = createFeature({
       ...state,
       isLoading: true,
     })),
-    on(sportActions.getAllItemsSuccess, (state, action) => ({
-      ...state,
-      isLoading: false,
-      itemsList: action.sports,
-    })),
+    on(sportActions.getAllItemsSuccess, (state, action) => {
+      const sortedTournaments = SortService.sort(action.sports, 'title');
+      return {
+        ...state,
+        isLoading: false,
+        itemsList: sortedTournaments,
+      };
+    }),
     on(sportActions.getAllItemsFailure, (state, action) => ({
       ...state,
       isLoading: false,

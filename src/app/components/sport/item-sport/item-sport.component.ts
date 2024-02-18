@@ -10,6 +10,10 @@ import { TuiIslandModule, TuiSelectModule } from '@taiga-ui/kit';
 import { TuiButtonModule, TuiLoaderModule } from '@taiga-ui/core';
 import { SeasonDropdownComponent } from '../../season/season-dropdown/season-dropdown.component';
 import { ListOfItemsIslandComponent } from '../../../shared/ui/list-of-items-island/list-of-items-island.component';
+import { Store } from '@ngrx/store';
+import { SportState } from '../store/reducers';
+import { ITournament } from '../../../type/tournament.type';
+import { sportActions } from '../store/actions';
 
 @Component({
   selector: 'app-item-sport',
@@ -30,20 +34,34 @@ import { ListOfItemsIslandComponent } from '../../../shared/ui/list-of-items-isl
   styleUrl: './item-sport.component.less',
 })
 export class ItemSportComponent implements OnInit {
-  sportService = inject(SportService);
+  sportStore: Store<{ sport: SportState }> = inject(Store);
+  sport$: Observable<ISport | null | undefined> = this.sportStore.select(
+    (state) => state.sport.currentItem,
+  );
+  sportId$: Observable<number | null | undefined> = this.sportStore.select(
+    (state) => state.sport.currentItem?.id,
+  );
 
-  sport$: Observable<ISport> = of({} as ISport);
+  route = inject(ActivatedRoute);
+  sportId!: number;
 
-  constructor(private route: ActivatedRoute) {}
+  constructor() {}
+
+  loadSport(id: number) {
+    this.sportStore.dispatch(sportActions.get({ id: id }));
+  }
 
   ngOnInit() {
-    this.sport$ = this.route.paramMap.pipe(
-      switchMap((params) => {
-        const id = Number(params.get('id'));
-        return this.sportService
-          .findById(id)
-          .pipe(tap((sport) => console.log(`Sport item ID:${sport.id}`)));
-      }),
-    );
+    this.route.paramMap.subscribe((params) => {
+      let sportId = params.get('sport_id');
+      console.log(sportId);
+      if (sportId) {
+        const id = Number(sportId);
+        this.loadSport(id);
+        this.sportId = id;
+      } else {
+        console.log('Params are empty');
+      }
+    });
   }
 }
