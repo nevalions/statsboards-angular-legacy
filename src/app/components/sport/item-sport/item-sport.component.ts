@@ -1,10 +1,8 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { SportService } from '../sport.service';
 import { ISport } from '../../../type/sport.type';
-import { Observable, of, switchMap } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 import { AsyncPipe, UpperCasePipe } from '@angular/common';
-import { ActivatedRoute, Router, RouterOutlet } from '@angular/router';
+import { ActivatedRoute, RouterOutlet } from '@angular/router';
 import { TuiBlockStatusModule } from '@taiga-ui/layout';
 import { TuiIslandModule, TuiSelectModule } from '@taiga-ui/kit';
 import { TuiButtonModule, TuiLoaderModule } from '@taiga-ui/core';
@@ -12,7 +10,6 @@ import { SeasonDropdownComponent } from '../../season/season-dropdown/season-dro
 import { ListOfItemsIslandComponent } from '../../../shared/ui/list-of-items-island/list-of-items-island.component';
 import { Store } from '@ngrx/store';
 import { SportState } from '../store/reducers';
-import { ITournament } from '../../../type/tournament.type';
 import { sportActions } from '../store/actions';
 
 @Component({
@@ -36,10 +33,10 @@ import { sportActions } from '../store/actions';
 export class ItemSportComponent implements OnInit {
   sportStore: Store<{ sport: SportState }> = inject(Store);
   sport$: Observable<ISport | null | undefined> = this.sportStore.select(
-    (state) => state.sport.currentItem,
+    (state) => state.sport.currentSport,
   );
   sportId$: Observable<number | null | undefined> = this.sportStore.select(
-    (state) => state.sport.currentItem?.id,
+    (state) => state.sport.currentSport?.id,
   );
 
   route = inject(ActivatedRoute);

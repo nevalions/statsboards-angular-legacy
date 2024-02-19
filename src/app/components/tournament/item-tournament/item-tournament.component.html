@@ -20,6 +20,7 @@
         ></app-body-title>
         @if (tournament.id) {
           @if (teamsInTournament$ | async; as teams) {
+
             <app-create-button-show-dialog
               [action]="'add'"
               [item]="'Match'"
@@ -98,7 +99,6 @@
         @if (tournament$ | async; as tournament) {
           @if (teamsInTournament$ | async; as teams) {
             @for (team of teams; track team.id) {
-
               <tui-elastic-container>
                 <div style="display: flex; justify-content: space-between; align-items: center">
                   <button

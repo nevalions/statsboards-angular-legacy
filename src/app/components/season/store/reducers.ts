@@ -7,9 +7,16 @@ import { createFeature, createReducer, on } from '@ngrx/store';
 import { seasonActions } from './actions';
 import { SortService } from '../../../services/sort.service';
 
-export interface SeasonState extends crudStoreInterface<ISeason> {}
+export interface SeasonState extends crudStoreInterface {
+  allSeasons: ISeason[];
+  currentSeason: ISeason | undefined | null;
+}
 
-const initialState: SeasonState = getDefaultCrudStore<ISeason>();
+const initialState: SeasonState = {
+  ...getDefaultCrudStore(),
+  allSeasons: [],
+  currentSeason: null,
+};
 
 const seasonFeature = createFeature({
   name: 'season',
@@ -22,13 +29,13 @@ const seasonFeature = createFeature({
       isSubmitting: true,
     })),
     on(seasonActions.createdSuccessfully, (state, action) => {
-      const newList = [...state.itemsList, action.currentSeason];
+      const newList = [...state.allSeasons, action.currentSeason];
       const sortedTournaments = SortService.sort(newList, 'year');
       return {
         ...state,
         isSubmitting: false,
-        currentItem: action.currentSeason,
-        itemsList: sortedTournaments, // sorted list
+        currentSeason: action.currentSeason,
+        allSeasons: sortedTournaments, // sorted list
       };
     }),
     on(seasonActions.createFailure, (state, action) => ({
@@ -45,7 +52,7 @@ const seasonFeature = createFeature({
     on(seasonActions.deletedSuccessfully, (state, action) => ({
       ...state,
       isSubmitting: false,
-      itemsList: (state.itemsList || []).filter(
+      allSeasons: (state.allSeasons || []).filter(
         (item) => item.id !== action.id,
       ),
       errors: null,
@@ -64,8 +71,8 @@ const seasonFeature = createFeature({
     on(seasonActions.updatedSuccessfully, (state, action) => ({
       ...state,
       isSubmitting: false,
-      currentItem: action.updatedSeason,
-      itemsList: state.itemsList.map((item) =>
+      currentSeason: action.updatedSeason,
+      allSeasons: state.allSeasons.map((item) =>
         item.id === action.updatedSeason.id ? action.updatedSeason : item,
       ),
       errors: null,
@@ -84,7 +91,7 @@ const seasonFeature = createFeature({
     on(seasonActions.getItemSuccess, (state, action) => ({
       ...state,
       isLoading: false,
-      currentItem: action.season,
+      currentSeason: action.season,
     })),
     on(seasonActions.getItemFailure, (state, action) => ({
       ...state,
@@ -99,7 +106,7 @@ const seasonFeature = createFeature({
     on(seasonActions.getAllItemsSuccess, (state, action) => ({
       ...state,
       isLoading: false,
-      itemsList: action.seasons,
+      allSeasons: action.seasons,
     })),
     on(seasonActions.getAllItemsFailure, (state, action) => ({
       ...state,
@@ -114,7 +121,7 @@ const seasonFeature = createFeature({
     on(seasonActions.getAllSeasonsWithSportIDSuccess, (state, action) => ({
       ...state,
       isLoading: false,
-      itemsList: action.seasons,
+      allSeasons: action.seasons,
     })),
     on(seasonActions.getAllSeasonsWithSportIDFailure, (state, action) => ({
       ...state,
@@ -129,7 +136,7 @@ const seasonFeature = createFeature({
     on(seasonActions.getSeasonByYearSuccess, (state, action) => ({
       ...state,
       isLoading: false,
-      currentItem: action.season,
+      currentSeason: action.season,
     })),
     on(seasonActions.getSeasonByYearFailure, (state, action) => ({
       ...state,
@@ -144,6 +151,6 @@ export const {
   reducer: seasonReducer,
   selectIsSubmitting,
   selectIsLoading,
-  selectCurrentItem,
-  selectItemsList,
+  selectCurrentSeason,
+  selectAllSeasons,
 } = seasonFeature;

@@ -1,17 +1,13 @@
-export interface crudStoreInterface<T> {
+export interface crudStoreInterface {
   isSubmitting: boolean;
   isLoading: boolean;
-  itemsList: T[];
-  currentItem: T | undefined | null;
   errors: any | undefined | null;
 }
 
-export function getDefaultCrudStore<T>(): crudStoreInterface<T> {
+export function getDefaultCrudStore(): crudStoreInterface {
   return {
     isSubmitting: false,
     isLoading: false,
-    itemsList: [],
-    currentItem: null,
     errors: null,
   };
 }

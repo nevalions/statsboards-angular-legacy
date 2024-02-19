@@ -16,7 +16,7 @@ import { Store } from '@ngrx/store';
 import { SportState } from '../store/reducers';
 import { ISport } from '../../../type/sport.type';
 import { sportActions } from '../store/actions';
-import { currentYear } from '../../../base/constants';
+import { currentSeasonId, currentYear } from '../../../base/constants';
 
 @Component({
   selector: 'app-sport-nav',
@@ -29,7 +29,7 @@ import { currentYear } from '../../../base/constants';
 export class SportNavComponent implements OnInit {
   sportStore: Store<{ sport: SportState }> = inject(Store);
   sports$: Observable<ISport[]> = this.sportStore.select(
-    (state) => state.sport.itemsList,
+    (state) => state.sport.allSports,
   );
 
   mapItemToLabel(item: IBaseIdElse): string {
@@ -37,7 +37,7 @@ export class SportNavComponent implements OnInit {
   }
 
   sportRoutWithSeason(item: IBaseIdElse): any[] {
-    return [`/sport/${item.id}/season/${currentYear}/tournaments`];
+    return [`/sport/${item.id}/season/${currentSeasonId}/tournaments`];
   }
 
   sportTeamsRout(item: IBaseIdElse): any[] {

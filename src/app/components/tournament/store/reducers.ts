@@ -6,10 +6,20 @@ import {
 import { tournamentActions } from './actions';
 import { ITournament } from '../../../type/tournament.type';
 import { SortService } from '../../../services/sort.service';
+import { ISport } from '../../../type/sport.type';
 
-export interface TournamentState extends crudStoreInterface<ITournament> {}
+export interface TournamentState extends crudStoreInterface {
+  currentTournament: ITournament | undefined | null;
+  allTournaments: ITournament[];
+  allSeasonSportTournaments: ITournament[];
+}
 
-const initialState: TournamentState = getDefaultCrudStore<ITournament>();
+const initialState: TournamentState = {
+  ...getDefaultCrudStore(),
+  allTournaments: [],
+  allSeasonSportTournaments: [],
+  currentTournament: null,
+};
 
 const tournamentFeature = createFeature({
   name: 'tournament',
@@ -22,13 +32,13 @@ const tournamentFeature = createFeature({
       isSubmitting: true,
     })),
     on(tournamentActions.createdSuccessfully, (state, action) => {
-      const newList = [...state.itemsList, action.currentTournament];
+      const newList = [...state.allTournaments, action.currentTournament];
       const sortedTournaments = SortService.sort(newList, 'title');
       return {
         ...state,
         isSubmitting: false,
-        currentItem: action.currentTournament,
-        itemsList: sortedTournaments, // sorted list
+        currentTournament: action.currentTournament,
+        allTournaments: sortedTournaments, // sorted list
       };
     }),
     on(tournamentActions.createFailure, (state, action) => ({
@@ -45,7 +55,7 @@ const tournamentFeature = createFeature({
     on(tournamentActions.deletedSuccessfully, (state, action) => ({
       ...state,
       isSubmitting: false,
-      itemsList: (state.itemsList || []).filter(
+      allTournaments: (state.allTournaments || []).filter(
         (item) => item.id !== action.id,
       ),
       errors: null,
@@ -64,8 +74,8 @@ const tournamentFeature = createFeature({
     on(tournamentActions.updatedSuccessfully, (state, action) => ({
       ...state,
       isSubmitting: false,
-      currentItem: action.updatedTournament,
-      itemsList: state.itemsList.map((item) =>
+      currentTournament: action.updatedTournament,
+      allTournaments: state.allTournaments.map((item) =>
         item.id === action.updatedTournament.id
           ? action.updatedTournament
           : item,
@@ -86,7 +96,7 @@ const tournamentFeature = createFeature({
     on(tournamentActions.getItemSuccess, (state, action) => ({
       ...state,
       isLoading: false,
-      currentItem: action.tournament,
+      currentTournament: action.tournament,
     })),
     on(tournamentActions.getItemFailure, (state, action) => ({
       ...state,
@@ -101,7 +111,7 @@ const tournamentFeature = createFeature({
     on(tournamentActions.getAllItemsSuccess, (state, action) => ({
       ...state,
       isLoading: false,
-      itemsList: action.tournaments,
+      allTournaments: action.tournaments,
     })),
     on(tournamentActions.getAllItemsFailure, (state, action) => ({
       ...state,
@@ -120,7 +130,7 @@ const tournamentFeature = createFeature({
         return {
           ...state,
           isLoading: false,
-          itemsList: sortedTournaments,
+          allSeasonSportTournaments: sortedTournaments,
         };
       },
     ),
@@ -140,6 +150,7 @@ export const {
   reducer: tournamentReducer,
   selectIsSubmitting,
   selectIsLoading,
-  selectCurrentItem,
-  selectItemsList,
+  selectCurrentTournament,
+  selectAllTournaments,
+  selectAllSeasonSportTournaments,
 } = tournamentFeature;

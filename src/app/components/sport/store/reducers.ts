@@ -5,12 +5,19 @@ import {
 import { createFeature, createReducer, on } from '@ngrx/store';
 import { SortService } from '../../../services/sort.service';
 import { ISport } from '../../../type/sport.type';
-import { SportService } from '../sport.service';
+
 import { sportActions } from './actions';
 
-export interface SportState extends crudStoreInterface<ISport> {}
+export interface SportState extends crudStoreInterface {
+  currentSport: ISport | undefined | null;
+  allSports: ISport[];
+}
 
-const initialState: SportState = getDefaultCrudStore<ISport>();
+const initialState: SportState = {
+  ...getDefaultCrudStore(),
+  allSports: [],
+  currentSport: null,
+};
 
 const sportFeature = createFeature({
   name: 'sport',
@@ -23,13 +30,13 @@ const sportFeature = createFeature({
       isSubmitting: true,
     })),
     on(sportActions.createdSuccessfully, (state, action) => {
-      const newList = [...state.itemsList, action.currentSport];
+      const newList = [...state.allSports, action.currentSport];
       const sortedTournaments = SortService.sort(newList, 'title');
       return {
         ...state,
         isSubmitting: false,
-        currentItem: action.currentSport,
-        itemsList: sortedTournaments, // sorted list
+        currentSport: action.currentSport,
+        allSports: sortedTournaments, // sorted list
       };
     }),
     on(sportActions.createFailure, (state, action) => ({
@@ -46,7 +53,7 @@ const sportFeature = createFeature({
     on(sportActions.deletedSuccessfully, (state, action) => ({
       ...state,
       isSubmitting: false,
-      itemsList: (state.itemsList || []).filter(
+      allSports: (state.allSports || []).filter(
         (item) => item.id !== action.id,
       ),
       errors: null,
@@ -65,8 +72,8 @@ const sportFeature = createFeature({
     on(sportActions.updatedSuccessfully, (state, action) => ({
       ...state,
       isSubmitting: false,
-      currentItem: action.updatedSport,
-      itemsList: state.itemsList.map((item) =>
+      currentSport: action.updatedSport,
+      allSports: state.allSports.map((item) =>
         item.id === action.updatedSport.id ? action.updatedSport : item,
       ),
       errors: null,
@@ -85,7 +92,7 @@ const sportFeature = createFeature({
     on(sportActions.getItemSuccess, (state, action) => ({
       ...state,
       isLoading: false,
-      currentItem: action.sport,
+      currentSport: action.sport,
     })),
     on(sportActions.getItemFailure, (state, action) => ({
       ...state,
@@ -102,7 +109,7 @@ const sportFeature = createFeature({
       return {
         ...state,
         isLoading: false,
-        itemsList: sortedTournaments,
+        allSports: sortedTournaments,
       };
     }),
     on(sportActions.getAllItemsFailure, (state, action) => ({
@@ -110,21 +117,6 @@ const sportFeature = createFeature({
       isLoading: false,
       errors: action,
     })),
-
-    // on(sportActions.getSeasonByYear, (state) => ({
-    //   ...state,
-    //   isLoading: true,
-    // })),
-    // on(sportActions.getSeasonByYearSuccess, (state, action) => ({
-    //   ...state,
-    //   isLoading: false,
-    //   currentItem: action.season,
-    // })),
-    // on(sportActions.getSeasonByYearFailure, (state, action) => ({
-    //   ...state,
-    //   isLoading: false,
-    //   errors: action,
-    // })),
   ),
 });
 
@@ -133,6 +125,6 @@ export const {
   reducer: sportReducer,
   selectIsSubmitting,
   selectIsLoading,
-  selectCurrentItem,
-  selectItemsList,
+  selectCurrentSport,
+  selectAllSports,
 } = sportFeature;

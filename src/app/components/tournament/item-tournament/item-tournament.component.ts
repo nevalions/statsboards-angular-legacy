@@ -2,8 +2,6 @@ import {
   ChangeDetectionStrategy,
   Component,
   inject,
-  Input,
-  OnDestroy,
   OnInit,
   ViewEncapsulation,
 } from '@angular/core';
@@ -26,17 +24,8 @@ import {
 } from '@taiga-ui/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { TournamentService } from '../tournament.service';
-import {
-  combineLatest,
-  map,
-  Observable,
-  of,
-  Subject,
-  switchMap,
-  take,
-  takeUntil,
-} from 'rxjs';
-import { ITournament } from '../../../type/tournament.type';
+import { filter, map, Observable, of, take } from 'rxjs';
+
 import { IMatch, IMatchFullData } from '../../../type/match.type';
 import { ListOfMatchesComponent } from '../../../shared/ui/list-of-matches/list-of-matches.component';
 import { CreateButtonComponent } from '../../../shared/ui/buttons/create-button/create-button.component';
@@ -63,19 +52,22 @@ import { DeleteDialogComponent } from '../../../shared/ui/dialogs/delete-dialog/
 import { AddEditMatchComponent } from '../../match/add-edit-match/add-edit-match.component';
 import { MatchService } from '../../match/match.service';
 import { MatchFullDataService } from '../../match/matchfulldata.service';
-import { TeamTournamentService } from '../../../services/team-tournament.service';
-import { AddTeamToTournamentComponent } from '../../team/add-team-to-tournament/add-team-to-tournament.component';
+import { TeamTournamentService } from '../../team-tournament/team-tournament.service';
+import { AddTeamToTournamentComponent } from '../../team-tournament/add-team-to-tournament/add-team-to-tournament.component';
 
 import { DeleteButtonComponent } from '../../../shared/ui/buttons/delete-button/delete-button.component';
 import { DeleteButtonIconComponent } from '../../../shared/ui/buttons/delete-button-icon/delete-button-icon.component';
-import { tuiIconClose } from '@taiga-ui/icons';
+
 import { RemoveDialogComponent } from '../../../shared/ui/dialogs/remove-dialog/remove-dialog.component';
 import { CreateButtonShowDialogComponent } from '../../../shared/ui/buttons/create-button-show-dialog/create-button-show-dialog.component';
 import { AddItemDialogFromListComponent } from '../../../shared/ui/dialogs/add-item-dialog-from-list/add-item-dialog-from-list.component';
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import { TournamentState } from '../store/reducers';
 import { tournamentActions } from '../store/actions';
 import * as fromRouter from '@ngrx/router-store';
+
+import { TeamState } from '../../team/store/reducers';
+import { teamActions } from '../../team/store/actions';
 
 @Component({
   selector: 'app-item-tournament',
@@ -124,22 +116,21 @@ import * as fromRouter from '@ngrx/router-store';
 })
 export class ItemTournamentComponent implements OnInit {
   tournamentStore: Store<{ tournament: TournamentState }> = inject(Store);
+  teamStore: Store<{ team: TeamState }> = inject(Store);
+
+  teamsInTournament$ = this.teamStore.select(
+    (state) => state.team.allTeamsInTournament,
+  );
   tournament$ = this.tournamentStore.select(
-    (state) => state.tournament.currentItem,
-  );
-  tournamentId$ = this.tournamentStore.select(
-    (state) => state.tournament.currentItem?.id,
-  );
-  tournamentSportId$ = this.tournamentStore.select(
-    (state) => state.tournament.currentItem?.sport_id,
+    (state) => state.tournament.currentTournament,
   );
 
   // routeId$: Observable<string | undefined> = this.tournamentStore.select(
   //   fromRouter.getRouterSelectors().selectRouteParam('id'),
   // );
-  routeParams$: Observable<Params> = this.tournamentStore.select(
-    fromRouter.getRouterSelectors().selectRouteParams,
-  );
+  // routeParams$: Observable<Params> = this.tournamentStore.select(
+  //   fromRouter.getRouterSelectors().selectRouteParams,
+  // );
 
   private route = inject(ActivatedRoute);
   private router = inject(Router);
@@ -148,7 +139,7 @@ export class ItemTournamentComponent implements OnInit {
   matchService = inject(MatchService);
 
   matchWithFullDataService = inject(MatchFullDataService);
-  teamTournamentService = inject(TeamTournamentService);
+  // teamTournamentService = inject(TeamTournamentService);
 
   searchListService = inject(SearchListService);
   paginationService = inject(PaginationService);
@@ -159,15 +150,13 @@ export class ItemTournamentComponent implements OnInit {
   matchesWithFullData$: Observable<IMatchFullData[]> =
     this.matchWithFullDataService.matchesWithFullData$;
 
-  teamsInTournament$ = this.teamTournamentService.teamsInTournament$;
+  // teamsInTournament$ = this.teamTournamentService.teamsInTournament$;
 
   readonly formWeek = new FormGroup({
     matchWeekSearch: new FormControl(1),
   });
 
   buttonTitle: string = 'Tournament';
-
-  constructor() {}
 
   islandTeamTitleProperty: keyof ITeam = 'title';
 
@@ -184,23 +173,37 @@ export class ItemTournamentComponent implements OnInit {
   }
 
   loadTournament(id: number) {
-    console.log(id);
+    // console.log(id);
     this.tournamentStore.dispatch(tournamentActions.get({ id: id }));
+  }
+
+  loadTeamsInTournament(id: number) {
+    // console.log(id);
+    this.teamStore.dispatch(teamActions.getTeamsByTournamentId({ id: id }));
+  }
+
+  loadTeamsInSport(id: number) {
+    // console.log(id);
+    this.teamStore.dispatch(teamActions.getTeamsBySportId({ id: id }));
   }
 
   ngOnInit() {
     this.route.paramMap.subscribe((params) => {
       let tournamentId = params.get('tournament_id');
       let seasonId = params.get('season_id');
-      console.log(tournamentId, seasonId);
+      let sportId = params.get('sport_id');
+      console.log(tournamentId, seasonId, sportId);
 
-      if (tournamentId && seasonId) {
+      if (tournamentId && seasonId && sportId) {
         this.tournamentId = Number(tournamentId);
         this.loadTournament(Number(tournamentId));
+        // this.loadTeamsInSport(Number(tournamentId));
+        this.loadTeamsInTournament(Number(tournamentId));
 
-        this.teamTournamentService.refreshTeamsInTournament(
-          Number(tournamentId),
-        );
+        // this.teamTournamentService.refreshTeamsInTournament(
+        //   Number(tournamentId),
+        // );
+
         this.matchWithFullDataService.refreshMatchesWithDataInTournament(
           this.tournamentId,
         );
@@ -261,19 +264,20 @@ export class ItemTournamentComponent implements OnInit {
   }
 
   onDelete() {
-    // combineLatest([this.tournamentId$, this.tournamentSportId$, this.year$])
-    //   .pipe(take(1)) // to automatically complete the observable after first emitted value
-    //   .subscribe(([tournamentId, tournamentSportId, year]) => {
-    //     if (tournamentId && tournamentSportId) {
-    //       this.tournamentStore.dispatch(
-    //         tournamentActions.delete({
-    //           id: tournamentId,
-    //           sportId: tournamentSportId,
-    //           year: year,
-    //         }),
-    //       );
-    //     }
-    //   });
+    this.tournament$.pipe(take(1)).subscribe((currentItem) => {
+      if (currentItem) {
+        const { id, sport_id, season_id } = currentItem;
+
+        this.tournamentStore.dispatch(
+          tournamentActions.delete({
+            id: id!,
+            sportId: sport_id,
+            seasonId: season_id,
+          }),
+        );
+      }
+    });
+
     // this.tournament$
     //   .pipe(
     //     switchMap((tournament) =>
@@ -306,9 +310,9 @@ export class ItemTournamentComponent implements OnInit {
   }
 
   onTeamRemoveFromTournament(teamId: number, tournamentId: number) {
-    this.teamTournamentService
-      .deleteTeamTournament(teamId, tournamentId)
-      .subscribe();
+    // this.teamTournamentService
+    //   .deleteTeamTournament(teamId, tournamentId)
+    //   .subscribe();
   }
 
   readonly stringify = (match: IMatchFullData): string =>

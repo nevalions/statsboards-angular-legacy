@@ -100,6 +100,37 @@ export class TournamentService extends BaseApiService<ITournament> {
     );
   }
 
+  fetchTournamentsBySportAndSeasonId(params: {
+    sport_id: number;
+    season_id: number;
+  }): Observable<ITournament[]> {
+    const firstItem = 'seasons';
+    const firstKey = 'id';
+    const firstValue = params.season_id;
+    const secondItem = 'sports';
+    const secondKey = 'id';
+    const secondValue = params.sport_id;
+    const optionalValue = 'tournaments';
+
+    return this.findByFirstItemKeyValueAndSecondItemSecondKeyValue(
+      firstItem,
+      firstKey,
+      firstValue,
+      secondItem,
+      secondKey,
+      secondValue,
+      optionalValue,
+    ).pipe(
+      tap((items) =>
+        console.log(
+          `Items fetched by findByValueAndSecondId: ID ${secondValue}`,
+          items,
+        ),
+      ),
+      map((data) => SortService.sort(data, 'title')),
+    );
+  }
+
   deleteTournament(id: number): Observable<any> {
     return new Observable<any>((subscriber) => {
       this.deleteItem(id).subscribe(() => {

@@ -29,7 +29,7 @@ import { DeleteButtonComponent } from '../../../shared/ui/buttons/delete-button/
 import { EditButtonComponent } from '../../../shared/ui/buttons/edit-button/edit-button.component';
 import { CreateButtonShowDialogComponent } from '../../../shared/ui/buttons/create-button-show-dialog/create-button-show-dialog.component';
 import { AddEditMatchComponent } from '../add-edit-match/add-edit-match.component';
-import { TeamTournamentService } from '../../../services/team-tournament.service';
+import { TeamTournamentService } from '../../team-tournament/team-tournament.service';
 import { ITeam } from '../../../type/team.type';
 
 @Component({

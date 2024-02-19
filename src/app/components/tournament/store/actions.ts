@@ -17,8 +17,8 @@ export const tournamentActions = createActionGroup({
     'Get all items failure': emptyProps(),
 
     GetTournamentsBySportAndSeason: props<{
-      id: number;
-      year: number;
+      sport_id: number;
+      season_id: number;
     }>(),
     'Get tournaments by sport and season success': props<{
       tournaments: ITournament[];
@@ -29,11 +29,11 @@ export const tournamentActions = createActionGroup({
     'Updated successfully': props<{ updatedTournament: ITournament }>(),
     'Update failure': emptyProps(),
 
-    Delete: props<{ id: number; sportId: number; year: number }>(),
+    Delete: props<{ id: number; sportId: number; seasonId: number }>(),
     'Deleted successfully': props<{
       id: number;
       sportId: number;
-      year: number;
+      seasonId: number;
     }>(),
     'Delete failure': emptyProps(),
   },

@@ -10,8 +10,8 @@ import {
   TuiSelectModule,
 } from '@taiga-ui/kit';
 import { TuiLetModule } from '@taiga-ui/cdk';
-import { TeamService } from '../team.service';
-import { TeamTournamentService } from '../../../services/team-tournament.service';
+import { TeamService } from '../../team/team.service';
+import { TeamTournamentService } from '../team-tournament.service';
 import { AddItemDialogFromListComponent } from '../../../shared/ui/dialogs/add-item-dialog-from-list/add-item-dialog-from-list.component';
 
 @Component({

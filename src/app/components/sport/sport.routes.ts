@@ -17,6 +17,11 @@ import { SeasonEffects } from '../season/store/effects';
 import { seasonFeatureKey, seasonReducer } from '../season/store/reducers';
 import { sportFeatureKey, sportReducer } from './store/reducers';
 import { SportEffects } from './store/effects';
+import { SeasonComponent } from '../season/season.component';
+import { ItemTournamentComponent } from '../tournament/item-tournament/item-tournament.component';
+import { teamActions } from '../team/store/actions';
+import { teamFeatureKey, teamReducer } from '../team/store/reducers';
+import { TeamEffects } from '../team/store/effects';
 
 export const SPORT_ROUTES: Routes = [
   { path: '', component: SportComponent },
@@ -27,16 +32,36 @@ export const SPORT_ROUTES: Routes = [
       {
         path: 'teams',
         component: WithTeamsComponent,
+        providers: [
+          provideState(teamFeatureKey, teamReducer),
+          provideEffects(TeamEffects),
+        ],
       },
     ],
   },
   {
-    path: ':sport_id/season/:year/tournaments',
+    path: ':sport_id/season/:season_id/tournaments',
     component: ItemSportWithSeasonComponent,
     providers: [
       provideState(tournamentFeatureKey, tournamentReducer),
       provideState(seasonFeatureKey, seasonReducer),
       provideEffects(SeasonEffects, TournamentEffects),
     ],
+  },
+
+  {
+    path: ':sport_id/season/:season_id/tournament/:tournament_id',
+    component: ItemTournamentComponent,
+    providers: [
+      provideState(teamFeatureKey, teamReducer),
+      provideState(tournamentFeatureKey, tournamentReducer),
+      provideEffects(TournamentEffects, TeamEffects),
+    ],
+    // children: [
+    //   {
+    //     path: 'teams',
+    //     redirectTo: '',
+    //   },
+    // ],
   },
 ];

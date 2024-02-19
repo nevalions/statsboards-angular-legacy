@@ -13,19 +13,19 @@ import { TournamentEffects } from './store/effects';
 
 export const TOURNAMENT_ROUTES: Routes = [
   { path: '', component: TournamentComponent },
-  {
-    path: ':tournament_id/season/:season_id',
-    component: ItemTournamentComponent,
-    providers: [
-      provideState(tournamentFeatureKey, tournamentReducer),
-      provideEffects(TournamentEffects),
-    ],
-    data: { breadcrumbs: [{ caption: 'Tournament' }] },
-    children: [
-      {
-        path: 'teams',
-        redirectTo: '',
-      },
-    ],
-  },
+  // {
+  //   path: ':tournament_id/season/:season_id',
+  //   component: ItemTournamentComponent,
+  //   providers: [
+  //     provideState(tournamentFeatureKey, tournamentReducer),
+  //     provideEffects(TournamentEffects),
+  //   ],
+  //   data: { breadcrumbs: [{ caption: 'Tournament' }] },
+  //   children: [
+  //     {
+  //       path: 'teams',
+  //       redirectTo: '',
+  //     },
+  //   ],
+  // },
 ];

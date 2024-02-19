@@ -56,9 +56,9 @@ export class TournamentEffects {
     () => {
       return this.actions$.pipe(
         ofType(tournamentActions.getTournamentsBySportAndSeason), // You will have to define this action
-        switchMap(({ id, year }) => {
+        switchMap(({ sport_id, season_id }) => {
           return this.tournamentService
-            .fetchTournamentsBySportAndSeason({ id, year })
+            .fetchTournamentsBySportAndSeasonId({ sport_id, season_id })
             .pipe(
               // Assuming you have a getTournaments method in your service
               map((tournaments: ITournament[]) => {
@@ -82,13 +82,13 @@ export class TournamentEffects {
     () => {
       return this.actions$.pipe(
         ofType(tournamentActions.delete),
-        switchMap(({ id, sportId, year }) => {
+        switchMap(({ id, sportId, seasonId }) => {
           return this.tournamentService.deleteItem(id).pipe(
             map(() => {
               return tournamentActions.deletedSuccessfully({
                 id: id,
                 sportId: sportId,
-                year: year,
+                seasonId: seasonId,
               });
             }),
             catchError(() => {
@@ -105,9 +105,9 @@ export class TournamentEffects {
     () => {
       return this.actions$.pipe(
         ofType(tournamentActions.deletedSuccessfully),
-        tap(({ sportId, year }) => {
+        tap(({ sportId, seasonId }) => {
           this.router.navigateByUrl(
-            `/sports/id/${sportId}/seasons/${year}/tournaments`,
+            `/sport/${sportId}/season/${seasonId}/tournaments`,
           );
         }),
       );

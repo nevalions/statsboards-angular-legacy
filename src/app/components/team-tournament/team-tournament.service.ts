@@ -1,6 +1,6 @@
 import { inject, Injectable, Input } from '@angular/core';
-import { BaseApiService } from './base.api.service';
-import { ITeam, ITeamTournament } from '../type/team.type';
+import { BaseApiService } from '../../services/base.api.service';
+import { ITeam, ITeamTournament } from '../../type/team.type';
 import {
   BehaviorSubject,
   catchError,
@@ -13,10 +13,10 @@ import {
 } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { ErrorHandlingService } from './error.service';
+import { ErrorHandlingService } from '../../services/error.service';
 import { tap } from 'rxjs/operators';
-import { TeamService } from '../components/team/team.service';
-import { SortService } from './sort.service';
+import { TeamService } from '../team/team.service';
+import { SortService } from '../../services/sort.service';
 
 @Injectable({
   providedIn: 'root',
@@ -51,9 +51,7 @@ export class TeamTournamentService extends BaseApiService<ITeamTournament> {
       id,
       'teams',
     ).pipe(
-      tap((teams) =>
-        console.log(`refresh TEAMS from TOURNAMENT ID: ${id}`, teams),
-      ),
+      tap((teams) => console.log(`TEAMS from TOURNAMENT ID: ${id}`, teams)),
       map((data) => SortService.sort(data, 'title')),
     );
   }

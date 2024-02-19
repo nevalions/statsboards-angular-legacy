@@ -24,7 +24,7 @@ import { CreateButtonInFormComponent } from '../../../shared/ui/buttons/create-b
 import { CancelButtonInFormComponent } from '../../../shared/ui/buttons/cancel-button-in-form/cancel-button-in-form.component';
 import { Store } from '@ngrx/store';
 import { tournamentActions } from '../store/actions';
-import { selectIsSubmitting, TournamentState } from '../store/reducers';
+import { TournamentState } from '../store/reducers';
 
 @Component({
   selector: 'app-tournament-add-edit-form',

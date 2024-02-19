@@ -23,7 +23,7 @@ import { seasonActions } from '../../../../components/season/store/actions';
 export class SportWithSeasonDropdownComponent implements OnChanges {
   seasonStore: Store<{ season: SeasonState }> = inject(Store);
   seasonsWithSportId$ = this.seasonStore.select(
-    (state) => state.season.itemsList,
+    (state) => state.season.allSeasons,
   );
 
   @Input() sportId!: number;
@@ -31,7 +31,7 @@ export class SportWithSeasonDropdownComponent implements OnChanges {
   protected readonly arrow = TUI_ARROW;
 
   seasonSportRoute(item: ISeasonAndSport): any {
-    return [`/sport/${item.sport_id}/season/${item.year}/tournaments`];
+    return [`/sport/${item.sport_id}/season/${item.id}/tournaments`];
   }
 
   mapItemToLabelYear(item: IBaseIdElse): string {
