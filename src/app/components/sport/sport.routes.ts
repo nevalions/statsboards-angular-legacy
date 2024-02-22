@@ -33,15 +33,13 @@ export const SPORT_ROUTES: Routes = [
   {
     path: ':sport_id',
     component: ItemSportComponent,
-    children: [
-      {
-        path: 'teams',
-        component: WithTeamsComponent,
-        providers: [
-          provideState(teamFeatureKey, teamReducer),
-          provideEffects(TeamEffects),
-        ],
-      },
+  },
+  {
+    path: ':sport_id/teams',
+    component: WithTeamsComponent,
+    providers: [
+      provideState(teamFeatureKey, teamReducer),
+      provideEffects(TeamEffects),
     ],
   },
   {
@@ -53,7 +51,6 @@ export const SPORT_ROUTES: Routes = [
       provideEffects(SeasonEffects, TournamentEffects),
     ],
   },
-
   {
     path: ':sport_id/season/:season_id/tournament/:tournament_id',
     component: ItemTournamentComponent,
@@ -63,11 +60,5 @@ export const SPORT_ROUTES: Routes = [
       provideState(teamTournamentFeatureKey, teamTournamentReducer),
       provideEffects(TournamentEffects, TeamEffects, TeamTournamentEffects),
     ],
-    // children: [
-    //   {
-    //     path: 'teams',
-    //     redirectTo: '',
-    //   },
-    // ],
   },
 ];

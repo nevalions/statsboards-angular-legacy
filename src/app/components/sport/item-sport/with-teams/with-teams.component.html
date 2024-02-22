@@ -1,10 +1,13 @@
 @if (sport$ | async; as sport) {
-  @if (teamInSport$ | async) {
+  <div class="sport content__title">
+    <h3 class="tui-text_h3">{{ sport.title | uppercase }}</h3>
+  </div>
+  @if (teamsInSport$ | async) {
     <div class="tournament content__body">
       <div class="one_col_container">
         <app-list-of-teams
           [sportId]="sport.id!"
-          [teams$]="teamInSport$"
+          [teams$]="teamsInSport$"
           [formatPath]="teamItemHref"
           [titleProperty]="islandTeamTitleProperty"
         ></app-list-of-teams>
