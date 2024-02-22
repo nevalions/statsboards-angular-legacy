@@ -48,7 +48,6 @@ import { Tournament } from '../tournament';
   styleUrl: './tournament-add-edit-form.component.less',
 })
 export class TournamentAddEditFormComponent {
-  // store: Store<{ tournament: TournamentState }> = inject(Store);
   @Input() sport_Id!: number;
   @Input() season_Id!: number;
 
@@ -80,8 +79,8 @@ export class TournamentAddEditFormComponent {
         season_id: this.season_Id,
         sport_id: this.sport_Id,
       };
-
       this.tournament.createTournament(data);
+      this.tournamentForm.reset();
     }
   }
 }

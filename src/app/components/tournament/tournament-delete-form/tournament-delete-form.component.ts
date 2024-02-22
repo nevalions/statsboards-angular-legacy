@@ -47,5 +47,6 @@ export class TournamentDeleteFormComponent {
 
   onSubmit(): void {
     this.delete.emit();
+    this.tournamentDeleteForm.reset();
   }
 }
