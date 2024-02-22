@@ -1,12 +1,18 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { catchError, map, of, switchMap } from 'rxjs';
+import { catchError, filter, map, of, switchMap } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { TeamService } from '../team.service';
 import { teamActions } from './actions';
 import { ITeam } from '../../../type/team.type';
 import { TeamTournamentService } from '../../team-tournament/team-tournament.service';
+import { tournamentActions } from '../../tournament/store/actions';
+import { selectSportIdAndSeasonId } from '../../sport/store/selectors';
+import { ITournament } from '../../../type/tournament.type';
+import { Store } from '@ngrx/store';
+import { selectCurrentTournamentId } from '../../tournament/store/reducers';
+import { selectCurrentSportId } from '../../sport/store/reducers';
 
 @Injectable()
 export class TeamEffects {
@@ -52,22 +58,44 @@ export class TeamEffects {
     { functional: true },
   );
 
-  getAllTeamsBySportIdEffect = createEffect(
+  // getAllTeamsBySportIdEffect = createEffect(
+  //   () => {
+  //     return this.actions$.pipe(
+  //       ofType(teamActions.getTeamsBySportId),
+  //       switchMap(({ id }) => {
+  //         return this.teamService.fetchTeamsBySportId(id).pipe(
+  //           map((teams: ITeam[]) => {
+  //             return teamActions.getTeamsBySportIDSuccess({
+  //               teams,
+  //             });
+  //           }),
+  //           catchError(() => {
+  //             return of(teamActions.getTeamsBySportIDFailure);
+  //           }),
+  //         );
+  //       }),
+  //     );
+  //   },
+  //   { functional: true },
+  // );
+
+  getTeamsBySportIdEffect = createEffect(
     () => {
       return this.actions$.pipe(
         ofType(teamActions.getTeamsBySportId),
-        switchMap(({ id }) => {
-          return this.teamService.fetchTeamsBySportId(id).pipe(
-            map((teams: ITeam[]) => {
-              return teamActions.getTeamsBySportIDSuccess({
-                teams,
-              });
-            }),
-            catchError(() => {
-              return of(teamActions.getTeamsBySportIDFailure);
-            }),
-          );
-        }),
+        switchMap(() => this.store.select(selectCurrentSportId)),
+        filter(
+          (sportId): sportId is number =>
+            sportId !== null && sportId !== undefined,
+        ),
+        switchMap((sportId: number) =>
+          this.teamService.fetchTeamsBySportId(sportId).pipe(
+            map((teams: ITeam[]) =>
+              teamActions.getTeamsBySportIDSuccess({ teams }),
+            ),
+            catchError(() => of(teamActions.getTeamsBySportIDFailure())),
+          ),
+        ),
       );
     },
     { functional: true },
@@ -77,17 +105,24 @@ export class TeamEffects {
     () => {
       return this.actions$.pipe(
         ofType(teamActions.getTeamsByTournamentId),
-        switchMap(({ id }) => {
-          return this.teamTournamentService.fetchTeamsByTournamentId(id).pipe(
-            map((teams: ITeam[]) => {
-              return teamActions.getTeamsByTournamentIDSuccess({
-                teams,
-              });
-            }),
-            catchError(() => {
-              return of(teamActions.getTeamsByTournamentIDFailure);
-            }),
-          );
+        switchMap(() => this.store.select(selectCurrentTournamentId)),
+        filter(
+          (tournamentId): tournamentId is number =>
+            tournamentId !== null && tournamentId !== undefined,
+        ),
+        switchMap((tournamentId) => {
+          return this.teamTournamentService
+            .fetchTeamsByTournamentId(tournamentId)
+            .pipe(
+              map((teams: ITeam[]) => {
+                return teamActions.getTeamsByTournamentIDSuccess({
+                  teams,
+                });
+              }),
+              catchError(() => {
+                return of(teamActions.getTeamsByTournamentIDFailure);
+              }),
+            );
         }),
       );
     },
@@ -151,5 +186,6 @@ export class TeamEffects {
     private actions$: Actions,
     private teamService: TeamService,
     private teamTournamentService: TeamTournamentService,
+    private store: Store,
   ) {}
 }

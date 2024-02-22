@@ -6,8 +6,10 @@ import {
 import { tournamentActions } from './actions';
 import { ITournament } from '../../../type/tournament.type';
 import { SortService } from '../../../services/sort.service';
+import { seasonActions } from '../../season/store/actions';
 
 export interface TournamentState extends crudStoreInterface {
+  currentTournamentId: number | undefined | null;
   currentTournament: ITournament | undefined | null;
   allTournaments: ITournament[];
   allSeasonSportTournaments: ITournament[];
@@ -15,6 +17,7 @@ export interface TournamentState extends crudStoreInterface {
 
 const initialState: TournamentState = {
   ...getDefaultCrudStore(),
+  currentTournamentId: null,
   allTournaments: [],
   allSeasonSportTournaments: [],
   currentTournament: null,
@@ -24,6 +27,19 @@ const tournamentFeature = createFeature({
   name: 'tournament',
   reducer: createReducer(
     initialState,
+    on(tournamentActions.getId, (state) => ({
+      ...state,
+      isLoading: true,
+    })),
+    on(tournamentActions.getSeasonIdSuccessfully, (state, action) => ({
+      ...state,
+      isLoading: false,
+      currentTournamentId: action.tournamentId,
+    })),
+    on(tournamentActions.getSeasonIdFailure, (state) => ({
+      ...state,
+      isLoading: false,
+    })),
 
     // create actions
     on(tournamentActions.create, (state) => ({
@@ -149,6 +165,7 @@ export const {
   reducer: tournamentReducer,
   selectIsSubmitting,
   selectIsLoading,
+  selectCurrentTournamentId,
   selectCurrentTournament,
   selectAllTournaments,
   selectAllSeasonSportTournaments,

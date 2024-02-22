@@ -25,7 +25,7 @@
           <h4>YEAR {{ season.year }}</h4>
         </div>
         <hr>
-        @if (tournaments$ | async; as tours) {
+        @if (allSeasonSportTournaments$ | async; as tours) {
           <!--        @for (t of tours; track t.id) {-->
             <!--          {{ t.id }} {{ t.title }}-->
             <!--        }-->
@@ -41,7 +41,7 @@
 
           <app-island-list-of-tournaments
             [data]="tours"
-            [data$]="tournaments$"
+            [data$]="allSeasonSportTournaments$"
             [formatPath]="tournamentItemHref"
           ></app-island-list-of-tournaments>
 

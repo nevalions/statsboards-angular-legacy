@@ -40,6 +40,9 @@ import { ItemSportComponent } from '../item-sport.component';
 import { AppState } from '../../../../store/appstate';
 import { ISport } from '../../../../type/sport.type';
 import { sportActions } from '../../store/actions';
+import { Sport } from '../../sport';
+import { Season } from '../../../season/season';
+import { Tournament } from '../../../tournament/tournament';
 
 @Component({
   selector: 'app-item-sport-with-season',
@@ -71,76 +74,61 @@ import { sportActions } from '../../store/actions';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ItemSportWithSeasonComponent {
-  store: Store<AppState> = inject(Store);
-  sport$: Observable<ISport | null | undefined> = this.store.select(
-    (state) => state.sport.currentSport,
-  );
+  sport$ = this.sport.sport$;
+  season$ = this.season.season$;
+  allSeasonSportTournaments$ = this.tournament.allSeasonSportTournaments$;
 
-  season$: Observable<ISeason | null | undefined> = this.store.select(
-    (state) => state.season.currentSeason,
-  );
-  tournaments$: Observable<ITournament[]> = this.store.select(
-    (state) => state.tournament.allSeasonSportTournaments,
-  );
+  constructor(
+    private sport: Sport,
+    private season: Season,
+    private tournament: Tournament,
+  ) {
+    sport.loadCurrentSport();
+    season.loadCurrentSeason();
+    tournament.loadSeasonSportTournaments();
+  }
 
   tournamentItemHref(item: ITournament): string {
     return `sport/${item.sport_id}/season/${item.season_id}/tournament/${item.id}`;
   }
-
-  loadSportSeasonTournaments() {
-    this.store.dispatch(tournamentActions.getTournamentsBySportAndSeason());
-  }
-
-  loadSeason() {
-    this.store.dispatch(seasonActions.getId());
-  }
-
-  loadSport() {
-    this.store.dispatch(sportActions.getId());
-  }
-
-  constructor() {
-    this.loadSport();
-    this.loadSeason();
-    this.loadSportSeasonTournaments();
-  }
-
-  // searchListService = inject(SearchListService);
-  // paginationService = inject(PaginationService);
-  //
-  // islandTitleProperty: keyof IBaseIdElse = 'title';
-
-  // ngAfterViewInit() {
-  //   this.loadSeason();
-  //   this.loadSportSeasonTournaments();
-  //
-  //   this.tournaments$.subscribe((tournaments: ITournament[]) => {
-  //     this.searchListService.updateData(of(tournaments));
-  //     this.paginationService.initializePagination(
-  //       this.searchListService.filteredData$,
-  //     );
-  //   });
-  //   // this.sportId$.subscribe((sportId) => {
-  //   //   if (sportId) {
-  //   //     this.route.paramMap.subscribe((params) => {
-  //   //       const seasonId = params.get('season_id');
-  //   //
-  //   //       if (seasonId) {
-  //   //         this.loadSeason(Number(seasonId));
-  //   //         this.loadSportSeasonTournaments(sportId, Number(seasonId));
-  //   //
-  //   //         this.tournaments$.subscribe((tournaments: ITournament[]) => {
-  //   //           this.searchListService.updateData(of(tournaments));
-  //   //           this.paginationService.initializePagination(
-  //   //             this.searchListService.filteredData$,
-  //   //           );
-  //   //         });
-  //   //       }
-  //   //     });
-  //   //   }
-  //   // });
-  // }
 }
+
+// searchListService = inject(SearchListService);
+// paginationService = inject(PaginationService);
+//
+// islandTitleProperty: keyof IBaseIdElse = 'title';
+
+// ngAfterViewInit() {
+//   this.loadSeason();
+//   this.loadSportSeasonTournaments();
+//
+//   this.tournaments$.subscribe((tournaments: ITournament[]) => {
+//     this.searchListService.updateData(of(tournaments));
+//     this.paginationService.initializePagination(
+//       this.searchListService.filteredData$,
+//     );
+//   });
+//   // this.sportId$.subscribe((sportId) => {
+//   //   if (sportId) {
+//   //     this.route.paramMap.subscribe((params) => {
+//   //       const seasonId = params.get('season_id');
+//   //
+//   //       if (seasonId) {
+//   //         this.loadSeason(Number(seasonId));
+//   //         this.loadSportSeasonTournaments(sportId, Number(seasonId));
+//   //
+//   //         this.tournaments$.subscribe((tournaments: ITournament[]) => {
+//   //           this.searchListService.updateData(of(tournaments));
+//   //           this.paginationService.initializePagination(
+//   //             this.searchListService.filteredData$,
+//   //           );
+//   //         });
+//   //       }
+//   //     });
+//   //   }
+//   // });
+// }
+// }
 
 // private crudStateObj = crudState<ITournament>();
 // crudStore: Store<{ crud: crudStoreInterface<ITournament> }> = inject(Store);

@@ -4,6 +4,10 @@ import { ITournament } from '../../../type/tournament.type';
 export const tournamentActions = createActionGroup({
   source: 'tournament',
   events: {
+    GetId: emptyProps(),
+    'Get season id successfully': props<{ tournamentId: number }>(),
+    'Get season id failure': emptyProps(),
+
     Create: props<{ request: ITournament }>(),
     'Created successfully': props<{ currentTournament: ITournament }>(),
     'Create failure': emptyProps(),

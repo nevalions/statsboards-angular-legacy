@@ -18,6 +18,10 @@ import { Store } from '@ngrx/store';
 import { TeamState } from '../../../team/store/reducers';
 import { teamActions } from '../../../team/store/actions';
 import { AppState } from '../../../../store/appstate';
+import { ISport } from '../../../../type/sport.type';
+import { sportActions } from '../../store/actions';
+import { Sport } from '../../sport';
+import { Team } from '../../../team/team';
 
 @Component({
   selector: 'app-with-teams',
@@ -37,13 +41,15 @@ import { AppState } from '../../../../store/appstate';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WithTeamsComponent {
-  store: Store<AppState> = inject(Store);
-  teams$: Observable<ITeam[]> = this.store.select(
-    (state) => state.team.allTeamsInSport,
-  );
+  sport$ = this.sport.sport$;
+  teamInSport$ = this.team.teamsInSport$;
 
-  constructor() {
-    // this.store.dispatch(teamActions.getTeamsBySportId({ id: sportId }));
+  constructor(
+    private sport: Sport,
+    private team: Team,
+  ) {
+    sport.loadCurrentSport();
+    team.loadAllTeamsInSport();
   }
 
   islandTeamTitleProperty: keyof ITeam = 'title';

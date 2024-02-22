@@ -59,6 +59,8 @@ import { tournamentActions } from '../store/actions';
 import { teamActions } from '../../team/store/actions';
 import { teamTournamentActions } from '../../team-tournament/store/actions';
 import { AppState } from '../../../store/appstate';
+import { ISport } from '../../../type/sport.type';
+import { sportActions } from '../../sport/store/actions';
 
 @Component({
   selector: 'app-item-tournament',
@@ -112,6 +114,9 @@ export class ItemTournamentComponent implements OnInit {
   // teamStore: Store<{ team: TeamState }> = inject(Store);
   // teamTournamentStore: Store<{ teamTournament: TeamTournamentState }> =
   //   inject(Store);
+  sport$: Observable<ISport | null | undefined> = this.store.select(
+    (state) => state.sport.currentSport,
+  );
   allSportTeams$ = this.store.select((state) => state.team.allTeamsInSport);
 
   teamsInTournament$ = this.store.select(
@@ -170,48 +175,48 @@ export class ItemTournamentComponent implements OnInit {
     return `/matches/id/${item.id}`;
   }
 
-  loadTournament(id: number) {
-    this.store.dispatch(tournamentActions.get({ id: id }));
+  loadTournament() {
+    this.store.dispatch(tournamentActions.getId());
   }
 
-  loadTeamsInTournament(id: number) {
-    // console.log(id);
-    this.store.dispatch(teamActions.getTeamsByTournamentId({ id: id }));
+  loadTeamsInTournament() {
+    this.store.dispatch(teamActions.getTeamsByTournamentId());
   }
 
-  loadTeamsInSport(id: number) {
-    this.store.dispatch(teamActions.getTeamsBySportId({ id: id }));
+  loadTeamsInSport() {
+    this.store.dispatch(teamActions.getTeamsBySportId());
   }
 
   ngOnInit() {
-    this.route.paramMap.subscribe((params) => {
-      let tournamentId = params.get('tournament_id');
-      let seasonId = params.get('season_id');
-      let sportId = params.get('sport_id');
-      console.log(tournamentId, seasonId, sportId);
+    // this.route.paramMap.subscribe((params) => {
+    //   let tournamentId = params.get('tournament_id');
+    //   let seasonId = params.get('season_id');
+    //   let sportId = params.get('sport_id');
+    //   console.log(tournamentId, seasonId, sportId);
 
-      if (tournamentId && seasonId && sportId) {
-        this.tournamentId = Number(tournamentId);
-        this.loadTournament(Number(tournamentId));
-        this.loadTeamsInSport(Number(sportId));
-        this.loadTeamsInTournament(Number(tournamentId));
+    // if (tournamentId && seasonId && sportId) {
+    //   this.tournamentId = Number(tournamentId);
+    this.store.dispatch(sportActions.getId());
+    this.loadTournament();
+    this.loadTeamsInSport();
+    this.loadTeamsInTournament();
 
-        this.matchWithFullDataService.refreshMatchesWithDataInTournament(
-          this.tournamentId,
-        );
-
-        this.matchWithFullDataService.matchesWithFullData$.subscribe(
-          (matches: IMatchFullData[]) => {
-            this.searchListService.updateData(of(matches));
-            this.paginationService.initializePagination(
-              this.searchListService.filteredData$,
-            );
-          },
-        );
-      } else {
-        console.log('Params are empty');
-      }
-    });
+    // this.matchWithFullDataService.refreshMatchesWithDataInTournament(
+    //   this.tournamentId,
+    // );
+    //
+    // this.matchWithFullDataService.matchesWithFullData$.subscribe(
+    //   (matches: IMatchFullData[]) => {
+    //     this.searchListService.updateData(of(matches));
+    //     this.paginationService.initializePagination(
+    //       this.searchListService.filteredData$,
+    //     );
+    //   },
+    // );
+    // } else {
+    //   console.log('Params are empty');
+    // }
+    // });
   }
 
   // }

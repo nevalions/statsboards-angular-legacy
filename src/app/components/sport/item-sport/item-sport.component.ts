@@ -13,6 +13,9 @@ import { SportState } from '../store/reducers';
 import { sportActions } from '../store/actions';
 import { AppState } from '../../../store/appstate';
 import { ItemSportWithSeasonComponent } from './item-sport-with-season/item-sport-with-season.component';
+import { Sport } from '../sport';
+import { Season } from '../../season/season';
+import { Tournament } from '../../tournament/tournament';
 
 @Component({
   selector: 'app-item-sport',
@@ -34,23 +37,26 @@ import { ItemSportWithSeasonComponent } from './item-sport-with-season/item-spor
   styleUrl: './item-sport.component.less',
 })
 export class ItemSportComponent {
-  store: Store<AppState> = inject(Store);
-  sport$: Observable<ISport | null | undefined> = this.store.select(
-    (state) => state.sport.currentSport,
-  );
+  sport$ = this.sport.sport$;
+
+  constructor(private sport: Sport) {
+    sport.loadCurrentSport();
+  }
+
+  // store: Store<AppState> = inject(Store);
+  // sport$: Observable<ISport | null | undefined> = this.store.select(
+  //   (state) => state.sport.currentSport,
+  // );
   // sportId$: Observable<number | null | undefined> = this.store.select(
   //   (state) => state.sport.currentSport?.id,
   // );
-
-  constructor() {
-    this.store.dispatch(sportActions.getId());
-  }
-
+  // constructor() {
+  //   this.store.dispatch(sportActions.getId());
+  // }
   //
   // loadSport(id: number) {
   //   return this.sportStore.dispatch(sportActions.get({ id: id }));
   // }
-
   // ngOnInit() {
   //   this.route.paramMap.subscribe((params) => {
   //     let sportId = params.get('sport_id');
