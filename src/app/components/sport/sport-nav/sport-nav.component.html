@@ -1,6 +1,6 @@
-@if (sports$ | async) {
+@if (sports$ | async; as sports) {
   <app-header-menu
-    [dataList]="sports$"
+    [data]="sports"
     [mapItemToLabel]="mapItemToLabel"
     [mapItemToSportRoute]="sportRoutWithSeason"
     [mapItemToTeamsRoute]="sportTeamsRout"

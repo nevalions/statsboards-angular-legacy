@@ -1,47 +1,41 @@
 <nav>
-    @if(dataList | async; as data){
-      @for(item of data; track item.id){
-        <div
-          tuiDropdownHover
-          [tuiDropdown]="content"
-        >
+  @for (item of data; track item.id) {
+    <div
+      tuiDropdownHover
+      [tuiDropdown]="content"
+    >
+      <a
+        routerLinkActive="active"
+        [routerLink]="mapItemToSportRoute(item)"
+        tuiLink
+        ariaCurrentWhenActive="page"
+      >
+        {{ item.title }}
+      </a>
+    </div>
+    <ng-template #content>
+      <tui-data-list role="menu">
+        <tui-opt-group>
           <a
             routerLinkActive="active"
-            [routerLink]="mapItemToSportRoute(item)"
-            tuiLink
+            [routerLink]="mapItemToTeamsRoute(item)"
+            tuiOption
             ariaCurrentWhenActive="page"
           >
-            {{ item.title }}
+            TEAMS
           </a>
-
-        </div>
-        <ng-template #content>
-          <tui-data-list role="menu">
-            <tui-opt-group>
-              <a
-              routerLinkActive="active"
-              [routerLink]="mapItemToTeamsRoute(item)"
-              tuiOption
-              ariaCurrentWhenActive="page"
-            >
-              TEAMS
-            </a>
-            <a
-              routerLinkActive="active"
-              [routerLink]="mapItemToPayersRoute(item)"
-              tuiOption
-              ariaCurrentWhenActive="page"
-            >
-              PLAYERS
-            </a>
-              </tui-opt-group>
-          </tui-data-list>
-        </ng-template>
-
-      } @empty {
-        No Items Added
-        }
-    } @else {
-      None
-    }
+          <a
+            routerLinkActive="active"
+            [routerLink]="mapItemToPayersRoute(item)"
+            tuiOption
+            ariaCurrentWhenActive="page"
+          >
+            PLAYERS
+          </a>
+        </tui-opt-group>
+      </tui-data-list>
+    </ng-template>
+  } @empty {
+    No Items Added
+  }
 </nav>

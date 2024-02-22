@@ -17,6 +17,7 @@ import { SportState } from '../store/reducers';
 import { ISport } from '../../../type/sport.type';
 import { sportActions } from '../store/actions';
 import { currentSeasonId, currentYear } from '../../../base/constants';
+import { Sport } from '../sport';
 
 @Component({
   selector: 'app-sport-nav',
@@ -26,11 +27,12 @@ import { currentSeasonId, currentYear } from '../../../base/constants';
   styleUrl: './sport-nav.component.less',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SportNavComponent implements OnInit {
-  sportStore: Store<{ sport: SportState }> = inject(Store);
-  sports$: Observable<ISport[]> = this.sportStore.select(
-    (state) => state.sport.allSports,
-  );
+export class SportNavComponent {
+  sports$ = this.sport.sports$;
+
+  constructor(private sport: Sport) {
+    sport.loadAllSports();
+  }
 
   mapItemToLabel(item: IBaseIdElse): string {
     return item.title ?? '';
@@ -47,16 +49,4 @@ export class SportNavComponent implements OnInit {
   sportPlayersRout(item: IBaseIdElse): any[] {
     return [`/sport/${item.id}/players`];
   }
-
-  ngOnInit() {
-    this.sportStore.dispatch(sportActions.getAll());
-    // this.sports$.pipe(tap((data) => console.log(data))).subscribe();
-  }
-
-  // ngOnInit() {
-  //   this.dataList$ = this.sportService.findAll().pipe(
-  //     tap((data) => console.log(data)),
-  //     map((data) => SortService.sort(data, 'title')),
-  //   );
-  // }
 }
