@@ -113,18 +113,10 @@ import { TeamTournament } from '../../team-tournament/teamTournament';
   changeDetection: ChangeDetectionStrategy.Default,
 })
 export class ItemTournamentComponent {
-  // store: Store<AppState> = inject(Store);
-  // tournamentStore: Store<{ tournament: TournamentState }> = inject(Store);
-  // teamStore: Store<{ team: TeamState }> = inject(Store);
-  // teamTournamentStore: Store<{ teamTournament: TeamTournamentState }> =
-  //   inject(Store);
   sport$ = this.sport.sport$;
   allSportTeams$ = this.team.teamsInSport$;
-
   teamsInTournament$ = this.team.teamsInTournament$;
-
   tournament$ = this.tournament.currentTournament$;
-
   teamTournamentConnection$ = this.teamTournament.teamTournamentConnection$;
 
   constructor(
@@ -261,12 +253,6 @@ export class ItemTournamentComponent {
   }
 
   onTeamRemoveFromTournament(teamId: number, tournamentId: number) {
-    // this.store.dispatch(
-    //   teamTournamentActions.getConnectionByTeamIdTournamentId({
-    //     teamId: teamId,
-    //     tournamentId: tournamentId,
-    //   }),
-    // );
     this.teamTournament.loadConnectionByTeamAndTournamentId(
       teamId,
       tournamentId,
@@ -279,16 +265,6 @@ export class ItemTournamentComponent {
         );
       }
     });
-    // this.teamTournamentConnection$.pipe(take(1)).subscribe((connection) => {
-    //   if (connection?.id) {
-    //     this.store.dispatch(
-    //       teamTournamentActions.delete({
-    //         id: connection.id,
-    //         team_id: teamId,
-    //       }),
-    //     );
-    //   }
-    // });
   }
 
   readonly stringify = (match: IMatchFullData): string =>
