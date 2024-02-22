@@ -132,10 +132,12 @@ export class TeamTournamentEffects {
   createTeamTournamentSuccess$ = createEffect(() =>
     this.actions$.pipe(
       ofType(teamTournamentActions.createdSuccessfully),
-      map((action) =>
-        teamActions.addTeamToTournament({
-          team_id: action.currentTeamTournament.team_id,
-        }),
+      switchMap((action) =>
+        of(
+          teamActions.addTeamToTournament({
+            team_id: action.currentTeamTournament.team_id,
+          }),
+        ),
       ),
     ),
   );
@@ -143,9 +145,8 @@ export class TeamTournamentEffects {
   deleteTeamTournamentSuccess$ = createEffect(() =>
     this.actions$.pipe(
       ofType(teamTournamentActions.deletedSuccessfully),
-      map(
-        (action) =>
-          teamActions.removeTeamFromTournament({ id: action.team_id }), // Dispatch the new action here
+      switchMap((action) =>
+        of(teamActions.removeTeamFromTournament({ id: action.team_id })),
       ),
     ),
   );
