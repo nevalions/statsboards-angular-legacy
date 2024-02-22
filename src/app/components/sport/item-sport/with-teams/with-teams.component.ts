@@ -17,6 +17,7 @@ import { ItemSportComponent } from '../item-sport.component';
 import { Store } from '@ngrx/store';
 import { TeamState } from '../../../team/store/reducers';
 import { teamActions } from '../../../team/store/actions';
+import { AppState } from '../../../../store/appstate';
 
 @Component({
   selector: 'app-with-teams',
@@ -35,14 +36,15 @@ import { teamActions } from '../../../team/store/actions';
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class WithTeamsComponent
-  extends ItemSportComponent
-  implements AfterViewInit
-{
-  teamStore: Store<{ team: TeamState }> = inject(Store);
-  teams$: Observable<ITeam[]> = this.teamStore.select(
+export class WithTeamsComponent {
+  store: Store<AppState> = inject(Store);
+  teams$: Observable<ITeam[]> = this.store.select(
     (state) => state.team.allTeamsInSport,
   );
+
+  constructor() {
+    // this.store.dispatch(teamActions.getTeamsBySportId({ id: sportId }));
+  }
 
   islandTeamTitleProperty: keyof ITeam = 'title';
 
@@ -51,15 +53,15 @@ export class WithTeamsComponent
   }
 
   ngAfterViewInit() {
-    this.sportId$.subscribe((sportId) => {
-      if (sportId) {
-        console.log('Sport ID is available:', sportId);
-        this.teamStore.dispatch(teamActions.getTeamsBySportId({ id: sportId }));
-      } else {
-        console.error(
-          'Sport ID is not defined. Check your route configuration.',
-        );
-      }
-    });
+    // this.sportId$.subscribe((sportId) => {
+    //   if (sportId) {
+    //     console.log('Sport ID is available:', sportId);
+    //     this.teamStore.dispatch(teamActions.getTeamsBySportId({ id: sportId }));
+    //   } else {
+    //     console.error(
+    //       'Sport ID is not defined. Check your route configuration.',
+    //     );
+    //   }
+    // });
   }
 }

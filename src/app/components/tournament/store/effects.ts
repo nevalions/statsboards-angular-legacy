@@ -58,15 +58,15 @@ export class TournamentEffects {
     () => {
       return this.actions$.pipe(
         ofType(tournamentActions.getTournamentsBySportAndSeason),
-        withLatestFrom(this.store.select(selectSportIdAndSeasonId)),
+        switchMap(() => this.store.select(selectSportIdAndSeasonId)),
         filter(
-          ([action, { sportId, seasonId }]) =>
+          ({ sportId, seasonId }) =>
             sportId !== null &&
             sportId !== undefined &&
             seasonId !== null &&
             seasonId !== undefined,
         ),
-        switchMap(([action, { sportId, seasonId }]) =>
+        switchMap(({ sportId, seasonId }) =>
           this.tournamentService
             .fetchTournamentsBySportAndSeasonId({
               sport_id: sportId!,

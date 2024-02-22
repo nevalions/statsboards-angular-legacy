@@ -29,18 +29,19 @@
           <!--        @for (t of tours; track t.id) {-->
             <!--          {{ t.id }} {{ t.title }}-->
             <!--        }-->
-          <app-pagination-with-items-per-page
-            [items$]="tournaments$"
-          ></app-pagination-with-items-per-page>
+            <!--          <app-pagination-with-items-per-page-->
+            <!--            [items$]="tournaments$"-->
+            <!--          ></app-pagination-with-items-per-page>-->
 
-          <app-form-search-text
-            [data$]="tournaments$"
-            [searchTitle]="'tournament title'"
-            [parameter]="'title'"
-          ></app-form-search-text>
+            <!--          <app-form-search-text-->
+            <!--            [data$]="tournaments$"-->
+            <!--            [searchTitle]="'tournament title'"-->
+            <!--            [parameter]="'title'"-->
+            <!--          ></app-form-search-text>-->
 
           <app-island-list-of-tournaments
-            [data$]="paginationService.paginatedItems$"
+            [data]="tours"
+            [data$]="tournaments$"
             [formatPath]="tournamentItemHref"
           ></app-island-list-of-tournaments>
 

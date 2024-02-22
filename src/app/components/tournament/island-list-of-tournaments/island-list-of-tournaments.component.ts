@@ -19,6 +19,7 @@ export class IslandListOfTournamentsComponent {
   @Input() paragraphProperty: keyof ITournament = 'description';
 
   // Initialize with an empty array
+  @Input() data: ITournament[] = [];
   @Input() data$: Observable<ITournament[]> = of({} as ITournament[]);
   @Input() _size: TuiSizeL | TuiSizeS = 'l';
   @Input() hoverable: boolean = true;

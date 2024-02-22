@@ -12,6 +12,7 @@ import { Store } from '@ngrx/store';
 import { SportState } from '../store/reducers';
 import { sportActions } from '../store/actions';
 import { AppState } from '../../../store/appstate';
+import { ItemSportWithSeasonComponent } from './item-sport-with-season/item-sport-with-season.component';
 
 @Component({
   selector: 'app-item-sport',
@@ -27,6 +28,7 @@ import { AppState } from '../../../store/appstate';
     ListOfItemsIslandComponent,
     RouterOutlet,
     TuiLoaderModule,
+    ItemSportWithSeasonComponent,
   ],
   templateUrl: './item-sport.component.html',
   styleUrl: './item-sport.component.less',
@@ -36,9 +38,9 @@ export class ItemSportComponent {
   sport$: Observable<ISport | null | undefined> = this.store.select(
     (state) => state.sport.currentSport,
   );
-  sportId$: Observable<number | null | undefined> = this.store.select(
-    (state) => state.sport.currentSport?.id,
-  );
+  // sportId$: Observable<number | null | undefined> = this.store.select(
+  //   (state) => state.sport.currentSport?.id,
+  // );
 
   constructor() {
     this.store.dispatch(sportActions.getId());
