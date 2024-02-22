@@ -1,16 +1,28 @@
 import { createActionGroup, emptyProps, props } from '@ngrx/store';
-import { ITeamTournament } from '../../../type/team.type';
+import { ITeam, ITeamTournament } from '../../../type/team.type';
+import { ITournament } from '../../../type/tournament.type';
 
 export const teamTournamentActions = createActionGroup({
   source: 'teamTournament',
   events: {
     Create: props<{ request: ITeamTournament }>(),
-    'Created successfully': props<{ currentTeamTournament: ITeamTournament }>(),
+    'Created successfully': props<{
+      currentTeamTournament: ITeamTournament;
+    }>(),
     'Create failure': emptyProps(),
 
     Get: props<{ id: number }>(),
     'Get item success': props<{ teamTournament: ITeamTournament }>(),
     'Get item failure': emptyProps(),
+
+    GetConnectionByTeamIdTournamentId: props<{
+      teamId: number;
+      tournamentId: number;
+    }>(),
+    'Get connection by team id and tournament id success': props<{
+      teamTournament: ITeamTournament;
+    }>(),
+    'Get connection by team id and tournament id failure': emptyProps(),
 
     GetAll: emptyProps(),
     'Get all items success': props<{ teamTournaments: ITeamTournament[] }>(),
@@ -20,8 +32,8 @@ export const teamTournamentActions = createActionGroup({
     'Updated successfully': props<{ updatedTeamTournament: ITeamTournament }>(),
     'Update failure': emptyProps(),
 
-    Delete: props<{ id: number }>(),
-    'Deleted successfully': props<{ id: number }>(),
+    Delete: props<{ id: number; team_id: number }>(),
+    'Deleted successfully': props<{ id: number; team_id: number }>(),
     'Delete failure': emptyProps(),
   },
 });

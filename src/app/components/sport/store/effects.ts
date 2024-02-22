@@ -1,11 +1,21 @@
 import { Injectable } from '@angular/core';
-import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { catchError, map, mergeMap, of, switchMap } from 'rxjs';
+import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
+import {
+  catchError,
+  filter,
+  map,
+  mergeMap,
+  of,
+  switchMap,
+  withLatestFrom,
+} from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { SportService } from '../sport.service';
 import { ISport } from '../../../type/sport.type';
 import { sportActions } from './actions';
+import { Store } from '@ngrx/store';
+import { getRouterSelectors } from '@ngrx/router-store';
 
 @Injectable()
 export class SportEffects {
@@ -51,27 +61,56 @@ export class SportEffects {
     { functional: true },
   );
 
-  getSportByIdEffect = createEffect(
-    () => {
-      return this.actions$.pipe(
-        ofType(sportActions.get), // You will have to define this action
-        switchMap(({ id }) => {
-          return this.sportService.findById(id).pipe(
-            // Assuming you have a getTournaments method in your service
-            map((sport: ISport) => {
-              return sportActions.getItemSuccess({
-                sport,
-              });
-            }),
-            catchError(() => {
-              return of(sportActions.getItemFailure());
-            }),
-          );
-        }),
-      );
-    },
-    { functional: true },
-  );
+  getSportByIdEffect = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(sportActions.get),
+      switchMap(() => {
+        return this.store.select(
+          getRouterSelectors().selectRouteParam('sport_id'),
+        );
+      }),
+      map((id) => id ?? ''),
+      filter((id: string) => id !== ''),
+      map((id: string) => {
+        return Number(id);
+      }),
+      switchMap((_id: number) => {
+        return this.sportService.findById(_id).pipe(
+          map((sport: ISport) => {
+            return sportActions.getItemSuccess({ sport });
+          }),
+          catchError(() => {
+            return of(sportActions.getItemFailure());
+          }),
+        );
+      }),
+    );
+  });
+
+  // getSportByIdEffect = createEffect(
+  //   () => {
+  //   return this.actions$.pipe(
+  //     ofType(sportActions.get),
+  //     withLatestFrom(
+  //       this.store.select(getRouterSelectors().selectRouteParam('sport_id')).pipe(
+  //         filter((id) => typeof id === 'string' && !isNaN(Number(id))),
+  //         map((id) => ({ id: Number(id) } as { id: number }),),
+  //     ),
+  //     switchMap((id) => {
+  //       return this.sportService.findById(id).pipe(
+  //           map((sport: ISport) => {
+  //             return sportActions.getItemSuccess({
+  //               sport,
+  //             });
+  //           }),
+  //           catchError(() => {
+  //             return of(sportActions.getItemFailure());
+  //           }),
+  //         );
+  //
+  //     }),
+  //   );
+  // });
 
   // getSeasonByYearEffect = createEffect(
   //   () => {
@@ -155,5 +194,6 @@ export class SportEffects {
     private router: Router,
     private actions$: Actions,
     private sportService: SportService,
+    private store: Store,
   ) {}
 }

@@ -95,6 +95,21 @@ export class TeamTournamentService extends BaseApiService<ITeamTournament> {
     );
   }
 
+  addTeamTournamentState(
+    newTeamTournament: ITeamTournament,
+  ): Observable<ITeamTournament> {
+    return this.addItem(
+      newTeamTournament,
+      `${newTeamTournament.team_id}in${newTeamTournament.tournament_id}`,
+    ).pipe(
+      tap((team_tournament) => {
+        console.log('CONNECTION TEAM WITH TOURNAMENT ADDED', team_tournament);
+        let updated = [...this.teamTournamentSubject.value, team_tournament];
+        this.teamTournamentSubject.next(updated);
+      }),
+    );
+  }
+
   deleteTeamTournament(teamId: number, tournamentId: number): Observable<any> {
     return new Observable<any>((subscriber) => {
       this.fetchTeamTournament(teamId, tournamentId).subscribe({

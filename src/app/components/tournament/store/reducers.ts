@@ -6,7 +6,6 @@ import {
 import { tournamentActions } from './actions';
 import { ITournament } from '../../../type/tournament.type';
 import { SortService } from '../../../services/sort.service';
-import { ISport } from '../../../type/sport.type';
 
 export interface TournamentState extends crudStoreInterface {
   currentTournament: ITournament | undefined | null;

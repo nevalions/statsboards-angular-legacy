@@ -155,6 +155,31 @@ const teamFeature = createFeature({
       isLoading: false,
       errors: action,
     })),
+
+    on(teamActions.addTeamToTournament, (state, { team_id }) => {
+      const teamToAdd = state.allTeamsInSport.find(
+        (team) => team.id === team_id,
+      );
+      if (!teamToAdd) {
+        // console.log(state.allTeamsInSport);
+        console.log(`No team found with id: ${team_id}`);
+        return state;
+      }
+      // console.log(`Team with id: ${team_id} added to the tournament.`);
+      const newList = [...state.allTeamsInTournament, teamToAdd];
+      const sortedList = SortService.sort(newList, 'title');
+      return {
+        ...state,
+        allTeamsInTournament: sortedList,
+      };
+    }),
+
+    on(teamActions.removeTeamFromTournament, (state, action) => ({
+      ...state,
+      allTeamsInTournament: state.allTeamsInTournament.filter(
+        (team) => team.id !== action.id,
+      ),
+    })),
   ),
 });
 

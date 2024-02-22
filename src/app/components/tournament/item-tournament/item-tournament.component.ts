@@ -22,10 +22,8 @@ import {
   TuiHintModule,
   TuiLoaderModule,
 } from '@taiga-ui/core';
-import { ActivatedRoute, Params, Router } from '@angular/router';
-import { TournamentService } from '../tournament.service';
-import { filter, map, Observable, of, take } from 'rxjs';
-
+import { ActivatedRoute, Params, Router, RouterOutlet } from '@angular/router';
+import { first, Observable, of, take } from 'rxjs';
 import { IMatch, IMatchFullData } from '../../../type/match.type';
 import { ListOfMatchesComponent } from '../../../shared/ui/list-of-matches/list-of-matches.component';
 import { CreateButtonComponent } from '../../../shared/ui/buttons/create-button/create-button.component';
@@ -45,29 +43,22 @@ import { PaginationService } from '../../../services/pagination.service';
 import { FormSearchTextComponent } from '../../../shared/ui/forms/form-search-text/form-search-text.component';
 import { paginationWithItemsPerPage } from '../../../shared/ui/pagination/pagination-with-items-per-page/pagination-with-items-per-page.component';
 import { FormSearchAutoCompleteComponent } from '../../../shared/ui/forms/form-search-auto-complete/form-search-auto-complete.component';
-import { SeasonService } from '../../season/season.service';
-
 import { TournamentDeleteFormComponent } from '../tournament-delete-form/tournament-delete-form.component';
 import { DeleteDialogComponent } from '../../../shared/ui/dialogs/delete-dialog/delete-dialog.component';
 import { AddEditMatchComponent } from '../../match/add-edit-match/add-edit-match.component';
 import { MatchService } from '../../match/match.service';
 import { MatchFullDataService } from '../../match/matchfulldata.service';
-import { TeamTournamentService } from '../../team-tournament/team-tournament.service';
-import { AddTeamToTournamentComponent } from '../../team-tournament/add-team-to-tournament/add-team-to-tournament.component';
-
+import { AddTeamToTournamentComponent } from './add-team-to-tournament/add-team-to-tournament.component';
 import { DeleteButtonComponent } from '../../../shared/ui/buttons/delete-button/delete-button.component';
 import { DeleteButtonIconComponent } from '../../../shared/ui/buttons/delete-button-icon/delete-button-icon.component';
-
 import { RemoveDialogComponent } from '../../../shared/ui/dialogs/remove-dialog/remove-dialog.component';
 import { CreateButtonShowDialogComponent } from '../../../shared/ui/buttons/create-button-show-dialog/create-button-show-dialog.component';
 import { AddItemDialogFromListComponent } from '../../../shared/ui/dialogs/add-item-dialog-from-list/add-item-dialog-from-list.component';
-import { select, Store } from '@ngrx/store';
-import { TournamentState } from '../store/reducers';
+import { Store } from '@ngrx/store';
 import { tournamentActions } from '../store/actions';
-import * as fromRouter from '@ngrx/router-store';
-
-import { TeamState } from '../../team/store/reducers';
 import { teamActions } from '../../team/store/actions';
+import { teamTournamentActions } from '../../team-tournament/store/actions';
+import { AppState } from '../../../shared/state/appstate';
 
 @Component({
   selector: 'app-item-tournament',
@@ -108,6 +99,7 @@ import { teamActions } from '../../team/store/actions';
     RemoveDialogComponent,
     CreateButtonShowDialogComponent,
     AddItemDialogFromListComponent,
+    RouterOutlet,
   ],
   templateUrl: './item-tournament.component.html',
   styleUrl: './item-tournament.component.less',
@@ -115,42 +107,48 @@ import { teamActions } from '../../team/store/actions';
   changeDetection: ChangeDetectionStrategy.Default,
 })
 export class ItemTournamentComponent implements OnInit {
-  tournamentStore: Store<{ tournament: TournamentState }> = inject(Store);
-  teamStore: Store<{ team: TeamState }> = inject(Store);
+  store: Store<AppState> = inject(Store);
+  // tournamentStore: Store<{ tournament: TournamentState }> = inject(Store);
+  // teamStore: Store<{ team: TeamState }> = inject(Store);
+  // teamTournamentStore: Store<{ teamTournament: TeamTournamentState }> =
+  //   inject(Store);
+  allSportTeams$ = this.store.select((state) => state.team.allTeamsInSport);
 
-  teamsInTournament$ = this.teamStore.select(
+  teamsInTournament$ = this.store.select(
     (state) => state.team.allTeamsInTournament,
   );
-  tournament$ = this.tournamentStore.select(
+  tournament$ = this.store.select(
     (state) => state.tournament.currentTournament,
   );
+  // tournament$ = this.tournamentStore.select(
+  //   (state) => state.tournament.currentTournament,
+  // );
+  teamTournamentConnection$ = this.store.select(
+    (state) => state.teamTournament.currentTeamTournament,
+  );
 
-  // routeId$: Observable<string | undefined> = this.tournamentStore.select(
+  private route = inject(ActivatedRoute);
+  private router = inject(Router);
+  // private tournamentService = inject(TournamentService);
+  // private seasonService = inject(SeasonService);
+  matchService = inject(MatchService);
+
+  //   routeId$: Observable<string | undefined> = this.store.select(
   //   fromRouter.getRouterSelectors().selectRouteParam('id'),
   // );
   // routeParams$: Observable<Params> = this.tournamentStore.select(
   //   fromRouter.getRouterSelectors().selectRouteParams,
   // );
 
-  private route = inject(ActivatedRoute);
-  private router = inject(Router);
-  private tournamentService = inject(TournamentService);
-  private seasonService = inject(SeasonService);
-  matchService = inject(MatchService);
-
   matchWithFullDataService = inject(MatchFullDataService);
-  // teamTournamentService = inject(TeamTournamentService);
 
   searchListService = inject(SearchListService);
   paginationService = inject(PaginationService);
 
-  // tournament$: Observable<ITournament> = of({} as ITournament);
   tournamentId!: number;
 
   matchesWithFullData$: Observable<IMatchFullData[]> =
     this.matchWithFullDataService.matchesWithFullData$;
-
-  // teamsInTournament$ = this.teamTournamentService.teamsInTournament$;
 
   readonly formWeek = new FormGroup({
     matchWeekSearch: new FormControl(1),
@@ -173,18 +171,16 @@ export class ItemTournamentComponent implements OnInit {
   }
 
   loadTournament(id: number) {
-    // console.log(id);
-    this.tournamentStore.dispatch(tournamentActions.get({ id: id }));
+    this.store.dispatch(tournamentActions.get({ id: id }));
   }
 
   loadTeamsInTournament(id: number) {
     // console.log(id);
-    this.teamStore.dispatch(teamActions.getTeamsByTournamentId({ id: id }));
+    this.store.dispatch(teamActions.getTeamsByTournamentId({ id: id }));
   }
 
   loadTeamsInSport(id: number) {
-    // console.log(id);
-    this.teamStore.dispatch(teamActions.getTeamsBySportId({ id: id }));
+    this.store.dispatch(teamActions.getTeamsBySportId({ id: id }));
   }
 
   ngOnInit() {
@@ -197,12 +193,8 @@ export class ItemTournamentComponent implements OnInit {
       if (tournamentId && seasonId && sportId) {
         this.tournamentId = Number(tournamentId);
         this.loadTournament(Number(tournamentId));
-        // this.loadTeamsInSport(Number(tournamentId));
+        this.loadTeamsInSport(Number(sportId));
         this.loadTeamsInTournament(Number(tournamentId));
-
-        // this.teamTournamentService.refreshTeamsInTournament(
-        //   Number(tournamentId),
-        // );
 
         this.matchWithFullDataService.refreshMatchesWithDataInTournament(
           this.tournamentId,
@@ -222,30 +214,6 @@ export class ItemTournamentComponent implements OnInit {
     });
   }
 
-  //   this.route.params
-  //     .pipe(takeUntil(this.ngUnsubscribe))
-  //     .subscribe((params: Params) => {
-  //       const t_id = Number([params['id']]);
-  //       this.tournamentId = t_id;
-  //       // this.tournament$ = this.tournamentService.findById(this.tournamentId);
-  //       this.tournamentStore.dispatch(tournamentActions.get({ id: t_id }));
-  //
-  //       this.teamTournamentService.refreshTeamsInTournament(t_id);
-  //       this.matchWithFullDataService.refreshMatchesWithDataInTournament(
-  //         this.tournamentId,
-  //       );
-  //     });
-  //
-  //   this.matchWithFullDataService.matchesWithFullData$
-  //     .pipe(takeUntil(this.ngUnsubscribe))
-  //     .subscribe((matches: IMatchFullData[]) => {
-  //       this.searchListService.updateData(of(matches));
-  //       this.paginationService.initializePagination(
-  //         this.searchListService.filteredData$,
-  //       );
-  //     });
-  //
-  //   this.onSearch();
   // }
 
   onSearch() {
@@ -268,7 +236,7 @@ export class ItemTournamentComponent implements OnInit {
       if (currentItem) {
         const { id, sport_id, season_id } = currentItem;
 
-        this.tournamentStore.dispatch(
+        this.store.dispatch(
           tournamentActions.delete({
             id: id!,
             sportId: sport_id,
@@ -277,28 +245,6 @@ export class ItemTournamentComponent implements OnInit {
         );
       }
     });
-
-    // this.tournament$
-    //   .pipe(
-    //     switchMap((tournament) =>
-    //       this.seasonService
-    //         .findById(tournament.season_id)
-    //         .pipe(
-    //           switchMap((season) =>
-    //             this.tournamentService
-    //               .deleteTournament(tournament.id!)
-    //               .pipe(map(() => ({ tournament, season }))),
-    //           ),
-    //         ),
-    //     ),
-    //   )
-    //   .subscribe(({ tournament, season }) => {
-    //     const sport_id = tournament.sport_id;
-    //     const year = season.year;
-    //     this.router.navigateByUrl(
-    //       `/sports/id/${sport_id}/seasons/${year}/tournaments`,
-    //     );
-    //   });
   }
 
   onMatchAdd(match: IMatch | null | undefined): void {
@@ -310,9 +256,22 @@ export class ItemTournamentComponent implements OnInit {
   }
 
   onTeamRemoveFromTournament(teamId: number, tournamentId: number) {
-    // this.teamTournamentService
-    //   .deleteTeamTournament(teamId, tournamentId)
-    //   .subscribe();
+    this.store.dispatch(
+      teamTournamentActions.getConnectionByTeamIdTournamentId({
+        teamId: teamId,
+        tournamentId: tournamentId,
+      }),
+    );
+    this.teamTournamentConnection$.pipe(take(1)).subscribe((connection) => {
+      if (connection?.id) {
+        this.store.dispatch(
+          teamTournamentActions.delete({
+            id: connection.id,
+            team_id: teamId,
+          }),
+        );
+      }
+    });
   }
 
   readonly stringify = (match: IMatchFullData): string =>
@@ -326,3 +285,57 @@ export class ItemTournamentComponent implements OnInit {
       .toLowerCase()
       .includes(search.toLowerCase()) ?? false;
 }
+
+// routeId$: Observable<string | undefined> = this.tournamentStore.select(
+//   fromRouter.getRouterSelectors().selectRouteParam('id'),
+// );
+// routeParams$: Observable<Params> = this.tournamentStore.select(
+//   fromRouter.getRouterSelectors().selectRouteParams,
+// );
+
+// this.tournament$
+//   .pipe(
+//     switchMap((tournament) =>
+//       this.seasonService
+//         .findById(tournament.season_id)
+//         .pipe(
+//           switchMap((season) =>
+//             this.tournamentService
+//               .deleteTournament(tournament.id!)
+//               .pipe(map(() => ({ tournament, season }))),
+//           ),
+//         ),
+//     ),
+//   )
+//   .subscribe(({ tournament, season }) => {
+//     const sport_id = tournament.sport_id;
+//     const year = season.year;
+//     this.router.navigateByUrl(
+//       `/sports/id/${sport_id}/seasons/${year}/tournaments`,
+//     );
+//   });
+
+//   this.route.params
+//     .pipe(takeUntil(this.ngUnsubscribe))
+//     .subscribe((params: Params) => {
+//       const t_id = Number([params['id']]);
+//       this.tournamentId = t_id;
+//       // this.tournament$ = this.tournamentService.findById(this.tournamentId);
+//       this.tournamentStore.dispatch(tournamentActions.get({ id: t_id }));
+//
+//       this.teamTournamentService.refreshTeamsInTournament(t_id);
+//       this.matchWithFullDataService.refreshMatchesWithDataInTournament(
+//         this.tournamentId,
+//       );
+//     });
+//
+//   this.matchWithFullDataService.matchesWithFullData$
+//     .pipe(takeUntil(this.ngUnsubscribe))
+//     .subscribe((matches: IMatchFullData[]) => {
+//       this.searchListService.updateData(of(matches));
+//       this.paginationService.initializePagination(
+//         this.searchListService.filteredData$,
+//       );
+//     });
+//
+//   this.onSearch();

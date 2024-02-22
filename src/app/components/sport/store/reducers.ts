@@ -5,8 +5,8 @@ import {
 import { createFeature, createReducer, on } from '@ngrx/store';
 import { SortService } from '../../../services/sort.service';
 import { ISport } from '../../../type/sport.type';
-
 import { sportActions } from './actions';
+import { selectRouteParam } from '../../../router/router.selector';
 
 export interface SportState extends crudStoreInterface {
   currentSport: ISport | undefined | null;

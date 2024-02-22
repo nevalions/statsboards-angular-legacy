@@ -1,5 +1,5 @@
 import { createActionGroup, emptyProps, props } from '@ngrx/store';
-import { ITeam } from '../../../type/team.type';
+import { ITeam, ITeamTournament } from '../../../type/team.type';
 
 export const teamActions = createActionGroup({
   source: 'team',
@@ -23,6 +23,9 @@ export const teamActions = createActionGroup({
     GetTeamsByTournamentId: props<{ id: number }>(),
     'Get teams by tournament ID success': props<{ teams: ITeam[] }>(),
     'Get teams by tournament ID failure': emptyProps(),
+
+    addTeamToTournament: props<{ team_id: number }>(),
+    removeTeamFromTournament: props<{ id: number }>(),
 
     Update: props<{ id: number; newTeamData: ITeam }>(),
     'Updated successfully': props<{ updatedTeam: ITeam }>(),

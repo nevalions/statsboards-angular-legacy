@@ -62,7 +62,7 @@ export class TournamentService extends BaseApiService<ITournament> {
     return this.http
       .get<IMatchFullData[]>(`${this.endpoint}/id/${id}/matches/all/data`)
       .pipe(
-        tap((items) => console.log(`TEAMS from TOURNAMENT ID ${id}`, items)),
+        tap((items) => console.log(`MATCHES from TOURNAMENT ID ${id}`, items)),
         map((data) =>
           SortService.sort(data, 'match.week', '-match.match_date'),
         ),

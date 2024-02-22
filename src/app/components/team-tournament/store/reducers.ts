@@ -7,12 +7,12 @@ import { SortService } from '../../../services/sort.service';
 import { ITeamTournament } from '../../../type/team.type';
 import { teamTournamentActions } from './actions';
 
-export interface SportState extends crudStoreInterface {
+export interface TeamTournamentState extends crudStoreInterface {
   currentTeamTournament: ITeamTournament | undefined | null;
   allTeamTournament: ITeamTournament[];
 }
 
-const initialState: SportState = {
+const initialState: TeamTournamentState = {
   ...getDefaultCrudStore(),
   currentTeamTournament: null,
   allTeamTournament: [],
@@ -103,6 +103,27 @@ const teamTournamentFeature = createFeature({
       isLoading: false,
       errors: action,
     })),
+
+    on(teamTournamentActions.getConnectionByTeamIdTournamentId, (state) => ({
+      ...state,
+      isLoading: true,
+    })),
+    on(
+      teamTournamentActions.getConnectionByTeamIdAndTournamentIdSuccess,
+      (state, action) => ({
+        ...state,
+        isLoading: false,
+        currentTeamTournament: action.teamTournament,
+      }),
+    ),
+    on(
+      teamTournamentActions.getConnectionByTeamIdAndTournamentIdFailure,
+      (state, action) => ({
+        ...state,
+        isLoading: false,
+        errors: action,
+      }),
+    ),
 
     on(teamTournamentActions.getAll, (state) => ({
       ...state,

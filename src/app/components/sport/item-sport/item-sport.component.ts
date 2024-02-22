@@ -1,8 +1,8 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { ISport } from '../../../type/sport.type';
-import { Observable } from 'rxjs';
+import { Observable, switchMap } from 'rxjs';
 import { AsyncPipe, UpperCasePipe } from '@angular/common';
-import { ActivatedRoute, RouterOutlet } from '@angular/router';
+import { ActivatedRoute, Params, RouterOutlet } from '@angular/router';
 import { TuiBlockStatusModule } from '@taiga-ui/layout';
 import { TuiIslandModule, TuiSelectModule } from '@taiga-ui/kit';
 import { TuiButtonModule, TuiLoaderModule } from '@taiga-ui/core';
@@ -11,6 +11,7 @@ import { ListOfItemsIslandComponent } from '../../../shared/ui/list-of-items-isl
 import { Store } from '@ngrx/store';
 import { SportState } from '../store/reducers';
 import { sportActions } from '../store/actions';
+import { AppState } from '../../../shared/state/appstate';
 
 @Component({
   selector: 'app-item-sport',
@@ -30,35 +31,35 @@ import { sportActions } from '../store/actions';
   templateUrl: './item-sport.component.html',
   styleUrl: './item-sport.component.less',
 })
-export class ItemSportComponent implements OnInit {
-  sportStore: Store<{ sport: SportState }> = inject(Store);
-  sport$: Observable<ISport | null | undefined> = this.sportStore.select(
+export class ItemSportComponent {
+  store: Store<AppState> = inject(Store);
+  sport$: Observable<ISport | null | undefined> = this.store.select(
     (state) => state.sport.currentSport,
   );
-  sportId$: Observable<number | null | undefined> = this.sportStore.select(
+  sportId$: Observable<number | null | undefined> = this.store.select(
     (state) => state.sport.currentSport?.id,
   );
 
-  route = inject(ActivatedRoute);
-  sportId!: number;
-
-  constructor() {}
-
-  loadSport(id: number) {
-    this.sportStore.dispatch(sportActions.get({ id: id }));
+  constructor() {
+    this.store.dispatch(sportActions.get());
   }
 
-  ngOnInit() {
-    this.route.paramMap.subscribe((params) => {
-      let sportId = params.get('sport_id');
-      console.log(sportId);
-      if (sportId) {
-        const id = Number(sportId);
-        this.loadSport(id);
-        this.sportId = id;
-      } else {
-        console.log('Params are empty');
-      }
-    });
-  }
+  //
+  // loadSport(id: number) {
+  //   return this.sportStore.dispatch(sportActions.get({ id: id }));
+  // }
+
+  // ngOnInit() {
+  //   this.route.paramMap.subscribe((params) => {
+  //     let sportId = params.get('sport_id');
+  //     console.log(sportId);
+  //     if (sportId) {
+  //       const id = Number(sportId);
+  //       this.loadSport(id);
+  //       this.sportId = id;
+  //     } else {
+  //       console.log('Params are empty');
+  //     }
+  //   });
+  // }
 }

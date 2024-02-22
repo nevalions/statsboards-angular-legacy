@@ -19,7 +19,7 @@ import { TuiButtonModule, TuiDialogModule } from '@taiga-ui/core';
 import { TuiDataListWrapperModule, TuiSelectModule } from '@taiga-ui/kit';
 import { TuiLetModule } from '@taiga-ui/cdk';
 import { DialogService } from '../../../../services/dialog.service';
-import { Observable, of, Subscription } from 'rxjs';
+import { Observable, of, Subject, Subscription, takeUntil } from 'rxjs';
 import { CreateButtonInFormComponent } from '../../buttons/create-button-in-form/create-button-in-form.component';
 import { CancelButtonInFormComponent } from '../../buttons/cancel-button-in-form/cancel-button-in-form.component';
 
@@ -53,7 +53,7 @@ export class AddItemDialogFromListComponent<T> implements OnInit, OnDestroy {
   @Input() dialogId: string = 'addDialog';
   @Output() add = new EventEmitter<T | null | undefined>();
 
-  private dialogSubscription: Subscription | undefined;
+  private destroy$ = new Subject<void>();
 
   open: boolean = false;
 
@@ -62,31 +62,33 @@ export class AddItemDialogFromListComponent<T> implements OnInit, OnDestroy {
   });
 
   ngOnInit(): void {
-    // console.log(this.dialogId); // logging dialogId
-    this.dialogSubscription = this.dialogService
+    this.dialogService
       .getDialogEvent(this.dialogId)
+      .pipe(takeUntil(this.destroy$))
       .subscribe(() => {
         this.showDialog(true);
       });
   }
 
   showDialog(open: boolean): void {
+    console.log(`Add Dialog ${open ? 'opened' : 'closed'}`);
     this.open = open;
   }
 
   onSubmit(): void {
     if (this.itemAddForm.valid) {
+      console.log('Emitting add event');
       this.add.emit(this.itemAddForm.get('itemToAdd')?.value);
       this.itemAddForm.reset();
       this.showDialog(false); // close the dialog
     } else {
+      console.log('Form not valid, emitting null');
       this.add.emit(null);
     }
   }
 
   ngOnDestroy(): void {
-    if (this.dialogSubscription) {
-      this.dialogSubscription.unsubscribe();
-    }
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

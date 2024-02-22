@@ -29,6 +29,8 @@ import {
   sportReducer,
 } from './components/sport/store/reducers';
 import { SportEffects } from './components/sport/store/effects';
+import { AppState } from './shared/state/appstate';
+import { ROUTER_FEATURE_KEY } from './router/router.selector';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -49,6 +51,7 @@ export const appConfig: ApplicationConfig = {
     provideStore({ router: routerReducer }),
     provideEffects(),
     provideRouterStore(),
+    provideState(ROUTER_FEATURE_KEY, routerReducer),
     provideState(sportFeatureKey, sportReducer),
     provideEffects(SportEffects),
     provideStoreDevtools({

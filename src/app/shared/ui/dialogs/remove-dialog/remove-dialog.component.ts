@@ -17,7 +17,7 @@ import { TuiButtonModule, TuiDialogModule } from '@taiga-ui/core';
 import { TuiCheckboxLabeledModule } from '@taiga-ui/kit';
 import { UpperCasePipe } from '@angular/common';
 import { DialogService } from '../../../../services/dialog.service';
-import { Subscription } from 'rxjs';
+import { Subject, Subscription, takeUntil } from 'rxjs';
 import { CancelButtonInFormComponent } from '../../buttons/cancel-button-in-form/cancel-button-in-form.component';
 import { DeleteButtonInFormComponent } from '../../buttons/delete-button-in-form/delete-button-in-form.component';
 
@@ -45,7 +45,7 @@ export class RemoveDialogComponent implements OnInit, OnDestroy {
   @Input() dialogId: string = 'removeDialog';
   @Output() delete = new EventEmitter<void>();
 
-  private dialogSubscription: Subscription | undefined;
+  private destroy$ = new Subject<void>();
 
   itemDeleteForm = new FormGroup({
     checkboxToAction: new FormControl(false),
@@ -56,25 +56,30 @@ export class RemoveDialogComponent implements OnInit, OnDestroy {
   constructor() {}
 
   ngOnInit(): void {
-    // console.log(this.dialogId); // logging dialogId
-    this.dialogSubscription = this.dialogService
+    this.dialogService
       .getDialogEvent(this.dialogId)
+      .pipe(takeUntil(this.destroy$))
       .subscribe(() => {
         this.showDialog(true);
       });
   }
 
   showDialog(open: boolean): void {
+    console.log(`Remove Dialog ${open ? 'opened' : 'closed'}`);
     this.open = open;
   }
 
   onSubmit(): void {
-    this.delete.emit();
+    if (this.open) {
+      console.log('Emitting remove event');
+      this.delete.emit();
+      this.itemDeleteForm.reset();
+      this.showDialog(false);
+    }
   }
 
   ngOnDestroy(): void {
-    if (this.dialogSubscription) {
-      this.dialogSubscription.unsubscribe();
-    }
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

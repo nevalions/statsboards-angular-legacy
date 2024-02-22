@@ -130,9 +130,10 @@
             [dialogId]="'addTeamToTournamentDialog' + tournament.id"
           ></app-create-button-show-dialog>
           <app-add-team-to-tournament
-            [tournamentId]="tournament.id!"
-            [sportId]="tournament.sport_id"
+            [tournamentId]="tournamentId"
             [dialogId]="'addTeamToTournamentDialog' + tournament.id"
+            [allSportTeams$]="allSportTeams$"
+            [teamsInTournament$]="teamsInTournament$"
           ></app-add-team-to-tournament>
         }
       </aside>

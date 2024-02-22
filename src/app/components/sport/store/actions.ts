@@ -1,5 +1,7 @@
 import { createActionGroup, emptyProps, props } from '@ngrx/store';
 import { ISport } from '../../../type/sport.type';
+import { Params } from '@angular/router';
+import { Observable } from 'rxjs';
 
 export const sportActions = createActionGroup({
   source: 'sport',
@@ -8,13 +10,9 @@ export const sportActions = createActionGroup({
     'Created successfully': props<{ currentSport: ISport }>(),
     'Create failure': emptyProps(),
 
-    Get: props<{ id: number }>(),
+    Get: emptyProps(),
     'Get item success': props<{ sport: ISport }>(),
     'Get item failure': emptyProps(),
-
-    // GetSeasonByYear: props<{ year: number }>(),
-    // 'Get season by year success': props<{ sport: ISport }>(),
-    // 'Get season by year failure': emptyProps(),
 
     GetAll: emptyProps(),
     'Get all items success': props<{ sports: ISport[] }>(),

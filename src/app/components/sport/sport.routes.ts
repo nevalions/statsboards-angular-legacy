@@ -22,6 +22,11 @@ import { ItemTournamentComponent } from '../tournament/item-tournament/item-tour
 import { teamActions } from '../team/store/actions';
 import { teamFeatureKey, teamReducer } from '../team/store/reducers';
 import { TeamEffects } from '../team/store/effects';
+import { TeamTournamentEffects } from '../team-tournament/store/effects';
+import {
+  teamTournamentFeatureKey,
+  teamTournamentReducer,
+} from '../team-tournament/store/reducers';
 
 export const SPORT_ROUTES: Routes = [
   { path: '', component: SportComponent },
@@ -55,7 +60,8 @@ export const SPORT_ROUTES: Routes = [
     providers: [
       provideState(teamFeatureKey, teamReducer),
       provideState(tournamentFeatureKey, tournamentReducer),
-      provideEffects(TournamentEffects, TeamEffects),
+      provideState(teamTournamentFeatureKey, teamTournamentReducer),
+      provideEffects(TournamentEffects, TeamEffects, TeamTournamentEffects),
     ],
     // children: [
     //   {
