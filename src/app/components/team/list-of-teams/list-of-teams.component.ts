@@ -24,6 +24,7 @@ import { AddEditTeamComponent } from '../add-edit-team/add-edit-team.component';
 import { SportService } from '../../sport/sport.service';
 import { TeamService } from '../team.service';
 import { ListOfTeamsWithCityComponent } from '../list-of-teams-with-city/list-of-teams-with-city.component';
+import { Team } from '../team';
 
 @Component({
   selector: 'app-list-of-teams',
@@ -51,23 +52,28 @@ import { ListOfTeamsWithCityComponent } from '../list-of-teams-with-city/list-of
   styleUrl: './list-of-teams.component.less',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ListOfTeamsComponent implements OnInit {
-  searchListService = inject(SearchListService);
-  paginationService = inject(PaginationService);
-  teamService = inject(TeamService);
+export class ListOfTeamsComponent {
+  // searchListService = inject(SearchListService);
+  // paginationService = inject(PaginationService);
+  // teamService = inject(TeamService);
+  // teams$ = this.team.teamsInSport$;
+
+  // constructor(private team: Team) {
+  //   team.loadAllTeamsInSport();
+  // }
+
+  @Input() teams: ITeam[] = [];
 
   @Input() sportId!: number;
-
   @Input() emptyMessage: string = 'No teams available';
-  @Input() teams$: Observable<ITeam[]> = of([]);
 
   @Input() formatPath: (item: ITeam) => string = () => '';
   @Input() titleProperty: keyof ITeam = 'id';
 
-  ngOnInit() {
-    this.searchListService.updateData(this.teams$);
-    this.paginationService.initializePagination(
-      this.searchListService.filteredData$,
-    );
-  }
+  // ngOnInit() {
+  //   this.searchListService.updateData(this.teams$);
+  //   this.paginationService.initializePagination(
+  //     this.searchListService.filteredData$,
+  //   );
+  // }
 }

@@ -13,7 +13,8 @@ import { ITeam } from '../../../type/team.type';
   styleUrl: './list-of-teams-with-city.component.less',
 })
 export class ListOfTeamsWithCityComponent {
-  @Input() teams$: Observable<ITeam[]> = of([]);
+  // @Input() teams$: Observable<ITeam[]> = of([]);
+  @Input() teams: ITeam[] = [];
 
   @Input() formatPath: (item: ITeam) => string = () => '';
   @Input() titleProperty: keyof ITeam = 'title';

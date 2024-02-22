@@ -55,10 +55,16 @@ export const SPORT_ROUTES: Routes = [
     path: ':sport_id/season/:season_id/tournament/:tournament_id',
     component: ItemTournamentComponent,
     providers: [
+      provideState(seasonFeatureKey, seasonReducer),
       provideState(teamFeatureKey, teamReducer),
       provideState(tournamentFeatureKey, tournamentReducer),
       provideState(teamTournamentFeatureKey, teamTournamentReducer),
-      provideEffects(TournamentEffects, TeamEffects, TeamTournamentEffects),
+      provideEffects(
+        SeasonEffects,
+        TournamentEffects,
+        TeamEffects,
+        TeamTournamentEffects,
+      ),
     ],
   },
 ];

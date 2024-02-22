@@ -11,10 +11,14 @@ import { teamActions } from './store/actions';
 export class Team {
   team$: Observable<ITeam | null | undefined>;
   teamsInSport$: Observable<ITeam[]>;
+  teamsInTournament$: Observable<ITeam[]>;
 
   constructor(private store: Store<AppState>) {
     this.team$ = store.select((state) => state.team.currentTeam);
     this.teamsInSport$ = store.select((state) => state.team.allTeamsInSport);
+    this.teamsInTournament$ = store.select(
+      (state) => state.team.allTeamsInTournament,
+    );
   }
 
   loadCurrentTeam(id: number) {
@@ -23,6 +27,10 @@ export class Team {
 
   loadAllTeamsInSport() {
     this.store.dispatch(teamActions.getTeamsBySportId());
+  }
+
+  loadAllTeamsInTournament() {
+    this.store.dispatch(teamActions.getTeamsByTournamentId());
   }
 
   createTeam(team: ITeam) {

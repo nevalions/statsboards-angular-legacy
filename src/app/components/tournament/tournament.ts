@@ -9,9 +9,13 @@ import { tournamentActions } from './store/actions';
   providedIn: 'root',
 })
 export class Tournament {
+  currentTournament$: Observable<ITournament | null | undefined>;
   allSeasonSportTournaments$: Observable<ITournament[]>;
 
   constructor(private store: Store<AppState>) {
+    this.currentTournament$ = store.select(
+      (state) => state.tournament.currentTournament,
+    );
     this.allSeasonSportTournaments$ = store.select(
       (state) => state.tournament.allSeasonSportTournaments,
     );
@@ -21,7 +25,21 @@ export class Tournament {
     this.store.dispatch(tournamentActions.getTournamentsBySportAndSeason());
   }
 
+  loadCurrentTournament() {
+    this.store.dispatch(tournamentActions.getId());
+  }
+
   createTournament(tournament: ITournament) {
     this.store.dispatch(tournamentActions.create({ request: tournament }));
+  }
+
+  deleteTournament(id: number, sport_id: number, season_id: number) {
+    this.store.dispatch(
+      tournamentActions.delete({
+        id: id!,
+        sportId: sport_id,
+        seasonId: season_id,
+      }),
+    );
   }
 }

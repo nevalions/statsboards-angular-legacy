@@ -110,13 +110,13 @@ export class TeamTournamentEffects {
     () => {
       return this.actions$.pipe(
         ofType(teamTournamentActions.delete),
-        switchMap(({ id, team_id }) => {
+        switchMap(({ id, teamId }) => {
           // const _id = typeof id === 'string' ? Number(id) : id;
           return this.teamTournamentService.deleteItem(id).pipe(
             map(() => {
               return teamTournamentActions.deletedSuccessfully({
                 id: id,
-                team_id: team_id,
+                teamId: teamId,
               });
             }),
             catchError(() => {
@@ -146,7 +146,7 @@ export class TeamTournamentEffects {
     this.actions$.pipe(
       ofType(teamTournamentActions.deletedSuccessfully),
       switchMap((action) =>
-        of(teamActions.removeTeamFromTournament({ id: action.team_id })),
+        of(teamActions.removeTeamFromTournament({ id: action.teamId })),
       ),
     ),
   );

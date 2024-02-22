@@ -28,7 +28,9 @@ export class ListOfItemsIslandComponent<T extends { id: number; p?: string }> {
   @Input() paragraphProperty: keyof T = 'p';
 
   // Initialize with an empty array
-  @Input() data$: Observable<T[]> = of({} as T[]);
+  @Input() data: T[] = [];
+
+  // @Input() data$: Observable<T[]> = of({} as T[]);
   @Input() _size: TuiSizeL | TuiSizeS = 'l';
   @Input() hoverable: boolean = true;
 }

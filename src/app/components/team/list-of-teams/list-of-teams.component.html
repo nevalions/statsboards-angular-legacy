@@ -11,30 +11,30 @@
   }
 </div>
 
-<app-pagination-with-items-per-page
-  [items$]="teams$"
->
-</app-pagination-with-items-per-page>
+<!--<app-pagination-with-items-per-page-->
+<!--  [items$]="teams$"-->
+<!--&gt;-->
+<!--</app-pagination-with-items-per-page>-->
 
-<app-form-search-text
-  [data$]="teams$"
-  [searchTitle]="'team name'"
-  [parameter]="'title'"
-></app-form-search-text>
+<!--<app-form-search-text-->
+<!--  [data$]="teams$"-->
+<!--  [searchTitle]="'team name'"-->
+<!--  [parameter]="'title'"-->
+<!--&gt;</app-form-search-text>-->
 
-@if (teams$ | async) {
-  <app-list-of-teams-with-city
-    [teams$]="paginationService.paginatedItems$"
-    [formatPath]="formatPath"
-    [titleProperty]="titleProperty"
-    [_size]="'l'"
-  ></app-list-of-teams-with-city>
-  <!--  <app-list-of-items-island-->
-    <!--    [data$]="paginationService.paginatedItems$"-->
-    <!--    [formatPath]="formatPath"-->
-    <!--    [titleProperty]="titleProperty">-->
-    <!--  </app-list-of-items-island>-->
-} @else {
-  <tui-loader [inheritColor]="true"></tui-loader>
-}
+<!--@if (teams$ | async; as teams) {-->
+<app-list-of-teams-with-city
+  [teams]="teams"
+  [formatPath]="formatPath"
+  [titleProperty]="titleProperty"
+  [_size]="'l'"
+></app-list-of-teams-with-city>
+<!--  <app-list-of-items-island-->
+<!--    [data$]="paginationService.paginatedItems$"-->
+<!--    [formatPath]="formatPath"-->
+<!--    [titleProperty]="titleProperty">-->
+<!--  </app-list-of-items-island>-->
+<!--} @else {-->
+<!--  <tui-loader [inheritColor]="true"></tui-loader>-->
+<!--}-->
 

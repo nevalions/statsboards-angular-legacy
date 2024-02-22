@@ -14,9 +14,8 @@ import { TeamService } from '../team.service';
   styleUrl: './list-of-teams-small.component.less',
 })
 export class ListOfTeamsSmallComponent {
-  teamService = inject(TeamService);
-
-  @Input() teams$: Observable<ITeam[]> = of([]);
+  // @Input() teams$: Observable<ITeam[]> = of([]);
+  @Input() teams: ITeam[] = [];
 
   @Input() formatPath: (item: ITeam) => string = () => '';
   @Input() titleProperty: keyof ITeam = 'title';

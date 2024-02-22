@@ -36,7 +36,7 @@ import {
 } from '@angular/forms';
 import { TuiValueChangesModule } from '@taiga-ui/cdk';
 import { ListOfTeamsComponent } from '../../team/list-of-teams/list-of-teams.component';
-import { ITeam } from '../../../type/team.type';
+import { ITeam, ITeamTournament } from '../../../type/team.type';
 import { ListOfTeamsSmallComponent } from '../../team/list-of-teams-small/list-of-teams-small.component';
 import { SearchListService } from '../../../services/search-list.service';
 import { PaginationService } from '../../../services/pagination.service';
@@ -61,6 +61,10 @@ import { teamTournamentActions } from '../../team-tournament/store/actions';
 import { AppState } from '../../../store/appstate';
 import { ISport } from '../../../type/sport.type';
 import { sportActions } from '../../sport/store/actions';
+import { Sport } from '../../sport/sport';
+import { Tournament } from '../tournament';
+import { Team } from '../../team/team';
+import { TeamTournament } from '../../team-tournament/teamTournament';
 
 @Component({
   selector: 'app-item-tournament',
@@ -108,29 +112,32 @@ import { sportActions } from '../../sport/store/actions';
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.Default,
 })
-export class ItemTournamentComponent implements OnInit {
-  store: Store<AppState> = inject(Store);
+export class ItemTournamentComponent {
+  // store: Store<AppState> = inject(Store);
   // tournamentStore: Store<{ tournament: TournamentState }> = inject(Store);
   // teamStore: Store<{ team: TeamState }> = inject(Store);
   // teamTournamentStore: Store<{ teamTournament: TeamTournamentState }> =
   //   inject(Store);
-  sport$: Observable<ISport | null | undefined> = this.store.select(
-    (state) => state.sport.currentSport,
-  );
-  allSportTeams$ = this.store.select((state) => state.team.allTeamsInSport);
+  sport$ = this.sport.sport$;
+  allSportTeams$ = this.team.teamsInSport$;
 
-  teamsInTournament$ = this.store.select(
-    (state) => state.team.allTeamsInTournament,
-  );
-  tournament$ = this.store.select(
-    (state) => state.tournament.currentTournament,
-  );
-  // tournament$ = this.tournamentStore.select(
-  //   (store) => store.tournament.currentTournament,
-  // );
-  teamTournamentConnection$ = this.store.select(
-    (state) => state.teamTournament.currentTeamTournament,
-  );
+  teamsInTournament$ = this.team.teamsInTournament$;
+
+  tournament$ = this.tournament.currentTournament$;
+
+  teamTournamentConnection$ = this.teamTournament.teamTournamentConnection$;
+
+  constructor(
+    private sport: Sport,
+    private tournament: Tournament,
+    private team: Team,
+    private teamTournament: TeamTournament,
+  ) {
+    sport.loadCurrentSport();
+    tournament.loadCurrentTournament();
+    team.loadAllTeamsInTournament();
+    team.loadAllTeamsInSport();
+  }
 
   private route = inject(ActivatedRoute);
   private router = inject(Router);
@@ -175,49 +182,49 @@ export class ItemTournamentComponent implements OnInit {
     return `/matches/id/${item.id}`;
   }
 
-  loadTournament() {
-    this.store.dispatch(tournamentActions.getId());
-  }
+  // loadTournament() {
+  //   this.store.dispatch(tournamentActions.getId());
+  // }
+  //
+  // loadTeamsInTournament() {
+  //   this.store.dispatch(teamActions.getTeamsByTournamentId());
+  // }
+  //
+  // loadTeamsInSport() {
+  //   this.store.dispatch(teamActions.getTeamsBySportId());
+  // }
 
-  loadTeamsInTournament() {
-    this.store.dispatch(teamActions.getTeamsByTournamentId());
-  }
-
-  loadTeamsInSport() {
-    this.store.dispatch(teamActions.getTeamsBySportId());
-  }
-
-  ngOnInit() {
-    // this.route.paramMap.subscribe((params) => {
-    //   let tournamentId = params.get('tournament_id');
-    //   let seasonId = params.get('season_id');
-    //   let sportId = params.get('sport_id');
-    //   console.log(tournamentId, seasonId, sportId);
-
-    // if (tournamentId && seasonId && sportId) {
-    //   this.tournamentId = Number(tournamentId);
-    this.store.dispatch(sportActions.getId());
-    this.loadTournament();
-    this.loadTeamsInSport();
-    this.loadTeamsInTournament();
-
-    // this.matchWithFullDataService.refreshMatchesWithDataInTournament(
-    //   this.tournamentId,
-    // );
-    //
-    // this.matchWithFullDataService.matchesWithFullData$.subscribe(
-    //   (matches: IMatchFullData[]) => {
-    //     this.searchListService.updateData(of(matches));
-    //     this.paginationService.initializePagination(
-    //       this.searchListService.filteredData$,
-    //     );
-    //   },
-    // );
-    // } else {
-    //   console.log('Params are empty');
-    // }
-    // });
-  }
+  // ngOnInit() {
+  //   // this.route.paramMap.subscribe((params) => {
+  //   //   let tournamentId = params.get('tournament_id');
+  //   //   let seasonId = params.get('season_id');
+  //   //   let sportId = params.get('sport_id');
+  //   //   console.log(tournamentId, seasonId, sportId);
+  //
+  //   // if (tournamentId && seasonId && sportId) {
+  //   //   this.tournamentId = Number(tournamentId);
+  //   // this.store.dispatch(sportActions.getId());
+  //   // this.loadTournament();
+  //   // this.loadTeamsInSport();
+  //   // this.loadTeamsInTournament();
+  //
+  //   // this.matchWithFullDataService.refreshMatchesWithDataInTournament(
+  //   //   this.tournamentId,
+  //   // );
+  //   //
+  //   // this.matchWithFullDataService.matchesWithFullData$.subscribe(
+  //   //   (matches: IMatchFullData[]) => {
+  //   //     this.searchListService.updateData(of(matches));
+  //   //     this.paginationService.initializePagination(
+  //   //       this.searchListService.filteredData$,
+  //   //     );
+  //   //   },
+  //   // );
+  //   // } else {
+  //   //   console.log('Params are empty');
+  //   // }
+  //   // });
+  // }
 
   // }
 
@@ -240,14 +247,7 @@ export class ItemTournamentComponent implements OnInit {
     this.tournament$.pipe(take(1)).subscribe((currentItem) => {
       if (currentItem) {
         const { id, sport_id, season_id } = currentItem;
-
-        this.store.dispatch(
-          tournamentActions.delete({
-            id: id!,
-            sportId: sport_id,
-            seasonId: season_id,
-          }),
-        );
+        this.tournament.deleteTournament(id!, sport_id, season_id);
       }
     });
   }
@@ -261,22 +261,34 @@ export class ItemTournamentComponent implements OnInit {
   }
 
   onTeamRemoveFromTournament(teamId: number, tournamentId: number) {
-    this.store.dispatch(
-      teamTournamentActions.getConnectionByTeamIdTournamentId({
-        teamId: teamId,
-        tournamentId: tournamentId,
-      }),
+    // this.store.dispatch(
+    //   teamTournamentActions.getConnectionByTeamIdTournamentId({
+    //     teamId: teamId,
+    //     tournamentId: tournamentId,
+    //   }),
+    // );
+    this.teamTournament.loadConnectionByTeamAndTournamentId(
+      teamId,
+      tournamentId,
     );
     this.teamTournamentConnection$.pipe(take(1)).subscribe((connection) => {
       if (connection?.id) {
-        this.store.dispatch(
-          teamTournamentActions.delete({
-            id: connection.id,
-            team_id: teamId,
-          }),
+        this.teamTournament.deleteTeamTournamentConnection(
+          connection.id,
+          teamId,
         );
       }
     });
+    // this.teamTournamentConnection$.pipe(take(1)).subscribe((connection) => {
+    //   if (connection?.id) {
+    //     this.store.dispatch(
+    //       teamTournamentActions.delete({
+    //         id: connection.id,
+    //         team_id: teamId,
+    //       }),
+    //     );
+    //   }
+    // });
   }
 
   readonly stringify = (match: IMatchFullData): string =>

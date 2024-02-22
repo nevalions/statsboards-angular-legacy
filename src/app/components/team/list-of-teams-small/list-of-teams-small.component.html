@@ -1,11 +1,7 @@
-@if (teams$ | async) {
-  <app-list-of-items-island
-    [data$]="teams$"
-    [formatPath]="formatPath"
-    [titleProperty]="titleProperty"
-    [_size]="_size"
-    [hoverable]="hoverable"
-  ></app-list-of-items-island>
-} @else {
-  <tui-loader [inheritColor]="true"></tui-loader>
-}
+<app-list-of-items-island
+  [data]="teams"
+  [formatPath]="formatPath"
+  [titleProperty]="titleProperty"
+  [_size]="_size"
+  [hoverable]="hoverable"
+></app-list-of-items-island>
