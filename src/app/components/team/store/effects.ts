@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { catchError, filter, map, of, switchMap } from 'rxjs';
+import { catchError, filter, map, of, switchMap, withLatestFrom } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { TeamService } from '../team.service';
@@ -37,6 +37,17 @@ export class TeamEffects {
     { functional: true },
   );
 
+  createdSuccessfullyEffect$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(teamActions.createdSuccessfully),
+      withLatestFrom(this.store.select(selectCurrentSportId)),
+      filter(([action, sportId]) => action.currentTeam.sport_id === sportId),
+      map(([action]) =>
+        teamActions.updateAllTeamsInSport({ newTeam: action.currentTeam }),
+      ),
+    ),
+  );
+
   getAllTeamsEffect = createEffect(
     () => {
       return this.actions$.pipe(
@@ -57,27 +68,6 @@ export class TeamEffects {
     },
     { functional: true },
   );
-
-  // getAllTeamsBySportIdEffect = createEffect(
-  //   () => {
-  //     return this.actions$.pipe(
-  //       ofType(teamActions.getTeamsBySportId),
-  //       switchMap(({ id }) => {
-  //         return this.teamService.fetchTeamsBySportId(id).pipe(
-  //           map((teams: ITeam[]) => {
-  //             return teamActions.getTeamsBySportIDSuccess({
-  //               teams,
-  //             });
-  //           }),
-  //           catchError(() => {
-  //             return of(teamActions.getTeamsBySportIDFailure);
-  //           }),
-  //         );
-  //       }),
-  //     );
-  //   },
-  //   { functional: true },
-  // );
 
   getTeamsBySportIdEffect = createEffect(
     () => {

@@ -24,4 +24,8 @@ export class Team {
   loadAllTeamsInSport() {
     this.store.dispatch(teamActions.getTeamsBySportId());
   }
+
+  createTeam(team: ITeam) {
+    this.store.dispatch(teamActions.create({ request: team }));
+  }
 }

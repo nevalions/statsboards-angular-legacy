@@ -85,6 +85,14 @@ const teamFeature = createFeature({
       isSubmitting: false,
       errors: action,
     })),
+    on(teamActions.updateAllTeamsInSport, (state, { newTeam }) => {
+      const newList = [...state.allTeamsInSport, newTeam];
+      const sortedTeams = SortService.sort(newList, 'title');
+      return {
+        ...state,
+        allTeamsInSport: sortedTeams,
+      };
+    }),
 
     // get actions
     on(teamActions.get, (state) => ({

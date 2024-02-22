@@ -5,7 +5,6 @@
   @if (this.sportId) {
     <app-add-edit-team
       [sportId]="sportId"
-      [addTeam]="teamService.addTeam.bind(teamService)"
     ></app-add-edit-team>
   } @else {
     <tui-loader></tui-loader>

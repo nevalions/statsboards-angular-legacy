@@ -21,6 +21,7 @@ import {
 } from '@taiga-ui/kit';
 import { CreateButtonInFormComponent } from '../../../shared/ui/buttons/create-button-in-form/create-button-in-form.component';
 import { CancelButtonInFormComponent } from '../../../shared/ui/buttons/cancel-button-in-form/cancel-button-in-form.component';
+import { Team } from '../team';
 
 @Component({
   selector: 'app-add-edit-team',
@@ -43,8 +44,9 @@ import { CancelButtonInFormComponent } from '../../../shared/ui/buttons/cancel-b
   styleUrl: './add-edit-team.component.less',
 })
 export class AddEditTeamComponent {
-  @Input() addTeam!: (data: any) => void;
   @Input() sportId!: number;
+
+  constructor(private team: Team) {}
 
   teamForm = new FormGroup({
     teamTitle: new FormControl('', [
@@ -79,8 +81,8 @@ export class AddEditTeamComponent {
         sport_id: this.sportId,
       };
 
-      console.log(formValue.teamTitle, data.sport_id);
-      this.addTeam(data);
+      // console.log(formValue.teamTitle, data.sport_id);
+      this.team.createTeam(data);
     }
   }
 }
