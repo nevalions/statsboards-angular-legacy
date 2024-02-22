@@ -9,12 +9,14 @@ import { sportActions } from './actions';
 import { selectRouteParam } from '../../../router/router.selector';
 
 export interface SportState extends crudStoreInterface {
+  currentSportId: number | undefined | null;
   currentSport: ISport | undefined | null;
   allSports: ISport[];
 }
 
 const initialState: SportState = {
   ...getDefaultCrudStore(),
+  currentSportId: null,
   allSports: [],
   currentSport: null,
 };
@@ -23,6 +25,20 @@ const sportFeature = createFeature({
   name: 'sport',
   reducer: createReducer(
     initialState,
+
+    on(sportActions.getId, (state) => ({
+      ...state,
+      isLoading: true,
+    })),
+    on(sportActions.getSportIdSuccessfully, (state, action) => ({
+      ...state,
+      isLoading: false,
+      currentSportId: action.sportId,
+    })),
+    on(sportActions.getSportIdFailure, (state) => ({
+      ...state,
+      isLoading: false,
+    })),
 
     // create actions
     on(sportActions.create, (state) => ({
@@ -125,6 +141,7 @@ export const {
   reducer: sportReducer,
   selectIsSubmitting,
   selectIsLoading,
+  selectCurrentSportId,
   selectCurrentSport,
   selectAllSports,
 } = sportFeature;

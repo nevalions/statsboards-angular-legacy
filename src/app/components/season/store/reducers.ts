@@ -6,14 +6,19 @@ import { ISeason } from '../../../type/season.type';
 import { createFeature, createReducer, on } from '@ngrx/store';
 import { seasonActions } from './actions';
 import { SortService } from '../../../services/sort.service';
+import { sportActions } from '../../sport/store/actions';
 
 export interface SeasonState extends crudStoreInterface {
+  currentSeasonId: number | undefined | null;
+  currentSeasonYear: number | undefined | null;
   allSeasons: ISeason[];
   currentSeason: ISeason | undefined | null;
 }
 
 const initialState: SeasonState = {
   ...getDefaultCrudStore(),
+  currentSeasonId: null,
+  currentSeasonYear: null,
   allSeasons: [],
   currentSeason: null,
 };
@@ -22,6 +27,19 @@ const seasonFeature = createFeature({
   name: 'season',
   reducer: createReducer(
     initialState,
+    on(seasonActions.getId, (state) => ({
+      ...state,
+      isLoading: true,
+    })),
+    on(seasonActions.getSeasonIdSuccessfully, (state, action) => ({
+      ...state,
+      isLoading: false,
+      currentSeasonId: action.seasonId,
+    })),
+    on(seasonActions.getSeasonIdFailure, (state) => ({
+      ...state,
+      isLoading: false,
+    })),
 
     // create actions
     on(seasonActions.create, (state) => ({
@@ -92,6 +110,7 @@ const seasonFeature = createFeature({
       ...state,
       isLoading: false,
       currentSeason: action.season,
+      currentSeasonYear: action.season.year,
     })),
     on(seasonActions.getItemFailure, (state, action) => ({
       ...state,
@@ -151,6 +170,8 @@ export const {
   reducer: seasonReducer,
   selectIsSubmitting,
   selectIsLoading,
+  selectCurrentSeasonId,
+  selectCurrentSeasonYear,
   selectCurrentSeason,
   selectAllSeasons,
 } = seasonFeature;

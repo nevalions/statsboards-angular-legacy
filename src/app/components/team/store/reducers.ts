@@ -161,7 +161,7 @@ const teamFeature = createFeature({
         (team) => team.id === team_id,
       );
       if (!teamToAdd) {
-        // console.log(state.allTeamsInSport);
+        // console.log(store.allTeamsInSport);
         console.log(`No team found with id: ${team_id}`);
         return state;
       }

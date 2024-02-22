@@ -70,13 +70,10 @@ export class ItemSportWithSeasonComponent
   extends ItemSportComponent
   implements AfterViewInit
 {
-  tournamentStore: Store<{ tournament: TournamentState }> = inject(Store);
-  seasonStore: Store<{ season: SeasonState }> = inject(Store);
-
-  season$: Observable<ISeason | null | undefined> = this.seasonStore.select(
+  season$: Observable<ISeason | null | undefined> = this.store.select(
     (state) => state.season.currentSeason,
   );
-  tournaments$: Observable<ITournament[]> = this.tournamentStore.select(
+  tournaments$: Observable<ITournament[]> = this.store.select(
     (state) => state.tournament.allSeasonSportTournaments,
   );
 
@@ -89,20 +86,25 @@ export class ItemSportWithSeasonComponent
     return `sport/${item.sport_id}/season/${item.season_id}/tournament/${item.id}`;
   }
 
-  loadSportSeasonTournaments(sportId: number, seasonYear: number) {
-    this.tournamentStore.dispatch(
-      tournamentActions.getTournamentsBySportAndSeason({
-        sport_id: sportId,
-        season_id: seasonYear,
-      }),
-    );
+  loadSportSeasonTournaments() {
+    this.store.dispatch(tournamentActions.getTournamentsBySportAndSeason());
   }
 
-  loadSeason(id: number) {
-    this.seasonStore.dispatch(seasonActions.get({ id: id }));
+  loadSeason() {
+    this.store.dispatch(seasonActions.getId());
   }
 
   ngAfterViewInit() {
+    this.loadSeason();
+    // this.loadSportSeasonTournaments(sportId, seasonYear);
+    this.loadSportSeasonTournaments();
+
+    this.tournaments$.subscribe((tournaments: ITournament[]) => {
+      this.searchListService.updateData(of(tournaments));
+      this.paginationService.initializePagination(
+        this.searchListService.filteredData$,
+      );
+    });
     // this.sportId$.subscribe((sportId) => {
     //   if (sportId) {
     //     this.route.paramMap.subscribe((params) => {
@@ -133,7 +135,7 @@ export class ItemSportWithSeasonComponent
 // route = inject(ActivatedRoute);
 
 // sport$: Observable<ISport | null | undefined> = this.sportStore.select(
-//   (state) => state.sport.currentItem,
+//   (store) => store.sport.currentItem,
 // );
 
 // routeParams$ = this.tournamentStore.select(

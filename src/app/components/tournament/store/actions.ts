@@ -16,10 +16,7 @@ export const tournamentActions = createActionGroup({
     'Get all items success': props<{ tournaments: ITournament[] }>(),
     'Get all items failure': emptyProps(),
 
-    GetTournamentsBySportAndSeason: props<{
-      sport_id: number;
-      season_id: number;
-    }>(),
+    GetTournamentsBySportAndSeason: emptyProps(),
     'Get tournaments by sport and season success': props<{
       tournaments: ITournament[];
     }>(),

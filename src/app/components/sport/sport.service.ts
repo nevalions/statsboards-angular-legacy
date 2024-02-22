@@ -29,7 +29,7 @@ export class SportService extends BaseApiService<ISport> {
 //       catchError((error) => {
 //         // console.error.type.ts('Error occurred:', error.type.ts);
 //         this.router.navigateByUrl('/error404', {
-//           state: {
+//           store: {
 //             errorStatus: error.status,
 //             errorStatusText: error.statusText
 //           }

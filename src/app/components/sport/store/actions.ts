@@ -6,11 +6,15 @@ import { Observable } from 'rxjs';
 export const sportActions = createActionGroup({
   source: 'sport',
   events: {
+    GetId: emptyProps(),
+    'Get sport id successfully': props<{ sportId: number }>(),
+    'Get sport id failure': emptyProps(),
+
     Create: props<{ request: ISport }>(),
     'Created successfully': props<{ currentSport: ISport }>(),
     'Create failure': emptyProps(),
 
-    Get: emptyProps(),
+    Get: props<{ id: number }>(),
     'Get item success': props<{ sport: ISport }>(),
     'Get item failure': emptyProps(),
 

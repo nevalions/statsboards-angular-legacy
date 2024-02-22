@@ -9,7 +9,7 @@ import {
 } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { ErrorHandlingService } from './error.service';
-import { BaseEntity } from '../shared/state/crud.actions';
+import { BaseEntity } from '../store/crud.actions';
 
 @Injectable({
   providedIn: 'root',

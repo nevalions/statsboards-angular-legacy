@@ -29,7 +29,7 @@ import {
   sportReducer,
 } from './components/sport/store/reducers';
 import { SportEffects } from './components/sport/store/effects';
-import { AppState } from './shared/state/appstate';
+import { AppState } from './store/appstate';
 import { ROUTER_FEATURE_KEY } from './router/router.selector';
 
 export const appConfig: ApplicationConfig = {

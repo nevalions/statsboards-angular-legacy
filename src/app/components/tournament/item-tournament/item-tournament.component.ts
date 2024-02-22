@@ -58,7 +58,7 @@ import { Store } from '@ngrx/store';
 import { tournamentActions } from '../store/actions';
 import { teamActions } from '../../team/store/actions';
 import { teamTournamentActions } from '../../team-tournament/store/actions';
-import { AppState } from '../../../shared/state/appstate';
+import { AppState } from '../../../store/appstate';
 
 @Component({
   selector: 'app-item-tournament',
@@ -121,7 +121,7 @@ export class ItemTournamentComponent implements OnInit {
     (state) => state.tournament.currentTournament,
   );
   // tournament$ = this.tournamentStore.select(
-  //   (state) => state.tournament.currentTournament,
+  //   (store) => store.tournament.currentTournament,
   // );
   teamTournamentConnection$ = this.store.select(
     (state) => state.teamTournament.currentTeamTournament,

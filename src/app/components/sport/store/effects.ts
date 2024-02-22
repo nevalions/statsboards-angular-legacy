@@ -19,6 +19,27 @@ import { getRouterSelectors } from '@ngrx/router-store';
 
 @Injectable()
 export class SportEffects {
+  getSportIdFromRouteEffect = createEffect(
+    () => {
+      return this.actions$.pipe(
+        ofType(sportActions.getId),
+        mergeMap(() =>
+          this.store
+            .select(getRouterSelectors().selectRouteParam('sport_id'))
+            .pipe(
+              filter((id: string | undefined): id is string => !!id),
+              switchMap((id: string) => [
+                sportActions.get({ id: Number(id) }),
+                sportActions.getSportIdSuccessfully({ sportId: Number(id) }),
+              ]),
+              catchError(() => of(sportActions.getSportIdFailure())),
+            ),
+        ),
+      );
+    },
+    { functional: true },
+  );
+
   createSportEffect = createEffect(
     () => {
       return this.actions$.pipe(
@@ -61,104 +82,46 @@ export class SportEffects {
     { functional: true },
   );
 
-  getSportByIdEffect = createEffect(() => {
-    return this.actions$.pipe(
-      ofType(sportActions.get),
-      switchMap(() => {
-        return this.store.select(
-          getRouterSelectors().selectRouteParam('sport_id'),
-        );
-      }),
-      map((id) => id ?? ''),
-      filter((id: string) => id !== ''),
-      map((id: string) => {
-        return Number(id);
-      }),
-      switchMap((_id: number) => {
-        return this.sportService.findById(_id).pipe(
-          map((sport: ISport) => {
-            return sportActions.getItemSuccess({ sport });
-          }),
-          catchError(() => {
-            return of(sportActions.getItemFailure());
-          }),
-        );
-      }),
-    );
-  });
+  getSportByIdEffect = createEffect(
+    () => {
+      return this.actions$.pipe(
+        ofType(sportActions.get),
+        switchMap(({ id }) =>
+          this.sportService.findById(id).pipe(
+            map((sport: ISport) => sportActions.getItemSuccess({ sport })),
+            catchError(() => of(sportActions.getItemFailure())),
+          ),
+        ),
+      );
+    },
+    { functional: true },
+  );
 
-  // getSportByIdEffect = createEffect(
-  //   () => {
+  // getSportByIdEffect = createEffect(() => {
   //   return this.actions$.pipe(
   //     ofType(sportActions.get),
-  //     withLatestFrom(
-  //       this.store.select(getRouterSelectors().selectRouteParam('sport_id')).pipe(
-  //         filter((id) => typeof id === 'string' && !isNaN(Number(id))),
-  //         map((id) => ({ id: Number(id) } as { id: number }),),
-  //     ),
-  //     switchMap((id) => {
-  //       return this.sportService.findById(id).pipe(
-  //           map((sport: ISport) => {
-  //             return sportActions.getItemSuccess({
-  //               sport,
-  //             });
-  //           }),
-  //           catchError(() => {
-  //             return of(sportActions.getItemFailure());
-  //           }),
-  //         );
-  //
+  //     switchMap(() => {
+  //       return this.store.select(
+  //         getRouterSelectors().selectRouteParam('sport_id'),
+  //       );
+  //     }),
+  //     map((id) => id ?? ''),
+  //     filter((id: string) => id !== ''),
+  //     map((id: string) => {
+  //       return Number(id);
+  //     }),
+  //     switchMap((_id: number) => {
+  //       return this.sportService.findById(_id).pipe(
+  //         map((sport: ISport) => {
+  //           return sportActions.getItemSuccess({ sport });
+  //         }),
+  //         catchError(() => {
+  //           return of(sportActions.getItemFailure());
+  //         }),
+  //       );
   //     }),
   //   );
   // });
-
-  // getSeasonByYearEffect = createEffect(
-  //   () => {
-  //     return this.actions$.pipe(
-  //       ofType(seasonActions.getSeasonByYear), // You will have to define this action
-  //       switchMap(({ year }) => {
-  //         return this.seasonService.getSeasonByYearReturn(year).pipe(
-  //           // Assuming you have a getTournaments method in your service
-  //           map((season: ISeason) => {
-  //             return seasonActions.getSeasonByYearSuccess({
-  //               season,
-  //             });
-  //           }),
-  //           catchError(() => {
-  //             return of(seasonActions.getSeasonByYearFailure());
-  //           }),
-  //         );
-  //       }),
-  //     );
-  //   },
-  //   { functional: true },
-  // );
-
-  // getTournamentsBySportAndSeasonEffect = createEffect(
-  //   () => {
-  //     return this.actions$.pipe(
-  //       ofType(seasonActions.getTournamentsBySportAndSeason), // You will have to define this action
-  //       switchMap(({ id, year }) => {
-  //         return this.seasonService
-  //           .fetchTournamentsBySportAndSeason({ id, year })
-  //           .pipe(
-  //             // Assuming you have a getTournaments method in your service
-  //             map((tournaments: ITournament[]) => {
-  //               return tournamentActions.getTournamentsBySportAndSeasonSuccess({
-  //                 tournaments,
-  //               });
-  //             }),
-  //             catchError(() => {
-  //               return of(
-  //                 tournamentActions.getTournamentsBySportAndSeasonFailure(),
-  //               );
-  //             }),
-  //           );
-  //       }),
-  //     );
-  //   },
-  //   { functional: true },
-  // );
 
   deleteSportEffect = createEffect(
     () => {

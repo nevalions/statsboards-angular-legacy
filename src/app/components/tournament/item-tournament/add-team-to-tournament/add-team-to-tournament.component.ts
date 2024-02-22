@@ -14,7 +14,7 @@ import { TeamService } from '../../../team/team.service';
 import { TeamTournamentService } from '../../../team-tournament/team-tournament.service';
 import { AddItemDialogFromListComponent } from '../../../../shared/ui/dialogs/add-item-dialog-from-list/add-item-dialog-from-list.component';
 import { ItemTournamentComponent } from '../item-tournament.component';
-import { AppState } from '../../../../shared/state/appstate';
+import { AppState } from '../../../../store/appstate';
 import { Store } from '@ngrx/store';
 import { teamTournamentActions } from '../../../team-tournament/store/actions';
 
@@ -94,4 +94,4 @@ export class AddTeamToTournamentComponent {
 // tournamentTeams$ = this.teamTournamentService.teamsInTournament$;
 // allTeams$ = this.teamService.teams$;
 
-// create availableTeams$ as a getter so it always reflects the current state of allTeams$ and tournamentTeams$
+// create availableTeams$ as a getter so it always reflects the current store of allTeams$ and tournamentTeams$

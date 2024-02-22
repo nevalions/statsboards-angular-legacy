@@ -11,7 +11,7 @@ import { ListOfItemsIslandComponent } from '../../../shared/ui/list-of-items-isl
 import { Store } from '@ngrx/store';
 import { SportState } from '../store/reducers';
 import { sportActions } from '../store/actions';
-import { AppState } from '../../../shared/state/appstate';
+import { AppState } from '../../../store/appstate';
 
 @Component({
   selector: 'app-item-sport',
@@ -41,7 +41,7 @@ export class ItemSportComponent {
   );
 
   constructor() {
-    this.store.dispatch(sportActions.get());
+    this.store.dispatch(sportActions.getId());
   }
 
   //

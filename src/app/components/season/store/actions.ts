@@ -4,6 +4,10 @@ import { ISeason } from '../../../type/season.type';
 export const seasonActions = createActionGroup({
   source: 'season',
   events: {
+    GetId: emptyProps(),
+    'Get season id successfully': props<{ seasonId: number }>(),
+    'Get season id failure': emptyProps(),
+
     Create: props<{ request: ISeason }>(),
     'Created successfully': props<{ currentSeason: ISeason }>(),
     'Create failure': emptyProps(),
