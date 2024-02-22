@@ -82,28 +82,6 @@ export class TournamentEffects {
     },
     { functional: true },
   );
-  //
-  // getTournamentByIdEffect = createEffect(
-  //   () => {
-  //     return this.actions$.pipe(
-  //       ofType(tournamentActions.get), // You will have to define this action
-  //       switchMap(({ id }) => {
-  //         return this.tournamentService.findById(id).pipe(
-  //           // Assuming you have a getTournaments method in your service
-  //           map((tournament: ITournament) => {
-  //             return tournamentActions.getItemSuccess({
-  //               tournament,
-  //             });
-  //           }),
-  //           catchError(() => {
-  //             return of(tournamentActions.getItemFailure());
-  //           }),
-  //         );
-  //       }),
-  //     );
-  //   },
-  //   { functional: true },
-  // );
 
   getSportSeasonTournamentsEffect = createEffect(
     () => {
@@ -139,31 +117,22 @@ export class TournamentEffects {
     { functional: true },
   );
 
-  // getTournamentsBySportAndSeasonEffect = createEffect(
-  //   () => {
-  //     return this.actions$.pipe(
-  //       ofType(tournamentActions.getTournamentsBySportAndSeason), // You will have to define this action
-  //       switchMap(({ sport_id, season_id }) => {
-  //         return this.tournamentService
-  //           .fetchTournamentsBySportAndSeasonId({ sport_id, season_id })
-  //           .pipe(
-  //             // Assuming you have a getTournaments method in your service
-  //             map((tournaments: ITournament[]) => {
-  //               return tournamentActions.getTournamentsBySportAndSeasonSuccess({
-  //                 tournaments,
-  //               });
-  //             }),
-  //             catchError(() => {
-  //               return of(
-  //                 tournamentActions.getTournamentsBySportAndSeasonFailure(),
-  //               );
-  //             }),
-  //           );
-  //       }),
-  //     );
-  //   },
-  //   { functional: true },
-  // );
+  updateSportSeasonTournamentsEffect = createEffect(() =>
+    this.actions$.pipe(
+      ofType(tournamentActions.createdSuccessfully),
+      withLatestFrom(this.store.select(selectSportIdAndSeasonId)),
+      filter(
+        ([action, { sportId, seasonId }]) =>
+          action.currentTournament.sport_id === sportId &&
+          action.currentTournament.season_id === seasonId,
+      ),
+      map(([action]) =>
+        tournamentActions.updateSportSeasonTournaments({
+          newTournament: action.currentTournament,
+        }),
+      ),
+    ),
+  );
 
   deleteTournamentEffect = createEffect(
     () => {

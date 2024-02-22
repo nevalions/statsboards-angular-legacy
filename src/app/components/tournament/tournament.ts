@@ -20,4 +20,8 @@ export class Tournament {
   loadSeasonSportTournaments() {
     this.store.dispatch(tournamentActions.getTournamentsBySportAndSeason());
   }
+
+  createTournament(tournament: ITournament) {
+    this.store.dispatch(tournamentActions.create({ request: tournament }));
+  }
 }

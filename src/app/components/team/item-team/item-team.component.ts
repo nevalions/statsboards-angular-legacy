@@ -25,7 +25,7 @@ import { DeleteDialogComponent } from '../../../shared/ui/dialogs/delete-dialog/
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.Default,
 })
-export class ItemTeamComponent implements OnInit, OnDestroy {
+export class ItemTeamComponent implements OnInit {
   private readonly ngUnsubscribe = new Subject<void>();
 
   private route = inject(ActivatedRoute);
@@ -62,10 +62,5 @@ export class ItemTeamComponent implements OnInit, OnDestroy {
     } else {
       console.log('Invalid team object or missing ID');
     }
-  }
-
-  ngOnDestroy() {
-    this.ngUnsubscribe.next();
-    this.ngUnsubscribe.complete();
   }
 }

@@ -16,9 +16,7 @@
     [formGroup]="tournamentForm"
     (ngSubmit)="onSubmit(); observer.complete()"
   >
-    <p>
-      {{ isSubmitting$ | async }}
-    </p>
+    <p></p>
     <div class="tui-form__row">
       <tui-input
         formControlName="tournamentTitle"
@@ -48,7 +46,7 @@
     <p>
       <app-create-button-in-form
         [action]="'add'"
-        [disabled]="(isSubmitting$ | async) || !tournamentForm.valid"
+        [disabled]="!tournamentForm.valid"
       ></app-create-button-in-form>
       <app-cancel-button-in-form
         (click)="observer.complete()"

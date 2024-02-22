@@ -25,6 +25,7 @@ import { CancelButtonInFormComponent } from '../../../shared/ui/buttons/cancel-b
 import { Store } from '@ngrx/store';
 import { tournamentActions } from '../store/actions';
 import { TournamentState } from '../store/reducers';
+import { Tournament } from '../tournament';
 
 @Component({
   selector: 'app-tournament-add-edit-form',
@@ -47,12 +48,11 @@ import { TournamentState } from '../store/reducers';
   styleUrl: './tournament-add-edit-form.component.less',
 })
 export class TournamentAddEditFormComponent {
-  store: Store<{ tournament: TournamentState }> = inject(Store);
-
-  isSubmitting$ = this.store.select((state) => state.tournament.isSubmitting);
-
+  // store: Store<{ tournament: TournamentState }> = inject(Store);
   @Input() sport_Id!: number;
   @Input() season_Id!: number;
+
+  constructor(private tournament: Tournament) {}
 
   tournamentForm = new FormGroup({
     tournamentTitle: new FormControl('', [
@@ -81,15 +81,7 @@ export class TournamentAddEditFormComponent {
         sport_id: this.sport_Id,
       };
 
-      this.store.dispatch(
-        tournamentActions.create({
-          request: data,
-        }),
-      );
+      this.tournament.createTournament(data);
     }
   }
 }
-
-// console.log(formValue.tournamentTitle, data.sport_id);
-
-// this.addTournament(data);

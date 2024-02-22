@@ -102,6 +102,17 @@ const tournamentFeature = createFeature({
       isSubmitting: false,
       errors: action,
     })),
+    on(
+      tournamentActions.updateSportSeasonTournaments,
+      (state, { newTournament }) => {
+        const newList = [...state.allSeasonSportTournaments, newTournament];
+        const sortedTournaments = SortService.sort(newList, 'title');
+        return {
+          ...state,
+          allSeasonSportTournaments: sortedTournaments,
+        };
+      },
+    ),
 
     // get actions
     on(tournamentActions.get, (state) => ({
