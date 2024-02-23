@@ -1,21 +1,51 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { catchError, filter, map, of, switchMap, withLatestFrom } from 'rxjs';
+import {
+  catchError,
+  filter,
+  map,
+  mergeMap,
+  of,
+  switchMap,
+  withLatestFrom,
+} from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { TeamService } from '../team.service';
 import { teamActions } from './actions';
 import { ITeam } from '../../../type/team.type';
 import { TeamTournamentService } from '../../team-tournament/team-tournament.service';
-import { tournamentActions } from '../../tournament/store/actions';
-import { selectSportIdAndSeasonId } from '../../sport/store/selectors';
-import { ITournament } from '../../../type/tournament.type';
 import { Store } from '@ngrx/store';
 import { selectCurrentTournamentId } from '../../tournament/store/reducers';
 import { selectCurrentSportId } from '../../sport/store/reducers';
+import { tournamentActions } from '../../tournament/store/actions';
+import { getRouterSelectors } from '@ngrx/router-store';
 
 @Injectable()
 export class TeamEffects {
+  getTeamIdFromRouteEffect = createEffect(
+    () => {
+      return this.actions$.pipe(
+        ofType(teamActions.getId),
+        mergeMap(() =>
+          this.store
+            .select(getRouterSelectors().selectRouteParam('team_id'))
+            .pipe(
+              filter((id: string | undefined): id is string => !!id),
+              switchMap((id: string) => [
+                teamActions.get({ id: Number(id) }),
+                teamActions.getTeamIdSuccessfully({
+                  teamId: Number(id),
+                }),
+              ]),
+              catchError(() => of(teamActions.getTeamIdFailure())),
+            ),
+        ),
+      );
+    },
+    { functional: true },
+  );
+
   createTeamEffect = createEffect(
     () => {
       return this.actions$.pipe(

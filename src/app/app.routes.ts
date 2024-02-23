@@ -25,6 +25,18 @@ import {
 import { SeasonEffects } from './components/season/store/effects';
 import { TournamentEffects } from './components/tournament/store/effects';
 import { SportEffects } from './components/sport/store/effects';
+import { ItemTeamComponent } from './components/team/item-team/item-team.component';
+import { teamFeatureKey, teamReducer } from './components/team/store/reducers';
+import { TeamEffects } from './components/team/store/effects';
+import { ItemSportComponent } from './components/sport/item-sport/item-sport.component';
+import { WithTeamsComponent } from './components/sport/item-sport/with-teams/with-teams.component';
+import { ItemSportWithSeasonComponent } from './components/sport/item-sport/item-sport-with-season/item-sport-with-season.component';
+import { ItemTournamentComponent } from './components/tournament/item-tournament/item-tournament.component';
+import {
+  teamTournamentFeatureKey,
+  teamTournamentReducer,
+} from './components/team-tournament/store/reducers';
+import { TeamTournamentEffects } from './components/team-tournament/store/effects';
 
 export const routes: Routes = [
   {
@@ -34,11 +46,49 @@ export const routes: Routes = [
   },
   { path: 'seasons', component: SeasonComponent },
   { path: 'seasons/year/:year', component: SeasonComponent },
+  // {
+  //   path: 'sport',
+  //   component: SportComponent,
+  //   loadChildren: () =>
+  //     import('./components/sport/sport.routes').then((r) => r.SPORT_ROUTES),
+  // },
+
   {
-    path: 'sport',
-    component: SportComponent,
-    loadChildren: () =>
-      import('./components/sport/sport.routes').then((r) => r.SPORT_ROUTES),
+    path: 'sport/:sport_id',
+    component: ItemSportComponent,
+  },
+  {
+    path: 'sport/:sport_id/teams',
+    component: WithTeamsComponent,
+    providers: [
+      provideState(teamFeatureKey, teamReducer),
+      provideEffects(TeamEffects),
+    ],
+  },
+  {
+    path: 'sport/:sport_id/season/:season_id/tournaments',
+    component: ItemSportWithSeasonComponent,
+    providers: [
+      provideState(tournamentFeatureKey, tournamentReducer),
+      provideState(seasonFeatureKey, seasonReducer),
+      provideEffects(SeasonEffects, TournamentEffects),
+    ],
+  },
+  {
+    path: 'sport/:sport_id/season/:season_id/tournament/:tournament_id',
+    component: ItemTournamentComponent,
+    providers: [
+      provideState(seasonFeatureKey, seasonReducer),
+      provideState(teamFeatureKey, teamReducer),
+      provideState(tournamentFeatureKey, tournamentReducer),
+      provideState(teamTournamentFeatureKey, teamTournamentReducer),
+      provideEffects(
+        SeasonEffects,
+        TournamentEffects,
+        TeamEffects,
+        TeamTournamentEffects,
+      ),
+    ],
   },
 
   {
@@ -50,11 +100,20 @@ export const routes: Routes = [
       ),
   },
 
+  // {
+  //   path: 'teams',
+  //   component: TeamComponent,
+  //   loadChildren: () =>
+  //     import('./components/team/team.routes').then((r) => r.TEAM_ROUTES),
+  // },
+
   {
-    path: 'teams',
-    component: TeamComponent,
-    loadChildren: () =>
-      import('./components/team/team.routes').then((r) => r.TEAM_ROUTES),
+    path: 'team/:team_id',
+    component: ItemTeamComponent,
+    providers: [
+      provideState(teamFeatureKey, teamReducer),
+      provideEffects(TeamEffects),
+    ],
   },
 
   {

@@ -28,43 +28,43 @@ import {
   teamTournamentReducer,
 } from '../team-tournament/store/reducers';
 
-export const SPORT_ROUTES: Routes = [
-  { path: '', component: SportComponent },
-  {
-    path: ':sport_id',
-    component: ItemSportComponent,
-  },
-  {
-    path: ':sport_id/teams',
-    component: WithTeamsComponent,
-    providers: [
-      provideState(teamFeatureKey, teamReducer),
-      provideEffects(TeamEffects),
-    ],
-  },
-  {
-    path: ':sport_id/season/:season_id/tournaments',
-    component: ItemSportWithSeasonComponent,
-    providers: [
-      provideState(tournamentFeatureKey, tournamentReducer),
-      provideState(seasonFeatureKey, seasonReducer),
-      provideEffects(SeasonEffects, TournamentEffects),
-    ],
-  },
-  {
-    path: ':sport_id/season/:season_id/tournament/:tournament_id',
-    component: ItemTournamentComponent,
-    providers: [
-      provideState(seasonFeatureKey, seasonReducer),
-      provideState(teamFeatureKey, teamReducer),
-      provideState(tournamentFeatureKey, tournamentReducer),
-      provideState(teamTournamentFeatureKey, teamTournamentReducer),
-      provideEffects(
-        SeasonEffects,
-        TournamentEffects,
-        TeamEffects,
-        TeamTournamentEffects,
-      ),
-    ],
-  },
-];
+// export const SPORT_ROUTES: Routes = [
+//   { path: '', component: SportComponent },
+//   {
+//     path: ':sport_id',
+//     component: ItemSportComponent,
+//   },
+//   {
+//     path: ':sport_id/teams',
+//     component: WithTeamsComponent,
+//     providers: [
+//       provideState(teamFeatureKey, teamReducer),
+//       provideEffects(TeamEffects),
+//     ],
+//   },
+//   {
+//     path: ':sport_id/season/:season_id/tournaments',
+//     component: ItemSportWithSeasonComponent,
+//     providers: [
+//       provideState(tournamentFeatureKey, tournamentReducer),
+//       provideState(seasonFeatureKey, seasonReducer),
+//       provideEffects(SeasonEffects, TournamentEffects),
+//     ],
+//   },
+//   {
+//     path: ':sport_id/season/:season_id/tournament/:tournament_id',
+//     component: ItemTournamentComponent,
+//     providers: [
+//       provideState(seasonFeatureKey, seasonReducer),
+//       provideState(teamFeatureKey, teamReducer),
+//       provideState(tournamentFeatureKey, tournamentReducer),
+//       provideState(teamTournamentFeatureKey, teamTournamentReducer),
+//       provideEffects(
+//         SeasonEffects,
+//         TournamentEffects,
+//         TeamEffects,
+//         TeamTournamentEffects,
+//       ),
+//     ],
+//   },
+// ];

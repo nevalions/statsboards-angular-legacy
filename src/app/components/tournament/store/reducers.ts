@@ -31,12 +31,12 @@ const tournamentFeature = createFeature({
       ...state,
       isLoading: true,
     })),
-    on(tournamentActions.getSeasonIdSuccessfully, (state, action) => ({
+    on(tournamentActions.getTournamentIdSuccessfully, (state, action) => ({
       ...state,
       isLoading: false,
       currentTournamentId: action.tournamentId,
     })),
-    on(tournamentActions.getSeasonIdFailure, (state) => ({
+    on(tournamentActions.getTournamentIdFailure, (state) => ({
       ...state,
       isLoading: false,
     })),

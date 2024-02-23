@@ -21,8 +21,8 @@ export class Team {
     );
   }
 
-  loadCurrentTeam(id: number) {
-    this.store.dispatch(teamActions.get({ id }));
+  loadCurrentTeam() {
+    this.store.dispatch(teamActions.getId());
   }
 
   loadAllTeamsInSport() {
@@ -35,5 +35,9 @@ export class Team {
 
   createTeam(team: ITeam) {
     this.store.dispatch(teamActions.create({ request: team }));
+  }
+
+  deleteTeam(id: number) {
+    this.store.dispatch(teamActions.delete({ id }));
   }
 }

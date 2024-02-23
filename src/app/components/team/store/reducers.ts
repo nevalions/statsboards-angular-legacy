@@ -6,6 +6,7 @@ import {
   crudStoreInterface,
   getDefaultCrudStore,
 } from '../../../type/store.intarface';
+import { tournamentActions } from '../../tournament/store/actions';
 
 export interface TeamState extends crudStoreInterface {
   currentTeam: ITeam | undefined | null;
@@ -27,6 +28,19 @@ const teamFeature = createFeature({
   name: 'team',
   reducer: createReducer(
     initialState,
+    on(teamActions.getId, (state) => ({
+      ...state,
+      isLoading: true,
+    })),
+    on(teamActions.getTeamIdSuccessfully, (state, action) => ({
+      ...state,
+      isLoading: false,
+      currentTournamentId: action.teamId,
+    })),
+    on(teamActions.getTeamIdFailure, (state) => ({
+      ...state,
+      isLoading: false,
+    })),
 
     // create actions
     on(teamActions.create, (state) => ({

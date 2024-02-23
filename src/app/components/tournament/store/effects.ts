@@ -33,11 +33,11 @@ export class TournamentEffects {
               filter((id: string | undefined): id is string => !!id),
               switchMap((id: string) => [
                 tournamentActions.get({ id: Number(id) }),
-                tournamentActions.getSeasonIdSuccessfully({
+                tournamentActions.getTournamentIdSuccessfully({
                   tournamentId: Number(id),
                 }),
               ]),
-              catchError(() => of(tournamentActions.getSeasonIdFailure())),
+              catchError(() => of(tournamentActions.getTournamentIdFailure())),
             ),
         ),
       );

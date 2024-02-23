@@ -44,6 +44,6 @@ export class WithTeamsComponent {
   islandTeamTitleProperty: keyof ITeam = 'title';
 
   teamItemHref(item: ITeam): string {
-    return `teams/id/${item.id}`;
+    return `team/${item.id}`;
   }
 }
