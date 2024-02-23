@@ -32,9 +32,10 @@ export const tournamentActions = createActionGroup({
 
     UpdateSportSeasonTournaments: props<{ newTournament: ITournament }>(),
 
-    Delete: props<{ id: number; sportId: number; seasonId: number }>(),
+    Delete: emptyProps(),
+    // Delete: props<{ id: number; sportId: number; seasonId: number }>(),
     'Deleted successfully': props<{
-      id: number;
+      tournamentId: number;
       sportId: number;
       seasonId: number;
     }>(),

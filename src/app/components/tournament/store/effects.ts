@@ -19,6 +19,7 @@ import { selectSportIdAndSeasonId } from '../../sport/store/selectors';
 import { seasonActions } from '../../season/store/actions';
 import { getRouterSelectors } from '@ngrx/router-store';
 import { ISeason } from '../../../type/season.type';
+import { selectTournamentSportIdSeasonId } from './selectors';
 
 @Injectable()
 export class TournamentEffects {
@@ -138,15 +139,16 @@ export class TournamentEffects {
     () => {
       return this.actions$.pipe(
         ofType(tournamentActions.delete),
-        switchMap(({ id, sportId, seasonId }) => {
-          return this.tournamentService.deleteItem(id).pipe(
-            map(() => {
-              return tournamentActions.deletedSuccessfully({
-                id: id,
-                sportId: sportId,
-                seasonId: seasonId,
-              });
-            }),
+        withLatestFrom(this.store.select(selectTournamentSportIdSeasonId)),
+        switchMap(([action, { tournamentId, sportId, seasonId }]) => {
+          return this.tournamentService.deleteItem(tournamentId!).pipe(
+            map(() =>
+              tournamentActions.deletedSuccessfully({
+                tournamentId: tournamentId!,
+                sportId: sportId!,
+                seasonId: seasonId!,
+              }),
+            ),
             catchError(() => {
               return of(tournamentActions.deleteFailure());
             }),

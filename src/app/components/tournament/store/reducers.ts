@@ -71,7 +71,7 @@ const tournamentFeature = createFeature({
       ...state,
       isSubmitting: false,
       allTournaments: (state.allTournaments || []).filter(
-        (item) => item.id !== action.id,
+        (item) => item.id !== action.tournamentId,
       ),
       errors: null,
     })),

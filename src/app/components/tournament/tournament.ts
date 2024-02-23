@@ -33,13 +33,7 @@ export class Tournament {
     this.store.dispatch(tournamentActions.create({ request: tournament }));
   }
 
-  deleteTournament(id: number, sport_id: number, season_id: number) {
-    this.store.dispatch(
-      tournamentActions.delete({
-        id: id!,
-        sportId: sport_id,
-        seasonId: season_id,
-      }),
-    );
+  deleteTournament() {
+    this.store.dispatch(tournamentActions.delete());
   }
 }

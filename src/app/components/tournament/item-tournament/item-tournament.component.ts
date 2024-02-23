@@ -65,6 +65,7 @@ import { Sport } from '../../sport/sport';
 import { Tournament } from '../tournament';
 import { Team } from '../../team/team';
 import { TeamTournament } from '../../team-tournament/teamTournament';
+import { Season } from '../../season/season';
 
 @Component({
   selector: 'app-item-tournament',
@@ -113,18 +114,19 @@ import { TeamTournament } from '../../team-tournament/teamTournament';
   changeDetection: ChangeDetectionStrategy.Default,
 })
 export class ItemTournamentComponent {
-  sport$ = this.sport.sport$;
   allSportTeams$ = this.team.teamsInSport$;
   teamsInTournament$ = this.team.teamsInTournament$;
   tournament$ = this.tournament.currentTournament$;
   teamTournamentConnection$ = this.teamTournament.teamTournamentConnection$;
 
   constructor(
+    private season: Season,
     private sport: Sport,
     private tournament: Tournament,
     private team: Team,
     private teamTournament: TeamTournament,
   ) {
+    season.loadCurrentSeason();
     sport.loadCurrentSport();
     tournament.loadCurrentTournament();
     team.loadAllTeamsInTournament();
@@ -236,12 +238,13 @@ export class ItemTournamentComponent {
   }
 
   onDelete() {
-    this.tournament$.pipe(take(1)).subscribe((currentItem) => {
-      if (currentItem) {
-        const { id, sport_id, season_id } = currentItem;
-        this.tournament.deleteTournament(id!, sport_id, season_id);
-      }
-    });
+    this.tournament.deleteTournament();
+    // this.tournament$.pipe(take(1)).subscribe((currentItem) => {
+    //   if (currentItem) {
+    //     const { id, sport_id, season_id } = currentItem;
+    //     this.tournament.deleteTournament();
+    //   }
+    // });
   }
 
   onMatchAdd(match: IMatch | null | undefined): void {

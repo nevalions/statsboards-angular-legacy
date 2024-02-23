@@ -21,6 +21,7 @@ import { DialogService } from '../../../../services/dialog.service';
 import { Subscription } from 'rxjs';
 import { DeleteButtonInFormComponent } from '../../buttons/delete-button-in-form/delete-button-in-form.component';
 import { CancelButtonInFormComponent } from '../../buttons/cancel-button-in-form/cancel-button-in-form.component';
+import { ivyTransformFactory } from '@angular/compiler-cli/src/ngtsc/transform';
 
 @Component({
   selector: 'app-delete-dialog',
@@ -72,6 +73,7 @@ export class DeleteDialogComponent implements OnInit, OnDestroy {
 
   onSubmit(): void {
     this.delete.emit();
+    this.itemDeleteForm.reset();
   }
 
   ngOnDestroy(): void {
