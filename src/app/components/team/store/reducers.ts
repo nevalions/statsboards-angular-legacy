@@ -9,6 +9,7 @@ import {
 import { tournamentActions } from '../../tournament/store/actions';
 
 export interface TeamState extends crudStoreInterface {
+  currentTeamId: number | undefined | null;
   currentTeam: ITeam | undefined | null;
   allTeams: ITeam[];
   allTeamsInSport: ITeam[];
@@ -17,6 +18,7 @@ export interface TeamState extends crudStoreInterface {
 
 const initialState: TeamState = {
   ...getDefaultCrudStore(),
+  currentTeamId: null,
   allTeams: [],
   allTeamsInSport: [],
   allTeamsInTournament: [],
@@ -210,6 +212,7 @@ export const {
   reducer: teamReducer,
   selectIsSubmitting,
   selectIsLoading,
+  selectCurrentTeamId,
   selectCurrentTeam,
   selectAllTeams,
   selectAllTeamsInSport,

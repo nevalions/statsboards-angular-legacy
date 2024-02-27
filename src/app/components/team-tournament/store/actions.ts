@@ -5,6 +5,12 @@ import { ITournament } from '../../../type/tournament.type';
 export const teamTournamentActions = createActionGroup({
   source: 'teamTournament',
   events: {
+    GetId: emptyProps(),
+    'Get team tournament connection id successfully': props<{
+      teamTournamentId: number;
+    }>(),
+    'Get team tournament connection id failure': emptyProps(),
+
     Create: props<{ request: ITeamTournament }>(),
     'Created successfully': props<{
       currentTeamTournament: ITeamTournament;
@@ -32,8 +38,14 @@ export const teamTournamentActions = createActionGroup({
     'Updated successfully': props<{ updatedTeamTournament: ITeamTournament }>(),
     'Update failure': emptyProps(),
 
-    Delete: props<{ id: number; teamId: number }>(),
-    'Deleted successfully': props<{ id: number; teamId: number }>(),
+    // Delete: props<{ id: number; teamId: number }>(),
+    Delete: emptyProps(),
+    'Deleted successfully': props<{
+      // connection: ITeamTournament;
+      connectionId: number;
+      teamId: number;
+      tournamentId: number;
+    }>(),
     'Delete failure': emptyProps(),
   },
 });

@@ -117,7 +117,6 @@ export class ItemTournamentComponent {
   allSportTeams$ = this.team.teamsInSport$;
   teamsInTournament$ = this.team.teamsInTournament$;
   tournament$ = this.tournament.currentTournament$;
-  teamTournamentConnection$ = this.teamTournament.teamTournamentConnection$;
 
   constructor(
     private season: Season,
@@ -239,12 +238,6 @@ export class ItemTournamentComponent {
 
   onDelete() {
     this.tournament.deleteTournament();
-    // this.tournament$.pipe(take(1)).subscribe((currentItem) => {
-    //   if (currentItem) {
-    //     const { id, sport_id, season_id } = currentItem;
-    //     this.tournament.deleteTournament();
-    //   }
-    // });
   }
 
   onMatchAdd(match: IMatch | null | undefined): void {
@@ -260,14 +253,7 @@ export class ItemTournamentComponent {
       teamId,
       tournamentId,
     );
-    this.teamTournamentConnection$.pipe(take(1)).subscribe((connection) => {
-      if (connection?.id) {
-        this.teamTournament.deleteTeamTournamentConnection(
-          connection.id,
-          teamId,
-        );
-      }
-    });
+    this.teamTournament.deleteTeamTournamentConnection();
   }
 
   readonly stringify = (match: IMatchFullData): string =>

@@ -6,14 +6,17 @@ import { createFeature, createReducer, on } from '@ngrx/store';
 import { SortService } from '../../../services/sort.service';
 import { ITeamTournament } from '../../../type/team.type';
 import { teamTournamentActions } from './actions';
+import { tournamentActions } from '../../tournament/store/actions';
 
 export interface TeamTournamentState extends crudStoreInterface {
+  currentTeamTournamentId: number | undefined | null;
   currentTeamTournament: ITeamTournament | undefined | null;
   allTeamTournament: ITeamTournament[];
 }
 
 const initialState: TeamTournamentState = {
   ...getDefaultCrudStore(),
+  currentTeamTournamentId: null,
   currentTeamTournament: null,
   allTeamTournament: [],
 };
@@ -22,6 +25,22 @@ const teamTournamentFeature = createFeature({
   name: 'teamTournament',
   reducer: createReducer(
     initialState,
+    on(teamTournamentActions.getId, (state) => ({
+      ...state,
+      isLoading: true,
+    })),
+    on(
+      teamTournamentActions.getTeamTournamentConnectionIdSuccessfully,
+      (state, action) => ({
+        ...state,
+        isLoading: false,
+        currentTournamentId: action.teamTournamentId,
+      }),
+    ),
+    on(teamTournamentActions.getTeamTournamentConnectionIdFailure, (state) => ({
+      ...state,
+      isLoading: false,
+    })),
 
     // create actions
     on(teamTournamentActions.create, (state) => ({
@@ -56,7 +75,7 @@ const teamTournamentFeature = createFeature({
       ...state,
       isSubmitting: false,
       allTeamTournament: (state.allTeamTournament || []).filter(
-        (item) => item.id !== action.id,
+        (item) => item.id !== action.connectionId,
       ),
       errors: null,
     })),
@@ -153,6 +172,7 @@ export const {
   reducer: teamTournamentReducer,
   selectIsSubmitting,
   selectIsLoading,
+  selectCurrentTeamTournamentId,
   selectCurrentTeamTournament,
   selectAllTeamTournament,
 } = teamTournamentFeature;
