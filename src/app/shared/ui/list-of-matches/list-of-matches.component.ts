@@ -1,9 +1,10 @@
 import { Component, Input } from '@angular/core';
 import { AsyncPipe, DatePipe } from '@angular/common';
-import { IMatchFullData } from '../../../type/match.type';
+import { IMatchWithFullData } from '../../../type/match.type';
 import { TuiLoaderModule } from '@taiga-ui/core';
 import { TuiIslandModule } from '@taiga-ui/kit';
 import { Observable, of } from 'rxjs';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-list-of-matches',
@@ -13,7 +14,15 @@ import { Observable, of } from 'rxjs';
   styleUrl: './list-of-matches.component.less',
 })
 export class ListOfMatchesComponent {
-  @Input() data$: Observable<IMatchFullData[]> = of([]);
+  @Input() data$: Observable<IMatchWithFullData[]> = of([]);
   @Input() emptyMessage: string = 'No data available';
-  @Input() formatPath: (item: IMatchFullData) => string = () => '';
+
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+  ) {}
+
+  navigateToMatchItem(item: IMatchWithFullData): void {
+    this.router.navigate(['match', item.id], { relativeTo: this.route });
+  }
 }

@@ -24,7 +24,7 @@ import {
 } from '@taiga-ui/core';
 import { ActivatedRoute, Params, Router, RouterOutlet } from '@angular/router';
 import { first, Observable, of, take } from 'rxjs';
-import { IMatch, IMatchFullData } from '../../../type/match.type';
+import { IMatch, IMatchWithFullData } from '../../../type/match.type';
 import { ListOfMatchesComponent } from '../../../shared/ui/list-of-matches/list-of-matches.component';
 import { CreateButtonComponent } from '../../../shared/ui/buttons/create-button/create-button.component';
 import { BodyTitleComponent } from '../../../shared/ui/body/body-title/body-title.component';
@@ -47,7 +47,7 @@ import { TournamentDeleteFormComponent } from '../tournament-delete-form/tournam
 import { DeleteDialogComponent } from '../../../shared/ui/dialogs/delete-dialog/delete-dialog.component';
 import { AddEditMatchComponent } from '../../match/add-edit-match/add-edit-match.component';
 import { MatchService } from '../../match/match.service';
-import { MatchFullDataService } from '../../match/matchfulldata.service';
+import { MatchWithFullDataService } from '../../match-with-full-data/matchfulldata.service';
 import { AddTeamToTournamentComponent } from './add-team-to-tournament/add-team-to-tournament.component';
 import { DeleteButtonComponent } from '../../../shared/ui/buttons/delete-button/delete-button.component';
 import { DeleteButtonIconComponent } from '../../../shared/ui/buttons/delete-button-icon/delete-button-icon.component';
@@ -66,6 +66,8 @@ import { Tournament } from '../tournament';
 import { Team } from '../../team/team';
 import { TeamTournament } from '../../team-tournament/teamTournament';
 import { Season } from '../../season/season';
+import { Match } from '../../match/match';
+import { MatchWithFullData } from '../../match-with-full-data/matchWithFullData';
 
 @Component({
   selector: 'app-item-tournament',
@@ -117,6 +119,8 @@ export class ItemTournamentComponent {
   allSportTeams$ = this.team.teamsInSport$;
   teamsInTournament$ = this.team.teamsInTournament$;
   tournament$ = this.tournament.currentTournament$;
+  matchesInTournament$ =
+    this.matchWithFullData.matchesWithFullDataInTournament$;
 
   constructor(
     private season: Season,
@@ -124,12 +128,15 @@ export class ItemTournamentComponent {
     private tournament: Tournament,
     private team: Team,
     private teamTournament: TeamTournament,
+    // private match: Match,
+    private matchWithFullData: MatchWithFullData,
   ) {
     season.loadCurrentSeason();
     sport.loadCurrentSport();
     tournament.loadCurrentTournament();
     team.loadAllTeamsInTournament();
     team.loadAllTeamsInSport();
+    matchWithFullData.loadAllMatchesInTournament();
   }
 
   private route = inject(ActivatedRoute);
@@ -145,15 +152,15 @@ export class ItemTournamentComponent {
   //   fromRouter.getRouterSelectors().selectRouteParams,
   // );
 
-  matchWithFullDataService = inject(MatchFullDataService);
+  // matchWithFullDataService = inject(MatchFullDataService);
 
   searchListService = inject(SearchListService);
   paginationService = inject(PaginationService);
 
-  tournamentId!: number;
+  // tournamentId!: number;
 
-  matchesWithFullData$: Observable<IMatchFullData[]> =
-    this.matchWithFullDataService.matchesWithFullData$;
+  // matchesWithFullData$: Observable<IMatchFullData[]> =
+  //   this.matchWithFullDataService.matchesWithFullData$;
 
   readonly formWeek = new FormGroup({
     matchWeekSearch: new FormControl(1),
@@ -163,28 +170,24 @@ export class ItemTournamentComponent {
 
   islandTeamTitleProperty: keyof ITeam = 'title';
 
-  teamItemHref(item: ITeam): string {
-    return `/tournaments/id/${this.tournamentId}/teams/id/${item.id}`;
+  // teamItemHref(item: ITeam): string {
+  //   return `/team/${item.id}`;
+  // }
+
+  navigateToTeamItem(item: ITeam): void {
+    this.router.navigate(['team', item.id], { relativeTo: this.route });
   }
 
-  navigateTo(route: string): void {
-    this.router.navigateByUrl(route);
-  }
+  // navigateToMatchItem(item: IMatchFullData): void {
+  //   this.router.navigate(['match', item.id], { relativeTo: this.route });
+  // }
 
-  matchHref(item: IMatchFullData): string {
-    return `/matches/id/${item.id}`;
-  }
-
-  // loadTournament() {
-  //   this.store.dispatch(tournamentActions.getId());
+  // navigateTo(route: string): void {
+  //   this.router.navigateByUrl(route);
   // }
   //
-  // loadTeamsInTournament() {
-  //   this.store.dispatch(teamActions.getTeamsByTournamentId());
-  // }
-  //
-  // loadTeamsInSport() {
-  //   this.store.dispatch(teamActions.getTeamsBySportId());
+  // matchHref(item: IMatchFullData): string {
+  //   return `/matches/id/${item.id}`;
   // }
 
   // ngOnInit() {
@@ -240,28 +243,32 @@ export class ItemTournamentComponent {
     this.tournament.deleteTournament();
   }
 
-  onMatchAdd(match: IMatch | null | undefined): void {
-    if (match && this.tournamentId) {
-      this.matchWithFullDataService.addMatchWithFullData(match);
-    } else {
-      console.log('Match data is empty');
-    }
-  }
+  // onMatchAdd(match: IMatch | null | undefined): void {
+  //   if (match && this.tournamentId) {
+  //     this.matchWithFullDataService.addMatchWithFullData(match);
+  //   } else {
+  //     console.log('Match data is empty');
+  //   }
+  // }
+
+  // onMatchAdd(match: IMatch | null | undefined): void {
+  //   if (match && this.tournamentId) {
+  //     this.matchWithFullDataService.addMatchWithFullData(match);
+  //   } else {
+  //     console.log('Match data is empty');
+  //   }
+  // }
 
   onTeamRemoveFromTournament(teamId: number, tournamentId: number) {
-    // this.teamTournament.loadConnectionByTeamAndTournamentId(
-    //   teamId,
-    //   tournamentId,
-    // );
     this.teamTournament.deleteTeamTournamentConnection(teamId, tournamentId);
   }
 
-  readonly stringify = (match: IMatchFullData): string =>
+  readonly stringify = (match: IMatchWithFullData): string =>
     match?.match?.week?.toString();
   // `${teams_data?.team_a?.title?.toString()} vs ${teams_data?.team_b?.title?.toString()}` ||
   // '';
 
-  readonly matcherM = (match: IMatchFullData, search: string): boolean =>
+  readonly matcherM = (match: IMatchWithFullData, search: string): boolean =>
     match?.match?.week
       ?.toString()
       .toLowerCase()

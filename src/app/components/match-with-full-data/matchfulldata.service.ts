@@ -6,9 +6,9 @@ import { ErrorHandlingService } from '../../services/error.service';
 import {
   getDefaultFullData,
   IMatch,
-  IMatchFullData,
+  IMatchWithFullData,
 } from '../../type/match.type';
-import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
+import { BehaviorSubject, map, Observable, of, Subject } from 'rxjs';
 import { TournamentService } from '../tournament/tournament.service';
 import { tap } from 'rxjs/operators';
 import { SortService } from '../../services/sort.service';
@@ -16,7 +16,7 @@ import { SortService } from '../../services/sort.service';
 @Injectable({
   providedIn: 'root',
 })
-export class MatchFullDataService extends BaseApiService<IMatchFullData> {
+export class MatchWithFullDataService extends BaseApiService<IMatchWithFullData> {
   constructor(
     http: HttpClient,
     private router: Router,
@@ -27,19 +27,19 @@ export class MatchFullDataService extends BaseApiService<IMatchFullData> {
 
   dataLoaded = new Subject<boolean>();
 
-  private matchesWithFullDataSubject = new BehaviorSubject<IMatchFullData[]>(
-    [],
-  );
+  private matchesWithFullDataSubject = new BehaviorSubject<
+    IMatchWithFullData[]
+  >([]);
   public matchesWithFullData$ = this.matchesWithFullDataSubject.asObservable();
 
-  matchWithFullDataSubject = new BehaviorSubject<IMatchFullData>(
+  matchWithFullDataSubject = new BehaviorSubject<IMatchWithFullData>(
     getDefaultFullData(),
   );
   public matchWithFullData$ = this.matchWithFullDataSubject.asObservable();
 
   private tournamentService = inject(TournamentService);
 
-  fetchMatchWithDataById(id: number): Observable<IMatchFullData> {
+  fetchMatchWithDataById(id: number): Observable<IMatchWithFullData> {
     return this.findByFirstKeyValue(
       'matches',
       'id',
@@ -50,7 +50,7 @@ export class MatchFullDataService extends BaseApiService<IMatchFullData> {
 
   fetchFullMatchDataWithScoreboardSettingsById(
     id: number,
-  ): Observable<IMatchFullData> {
+  ): Observable<IMatchWithFullData> {
     return this.findByFirstKeyValue(
       'matches',
       'id',
@@ -61,17 +61,33 @@ export class MatchFullDataService extends BaseApiService<IMatchFullData> {
 
   refreshMatchWithFullData(id: number): void {
     this.fetchFullMatchDataWithScoreboardSettingsById(id).subscribe(
-      (match: IMatchFullData) => {
+      (match: IMatchWithFullData) => {
         this.matchWithFullDataSubject.next(match);
         this.dataLoaded.next(true); // Emit true when data has finished loading
       },
     );
   }
 
+  fetchMatchesWithFullDataByTournamentId(
+    id: number,
+  ): Observable<IMatchWithFullData[]> {
+    return this.findByFirstKeyValue(
+      'tournaments',
+      'id',
+      id,
+      'matches/all/data',
+    ).pipe(
+      tap((matches) =>
+        console.log(`MATCHES from TOURNAMENT ID: ${id}`, matches),
+      ),
+      map((data) => SortService.sort(data, '-date')),
+    );
+  }
+
   refreshMatchesWithDataInTournament(tournament_id: number): void {
     this.tournamentService
       .fetchAllMatchesWithDataByTournamentId(tournament_id)
-      .subscribe((matches: IMatchFullData[]) => {
+      .subscribe((matches: IMatchWithFullData[]) => {
         this.matchesWithFullDataSubject.next(matches);
       });
   }
@@ -79,9 +95,9 @@ export class MatchFullDataService extends BaseApiService<IMatchFullData> {
   addMatchWithFullData(newMatch: IMatch): void {
     this.addAnyItem(newMatch, 'create_with_full_data')
       .pipe(
-        tap((match: IMatchFullData) => {
+        tap((match: IMatchWithFullData) => {
           console.log(`ADDED MATCH`, match);
-          let updatedMatches: IMatchFullData[] = [
+          let updatedMatches: IMatchWithFullData[] = [
             ...this.matchesWithFullDataSubject.value,
             match,
           ];

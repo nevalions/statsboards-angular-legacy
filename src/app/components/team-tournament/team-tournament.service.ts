@@ -22,8 +22,6 @@ import { SortService } from '../../services/sort.service';
   providedIn: 'root',
 })
 export class TeamTournamentService extends BaseApiService<ITeamTournament> {
-  teamService = inject(TeamService);
-
   public teamsInTournamentSubject = new BehaviorSubject<ITeam[]>([]);
   public teamsInTournament$ = this.teamsInTournamentSubject.asObservable();
 
@@ -70,30 +68,28 @@ export class TeamTournamentService extends BaseApiService<ITeamTournament> {
       );
   }
 
-  addTeamTournament(newTeamTournament: ITeamTournament): Observable<any> {
-    return this.addItem(
-      newTeamTournament,
-      `${newTeamTournament.team_id}in${newTeamTournament.tournament_id}`,
-    ).pipe(
-      switchMap((team_tournament) => {
-        console.log('CONNECTION TEAM WITH TOURNAMENT ADDED', team_tournament);
-        let updated = [...this.teamTournamentSubject.value, team_tournament];
-        this.teamTournamentSubject.next(updated);
-
-        return this.teamService.findById(team_tournament.team_id).pipe(
-          // map to keep the switchMap chain
-          map((team) => {
-            let updatedTeams = [...this.teamsInTournamentSubject.value, team];
-            updatedTeams = SortService.sort(updatedTeams, 'title');
-            this.teamsInTournamentSubject.next(updatedTeams);
-
-            // Pass along the original team_tournament result
-            return team_tournament;
-          }),
-        );
-      }),
-    );
-  }
+  // addTeamTournament(newTeamTournament: ITeamTournament): Observable<any> {
+  //   return this.addItem(
+  //     newTeamTournament,
+  //     `${newTeamTournament.team_id}in${newTeamTournament.tournament_id}`,
+  //   ).pipe(
+  //     switchMap((team_tournament) => {
+  //       console.log('CONNECTION TEAM WITH TOURNAMENT ADDED', team_tournament);
+  //       let updated = [...this.teamTournamentSubject.value, team_tournament];
+  //       this.teamTournamentSubject.next(updated);
+  //
+  //       return this.teamService.findById(team_tournament.team_id).pipe(
+  //         map((team) => {
+  //           let updatedTeams = [...this.teamsInTournamentSubject.value, team];
+  //           updatedTeams = SortService.sort(updatedTeams, 'title');
+  //           this.teamsInTournamentSubject.next(updatedTeams);
+  //
+  //           return team_tournament;
+  //         }),
+  //       );
+  //     }),
+  //   );
+  // }
 
   addTeamTournamentState(
     newTeamTournament: ITeamTournament,
@@ -128,39 +124,4 @@ export class TeamTournamentService extends BaseApiService<ITeamTournament> {
       );
     });
   }
-
-  // deleteTeamTournament(teamId: number, tournamentId: number): Observable<any> {
-  //   return new Observable<any>((subscriber) => {
-  //     this.fetchTeamTournament(teamId, tournamentId).subscribe({
-  //       next: (teamTournament) => {
-  //         this.deleteItem(teamTournament.id!)
-  //           .pipe(
-  //             switchMap(() => {
-  //               const teamTournamentFiltered =
-  //                 this.teamTournamentSubject.value.filter(
-  //                   (tt): boolean => tt.id !== teamTournament.id,
-  //                 );
-  //               this.teamTournamentSubject.next(teamTournamentFiltered);
-  //
-  //               let updatedTeams = this.teamsInTournamentSubject.value.filter(
-  //                 (team) => team.id !== teamId,
-  //               );
-  //               updatedTeams = SortService.sort(updatedTeams, 'title');
-  //               this.teamsInTournamentSubject.next(updatedTeams);
-  //
-  //               return of(teamTournamentFiltered);
-  //             }),
-  //           )
-  //           .subscribe(() => {
-  //             subscriber.next();
-  //             subscriber.complete();
-  //           });
-  //       },
-  //       error: (error) => {
-  //         console.error(error);
-  //         subscriber.error(error);
-  //       },
-  //     });
-  //   });
-  // }
 }

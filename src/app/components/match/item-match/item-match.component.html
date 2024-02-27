@@ -21,21 +21,21 @@
                 <p
                   class="tui-island__paragraph">{{ matchWithFullData.match.match_date | date:"dd MMM yyyy, HH:mm" }}</p>
 
-                <app-edit-button
-                  [appearance]="TuiAppearance.Flat"
-                  [buttonClass]="'tui-island__footer-button'"
-                  [buttonSize]="'l'"
-                  [action]="'edit'"
-                  [item]="'Match'"
-                  [dialogId]="'editDialog'"
-                ></app-edit-button>
-                <app-add-edit-match
-                  [teams$]="teamsInTournament$"
-                  [match$]="match$"
-                  [action]="'edit'"
-                  [dialogId]="'editDialog'"
-                  (editEvent)="onMatchEdit($event)"
-                ></app-add-edit-match>
+                <!--                <app-edit-button-->
+                <!--                  [appearance]="TuiAppearance.Flat"-->
+                <!--                  [buttonClass]="'tui-island__footer-button'"-->
+                <!--                  [buttonSize]="'l'"-->
+                <!--                  [action]="'edit'"-->
+                <!--                  [item]="'Match'"-->
+                <!--                  [dialogId]="'editDialog'"-->
+                <!--                ></app-edit-button>-->
+                <!--                <app-add-edit-match-->
+                <!--                  [teams$]="teamsInTournament$"-->
+                <!--                  [match$]="match$"-->
+                <!--                  [action]="'edit'"-->
+                <!--                  [dialogId]="'editDialog'"-->
+                <!--                  (editEvent)="onMatchEdit($event)"-->
+                <!--                ></app-add-edit-match>-->
 
                 <button
                   appearance="flat"
@@ -43,7 +43,7 @@
                   tuiButton
                   type="button"
                   class="tui-island__footer-button"
-                  (click)="navigateToScoreboardAdmin()"
+                  (click)="navigateToScoreboardAdmin(matchWithFullData.match_id!)"
                 >
                   SCOREBOARD ADMIN
                 </button>
@@ -53,7 +53,7 @@
                   tuiButton
                   type="button"
                   class="tui-island__footer-button"
-                  (click)="navigateToScoreboardDisplay()"
+                  (click)="navigateToScoreboardDisplay(matchWithFullData.match_id!)"
                 >
                   SCOREBOARD VIEW
                 </button>

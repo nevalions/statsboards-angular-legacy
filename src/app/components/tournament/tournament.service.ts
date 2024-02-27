@@ -5,7 +5,7 @@ import { BehaviorSubject, map, Observable, Subject } from 'rxjs';
 import { Params, Router } from '@angular/router';
 import { ErrorHandlingService } from '../../services/error.service';
 import { ITournament } from '../../type/tournament.type';
-import { IMatchFullData } from '../../type/match.type';
+import { IMatchWithFullData } from '../../type/match.type';
 import { tap } from 'rxjs/operators';
 import { SortService } from '../../services/sort.service';
 import { ITeam } from '../../type/team.type';
@@ -25,16 +25,16 @@ export class TournamentService extends BaseApiService<ITournament> {
     super('tournaments', http, errorHandlingService);
   }
 
-  refreshTournaments(sportId: number, seasonYear: number): void {
-    // call to fetch new data
-    this.fetchTournamentsBySportAndSeason({
-      id: sportId,
-      year: seasonYear,
-    }).subscribe((tournaments: ITournament[]) => {
-      // when new data arrives, update the tournaments$ source
-      this.tournamentsSubject.next(tournaments);
-    });
-  }
+  // refreshTournaments(sportId: number, seasonYear: number): void {
+  //   // call to fetch new data
+  //   this.fetchTournamentsBySportAndSeason({
+  //     id: sportId,
+  //     year: seasonYear,
+  //   }).subscribe((tournaments: ITournament[]) => {
+  //     // when new data arrives, update the tournaments$ source
+  //     this.tournamentsSubject.next(tournaments);
+  //   });
+  // }
 
   addTournament(newTournament: ITournament): void {
     this.addItem(newTournament)
@@ -53,14 +53,14 @@ export class TournamentService extends BaseApiService<ITournament> {
       .subscribe();
   }
 
-  addTournamentStore(newTournament: ITournament): Observable<ITournament> {
-    return this.addItem(newTournament);
-  }
+  // addTournamentStore(newTournament: ITournament): Observable<ITournament> {
+  //   return this.addItem(newTournament);
+  // }
 
   //TODO replace with base
   fetchAllMatchesWithDataByTournamentId(id: number) {
     return this.http
-      .get<IMatchFullData[]>(`${this.endpoint}/id/${id}/matches/all/data`)
+      .get<IMatchWithFullData[]>(`${this.endpoint}/id/${id}/matches/all/data`)
       .pipe(
         tap((items) => console.log(`MATCHES from TOURNAMENT ID ${id}`, items)),
         map((data) =>
@@ -131,16 +131,16 @@ export class TournamentService extends BaseApiService<ITournament> {
     );
   }
 
-  deleteTournament(id: number): Observable<any> {
-    return new Observable<any>((subscriber) => {
-      this.deleteItem(id).subscribe(() => {
-        const tournamentFiltered = this.tournamentsSubject.value.filter(
-          (t) => t.id !== id,
-        );
-        this.tournamentsSubject.next(tournamentFiltered);
-        subscriber.next(tournamentFiltered);
-        subscriber.complete();
-      });
-    });
-  }
+  // deleteTournament(id: number): Observable<any> {
+  //   return new Observable<any>((subscriber) => {
+  //     this.deleteItem(id).subscribe(() => {
+  //       const tournamentFiltered = this.tournamentsSubject.value.filter(
+  //         (t) => t.id !== id,
+  //       );
+  //       this.tournamentsSubject.next(tournamentFiltered);
+  //       subscriber.next(tournamentFiltered);
+  //       subscriber.complete();
+  //     });
+  //   });
+  // }
 }

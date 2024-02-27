@@ -17,9 +17,9 @@ export interface IMatchTeamsData {
   team_b: ITeam;
 }
 
-export interface IMatchFullData {
-  id: number;
-  match_id: number;
+export interface IMatchWithFullData {
+  id?: number | null;
+  match_id?: number | null;
   status_code: number;
   match: IMatch;
   teams_data: IMatchTeamsData;
@@ -36,7 +36,7 @@ export interface IMatchFullDataWithScoreboard {
   scoreboard: IScoreboard;
 }
 
-export function getDefaultFullData(): IMatchFullData {
+export function getDefaultFullData(): IMatchWithFullData {
   return {
     id: 0,
     match_id: 0,

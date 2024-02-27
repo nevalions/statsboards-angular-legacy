@@ -41,7 +41,11 @@ import {
   TuiTextareaModule,
 } from '@taiga-ui/kit';
 import { ITournament } from '../../../type/tournament.type';
-import { IMatch, IMatchFullData } from '../../../type/match.type';
+import {
+  getDefaultFullData,
+  IMatch,
+  IMatchWithFullData,
+} from '../../../type/match.type';
 import { TournamentService } from '../../tournament/tournament.service';
 import {
   combineLatest,
@@ -61,6 +65,9 @@ import { CancelButtonInFormComponent } from '../../../shared/ui/buttons/cancel-b
 import { DialogService } from '../../../services/dialog.service';
 import { MatchService } from '../match.service';
 import { tap } from 'rxjs/operators';
+import { Tournament } from '../../tournament/tournament';
+import { MatchWithFullData } from '../../match-with-full-data/matchWithFullData';
+import { Match } from '../match';
 
 @Component({
   selector: 'app-add-edit-match',
@@ -98,6 +105,11 @@ import { tap } from 'rxjs/operators';
   ],
 })
 export class AddEditMatchComponent implements OnInit, OnDestroy {
+  constructor(
+    // private matchWithFullData: MatchWithFullData,
+    private match: Match,
+  ) {}
+
   dateTimeService = inject(DateTimeService);
   dialogService = inject(DialogService);
   private dialogSubscription: Subscription | undefined;
@@ -106,7 +118,9 @@ export class AddEditMatchComponent implements OnInit, OnDestroy {
   @Input() dialogId: string = 'addDialog';
 
   @Input() editMatch: IMatch = {} as IMatch;
-  @Input() match$: Observable<IMatchFullData> = of({} as IMatchFullData);
+  @Input() match$: Observable<IMatchWithFullData> = of(
+    {} as IMatchWithFullData,
+  );
 
   @Input() tournamentId!: number;
   @Input() teams$: Observable<ITeam[]> = of([]);
@@ -213,6 +227,7 @@ export class AddEditMatchComponent implements OnInit, OnDestroy {
 
         if (team_a_id && team_b_id) {
           let data: IMatch = {
+            // notice IMatch is used instead of IMatchWithFullData
             id: this.matchForm.get('id')?.value,
             match_date: js_date,
             week: formValue.week!,
@@ -224,7 +239,7 @@ export class AddEditMatchComponent implements OnInit, OnDestroy {
 
           if (this.action === 'add') {
             console.log(data);
-            this.addEvent.emit(data);
+            this.match.createMatch(data);
           } else if (this.action === 'edit') {
             this.editEvent.emit(data);
           }

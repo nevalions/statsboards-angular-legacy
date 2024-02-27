@@ -1,0 +1,257 @@
+import { Injectable } from '@angular/core';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
+import {
+  catchError,
+  filter,
+  map,
+  mergeMap,
+  of,
+  switchMap,
+  withLatestFrom,
+} from 'rxjs';
+import { tap } from 'rxjs/operators';
+import { Router } from '@angular/router';
+
+import { Store } from '@ngrx/store';
+import { selectCurrentTournamentId } from '../../tournament/store/reducers';
+
+import { getRouterSelectors } from '@ngrx/router-store';
+import { matchActions } from './actions';
+import { getDefaultFullData, IMatch } from '../../../type/match.type';
+import { MatchService } from '../match.service';
+import { tournamentActions } from '../../tournament/store/actions';
+import { selectSportIdAndSeasonId } from '../../sport/store/selectors';
+import { selectMatchIdAndTournamentId } from './selectors';
+import { matchWithFullDataActions } from '../../match-with-full-data/store/actions';
+import { teamActions } from '../../team/store/actions';
+import { selectAllTeamsInTournament } from '../../team/store/reducers';
+
+@Injectable()
+export class MatchEffects {
+  getMatchIdFromRouteEffect = createEffect(
+    () => {
+      return this.actions$.pipe(
+        ofType(matchActions.getId),
+        mergeMap(() =>
+          this.store
+            .select(getRouterSelectors().selectRouteParam('match_id'))
+            .pipe(
+              filter((id: string | undefined): id is string => !!id),
+              switchMap((id: string) => [
+                matchActions.get({ id: Number(id) }),
+                matchActions.getMatchIdSuccessfully({
+                  matchId: Number(id),
+                }),
+              ]),
+              catchError(() => of(matchActions.getMatchIdFailure())),
+            ),
+        ),
+      );
+    },
+    { functional: true },
+  );
+
+  createMatchEffect = createEffect(
+    () => {
+      return this.actions$.pipe(
+        ofType(matchActions.create),
+        switchMap(({ request }) => {
+          return this.matchService.addItem(request).pipe(
+            map((currentMatch: IMatch) => {
+              return matchActions.createdSuccessfully({
+                currentMatch,
+              });
+            }),
+            catchError(() => {
+              return of(matchActions.createFailure());
+            }),
+          );
+        }),
+      );
+    },
+    { functional: true },
+  );
+
+  createdSuccessfullyEffect$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(matchActions.createdSuccessfully),
+      withLatestFrom(this.store.select(selectCurrentTournamentId)),
+      filter(
+        ([action, tournamentId]) =>
+          action.currentMatch.tournament_id === tournamentId,
+      ),
+      map(([action]) =>
+        matchActions.updateAllMatchesInTournament({
+          newMatch: action.currentMatch,
+        }),
+      ),
+    ),
+  );
+
+  getAllMatchesEffect = createEffect(
+    () => {
+      return this.actions$.pipe(
+        ofType(matchActions.getAll),
+        switchMap(() => {
+          return this.matchService.findAll().pipe(
+            map((matches: IMatch[]) => {
+              return matchActions.getAllItemsSuccess({
+                matches,
+              });
+            }),
+            catchError(() => {
+              return of(matchActions.getAllItemsFailure());
+            }),
+          );
+        }),
+      );
+    },
+    { functional: true },
+  );
+
+  // getMatchesBySportIdEffect = createEffect(
+  //   () => {
+  //     return this.actions$.pipe(
+  //       ofType(matchActions.getMatchesBySportId),
+  //       switchMap(() => this.store.select(selectCurrentSportId)),
+  //       filter(
+  //         (sportId): sportId is number =>
+  //           sportId !== null && sportId !== undefined,
+  //       ),
+  //       switchMap((sportId: number) =>
+  //         this.matchService.fetchMatchesBySportId(sportId).pipe(
+  //           map((teams: IMatch[]) =>
+  //             matchActions.getMatchesBySportIDSuccess({ teams }),
+  //           ),
+  //           catchError(() => of(matchActions.getMatchesBySportIDFailure())),
+  //         ),
+  //       ),
+  //     );
+  //   },
+  //   { functional: true },
+  // );
+
+  getMatchesByTournamentIdEffect = createEffect(
+    () => {
+      return this.actions$.pipe(
+        ofType(matchActions.getMatchesByTournamentId),
+        switchMap(() => this.store.select(selectCurrentTournamentId)),
+        filter(
+          (tournamentId): tournamentId is number =>
+            tournamentId !== null && tournamentId !== undefined,
+        ),
+        switchMap((tournamentId) => {
+          return this.matchService
+            .fetchMatchesByTournamentId(tournamentId)
+            .pipe(
+              map((matches: IMatch[]) => {
+                return matchActions.getMatchesByTournamentIDSuccess({
+                  matches,
+                });
+              }),
+              catchError(() => {
+                return of(matchActions.getMatchesByTournamentIDFailure);
+              }),
+            );
+        }),
+      );
+    },
+    { functional: true },
+  );
+
+  getMatchByIdEffect = createEffect(
+    () => {
+      return this.actions$.pipe(
+        ofType(matchActions.get), // You will have to define this action
+        switchMap(({ id }) => {
+          return this.matchService.findById(id).pipe(
+            // Assuming you have a getTournaments method in your service
+            map((match: IMatch) => {
+              return matchActions.getItemSuccess({
+                match,
+              });
+            }),
+            catchError(() => {
+              return of(matchActions.getItemFailure());
+            }),
+          );
+        }),
+      );
+    },
+    { functional: true },
+  );
+
+  deleteMatchEffect = createEffect(
+    () => {
+      return this.actions$.pipe(
+        ofType(matchActions.delete),
+        switchMap(({ id }) => {
+          // const _id = typeof id === 'string' ? Number(id) : id;
+          return this.matchService.deleteItem(id).pipe(
+            map(() => {
+              return matchActions.deletedSuccessfully({ id: id });
+            }),
+            catchError(() => {
+              return of(matchActions.deleteFailure());
+            }),
+          );
+        }),
+      );
+    },
+    { functional: true },
+  );
+
+  updateMatchesInTournamentEffect = createEffect(() =>
+    this.actions$.pipe(
+      ofType(matchActions.createdSuccessfully),
+      withLatestFrom(this.store.select(selectAllTeamsInTournament)),
+      mergeMap(([action, teamsInTournament]) => {
+        const newMatch = action.currentMatch;
+        // Find the teams in the array of teams in tournament
+        const teamA = teamsInTournament.find(
+          (team) => team.id === newMatch.team_a_id,
+        );
+        const teamB = teamsInTournament.find(
+          (team) => team.id === newMatch.team_b_id,
+        );
+
+        const newData = getDefaultFullData();
+        const newMatchWithFullData = {
+          ...newData,
+          id: newMatch.id!,
+          match_id: newMatch.id!,
+          match: { ...newData.match, ...newMatch },
+          // includes the found team titles
+          teams_data: {
+            team_a: { ...newData.teams_data.team_a, title: teamA!.title! },
+            team_b: { ...newData.teams_data.team_b, title: teamB!.title! },
+          },
+        };
+
+        return [
+          matchActions.updateAllMatchesInTournament({ newMatch }),
+          matchWithFullDataActions.updateAllMatchesWithFullDataInTournament({
+            newMatchWithFullData,
+          }),
+        ];
+      }),
+    ),
+  );
+
+  navigateOnMatchDeletion$ = createEffect(
+    () => {
+      return this.actions$.pipe(
+        ofType(matchActions.deletedSuccessfully),
+        tap(() => this.router.navigateByUrl('/')),
+      );
+    },
+    { dispatch: false },
+  );
+
+  constructor(
+    private router: Router,
+    private actions$: Actions,
+    private matchService: MatchService,
+    private store: Store,
+  ) {}
+}

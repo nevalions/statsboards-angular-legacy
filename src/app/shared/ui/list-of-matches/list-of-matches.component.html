@@ -2,13 +2,13 @@
   @for (item of data; track item.id) {
     <div class="item-with-data-island">
       <a
-        [href]="formatPath(item)"
         rel="noreferrer"
         size="l"
         target="_self"
         tuiIsland
         textAlign="center"
         [hoverable]="true"
+        (click)="navigateToMatchItem(item)"
       >
         <div class="tui-island__content">
           <figure class="tui-island__figure">

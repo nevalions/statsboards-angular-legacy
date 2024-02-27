@@ -37,6 +37,17 @@ import {
   teamTournamentReducer,
 } from './components/team-tournament/store/reducers';
 import { TeamTournamentEffects } from './components/team-tournament/store/effects';
+import { ItemMatchComponent } from './components/match/item-match/item-match.component';
+import {
+  matchFeatureKey,
+  matchReducer,
+} from './components/match/store/reducers';
+import { MatchEffects } from './components/match/store/effects';
+import { MatchWithFullDataEffects } from './components/match-with-full-data/store/effects';
+import {
+  matchWithFullDataFeatureKey,
+  matchWithFullDataReducer,
+} from './components/match-with-full-data/store/reducers';
 
 export const routes: Routes = [
   {
@@ -82,11 +93,51 @@ export const routes: Routes = [
       provideState(teamFeatureKey, teamReducer),
       provideState(tournamentFeatureKey, tournamentReducer),
       provideState(teamTournamentFeatureKey, teamTournamentReducer),
+      provideState(matchFeatureKey, matchReducer),
+      provideState(matchWithFullDataFeatureKey, matchWithFullDataReducer),
       provideEffects(
         SeasonEffects,
         TournamentEffects,
         TeamEffects,
         TeamTournamentEffects,
+        MatchEffects,
+        MatchWithFullDataEffects,
+      ),
+    ],
+  },
+  {
+    path: 'sport/:sport_id/season/:season_id/tournament/:tournament_id/team/:team_id',
+    component: ItemTeamComponent,
+    providers: [
+      provideState(seasonFeatureKey, seasonReducer),
+      provideState(teamFeatureKey, teamReducer),
+      provideState(tournamentFeatureKey, tournamentReducer),
+      provideState(teamTournamentFeatureKey, teamTournamentReducer),
+      provideEffects(
+        SeasonEffects,
+        TournamentEffects,
+        TeamEffects,
+        TeamTournamentEffects,
+      ),
+    ],
+  },
+  {
+    path: 'sport/:sport_id/season/:season_id/tournament/:tournament_id/match/:match_id',
+    component: ItemMatchComponent,
+    providers: [
+      provideState(seasonFeatureKey, seasonReducer),
+      provideState(teamFeatureKey, teamReducer),
+      provideState(tournamentFeatureKey, tournamentReducer),
+      provideState(teamTournamentFeatureKey, teamTournamentReducer),
+      provideState(matchFeatureKey, matchReducer),
+      provideState(matchWithFullDataFeatureKey, matchWithFullDataReducer),
+      provideEffects(
+        SeasonEffects,
+        TournamentEffects,
+        TeamEffects,
+        TeamTournamentEffects,
+        MatchEffects,
+        MatchWithFullDataEffects,
       ),
     ],
   },
@@ -116,12 +167,12 @@ export const routes: Routes = [
     ],
   },
 
-  {
-    path: 'matches',
-    component: MatchComponent,
-    loadChildren: () =>
-      import('./components/match/match.routes').then((r) => r.MATCH_ROUTES),
-  },
+  // {
+  //   path: 'matches',
+  //   component: MatchComponent,
+  //   loadChildren: () =>
+  //     import('./components/match/match.routes').then((r) => r.MATCH_ROUTES),
+  // },
 
   { path: 'error404', component: PageNotFoundComponent },
   { path: '**', component: PageNotFoundComponent },

@@ -31,7 +31,6 @@
               [dialogId]="'addDialog'"
               [tournamentId]="tournament.id"
               [teams$]="teamsInTournament$"
-              (addEvent)="onMatchAdd($event)"
             ></app-add-edit-match>
           }
         } @else {
@@ -53,7 +52,7 @@
     }
     <div class="tournament with__aside">
       <div class="one_col_container">
-        @if (matchesWithFullData$ | async; as items) {
+        @if (matchesInTournament$ | async; as items) {
           <div class="filters flex__fullwidth_center">
             <form
               [formGroup]="formWeek"
@@ -67,25 +66,28 @@
             </form>
 
             <app-form-search-text
-              [data$]="matchesWithFullData$"
+              [data$]="matchesInTournament$"
               [searchTitle]="'team'"
               [parameter]="'teams_data.team_a.title + teams_data.team_b.title'"
               [filter]="'includes'"
             ></app-form-search-text>
 
             <app-pagination-with-items-per-page
-              [items$]="matchesWithFullData$"
+              [items$]="matchesInTournament$"
             ></app-pagination-with-items-per-page>
 
 
           </div>
           <div class="list-of-items-with-data" style="padding: 20px">
-
             <app-list-of-matches
-              [data$]="paginationService.paginatedItems$"
-              [formatPath]='matchHref'
+              [data$]="matchesInTournament$"
             >
             </app-list-of-matches>
+
+            <!--            <app-list-of-matches-->
+            <!--              [data$]="paginationService.paginatedItems$"-->
+            <!--            >-->
+            <!--            </app-list-of-matches>-->
 
           </div>
         } @else {
@@ -107,7 +109,7 @@
                     tuiButton
                     type="button"
                     style="width: 80%"
-                    (click)="navigateTo(teamItemHref(team))"
+                    (click)="navigateToTeamItem(team)"
                   > {{ team.title }}
                   </button>
                   <app-delete-button-icon
