@@ -40,7 +40,7 @@ export class TeamTournament {
     );
   }
 
-  deleteTeamTournamentConnection() {
-    this.store.dispatch(teamTournamentActions.delete());
+  deleteTeamTournamentConnection(teamId: number, tournamentId: number) {
+    this.store.dispatch(teamTournamentActions.delete({ teamId, tournamentId }));
   }
 }

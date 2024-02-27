@@ -140,23 +140,20 @@ export class TeamTournamentEffects {
     () => {
       return this.actions$.pipe(
         ofType(teamTournamentActions.delete),
-        switchMap(() =>
-          this.store.select(selectTeamIdTournamentIdConnectionId),
-        ),
-        switchMap(({ connectionId, teamId, tournamentId }) => {
-          // console.log(connectionId, teamId, tournamentId);
-          return this.teamTournamentService.deleteItem(connectionId!).pipe(
-            map(() => {
-              return teamTournamentActions.deletedSuccessfully({
-                connectionId: connectionId!,
-                teamId: teamId!,
-                tournamentId: tournamentId!,
-              });
-            }),
-            catchError(() => {
-              return of(teamTournamentActions.deleteFailure());
-            }),
-          );
+        switchMap(({ teamId, tournamentId }) => {
+          return this.teamTournamentService
+            .deleteTeamTournament(teamId, tournamentId)
+            .pipe(
+              map(() => {
+                return teamTournamentActions.deletedSuccessfully({
+                  teamId: teamId,
+                  tournamentId: tournamentId,
+                });
+              }),
+              catchError(() => {
+                return of(teamTournamentActions.deleteFailure());
+              }),
+            );
         }),
       );
     },

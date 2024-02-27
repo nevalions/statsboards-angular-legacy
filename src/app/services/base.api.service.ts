@@ -138,6 +138,24 @@ export abstract class BaseApiService<T> {
     );
   }
 
+  deleteAnyManyToManyConnection(
+    first_id: number,
+    second_id: number,
+  ): Observable<any> {
+    return this.http
+      .delete<any>(`${this.endpoint}/${first_id}in${second_id}`)
+      .pipe(
+        tap(() => {
+          console.log(
+            `DELETED /API/${this.endpoint.toUpperCase()}/${first_id}in${second_id}`,
+          );
+        }),
+        catchError((error) => {
+          return this.errorHandlingService.handleError(error);
+        }),
+      );
+  }
+
   findByFirstKeyValue(
     firstItem: string,
     firstKey: string,

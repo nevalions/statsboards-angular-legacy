@@ -71,14 +71,18 @@ const teamTournamentFeature = createFeature({
       ...state,
       isSubmitting: true,
     })),
+
     on(teamTournamentActions.deletedSuccessfully, (state, action) => ({
       ...state,
       isSubmitting: false,
       allTeamTournament: (state.allTeamTournament || []).filter(
-        (item) => item.id !== action.connectionId,
+        (item) =>
+          item.team_id !== action.teamId &&
+          item.tournament_id !== action.tournamentId,
       ),
       errors: null,
     })),
+
     on(teamTournamentActions.deleteFailure, (state, action) => ({
       ...state,
       isSubmitting: false,

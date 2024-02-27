@@ -110,38 +110,57 @@ export class TeamTournamentService extends BaseApiService<ITeamTournament> {
     );
   }
 
-  deleteTeamTournament(teamId: number, tournamentId: number): Observable<any> {
+  deleteTeamTournament(
+    team_id: number,
+    tournament_id: number,
+  ): Observable<any> {
     return new Observable<any>((subscriber) => {
-      this.fetchTeamTournament(teamId, tournamentId).subscribe({
-        next: (teamTournament) => {
-          this.deleteItem(teamTournament.id!)
-            .pipe(
-              switchMap(() => {
-                const teamTournamentFiltered =
-                  this.teamTournamentSubject.value.filter(
-                    (tt): boolean => tt.id !== teamTournament.id,
-                  );
-                this.teamTournamentSubject.next(teamTournamentFiltered);
-
-                let updatedTeams = this.teamsInTournamentSubject.value.filter(
-                  (team) => team.id !== teamId,
-                );
-                updatedTeams = SortService.sort(updatedTeams, 'title');
-                this.teamsInTournamentSubject.next(updatedTeams);
-
-                return of(teamTournamentFiltered);
-              }),
-            )
-            .subscribe(() => {
-              subscriber.next();
-              subscriber.complete();
-            });
+      this.deleteAnyManyToManyConnection(team_id, tournament_id).subscribe(
+        () => {
+          const teamTournamentFiltered =
+            this.teamsInTournamentSubject.value.filter(
+              (t: ITeam) => t.id !== team_id,
+            );
+          this.teamsInTournamentSubject.next(teamTournamentFiltered);
+          subscriber.next(teamTournamentFiltered);
+          subscriber.complete();
         },
-        error: (error) => {
-          console.error(error);
-          subscriber.error(error);
-        },
-      });
+      );
     });
   }
+
+  // deleteTeamTournament(teamId: number, tournamentId: number): Observable<any> {
+  //   return new Observable<any>((subscriber) => {
+  //     this.fetchTeamTournament(teamId, tournamentId).subscribe({
+  //       next: (teamTournament) => {
+  //         this.deleteItem(teamTournament.id!)
+  //           .pipe(
+  //             switchMap(() => {
+  //               const teamTournamentFiltered =
+  //                 this.teamTournamentSubject.value.filter(
+  //                   (tt): boolean => tt.id !== teamTournament.id,
+  //                 );
+  //               this.teamTournamentSubject.next(teamTournamentFiltered);
+  //
+  //               let updatedTeams = this.teamsInTournamentSubject.value.filter(
+  //                 (team) => team.id !== teamId,
+  //               );
+  //               updatedTeams = SortService.sort(updatedTeams, 'title');
+  //               this.teamsInTournamentSubject.next(updatedTeams);
+  //
+  //               return of(teamTournamentFiltered);
+  //             }),
+  //           )
+  //           .subscribe(() => {
+  //             subscriber.next();
+  //             subscriber.complete();
+  //           });
+  //       },
+  //       error: (error) => {
+  //         console.error(error);
+  //         subscriber.error(error);
+  //       },
+  //     });
+  //   });
+  // }
 }

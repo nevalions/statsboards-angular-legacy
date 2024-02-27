@@ -249,11 +249,11 @@ export class ItemTournamentComponent {
   }
 
   onTeamRemoveFromTournament(teamId: number, tournamentId: number) {
-    this.teamTournament.loadConnectionByTeamAndTournamentId(
-      teamId,
-      tournamentId,
-    );
-    this.teamTournament.deleteTeamTournamentConnection();
+    // this.teamTournament.loadConnectionByTeamAndTournamentId(
+    //   teamId,
+    //   tournamentId,
+    // );
+    this.teamTournament.deleteTeamTournamentConnection(teamId, tournamentId);
   }
 
   readonly stringify = (match: IMatchFullData): string =>
