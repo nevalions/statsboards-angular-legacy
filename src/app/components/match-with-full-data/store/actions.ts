@@ -50,6 +50,14 @@ export const matchWithFullDataActions = createActionGroup({
     UpdateAllMatchesWithFullDataInTournament: props<{
       newMatchWithFullData: IMatchWithFullData;
     }>(),
+    UpdateMatchWithFullData: props<{
+      newMatchWithFullData: IMatchWithFullData;
+    }>(),
+    RemoveMatchFromTournament: props<{ id: number }>(),
+
+    // UpdateAllMatchesWithFullDataOnDelete: props<{
+    //   newMatchesWithFullData: IMatchWithFullData[];
+    // }>(),
 
     Delete: props<{ id: number }>(),
     'Deleted successfully': props<{ id: number }>(),

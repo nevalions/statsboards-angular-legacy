@@ -56,6 +56,7 @@ const matchFeature = createFeature({
         isSubmitting: false,
         currentMatch: action.currentMatch,
         allMatches: sortedTournaments,
+        allMatchesInTournament: sortedTournaments,
       };
     }),
     on(matchActions.createFailure, (state, action) => ({
@@ -72,8 +73,8 @@ const matchFeature = createFeature({
     on(matchActions.deletedSuccessfully, (state, action) => ({
       ...state,
       isSubmitting: false,
-      itemsList: (state.allMatches || []).filter(
-        (item) => item.id !== action.id,
+      allMatches: (state.allMatches || []).filter(
+        (item) => item.id !== action.matchId,
       ),
       errors: null,
     })),

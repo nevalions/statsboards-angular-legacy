@@ -114,6 +114,7 @@ const matchWithFullDataFeature = createFeature({
       isSubmitting: false,
       errors: action,
     })),
+
     on(
       matchWithFullDataActions.updateAllMatchesWithFullDataInTournament,
       (state, { newMatchWithFullData }) => {
@@ -132,6 +133,38 @@ const matchWithFullDataFeature = createFeature({
         };
       },
     ),
+    on(
+      matchWithFullDataActions.updateMatchWithFullData,
+      (state, { newMatchWithFullData }) => {
+        return {
+          ...state,
+          currentMatchWithFullData: newMatchWithFullData,
+        };
+      },
+    ),
+
+    // on(
+    //   matchWithFullDataActions.updateAllMatchesWithFullDataOnDelete,
+    //   (state, { newMatchesWithFullData }) => {
+    //     const sortedMatches = SortService.sort(
+    //       newMatchesWithFullData, // should be an array, not an object
+    //       'match.week',
+    //       '-match.date',
+    //     );
+    //     return {
+    //       ...state,
+    //       allMatchesWithFullDataInTournament: sortedMatches,
+    //     };
+    //   },
+    // ),
+
+    on(matchWithFullDataActions.removeMatchFromTournament, (state, action) => ({
+      ...state,
+      allMatchesWithFullDataInTournament:
+        state.allMatchesWithFullDataInTournament.filter(
+          (match) => match.id !== action.id,
+        ),
+    })),
 
     // get actions
     on(matchWithFullDataActions.get, (state) => ({

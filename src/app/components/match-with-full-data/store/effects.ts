@@ -16,11 +16,7 @@ import { selectCurrentTournamentId } from '../../tournament/store/reducers';
 import { getRouterSelectors } from '@ngrx/router-store';
 import { matchWithFullDataActions } from './actions';
 import { MatchWithFullDataService } from '../matchfulldata.service';
-import {
-  getDefaultFullData,
-  IMatchWithFullData,
-} from '../../../type/match.type';
-import { matchActions } from '../../match/store/actions';
+import { IMatchWithFullData } from '../../../type/match.type';
 
 @Injectable()
 export class MatchWithFullDataEffects {
@@ -225,15 +221,15 @@ export class MatchWithFullDataEffects {
     ),
   );
 
-  navigateOnMatchWithFullDataDeletion$ = createEffect(
-    () => {
-      return this.actions$.pipe(
-        ofType(matchWithFullDataActions.deletedSuccessfully),
-        tap(() => this.router.navigateByUrl('/')),
-      );
-    },
-    { dispatch: false },
-  );
+  // navigateOnMatchWithFullDataDeletion$ = createEffect(
+  //   () => {
+  //     return this.actions$.pipe(
+  //       ofType(matchWithFullDataActions.deletedSuccessfully),
+  //       tap(() => this.router.navigateByUrl('/')),
+  //     );
+  //   },
+  //   { dispatch: false },
+  // );
 
   constructor(
     private router: Router,

@@ -34,8 +34,13 @@ export const matchActions = createActionGroup({
 
     UpdateAllMatchesInTournament: props<{ newMatch: IMatch }>(),
 
-    Delete: props<{ id: number }>(),
-    'Deleted successfully': props<{ id: number }>(),
+    Delete: emptyProps(),
+    'Deleted successfully': props<{
+      matchId: number;
+      tournamentId: number;
+      sportId: number;
+      seasonId: number;
+    }>(),
     'Delete failure': emptyProps(),
   },
 });

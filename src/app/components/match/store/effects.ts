@@ -17,14 +17,18 @@ import { selectCurrentTournamentId } from '../../tournament/store/reducers';
 
 import { getRouterSelectors } from '@ngrx/router-store';
 import { matchActions } from './actions';
-import { getDefaultFullData, IMatch } from '../../../type/match.type';
+import {
+  getDefaultFullData,
+  IMatch,
+  IMatchWithFullData,
+} from '../../../type/match.type';
 import { MatchService } from '../match.service';
-import { tournamentActions } from '../../tournament/store/actions';
-import { selectSportIdAndSeasonId } from '../../sport/store/selectors';
-import { selectMatchIdAndTournamentId } from './selectors';
+
+import { selectMatchTournamentSportSeasonId } from './selectors';
 import { matchWithFullDataActions } from '../../match-with-full-data/store/actions';
-import { teamActions } from '../../team/store/actions';
+
 import { selectAllTeamsInTournament } from '../../team/store/reducers';
+import { selectCurrentMatchWithFullData } from '../../match-with-full-data/store/reducers';
 
 @Injectable()
 export class MatchEffects {
@@ -109,6 +113,60 @@ export class MatchEffects {
     { functional: true },
   );
 
+  updateMatchEffect = createEffect(
+    () => {
+      return this.actions$.pipe(
+        ofType(matchActions.update),
+        switchMap(({ id, newMatchData }) => {
+          return this.matchService.editMatch(id, newMatchData).pipe(
+            map((updatedMatch: IMatch) => {
+              return matchActions.updatedSuccessfully({
+                updatedMatch,
+              });
+            }),
+            catchError(() => {
+              return of(matchActions.updateFailure());
+            }),
+          );
+        }),
+      );
+    },
+    { functional: true },
+  );
+
+  updateMatchWithFullDataEffect = createEffect(
+    () => {
+      return this.actions$.pipe(
+        ofType(matchActions.updatedSuccessfully),
+        withLatestFrom(this.store.select(selectAllTeamsInTournament)),
+        withLatestFrom(this.store.select(selectCurrentMatchWithFullData)),
+        map(([[action, allTournamentTeams], currentFullMatch]) => {
+          const teamA = allTournamentTeams.find(
+            (team) => team.id === action.updatedMatch.team_a_id,
+          );
+          const teamB = allTournamentTeams.find(
+            (team) => team.id === action.updatedMatch.team_b_id,
+          );
+
+          const updatedFullMatch: IMatchWithFullData = {
+            ...currentFullMatch,
+            match: action.updatedMatch,
+            status_code: currentFullMatch?.status_code || 0,
+            teams_data: {
+              team_a: teamA!,
+              team_b: teamB!,
+            },
+          };
+
+          return matchWithFullDataActions.updateMatchWithFullData({
+            newMatchWithFullData: updatedFullMatch,
+          });
+        }),
+      );
+    },
+    { dispatch: true },
+  );
+
   // getMatchesBySportIdEffect = createEffect(
   //   () => {
   //     return this.actions$.pipe(
@@ -185,11 +243,16 @@ export class MatchEffects {
     () => {
       return this.actions$.pipe(
         ofType(matchActions.delete),
-        switchMap(({ id }) => {
-          // const _id = typeof id === 'string' ? Number(id) : id;
-          return this.matchService.deleteItem(id).pipe(
+        withLatestFrom(this.store.select(selectMatchTournamentSportSeasonId)),
+        switchMap(([action, { matchId, tournamentId, sportId, seasonId }]) => {
+          return this.matchService.deleteItem(matchId!).pipe(
             map(() => {
-              return matchActions.deletedSuccessfully({ id: id });
+              return matchActions.deletedSuccessfully({
+                matchId: matchId!,
+                tournamentId: tournamentId!,
+                sportId: sportId!,
+                seasonId: seasonId!,
+              });
             }),
             catchError(() => {
               return of(matchActions.deleteFailure());
@@ -200,6 +263,56 @@ export class MatchEffects {
     },
     { functional: true },
   );
+
+  deleteMatchSuccessEffect$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(matchActions.deletedSuccessfully),
+      switchMap((action) =>
+        of(
+          matchWithFullDataActions.removeMatchFromTournament({
+            id: action.matchId,
+          }),
+        ),
+      ),
+    ),
+  );
+
+  navigateOnMatchDeletion$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(matchActions.deletedSuccessfully),
+        tap(({ tournamentId, sportId, seasonId }) => {
+          setTimeout(() => {
+            this.router.navigateByUrl(
+              `/sport/${sportId}/season/${seasonId}/tournament/${tournamentId}`,
+            );
+          }, 1500); // Use a small delay
+        }),
+      ),
+    { dispatch: false },
+  );
+
+  // updateMatchesOnDeletionEffect = createEffect(
+  //   () =>
+  //     this.actions$.pipe(
+  //       ofType(matchActions.deletedSuccessfully),
+  //       withLatestFrom(
+  //         this.store.select(selectAllMatchesWithFullDataInTournament),
+  //       ),
+  //       concatMap(([action, matchesWithFullDataInTournament]) => {
+  //         const updatedMatches = matchesWithFullDataInTournament.filter(
+  //           (match) => match.match_id !== action.matchId,
+  //         );
+  //
+  //         return [
+  //           matchWithFullDataActions.updateAllMatchesWithFullDataOnDelete({
+  //             newMatchesWithFullData: updatedMatches,
+  //           }),
+  //         ];
+  //       }),
+  //     ),
+  //   { functional: true },
+  // );
 
   updateMatchesInTournamentEffect = createEffect(() =>
     this.actions$.pipe(
@@ -223,8 +336,8 @@ export class MatchEffects {
           match: { ...newData.match, ...newMatch },
           // includes the found team titles
           teams_data: {
-            team_a: { ...newData.teams_data.team_a, title: teamA!.title! },
-            team_b: { ...newData.teams_data.team_b, title: teamB!.title! },
+            team_a: { ...newData.teams_data!.team_a, title: teamA!.title! },
+            team_b: { ...newData.teams_data!.team_b, title: teamB!.title! },
           },
         };
 
@@ -236,16 +349,6 @@ export class MatchEffects {
         ];
       }),
     ),
-  );
-
-  navigateOnMatchDeletion$ = createEffect(
-    () => {
-      return this.actions$.pipe(
-        ofType(matchActions.deletedSuccessfully),
-        tap(() => this.router.navigateByUrl('/')),
-      );
-    },
-    { dispatch: false },
   );
 
   constructor(

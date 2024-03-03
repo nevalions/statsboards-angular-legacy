@@ -16,10 +16,10 @@
           </figure>
           <div>
             <h3 class="tui-island__title content__body__title__center">
-              {{ item.teams_data.team_a.title }} vs {{ item.teams_data.team_b.title }}
+              {{ item.teams_data!.team_a.title }} vs {{ item.teams_data!.team_b.title }}
             </h3>
             <h4 class="tui-island__title content__body__title__center">
-              {{ item.match_data.score_team_a }} : {{ item.match_data.score_team_b }}
+              {{ item.match_data!.score_team_a }} : {{ item.match_data!.score_team_b }}
             </h4>
             <p class="tui-island__paragraph">{{ item.match.match_date | date:"dd MMM yyyy, HH:mm" }}</p>
           </div>

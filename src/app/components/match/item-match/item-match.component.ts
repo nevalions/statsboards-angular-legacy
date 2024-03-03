@@ -3,7 +3,7 @@ import { Subject } from 'rxjs';
 import { IMatch } from '../../../type/match.type';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { MatchService } from '../match.service';
-import { AsyncPipe, DatePipe } from '@angular/common';
+import { AsyncPipe, DatePipe, NgIf } from '@angular/common';
 import {
   TuiAppearance,
   TuiButtonModule,
@@ -23,6 +23,7 @@ import { Tournament } from '../../tournament/tournament';
 import { Team } from '../../team/team';
 import { TeamTournament } from '../../team-tournament/teamTournament';
 import { MatchWithFullData } from '../../match-with-full-data/matchWithFullData';
+import { Match } from '../match';
 
 @Component({
   selector: 'app-item-match',
@@ -38,13 +39,12 @@ import { MatchWithFullData } from '../../match-with-full-data/matchWithFullData'
     EditButtonComponent,
     CreateButtonShowDialogComponent,
     AddEditMatchComponent,
+    NgIf,
   ],
   templateUrl: './item-match.component.html',
   styleUrl: './item-match.component.less',
 })
 export class ItemMatchComponent {
-  // private readonly ngUnsubscribe = new Subject<void>();
-
   allSportTeams$ = this.team.teamsInSport$;
   teamsInTournament$ = this.team.teamsInTournament$;
   tournament$ = this.tournament.currentTournament$;
@@ -57,14 +57,14 @@ export class ItemMatchComponent {
     private sport: Sport,
     private tournament: Tournament,
     private team: Team,
-    private teamTournament: TeamTournament,
+    private match: Match,
     private matchWithFullData: MatchWithFullData,
   ) {
     season.loadCurrentSeason();
     sport.loadCurrentSport();
     tournament.loadCurrentTournament();
     team.loadAllTeamsInTournament();
-    // team.loadAllTeamsInSport();
+    match.loadCurrentMatch();
     matchWithFullData.loadCurrentMatch();
     // matchWithFullData.loadAllMatchesInTournament();
   }
@@ -133,31 +133,19 @@ export class ItemMatchComponent {
   }
 
   onMatchEdit(match: IMatch | null | undefined): void {
-    // console.log(match);
-    // if (match && match.id) {
-    //   console.log(match);
-    //   this.matchService.editMatch(match.id, match).subscribe((match) => {});
-    // } else {
-    //   console.log('Match data is empty');
-    // }
+    console.log(match);
+    if (match && match.id) {
+      // console.log(match);
+      // this.match.loadCurrentMatch();
+      // this.match.updateMatch(match);
+      // this.matchService.editMatch(match.id, match).subscribe((match) => {});
+    } else {
+      console.log('Match data is empty');
+    }
   }
 
   onDelete() {
-    // if (this.matchId) {
-    //   this.match$.subscribe((match: IMatchWithFullData) => {
-    //     if (match && match.match && match.match.tournament_id) {
-    //       const tournamentId = match.match.tournament_id;
-    //
-    //       // Now that you have the tournamentId, proceed with the deletion
-    //       this.matchService.deleteMatch(match.id!).subscribe(() => {
-    //         this.router.navigateByUrl(`/tournaments/id/${tournamentId}`);
-    //         console.log(`Match ID: ${match.id} deleted successfully.`);
-    //       });
-    //     } else {
-    //       console.error('Invalid match object or missing tournament_id.');
-    //     }
-    //   });
-    // }
+    this.match.deleteMatch();
   }
 
   protected readonly TuiAppearance = TuiAppearance;

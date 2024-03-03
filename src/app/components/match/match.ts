@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { AppState } from '../../store/appstate';
 import { IMatch } from '../../type/match.type';
 import { matchActions } from './store/actions';
+import { selectCurrentMatchWithTeams } from './store/selectors';
 
 @Injectable({
   providedIn: 'root',
@@ -15,6 +16,7 @@ export class Match {
 
   constructor(private store: Store<AppState>) {
     this.match$ = store.select((state) => state.match.currentMatch);
+    // this.match$ = store.select(selectCurrentMatchWithTeams);
     this.matchesInSport$ = store.select(
       (state) => state.match.allMatchesInSport,
     );
@@ -39,7 +41,14 @@ export class Match {
     this.store.dispatch(matchActions.create({ request: match }));
   }
 
-  deleteMatch(id: number) {
-    this.store.dispatch(matchActions.delete({ id }));
+  updateMatch(match: IMatch) {
+    console.log(match, match.id);
+    this.store.dispatch(
+      matchActions.update({ id: match.id!, newMatchData: match }),
+    );
+  }
+
+  deleteMatch() {
+    this.store.dispatch(matchActions.delete());
   }
 }
