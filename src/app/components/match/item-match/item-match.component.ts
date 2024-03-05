@@ -24,6 +24,7 @@ import { Team } from '../../team/team';
 import { TeamTournament } from '../../team-tournament/teamTournament';
 import { MatchWithFullData } from '../../match-with-full-data/matchWithFullData';
 import { Match } from '../match';
+import { ITeam } from '../../../type/team.type';
 
 @Component({
   selector: 'app-item-match',
@@ -59,6 +60,8 @@ export class ItemMatchComponent {
     private team: Team,
     private match: Match,
     private matchWithFullData: MatchWithFullData,
+    private route: ActivatedRoute,
+    private router: Router,
   ) {
     season.loadCurrentSeason();
     sport.loadCurrentSport();
@@ -130,6 +133,10 @@ export class ItemMatchComponent {
         '_blank',
       );
     }
+  }
+
+  navigateToWebSocketItem(): void {
+    this.router.navigate(['admin'], { relativeTo: this.route });
   }
 
   onMatchEdit(match: IMatch | null | undefined): void {

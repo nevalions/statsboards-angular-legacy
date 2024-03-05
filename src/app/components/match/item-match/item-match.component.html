@@ -45,6 +45,17 @@
                     tuiButton
                     type="button"
                     class="tui-island__footer-button"
+                    (click)="navigateToWebSocketItem()"
+                  >
+                    WebSocket ADMIN
+                  </button>
+
+                  <button
+                    appearance="flat"
+                    size="xl"
+                    tuiButton
+                    type="button"
+                    class="tui-island__footer-button"
                     (click)="navigateToScoreboardAdmin(matchWithFullData.match_id!)"
                   >
                     SCOREBOARD ADMIN

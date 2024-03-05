@@ -39,6 +39,7 @@ import {
   matchWithFullDataFeatureKey,
   matchWithFullDataReducer,
 } from './components/match-with-full-data/store/reducers';
+import { MatchScoreboardAdminComponent } from './components/match-scoreboard-admin/match-scoreboard-admin.component';
 
 export const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: '/home' },
@@ -150,6 +151,15 @@ export const routes: Routes = [
     data: {
       breadcrumb: {
         caption: 'Match',
+      },
+    },
+  },
+  {
+    path: 'sport/:sport_id/season/:season_id/tournament/:tournament_id/match/:match_id/admin',
+    component: MatchScoreboardAdminComponent,
+    data: {
+      breadcrumb: {
+        caption: 'Admin',
       },
     },
   },
