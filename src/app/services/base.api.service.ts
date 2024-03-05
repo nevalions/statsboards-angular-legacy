@@ -63,7 +63,7 @@ export abstract class BaseApiService<T> {
   }
 
   editItem(id: number | string, postData: T): Observable<T> {
-    return this.http.put<T>(`${this.endpoint}/?item_id=${id}`, postData).pipe(
+    return this.http.put<T>(`${this.endpoint}/${id}`, postData).pipe(
       tap((items: T) => {
         console.log(
           `PUT /API/${this.endpoint.toUpperCase()}/${id} \ndata:`,
@@ -249,6 +249,21 @@ export abstract class BaseApiServiceEndpoint<T> {
           `POSTED /API/${finalEndpoint.toUpperCase()} \ndata:`,
           items,
         );
+      }),
+      map((response) => {
+        console.log('Server response:', response);
+        return response;
+      }),
+      catchError((error) => {
+        return this.errorHandlingService.handleError(error);
+      }),
+    );
+  }
+
+  editItem(endpoint: string, id: number | string, postData: T): Observable<T> {
+    return this.http.put<T>(`${endpoint}/?item_id=${id}`, postData).pipe(
+      tap((items: T) => {
+        console.log(`PUT /API/${endpoint.toUpperCase()}/${id} \ndata:`, items);
       }),
       map((response) => {
         console.log('Server response:', response);
