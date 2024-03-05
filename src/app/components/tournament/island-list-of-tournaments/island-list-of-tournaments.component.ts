@@ -4,6 +4,8 @@ import { TuiIslandModule } from '@taiga-ui/kit';
 import { TuiLoaderModule, TuiSizeL, TuiSizeS } from '@taiga-ui/core';
 import { Observable, of } from 'rxjs';
 import { ITournament } from '../../../type/tournament.type';
+import { IMatchWithFullData } from '../../../type/match.type';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-island-list-of-tournaments',
@@ -22,4 +24,23 @@ export class IslandListOfTournamentsComponent {
   @Input() data: ITournament[] = [];
   @Input() _size: TuiSizeL | TuiSizeS = 'l';
   @Input() hoverable: boolean = true;
+
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+  ) {}
+
+  navigateToTournamentItem(item: ITournament): void {
+    let sportId = this.route.snapshot.params['sport_id'];
+    let seasonId = this.route.snapshot.params['season_id'];
+
+    this.router.navigate([
+      '/sport',
+      sportId,
+      'season',
+      seasonId,
+      'tournament',
+      item.id,
+    ]);
+  }
 }

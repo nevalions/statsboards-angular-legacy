@@ -21,7 +21,6 @@ import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { tuiInputNumberOptionsProvider } from '@taiga-ui/kit';
 import { provideState, provideStore } from '@ngrx/store';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
-import { isDeclaration } from '@angular/compiler-cli/src/ngtsc/util/src/typescript';
 import { provideEffects } from '@ngrx/effects';
 import { provideRouterStore, routerReducer } from '@ngrx/router-store';
 import {
@@ -29,8 +28,12 @@ import {
   sportReducer,
 } from './components/sport/store/reducers';
 import { SportEffects } from './components/sport/store/effects';
-import { AppState } from './store/appstate';
 import { ROUTER_FEATURE_KEY } from './router/router.selector';
+import {
+  breadcrumbFeatureKey,
+  breadcrumbReducer,
+} from './store/breadcrumbs.reducers';
+import { BreadcrumbEffects } from './store/breadcrumbs.effects';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -52,8 +55,9 @@ export const appConfig: ApplicationConfig = {
     provideEffects(),
     provideRouterStore(),
     provideState(ROUTER_FEATURE_KEY, routerReducer),
+    provideState(breadcrumbFeatureKey, breadcrumbReducer),
     provideState(sportFeatureKey, sportReducer),
-    provideEffects(SportEffects),
+    provideEffects(SportEffects, BreadcrumbEffects),
     provideStoreDevtools({
       maxAge: 25,
       logOnly: !isDevMode(),

@@ -1,15 +1,24 @@
 import { Component } from '@angular/core';
-import { HeaderComponent } from '../header/header.component';
-import { RouterOutlet } from '@angular/router';
-import { TuiRootModule } from '@taiga-ui/core';
+import { Observable } from 'rxjs';
+import { Breadcrumb } from '../../type/base.type';
+import { Store } from '@ngrx/store';
+
+import { RouterLink } from '@angular/router';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
   selector: 'app-home',
-  standalone: true,
-  imports: [HeaderComponent, RouterOutlet, TuiRootModule],
   templateUrl: './home.component.html',
-  styleUrl: './home.component.less',
+  styleUrls: ['./home.component.less'],
+  standalone: true,
+  imports: [RouterLink, AsyncPipe],
 })
 export class HomeComponent {
   title = 'StatsBoards';
+
+  // breadcrumbs$: Observable<Breadcrumb[]>;
+  //
+  // constructor(private store: Store) {
+  //   this.breadcrumbs$ = this.store.select(selectBreadcrumbs);
+  // }
 }

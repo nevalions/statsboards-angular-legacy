@@ -35,3 +35,20 @@ export interface PaginationData<T> {
   currentPage: number;
   itemsPerPage: number;
 }
+
+export type Breadcrumb = {
+  caption: string;
+  routerLink: string;
+  level?: number;
+};
+
+// export interface Breadcrumb {
+//   caption: string;
+//   routerLink: string;
+//   level?: number;
+// }
+
+//
+// export interface BreadcrumbState {
+//   breadcrumbs: Breadcrumb[];
+// }

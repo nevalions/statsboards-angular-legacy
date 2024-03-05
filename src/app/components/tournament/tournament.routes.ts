@@ -1,7 +1,6 @@
 import { Routes } from '@angular/router';
 import { TournamentComponent } from './tournament.component';
 import { ItemTournamentComponent } from './item-tournament/item-tournament.component';
-import { BreadcrumbGuard } from '../../guard/breadcrumb.guard';
 import { inject } from '@angular/core';
 import { provideState } from '@ngrx/store';
 import { tournamentFeatureKey, tournamentReducer } from './store/reducers';

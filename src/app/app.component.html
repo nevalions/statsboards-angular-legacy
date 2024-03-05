@@ -2,17 +2,48 @@
   <tui-root>
     <app-header [title]="title"></app-header>
     <div style="margin: 0; padding: 0;">
-      @if (showBackButton) {
-        <button
-          appearance="outline"
-          tuiButton
-          size="xl"
-          [icon]="'tuiIconArrowLeftLarge'"
-          (click)="goBack()"
-          style="padding-left: 30px; padding-top: 20px; padding-bottom: 0; margin: 0;"
-        >BACK
-        </button>
-      }</div>
+      <!--      @if (breadcrumbs$ | async; as breadcrumbs) {-->
+      <!--        @for (breadcrumb of breadcrumbs; track $index) {-->
+      <!--          <div>-->
+      <!--            test-->
+      <!--            <a [routerLink]="breadcrumb.routerLink">{{ breadcrumb.caption }}</a>-->
+      <!--          </div>-->
+      <!--        }-->
+      <!--      } @else {-->
+      <!--        No Links-->
+      <!--      }-->
+      <tui-breadcrumbs
+        size="l"
+        class="tui-space_top-2"
+      >
+        @if (breadcrumbs$ | async; as bread) {
+          @for (item of bread; track $index) {
+            <ng-container>
+              <a
+                *tuiItem
+                tuiLink
+                [routerLink]="item.routerLink"
+              >
+                {{ item.caption }}
+              </a>
+            </ng-container>
+          }
+        } @else {
+          <tui-loader></tui-loader>
+        }
+      </tui-breadcrumbs>
+    </div>
+    <!--      @if (showBackButton) {-->
+    <!--        <button-->
+    <!--          appearance="outline"-->
+    <!--          tuiButton-->
+    <!--          size="xl"-->
+    <!--          [icon]="'tuiIconArrowLeftLarge'"-->
+    <!--          (click)="goBack()"-->
+    <!--          style="padding-left: 30px; padding-top: 20px; padding-bottom: 0; margin: 0;"-->
+    <!--        >BACK-->
+    <!--        </button>-->
+    <!--      }</div>-->
     <!--    <tui-breadcrumbs-->
     <!--      size="l"-->
     <!--      class="tui-space_top-2"-->

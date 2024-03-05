@@ -1,12 +1,8 @@
 import { Routes } from '@angular/router';
-import { SportComponent } from './components/sport/sport.component';
 import { PageNotFoundComponent } from './pagenotfound/page-not-found.component';
 import { HomeComponent } from './components/home/home.component';
 import { SeasonComponent } from './components/season/season.component';
 import { TournamentComponent } from './components/tournament/tournament.component';
-import { TeamComponent } from './components/team/team.component';
-import { MatchComponent } from './components/match/match.component';
-import { breadcrumbResolver } from './resolvers/breadcrumb.resolver';
 import { provideState } from '@ngrx/store';
 import {
   tournamentFeatureKey,
@@ -18,13 +14,8 @@ import {
   seasonFeatureKey,
   seasonReducer,
 } from './components/season/store/reducers';
-import {
-  sportFeatureKey,
-  sportReducer,
-} from './components/sport/store/reducers';
 import { SeasonEffects } from './components/season/store/effects';
 import { TournamentEffects } from './components/tournament/store/effects';
-import { SportEffects } from './components/sport/store/effects';
 import { ItemTeamComponent } from './components/team/item-team/item-team.component';
 import { teamFeatureKey, teamReducer } from './components/team/store/reducers';
 import { TeamEffects } from './components/team/store/effects';
@@ -50,19 +41,14 @@ import {
 } from './components/match-with-full-data/store/reducers';
 
 export const routes: Routes = [
+  { path: '', pathMatch: 'full', redirectTo: '/home' },
   {
-    path: '',
+    path: 'home',
     component: HomeComponent,
-    data: { breadcrumb: { caption: 'Home', routerLink: '/' } },
+    data: { breadcrumb: { caption: 'Home' } },
   },
   { path: 'seasons', component: SeasonComponent },
   { path: 'seasons/year/:year', component: SeasonComponent },
-  // {
-  //   path: 'sport',
-  //   component: SportComponent,
-  //   loadChildren: () =>
-  //     import('./components/sport/sport.routes').then((r) => r.SPORT_ROUTES),
-  // },
 
   {
     path: 'sport/:sport_id',
@@ -75,6 +61,12 @@ export const routes: Routes = [
       provideState(teamFeatureKey, teamReducer),
       provideEffects(TeamEffects),
     ],
+    data: {
+      breadcrumb: {
+        caption: 'Teams',
+        routerLink: 'sport/:sport_id/teams',
+      },
+    },
   },
   {
     path: 'sport/:sport_id/season/:season_id/tournaments',
@@ -84,6 +76,11 @@ export const routes: Routes = [
       provideState(seasonFeatureKey, seasonReducer),
       provideEffects(SeasonEffects, TournamentEffects),
     ],
+    data: {
+      breadcrumb: {
+        caption: 'Tournaments',
+      },
+    },
   },
   {
     path: 'sport/:sport_id/season/:season_id/tournament/:tournament_id',
@@ -104,6 +101,13 @@ export const routes: Routes = [
         MatchWithFullDataEffects,
       ),
     ],
+    data: {
+      breadcrumb: {
+        caption: 'Tournament',
+        // routerLink:
+        //   '/sport/:sport_id/season/:season_id/tournament/:tournament_id',
+      },
+    },
   },
   {
     path: 'sport/:sport_id/season/:season_id/tournament/:tournament_id/team/:team_id',
@@ -120,6 +124,13 @@ export const routes: Routes = [
         TeamTournamentEffects,
       ),
     ],
+    data: {
+      breadcrumb: {
+        caption: 'Team',
+        // routerLink:
+        //   '/sport/:sport_id/season/:season_id/tournament/:tournament_id/team/:team_id',
+      },
+    },
   },
   {
     path: 'sport/:sport_id/season/:season_id/tournament/:tournament_id/match/:match_id',
@@ -140,6 +151,13 @@ export const routes: Routes = [
         MatchWithFullDataEffects,
       ),
     ],
+    data: {
+      breadcrumb: {
+        caption: 'Match',
+        // routerLink:
+        //   '/sport/:sport_id/season/:season_id/tournament/:tournament_id/match/:match_id',
+      },
+    },
   },
 
   {
@@ -151,13 +169,6 @@ export const routes: Routes = [
       ),
   },
 
-  // {
-  //   path: 'teams',
-  //   component: TeamComponent,
-  //   loadChildren: () =>
-  //     import('./components/team/team.routes').then((r) => r.TEAM_ROUTES),
-  // },
-
   {
     path: 'team/:team_id',
     component: ItemTeamComponent,
@@ -167,13 +178,18 @@ export const routes: Routes = [
     ],
   },
 
-  // {
-  //   path: 'matches',
-  //   component: MatchComponent,
-  //   loadChildren: () =>
-  //     import('./components/match/match.routes').then((r) => r.MATCH_ROUTES),
-  // },
-
   { path: 'error404', component: PageNotFoundComponent },
   { path: '**', component: PageNotFoundComponent },
 ];
+// {
+//   path: 'matches',
+//   component: MatchComponent,
+//   loadChildren: () =>
+//     import('./components/match/match.routes').then((r) => r.MATCH_ROUTES),
+// },
+// {
+//   path: 'sport',
+//   component: SportComponent,
+//   loadChildren: () =>
+//     import('./components/sport/sport.routes').then((r) => r.SPORT_ROUTES),
+// },
