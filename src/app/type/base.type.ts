@@ -41,14 +41,3 @@ export type Breadcrumb = {
   routerLink: string;
   level?: number;
 };
-
-// export interface Breadcrumb {
-//   caption: string;
-//   routerLink: string;
-//   level?: number;
-// }
-
-//
-// export interface BreadcrumbState {
-//   breadcrumbs: Breadcrumb[];
-// }

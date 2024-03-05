@@ -1,5 +1,5 @@
 import { createFeature, createReducer, on } from '@ngrx/store';
-import { Breadcrumb } from '../type/base.type';
+import { Breadcrumb } from '../../type/base.type';
 import { breadcrumbActions } from './breadcrumbs.actions';
 
 export interface BreadcrumbState {

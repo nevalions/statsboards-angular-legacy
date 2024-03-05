@@ -5,7 +5,7 @@ import { TeamState } from '../components/team/store/reducers';
 import { TeamTournamentState } from '../components/team-tournament/store/reducers';
 import { MatchState } from '../components/match/store/reducers';
 import { MatchWithFullDataState } from '../components/match-with-full-data/store/reducers';
-import { BreadcrumbState } from './breadcrumbs.reducers';
+import { BreadcrumbState } from './breadcrumbs/breadcrumbs.reducers';
 
 export interface AppState {
   breadcrumb: BreadcrumbState;

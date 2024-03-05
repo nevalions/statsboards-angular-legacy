@@ -3,7 +3,7 @@ import { Actions, createEffect, FunctionalEffect, ofType } from '@ngrx/effects';
 import { catchError, map, of, switchMap } from 'rxjs';
 import { inject } from '@angular/core';
 
-import { RealApiService } from '../services/base.api.service';
+import { RealApiService } from '../../services/base.api.service';
 
 export function addCreateEffects<T>(): Record<string, FunctionalEffect> {
   const actions = crudActions<T>();

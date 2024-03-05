@@ -5,8 +5,8 @@ import { map, withLatestFrom } from 'rxjs';
 
 import { Store } from '@ngrx/store';
 import { ROUTER_NAVIGATION, RouterNavigationAction } from '@ngrx/router-store';
-import { AppState } from './appstate';
-import { Breadcrumb } from '../type/base.type';
+import { AppState } from '../appstate';
+import { Breadcrumb } from '../../type/base.type';
 
 @Injectable()
 export class BreadcrumbEffects {

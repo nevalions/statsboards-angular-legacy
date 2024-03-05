@@ -32,8 +32,8 @@ import { ROUTER_FEATURE_KEY } from './router/router.selector';
 import {
   breadcrumbFeatureKey,
   breadcrumbReducer,
-} from './store/breadcrumbs.reducers';
-import { BreadcrumbEffects } from './store/breadcrumbs.effects';
+} from './store/breadcrumbs/breadcrumbs.reducers';
+import { BreadcrumbEffects } from './store/breadcrumbs/breadcrumbs.effects';
 
 export const appConfig: ApplicationConfig = {
   providers: [
