@@ -11,35 +11,17 @@ import {
   Component,
   ViewEncapsulation,
 } from '@angular/core';
-import { Location, CommonModule } from '@angular/common';
-import {
-  ActivatedRoute,
-  NavigationEnd,
-  Params,
-  Router,
-  RouterLink,
-  RouterOutlet,
-} from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { RouterLink, RouterOutlet } from '@angular/router';
 import { HeaderComponent } from './components/header/header.component';
 
 import { HomeComponent } from './components/home/home.component';
 import { TuiBreadcrumbsModule } from '@taiga-ui/kit';
-import { tuiIconArrowLeftLarge } from '@taiga-ui/icons';
-import {
-  filter,
-  map,
-  mergeMap,
-  Observable,
-  Subscription,
-  take,
-  withLatestFrom,
-} from 'rxjs';
+
+import { Observable } from 'rxjs';
 import { Breadcrumb } from './type/base.type';
 import { Store } from '@ngrx/store';
 import { AppState } from './store/appstate';
-import { BreadcrumbState } from './store/breadcrumbs.reducers';
-import { breadcrumbActions } from './store/breadcrumbs.actions';
-import { switchMap, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-root',

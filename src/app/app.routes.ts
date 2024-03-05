@@ -104,8 +104,6 @@ export const routes: Routes = [
     data: {
       breadcrumb: {
         caption: 'Tournament',
-        // routerLink:
-        //   '/sport/:sport_id/season/:season_id/tournament/:tournament_id',
       },
     },
   },
@@ -127,8 +125,6 @@ export const routes: Routes = [
     data: {
       breadcrumb: {
         caption: 'Team',
-        // routerLink:
-        //   '/sport/:sport_id/season/:season_id/tournament/:tournament_id/team/:team_id',
       },
     },
   },
@@ -154,8 +150,6 @@ export const routes: Routes = [
     data: {
       breadcrumb: {
         caption: 'Match',
-        // routerLink:
-        //   '/sport/:sport_id/season/:season_id/tournament/:tournament_id/match/:match_id',
       },
     },
   },
@@ -176,6 +170,11 @@ export const routes: Routes = [
       provideState(teamFeatureKey, teamReducer),
       provideEffects(TeamEffects),
     ],
+    data: {
+      breadcrumb: {
+        caption: 'Team',
+      },
+    },
   },
 
   { path: 'error404', component: PageNotFoundComponent },
