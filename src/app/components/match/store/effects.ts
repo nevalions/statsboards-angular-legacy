@@ -29,6 +29,9 @@ import { matchWithFullDataActions } from '../../match-with-full-data/store/actio
 
 import { selectAllTeamsInTournament } from '../../team/store/reducers';
 import { selectCurrentMatchWithFullData } from '../../match-with-full-data/store/reducers';
+import { IMatchData } from '../../../type/matchdata.type';
+import { matchDataActions } from './match-data/actions';
+import { MatchDataService } from '../matchData.service';
 
 @Injectable()
 export class MatchEffects {
@@ -355,6 +358,7 @@ export class MatchEffects {
     private router: Router,
     private actions$: Actions,
     private matchService: MatchService,
+    private matchDataService: MatchDataService,
     private store: Store,
   ) {}
 }

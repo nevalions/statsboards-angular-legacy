@@ -8,6 +8,7 @@ import { matchActions } from './actions';
 import { IMatch } from '../../../type/match.type';
 
 export interface MatchState extends crudStoreInterface {
+  matchIsLoading: boolean;
   currentMatchId: number | undefined | null;
   currentMatch: IMatch | undefined | null;
   allMatches: IMatch[];
@@ -17,6 +18,7 @@ export interface MatchState extends crudStoreInterface {
 
 const initialState: MatchState = {
   ...getDefaultCrudStore(),
+  matchIsLoading: false,
   currentMatchId: null,
   allMatches: [],
   allMatchesInSport: [],
@@ -32,10 +34,12 @@ const matchFeature = createFeature({
     on(matchActions.getId, (state) => ({
       ...state,
       isLoading: true,
+      matchIsLoading: true,
     })),
     on(matchActions.getMatchIdSuccessfully, (state, action) => ({
       ...state,
       isLoading: false,
+      matchIsLoading: false,
       currentMatchId: action.matchId,
     })),
     on(matchActions.getMatchIdFailure, (state) => ({
@@ -116,15 +120,18 @@ const matchFeature = createFeature({
     on(matchActions.get, (state) => ({
       ...state,
       isLoading: true,
+      matchIsLoading: true,
     })),
     on(matchActions.getItemSuccess, (state, action) => ({
       ...state,
       isLoading: false,
+      matchIsLoading: true,
       currentMatch: action.match,
     })),
     on(matchActions.getItemFailure, (state, action) => ({
       ...state,
       isLoading: false,
+      matchIsLoading: false,
       errors: action,
     })),
 
@@ -214,6 +221,7 @@ export const {
   reducer: matchReducer,
   selectIsSubmitting,
   selectIsLoading,
+  selectMatchIsLoading,
   selectCurrentMatchId,
   selectCurrentMatch,
   selectAllMatches,

@@ -71,7 +71,7 @@ export abstract class BaseApiService<T> {
         );
       }),
       map((response) => {
-        console.log('Server response:', response);
+        // console.log('Server response:', response);
         return response;
       }),
       catchError((error) => {

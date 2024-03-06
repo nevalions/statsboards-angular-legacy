@@ -16,7 +16,6 @@ export class Match {
 
   constructor(private store: Store<AppState>) {
     this.match$ = store.select((state) => state.match.currentMatch);
-    // this.match$ = store.select(selectCurrentMatchWithTeams);
     this.matchesInSport$ = store.select(
       (state) => state.match.allMatchesInSport,
     );

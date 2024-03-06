@@ -6,14 +6,18 @@ import { TeamTournamentState } from '../components/team-tournament/store/reducer
 import { MatchState } from '../components/match/store/reducers';
 import { MatchWithFullDataState } from '../components/match-with-full-data/store/reducers';
 import { BreadcrumbState } from './breadcrumbs/breadcrumbs.reducers';
+import { MatchDataState } from '../components/match/store/match-data/reducers';
+import { WebSocketState } from './websocket/websocket.reducers';
 
 export interface AppState {
   breadcrumb: BreadcrumbState;
   match: MatchState;
+  matchData: MatchDataState;
   matchWithFullData: MatchWithFullDataState;
   season: SeasonState;
   sport: SportState;
   team: TeamState;
   teamTournament: TeamTournamentState;
   tournament: TournamentState;
+  webSocket: WebSocketState;
 }

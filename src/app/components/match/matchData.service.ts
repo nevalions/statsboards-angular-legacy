@@ -20,10 +20,23 @@ export class MatchDataService extends BaseApiService<IMatchData> {
     super('matchdata', http, errorHandlingService);
   }
 
-  editMatch(id: number | string, data: IMatchData): Observable<IMatchData> {
+  getMatchDataByMatchId(matchId: number): Observable<IMatchData> {
+    return this.findByFirstKeyValue(
+      'matches',
+      'id',
+      matchId,
+      'match_data',
+    ).pipe(
+      tap((data) => {
+        // console.log(data);
+      }),
+    );
+  }
+
+  editMatchData(id: number | string, data: IMatchData): Observable<IMatchData> {
     return this.editItem(id, data).pipe(
       tap((data) => {
-        console.log(data);
+        // console.log(data);
       }),
     );
   }

@@ -40,6 +40,16 @@ import {
   matchWithFullDataReducer,
 } from './components/match-with-full-data/store/reducers';
 import { MatchScoreboardAdminComponent } from './components/match-scoreboard-admin/match-scoreboard-admin.component';
+import { MatchDataEffects } from './components/match/store/match-data/effects';
+import {
+  matchDataFeatureKey,
+  matchDataReducer,
+} from './components/match/store/match-data/reducers';
+import {
+  webSocketFeatureKey,
+  webSocketReducer,
+} from './store/websocket/websocket.reducers';
+import { WebSocketEffects } from './store/websocket/websocket.effects';
 
 export const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: '/home' },
@@ -157,6 +167,12 @@ export const routes: Routes = [
   {
     path: 'sport/:sport_id/season/:season_id/tournament/:tournament_id/match/:match_id/admin',
     component: MatchScoreboardAdminComponent,
+    providers: [
+      provideState(webSocketFeatureKey, webSocketReducer),
+      provideState(matchFeatureKey, matchReducer),
+      provideState(matchDataFeatureKey, matchDataReducer),
+      provideEffects(MatchDataEffects, WebSocketEffects),
+    ],
     data: {
       breadcrumb: {
         caption: 'Admin',
