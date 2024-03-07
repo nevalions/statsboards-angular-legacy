@@ -7,8 +7,7 @@ import { IMatchData } from '../../type/matchdata.type';
 import { MatchData } from '../match/matchdata';
 import { Match } from '../match/match';
 import { AsyncPipe, NgIf } from '@angular/common';
-import { IMatch, IMatchFullDataWithScoreboard } from '../../type/match.type';
-import { switchMap } from 'rxjs/operators';
+import { IMatchFullDataWithScoreboard } from '../../type/match.type';
 import { Websocket } from '../../store/websocket/websocket';
 import { TuiLoaderModule } from '@taiga-ui/core';
 
@@ -27,9 +26,6 @@ export class MatchScoreboardAdminComponent implements OnInit, OnDestroy {
 
   downValue = '1st';
   distanceValue = ' & 10';
-
-  // score_team_a: number = 0;
-  // score_team_b: number = 0;
 
   constructor(
     private Websocket: Websocket,
@@ -121,6 +117,42 @@ export class MatchScoreboardAdminComponent implements OnInit, OnDestroy {
     this.matchData.updateMatchData(updatedMatchData);
   }
 
+  toggleQuarterVisibility(matchData: IMatchFullDataWithScoreboard) {
+    if (!matchData) return;
+    const updatedMatchData = {
+      ...matchData,
+      is_qtr: !matchData.scoreboard_data?.is_qtr,
+    };
+    this.matchData.updateMatchData(updatedMatchData);
+  }
+
+  togglePlayClockVisibility(matchData: IMatchFullDataWithScoreboard) {
+    if (!matchData) return;
+    const updatedMatchData = {
+      ...matchData,
+      is_playclock: !matchData.scoreboard_data?.is_playclock,
+    };
+    this.matchData.updateMatchData(updatedMatchData);
+  }
+
+  toggleGameClockVisibility(matchData: IMatchFullDataWithScoreboard) {
+    if (!matchData) return;
+    const updatedMatchData = {
+      ...matchData,
+      is_time: !matchData.scoreboard_data?.is_time,
+    };
+    this.matchData.updateMatchData(updatedMatchData);
+  }
+
+  toggleDownAndDistanceVisibility(matchData: IMatchFullDataWithScoreboard) {
+    if (!matchData) return;
+    const updatedMatchData = {
+      ...matchData,
+      is_downdistance: !matchData.scoreboard_data?.is_downdistance,
+    };
+    this.matchData.updateMatchData(updatedMatchData);
+  }
+
   getMinutes(seconds: number): string {
     if (seconds === undefined) {
       return '--';
@@ -139,15 +171,36 @@ export class MatchScoreboardAdminComponent implements OnInit, OnDestroy {
     }
   }
 
+  getPlayClockSeconds(seconds: number): string {
+    if (seconds === undefined) {
+      return '';
+    } else {
+      return (seconds % 60).toString().padStart(1, '0');
+    }
+  }
+
   formsVisibility: { [key: string]: boolean } = {
+    showHideAll: true,
     scoreInputs: true,
     scoreButtons: true,
     qtrForm: true,
     downAndDistanceForm: true,
     timeoutBtns: true,
+    timeForms: true,
+    changeTeamsForms: true,
+    changeScoreBoardForms: true,
   };
 
   toggleFormVisibility(formName: string) {
     this.formsVisibility[formName] = !this.formsVisibility[formName];
+  }
+
+  toggleAllFormsVisibility() {
+    const allVisible = Object.values(this.formsVisibility).every(
+      (value) => value,
+    );
+    Object.keys(this.formsVisibility).forEach(
+      (formName) => (this.formsVisibility[formName] = !allVisible),
+    );
   }
 }

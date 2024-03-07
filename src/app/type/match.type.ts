@@ -33,7 +33,7 @@ export interface IMatchFullDataWithScoreboard {
   match: IMatch;
   teams_data?: IMatchTeamsData;
   match_data?: IMatchData;
-  scoreboard?: IScoreboard;
+  scoreboard_data?: IScoreboard;
 }
 
 export function getDefaultFullData(): IMatchWithFullData {
