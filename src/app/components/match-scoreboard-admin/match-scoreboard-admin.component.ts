@@ -2,7 +2,7 @@ import { AfterViewChecked, Component, OnDestroy, OnInit } from '@angular/core';
 
 import { map, Observable } from 'rxjs';
 
-import { IMatchData } from '../../type/matchdata.type';
+import { IMatchData, IScoreboard } from '../../type/matchdata.type';
 
 import { MatchData } from '../match/matchdata';
 import { Match } from '../match/match';
@@ -37,7 +37,7 @@ export class MatchScoreboardAdminComponent
     private Websocket: Websocket,
     private match: Match,
     private matchData: MatchData,
-    private scoreboardDat: ScoreboardData,
+    private scoreboardData: ScoreboardData,
   ) {
     match.loadCurrentMatch();
   }
@@ -148,13 +148,14 @@ export class MatchScoreboardAdminComponent
     this.matchData.updateMatchData(updatedMatchData);
   }
 
-  toggleQuarterVisibility(matchData: IMatchFullDataWithScoreboard) {
-    if (!matchData) return;
-    const updatedMatchData = {
-      ...matchData,
-      is_qtr: !matchData.scoreboard_data?.is_qtr,
+  toggleQuarterVisibility(scoreboardData: IScoreboard) {
+    if (!scoreboardData) return;
+    console.log(scoreboardData);
+    const updatedScoreboardData = {
+      ...scoreboardData,
+      is_qtr: !scoreboardData.is_qtr,
     };
-    this.matchData.updateMatchData(updatedMatchData);
+    this.scoreboardData.updateScoreboardData(updatedScoreboardData);
   }
 
   togglePlayClockVisibility(matchData: IMatchFullDataWithScoreboard) {

@@ -43,9 +43,10 @@ export class ScoreboardDataService extends BaseApiService<IScoreboard> {
     id: number | string,
     data: IScoreboard,
   ): Observable<IScoreboard> {
+    // console.log(data)
     return this.editItem(id, data).pipe(
       tap((data) => {
-        // console.log(data);
+        console.log(data);
       }),
     );
   }

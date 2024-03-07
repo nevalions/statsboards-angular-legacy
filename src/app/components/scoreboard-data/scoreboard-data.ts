@@ -27,7 +27,7 @@ export class ScoreboardData {
     this.store.dispatch(scoreboardDataActions.getScoreboardDataByMatchId());
   }
 
-  updateMatchData(newScoreboardData: IScoreboard) {
+  updateScoreboardData(newScoreboardData: IScoreboard) {
     // console.log(matchData, matchData.id);
     this.store.dispatch(
       scoreboardDataActions.update({

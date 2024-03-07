@@ -521,7 +521,7 @@
           class="settings-show-hide-btn"
           type="button"
           data-field-name="Qtr"
-          (click)="toggleQuarterVisibility(data)"
+          (click)="toggleQuarterVisibility(data.scoreboard_data!)"
         >{{ data.scoreboard_data?.is_qtr ? 'Hide Qtr Field' : 'Show Qtr Field' }}
         </button>
         <button
