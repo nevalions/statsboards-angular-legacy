@@ -49,6 +49,10 @@ export class MatchScoreboardAdminComponent implements OnInit, OnDestroy {
     this.Websocket.connect();
   }
 
+  ngOnDestroy() {
+    this.Websocket.disconnect();
+  }
+
   adjustScore(team: 'a' | 'b', amount: number) {
     return (matchData: IMatchData) => {
       if (!matchData) return;
@@ -61,10 +65,6 @@ export class MatchScoreboardAdminComponent implements OnInit, OnDestroy {
         this.matchData.updateMatchData(newMatchData);
       }
     };
-  }
-
-  ngOnDestroy() {
-    this.Websocket.disconnect();
   }
 }
 

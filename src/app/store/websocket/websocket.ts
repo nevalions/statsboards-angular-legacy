@@ -1,8 +1,13 @@
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppState } from '../appstate';
-import { selectData, selectError, selectLoading } from './websocket.reducers';
+import {
+  selectConnectionState,
+  selectData,
+  selectError,
+  selectLoading,
+} from './websocket.reducers';
 import { webSocketActions } from './websocket.actions';
 import { IMatchFullDataWithScoreboard } from '../../type/match.type';
 
@@ -20,17 +25,26 @@ export class Websocket {
     this.error$ = this.store.select(selectError);
   }
 
-  connect() {
-    this.store.dispatch(webSocketActions.connect());
+  isConnected() {
+    this.store
+      .select(selectConnectionState)
+      .pipe(map((state) => state === 'CONNECTED'));
   }
 
+  // connect() {
+  //   this.store.dispatch(webSocketActions.connect());
+  // }
   //
-  // connect(matchId: number) {
-  //   this.store.dispatch(webSocketActions.connect({ matchId }));
+  // disconnect() {
+  //   this.store.dispatch(webSocketActions.disconnect());
   // }
 
+  connect() {
+    this.store.dispatch(webSocketActions.connectIfNeeded());
+  }
+
   disconnect() {
-    this.store.dispatch(webSocketActions.disconnect());
+    this.store.dispatch(webSocketActions.disconnectIfNeeded());
   }
 
   send(data: any) {

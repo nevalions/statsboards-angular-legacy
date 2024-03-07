@@ -20,6 +20,12 @@ export const webSocketActions = createActionGroup({
     Message: props<{ message: any }>(),
     Error: props<{ error: any }>(),
 
+    connected: emptyProps(),
+    disconnected: emptyProps(),
+
+    connectIfNeeded: emptyProps(),
+    disconnectIfNeeded: emptyProps(),
+
     Close: props<{ event: any }>(),
     CloseSuccess: emptyProps(),
     CloseFailure: props<{ error: any }>(),

@@ -1,11 +1,19 @@
 import { createFeature, createReducer, on } from '@ngrx/store';
 import { webSocketActions } from './websocket.actions';
 
+export enum WebSocketStateEnum {
+  CONNECTED = 'CONNECTED',
+  DISCONNECTED = 'DISCONNECTED',
+  CONNECTING = 'CONNECTING',
+  DISCONNECTING = 'DISCONNECTING',
+}
+
 export interface WebSocketState {
   data: any | null;
   error: any | null;
   event: any | null;
   loading: boolean;
+  connectionState: WebSocketStateEnum;
 }
 
 const initialState: WebSocketState = {
@@ -13,6 +21,7 @@ const initialState: WebSocketState = {
   error: null,
   event: null,
   loading: false,
+  connectionState: WebSocketStateEnum.DISCONNECTED, // Use the enum here
 };
 
 const webSocketFeature = createFeature({
@@ -23,16 +32,19 @@ const webSocketFeature = createFeature({
       ...state,
       loading: true,
       error: null,
+      connectionState: WebSocketStateEnum.CONNECTING,
     })),
     on(webSocketActions.connectSuccess, (state, { message }) => ({
       ...state,
       loading: false,
       error: null,
       data: message,
+      connectionState: WebSocketStateEnum.CONNECTED,
     })),
     on(webSocketActions.connectFailure, (state, { error }) => ({
       ...state,
       loading: false,
+      connectionState: WebSocketStateEnum.DISCONNECTED,
       error,
     })),
     on(webSocketActions.disconnect, (state) => ({
@@ -43,6 +55,7 @@ const webSocketFeature = createFeature({
     on(webSocketActions.disconnectSuccess, (state) => ({
       ...state,
       loading: false,
+      connectionState: WebSocketStateEnum.DISCONNECTED,
       error: null,
     })),
     on(webSocketActions.disconnectFailure, (state, { error }) => ({
@@ -83,6 +96,7 @@ const webSocketFeature = createFeature({
     on(webSocketActions.closeSuccess, (state) => ({
       ...state,
       loading: false,
+      connectionState: WebSocketStateEnum.DISCONNECTED,
       error: null,
     })),
     on(webSocketActions.closeFailure, (state, { error }) => ({
@@ -96,6 +110,7 @@ const webSocketFeature = createFeature({
 export const {
   name: webSocketFeatureKey,
   reducer: webSocketReducer,
+  selectConnectionState,
   selectData,
   selectError,
   selectEvent,

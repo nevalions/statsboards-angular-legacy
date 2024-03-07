@@ -1,12 +1,16 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { delay, of } from 'rxjs';
+import { delay, filter, from, of, withLatestFrom } from 'rxjs';
 import { catchError, map, switchMap, tap } from 'rxjs/operators';
 
 import { WebSocketService } from '../../services/web-socket.service';
 import { webSocketActions } from './websocket.actions';
 import { selectCurrentMatchId } from '../../components/match/store/reducers';
 import { Store } from '@ngrx/store';
+import {
+  selectConnectionState,
+  WebSocketStateEnum,
+} from './websocket.reducers';
 
 @Injectable()
 export class WebSocketEffects {
@@ -30,6 +34,21 @@ export class WebSocketEffects {
         ),
       ),
     ),
+  );
+
+  disconnect$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(webSocketActions.disconnect),
+        map(() => {
+          this.webSocketService.disconnect();
+          return webSocketActions.disconnectSuccess();
+        }),
+        catchError((error) =>
+          of(webSocketActions.disconnectFailure({ error })),
+        ),
+      ),
+    { dispatch: true },
   );
 
   receiveMessage$ = createEffect(
@@ -105,20 +124,44 @@ export class WebSocketEffects {
     { functional: true },
   );
 
-  // Effect to disconnect from the WebSocket server when the Disconnect action is dispatched
-  disconnect$ = createEffect(
-    () =>
-      this.actions$.pipe(
-        ofType(webSocketActions.disconnect),
-        tap(() => {
-          this.webSocketService.disconnect();
-          return webSocketActions.disconnectSuccess();
-        }),
-        catchError((error) => {
-          return of(webSocketActions.disconnectFailure({ error }));
-        }),
+  // // Effect to disconnect from the WebSocket server when the Disconnect action is dispatched
+  // disconnect$ = createEffect(
+  //   () =>
+  //     this.actions$.pipe(
+  //       ofType(webSocketActions.disconnect),
+  //       tap(() => {
+  //         this.webSocketService.disconnect();
+  //         return webSocketActions.disconnectSuccess();
+  //       }),
+  //       catchError((error) => {
+  //         return of(webSocketActions.disconnectFailure({ error }));
+  //       }),
+  //     ),
+  //   { functional: true },
+  // );
+
+  connectIfNeeded$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(webSocketActions.connectIfNeeded),
+      withLatestFrom(this.store.select(selectConnectionState)),
+      filter(
+        ([action, connectionState]) =>
+          connectionState !== WebSocketStateEnum.CONNECTED,
       ),
-    { functional: true },
+      map(() => webSocketActions.connect()),
+    ),
+  );
+
+  disconnectIfNeeded$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(webSocketActions.disconnectIfNeeded),
+      withLatestFrom(this.store.select(selectConnectionState)),
+      filter(
+        ([action, connectionState]) =>
+          connectionState !== WebSocketStateEnum.DISCONNECTED,
+      ),
+      map(() => webSocketActions.disconnect()),
+    ),
   );
 
   constructor(

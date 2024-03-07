@@ -25,17 +25,17 @@ export class MatchWithFullDataService extends BaseApiService<IMatchWithFullData>
     super('matches', http, errorHandlingService);
   }
 
-  dataLoaded = new Subject<boolean>();
-
-  private matchesWithFullDataSubject = new BehaviorSubject<
-    IMatchWithFullData[]
-  >([]);
-  public matchesWithFullData$ = this.matchesWithFullDataSubject.asObservable();
-
-  matchWithFullDataSubject = new BehaviorSubject<IMatchWithFullData>(
-    getDefaultFullData(),
-  );
-  public matchWithFullData$ = this.matchWithFullDataSubject.asObservable();
+  // dataLoaded = new Subject<boolean>();
+  //
+  // private matchesWithFullDataSubject = new BehaviorSubject<
+  //   IMatchWithFullData[]
+  // >([]);
+  // public matchesWithFullData$ = this.matchesWithFullDataSubject.asObservable();
+  //
+  // matchWithFullDataSubject = new BehaviorSubject<IMatchWithFullData>(
+  //   getDefaultFullData(),
+  // );
+  // public matchWithFullData$ = this.matchWithFullDataSubject.asObservable();
 
   private tournamentService = inject(TournamentService);
 
@@ -59,14 +59,14 @@ export class MatchWithFullDataService extends BaseApiService<IMatchWithFullData>
     );
   }
 
-  refreshMatchWithFullData(id: number): void {
-    this.fetchFullMatchDataWithScoreboardSettingsById(id).subscribe(
-      (match: IMatchWithFullData) => {
-        this.matchWithFullDataSubject.next(match);
-        this.dataLoaded.next(true); // Emit true when data has finished loading
-      },
-    );
-  }
+  // refreshMatchWithFullData(id: number): void {
+  //   this.fetchFullMatchDataWithScoreboardSettingsById(id).subscribe(
+  //     (match: IMatchWithFullData) => {
+  //       this.matchWithFullDataSubject.next(match);
+  //       this.dataLoaded.next(true); // Emit true when data has finished loading
+  //     },
+  //   );
+  // }
 
   fetchMatchesWithFullDataByTournamentId(
     id: number,
@@ -84,31 +84,31 @@ export class MatchWithFullDataService extends BaseApiService<IMatchWithFullData>
     );
   }
 
-  refreshMatchesWithDataInTournament(tournament_id: number): void {
-    this.tournamentService
-      .fetchAllMatchesWithDataByTournamentId(tournament_id)
-      .subscribe((matches: IMatchWithFullData[]) => {
-        this.matchesWithFullDataSubject.next(matches);
-      });
-  }
-
-  addMatchWithFullData(newMatch: IMatch): void {
-    this.addAnyItem(newMatch, 'create_with_full_data')
-      .pipe(
-        tap((match: IMatchWithFullData) => {
-          console.log(`ADDED MATCH`, match);
-          let updatedMatches: IMatchWithFullData[] = [
-            ...this.matchesWithFullDataSubject.value,
-            match,
-          ];
-          updatedMatches = SortService.sort(
-            updatedMatches,
-            'match.week',
-            '-match.match_date',
-          );
-          this.matchesWithFullDataSubject.next(updatedMatches);
-        }),
-      )
-      .subscribe();
-  }
+  // refreshMatchesWithDataInTournament(tournament_id: number): void {
+  //   this.tournamentService
+  //     .fetchAllMatchesWithDataByTournamentId(tournament_id)
+  //     .subscribe((matches: IMatchWithFullData[]) => {
+  //       this.matchesWithFullDataSubject.next(matches);
+  //     });
+  // }
+  //
+  // addMatchWithFullData(newMatch: IMatch): void {
+  //   this.addAnyItem(newMatch, 'create_with_full_data')
+  //     .pipe(
+  //       tap((match: IMatchWithFullData) => {
+  //         console.log(`ADDED MATCH`, match);
+  //         let updatedMatches: IMatchWithFullData[] = [
+  //           ...this.matchesWithFullDataSubject.value,
+  //           match,
+  //         ];
+  //         updatedMatches = SortService.sort(
+  //           updatedMatches,
+  //           'match.week',
+  //           '-match.match_date',
+  //         );
+  //         this.matchesWithFullDataSubject.next(updatedMatches);
+  //       }),
+  //     )
+  //     .subscribe();
+  // }
 }

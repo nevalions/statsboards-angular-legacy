@@ -51,9 +51,9 @@ export class MatchService extends BaseApiService<IMatch> {
   editMatch(id: number | string, data: IMatch): Observable<IMatch> {
     return this.editItem(id, data).pipe(
       tap((updatedMatch: IMatch) => {
-        this.matchWithFullDataService.refreshMatchWithFullData(
-          updatedMatch.id!,
-        );
+        // this.matchWithFullDataService.refreshMatchWithFullData(
+        //   updatedMatch.id!,
+        // );
         const updatedMatches = this.matchesSubject.value.map((match) =>
           match.id === updatedMatch.id ? updatedMatch : match,
         );

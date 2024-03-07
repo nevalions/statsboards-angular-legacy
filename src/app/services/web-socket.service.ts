@@ -52,6 +52,9 @@ export class WebSocketService {
       `ws://localhost:9000/api/matches/ws/id/${matchId}/${this.clientId}/`,
     );
 
+    // Log the readyState of the WebSocket immediately after creation
+    console.log('WebSocket readyState after creation:', this.socket.readyState);
+
     return fromEvent<MessageEvent>(this.socket, 'message').pipe(
       map((event) => ({ type: 'message', data: event.data })),
     );
@@ -78,8 +81,16 @@ export class WebSocketService {
     }
   }
 
+  public isConnected(): boolean {
+    return this.socket?.readyState === 1 || false;
+  }
+
   private reconnect(matchId: number): void {
-    if (this.socket && this.retryAttempt < this.maxRetryAttempts) {
+    if (
+      this.socket &&
+      this.retryAttempt < this.maxRetryAttempts &&
+      this.socket.readyState !== WebSocket.CLOSED
+    ) {
       setTimeout(() => {
         console.log('Attempting to reconnect');
         this.retryAttempt++;
@@ -91,8 +102,21 @@ export class WebSocketService {
   public disconnect(): void {
     console.log('Disconnecting');
     this.closing$.next();
+
     if (this.socket) {
+      // Log the readyState of the WebSocket before closing
+      console.log(
+        'WebSocket readyState before closing:',
+        this.socket.readyState,
+      );
+
       this.socket.close();
+
+      // Log the readyState of the WebSocket immediately after closing
+      console.log(
+        'WebSocket readyState after closing:',
+        this.socket.readyState,
+      );
     }
   }
 }
