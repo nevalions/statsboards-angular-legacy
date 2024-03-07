@@ -67,7 +67,7 @@ const webSocketFeature = createFeature({
     })),
     on(webSocketActions.message, (state, action) => ({
       ...state,
-      data: action.data,
+      data: action.message,
       error: null,
     })),
     on(webSocketActions.error, (state, action) => ({

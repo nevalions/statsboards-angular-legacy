@@ -9,6 +9,7 @@ import { matchDataActions } from './actions';
 
 export interface MatchDataState extends crudStoreInterface {
   matchDataLoading: boolean;
+  matchDataIsSubmitting: boolean;
   currentMatchDataId: number | undefined | null;
   currentMatchData: IMatchData | undefined | null;
 }
@@ -16,6 +17,7 @@ export interface MatchDataState extends crudStoreInterface {
 const initialState: MatchDataState = {
   ...getDefaultCrudStore(),
   matchDataLoading: false,
+  matchDataIsSubmitting: false,
   currentMatchDataId: null,
   currentMatchData: null,
   errors: null,
@@ -29,17 +31,17 @@ const matchDataFeature = createFeature({
     // update actions
     on(matchDataActions.update, (state) => ({
       ...state,
-      isSubmitting: true,
+      matchDataIsSubmitting: true,
     })),
     on(matchDataActions.updatedSuccessfully, (state, action) => ({
       ...state,
-      isSubmitting: false,
+      matchDataIsSubmitting: false,
       currentMatchData: action.updatedMatchData,
       errors: null,
     })),
     on(matchDataActions.updateFailure, (state, action) => ({
       ...state,
-      isSubmitting: false,
+      matchDataIsSubmitting: false,
       errors: action,
     })),
 
@@ -88,6 +90,7 @@ export const {
   selectIsSubmitting,
   selectIsLoading,
   selectMatchDataLoading,
+  selectMatchDataIsSubmitting,
   selectCurrentMatchDataId,
   selectCurrentMatchData,
 } = matchDataFeature;

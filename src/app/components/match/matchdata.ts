@@ -7,16 +7,23 @@ import { matchActions } from './store/actions';
 import { selectCurrentMatchWithTeams } from './store/selectors';
 import { IMatchData } from '../../type/matchdata.type';
 import { matchDataActions } from './store/match-data/actions';
-import { selectCurrentMatchData } from './store/match-data/reducers';
+import {
+  selectCurrentMatchData,
+  selectMatchDataIsSubmitting,
+} from './store/match-data/reducers';
 
 @Injectable({
   providedIn: 'root',
 })
 export class MatchData {
   matchData$: Observable<IMatchData | null | undefined>;
+  matchDataIsSubmitting$: Observable<boolean>;
 
   constructor(private store: Store<AppState>) {
     this.matchData$ = this.store.select(selectCurrentMatchData);
+    this.matchDataIsSubmitting$ = this.store.select(
+      selectMatchDataIsSubmitting,
+    );
   }
 
   loadCurrentMatchByMatchId() {

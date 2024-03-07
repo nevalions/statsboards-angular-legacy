@@ -6,10 +6,21 @@
 
 
 @if (data$ | async; as data) {
+
   <p>status code: {{ data.status_code }}</p>
   <p>date: {{ data.match.match_date }}</p>
   <p>id: {{ data.match_data?.id }}</p>
   <p>score: {{ data.match_data?.score_team_a }} : {{ data.match_data?.score_team_b }}</p>
+  <button
+    [disabled]="isMatchDataSubmitting$ | async"
+    (click)="adjustScore('a', -1)(data.match_data!)"
+  >-1 Home Team
+  </button>
+  <button
+    [disabled]="isMatchDataSubmitting$ | async"
+    (click)="adjustScore('a', 1)(data.match_data!)"
+  >+1 Home Team
+  </button>
 }
 
 @if (vm$ | async; as vm) {
@@ -20,7 +31,6 @@
 }
 
 @if (matchData$|async; as matchData) {
-  <p>match-scoreboard-admin works!</p>
   <button (click)="adjustScore('a', -1)(matchData)">-1 Home Team</button>
   <button (click)="adjustScore('a', 1)(matchData)">+1 Home Team</button>
 

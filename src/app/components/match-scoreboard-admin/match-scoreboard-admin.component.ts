@@ -18,13 +18,14 @@ import { Websocket } from '../../store/websocket/websocket';
   templateUrl: './match-scoreboard-admin.component.html',
   styleUrl: './match-scoreboard-admin.component.less',
 })
-export class MatchScoreboardAdminComponent {
+export class MatchScoreboardAdminComponent implements OnInit, OnDestroy {
   loading$: Observable<boolean> = this.Websocket.loading$;
   error$: Observable<any> = this.Websocket.error$;
   data$: Observable<IMatchFullDataWithScoreboard> = this.Websocket.data$;
 
   match$ = this.match.match$;
   matchData$ = this.matchData.matchData$;
+  isMatchDataSubmitting$ = this.matchData.matchDataIsSubmitting$;
   vm$: Observable<{
     match: IMatch | null | undefined;
     matchData: IMatchData | null | undefined;
@@ -36,13 +37,16 @@ export class MatchScoreboardAdminComponent {
     private matchData: MatchData,
   ) {
     match.loadCurrentMatch();
-    Websocket.connect();
 
     this.vm$ = this.match$.pipe(
       switchMap((match) =>
         this.matchData$.pipe(map((matchData) => ({ match, matchData }))),
       ),
     );
+  }
+
+  ngOnInit() {
+    this.Websocket.connect();
   }
 
   adjustScore(team: 'a' | 'b', amount: number) {
@@ -57,6 +61,10 @@ export class MatchScoreboardAdminComponent {
         this.matchData.updateMatchData(newMatchData);
       }
     };
+  }
+
+  ngOnDestroy() {
+    this.Websocket.disconnect();
   }
 }
 

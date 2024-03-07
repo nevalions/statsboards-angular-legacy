@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { fromEvent, Observable } from 'rxjs';
+import { catchError, fromEvent, merge, Observable, throwError } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 
@@ -7,61 +7,89 @@ import { Subject } from 'rxjs';
 export class WebSocketService {
   private socket: WebSocket | undefined;
   private closing$ = new Subject<void>();
+  private retryAttempt = 0;
+  private maxRetryAttempts = 10;
+  private retryTime = 2000; // time between retries (in milliseconds)
 
-  constructor() {}
+  private clientId: string;
+
+  constructor() {
+    // Generate a new UUID everytime the service is created (page refreshed)
+    this.clientId = this.generateUUID();
+  }
+
+  private getClientId(): string {
+    let clientId = localStorage.getItem('clientId');
+
+    if (!clientId) {
+      clientId = this.generateUUID();
+      localStorage.setItem('clientId', clientId);
+    }
+
+    return clientId;
+  }
+
+  private generateUUID(): string {
+    // UUID v4 generator (RFC4122 compliant)
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(
+      /[xy]/g,
+      function (c) {
+        const r = (Math.random() * 16) | 0,
+          v = c === 'x' ? r : (r & 0x3) | 0x8;
+        return v.toString(16);
+      },
+    );
+  }
+
+  public regenerateClientId(): void {
+    this.clientId = this.generateUUID();
+    localStorage.setItem('clientId', this.clientId);
+  }
 
   public connect(matchId: number): Observable<any> {
-    // Creating the WebSocket connection
+    console.log('Attempting to connect');
     this.socket = new WebSocket(
-      `ws://localhost:9000/api/matches/ws/id/${matchId}`,
+      `ws://localhost:9000/api/matches/ws/id/${matchId}/${this.clientId}/`,
     );
 
-    // Wrapping each WebSocket event in an Observable
-    const messages$ = fromEvent<MessageEvent>(this.socket, 'message').pipe(
-      takeUntil(this.closing$),
+    return fromEvent<MessageEvent>(this.socket, 'message').pipe(
+      map((event) => ({ type: 'message', data: event.data })),
     );
-    const open$ = fromEvent<Event>(this.socket, 'open').pipe(
-      takeUntil(this.closing$),
-    );
-    const close$ = fromEvent<CloseEvent>(this.socket, 'close').pipe(
-      takeUntil(this.closing$),
-    );
-    const error$ = fromEvent<ErrorEvent>(this.socket, 'error').pipe(
-      takeUntil(this.closing$),
-    );
-
-    // Mapping each WebSocket event to a JS object
-    return new Observable((subscriber) => {
-      open$.subscribe(() => subscriber.next({ type: 'open' }));
-      messages$
-        .pipe(map((event) => ({ type: 'message', data: event.data })))
-        .subscribe(subscriber);
-      close$
-        .pipe(map((event) => ({ type: 'close', code: event.code })))
-        .subscribe(subscriber);
-      error$
-        .pipe(map((event) => ({ type: 'error', error: event.error })))
-        .subscribe(subscriber);
-    });
   }
 
   public messages(): Observable<any> {
     if (!this.socket) {
+      console.log('Connection not established');
       throw new Error('Connection not established');
     }
     return fromEvent<MessageEvent>(this.socket, 'message').pipe(
       takeUntil(this.closing$),
-      map((event) => ({ type: 'message', data: event.data })),
+      map((event) => {
+        console.log('Message event:', event);
+        return { type: 'message', data: event.data };
+      }),
     );
   }
 
   public sendMessage(message: any): void {
     if (this.socket) {
+      console.log('Sending message:', message);
       this.socket.send(JSON.stringify(message));
     }
   }
 
+  private reconnect(matchId: number): void {
+    if (this.socket && this.retryAttempt < this.maxRetryAttempts) {
+      setTimeout(() => {
+        console.log('Attempting to reconnect');
+        this.retryAttempt++;
+        this.connect(matchId);
+      }, this.retryTime);
+    }
+  }
+
   public disconnect(): void {
+    console.log('Disconnecting');
     this.closing$.next();
     if (this.socket) {
       this.socket.close();
@@ -69,48 +97,52 @@ export class WebSocketService {
   }
 }
 
-// import { Injectable } from '@angular/core';
-// import { Subject } from 'rxjs';
+// public connect(matchId: number): Observable<any> {
+//   console.log('Attempting to connect');
 //
-// @Injectable({ providedIn: 'root' })
-// export class WebSocketService {
-//   private socket: WebSocket | undefined;
+//   // Creating the WebSocket connection, since we have a clientId available,
+//   // we include it to the connection URL
+//   this.socket = new WebSocket(
+//     `ws://localhost:9000/api/matches/ws/id/${matchId}/${this.clientId}/`,
+//   );
 //
-//   // Observable source
-//   private messageSource = new Subject<any>();
-//   // Observable stream
-//   public message$ = this.messageSource.asObservable();
+//   // Wrapping each WebSocket event in an Observable
+//   const messages$ = fromEvent<MessageEvent>(this.socket, 'message').pipe(
+//     takeUntil(this.closing$),
+//   );
+//   const open$ = fromEvent<Event>(this.socket, 'open').pipe(
+//     takeUntil(this.closing$),
+//   );
+//   const close$ = fromEvent<CloseEvent>(this.socket, 'close').pipe(
+//     takeUntil(this.closing$),
+//   );
+//   const error$ = fromEvent<ErrorEvent>(this.socket, 'error').pipe(
+//     takeUntil(this.closing$),
+//   );
 //
-//   constructor() {}
-//
-//   public matchFullDataWithScoreboardConnect(matchId: number): void {
-//     this.socket = new WebSocket(
-//       `ws://localhost:9000/api/matches/ws/id/${matchId}`,
-//     );
-//     this.socket.onopen = (event) => {
-//       console.log('WebSocket opened:', event);
-//     };
-//     this.socket.onmessage = (event) => {
-//       console.log('WebSocket message:', event.data);
-//       // Next message to the observable stream
-//       this.messageSource.next(event.data);
-//     };
-//     this.socket.onerror = (error) => {
-//       console.error('WebSocket error:', error);
-//     };
-//     this.socket.onclose = (event) => {
-//       console.log('WebSocket closed:', event);
-//     };
-//   }
-//
-//   public sendMessage(message: any): void {
-//     if (this.socket) {
-//       this.socket.send(JSON.stringify(message));
-//     }
-//   }
-//
-//   public disconnect(): void {
-//     this.socket!.close();
-//     this.messageSource.complete(); // Stop emitting after WebSocket is closed
-//   }
+//   // Mapping each WebSocket event to a JS object
+//   return new Observable((subscriber) => {
+//     open$.subscribe(() => {
+//       console.log('Connection opened');
+//       subscriber.next({ type: 'open' });
+//     });
+//     messages$
+//       .pipe(map((event) => ({ type: 'message', data: event.data })))
+//       .subscribe((msg) => {
+//         console.log('Message received', msg);
+//         subscriber.next(msg);
+//       });
+//     close$
+//       .pipe(map((event) => ({ type: 'close', code: event.code })))
+//       .subscribe((msg) => {
+//         console.log('Connection closed', msg);
+//         subscriber.next(msg);
+//       });
+//     error$
+//       .pipe(map((event) => ({ type: 'error', error: event.error })))
+//       .subscribe((err) => {
+//         console.log('Error occurred', err);
+//         subscriber.next(err);
+//       });
+//   });
 // }

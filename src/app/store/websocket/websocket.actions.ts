@@ -7,6 +7,8 @@ export const webSocketActions = createActionGroup({
     ConnectSuccess: props<{ message: any }>(),
     ConnectFailure: props<{ error: any }>(),
 
+    Reconnect: emptyProps(),
+
     Disconnect: emptyProps(),
     DisconnectSuccess: emptyProps(),
     DisconnectFailure: props<{ error: any }>(),
@@ -15,7 +17,7 @@ export const webSocketActions = createActionGroup({
     SendSuccess: emptyProps(),
     SendFailure: props<{ error: any }>(),
 
-    Message: props<{ data: any }>(),
+    Message: props<{ message: any }>(),
     Error: props<{ error: any }>(),
 
     Close: props<{ event: any }>(),

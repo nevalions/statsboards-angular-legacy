@@ -63,7 +63,7 @@ export abstract class BaseApiService<T> {
   }
 
   editItem(id: number | string, postData: T): Observable<T> {
-    return this.http.put<T>(`${this.endpoint}/${id}`, postData).pipe(
+    return this.http.put<T>(`${this.endpoint}/${id}/`, postData).pipe(
       tap((items: T) => {
         console.log(
           `PUT /API/${this.endpoint.toUpperCase()}/${id} \ndata:`,

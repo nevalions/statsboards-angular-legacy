@@ -25,7 +25,7 @@ export class MatchDataService extends BaseApiService<IMatchData> {
       'matches',
       'id',
       matchId,
-      'match_data',
+      'match_data/',
     ).pipe(
       tap((data) => {
         // console.log(data);
