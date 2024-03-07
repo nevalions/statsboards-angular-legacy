@@ -1,49 +1,395 @@
-@if (loading$| async; as loading) {
-  loading
-} @else {
-  loaded
-}
-
-
 @if (data$ | async; as data) {
+  <div class="main-scoreboard" id="scoreboard_container">
+    <div id="scoreboard" class="scoreboard">
+      <div class="teams-container">
+        <div class="team_a-detail" id="team_a-detail">
+          <div class="team_a-name"><span id="team_a-name-display">{{ data.teams_data?.team_a?.title }}</span></div>
+          <!--          <div class="team_a-logo"><img id="team_a-logo-img" src="" width="50" height="50"></div>-->
+          <div class="team_a-scoreblock"><span id="team_a-score">{{ data.match_data?.score_team_a }}</span></div>
+          <div class="team_a-thisgame">
+            <div class="team_a-timeout"><span id="team_a-timeout-display"></span>{{ data.match_data?.timeout_team_a }}
+            </div>
+          </div>
+        </div>
+        <div class="team_b-detail" id="team_b-detail">
+          <div class="team_b-name"><span id="team_b-name-display">{{ data.teams_data?.team_b?.title }}</span></div>
+          <!--          <div class="team_b-logo"><img id="team_b-logo-img" src="" width="50" height="50"></div>-->
+          <div class="team_b-scoreblock"><span id="team_b-score">{{ data.match_data?.score_team_b }}</span></div>
+          <div class="team_b-thisgame">
+            <div class="team_b-timeout"><span id="team_b-timeout-display">{{ data.match_data?.timeout_team_b }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="game-container">
+        <div id="quarter-display" class="quarter"><span id="qtr">{{ data.match_data?.qtr }}</span></div>
+        <div class="timeleft" id="timeleft">
+          <div id="clock">
+            <span id="displayed-game-time-min">{{ getMinutes(data.match_data!.gameclock!) }}</span>:<span
+            id="displayed-game-time-sec">{{ getSeconds(data.match_data!.gameclock!) }}</span>
+          </div>
+        </div>
+        <div class="play-clock" id="play-clock"><span
+          id="displayed-scoreboard-play-time">{{ data.match_data?.playclock }}</span></div>
+        <div class="downandyard" id="downandyard"><span id="downdist">
+          {{ data.match_data?.down }}{{ data.match_data?.down ? ' & ' : '' }}{{ data.match_data?.distance }}
+        </span>
+        </div>
+      </div>
+    </div>
+  </div>
 
-  <p>status code: {{ data.status_code }}</p>
-  <p>date: {{ data.match.match_date }}</p>
-  <p>id: {{ data.match_data?.id }}</p>
-  <p>score: {{ data.match_data?.score_team_a }} : {{ data.match_data?.score_team_b }}</p>
+
+  <!--SCORE INPUTS-->
+  <div class="main-container">
+    <div
+      id="score-forms"
+      class="score-forms"
+      *ngIf="formsVisibility['scoreInputs']"
+    >
+      <form
+        class="score-form-a"
+        id="change-score-form-a"
+      >
+        <label
+          class="score-form_team_a_label"
+          for="score_team_a"
+        >Change Team A Score:
+        </label>
+        <input
+          class="score-form_team_a_input"
+          type="text"
+          id="score_team_a"
+          #teamAScoreInput
+          [placeholder]="data.match_data?.score_team_a"
+        >
+        <button
+          class="score-form_team_a_btn"
+          type="button"
+          (click)="updateScore('a', teamAScoreInput.value)(data.match_data!)"
+        >Save
+        </button>
+      </form>
+      <form
+        class="score-form-b"
+        id="change-score-form-b"
+      >
+        <label
+          class="score-form_team_b_label"
+          for="score_team_b"
+        >Change Team B Score:
+        </label>
+        <input
+          class="score-form_team_b_input"
+          type="text"
+          id="score_team_b"
+          #teamBScoreInput
+          [placeholder]="data.match_data?.score_team_b"
+        >
+        <button
+          class="score-form_team_b_btn"
+          type="button"
+          (click)="updateScore('b', teamBScoreInput.value)(data.match_data!)"
+        >Save
+        </button>
+      </form>
+    </div>
+
+    <button
+      id="score-form-show-hide"
+      class="show-hide-btn"
+      type="button"
+      (click)="toggleFormVisibility('scoreInputs')"
+    >{{ formsVisibility['scoreInputs'] ? 'Hide' : 'Show' }} Score Inputs
+    </button>
+  </div>
+
+
+  <!--SCORE BTNS-->
+  <div *ngIf="formsVisibility['scoreButtons']" id="score-increment-buttons" class="score-increment-buttons">
+    <div class="score-increment-buttons">
+      <button
+        [disabled]="isMatchDataSubmitting$ | async"
+        class="score-+6-a-btn"
+        (click)="adjustScore('a', 6)(data.match_data!)"
+      >+6 SCORE A
+      </button>
+      <button
+        [disabled]="isMatchDataSubmitting$ | async"
+        class="score-+3-a-btn"
+        (click)="adjustScore('a', 3)(data.match_data!)"
+      >+3 SCORE A
+      </button>
+      <button
+        [disabled]="isMatchDataSubmitting$ | async"
+        class="score--1-a-btn"
+        (click)="adjustScore('a', -1)(data.match_data!)"
+      >-1 SCORE A
+      </button>
+      <button
+        [disabled]="isMatchDataSubmitting$ | async"
+        class="score-+1-a-btn"
+        (click)="adjustScore('a', 1)(data.match_data!)"
+      >+1 SCORE A
+      </button>
+    </div>
+    <div class="score-increment-buttons">
+      <button
+        [disabled]="isMatchDataSubmitting$ | async"
+        class="score-+6-b-btn"
+        (click)="adjustScore('b', 6)(data.match_data!)"
+      >+6 SCORE B
+      </button>
+      <button
+        [disabled]="isMatchDataSubmitting$ | async"
+        class="score-+3-b-btn"
+        (click)="adjustScore('b', 3)(data.match_data!)"
+      >+3 SCORE B
+      </button>
+      <button
+        [disabled]="isMatchDataSubmitting$ | async"
+        class="score--1-b-btn"
+        (click)="adjustScore('b', -1)(data.match_data!)"
+      >-1 SCORE B
+      </button>
+      <button
+        [disabled]="isMatchDataSubmitting$ | async"
+        class="score-+1-b-btn"
+        (click)="adjustScore('b', 1)(data.match_data!)"
+      >+1 SCORE B
+      </button>
+    </div>
+  </div>
   <button
-    [disabled]="isMatchDataSubmitting$ | async"
-    (click)="adjustScore('a', -1)(data.match_data!)"
-  >-1 Home Team
+    id="score-increment-buttons-show-hide"
+    class="show-hide-btn"
+    type="button"
+    (click)="toggleFormVisibility('scoreButtons')"
+  > {{ formsVisibility['scoreButtons'] ? 'Hide' : 'Show' }} Score Buttons
   </button>
+
+  <!--QTR-->
+  <div *ngIf="formsVisibility['qtrForm']" class="quarter" id="quarter">
+    <div class="quarter-selector" id="quarter-selector-form">
+      <label
+        class="quarter-selector-label"
+        for="select-quarter"
+      >Select Quarter:
+      </label>
+      <select
+        class="quarter-selector-sel"
+        id="select-quarter"
+        #quarterSelect
+      >
+        <option value="1st">1st</option>
+        <option value="2nd">2nd</option>
+        <option value="HT">HT</option>
+        <option value="3rd">3rd</option>
+        <option value="4th">4th</option>
+        <option value="Final">Final</option>
+        <option value="OT">OT</option>
+      </select>
+      <button
+        class="save-button"
+        id="save-qtr-button"
+        (click)="updateQuarter(data.match_data!, quarterSelect.value)"
+      >Save
+      </button>
+    </div>
+  </div>
   <button
-    [disabled]="isMatchDataSubmitting$ | async"
-    (click)="adjustScore('a', 1)(data.match_data!)"
-  >+1 Home Team
+    id="quarter-selector-show-hide"
+    class="show-hide-btn"
+    type="button"
+    (click)="toggleFormVisibility('qtrForm')"
+  >{{ formsVisibility['qtrForm'] ? 'Hide' : 'Show' }} Qtr Selector
   </button>
-}
 
-@if (vm$ | async; as vm) {
-  <p>test one</p>
-  <p>date: {{ vm.match?.match_date }}</p>
-  <p>id: {{ vm.matchData?.id }}</p>
-  <p>score: {{ vm.matchData?.score_team_a }} : {{ vm.matchData?.score_team_b }}</p>
-}
+  <!--DOWN&DISTANCE-->
+  <div *ngIf="formsVisibility['downAndDistanceForm']" id="down-and-distance" class="down-and-distance">
+    <div class="change-down-distance-text" id="change-down-distance">
+      <div class="change-down-distance-text" id="change-down-distance-text"><label
+        class="change-down-distance-text-label" for="displayed-down-distance-text">Down &amp; Distance:</label>
+        <input
+          class="change-down-distance-text-input"
+          type="text"
+          id="displayed-down-distance-text"
+          [value]="downValue + distanceValue"
+          #downDistanceInput
+        >
+        <button
+          class="change-down-distance-text-btn"
+          id="change-down-distance-text-btn"
+          (click)="updateDownAndDistance(data.match_data!, downDistanceInput.value)"
+        >Save
+        </button>
+      </div>
+    </div>
+    <div class="down-distance-selector" id="down-selector-form">
+      <label class="down-selector-label" for="select-distance">Select Down &amp; Distance:</label>
+      <select
+        class="down-selector-distance"
+        id="select-distance"
+        (change)="distanceValue = distanceSelect.value"
+        #distanceSelect
+      >
+        <option value=" & 1">1</option>
+        <option value=" & 2">2</option>
+        <option value=" & 3">3</option>
+        <option value=" & 4">4</option>
+        <option value=" & 5">5</option>
+        <option value=" & 6">6</option>
+        <option value=" & 7">7</option>
+        <option value=" & 8">8</option>
+        <option value=" & 9">9</option>
+        <option value=" & 10" selected>10</option>
+        <option value=" & 11">11</option>
+        <option value=" & 12">12</option>
+        <option value=" & 13">13</option>
+        <option value=" & 14">14</option>
+        <option value=" & 15">15</option>
+        <option value=" & 16">16</option>
+        <option value=" & 17">17</option>
+        <option value=" & 18">18</option>
+        <option value=" & 19">19</option>
+        <option value=" & 20">20</option>
+        <option value=" & 20">20+</option>
+        <option value=" & inch">inch</option>
+        <option value=" & Goal">Goal</option>
+      </select>
+      <div class="down-selector">
+        <button
+          class="down-selector-1st-btn"
+          (click)="downValue = '1st'"
+        >1st
+        </button>
 
-@if (matchData$|async; as matchData) {
-  <button (click)="adjustScore('a', -1)(matchData)">-1 Home Team</button>
-  <button (click)="adjustScore('a', 1)(matchData)">+1 Home Team</button>
+        <button
+          class="down-selector-2nd-btn"
+          (click)="downValue = '2nd'"
+        >2nd
+        </button>
+
+        <button
+          class="down-selector-3rd-btn"
+          (click)="downValue = '3rd'"
+        >3rd
+        </button>
+
+        <button
+          class="down-selector-4th-btn"
+          (click)="downValue = '4th'"
+        >4th
+        </button>
+      </div>
+
+    </div>
+
+    <div class="down-dist-selector-form" id="down-dist-selector-form">
+      <label class="down-dist-selector-label">Select Play:</label>
+      <div class="down-dist-selector-game">
+        <button
+          class="first-and-ten-btn"
+          (click)="downValue = '1st'; distanceValue =' & 10'"
+        >1st &amp; 10
+        </button>
+        <button
+          class="goal-btn"
+          (click)="distanceValue =' & Goal'"
+        >Goal
+        </button>
+      </div>
+      <div class="down-dist-selector-conv">
+        <button
+          class="one-pt-btn"
+          (click)="downValue = ''; distanceValue ='1PT'"
+        >1PT
+        </button>
+        <button
+          class="two-pt-btn"
+          (click)="downValue = ''; distanceValue ='2PT'"
+        >2PT
+        </button>
+      </div>
+      <div class="down-dist-selector-kick">
+        <button
+          class="fg-btn"
+          (click)="downValue = ''; distanceValue ='FG'"
+        >FG
+        </button>
+        <button
+          class="kickoff-btn"
+          (click)="downValue = ''; distanceValue ='KickOff'"
+        >KickOff
+        </button>
+      </div>
+    </div>
+  </div>
+  <button
+    id="down-and-distance-show-hide"
+    class="show-hide-btn"
+    type="button"
+    (click)="toggleFormVisibility('downAndDistanceForm')"
+  >{{ formsVisibility['downAndDistanceForm'] ? 'Hide' : 'Show' }} Down Distance Forms
+  </button>
+
+  <!--TO-->
+  <div *ngIf="formsVisibility['timeoutBtns']" id="timeouts-btns" class="timeouts-btns">
+    <div class="to-team_a-selector-form" id="to-team_a-selector-form">
+      <label class="to-team_a-selector-form-label">Select TO Home:</label>
+      <button
+        class="to-team_a-selector-form-t0-btn"
+        (click)="updateTeamTimeout('a', '○○○')(data.match_data!)"
+      >○○○
+      </button>
+      <button
+        class="to-team_a-selector-form-t1-btn"
+        (click)="updateTeamTimeout('a', '●○○')(data.match_data!)"
+      >●○○
+      </button>
+      <button
+        class="to-team_a-selector-form-t2-btn"
+        (click)="updateTeamTimeout('a', '●●○')(data.match_data!)"
+      >●●○
+      </button>
+      <button
+        class="to-team_a-selector-form-t3-btn"
+        (click)="updateTeamTimeout('a', '●●●')(data.match_data!)"
+      >●●●
+      </button>
+    </div>
+    <div class="to-team_b-selector-form" id="to-team_b-selector-form">
+      <label class="to-team_b-selector-form-label">Select TO Away:</label>
+      <button
+        class="to-team_b-selector-form-t0-btn"
+        (click)="updateTeamTimeout('b', '○○○')(data.match_data!)"
+      >○○○
+      </button>
+      <button
+        class="to-team_b-selector-form-t1-btn"
+        (click)="updateTeamTimeout('b', '●○○')(data.match_data!)"
+      >●○○
+      </button>
+      <button
+        class="to-team_b-selector-form-t2-btn"
+        (click)="updateTeamTimeout('b', '●●○')(data.match_data!)"
+      >●●○
+      </button>
+      <button
+        class="to-team_b-selector-form-t3-btn"
+        (click)="updateTeamTimeout('b', '●●●')(data.match_data!)"
+      >●●●
+      </button>
+    </div>
+  </div>
+  <button
+    id="timeouts-btns-show-hide"
+    class="show-hide-btn"
+    type="button"
+    (click)="toggleFormVisibility('timeoutBtns')"
+  >{{ formsVisibility['timeoutBtns'] ? 'Hide' : 'Show' }} Timeouts buttons
+  </button>
 
 } @else {
-  <p>loading...</p>
-}
-
-@if (match$ | async; as match) {
-  <p>date: {{ match.match_date }} {{ match.id }}</p>
-  @if (matchData$| async; as matchData) {
-    <p>score</p>
-    <p>{{ matchData.score_team_a }} : {{ matchData.score_team_b }}</p>
-  } @else {
-    <p>loading...</p>
-  }
+  <tui-loader></tui-loader>
 }
