@@ -8,12 +8,14 @@ import { MatchWithFullDataState } from '../components/match-with-full-data/store
 import { BreadcrumbState } from './breadcrumbs/breadcrumbs.reducers';
 import { MatchDataState } from '../components/match/store/match-data/reducers';
 import { WebSocketState } from './websocket/websocket.reducers';
+import { ScoreboardData } from '../components/scoreboard-data/scoreboard-data';
 
 export interface AppState {
   breadcrumb: BreadcrumbState;
   match: MatchState;
   matchData: MatchDataState;
   matchWithFullData: MatchWithFullDataState;
+  scoreboard: ScoreboardData;
   season: SeasonState;
   sport: SportState;
   team: TeamState;

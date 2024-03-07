@@ -1,0 +1,29 @@
+@font-face {
+  font-family: 'Gunterz-Regular';
+  src: url('assets/fonts/Gunterz-Regular.otf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Gunterz-Bold';
+  src: url('assets/fonts/Gunterz-Bold.otf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Gunterz-Black';
+  src: url('assets/fonts/Gunterz-Black.otf') format('truetype');
+}
+
+@font-face {
+  font-family: 'IntegralCF-Bold';
+  src: url('assets/fonts/IntegralCF-Bold.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'IntegralCF-DemiBold';
+  src: url('assets/fonts/IntegralCF-DemiBold.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'IntegralCF-Regular';
+  src: url('assets/fonts/IntegralCF-Regular.ttf') format('truetype');
+}

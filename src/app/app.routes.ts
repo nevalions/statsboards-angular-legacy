@@ -50,6 +50,11 @@ import {
   webSocketReducer,
 } from './store/websocket/websocket.reducers';
 import { WebSocketEffects } from './store/websocket/websocket.effects';
+import { ScoreboardDataEffects } from './components/scoreboard-data/store/effects';
+import {
+  scoreboardDataFeatureKey,
+  scoreboardDataReducer,
+} from './components/scoreboard-data/store/reducers';
 
 export const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: '/home' },
@@ -171,7 +176,8 @@ export const routes: Routes = [
       provideState(webSocketFeatureKey, webSocketReducer),
       provideState(matchFeatureKey, matchReducer),
       provideState(matchDataFeatureKey, matchDataReducer),
-      provideEffects(MatchDataEffects, WebSocketEffects),
+      provideState(scoreboardDataFeatureKey, scoreboardDataReducer),
+      provideEffects(MatchDataEffects, ScoreboardDataEffects, WebSocketEffects),
     ],
     data: {
       breadcrumb: {

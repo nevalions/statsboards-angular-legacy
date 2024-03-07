@@ -26,7 +26,7 @@ export class MatchData {
     );
   }
 
-  loadCurrentMatchByMatchId() {
+  loadCurrentMatchDataByMatchId() {
     this.store.dispatch(matchDataActions.getMatchDataByMatchId());
   }
 

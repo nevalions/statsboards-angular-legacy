@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewChecked, Component, OnDestroy, OnInit } from '@angular/core';
 
 import { map, Observable } from 'rxjs';
 
@@ -6,23 +6,29 @@ import { IMatchData } from '../../type/matchdata.type';
 
 import { MatchData } from '../match/matchdata';
 import { Match } from '../match/match';
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe, NgIf, NgStyle } from '@angular/common';
 import { IMatchFullDataWithScoreboard } from '../../type/match.type';
 import { Websocket } from '../../store/websocket/websocket';
 import { TuiLoaderModule } from '@taiga-ui/core';
+import { ScoreboardData } from '../scoreboard-data/scoreboard-data';
 
 @Component({
   selector: 'app-match-scoreboard-admin',
   standalone: true,
-  imports: [AsyncPipe, TuiLoaderModule, NgIf],
+  imports: [AsyncPipe, TuiLoaderModule, NgIf, NgStyle],
   templateUrl: './match-scoreboard-admin.component.html',
   styleUrl: './match-scoreboard-admin.component.less',
 })
-export class MatchScoreboardAdminComponent implements OnInit, OnDestroy {
+export class MatchScoreboardAdminComponent
+  implements OnInit, OnDestroy, AfterViewChecked
+{
   loading$: Observable<boolean> = this.Websocket.loading$;
   error$: Observable<any> = this.Websocket.error$;
   data$: Observable<IMatchFullDataWithScoreboard> = this.Websocket.data$;
   isMatchDataSubmitting$ = this.matchData.matchDataIsSubmitting$;
+
+  fontSizeA!: string;
+  fontSizeB!: string;
 
   downValue = '1st';
   distanceValue = ' & 10';
@@ -31,6 +37,7 @@ export class MatchScoreboardAdminComponent implements OnInit, OnDestroy {
     private Websocket: Websocket,
     private match: Match,
     private matchData: MatchData,
+    private scoreboardDat: ScoreboardData,
   ) {
     match.loadCurrentMatch();
   }
@@ -41,6 +48,30 @@ export class MatchScoreboardAdminComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.Websocket.disconnect();
+  }
+
+  ngAfterViewChecked(): void {
+    this.adjustFontSize();
+  }
+
+  adjustFontSize() {
+    setTimeout(() => {
+      // These selectors should point to your team names
+      const teamNameAElement = <HTMLElement>(
+        document.querySelector('.team_a-name span')
+      );
+      const teamNameBElement = <HTMLElement>(
+        document.querySelector('.team_b-name span')
+      );
+
+      if (teamNameAElement && teamNameBElement) {
+        const maxWidthA = teamNameAElement.parentElement!.offsetWidth;
+        const maxWidthB = teamNameBElement.parentElement!.offsetWidth;
+
+        this.fontSizeA = Math.min(20, maxWidthA / 14) + 'px';
+        this.fontSizeB = Math.min(20, maxWidthB / 14) + 'px';
+      }
+    });
   }
 
   adjustScore(team: 'a' | 'b', amount: number) {

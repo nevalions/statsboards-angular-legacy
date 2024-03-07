@@ -18,6 +18,7 @@ export interface IMatchData {
 }
 
 export interface IScoreboard {
+  id?: number;
   is_qtr?: boolean;
   is_time?: boolean;
   is_playclock?: boolean;

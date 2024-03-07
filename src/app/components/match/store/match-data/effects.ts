@@ -21,7 +21,7 @@ import { selectMatchAndMatchDataLoaded } from './selectors';
 
 @Injectable()
 export class MatchDataEffects {
-  updateMatchEffect = createEffect(
+  updateMatchDataEffect = createEffect(
     () => {
       return this.actions$.pipe(
         ofType(matchDataActions.update),

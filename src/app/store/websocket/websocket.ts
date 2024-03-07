@@ -31,14 +31,6 @@ export class Websocket {
       .pipe(map((state) => state === 'CONNECTED'));
   }
 
-  // connect() {
-  //   this.store.dispatch(webSocketActions.connect());
-  // }
-  //
-  // disconnect() {
-  //   this.store.dispatch(webSocketActions.disconnect());
-  // }
-
   connect() {
     this.store.dispatch(webSocketActions.connectIfNeeded());
   }
@@ -54,15 +46,4 @@ export class Websocket {
   close(event: any) {
     this.store.dispatch(webSocketActions.close({ event: event }));
   }
-
-  // loadCurrentMatchByMatchId() {
-  //   this.store.dispatch(matchDataActions.getMatchDataByMatchId());
-  // }
-  //
-  // updateMatchData(matchData: IMatchData) {
-  //   console.log(matchData, matchData.id);
-  //   this.store.dispatch(
-  //     matchDataActions.update({ id: matchData.id!, newMatchData: matchData }),
-  //   );
-  // }
 }

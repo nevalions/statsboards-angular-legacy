@@ -4,7 +4,13 @@
     <div id="scoreboard" class="scoreboard">
       <div class="teams-container">
         <div class="team_a-detail" id="team_a-detail">
-          <div class="team_a-name"><span id="team_a-name-display">{{ data.teams_data?.team_a?.title }}</span></div>
+          <div class="team_a-name">
+            <div class="team_a-name">
+              <span [ngStyle]="{'font-size': fontSizeA}" id="team_a-name-display">
+                {{ data.teams_data?.team_a?.title }}
+              </span>
+            </div>
+          </div>
           <div class="team_a-logo"><img id="team_a-logo-img" src="" width="50" height="50" alt=""></div>
           <div class="team_a-scoreblock"><span id="team_a-score">{{ data.match_data?.score_team_a }}</span></div>
           <div class="team_a-thisgame">
@@ -13,7 +19,11 @@
           </div>
         </div>
         <div class="team_b-detail" id="team_b-detail">
-          <div class="team_b-name"><span id="team_b-name-display">{{ data.teams_data?.team_b?.title }}</span></div>
+          <div class="team_b-name">
+            <span [ngStyle]="{'font-size': fontSizeB}" id="team_b-name-display">
+              {{ data.teams_data?.team_b?.title }}
+            </span>
+          </div>
           <div class="team_b-logo"><img id="team_b-logo-img" src="" width="50" height="50" alt=""></div>
           <div class="team_b-scoreblock"><span id="team_b-score">{{ data.match_data?.score_team_b }}</span></div>
           <div class="team_b-thisgame">
