@@ -46,7 +46,7 @@ export class ScoreboardDataService extends BaseApiService<IScoreboard> {
     // console.log(data)
     return this.editItem(id, data).pipe(
       tap((data) => {
-        console.log(data);
+        // console.log(data);
       }),
     );
   }

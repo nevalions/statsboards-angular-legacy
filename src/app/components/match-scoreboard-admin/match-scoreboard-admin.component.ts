@@ -15,7 +15,7 @@ import { ScoreboardData } from '../scoreboard-data/scoreboard-data';
 @Component({
   selector: 'app-match-scoreboard-admin',
   standalone: true,
-  imports: [AsyncPipe, TuiLoaderModule, NgIf, NgStyle],
+  imports: [AsyncPipe, TuiLoaderModule, NgIf],
   templateUrl: './match-scoreboard-admin.component.html',
   styleUrl: './match-scoreboard-admin.component.less',
 })
@@ -150,7 +150,6 @@ export class MatchScoreboardAdminComponent
 
   toggleQuarterVisibility(scoreboardData: IScoreboard) {
     if (!scoreboardData) return;
-    console.log(scoreboardData);
     const updatedScoreboardData = {
       ...scoreboardData,
       is_qtr: !scoreboardData.is_qtr,
@@ -158,31 +157,49 @@ export class MatchScoreboardAdminComponent
     this.scoreboardData.updateScoreboardData(updatedScoreboardData);
   }
 
-  togglePlayClockVisibility(matchData: IMatchFullDataWithScoreboard) {
-    if (!matchData) return;
-    const updatedMatchData = {
-      ...matchData,
-      is_playclock: !matchData.scoreboard_data?.is_playclock,
+  togglePlayClockVisibility(scoreboardData: IScoreboard) {
+    if (!scoreboardData) return;
+    const updatedScoreboardData = {
+      ...scoreboardData,
+      is_playclock: !scoreboardData.is_playclock,
     };
-    this.matchData.updateMatchData(updatedMatchData);
+    this.scoreboardData.updateScoreboardData(updatedScoreboardData);
   }
 
-  toggleGameClockVisibility(matchData: IMatchFullDataWithScoreboard) {
-    if (!matchData) return;
-    const updatedMatchData = {
-      ...matchData,
-      is_time: !matchData.scoreboard_data?.is_time,
+  toggleGameClockVisibility(scoreboardData: IScoreboard) {
+    if (!scoreboardData) return;
+    const updatedScoreboardData = {
+      ...scoreboardData,
+      is_time: !scoreboardData.is_time,
     };
-    this.matchData.updateMatchData(updatedMatchData);
+    this.scoreboardData.updateScoreboardData(updatedScoreboardData);
   }
 
-  toggleDownAndDistanceVisibility(matchData: IMatchFullDataWithScoreboard) {
-    if (!matchData) return;
-    const updatedMatchData = {
-      ...matchData,
-      is_downdistance: !matchData.scoreboard_data?.is_downdistance,
+  toggleDownAndDistanceVisibility(scoreboardData: IScoreboard) {
+    if (!scoreboardData) return;
+    const updatedScoreboardData = {
+      ...scoreboardData,
+      is_downdistance: !scoreboardData.is_downdistance,
     };
-    this.matchData.updateMatchData(updatedMatchData);
+    this.scoreboardData.updateScoreboardData(updatedScoreboardData);
+  }
+
+  updateTeamColor(team: 'a' | 'b', inputValue: string) {
+    return (scoreboardData: IScoreboard) => {
+      if (!scoreboardData) return;
+      console.log(scoreboardData);
+
+      if (inputValue) {
+        console.log(inputValue);
+        const colortKey = team === 'a' ? 'team_a_color' : 'team_b_color';
+        const updatedScoreboardData = {
+          ...scoreboardData,
+          [colortKey]: inputValue,
+        };
+        console.log(updatedScoreboardData);
+        this.scoreboardData.updateScoreboardData(updatedScoreboardData);
+      }
+    };
   }
 
   getMinutes(seconds: number): string {

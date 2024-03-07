@@ -3,10 +3,13 @@
   <div class="main-scoreboard" id="scoreboard_container">
     <div id="scoreboard" class="scoreboard">
       <div class="teams-container">
-        <div class="team_a-detail" id="team_a-detail">
+        <div
+          class="team_a-detail"
+          id="team_a-detail"
+          [style]="{'background-color': data.scoreboard_data?.team_a_color}">
           <div class="team_a-name">
             <div class="team_a-name">
-              <span [ngStyle]="{'font-size': fontSizeA}" id="team_a-name-display">
+              <span [style]="{'font-size': fontSizeA}" id="team_a-name-display">
                 {{ data.teams_data?.team_a?.title }}
               </span>
             </div>
@@ -18,9 +21,13 @@
             </div>
           </div>
         </div>
-        <div class="team_b-detail" id="team_b-detail">
+        <div
+          class="team_b-detail"
+          id="team_b-detail"
+          [style]="{'background-color': data.scoreboard_data?.team_b_color}"
+        >
           <div class="team_b-name">
-            <span [ngStyle]="{'font-size': fontSizeB}" id="team_b-name-display">
+            <span [style]="{'font-size': fontSizeB}" id="team_b-name-display">
               {{ data.teams_data?.team_b?.title }}
             </span>
           </div>
@@ -522,31 +529,31 @@
           type="button"
           data-field-name="Qtr"
           (click)="toggleQuarterVisibility(data.scoreboard_data!)"
-        >{{ data.scoreboard_data?.is_qtr ? 'Hide Qtr Field' : 'Show Qtr Field' }}
+        >{{ data.scoreboard_data?.is_qtr ? 'Hide' : 'Show' }} Qtr Field
         </button>
         <button
           id="gametime-btn-show-hide"
           class="settings-show-hide-btn"
           type="button"
           data-field-name="Game Time"
-          onclick="changeScoreboardSettings('is_time', false, 'gametime-btn-show-hide', '41', '82')"
-        >Hide Game Time Field
+          (click)="toggleGameClockVisibility(data.scoreboard_data!)"
+        >{{ data.scoreboard_data?.is_time ? 'Hide' : 'Show' }} Game Time Field
         </button>
         <button
           id="playclock-btn-show-hide"
           class="settings-show-hide-btn"
           type="button"
           data-field-name="Play Clock"
-          onclick="changeScoreboardSettings('is_playclock', false, 'playclock-btn-show-hide', '41', '82')"
-        >Hide Play Clock Field
+          (click)="togglePlayClockVisibility(data.scoreboard_data!)"
+        >{{ data.scoreboard_data?.is_playclock ? 'Hide' : 'Show' }} Play Clock Field
         </button>
         <button
           id="down-distance-btn-show-hide"
           class="settings-show-hide-btn"
           type="button"
           data-field-name="Down&amp;Distance"
-          onclick="changeScoreboardSettings('is_downdistance', false, 'down-distance-btn-show-hide', '41', '82')"
-        >Hide Down&amp;Distance Field
+          (click)="toggleDownAndDistanceVisibility(data.scoreboard_data!)"
+        >{{ data.scoreboard_data?.is_downdistance ? 'Hide' : 'Show' }} Down&amp;Distance Field
         </button>
 
       </div>
@@ -556,9 +563,13 @@
           <input
             id="team-a-color"
             class="team-color-picker"
-            type="color">
+            type="color"
+            [value]="data.scoreboard_data?.team_a_color"
+            #TeamAColor
+          >
           <button
             id="save-team-a-color"
+            (click)="updateTeamColor('a', TeamAColor.value)(data.scoreboard_data!)"
           >Save
           </button>
         </div>
@@ -567,9 +578,13 @@
           <input
             id="team-b-color"
             class="team-color-picker"
-            type="color">
+            type="color"
+            [value]="data.scoreboard_data?.team_b_color"
+            #TeamBColor
+          >
           <button
             id="save-team-b-color"
+            (click)="updateTeamColor('b', TeamBColor.value)(data.scoreboard_data!)"
           >Save
           </button>
         </div>

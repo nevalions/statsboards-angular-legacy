@@ -55,9 +55,20 @@ import {
   scoreboardDataFeatureKey,
   scoreboardDataReducer,
 } from './components/scoreboard-data/store/reducers';
+import { MatchScoreboardDisplayComponent } from './components/match-scoreboard-display/match-scoreboard-display.component';
 
 export const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: '/home' },
+  {
+    path: 'match/:match_id/scoreboard/hd',
+    component: MatchScoreboardDisplayComponent,
+    providers: [
+      provideState(webSocketFeatureKey, webSocketReducer),
+      provideState(matchFeatureKey, matchReducer),
+      provideEffects(MatchEffects, WebSocketEffects),
+    ],
+    data: { breadcrumb: { caption: 'HD' } },
+  },
   {
     path: 'home',
     component: HomeComponent,
