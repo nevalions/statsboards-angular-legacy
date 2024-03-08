@@ -27,9 +27,177 @@ import {
   teamTournamentFeatureKey,
   teamTournamentReducer,
 } from '../team-tournament/store/reducers';
+import { matchFeatureKey, matchReducer } from '../match/store/reducers';
+import {
+  matchWithFullDataFeatureKey,
+  matchWithFullDataReducer,
+} from '../match-with-full-data/store/reducers';
+import { MatchEffects } from '../match/store/effects';
+import { MatchWithFullDataEffects } from '../match-with-full-data/store/effects';
+import { ItemTeamComponent } from '../team/item-team/item-team.component';
+import { ItemMatchComponent } from '../match/item-match/item-match.component';
+import { MatchScoreboardAdminComponent } from '../match-scoreboard-admin/match-scoreboard-admin.component';
+import {
+  webSocketFeatureKey,
+  webSocketReducer,
+} from '../../store/websocket/websocket.reducers';
+import {
+  matchDataFeatureKey,
+  matchDataReducer,
+} from '../match/store/match-data/reducers';
+import {
+  scoreboardDataFeatureKey,
+  scoreboardDataReducer,
+} from '../scoreboard-data/store/reducers';
+import { MatchDataEffects } from '../match/store/match-data/effects';
+import { ScoreboardDataEffects } from '../scoreboard-data/store/effects';
+import { WebSocketEffects } from '../../store/websocket/websocket.effects';
 
-// export const SPORT_ROUTES: Routes = [
-//   { path: '', component: SportComponent },
+export const SPORT_ROUTES: Routes = [
+  {
+    path: '',
+    component: SportComponent,
+    children: [
+      {
+        path: ':sport_id',
+        component: ItemSportComponent,
+        children: [
+          {
+            path: 'teams',
+            component: WithTeamsComponent,
+            providers: [
+              provideState(teamFeatureKey, teamReducer),
+              provideEffects(TeamEffects),
+            ],
+            data: {
+              breadcrumb: {
+                caption: 'Teams',
+              },
+            },
+          },
+          {
+            path: 'season/:season_id',
+            component: ItemSportComponent,
+            children: [
+              {
+                path: 'tournaments',
+                component: ItemSportWithSeasonComponent,
+                providers: [
+                  provideState(tournamentFeatureKey, tournamentReducer),
+                  provideState(seasonFeatureKey, seasonReducer),
+                  provideEffects(SeasonEffects, TournamentEffects),
+                ],
+                data: {
+                  breadcrumb: {
+                    caption: 'Tournaments',
+                  },
+                },
+              },
+              {
+                path: 'tournament/:tournament_id',
+                component: ItemTournamentComponent,
+                providers: [
+                  provideState(seasonFeatureKey, seasonReducer),
+                  provideState(teamFeatureKey, teamReducer),
+                  provideState(tournamentFeatureKey, tournamentReducer),
+                  provideState(teamTournamentFeatureKey, teamTournamentReducer),
+                  provideState(matchFeatureKey, matchReducer),
+                  provideState(
+                    matchWithFullDataFeatureKey,
+                    matchWithFullDataReducer,
+                  ),
+                  provideEffects(
+                    SeasonEffects,
+                    TournamentEffects,
+                    TeamEffects,
+                    TeamTournamentEffects,
+                    MatchEffects,
+                    MatchWithFullDataEffects,
+                  ),
+                ],
+                data: {
+                  breadcrumb: {
+                    caption: 'Tournament',
+                  },
+                },
+              },
+              {
+                path: 'tournament/:tournament_id/team/:team_id',
+                component: ItemTeamComponent,
+                providers: [
+                  provideState(seasonFeatureKey, seasonReducer),
+                  provideState(teamFeatureKey, teamReducer),
+                  provideState(tournamentFeatureKey, tournamentReducer),
+                  provideState(teamTournamentFeatureKey, teamTournamentReducer),
+                  provideEffects(
+                    SeasonEffects,
+                    TournamentEffects,
+                    TeamEffects,
+                    TeamTournamentEffects,
+                  ),
+                ],
+                data: {
+                  breadcrumb: {
+                    caption: 'Team',
+                  },
+                },
+              },
+              {
+                path: 'tournament/:tournament_id/match/:match_id',
+                component: ItemMatchComponent,
+                providers: [
+                  provideState(seasonFeatureKey, seasonReducer),
+                  provideState(teamFeatureKey, teamReducer),
+                  provideState(tournamentFeatureKey, tournamentReducer),
+                  provideState(teamTournamentFeatureKey, teamTournamentReducer),
+                  provideState(matchFeatureKey, matchReducer),
+                  provideState(
+                    matchWithFullDataFeatureKey,
+                    matchWithFullDataReducer,
+                  ),
+                  provideEffects(
+                    SeasonEffects,
+                    TournamentEffects,
+                    TeamEffects,
+                    TeamTournamentEffects,
+                    MatchEffects,
+                    MatchWithFullDataEffects,
+                  ),
+                ],
+                data: {
+                  breadcrumb: {
+                    caption: 'Match',
+                  },
+                },
+              },
+              {
+                path: 'tournament/:tournament_id/match/:match_id/admin',
+                component: MatchScoreboardAdminComponent,
+                providers: [
+                  provideState(webSocketFeatureKey, webSocketReducer),
+                  provideState(matchFeatureKey, matchReducer),
+                  provideState(matchDataFeatureKey, matchDataReducer),
+                  provideState(scoreboardDataFeatureKey, scoreboardDataReducer),
+                  provideEffects(
+                    MatchDataEffects,
+                    ScoreboardDataEffects,
+                    WebSocketEffects,
+                  ),
+                ],
+                data: {
+                  breadcrumb: {
+                    caption: 'Admin',
+                  },
+                },
+              },
+            ],
+          },
+        ],
+      },
+    ],
+  },
+];
+
 //   {
 //     path: ':sport_id',
 //     component: ItemSportComponent,

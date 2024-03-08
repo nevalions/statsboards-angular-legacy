@@ -19,32 +19,54 @@ import { Store } from '@ngrx/store';
 import { selectCurrentTournamentId } from '../../tournament/store/reducers';
 import { selectCurrentSportId } from '../../sport/store/reducers';
 import { tournamentActions } from '../../tournament/store/actions';
-import { getRouterSelectors } from '@ngrx/router-store';
+import { getRouterSelectors, routerNavigatedAction } from '@ngrx/router-store';
+import { getAllRouteParameters } from '../../../router/router.selector';
+import { sportActions } from '../../sport/store/actions';
 
 @Injectable()
 export class TeamEffects {
   getTeamIdFromRouteEffect = createEffect(
     () => {
       return this.actions$.pipe(
-        ofType(teamActions.getId),
-        mergeMap(() =>
-          this.store
-            .select(getRouterSelectors().selectRouteParam('team_id'))
-            .pipe(
-              filter((id: string | undefined): id is string => !!id),
-              switchMap((id: string) => [
-                teamActions.get({ id: Number(id) }),
-                teamActions.getTeamIdSuccessfully({
-                  teamId: Number(id),
-                }),
-              ]),
-              catchError(() => of(teamActions.getTeamIdFailure())),
-            ),
-        ),
+        ofType(routerNavigatedAction),
+        switchMap(({ payload }) => {
+          let params = getAllRouteParameters(payload.routerState);
+          let teamId = params.get('team_id');
+          return of(teamId).pipe(
+            filter((id: string | undefined): id is string => !!id),
+            switchMap((id: string) => [
+              teamActions.getTeamIdSuccessfully({ teamId: Number(id) }),
+            ]),
+            catchError(() => of(teamActions.getTeamIdFailure())),
+          );
+        }),
       );
     },
-    { functional: true },
+    { functional: false },
   );
+
+  // getTeamIdFromRouteEffect = createEffect(
+  //   () => {
+  //     return this.actions$.pipe(
+  //       ofType(teamActions.getId),
+  //       mergeMap(() =>
+  //         this.store
+  //           .select(getRouterSelectors().selectRouteParam('team_id'))
+  //           .pipe(
+  //             filter((id: string | undefined): id is string => !!id),
+  //             switchMap((id: string) => [
+  //               teamActions.get({ id: Number(id) }),
+  //               teamActions.getTeamIdSuccessfully({
+  //                 teamId: Number(id),
+  //               }),
+  //             ]),
+  //             catchError(() => of(teamActions.getTeamIdFailure())),
+  //           ),
+  //       ),
+  //     );
+  //   },
+  //   { functional: true },
+  // );
 
   createTeamEffect = createEffect(
     () => {
@@ -143,6 +165,28 @@ export class TeamEffects {
                 return of(teamActions.getTeamsByTournamentIDFailure);
               }),
             );
+        }),
+      );
+    },
+    { functional: true },
+  );
+
+  getTeamBySuccessIdEffect = createEffect(
+    () => {
+      return this.actions$.pipe(
+        ofType(teamActions.getTeamIdSuccessfully), // You will have to define this action
+        switchMap(({ teamId }) => {
+          return this.teamService.findById(teamId).pipe(
+            // Assuming you have a getTournaments method in your service
+            map((team: ITeam) => {
+              return teamActions.getItemSuccess({
+                team,
+              });
+            }),
+            catchError(() => {
+              return of(teamActions.getItemFailure());
+            }),
+          );
         }),
       );
     },

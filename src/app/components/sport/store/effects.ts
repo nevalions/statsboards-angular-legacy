@@ -15,30 +15,53 @@ import { SportService } from '../sport.service';
 import { ISport } from '../../../type/sport.type';
 import { sportActions } from './actions';
 import { Store } from '@ngrx/store';
-import { getRouterSelectors } from '@ngrx/router-store';
+import { getRouterSelectors, routerNavigatedAction } from '@ngrx/router-store';
+import { getAllRouteParameters } from '../../../router/router.selector';
 
 @Injectable()
 export class SportEffects {
   getSportIdFromRouteEffect = createEffect(
     () => {
       return this.actions$.pipe(
-        ofType(sportActions.getId),
-        mergeMap(() =>
-          this.store
-            .select(getRouterSelectors().selectRouteParam('sport_id'))
-            .pipe(
-              filter((id: string | undefined): id is string => !!id),
-              switchMap((id: string) => [
-                sportActions.get({ id: Number(id) }),
-                sportActions.getSportIdSuccessfully({ sportId: Number(id) }),
-              ]),
-              catchError(() => of(sportActions.getSportIdFailure())),
-            ),
-        ),
+        ofType(routerNavigatedAction),
+        switchMap(({ payload }) => {
+          let params = getAllRouteParameters(payload.routerState);
+          let sportId = params.get('sport_id');
+          return of(sportId).pipe(
+            filter((id: string | undefined): id is string => !!id),
+            switchMap((id: string) => [
+              sportActions.getSportIdSuccessfully({ sportId: Number(id) }),
+            ]),
+            catchError(() => of(sportActions.getSportIdFailure())),
+          );
+        }),
       );
     },
-    { functional: true },
+    { functional: false },
   );
+
+  // getSportIdFromRouteEffect = createEffect(
+  //   () => {
+  //     return this.actions$.pipe(
+  //       ofType(routerNavigatedAction),
+  //       // ofType(sportActions.getId),
+  //       mergeMap((payload) =>
+  //         this.store
+  //           .select(getAllRouteParameters(payload.payload.routerState))
+  //           // .select(getRouterSelectors().selectRouteParam('sport_id'))
+  //           .pipe(
+  //             filter((id: string | undefined): id is string => !!id),
+  //             switchMap((id: string) => [
+  //               sportActions.get({ id: Number(id) }),
+  //               sportActions.getSportIdSuccessfully({ sportId: Number(id) }),
+  //             ]),
+  //             catchError(() => of(sportActions.getSportIdFailure())),
+  //           ),
+  //       ),
+  //     );
+  //   },
+  //   { functional: true },
+  // );
 
   createSportEffect = createEffect(
     () => {
@@ -77,6 +100,21 @@ export class SportEffects {
             }),
           );
         }),
+      );
+    },
+    { functional: true },
+  );
+
+  getSportByIdSuccessEffect = createEffect(
+    () => {
+      return this.actions$.pipe(
+        ofType(sportActions.getSportIdSuccessfully),
+        switchMap(({ sportId }) =>
+          this.sportService.findById(sportId).pipe(
+            map((sport: ISport) => sportActions.getItemSuccess({ sport })),
+            catchError(() => of(sportActions.getItemFailure())),
+          ),
+        ),
       );
     },
     { functional: true },

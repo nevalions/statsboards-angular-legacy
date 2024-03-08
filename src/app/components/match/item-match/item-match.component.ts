@@ -63,12 +63,12 @@ export class ItemMatchComponent {
     private route: ActivatedRoute,
     private router: Router,
   ) {
-    season.loadCurrentSeason();
-    sport.loadCurrentSport();
-    tournament.loadCurrentTournament();
+    // season.loadCurrentSeason();
+    // sport.loadCurrentSport();
+    // tournament.loadCurrentTournament();
     team.loadAllTeamsInTournament();
-    match.loadCurrentMatch();
-    matchWithFullData.loadCurrentMatch();
+    // match.loadCurrentMatch();
+    // matchWithFullData.loadCurrentMatch();
     // matchWithFullData.loadAllMatchesInTournament();
   }
 

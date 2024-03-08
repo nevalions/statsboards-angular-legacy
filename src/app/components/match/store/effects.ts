@@ -15,7 +15,7 @@ import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { selectCurrentTournamentId } from '../../tournament/store/reducers';
 
-import { getRouterSelectors } from '@ngrx/router-store';
+import { getRouterSelectors, routerNavigatedAction } from '@ngrx/router-store';
 import { matchActions } from './actions';
 import {
   getDefaultFullData,
@@ -32,31 +32,52 @@ import { selectCurrentMatchWithFullData } from '../../match-with-full-data/store
 import { IMatchData } from '../../../type/matchdata.type';
 import { matchDataActions } from './match-data/actions';
 import { MatchDataService } from '../matchData.service';
+import { getAllRouteParameters } from '../../../router/router.selector';
+import { sportActions } from '../../sport/store/actions';
 
 @Injectable()
 export class MatchEffects {
   getMatchIdFromRouteEffect = createEffect(
     () => {
       return this.actions$.pipe(
-        ofType(matchActions.getId),
-        mergeMap(() =>
-          this.store
-            .select(getRouterSelectors().selectRouteParam('match_id'))
-            .pipe(
-              filter((id: string | undefined): id is string => !!id),
-              switchMap((id: string) => [
-                matchActions.get({ id: Number(id) }),
-                matchActions.getMatchIdSuccessfully({
-                  matchId: Number(id),
-                }),
-              ]),
-              catchError(() => of(matchActions.getMatchIdFailure())),
-            ),
-        ),
+        ofType(routerNavigatedAction),
+        switchMap(({ payload }) => {
+          let params = getAllRouteParameters(payload.routerState);
+          let matchId = params.get('match_id');
+          return of(matchId).pipe(
+            filter((id: string | undefined): id is string => !!id),
+            switchMap((id: string) => [
+              matchActions.getMatchIdSuccessfully({ matchId: Number(id) }),
+            ]),
+            catchError(() => of(matchActions.getMatchIdFailure())),
+          );
+        }),
       );
     },
-    { functional: true },
+    { functional: false },
   );
+  // getMatchIdFromRouteEffect = createEffect(
+  //   () => {
+  //     return this.actions$.pipe(
+  //       ofType(matchActions.getId),
+  //       mergeMap(() =>
+  //         this.store
+  //           .select(getRouterSelectors().selectRouteParam('match_id'))
+  //           .pipe(
+  //             filter((id: string | undefined): id is string => !!id),
+  //             switchMap((id: string) => [
+  //               matchActions.get({ id: Number(id) }),
+  //               matchActions.getMatchIdSuccessfully({
+  //                 matchId: Number(id),
+  //               }),
+  //             ]),
+  //             catchError(() => of(matchActions.getMatchIdFailure())),
+  //           ),
+  //       ),
+  //     );
+  //   },
+  //   { functional: true },
+  // );
 
   createMatchEffect = createEffect(
     () => {
@@ -214,6 +235,28 @@ export class MatchEffects {
                 return of(matchActions.getMatchesByTournamentIDFailure);
               }),
             );
+        }),
+      );
+    },
+    { functional: true },
+  );
+
+  getMatchByIdSuccesEffect = createEffect(
+    () => {
+      return this.actions$.pipe(
+        ofType(matchActions.getMatchIdSuccessfully), // You will have to define this action
+        switchMap(({ matchId }) => {
+          return this.matchService.findById(matchId).pipe(
+            // Assuming you have a getTournaments method in your service
+            map((match: IMatch) => {
+              return matchActions.getItemSuccess({
+                match,
+              });
+            }),
+            catchError(() => {
+              return of(matchActions.getItemFailure());
+            }),
+          );
         }),
       );
     },

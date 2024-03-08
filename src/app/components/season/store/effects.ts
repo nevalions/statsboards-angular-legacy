@@ -7,32 +7,52 @@ import { Router } from '@angular/router';
 import { SeasonService } from '../season.service';
 import { ISeason } from '../../../type/season.type';
 import { sportActions } from '../../sport/store/actions';
-import { getRouterSelectors } from '@ngrx/router-store';
+import { getRouterSelectors, routerNavigatedAction } from '@ngrx/router-store';
 import { ISport } from '../../../type/sport.type';
 import { Store } from '@ngrx/store';
+import { getAllRouteParameters } from '../../../router/router.selector';
 
 @Injectable()
 export class SeasonEffects {
   getSeasonIdFromRouteEffect = createEffect(
     () => {
       return this.actions$.pipe(
-        ofType(seasonActions.getId),
-        mergeMap(() =>
-          this.store
-            .select(getRouterSelectors().selectRouteParam('season_id'))
-            .pipe(
-              filter((id: string | undefined): id is string => !!id),
-              switchMap((id: string) => [
-                seasonActions.get({ id: Number(id) }),
-                seasonActions.getSeasonIdSuccessfully({ seasonId: Number(id) }),
-              ]),
-              catchError(() => of(seasonActions.getSeasonIdFailure())),
-            ),
-        ),
+        ofType(routerNavigatedAction),
+        switchMap(({ payload }) => {
+          let params = getAllRouteParameters(payload.routerState);
+          let seasonId = params.get('season_id');
+          return of(seasonId).pipe(
+            filter((id: string | undefined): id is string => !!id),
+            switchMap((id: string) => [
+              seasonActions.getSeasonIdSuccessfully({ seasonId: Number(id) }),
+            ]),
+            catchError(() => of(seasonActions.getSeasonIdFailure())),
+          );
+        }),
       );
     },
-    { functional: true },
+    { functional: false },
   );
+  // getSeasonIdFromRouteEffect = createEffect(
+  //   () => {
+  //     return this.actions$.pipe(
+  //       ofType(seasonActions.getId),
+  //       mergeMap(() =>
+  //         this.store
+  //           .select(getRouterSelectors().selectRouteParam('season_id'))
+  //           .pipe(
+  //             filter((id: string | undefined): id is string => !!id),
+  //             switchMap((id: string) => [
+  //               seasonActions.get({ id: Number(id) }),
+  //               seasonActions.getSeasonIdSuccessfully({ seasonId: Number(id) }),
+  //             ]),
+  //             catchError(() => of(seasonActions.getSeasonIdFailure())),
+  //           ),
+  //       ),
+  //     );
+  //   },
+  //   { functional: true },
+  // );
 
   createSeasonEffect = createEffect(
     () => {
@@ -82,6 +102,21 @@ export class SeasonEffects {
         ofType(seasonActions.get),
         switchMap(({ id }) =>
           this.seasonService.findById(id).pipe(
+            map((season: ISeason) => seasonActions.getItemSuccess({ season })),
+            catchError(() => of(seasonActions.getItemFailure())),
+          ),
+        ),
+      );
+    },
+    { functional: true },
+  );
+
+  getSeasonByIdSuccessEffect = createEffect(
+    () => {
+      return this.actions$.pipe(
+        ofType(seasonActions.getSeasonIdSuccessfully),
+        switchMap(({ seasonId }) =>
+          this.seasonService.findById(seasonId).pipe(
             map((season: ISeason) => seasonActions.getItemSuccess({ season })),
             catchError(() => of(seasonActions.getItemFailure())),
           ),

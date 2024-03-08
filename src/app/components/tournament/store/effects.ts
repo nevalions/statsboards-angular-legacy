@@ -17,34 +17,56 @@ import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { selectSportIdAndSeasonId } from '../../sport/store/selectors';
 import { seasonActions } from '../../season/store/actions';
-import { getRouterSelectors } from '@ngrx/router-store';
+import { getRouterSelectors, routerNavigatedAction } from '@ngrx/router-store';
 import { ISeason } from '../../../type/season.type';
 import { selectTournamentSportIdSeasonId } from './selectors';
+import { getAllRouteParameters } from '../../../router/router.selector';
 
 @Injectable()
 export class TournamentEffects {
   getTournamentIdFromRouteEffect = createEffect(
     () => {
       return this.actions$.pipe(
-        ofType(tournamentActions.getId),
-        mergeMap(() =>
-          this.store
-            .select(getRouterSelectors().selectRouteParam('tournament_id'))
-            .pipe(
-              filter((id: string | undefined): id is string => !!id),
-              switchMap((id: string) => [
-                tournamentActions.get({ id: Number(id) }),
-                tournamentActions.getTournamentIdSuccessfully({
-                  tournamentId: Number(id),
-                }),
-              ]),
-              catchError(() => of(tournamentActions.getTournamentIdFailure())),
-            ),
-        ),
+        ofType(routerNavigatedAction),
+        switchMap(({ payload }) => {
+          let params = getAllRouteParameters(payload.routerState);
+          let tournamentId = params.get('tournament_id');
+          return of(tournamentId).pipe(
+            filter((id: string | undefined): id is string => !!id),
+            switchMap((id: string) => [
+              tournamentActions.getTournamentIdSuccessfully({
+                tournamentId: Number(id),
+              }),
+            ]),
+            catchError(() => of(tournamentActions.getTournamentIdFailure())),
+          );
+        }),
       );
     },
-    { functional: true },
+    { functional: false },
   );
+  // getTournamentIdFromRouteEffect = createEffect(
+  //   () => {
+  //     return this.actions$.pipe(
+  //       ofType(tournamentActions.getId),
+  //       mergeMap(() =>
+  //         this.store
+  //           .select(getRouterSelectors().selectRouteParam('tournament_id'))
+  //           .pipe(
+  //             filter((id: string | undefined): id is string => !!id),
+  //             switchMap((id: string) => [
+  //               tournamentActions.get({ id: Number(id) }),
+  //               tournamentActions.getTournamentIdSuccessfully({
+  //                 tournamentId: Number(id),
+  //               }),
+  //             ]),
+  //             catchError(() => of(tournamentActions.getTournamentIdFailure())),
+  //           ),
+  //       ),
+  //     );
+  //   },
+  //   { functional: true },
+  // );
 
   createTournamentEffect = createEffect(
     () => {
@@ -62,6 +84,23 @@ export class TournamentEffects {
             }),
           );
         }),
+      );
+    },
+    { functional: true },
+  );
+
+  getTournamentByIdSuccessEffect = createEffect(
+    () => {
+      return this.actions$.pipe(
+        ofType(tournamentActions.getTournamentIdSuccessfully),
+        switchMap(({ tournamentId }) =>
+          this.tournamentService.findById(tournamentId).pipe(
+            map((tournament: ITournament) =>
+              tournamentActions.getItemSuccess({ tournament }),
+            ),
+            catchError(() => of(tournamentActions.getItemFailure())),
+          ),
+        ),
       );
     },
     { functional: true },

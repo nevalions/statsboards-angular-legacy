@@ -70,8 +70,8 @@ export class ItemSportWithSeasonComponent {
     private season: Season,
     private tournament: Tournament,
   ) {
-    sport.loadCurrentSport();
-    season.loadCurrentSeason();
+    // sport.loadCurrentSport();
+    // season.loadCurrentSeason();
     tournament.loadSeasonSportTournaments();
   }
 

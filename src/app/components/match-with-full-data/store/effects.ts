@@ -13,37 +13,63 @@ import { tap } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { selectCurrentTournamentId } from '../../tournament/store/reducers';
-import { getRouterSelectors } from '@ngrx/router-store';
+import { getRouterSelectors, routerNavigatedAction } from '@ngrx/router-store';
 import { matchWithFullDataActions } from './actions';
 import { MatchWithFullDataService } from '../matchfulldata.service';
 import { IMatchWithFullData } from '../../../type/match.type';
+import { getAllRouteParameters } from '../../../router/router.selector';
+import { sportActions } from '../../sport/store/actions';
+import { matchActions } from '../../match/store/actions';
 
 @Injectable()
 export class MatchWithFullDataEffects {
-  getMatchWithFullDataIdFromRouteEffect = createEffect(
+  getMatchIdFromRouteEffect = createEffect(
     () => {
       return this.actions$.pipe(
-        ofType(matchWithFullDataActions.getId),
-        mergeMap(() =>
-          this.store
-            .select(getRouterSelectors().selectRouteParam('match_id'))
-            .pipe(
-              filter((id: string | undefined): id is string => !!id),
-              switchMap((id: string) => [
-                matchWithFullDataActions.get({ id: Number(id) }),
-                matchWithFullDataActions.getMatchWithFullDataIdSuccessfully({
-                  matchWithFullDataId: Number(id),
-                }),
-              ]),
-              catchError(() =>
-                of(matchWithFullDataActions.getMatchWithFullDataIdFailure()),
-              ),
+        ofType(routerNavigatedAction),
+        switchMap(({ payload }) => {
+          let params = getAllRouteParameters(payload.routerState);
+          let matchId = params.get('match_id');
+          return of(matchId).pipe(
+            filter((id: string | undefined): id is string => !!id),
+            switchMap((id: string) => [
+              matchWithFullDataActions.getMatchWithFullDataIdSuccessfully({
+                matchWithFullDataId: Number(id),
+              }),
+            ]),
+            catchError(() =>
+              of(matchWithFullDataActions.getMatchWithFullDataIdFailure()),
             ),
-        ),
+          );
+        }),
       );
     },
-    { functional: true },
+    { functional: false },
   );
+  // getMatchWithFullDataIdFromRouteEffect = createEffect(
+  //   () => {
+  //     return this.actions$.pipe(
+  //       ofType(matchWithFullDataActions.getId),
+  //       mergeMap(() =>
+  //         this.store
+  //           .select(getRouterSelectors().selectRouteParam('match_id'))
+  //           .pipe(
+  //             filter((id: string | undefined): id is string => !!id),
+  //             switchMap((id: string) => [
+  //               matchWithFullDataActions.get({ id: Number(id) }),
+  //               matchWithFullDataActions.getMatchWithFullDataIdSuccessfully({
+  //                 matchWithFullDataId: Number(id),
+  //               }),
+  //             ]),
+  //             catchError(() =>
+  //               of(matchWithFullDataActions.getMatchWithFullDataIdFailure()),
+  //             ),
+  //           ),
+  //       ),
+  //     );
+  //   },
+  //   { functional: true },
+  // );
 
   createMatchWithFullDataEffect = createEffect(
     () => {
@@ -149,6 +175,30 @@ export class MatchWithFullDataEffects {
                 return of(
                   matchWithFullDataActions.getMatchesWithFullDataByTournamentIDFailure,
                 );
+              }),
+            );
+        }),
+      );
+    },
+    { functional: true },
+  );
+
+  getMatchWithFullDataByIdSuccessEffect = createEffect(
+    () => {
+      return this.actions$.pipe(
+        ofType(matchWithFullDataActions.getMatchWithFullDataIdSuccessfully), // You will have to define this action
+        switchMap(({ matchWithFullDataId }) => {
+          return this.matchWithFullDataService
+            .fetchMatchWithDataById(matchWithFullDataId)
+            .pipe(
+              // Assuming you have a getTournaments method in your service
+              map((matchWithFullData: IMatchWithFullData) => {
+                return matchWithFullDataActions.getItemSuccess({
+                  matchWithFullData,
+                });
+              }),
+              catchError(() => {
+                return of(matchWithFullDataActions.getItemFailure());
               }),
             );
         }),

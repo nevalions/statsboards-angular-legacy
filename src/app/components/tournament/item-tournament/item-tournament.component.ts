@@ -131,9 +131,9 @@ export class ItemTournamentComponent {
     // private match: Match,
     private matchWithFullData: MatchWithFullData,
   ) {
-    season.loadCurrentSeason();
-    sport.loadCurrentSport();
-    tournament.loadCurrentTournament();
+    // season.loadCurrentSeason();
+    // sport.loadCurrentSport();
+    // tournament.loadCurrentTournament();
     team.loadAllTeamsInTournament();
     team.loadAllTeamsInSport();
     matchWithFullData.loadAllMatchesInTournament();

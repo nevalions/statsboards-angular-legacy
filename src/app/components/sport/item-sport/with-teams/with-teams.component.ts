@@ -37,7 +37,7 @@ export class WithTeamsComponent {
     private sport: Sport,
     private team: Team,
   ) {
-    sport.loadCurrentSport();
+    // sport.loadCurrentSport();
     team.loadAllTeamsInSport();
   }
 

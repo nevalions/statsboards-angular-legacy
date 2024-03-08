@@ -34,6 +34,8 @@ export class IslandListOfTournamentsComponent {
     let sportId = this.route.snapshot.params['sport_id'];
     let seasonId = this.route.snapshot.params['season_id'];
 
+    console.log(sportId, seasonId);
+
     this.router.navigate([
       '/sport',
       sportId,

@@ -56,6 +56,7 @@ import {
   scoreboardDataReducer,
 } from './components/scoreboard-data/store/reducers';
 import { MatchScoreboardDisplayComponent } from './components/match-scoreboard-display/match-scoreboard-display.component';
+import { SportComponent } from './components/sport/sport.component';
 
 export const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: '/home' },
@@ -78,124 +79,257 @@ export const routes: Routes = [
   { path: 'seasons/year/:year', component: SeasonComponent },
 
   {
-    path: 'sport/:sport_id',
-    component: ItemSportComponent,
+    path: 'sport',
+    component: SportComponent,
+    loadChildren: () =>
+      import('./components/sport/sport.routes').then((r) => r.SPORT_ROUTES),
   },
-  {
-    path: 'sport/:sport_id/teams',
-    component: WithTeamsComponent,
-    providers: [
-      provideState(teamFeatureKey, teamReducer),
-      provideEffects(TeamEffects),
-    ],
-    data: {
-      breadcrumb: {
-        caption: 'Teams',
-        routerLink: 'sport/:sport_id/teams',
-      },
-    },
-  },
-  {
-    path: 'sport/:sport_id/season/:season_id/tournaments',
-    component: ItemSportWithSeasonComponent,
-    providers: [
-      provideState(tournamentFeatureKey, tournamentReducer),
-      provideState(seasonFeatureKey, seasonReducer),
-      provideEffects(SeasonEffects, TournamentEffects),
-    ],
-    data: {
-      breadcrumb: {
-        caption: 'Tournaments',
-      },
-    },
-  },
-  {
-    path: 'sport/:sport_id/season/:season_id/tournament/:tournament_id',
-    component: ItemTournamentComponent,
-    providers: [
-      provideState(seasonFeatureKey, seasonReducer),
-      provideState(teamFeatureKey, teamReducer),
-      provideState(tournamentFeatureKey, tournamentReducer),
-      provideState(teamTournamentFeatureKey, teamTournamentReducer),
-      provideState(matchFeatureKey, matchReducer),
-      provideState(matchWithFullDataFeatureKey, matchWithFullDataReducer),
-      provideEffects(
-        SeasonEffects,
-        TournamentEffects,
-        TeamEffects,
-        TeamTournamentEffects,
-        MatchEffects,
-        MatchWithFullDataEffects,
-      ),
-    ],
-    data: {
-      breadcrumb: {
-        caption: 'Tournament',
-      },
-    },
-  },
-  {
-    path: 'sport/:sport_id/season/:season_id/tournament/:tournament_id/team/:team_id',
-    component: ItemTeamComponent,
-    providers: [
-      provideState(seasonFeatureKey, seasonReducer),
-      provideState(teamFeatureKey, teamReducer),
-      provideState(tournamentFeatureKey, tournamentReducer),
-      provideState(teamTournamentFeatureKey, teamTournamentReducer),
-      provideEffects(
-        SeasonEffects,
-        TournamentEffects,
-        TeamEffects,
-        TeamTournamentEffects,
-      ),
-    ],
-    data: {
-      breadcrumb: {
-        caption: 'Team',
-      },
-    },
-  },
-  {
-    path: 'sport/:sport_id/season/:season_id/tournament/:tournament_id/match/:match_id',
-    component: ItemMatchComponent,
-    providers: [
-      provideState(seasonFeatureKey, seasonReducer),
-      provideState(teamFeatureKey, teamReducer),
-      provideState(tournamentFeatureKey, tournamentReducer),
-      provideState(teamTournamentFeatureKey, teamTournamentReducer),
-      provideState(matchFeatureKey, matchReducer),
-      provideState(matchWithFullDataFeatureKey, matchWithFullDataReducer),
-      provideEffects(
-        SeasonEffects,
-        TournamentEffects,
-        TeamEffects,
-        TeamTournamentEffects,
-        MatchEffects,
-        MatchWithFullDataEffects,
-      ),
-    ],
-    data: {
-      breadcrumb: {
-        caption: 'Match',
-      },
-    },
-  },
-  {
-    path: 'sport/:sport_id/season/:season_id/tournament/:tournament_id/match/:match_id/admin',
-    component: MatchScoreboardAdminComponent,
-    providers: [
-      provideState(webSocketFeatureKey, webSocketReducer),
-      provideState(matchFeatureKey, matchReducer),
-      provideState(matchDataFeatureKey, matchDataReducer),
-      provideState(scoreboardDataFeatureKey, scoreboardDataReducer),
-      provideEffects(MatchDataEffects, ScoreboardDataEffects, WebSocketEffects),
-    ],
-    data: {
-      breadcrumb: {
-        caption: 'Admin',
-      },
-    },
-  },
+
+  // {
+  //   path: 'sport',
+  //   component: SportComponent,
+  //   data: { breadcrumb: { caption: 'Sports' } },
+  // children: [
+  //   {
+  //     path: ':sport_id',
+  //     component: ItemSportComponent,
+  //     children: [
+  //       {
+  //         path: 'teams',
+  //         component: WithTeamsComponent,
+  //         providers: [
+  //           provideState(teamFeatureKey, teamReducer),
+  //           provideEffects(TeamEffects),
+  //         ],
+  //         data: {
+  //           breadcrumb: {
+  //             caption: 'Teams',
+  //           },
+  //         },
+  //       },
+  //       {
+  //         path: 'season/:season_id',
+  //         component: ItemSportComponent,
+  //         children: [
+  //           {
+  //             path: 'tournaments',
+  //             component: ItemSportWithSeasonComponent,
+  //             providers: [
+  //               provideState(tournamentFeatureKey, tournamentReducer),
+  //               provideState(seasonFeatureKey, seasonReducer),
+  //               provideEffects(SeasonEffects, TournamentEffects),
+  //             ],
+  //             data: {
+  //               breadcrumb: {
+  //                 caption: 'Tournaments',
+  //               },
+  //             },
+  //           },
+  //           {
+  //             path: 'tournament/:tournament_id',
+  //             component: ItemTournamentComponent,
+  //             providers: [
+  //               provideState(seasonFeatureKey, seasonReducer),
+  //               provideState(teamFeatureKey, teamReducer),
+  //               provideState(tournamentFeatureKey, tournamentReducer),
+  //               provideState(teamTournamentFeatureKey, teamTournamentReducer),
+  //               provideState(matchFeatureKey, matchReducer),
+  //               provideState(
+  //                 matchWithFullDataFeatureKey,
+  //                 matchWithFullDataReducer,
+  //               ),
+  //               provideEffects(
+  //                 SeasonEffects,
+  //                 TournamentEffects,
+  //                 TeamEffects,
+  //                 TeamTournamentEffects,
+  //                 MatchEffects,
+  //                 MatchWithFullDataEffects,
+  //               ),
+  //             ],
+  //             data: {
+  //               breadcrumb: {
+  //                 caption: 'Tournament',
+  //               },
+  //             },
+  //           },
+  //           {
+  //             path: 'tournament/:tournament_id/team/:team_id',
+  //             component: ItemTeamComponent,
+  //             providers: [
+  //               provideState(seasonFeatureKey, seasonReducer),
+  //               provideState(teamFeatureKey, teamReducer),
+  //               provideState(tournamentFeatureKey, tournamentReducer),
+  //               provideState(teamTournamentFeatureKey, teamTournamentReducer),
+  //               provideEffects(
+  //                 SeasonEffects,
+  //                 TournamentEffects,
+  //                 TeamEffects,
+  //                 TeamTournamentEffects,
+  //               ),
+  //             ],
+  //             data: {
+  //               breadcrumb: {
+  //                 caption: 'Team',
+  //               },
+  //             },
+  //           },
+  //           {
+  //             path: 'tournament/:tournament_id/match/:match_id',
+  //             component: ItemMatchComponent,
+  //             providers: [
+  //               provideState(seasonFeatureKey, seasonReducer),
+  //               provideState(teamFeatureKey, teamReducer),
+  //               provideState(tournamentFeatureKey, tournamentReducer),
+  //               provideState(teamTournamentFeatureKey, teamTournamentReducer),
+  //               provideState(matchFeatureKey, matchReducer),
+  //               provideState(
+  //                 matchWithFullDataFeatureKey,
+  //                 matchWithFullDataReducer,
+  //               ),
+  //               provideEffects(
+  //                 SeasonEffects,
+  //                 TournamentEffects,
+  //                 TeamEffects,
+  //                 TeamTournamentEffects,
+  //                 MatchEffects,
+  //                 MatchWithFullDataEffects,
+  //               ),
+  //             ],
+  //             data: {
+  //               breadcrumb: {
+  //                 caption: 'Match',
+  //               },
+  //             },
+  //           },
+  //           {
+  //             path: 'tournament/:tournament_id/match/:match_id/admin',
+  //             component: MatchScoreboardAdminComponent,
+  //             providers: [
+  //               provideState(webSocketFeatureKey, webSocketReducer),
+  //               provideState(matchFeatureKey, matchReducer),
+  //               provideState(matchDataFeatureKey, matchDataReducer),
+  //               provideState(scoreboardDataFeatureKey, scoreboardDataReducer),
+  //               provideEffects(
+  //                 MatchDataEffects,
+  //                 ScoreboardDataEffects,
+  //                 WebSocketEffects,
+  //               ),
+  //             ],
+  //             data: {
+  //               breadcrumb: {
+  //                 caption: 'Admin',
+  //               },
+  //             },
+  //           },
+  //         ],
+  //       },
+  //     ],
+  //   },
+  // ],
+  // },
+
+  // {
+  //   path: 'sport/:sport_id/season/:season_id/tournaments',
+  //   component: ItemSportWithSeasonComponent,
+  //   providers: [
+  //     provideState(tournamentFeatureKey, tournamentReducer),
+  //     provideState(seasonFeatureKey, seasonReducer),
+  //     provideEffects(SeasonEffects, TournamentEffects),
+  //   ],
+  //   data: {
+  //     breadcrumb: {
+  //       caption: 'Tournaments',
+  //     },
+  //   },
+  // },
+  // {
+  //   path: 'sport/:sport_id/season/:season_id/tournament/:tournament_id',
+  //   component: ItemTournamentComponent,
+  //   providers: [
+  //     provideState(seasonFeatureKey, seasonReducer),
+  //     provideState(teamFeatureKey, teamReducer),
+  //     provideState(tournamentFeatureKey, tournamentReducer),
+  //     provideState(teamTournamentFeatureKey, teamTournamentReducer),
+  //     provideState(matchFeatureKey, matchReducer),
+  //     provideState(matchWithFullDataFeatureKey, matchWithFullDataReducer),
+  //     provideEffects(
+  //       SeasonEffects,
+  //       TournamentEffects,
+  //       TeamEffects,
+  //       TeamTournamentEffects,
+  //       MatchEffects,
+  //       MatchWithFullDataEffects,
+  //     ),
+  //   ],
+  //   data: {
+  //     breadcrumb: {
+  //       caption: 'Tournament',
+  //     },
+  //   },
+  // },
+  // {
+  //   path: 'sport/:sport_id/season/:season_id/tournament/:tournament_id/team/:team_id',
+  //   component: ItemTeamComponent,
+  //   providers: [
+  //     provideState(seasonFeatureKey, seasonReducer),
+  //     provideState(teamFeatureKey, teamReducer),
+  //     provideState(tournamentFeatureKey, tournamentReducer),
+  //     provideState(teamTournamentFeatureKey, teamTournamentReducer),
+  //     provideEffects(
+  //       SeasonEffects,
+  //       TournamentEffects,
+  //       TeamEffects,
+  //       TeamTournamentEffects,
+  //     ),
+  //   ],
+  //   data: {
+  //     breadcrumb: {
+  //       caption: 'Team',
+  //     },
+  //   },
+  // },
+  // {
+  //   path: 'sport/:sport_id/season/:season_id/tournament/:tournament_id/match/:match_id',
+  //   component: ItemMatchComponent,
+  //   providers: [
+  //     provideState(seasonFeatureKey, seasonReducer),
+  //     provideState(teamFeatureKey, teamReducer),
+  //     provideState(tournamentFeatureKey, tournamentReducer),
+  //     provideState(teamTournamentFeatureKey, teamTournamentReducer),
+  //     provideState(matchFeatureKey, matchReducer),
+  //     provideState(matchWithFullDataFeatureKey, matchWithFullDataReducer),
+  //     provideEffects(
+  //       SeasonEffects,
+  //       TournamentEffects,
+  //       TeamEffects,
+  //       TeamTournamentEffects,
+  //       MatchEffects,
+  //       MatchWithFullDataEffects,
+  //     ),
+  //   ],
+  //   data: {
+  //     breadcrumb: {
+  //       caption: 'Match',
+  //     },
+  //   },
+  // },
+  // {
+  //   path: 'sport/:sport_id/season/:season_id/tournament/:tournament_id/match/:match_id/admin',
+  //   component: MatchScoreboardAdminComponent,
+  //   providers: [
+  //     provideState(webSocketFeatureKey, webSocketReducer),
+  //     provideState(matchFeatureKey, matchReducer),
+  //     provideState(matchDataFeatureKey, matchDataReducer),
+  //     provideState(scoreboardDataFeatureKey, scoreboardDataReducer),
+  //     provideEffects(MatchDataEffects, ScoreboardDataEffects, WebSocketEffects),
+  //   ],
+  //   data: {
+  //     breadcrumb: {
+  //       caption: 'Admin',
+  //     },
+  //   },
+  // },
 
   {
     path: 'tournament',
@@ -229,9 +363,22 @@ export const routes: Routes = [
 //   loadChildren: () =>
 //     import('./components/match/match.routes').then((r) => r.MATCH_ROUTES),
 // },
+
 // {
-//   path: 'sport',
-//   component: SportComponent,
-//   loadChildren: () =>
-//     import('./components/sport/sport.routes').then((r) => r.SPORT_ROUTES),
+//   path: 'sport/:sport_id',
+//   component: ItemSportComponent,
+// },
+// {
+//   path: 'sport/:sport_id/teams',
+//   component: WithTeamsComponent,
+//   providers: [
+//     provideState(teamFeatureKey, teamReducer),
+//     provideEffects(TeamEffects),
+//   ],
+//   data: {
+//     breadcrumb: {
+//       caption: 'Teams',
+//       routerLink: 'sport/:sport_id/teams',
+//     },
+//   },
 // },
