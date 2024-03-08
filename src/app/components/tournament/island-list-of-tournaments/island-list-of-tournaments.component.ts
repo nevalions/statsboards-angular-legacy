@@ -16,7 +16,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class IslandListOfTournamentsComponent {
   @Input() emptyMessage: string = 'No data available';
-  @Input() formatPath: (item: ITournament) => string = () => '';
+  // @Input() formatPath: (item: ITournament) => string = () => '';
   @Input() titleProperty: keyof ITournament = 'title';
   @Input() paragraphProperty: keyof ITournament = 'description';
 
@@ -30,19 +30,27 @@ export class IslandListOfTournamentsComponent {
     private route: ActivatedRoute,
   ) {}
 
+  // navigateToTournamentItem(item: ITournament): void {
+  //   let sportId = this.route.snapshot.params['sport_id'];
+  //   let seasonId = this.route.snapshot.params['season_id'];
+  //
+  //   console.log(sportId, seasonId);
+  //
+  //   this.router.navigate([
+  //     '/sport',
+  //     sportId,
+  //     'season',
+  //     seasonId,
+  //     'tournament',
+  //     item.id,
+  //   ]);
+  // }
   navigateToTournamentItem(item: ITournament): void {
-    let sportId = this.route.snapshot.params['sport_id'];
-    let seasonId = this.route.snapshot.params['season_id'];
-
-    console.log(sportId, seasonId);
-
-    this.router.navigate([
-      '/sport',
-      sportId,
-      'season',
-      seasonId,
-      'tournament',
-      item.id,
-    ]);
+    let currentUrl = this.router.url.split('/');
+    if (currentUrl[currentUrl.length - 1] === 'tournaments') {
+      currentUrl.pop(); // Removes 'tournaments'
+    }
+    currentUrl.push('tournament', item.id!.toString());
+    this.router.navigate(currentUrl);
   }
 }

@@ -46,12 +46,12 @@ import { AppState } from './store/appstate';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppComponent {
-  title = 'StatsBoards';
-  breadcrumbs$: Observable<Breadcrumb[]>;
-
-  constructor(private store: Store<AppState>) {
-    this.breadcrumbs$ = this.store.select(
-      (state) => state.breadcrumb.breadcrumbs,
-    );
-  }
+  // title = 'StatsBoards';
+  // breadcrumbs$: Observable<Breadcrumb[]>;
+  //
+  // constructor(private store: Store<AppState>) {
+  //   this.breadcrumbs$ = this.store.select(
+  //     (state) => state.breadcrumb.breadcrumbs,
+  //   );
+  // }
 }

@@ -139,6 +139,15 @@ export class ItemMatchComponent {
     this.router.navigate(['admin'], { relativeTo: this.route });
   }
 
+  navigateToWebSocketScoreboardDisplay(match_id: number) {
+    if (match_id) {
+      window.open(
+        `http://localhost:4200/scoreboard/match/${match_id}/hd/`,
+        '_blank',
+      );
+    }
+  }
+
   onMatchEdit(match: IMatch | null | undefined): void {
     console.log(match);
     if (match && match.id) {

@@ -75,7 +75,7 @@ export class ItemSportWithSeasonComponent {
     tournament.loadSeasonSportTournaments();
   }
 
-  tournamentItemHref(item: ITournament): string {
-    return `sport/${item.sport_id}/season/${item.season_id}/tournament/${item.id}`;
-  }
+  // tournamentItemHref(item: ITournament): string {
+  //   return `sport/${item.sport_id}/season/${item.season_id}/tournament/${item.id}`;
+  // }
 }

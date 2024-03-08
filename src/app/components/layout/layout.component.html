@@ -1,0 +1,35 @@
+<div class="super main_container">
+  <tui-root>
+    <app-header [title]="title"></app-header>
+    <div style="margin: 0; padding-left: 15px;">
+      <tui-breadcrumbs
+        size="l"
+        class="tui-space_top-2"
+      >
+        @if (breadcrumbs$ | async; as bread) {
+          @for (item of bread; track $index) {
+            <ng-container>
+              <a
+                *tuiItem
+                tuiLink
+                [routerLink]="item.routerLink"
+              >
+                {{ item.caption }}
+              </a>
+            </ng-container>
+          }
+        } @else {
+          <tui-loader></tui-loader>
+        }
+      </tui-breadcrumbs>
+    </div>
+    <main>
+      <div class="main container">
+        <div class="main content">
+
+          <router-outlet></router-outlet>
+        </div>
+      </div>
+    </main>
+  </tui-root>
+</div>
