@@ -1,0 +1,38 @@
+<!--QTR-->
+<div
+  class="quarter"
+  id="quarter"
+  *ngIf="qtrFormsVisible$ | async"
+>
+  <div class="quarter-selector" id="quarter-selector-form">
+    <label
+      class="quarter-selector-label"
+      for="select-quarter"
+    >Select Quarter:
+    </label>
+    <select
+      class="quarter-selector-sel"
+      id="select-quarter"
+      #quarterSelect
+    >
+      <option value="1st">1st</option>
+      <option value="2nd">2nd</option>
+      <option value="HT">HT</option>
+      <option value="3rd">3rd</option>
+      <option value="4th">4th</option>
+      <option value="Final">Final</option>
+      <option value="OT">OT</option>
+    </select>
+    <button
+      class="save-button"
+      id="save-qtr-button"
+      (click)="updateQuarter(data.match_data!, quarterSelect.value)"
+    >Save
+    </button>
+  </div>
+</div>
+<app-toggle-visible-button
+  [isVisible$]="qtrFormsVisible$"
+  [formName]="'qtrForm'"
+  [buttonText]="'Qtr Selector'">
+</app-toggle-visible-button>

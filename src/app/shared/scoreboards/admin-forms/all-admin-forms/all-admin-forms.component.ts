@@ -8,11 +8,18 @@ import { ScoreFormsComponent } from '../score-forms/score-forms.component';
 import { map, Observable } from 'rxjs';
 import { Ui } from '../../../../store/ui/ui';
 import { ToggleVisibleButtonComponent } from '../../../ui/buttons/toggle-visible-button/toggle-visible-button.component';
+import { QtrFormsComponent } from '../qtr-forms/qtr-forms.component';
 
 @Component({
   selector: 'app-all-admin-forms',
   standalone: true,
-  imports: [AsyncPipe, NgIf, ScoreFormsComponent, ToggleVisibleButtonComponent],
+  imports: [
+    AsyncPipe,
+    NgIf,
+    ScoreFormsComponent,
+    ToggleVisibleButtonComponent,
+    QtrFormsComponent,
+  ],
   templateUrl: './all-admin-forms.component.html',
   styleUrl: './all-admin-forms.component.less',
 })
@@ -23,6 +30,7 @@ export class AllAdminFormsComponent {
   showHideAllButtonVisible$: Observable<boolean>;
   scoreInputsVisible$: Observable<boolean>;
   scoreButtonsVisible$: Observable<boolean>;
+  qtrFormVisible$: Observable<boolean>;
 
   downValue = '1st';
   distanceValue = ' & 10';
@@ -40,6 +48,9 @@ export class AllAdminFormsComponent {
     );
     this.scoreButtonsVisible$ = this.ui.formVisibility$.pipe(
       map((formVisibility) => formVisibility['scoreButtons']),
+    );
+    this.qtrFormVisible$ = this.ui.formVisibility$.pipe(
+      map((formVisibility) => formVisibility['qtrForm']),
     );
   }
 
@@ -63,48 +74,12 @@ export class AllAdminFormsComponent {
     this.formsVisibility[formName] = !this.formsVisibility[formName];
   }
 
-  // toggleAllFormsVisibility() {
-  //   const allVisible = Object.values(this.formsVisibility).every(
-  //     (value) => value,
-  //   );
-  //   Object.keys(this.formsVisibility).forEach(
-  //     (formName) => (this.formsVisibility[formName] = !allVisible),
-  //   );
-  // }
-
-  // adjustScore(team: 'a' | 'b', amount: number) {
-  //   return (matchData: IMatchData) => {
-  //     if (!matchData) return;
+  // updateQuarter(matchData: IMatchData, selectedQuarter: string) {
+  //   if (!matchData) return;
   //
-  //     const currentScoreKey = team === 'a' ? 'score_team_a' : 'score_team_b';
-  //     let currentScore = matchData[currentScoreKey];
-  //     if (currentScore != null) {
-  //       currentScore = Math.max(0, currentScore + amount);
-  //       const newMatchData = { ...matchData, [currentScoreKey]: currentScore };
-  //       this.matchData.updateMatchData(newMatchData);
-  //     }
-  //   };
+  //   const updatedMatchData = { ...matchData, qtr: selectedQuarter };
+  //   this.matchData.updateMatchData(updatedMatchData);
   // }
-  //
-  // updateScore(team: 'a' | 'b', inputValue: string) {
-  //   return (matchData: IMatchData) => {
-  //     if (!matchData) return;
-  //
-  //     const score = Number(inputValue);
-  //     if (score) {
-  //       const scoreKey = team === 'a' ? 'score_team_a' : 'score_team_b';
-  //       const updatedMatchData = { ...matchData, [scoreKey]: score };
-  //       this.matchData.updateMatchData(updatedMatchData);
-  //     }
-  //   };
-  // }
-
-  updateQuarter(matchData: IMatchData, selectedQuarter: string) {
-    if (!matchData) return;
-
-    const updatedMatchData = { ...matchData, qtr: selectedQuarter };
-    this.matchData.updateMatchData(updatedMatchData);
-  }
 
   updateTeamTimeout(team: 'a' | 'b', inputValue: string) {
     return (matchData: IMatchData) => {

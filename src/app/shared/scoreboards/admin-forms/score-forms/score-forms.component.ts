@@ -17,20 +17,10 @@ import { ToggleVisibleButtonComponent } from '../../../ui/buttons/toggle-visible
 export class ScoreFormsComponent {
   @Input() scoreInputsVisible$!: Observable<boolean>;
   @Input() scoreButtonsVisible$!: Observable<boolean>;
-  // @Input() scoreInputsVisible: boolean = true;
-  // @Input() scoreButtonsVisible: boolean = true;
   @Input() data!: IMatchFullDataWithScoreboard;
-  isMatchDataSubmitting$?: Observable<boolean>;
+  @Input() isMatchDataSubmitting$?: Observable<boolean>;
 
   constructor(private matchData: MatchData) {}
-
-  // toggleItemVisibility(formName: string) {
-  //   this.ui.toggleFormVisibility(formName);
-  // }
-  //
-  // toggleAllFormsVisibility() {
-  //   this.ui.toggleAllFormsVisibility();
-  // }
 
   adjustScore(team: 'a' | 'b', amount: number) {
     return (matchData: IMatchData) => {
