@@ -9,6 +9,7 @@ import { BreadcrumbState } from './breadcrumbs/breadcrumbs.reducers';
 import { MatchDataState } from '../components/match/store/match-data/reducers';
 import { WebSocketState } from './websocket/websocket.reducers';
 import { ScoreboardData } from '../components/scoreboard-data/scoreboard-data';
+import { UiState } from './ui/ui.reducers';
 
 export interface AppState {
   breadcrumb: BreadcrumbState;
@@ -21,5 +22,6 @@ export interface AppState {
   team: TeamState;
   teamTournament: TeamTournamentState;
   tournament: TournamentState;
+  ui: UiState;
   webSocket: WebSocketState;
 }

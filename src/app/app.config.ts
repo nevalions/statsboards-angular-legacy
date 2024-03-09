@@ -34,6 +34,7 @@ import {
   breadcrumbReducer,
 } from './store/breadcrumbs/breadcrumbs.reducers';
 import { BreadcrumbEffects } from './store/breadcrumbs/breadcrumbs.effects';
+import { uiFeatureKey, uiReducer } from './store/ui/ui.reducers';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -55,6 +56,7 @@ export const appConfig: ApplicationConfig = {
     provideEffects(),
     provideRouterStore(),
     provideState(ROUTER_FEATURE_KEY, routerReducer),
+    provideState(uiFeatureKey, uiReducer),
     provideState(breadcrumbFeatureKey, breadcrumbReducer),
     provideState(sportFeatureKey, sportReducer),
     provideEffects(SportEffects, BreadcrumbEffects),

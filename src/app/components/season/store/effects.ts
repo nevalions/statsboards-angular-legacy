@@ -33,26 +33,6 @@ export class SeasonEffects {
     },
     { functional: false },
   );
-  // getSeasonIdFromRouteEffect = createEffect(
-  //   () => {
-  //     return this.actions$.pipe(
-  //       ofType(seasonActions.getId),
-  //       mergeMap(() =>
-  //         this.store
-  //           .select(getRouterSelectors().selectRouteParam('season_id'))
-  //           .pipe(
-  //             filter((id: string | undefined): id is string => !!id),
-  //             switchMap((id: string) => [
-  //               seasonActions.get({ id: Number(id) }),
-  //               seasonActions.getSeasonIdSuccessfully({ seasonId: Number(id) }),
-  //             ]),
-  //             catchError(() => of(seasonActions.getSeasonIdFailure())),
-  //           ),
-  //       ),
-  //     );
-  //   },
-  //   { functional: true },
-  // );
 
   createSeasonEffect = createEffect(
     () => {

@@ -1,0 +1,123 @@
+<!--SCORE INPUTS-->
+<div
+  id="score-forms"
+  class="score-forms"
+  *ngIf="scoreInputsVisible$ | async"
+>
+  <form
+    class="score-form-a"
+    id="change-score-form-a"
+  >
+    <label
+      class="score-form_team_a_label"
+      for="score_team_a"
+    >Change Team A Score:
+    </label>
+    <input
+      class="score-form_team_a_input"
+      type="text"
+      id="score_team_a"
+      #teamAScoreInput
+      [placeholder]="data.match_data?.score_team_a"
+    >
+    <button
+      class="score-form_team_a_btn"
+      type="button"
+      (click)="updateScore('a', teamAScoreInput.value)(data.match_data!)"
+    >Save
+    </button>
+  </form>
+  <form
+    class="score-form-b"
+    id="change-score-form-b"
+  >
+    <label
+      class="score-form_team_b_label"
+      for="score_team_b"
+    >Change Team B Score:
+    </label>
+    <input
+      class="score-form_team_b_input"
+      type="text"
+      id="score_team_b"
+      #teamBScoreInput
+      [placeholder]="data.match_data?.score_team_b"
+    >
+    <button
+      class="score-form_team_b_btn"
+      type="button"
+      (click)="updateScore('b', teamBScoreInput.value)(data.match_data!)"
+    >Save
+    </button>
+  </form>
+</div>
+<button
+  id="score-form-show-hide"
+  class="show-hide-btn"
+  type="button"
+  (click)="toggleItemVisibility('scoreInputs')"
+>{{ scoreInputsVisible$ ? 'Hide' : 'Show' }} Score Inputs
+</button>
+
+<!--SCORE BTNS-->
+<div *ngIf="scoreButtonsVisible$ | async" id="score-increment-buttons" class="score-increment-buttons">
+  <div class="score-increment-buttons">
+    <button
+      [disabled]="isMatchDataSubmitting$ | async"
+      class="score-+6-a-btn"
+      (click)="adjustScore('a', 6)(data.match_data!)"
+    >+6 SCORE A
+    </button>
+    <button
+      [disabled]="isMatchDataSubmitting$ | async"
+      class="score-+3-a-btn"
+      (click)="adjustScore('a', 3)(data.match_data!)"
+    >+3 SCORE A
+    </button>
+    <button
+      [disabled]="isMatchDataSubmitting$ | async"
+      class="score--1-a-btn"
+      (click)="adjustScore('a', -1)(data.match_data!)"
+    >-1 SCORE A
+    </button>
+    <button
+      [disabled]="isMatchDataSubmitting$ | async"
+      class="score-+1-a-btn"
+      (click)="adjustScore('a', 1)(data.match_data!)"
+    >+1 SCORE A
+    </button>
+  </div>
+  <div class="score-increment-buttons">
+    <button
+      [disabled]="isMatchDataSubmitting$ | async"
+      class="score-+6-b-btn"
+      (click)="adjustScore('b', 6)(data.match_data!)"
+    >+6 SCORE B
+    </button>
+    <button
+      [disabled]="isMatchDataSubmitting$ | async"
+      class="score-+3-b-btn"
+      (click)="adjustScore('b', 3)(data.match_data!)"
+    >+3 SCORE B
+    </button>
+    <button
+      [disabled]="isMatchDataSubmitting$ | async"
+      class="score--1-b-btn"
+      (click)="adjustScore('b', -1)(data.match_data!)"
+    >-1 SCORE B
+    </button>
+    <button
+      [disabled]="isMatchDataSubmitting$ | async"
+      class="score-+1-b-btn"
+      (click)="adjustScore('b', 1)(data.match_data!)"
+    >+1 SCORE B
+    </button>
+  </div>
+</div>
+<button
+  id="score-increment-buttons-show-hide"
+  class="show-hide-btn"
+  type="button"
+  (click)="toggleItemVisibility('scoreButtons')"
+> {{ scoreButtonsVisible$ ? 'Hide' : 'Show' }} Score Buttons
+</button>
