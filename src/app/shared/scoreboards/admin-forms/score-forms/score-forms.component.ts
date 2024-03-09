@@ -5,39 +5,32 @@ import { AsyncPipe, NgIf } from '@angular/common';
 import { map, Observable } from 'rxjs';
 import { IMatchFullDataWithScoreboard } from '../../../../type/match.type';
 import { Ui } from '../../../../store/ui/ui';
+import { ToggleVisibleButtonComponent } from '../../../ui/buttons/toggle-visible-button/toggle-visible-button.component';
 
 @Component({
   selector: 'app-score-forms',
   standalone: true,
-  imports: [AsyncPipe, NgIf],
+  imports: [AsyncPipe, NgIf, ToggleVisibleButtonComponent],
   templateUrl: './score-forms.component.html',
   styleUrl: './score-forms.component.less',
 })
 export class ScoreFormsComponent {
-  scoreInputsVisible$: Observable<boolean>;
-  scoreButtonsVisible$: Observable<boolean>;
+  @Input() scoreInputsVisible$!: Observable<boolean>;
+  @Input() scoreButtonsVisible$!: Observable<boolean>;
+  // @Input() scoreInputsVisible: boolean = true;
+  // @Input() scoreButtonsVisible: boolean = true;
   @Input() data!: IMatchFullDataWithScoreboard;
   isMatchDataSubmitting$?: Observable<boolean>;
 
-  constructor(
-    private ui: Ui,
-    private matchData: MatchData,
-  ) {
-    this.scoreInputsVisible$ = this.ui.formVisibility$.pipe(
-      map((formVisibility) => formVisibility['scoreInputs']),
-    );
-    this.scoreButtonsVisible$ = this.ui.formVisibility$.pipe(
-      map((formVisibility) => formVisibility['scoreButtons']),
-    );
-  }
+  constructor(private matchData: MatchData) {}
 
-  toggleItemVisibility(formName: string) {
-    this.ui.toggleFormVisibility(formName);
-  }
-
-  toggleAllFormsVisibility() {
-    this.ui.toggleAllFormsVisibility();
-  }
+  // toggleItemVisibility(formName: string) {
+  //   this.ui.toggleFormVisibility(formName);
+  // }
+  //
+  // toggleAllFormsVisibility() {
+  //   this.ui.toggleAllFormsVisibility();
+  // }
 
   adjustScore(team: 'a' | 'b', amount: number) {
     return (matchData: IMatchData) => {

@@ -7,6 +7,7 @@ export interface UiState {
 
 const initialState: UiState = {
   formVisibility: {
+    showHideAll: true,
     scoreInputs: true,
     scoreButtons: true,
     qtrForm: true,

@@ -5,12 +5,16 @@
     class="show-hide-btn"
     type="button"
     (click)="toggleAllFormsVisibility()"
-  >{{ formsVisibility['showHideAll'] ? 'Hide' : 'Show' }} All
+  >{{ (showHideAllButtonVisible$ | async) ? 'Hide' : 'Show' }} All
   </button>
+
 
   <app-score-forms
     [data]="data"
+    [scoreInputsVisible$]="scoreInputsVisible$"
+    [scoreButtonsVisible$]="scoreButtonsVisible$"
   ></app-score-forms>
+
 
   <!--  &lt;!&ndash;SCORE INPUTS&ndash;&gt;-->
   <!--  <div-->

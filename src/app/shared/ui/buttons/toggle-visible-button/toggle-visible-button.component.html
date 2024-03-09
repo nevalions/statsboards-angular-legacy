@@ -1,0 +1,6 @@
+<button
+  class="show-hide-btn"
+  type="button"
+  (click)="toggleItemVisibility(formName)"
+>{{ (isVisible$ | async) ? 'Hide' : 'Show' }} {{ buttonText }}
+</button>

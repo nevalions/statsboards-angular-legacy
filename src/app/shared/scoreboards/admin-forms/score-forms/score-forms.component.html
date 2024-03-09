@@ -51,13 +51,12 @@
     </button>
   </form>
 </div>
-<button
-  id="score-form-show-hide"
-  class="show-hide-btn"
-  type="button"
-  (click)="toggleItemVisibility('scoreInputs')"
->{{ scoreInputsVisible$ ? 'Hide' : 'Show' }} Score Inputs
-</button>
+
+<app-toggle-visible-button
+  [isVisible$]="scoreInputsVisible$"
+  [formName]="'scoreInputs'"
+  [buttonText]="'Score Inputs'">
+</app-toggle-visible-button>
 
 <!--SCORE BTNS-->
 <div *ngIf="scoreButtonsVisible$ | async" id="score-increment-buttons" class="score-increment-buttons">
@@ -114,10 +113,10 @@
     </button>
   </div>
 </div>
-<button
-  id="score-increment-buttons-show-hide"
-  class="show-hide-btn"
-  type="button"
-  (click)="toggleItemVisibility('scoreButtons')"
-> {{ scoreButtonsVisible$ ? 'Hide' : 'Show' }} Score Buttons
-</button>
+
+<app-toggle-visible-button
+  [isVisible$]="scoreButtonsVisible$"
+  [formName]="'scoreButtons'"
+  [buttonText]="'Score Buttons'">
+</app-toggle-visible-button>
+

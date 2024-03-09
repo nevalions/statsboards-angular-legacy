@@ -5,11 +5,14 @@ import { IMatchFullDataWithScoreboard } from '../../../../type/match.type';
 import { MatchData } from '../../../../components/match/matchdata';
 import { ScoreboardData } from '../../../../components/scoreboard-data/scoreboard-data';
 import { ScoreFormsComponent } from '../score-forms/score-forms.component';
+import { map, Observable } from 'rxjs';
+import { Ui } from '../../../../store/ui/ui';
+import { ToggleVisibleButtonComponent } from '../../../ui/buttons/toggle-visible-button/toggle-visible-button.component';
 
 @Component({
   selector: 'app-all-admin-forms',
   standalone: true,
-  imports: [AsyncPipe, NgIf, ScoreFormsComponent],
+  imports: [AsyncPipe, NgIf, ScoreFormsComponent, ToggleVisibleButtonComponent],
   templateUrl: './all-admin-forms.component.html',
   styleUrl: './all-admin-forms.component.less',
 })
@@ -17,13 +20,32 @@ export class AllAdminFormsComponent {
   @Input() data!: IMatchFullDataWithScoreboard;
   isMatchDataSubmitting$ = this.matchData.matchDataIsSubmitting$;
 
+  showHideAllButtonVisible$: Observable<boolean>;
+  scoreInputsVisible$: Observable<boolean>;
+  scoreButtonsVisible$: Observable<boolean>;
+
   downValue = '1st';
   distanceValue = ' & 10';
 
   constructor(
     private matchData: MatchData,
     private scoreboardData: ScoreboardData,
-  ) {}
+    private ui: Ui,
+  ) {
+    this.showHideAllButtonVisible$ = this.ui.formVisibility$.pipe(
+      map((formVisibility) => formVisibility['showHideAll']),
+    );
+    this.scoreInputsVisible$ = this.ui.formVisibility$.pipe(
+      map((formVisibility) => formVisibility['scoreInputs']),
+    );
+    this.scoreButtonsVisible$ = this.ui.formVisibility$.pipe(
+      map((formVisibility) => formVisibility['scoreButtons']),
+    );
+  }
+
+  toggleAllFormsVisibility() {
+    this.ui.toggleAllFormsVisibility();
+  }
 
   formsVisibility: { [key: string]: boolean } = {
     showHideAll: true,
@@ -41,14 +63,14 @@ export class AllAdminFormsComponent {
     this.formsVisibility[formName] = !this.formsVisibility[formName];
   }
 
-  toggleAllFormsVisibility() {
-    const allVisible = Object.values(this.formsVisibility).every(
-      (value) => value,
-    );
-    Object.keys(this.formsVisibility).forEach(
-      (formName) => (this.formsVisibility[formName] = !allVisible),
-    );
-  }
+  // toggleAllFormsVisibility() {
+  //   const allVisible = Object.values(this.formsVisibility).every(
+  //     (value) => value,
+  //   );
+  //   Object.keys(this.formsVisibility).forEach(
+  //     (formName) => (this.formsVisibility[formName] = !allVisible),
+  //   );
+  // }
 
   // adjustScore(team: 'a' | 'b', amount: number) {
   //   return (matchData: IMatchData) => {
