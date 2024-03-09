@@ -11,35 +11,34 @@ import { IMatchFullDataWithScoreboard } from '../../type/match.type';
 import { Websocket } from '../../store/websocket/websocket';
 import { TuiLoaderModule } from '@taiga-ui/core';
 import { ScoreboardData } from '../scoreboard-data/scoreboard-data';
+import { ScoreboardDisplayFlatComponent } from '../../shared/scoreboards/scoreboard-display-flat/scoreboard-display-flat.component';
 
 @Component({
   selector: 'app-match-scoreboard-admin',
   standalone: true,
-  imports: [AsyncPipe, TuiLoaderModule, NgIf],
+  imports: [AsyncPipe, TuiLoaderModule, NgIf, ScoreboardDisplayFlatComponent],
   templateUrl: './match-scoreboard-admin.component.html',
   styleUrl: './match-scoreboard-admin.component.less',
 })
-export class MatchScoreboardAdminComponent
-  implements OnInit, OnDestroy, AfterViewChecked
-{
+export class MatchScoreboardAdminComponent implements OnInit, OnDestroy {
   loading$: Observable<boolean> = this.Websocket.loading$;
   error$: Observable<any> = this.Websocket.error$;
   data$: Observable<IMatchFullDataWithScoreboard> = this.Websocket.data$;
   isMatchDataSubmitting$ = this.matchData.matchDataIsSubmitting$;
 
-  fontSizeA!: string;
-  fontSizeB!: string;
+  // fontSizeA!: string;
+  // fontSizeB!: string;
 
   downValue = '1st';
   distanceValue = ' & 10';
 
   constructor(
     private Websocket: Websocket,
-    private match: Match,
+    // private match: Match,
     private matchData: MatchData,
     private scoreboardData: ScoreboardData,
   ) {
-    match.loadCurrentMatch();
+    // match.loadCurrentMatch();
   }
 
   ngOnInit() {
@@ -50,29 +49,29 @@ export class MatchScoreboardAdminComponent
     this.Websocket.disconnect();
   }
 
-  ngAfterViewChecked(): void {
-    this.adjustFontSize();
-  }
-
-  adjustFontSize() {
-    setTimeout(() => {
-      // These selectors should point to your team names
-      const teamNameAElement = <HTMLElement>(
-        document.querySelector('.team_a-name span')
-      );
-      const teamNameBElement = <HTMLElement>(
-        document.querySelector('.team_b-name span')
-      );
-
-      if (teamNameAElement && teamNameBElement) {
-        const maxWidthA = teamNameAElement.parentElement!.offsetWidth;
-        const maxWidthB = teamNameBElement.parentElement!.offsetWidth;
-
-        this.fontSizeA = Math.min(20, maxWidthA / 14) + 'px';
-        this.fontSizeB = Math.min(20, maxWidthB / 14) + 'px';
-      }
-    });
-  }
+  // ngAfterViewChecked(): void {
+  //   this.adjustFontSize();
+  // }
+  //
+  // adjustFontSize() {
+  //   setTimeout(() => {
+  //     // These selectors should point to your team names
+  //     const teamNameAElement = <HTMLElement>(
+  //       document.querySelector('.team_a-name span')
+  //     );
+  //     const teamNameBElement = <HTMLElement>(
+  //       document.querySelector('.team_b-name span')
+  //     );
+  //
+  //     if (teamNameAElement && teamNameBElement) {
+  //       const maxWidthA = teamNameAElement.parentElement!.offsetWidth;
+  //       const maxWidthB = teamNameBElement.parentElement!.offsetWidth;
+  //
+  //       this.fontSizeA = Math.min(20, maxWidthA / 14) + 'px';
+  //       this.fontSizeB = Math.min(20, maxWidthB / 14) + 'px';
+  //     }
+  //   });
+  // }
 
   adjustScore(team: 'a' | 'b', amount: number) {
     return (matchData: IMatchData) => {

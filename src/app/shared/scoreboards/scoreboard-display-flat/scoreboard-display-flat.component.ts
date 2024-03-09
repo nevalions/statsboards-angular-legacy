@@ -11,6 +11,7 @@ import { IMatchFullDataWithScoreboard } from '../../../type/match.type';
 })
 export class ScoreboardDisplayFlatComponent implements AfterViewChecked {
   @Input() data!: IMatchFullDataWithScoreboard;
+  @Input() scoreboardDisplayClass: string = 'fullhd-scoreboard';
 
   fontSizeA!: string;
   fontSizeB!: string;

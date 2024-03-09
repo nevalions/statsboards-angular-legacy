@@ -15,6 +15,25 @@
   text-shadow: 0 1px 8px #000;
 }
 
+.scoreboard {
+
+  display: grid;
+
+  grid-template-columns: auto auto;
+  grid-template-rows: auto;
+
+  grid-gap: 0; /* Set the gap to 0 to remove spaces between grid items */
+
+
+  align-content: start;
+  justify-content: start;
+
+  /*padding: 10px;*/
+  margin: 0;
+
+
+}
+
 .fullhd-scoreboard {
   //border: 5px solid #870000;
 
@@ -255,4 +274,150 @@
 .timeleft,
 .downandyard {
   font-family: 'IntegralCF-DemiBold', sans-serif;
+}
+
+@media screen and (max-width: 1330px) {
+  .scoreboard {
+
+    display: grid;
+
+    grid-template-columns: auto;
+    grid-template-rows: auto;
+
+    grid-gap: 0; /* Set the gap to 0 to remove spaces between grid items */
+
+
+    align-content: start;
+    justify-content: start;
+
+    /*padding: 10px;*/
+    margin: 0;
+  }
+
+}
+
+
+@media screen and (max-width: 900px) {
+  .scoreboard {
+
+    display: grid;
+
+    grid-template-columns: auto;
+    grid-template-rows: auto;
+
+    grid-gap: 0; /* Set the gap to 0 to remove spaces between grid items */
+
+
+    align-content: start;
+    justify-content: start;
+
+    /*padding: 10px;*/
+    margin: 0;
+  }
+
+  /*.down-selector{*/
+  /*    display: grid;*/
+  /*    grid-template-columns: repeat(2, auto);*/
+  /*    align-content: center;*/
+  /*    justify-content: stretch;*/
+  /*    grid-gap: 5px;*/
+  /*}*/
+
+}
+
+
+@media screen and (max-width: 720px) {
+  .scoreboard {
+
+    display: grid;
+
+    grid-template-columns: auto;
+    grid-template-rows: auto;
+
+    grid-gap: 0; /* Set the gap to 0 to remove spaces between grid items */
+
+
+    align-content: start;
+    justify-content: start;
+
+    /*padding: 10px;*/
+    margin: 0;
+  }
+
+  .teams-container {
+    display: grid;
+
+    border: 2px solid #000000;
+    grid-template-columns: auto;
+  }
+
+}
+
+@media screen and (max-width: 480px) {
+  .scoreboard {
+
+    display: grid;
+
+    grid-template-columns: auto;
+    grid-template-rows: auto;
+
+    grid-gap: 0; /* Set the gap to 0 to remove spaces between grid items */
+
+
+    align-content: start;
+    justify-content: start;
+
+    /*padding: 10px;*/
+    margin: 0;
+  }
+
+  //
+  //.teams-container{
+  //    display: grid;
+  //
+  //    border: 2px solid #000000;
+  //    grid-template-columns: auto;
+  //}
+  //
+  //.down-and-distance {
+  //    border: 1px solid #000000;
+  //
+  //    display: grid;
+  //    grid-template-columns: auto;
+  //    grid-template-rows: auto auto auto;
+  //
+  //    padding: 10px;
+  //    grid-gap: 10px;
+  //
+  //    align-content: center;
+  //    justify-content: stretch;
+  //}
+  //
+  //.change-down-distance-text {
+  //    border: 1px solid #000000;
+  //    grid-column: span 1;
+  //
+  //    display: grid;
+  //    grid-template-columns: auto;
+  //    grid-template-rows: auto auto;
+  //
+  //    padding: 10px;
+  //    grid-gap: 10px;
+  //
+  //    align-content: center;
+  //    justify-content: center;
+  //}
+  //
+  //.timeouts-btns {
+  //    border: 1px solid #000000;
+  //
+  //    display: grid;
+  //    grid-template-columns: auto;
+  //
+  //    padding: 10px;
+  //    grid-gap: 10px;
+  //
+  //    align-content: center;
+  //    justify-content: stretch;
+  //}
 }
