@@ -1,0 +1,79 @@
+<!--SCOREBOARD DATA-->
+<div
+  *ngIf="changeScoreBoardFormsVisible$ | async"
+  id="scoreboard-settings"
+  class="scoreboard-settings"
+>
+  <div id="scoreboard-settings-btns" class="scoreboard-settings-btns">
+    <button
+      id="qtr-btn-show-hide"
+      class="settings-show-hide-btn"
+      type="button"
+      data-field-name="Qtr"
+      (click)="toggleQuarterVisibility(data.scoreboard_data!)"
+    >{{ data.scoreboard_data?.is_qtr ? 'Hide' : 'Show' }} Qtr Field
+    </button>
+    <button
+      id="gametime-btn-show-hide"
+      class="settings-show-hide-btn"
+      type="button"
+      data-field-name="Game Time"
+      (click)="toggleGameClockVisibility(data.scoreboard_data!)"
+    >{{ data.scoreboard_data?.is_time ? 'Hide' : 'Show' }} Game Time Field
+    </button>
+    <button
+      id="playclock-btn-show-hide"
+      class="settings-show-hide-btn"
+      type="button"
+      data-field-name="Play Clock"
+      (click)="togglePlayClockVisibility(data.scoreboard_data!)"
+    >{{ data.scoreboard_data?.is_playclock ? 'Hide' : 'Show' }} Play Clock Field
+    </button>
+    <button
+      id="down-distance-btn-show-hide"
+      class="settings-show-hide-btn"
+      type="button"
+      data-field-name="Down&amp;Distance"
+      (click)="toggleDownAndDistanceVisibility(data.scoreboard_data!)"
+    >{{ data.scoreboard_data?.is_downdistance ? 'Hide' : 'Show' }} Down&amp;Distance Field
+    </button>
+
+  </div>
+  <div id="scoreboard-teams-colors" class="scoreboard-teams-colors">
+    <div id="team-a-color-settings" class="team-a-color-settings">
+      <label class="color-team-a-label" for="team-a-color">Change Team A Color:</label>
+      <input
+        id="team-a-color"
+        class="team-color-picker"
+        type="color"
+        [value]="data.scoreboard_data?.team_a_color"
+        #TeamAColor
+      >
+      <button
+        id="save-team-a-color"
+        (click)="updateTeamColor('a', TeamAColor.value)(data.scoreboard_data!)"
+      >Save
+      </button>
+    </div>
+    <div id="team-b-color-settings" class="team-b-color-settings">
+      <label class="color-team-b-label" for="team-b-color">Change Team B Color:</label>
+      <input
+        id="team-b-color"
+        class="team-color-picker"
+        type="color"
+        [value]="data.scoreboard_data?.team_b_color"
+        #TeamBColor
+      >
+      <button
+        id="save-team-b-color"
+        (click)="updateTeamColor('b', TeamBColor.value)(data.scoreboard_data!)"
+      >Save
+      </button>
+    </div>
+  </div>
+</div>
+<app-toggle-visible-button
+  [isVisible$]="changeScoreBoardFormsVisible$"
+  [formName]="'changeScoreBoardForms'"
+  [buttonText]="'ScoreBoard Forms'">
+</app-toggle-visible-button>

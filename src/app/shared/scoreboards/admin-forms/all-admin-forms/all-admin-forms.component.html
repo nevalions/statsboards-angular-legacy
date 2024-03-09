@@ -34,120 +34,14 @@
     [timeFormsVisible$]="timeFormsVisible$"
   ></app-time-forms>
 
-  <!--CHANGE TEAMS DATA-->
-  <div *ngIf="formsVisibility['changeTeamsForms']" id="change-team-info" class="change-team-info">
-    <form class="name-form-a" id="change-name-form-a">
-      <label class="name-form-a-label" for="team_a_name">Change Team A Name:</label>
-      <input class="name-form-a-input" type="text" id="team_a_name" placeholder="aaaaaa">
-      <button class="name-form-a-btn" type="button" onclick="changeTeamName('team_a', 'change-name-form-a')">Save
-      </button>
-    </form>
+  <app-change-teams-forms
+    [data]="data"
+    [changeTeamsFormsVisible$]="changeTeamsFormsVisible$"
+  ></app-change-teams-forms>
 
-    <!-- Form for changing Team B's name -->
-    <form class="name-form-b" id="change-name-form-b">
-      <label class="name-form-b-label" for="team_b_name">Change Team B Name:</label>
-      <input class="name-form-b-input" type="text" id="team_b_name" placeholder="bbb">
-      <button class="name-form-b-btn" type="button" onclick="changeTeamName('team_b', 'change-name-form-b')">Save
-      </button>
-    </form>
-
-    <!-- Form for changing Team A's logo -->
-    <form class="logo-form-a" id="change-logo-form-a" enctype="multipart/form-data">
-      <label class="logo-form-a-label" for="team_a_logo">Change Team A Logo:</label>
-      <input class="logo-form-a-input" type="file" id="team_a_logo" accept="image/*" name="logo">
-      <button class="logo-form-a-btn" type="button" onclick="changeLogo('team_a', 'change-logo-form-a')">Save</button>
-    </form>
-
-    <!-- Form for changing Team B's logo -->
-    <form class="logo-form-b" id="change-logo-form-b" enctype="multipart/form-data">
-      <label class="logo-form-b-label" for="team_b_logo">Change Team B Logo:</label>
-      <input class="logo-form-b-input" type="file" id="team_b_logo" accept="image/*" name="logo">
-      <button class="logo-form-b-btn" type="button" onclick="changeLogo('team_b', 'change-logo-form-b')">Save</button>
-    </form>
-  </div>
-  <button
-    id="change-team-info-show-hide"
-    class="show-hide-btn"
-    type="button"
-    (click)="toggleFormVisibility('changeTeamsForms')"
-  >{{ formsVisibility['changeTeamsForms'] ? 'Hide' : 'Show' }} Teams Forms
-  </button>
-
-  <!--SCOREBOARD DATA-->
-  <div *ngIf="formsVisibility['changeScoreBoardForms']" id="scoreboard-settings" class="scoreboard-settings">
-    <div id="scoreboard-settings-btns" class="scoreboard-settings-btns">
-      <button
-        id="qtr-btn-show-hide"
-        class="settings-show-hide-btn"
-        type="button"
-        data-field-name="Qtr"
-        (click)="toggleQuarterVisibility(data.scoreboard_data!)"
-      >{{ data.scoreboard_data?.is_qtr ? 'Hide' : 'Show' }} Qtr Field
-      </button>
-      <button
-        id="gametime-btn-show-hide"
-        class="settings-show-hide-btn"
-        type="button"
-        data-field-name="Game Time"
-        (click)="toggleGameClockVisibility(data.scoreboard_data!)"
-      >{{ data.scoreboard_data?.is_time ? 'Hide' : 'Show' }} Game Time Field
-      </button>
-      <button
-        id="playclock-btn-show-hide"
-        class="settings-show-hide-btn"
-        type="button"
-        data-field-name="Play Clock"
-        (click)="togglePlayClockVisibility(data.scoreboard_data!)"
-      >{{ data.scoreboard_data?.is_playclock ? 'Hide' : 'Show' }} Play Clock Field
-      </button>
-      <button
-        id="down-distance-btn-show-hide"
-        class="settings-show-hide-btn"
-        type="button"
-        data-field-name="Down&amp;Distance"
-        (click)="toggleDownAndDistanceVisibility(data.scoreboard_data!)"
-      >{{ data.scoreboard_data?.is_downdistance ? 'Hide' : 'Show' }} Down&amp;Distance Field
-      </button>
-
-    </div>
-    <div id="scoreboard-teams-colors" class="scoreboard-teams-colors">
-      <div id="team-a-color-settings" class="team-a-color-settings">
-        <label class="color-team-a-label" for="team-a-color">Change Team A Color:</label>
-        <input
-          id="team-a-color"
-          class="team-color-picker"
-          type="color"
-          [value]="data.scoreboard_data?.team_a_color"
-          #TeamAColor
-        >
-        <button
-          id="save-team-a-color"
-          (click)="updateTeamColor('a', TeamAColor.value)(data.scoreboard_data!)"
-        >Save
-        </button>
-      </div>
-      <div id="team-b-color-settings" class="team-b-color-settings">
-        <label class="color-team-b-label" for="team-b-color">Change Team B Color:</label>
-        <input
-          id="team-b-color"
-          class="team-color-picker"
-          type="color"
-          [value]="data.scoreboard_data?.team_b_color"
-          #TeamBColor
-        >
-        <button
-          id="save-team-b-color"
-          (click)="updateTeamColor('b', TeamBColor.value)(data.scoreboard_data!)"
-        >Save
-        </button>
-      </div>
-    </div>
-  </div>
-  <button
-    id="change-scoreboard-settings-hide"
-    class="show-hide-btn"
-    type="button"
-    (click)="toggleFormVisibility('changeScoreBoardForms')"
-  >{{ formsVisibility['changeScoreBoardForms'] ? 'Hide' : 'Show' }} ScoreBoard Forms
-  </button>
+  <app-scoreboard-data-forms
+    [data]="data"
+    [changeScoreBoardFormsVisible$]="changeScoreBoardFormsVisible$"
+  ></app-scoreboard-data-forms>
+  
 </div>
