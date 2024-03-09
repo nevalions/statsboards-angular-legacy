@@ -1,0 +1,51 @@
+
+.timeouts-btns {
+  border: 1px solid #000000;
+
+  display: grid;
+  grid-template-columns: auto auto;
+
+  padding: 10px;
+  grid-gap: 10px;
+
+  align-content: center;
+  justify-content: stretch;
+}
+
+.to-t1-selector-form,
+.to-t2-selector-form {
+  border: 1px solid #000000;
+
+  display: grid;
+  grid-template-columns: auto auto auto auto;
+  grid-template-rows: auto auto;
+
+  padding: 10px;
+  grid-gap: 10px;
+
+  align-content: center;
+  justify-content: center;
+}
+
+.to-t1-selector-form-label,
+.to-t2-selector-form-label {
+  grid-column: span 4;
+  justify-self: center;
+
+}
+
+@media screen and (max-width: 480px) {
+  .timeouts-btns {
+    border: 1px solid #000000;
+
+    display: grid;
+    grid-template-columns: auto;
+
+    padding: 10px;
+    grid-gap: 10px;
+
+    align-content: center;
+    justify-content: stretch;
+  }
+
+}

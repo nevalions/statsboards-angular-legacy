@@ -1,0 +1,67 @@
+.score-forms {
+  border: 1px solid #000000;
+
+  display: grid;
+  grid-template-columns: auto auto auto;
+  padding: 10px;
+}
+
+//.score-form-a,
+//.score-form-b {
+//  border: 1px solid #000000;
+//
+//  display: grid;
+//  grid-template-columns: auto auto;
+//  grid-template-rows: auto auto;
+//  padding: 10px;
+//  grid-gap: 10px;
+//
+//  align-content: center;
+//  justify-content: stretch;
+
+.score-form-a,
+.score-form-b {
+  border: 1px solid #000000;
+
+  display: grid;
+  grid-template-rows: auto auto auto;
+  padding: 10px;
+  grid-gap: 10px;
+
+  align-content: center;
+  justify-content: stretch;
+}
+
+.score-form_team_a_input,
+.score-form_team_b_input {
+  grid-row: span 2;
+  font-size: 25px; /* Adjust the font size as needed */
+  text-align: center; /* Adjust the text alignment as needed */
+  width: 100%;
+}
+
+.score-form_team_a_input::placeholder,
+.score-form_team_b_input::placeholder {
+  color: #888; /* Set the color you desire */
+}
+
+
+.score-increment-buttons {
+  border: 1px solid #000000;
+
+  display: grid;
+  grid-template-columns: auto auto;
+  grid-template-rows: auto auto;
+  padding: 10px;
+  grid-gap: 10px;
+
+}
+
+.score-increment-home-buttons {
+  border: 1px solid #000000;
+
+  display: grid;
+  grid-template-columns: auto auto;
+  padding: 10px;
+  grid-gap: 10px;
+}

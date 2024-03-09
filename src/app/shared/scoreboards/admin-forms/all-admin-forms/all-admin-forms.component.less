@@ -287,337 +287,11 @@ textarea:hover {
   border-color: #b5b5b5; /* 5% lighter color */
 }
 
-.score-forms {
-  border: 1px solid #000000;
-
-  display: grid;
-  grid-template-columns: auto auto auto;
-  padding: 10px;
-}
-
-.change-team-info {
-  border: 1px solid #000000;
-
-  display: grid;
-  grid-template-rows: auto auto;
-  grid-template-columns: auto auto;
-  padding: 10px;
-  grid-gap: 10px;
-
-  align-content: center;
-  justify-content: stretch;
-}
-
-.score-form-a,
-.score-form-b {
-  border: 1px solid #000000;
-
-  display: grid;
-  grid-template-columns: auto auto;
-  grid-template-rows: auto auto;
-  padding: 10px;
-  grid-gap: 10px;
-
-  align-content: center;
-  justify-content: stretch;
-}
-
-.score-form-a,
-.score-form-b,
-.name-form-a,
-.name-form-b,
-.logo-form-a,
-.logo-form-b {
-  border: 1px solid #000000;
-
-  display: grid;
-  grid-template-rows: auto auto auto;
-  padding: 10px;
-  grid-gap: 10px;
-
-  align-content: center;
-  justify-content: stretch;
-}
-
-.score-form_team_a_input,
-.score-form_team_b_input,
-.name-form-a-input,
-.name-form-b-input,
-.quarter-selector-sel,
-.change-down-distance-text-input {
-  grid-row: span 2;
-  font-size: 25px; /* Adjust the font size as needed */
-  text-align: center; /* Adjust the text alignment as needed */
-  width: 100%;
-}
-
-.score-form_team_a_input::placeholder,
-.score-form_team_b_input::placeholder {
-  color: #888; /* Set the color you desire */
-}
-
-.down-selector {
-  display: grid;
-  grid-template-columns: repeat(4, auto);
-  align-content: center;
-  justify-content: stretch;
-  grid-gap: 5px;
-}
-
-.down-selector-distance {
-  grid-row: span 2;
-  font-size: 18px; /* Adjust the font size as needed */
-  text-align: center; /* Adjust the text alignment as needed */
-  width: 100%;
-}
-
-.logo-form-a-input,
-.logo-form-b-input {
-  grid-row: span 2;
-  font-size: 20px; /* Adjust the font size as needed */
-  text-align: center; /* Adjust the text alignment as needed */
-  width: 100%;
-
-}
-
-.play-timer-reset-btn {
-  grid-row: span 3;
-}
-
-.game-timer-start-btn,
-.game-timer-pause-btn,
-.game-timer-reset-btn,
-.game-timer-save-btn,
-.play-timer-40-btn,
-.play-timer-25-btn {
-  grid-row: span 2;
-}
-
-.game-timer-min-input,
-.game-timer-sec-input {
-  font-size: 25px;
-  text-align: center;
-  width: 100%;
-}
-
-.score-increment-buttons {
-  border: 1px solid #000000;
-
-  display: grid;
-  grid-template-columns: auto auto;
-  grid-template-rows: auto auto;
-  padding: 10px;
-  grid-gap: 10px;
-
-}
-
-.score-increment-home-buttons {
-  border: 1px solid #000000;
-
-  display: grid;
-  grid-template-columns: auto auto;
-  padding: 10px;
-  grid-gap: 10px;
-}
-
-
-.timers-form {
-  border: 1px solid #000000;
-
-  display: grid;
-  grid-template-rows: auto;
-  grid-template-columns: auto auto auto;
-  padding: 10px;
-  grid-gap: 10px;
-
-  align-content: center;
-  justify-content: center;
-}
-
-.game-timer,
-.play-timer {
-  border: 1px solid #000000;
-
-  display: grid;
-  grid-template-rows: auto auto auto;
-  grid-template-columns: auto auto auto;
-  padding: 10px;
-  grid-gap: 10px;
-
-  align-content: center;
-  justify-content: center;
-}
-
-.game-timer-save-btn {
-  grid-row: span 2;
-  text-align: center;
-}
-
-.quarter-selector {
-  border: 1px solid #000000;
-
-  display: grid;
-  grid-template-rows: auto auto auto;
-  grid-template-columns: auto;
-  padding: 10px;
-  grid-gap: 10px;
-
-  align-content: center;
-  justify-content: center;
-}
-
-.displayed-play-time {
-  grid-column: span 2;
-  font-size: 25px;
-  text-align: center;
-  height: 25px;
-}
-
-.down-and-distance {
-  border: 1px solid #000000;
-
-  display: grid;
-  grid-template-columns: auto auto;
-  grid-template-rows: auto auto;
-
-  padding: 10px;
-  grid-gap: 10px;
-
-  align-content: center;
-  justify-content: stretch;
-}
-
-.change-down-distance-text {
-  border: 1px solid #000000;
-
-  grid-column: span 2;
-  display: grid;
-  grid-template-columns: auto auto;
-  grid-template-rows: auto auto;
-
-  padding: 10px;
-  grid-gap: 10px;
-
-  align-content: center;
-  justify-content: center;
-}
-
-.down-distance-selector {
-  border: 1px solid #000000;
-
-  display: grid;
-  grid-template-columns: auto auto;
-  grid-template-rows: auto auto auto;
-
-  padding: 10px;
-  grid-gap: 10px;
-
-  align-content: center;
-  justify-content: center;
-}
-
-
-.down-dist-selector-form {
-  border: 1px solid #000000;
-
-  display: grid;
-  grid-template-columns: auto auto auto;
-  grid-template-rows: auto auto;
-
-  padding: 10px;
-  grid-gap: 10px;
-
-  align-content: center;
-  justify-content: center;
-}
-
-.down-dist-selector-label {
-  grid-column: span 3;
-  justify-self: center;
-}
-
-.timeouts-btns {
-  border: 1px solid #000000;
-
-  display: grid;
-  grid-template-columns: auto auto;
-
-  padding: 10px;
-  grid-gap: 10px;
-
-  align-content: center;
-  justify-content: stretch;
-}
-
-.to-t1-selector-form,
-.to-t2-selector-form {
-  border: 1px solid #000000;
-
-  display: grid;
-  grid-template-columns: auto auto auto auto;
-  grid-template-rows: auto auto;
-
-  padding: 10px;
-  grid-gap: 10px;
-
-  align-content: center;
-  justify-content: center;
-}
-
-.to-t1-selector-form-label,
-.to-t2-selector-form-label {
-  grid-column: span 4;
-  justify-self: center;
-
-}
-
-.scoreboard-settings {
-  border: 1px solid #000000;
-
-  display: grid;
-  grid-template-columns: auto;
-  grid-template-rows: auto auto;
-
-  padding: 10px;
-  grid-gap: 10px;
-
-  align-content: center;
-  justify-content: stretch;
-}
-
-.scoreboard-settings-btns {
-  border: 1px solid #000000;
-
-  display: grid;
-  grid-template-columns: repeat(4, auto);
-
-  padding: 10px;
-  grid-gap: 10px;
-
-  align-content: center;
-  justify-content: stretch;
-}
-
-.scoreboard-teams-colors {
-  border: 1px solid #000000;
-
-  display: grid;
-  grid-template-columns: auto auto;
-
-  padding: 10px;
-  grid-gap: 10px;
-
-  align-content: center;
-  justify-content: stretch;
-}
-
 .show-hide-btn {
   min-height: 25px;
   font-size: 12px;
   text-align: center;
   text-transform: uppercase;
-
-
 }
 
 
@@ -671,81 +345,81 @@ textarea:hover {
 }
 
 
-@media screen and (max-width: 720px) {
-  .scoreboard {
+//@media screen and (max-width: 720px) {
+//  .scoreboard {
+//
+//    display: grid;
+//
+//    grid-template-columns: auto;
+//    grid-template-rows: auto;
+//
+//    grid-gap: 0; /* Set the gap to 0 to remove spaces between grid items */
+//
+//
+//    align-content: start;
+//    justify-content: start;
+//
+//    /*padding: 10px;*/
+//    margin: 0;
+//  }
+//
+//  .teams-container {
+//    display: grid;
+//
+//    border: 2px solid #000000;
+//    grid-template-columns: auto;
+//  }
+//
+//}
 
-    display: grid;
-
-    grid-template-columns: auto;
-    grid-template-rows: auto;
-
-    grid-gap: 0; /* Set the gap to 0 to remove spaces between grid items */
-
-
-    align-content: start;
-    justify-content: start;
-
-    /*padding: 10px;*/
-    margin: 0;
-  }
-
-  .teams-container {
-    display: grid;
-
-    border: 2px solid #000000;
-    grid-template-columns: auto;
-  }
-
-}
-
-@media screen and (max-width: 480px) {
-
-  .teams-container {
-    display: grid;
-
-    border: 2px solid #000000;
-    grid-template-columns: auto;
-  }
-
-  .down-and-distance {
-    border: 1px solid #000000;
-
-    display: grid;
-    grid-template-columns: auto;
-    grid-template-rows: auto auto auto;
-
-    padding: 10px;
-    grid-gap: 10px;
-
-    align-content: center;
-    justify-content: stretch;
-  }
-
-  .change-down-distance-text {
-    border: 1px solid #000000;
-    grid-column: span 1;
-
-    display: grid;
-    grid-template-columns: auto;
-    grid-template-rows: auto auto;
-
-    padding: 10px;
-    grid-gap: 10px;
-
-    align-content: center;
-    justify-content: center;
-  }
-
-  .timeouts-btns {
-    border: 1px solid #000000;
-
-    display: grid;
-    grid-template-columns: auto;
-
-    padding: 10px;
-    grid-gap: 10px;
-
-    align-content: center;
-    justify-content: stretch;
-  }
-}
+//@media screen and (max-width: 480px) {
+//
+//  .teams-container {
+//    display: grid;
+//
+//    border: 2px solid #000000;
+//    grid-template-columns: auto;
+//  }
+//
+//  .down-and-distance {
+//    border: 1px solid #000000;
+//
+//    display: grid;
+//    grid-template-columns: auto;
+//    grid-template-rows: auto auto auto;
+//
+//    padding: 10px;
+//    grid-gap: 10px;
+//
+//    align-content: center;
+//    justify-content: stretch;
+//  }
+//
+//  .change-down-distance-text {
+//    border: 1px solid #000000;
+//    grid-column: span 1;
+//
+//    display: grid;
+//    grid-template-columns: auto;
+//    grid-template-rows: auto auto;
+//
+//    padding: 10px;
+//    grid-gap: 10px;
+//
+//    align-content: center;
+//    justify-content: center;
+//  }
+//
+//  .timeouts-btns {
+//    border: 1px solid #000000;
+//
+//    display: grid;
+//    grid-template-columns: auto;
+//
+//    padding: 10px;
+//    grid-gap: 10px;
+//
+//    align-content: center;
+//    justify-content: stretch;
+//  }
+//}
