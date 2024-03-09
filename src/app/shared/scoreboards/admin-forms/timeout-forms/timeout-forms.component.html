@@ -1,0 +1,58 @@
+<!--TO-->
+<div
+  *ngIf="timeoutBtnsVisible$ | async"
+  id="timeouts-btns"
+  class="timeouts-btns"
+>
+  <div class="to-team_a-selector-form" id="to-team_a-selector-form">
+    <label class="to-team_a-selector-form-label">Select TO Home:</label>
+    <button
+      class="to-team_a-selector-form-t0-btn"
+      (click)="updateTeamTimeout('a', '○○○')(data.match_data!)"
+    >○○○
+    </button>
+    <button
+      class="to-team_a-selector-form-t1-btn"
+      (click)="updateTeamTimeout('a', '●○○')(data.match_data!)"
+    >●○○
+    </button>
+    <button
+      class="to-team_a-selector-form-t2-btn"
+      (click)="updateTeamTimeout('a', '●●○')(data.match_data!)"
+    >●●○
+    </button>
+    <button
+      class="to-team_a-selector-form-t3-btn"
+      (click)="updateTeamTimeout('a', '●●●')(data.match_data!)"
+    >●●●
+    </button>
+  </div>
+  <div class="to-team_b-selector-form" id="to-team_b-selector-form">
+    <label class="to-team_b-selector-form-label">Select TO Away:</label>
+    <button
+      class="to-team_b-selector-form-t0-btn"
+      (click)="updateTeamTimeout('b', '○○○')(data.match_data!)"
+    >○○○
+    </button>
+    <button
+      class="to-team_b-selector-form-t1-btn"
+      (click)="updateTeamTimeout('b', '●○○')(data.match_data!)"
+    >●○○
+    </button>
+    <button
+      class="to-team_b-selector-form-t2-btn"
+      (click)="updateTeamTimeout('b', '●●○')(data.match_data!)"
+    >●●○
+    </button>
+    <button
+      class="to-team_b-selector-form-t3-btn"
+      (click)="updateTeamTimeout('b', '●●●')(data.match_data!)"
+    >●●●
+    </button>
+  </div>
+</div>
+<app-toggle-visible-button
+  [isVisible$]="timeoutBtnsVisible$"
+  [formName]="'timeoutBtns'"
+  [buttonText]="'Timeouts buttons'">
+</app-toggle-visible-button>

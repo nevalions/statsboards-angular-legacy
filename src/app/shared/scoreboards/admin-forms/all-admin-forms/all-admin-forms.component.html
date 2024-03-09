@@ -21,133 +21,18 @@
 
   <app-down-distance-forms
     [data]="data"
-    [downAndDistanceFormVisible$]="downAndDistanceFormFormVisible$"
+    [downAndDistanceFormVisible$]="downAndDistanceFormVisible$"
   ></app-down-distance-forms>
 
+  <app-timeout-forms
+    [data]="data"
+    [timeoutBtnsVisible$]="timeoutBtnsVisible$"
+  ></app-timeout-forms>
 
-  <!--TO-->
-  <div *ngIf="formsVisibility['timeoutBtns']" id="timeouts-btns" class="timeouts-btns">
-    <div class="to-team_a-selector-form" id="to-team_a-selector-form">
-      <label class="to-team_a-selector-form-label">Select TO Home:</label>
-      <button
-        class="to-team_a-selector-form-t0-btn"
-        (click)="updateTeamTimeout('a', '○○○')(data.match_data!)"
-      >○○○
-      </button>
-      <button
-        class="to-team_a-selector-form-t1-btn"
-        (click)="updateTeamTimeout('a', '●○○')(data.match_data!)"
-      >●○○
-      </button>
-      <button
-        class="to-team_a-selector-form-t2-btn"
-        (click)="updateTeamTimeout('a', '●●○')(data.match_data!)"
-      >●●○
-      </button>
-      <button
-        class="to-team_a-selector-form-t3-btn"
-        (click)="updateTeamTimeout('a', '●●●')(data.match_data!)"
-      >●●●
-      </button>
-    </div>
-    <div class="to-team_b-selector-form" id="to-team_b-selector-form">
-      <label class="to-team_b-selector-form-label">Select TO Away:</label>
-      <button
-        class="to-team_b-selector-form-t0-btn"
-        (click)="updateTeamTimeout('b', '○○○')(data.match_data!)"
-      >○○○
-      </button>
-      <button
-        class="to-team_b-selector-form-t1-btn"
-        (click)="updateTeamTimeout('b', '●○○')(data.match_data!)"
-      >●○○
-      </button>
-      <button
-        class="to-team_b-selector-form-t2-btn"
-        (click)="updateTeamTimeout('b', '●●○')(data.match_data!)"
-      >●●○
-      </button>
-      <button
-        class="to-team_b-selector-form-t3-btn"
-        (click)="updateTeamTimeout('b', '●●●')(data.match_data!)"
-      >●●●
-      </button>
-    </div>
-  </div>
-  <button
-    id="timeouts-btns-show-hide"
-    class="show-hide-btn"
-    type="button"
-    (click)="toggleFormVisibility('timeoutBtns')"
-  >{{ formsVisibility['timeoutBtns'] ? 'Hide' : 'Show' }} Timeouts buttons
-  </button>
-
-  <!--TIME-->
-  <div *ngIf="formsVisibility['timeForms']" id="timers-form" class="timers-form">
-    <div class="game-timer" id="game-timer">
-      <label class="game-timer-min-label">
-        Minutes:
-      </label>
-      <label class="game-timer-sec-label">
-        Seconds:
-      </label>
-      <button
-        class="game-timer-save-btn"
-      >Save New Time
-      </button>
-      <input
-        type="number"
-        id="set-minutes"
-        min="0"
-        class="game-timer-min-input"
-        [placeholder]="getMinutes(data.match_data!.gameclock!)"
-      >
-      <input
-        type="number"
-        id="set-seconds"
-        min="0"
-        max="59"
-        class="game-timer-sec-input"
-        [placeholder]="getSeconds(data.match_data?.gameclock!)"
-      >
-      <button
-        class="game-timer-start-btn"
-      >Start Game Timer
-      </button>
-      <button
-        class="game-timer-pause-btn"
-      >Pause Game Timer
-      </button>
-      <button
-        class="game-timer-reset-btn"
-      >Reset Game Timer
-      </button>
-      <div class="play-timer" id="play-timer">
-          <span class="play-timer-display"
-                id="play-timer-display">{{ getPlayClockSeconds(data.match_data?.playclock!) }}</span>
-      </div>
-      <div class="displayed-play-time" id="displayed-play-time"></div>
-      <button
-        class="play-timer-reset-btn"
-      >Reset Play Timer
-      </button>
-      <button
-        class="play-timer-40-btn"
-      >Start 40
-      </button>
-      <button
-        class="play-timer-25-btn"
-      >Start 25
-      </button>
-    </div>
-  </div>
-  <button
-    id="timers-form-show-hide"
-    class="show-hide-btn"
-    type="button"
-    (click)="toggleFormVisibility('timeForms')"
-  >{{ formsVisibility['timeForms'] ? 'Hide' : 'Show' }} Time Forms
-  </button>
+  <app-time-forms
+    [data]="data"
+    [timeFormsVisible$]="timeFormsVisible$"
+  ></app-time-forms>
 
   <!--CHANGE TEAMS DATA-->
   <div *ngIf="formsVisibility['changeTeamsForms']" id="change-team-info" class="change-team-info">

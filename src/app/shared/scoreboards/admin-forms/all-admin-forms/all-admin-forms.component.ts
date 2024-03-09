@@ -10,6 +10,8 @@ import { Ui } from '../../../../store/ui/ui';
 import { ToggleVisibleButtonComponent } from '../../../ui/buttons/toggle-visible-button/toggle-visible-button.component';
 import { QtrFormsComponent } from '../qtr-forms/qtr-forms.component';
 import { DownDistanceFormsComponent } from '../down-distance-forms/down-distance-forms.component';
+import { TimeoutFormsComponent } from '../timeout-forms/timeout-forms.component';
+import { TimeFormsComponent } from '../time-forms/time-forms.component';
 
 @Component({
   selector: 'app-all-admin-forms',
@@ -21,6 +23,8 @@ import { DownDistanceFormsComponent } from '../down-distance-forms/down-distance
     ToggleVisibleButtonComponent,
     QtrFormsComponent,
     DownDistanceFormsComponent,
+    TimeoutFormsComponent,
+    TimeFormsComponent,
   ],
   templateUrl: './all-admin-forms.component.html',
   styleUrl: './all-admin-forms.component.less',
@@ -33,7 +37,9 @@ export class AllAdminFormsComponent {
   scoreInputsVisible$: Observable<boolean>;
   scoreButtonsVisible$: Observable<boolean>;
   qtrFormVisible$: Observable<boolean>;
-  downAndDistanceFormFormVisible$: Observable<boolean>;
+  downAndDistanceFormVisible$: Observable<boolean>;
+  timeoutBtnsVisible$: Observable<boolean>;
+  timeFormsVisible$: Observable<boolean>;
 
   constructor(
     private matchData: MatchData,
@@ -52,8 +58,14 @@ export class AllAdminFormsComponent {
     this.qtrFormVisible$ = this.ui.formVisibility$.pipe(
       map((formVisibility) => formVisibility['qtrForm']),
     );
-    this.downAndDistanceFormFormVisible$ = this.ui.formVisibility$.pipe(
+    this.downAndDistanceFormVisible$ = this.ui.formVisibility$.pipe(
       map((formVisibility) => formVisibility['downAndDistanceForm']),
+    );
+    this.timeoutBtnsVisible$ = this.ui.formVisibility$.pipe(
+      map((formVisibility) => formVisibility['timeoutBtns']),
+    );
+    this.timeFormsVisible$ = this.ui.formVisibility$.pipe(
+      map((formVisibility) => formVisibility['timeForms']),
     );
   }
 
@@ -75,18 +87,6 @@ export class AllAdminFormsComponent {
 
   toggleFormVisibility(formName: string) {
     this.formsVisibility[formName] = !this.formsVisibility[formName];
-  }
-
-  updateTeamTimeout(team: 'a' | 'b', inputValue: string) {
-    return (matchData: IMatchData) => {
-      if (!matchData) return;
-
-      if (inputValue) {
-        const timeoutKey = team === 'a' ? 'timeout_team_a' : 'timeout_team_b';
-        const updatedMatchData = { ...matchData, [timeoutKey]: inputValue };
-        this.matchData.updateMatchData(updatedMatchData);
-      }
-    };
   }
 
   toggleQuarterVisibility(scoreboardData: IScoreboard) {
@@ -141,31 +141,5 @@ export class AllAdminFormsComponent {
         this.scoreboardData.updateScoreboardData(updatedScoreboardData);
       }
     };
-  }
-
-  getMinutes(seconds: number): string {
-    if (seconds === undefined) {
-      return '--';
-    } else {
-      return Math.floor(seconds / 60)
-        .toString()
-        .padStart(2, '0');
-    }
-  }
-
-  getSeconds(seconds: number): string {
-    if (seconds === undefined) {
-      return '--';
-    } else {
-      return (seconds % 60).toString().padStart(2, '0');
-    }
-  }
-
-  getPlayClockSeconds(seconds: number): string {
-    if (seconds === undefined) {
-      return '';
-    } else {
-      return (seconds % 60).toString().padStart(1, '0');
-    }
   }
 }
