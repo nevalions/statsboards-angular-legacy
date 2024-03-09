@@ -9,6 +9,7 @@ import { map, Observable } from 'rxjs';
 import { Ui } from '../../../../store/ui/ui';
 import { ToggleVisibleButtonComponent } from '../../../ui/buttons/toggle-visible-button/toggle-visible-button.component';
 import { QtrFormsComponent } from '../qtr-forms/qtr-forms.component';
+import { DownDistanceFormsComponent } from '../down-distance-forms/down-distance-forms.component';
 
 @Component({
   selector: 'app-all-admin-forms',
@@ -19,6 +20,7 @@ import { QtrFormsComponent } from '../qtr-forms/qtr-forms.component';
     ScoreFormsComponent,
     ToggleVisibleButtonComponent,
     QtrFormsComponent,
+    DownDistanceFormsComponent,
   ],
   templateUrl: './all-admin-forms.component.html',
   styleUrl: './all-admin-forms.component.less',
@@ -31,9 +33,7 @@ export class AllAdminFormsComponent {
   scoreInputsVisible$: Observable<boolean>;
   scoreButtonsVisible$: Observable<boolean>;
   qtrFormVisible$: Observable<boolean>;
-
-  downValue = '1st';
-  distanceValue = ' & 10';
+  downAndDistanceFormFormVisible$: Observable<boolean>;
 
   constructor(
     private matchData: MatchData,
@@ -51,6 +51,9 @@ export class AllAdminFormsComponent {
     );
     this.qtrFormVisible$ = this.ui.formVisibility$.pipe(
       map((formVisibility) => formVisibility['qtrForm']),
+    );
+    this.downAndDistanceFormFormVisible$ = this.ui.formVisibility$.pipe(
+      map((formVisibility) => formVisibility['downAndDistanceForm']),
     );
   }
 
@@ -74,13 +77,6 @@ export class AllAdminFormsComponent {
     this.formsVisibility[formName] = !this.formsVisibility[formName];
   }
 
-  // updateQuarter(matchData: IMatchData, selectedQuarter: string) {
-  //   if (!matchData) return;
-  //
-  //   const updatedMatchData = { ...matchData, qtr: selectedQuarter };
-  //   this.matchData.updateMatchData(updatedMatchData);
-  // }
-
   updateTeamTimeout(team: 'a' | 'b', inputValue: string) {
     return (matchData: IMatchData) => {
       if (!matchData) return;
@@ -91,34 +87,6 @@ export class AllAdminFormsComponent {
         this.matchData.updateMatchData(updatedMatchData);
       }
     };
-  }
-
-  updateDownAndDistance(matchData: IMatchData, downAndDistance: string) {
-    if (!matchData) return;
-
-    let down = '';
-    let distance = '';
-
-    // Check if downAndDistance is one of the single-value options
-    const singleValueOptions = ['1PT', '2PT', 'FG', 'KickOff'];
-    if (singleValueOptions.includes(downAndDistance)) {
-      distance = downAndDistance;
-    } else {
-      // The input is expected to have both down and distance
-      [down, distance] = downAndDistance.split(' & ');
-
-      if (distance && distance.startsWith(' & ')) {
-        distance = distance.slice(3);
-      }
-    }
-
-    const updatedMatchData = {
-      ...matchData,
-      down: down,
-      distance: distance || '', // use an empty string if distance is undefined
-    };
-
-    this.matchData.updateMatchData(updatedMatchData);
   }
 
   toggleQuarterVisibility(scoreboardData: IScoreboard) {
