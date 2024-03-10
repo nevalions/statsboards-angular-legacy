@@ -9,6 +9,7 @@ import {
 } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { ErrorHandlingService } from './error.service';
+import { IMatchData } from '../type/matchdata.type';
 
 @Injectable({
   providedIn: 'root',
@@ -107,6 +108,77 @@ export abstract class BaseApiService<T> {
       );
     }
     return this.cache$[id];
+  }
+
+  startGameClock(matchDataId: number): Observable<IMatchData> {
+    return this.http
+      .put<any>(`${this.endpoint}/id/${matchDataId}/gameclock/running/`, {})
+      .pipe(
+        tap((response) => {
+          console.log('Server response:', response);
+        }),
+        catchError((error) => {
+          return this.errorHandlingService.handleError(error);
+        }),
+      );
+  }
+
+  pauseGameClock(matchDataId: number): Observable<IMatchData> {
+    return this.http
+      .put<any>(`${this.endpoint}/id/${matchDataId}/gameclock/paused/`, {})
+      .pipe(
+        tap((response) => {
+          console.log('Server response:', response);
+        }),
+        catchError((error) => {
+          return this.errorHandlingService.handleError(error);
+        }),
+      );
+  }
+
+  resetGameClock(matchDataId: number, seconds: number): Observable<IMatchData> {
+    return this.http
+      .put<any>(
+        `${this.endpoint}/id/${matchDataId}/gameclock/stopped/${seconds}`,
+        {},
+      )
+      .pipe(
+        tap((response) => {
+          console.log('Server response:', response);
+        }),
+        catchError((error) => {
+          return this.errorHandlingService.handleError(error);
+        }),
+      );
+  }
+
+  startPlayClock(matchDataId: number, seconds: number): Observable<IMatchData> {
+    return this.http
+      .put<any>(
+        `${this.endpoint}/id/${matchDataId}/playclock/running/${seconds}`,
+        {},
+      )
+      .pipe(
+        tap((response) => {
+          console.log('Server response:', response);
+        }),
+        catchError((error) => {
+          return this.errorHandlingService.handleError(error);
+        }),
+      );
+  }
+
+  resetPlayClock(matchDataId: number): Observable<IMatchData> {
+    return this.http
+      .put<any>(`${this.endpoint}/id/${matchDataId}/playclock/stopped/`, {})
+      .pipe(
+        tap((response) => {
+          console.log('Server response:', response);
+        }),
+        catchError((error) => {
+          return this.errorHandlingService.handleError(error);
+        }),
+      );
   }
 
   addAnyItem(postData: any, postValue?: string): Observable<any> {

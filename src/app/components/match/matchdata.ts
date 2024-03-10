@@ -36,6 +36,26 @@ export class MatchData {
       matchDataActions.update({ id: matchData.id!, newMatchData: matchData }),
     );
   }
+
+  startGameClock() {
+    this.store.dispatch(matchDataActions.startGameClock());
+  }
+
+  pauseGameClock() {
+    this.store.dispatch(matchDataActions.pauseGameClock());
+  }
+
+  resetGameClock(seconds: number) {
+    this.store.dispatch(matchDataActions.resetGameClock({ seconds: seconds }));
+  }
+
+  startPlayClock(seconds: number) {
+    this.store.dispatch(matchDataActions.startPlayClock({ seconds: seconds }));
+  }
+
+  resetPlayClock() {
+    this.store.dispatch(matchDataActions.resetPlayClock());
+  }
 }
 
 // loadCurrentMatchByMatchId(matchId: number) {

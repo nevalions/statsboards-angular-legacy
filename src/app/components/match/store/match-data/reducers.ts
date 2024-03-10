@@ -74,6 +74,7 @@ const matchDataFeature = createFeature({
       isLoading: false,
       matchDataLoading: false,
       currentMatchData: action.matchdata,
+      currentMatchDataId: action.matchdata.id,
     })),
     on(matchDataActions.getMatchdataByMatchIDFailure, (state, action) => ({
       ...state,

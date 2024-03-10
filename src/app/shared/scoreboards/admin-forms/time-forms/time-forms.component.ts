@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { IMatchFullDataWithScoreboard } from '../../../../type/match.type';
 import { MatchData } from '../../../../components/match/matchdata';
 import { ToggleVisibleButtonComponent } from '../../../ui/buttons/toggle-visible-button/toggle-visible-button.component';
+import { IMatchData } from '../../../../type/matchdata.type';
 
 @Component({
   selector: 'app-time-forms',
@@ -18,6 +19,42 @@ export class TimeFormsComponent {
   @Input() isMatchDataSubmitting$?: Observable<boolean>;
 
   constructor(private matchData: MatchData) {}
+
+  startGameClock() {
+    this.matchData.startGameClock();
+  }
+
+  pauseGameClock() {
+    this.matchData.pauseGameClock();
+  }
+
+  saveNewGameClock(
+    matchData: IMatchData,
+    min: string | number,
+    sec: string | number,
+  ) {
+    if (!matchData) return;
+
+    const minutes = Number(min);
+    const seconds = Number(sec);
+    if (minutes && seconds) {
+      const time: number = minutes * 60 + seconds;
+      const updatedMatchData = { ...matchData, gameclock: time };
+      this.matchData.updateMatchData(updatedMatchData);
+    }
+  }
+
+  resetGameClock() {
+    this.matchData.resetGameClock(720);
+  }
+
+  startPlayClock(sec: number) {
+    this.matchData.startPlayClock(sec);
+  }
+
+  resetPlayClock() {
+    this.matchData.resetPlayClock();
+  }
 
   getMinutes(seconds: number): string {
     if (seconds === undefined) {

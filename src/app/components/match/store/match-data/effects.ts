@@ -3,6 +3,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import {
   catchError,
   concatMap,
+  exhaustMap,
   filter,
   map,
   of,
@@ -18,6 +19,7 @@ import { IMatchData } from '../../../../type/matchdata.type';
 import { matchActions } from '../actions';
 import { selectCurrentMatch, selectCurrentMatchId } from '../reducers';
 import { selectMatchAndMatchDataLoaded } from './selectors';
+import { selectCurrentMatchDataId } from './reducers';
 
 @Injectable()
 export class MatchDataEffects {
@@ -103,6 +105,81 @@ export class MatchDataEffects {
       );
     },
     { functional: false },
+  );
+
+  startMatchDataGameClock = createEffect(() =>
+    this.actions$.pipe(
+      ofType(matchDataActions.startGameClock),
+      withLatestFrom(this.store.select(selectCurrentMatchDataId)),
+      exhaustMap(([action, matchDataId]) =>
+        this.matchDataService.startGameClock(matchDataId!).pipe(
+          map((response) =>
+            matchDataActions.clockStartSuccess({ matchData: response }),
+          ),
+          catchError((error) => of(matchDataActions.clockStartFailure())),
+        ),
+      ),
+    ),
+  );
+
+  pauseMatchDataGameClock = createEffect(() =>
+    this.actions$.pipe(
+      ofType(matchDataActions.pauseGameClock),
+      withLatestFrom(this.store.select(selectCurrentMatchDataId)),
+      exhaustMap(([action, matchDataId]) =>
+        this.matchDataService.pauseGameClock(matchDataId!).pipe(
+          map((response) =>
+            matchDataActions.clockPauseSuccess({ matchData: response }),
+          ),
+          catchError((error) => of(matchDataActions.clockPauseFailure())),
+        ),
+      ),
+    ),
+  );
+
+  resetMatchDataGameClock = createEffect(() =>
+    this.actions$.pipe(
+      ofType(matchDataActions.resetGameClock),
+      withLatestFrom(this.store.select(selectCurrentMatchDataId)),
+      exhaustMap(([action, matchDataId]) =>
+        this.matchDataService.resetGameClock(matchDataId!, action.seconds).pipe(
+          map((response) =>
+            matchDataActions.clockResetSuccess({ matchData: response }),
+          ),
+          catchError((error) => of(matchDataActions.clockResetFailure())),
+        ),
+      ),
+    ),
+  );
+
+  startMatchDataPlayClock = createEffect(() =>
+    this.actions$.pipe(
+      ofType(matchDataActions.startPlayClock),
+      withLatestFrom(this.store.select(selectCurrentMatchDataId)),
+      exhaustMap(([action, matchDataId]) =>
+        this.matchDataService.startPlayClock(matchDataId!, action.seconds).pipe(
+          map((response) =>
+            matchDataActions.playClockStartSuccess({ matchData: response }),
+          ),
+          catchError((error) => of(matchDataActions.playClockStartFailure())),
+        ),
+      ),
+    ),
+  );
+
+  resetMatchDataPlayClock = createEffect(() =>
+    this.actions$.pipe(
+      ofType(matchDataActions.resetPlayClock),
+      withLatestFrom(this.store.select(selectCurrentMatchDataId)),
+      exhaustMap(([action, matchDataId]) =>
+        this.matchDataService.resetPlayClock(matchDataId!).pipe(
+          map((response) =>
+            matchDataActions.playClockResetSuccess({ matchData: response }),
+          ),
+          catchError((error) => of(matchDataActions.playClockResetFailure())),
+        ),
+      ),
+    ),
   );
 
   constructor(
