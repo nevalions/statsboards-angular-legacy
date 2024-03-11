@@ -4,120 +4,117 @@
   id="timers-form"
   class="timers-form"
 >
-  <div class="game-timer">
-    <!--    <label class="game-timer-min-label">-->
-    <!--      Minutes:-->
-    <!--    </label>-->
-    <!--    <label class="game-timer-sec-label">-->
-    <!--      Seconds:-->
-    <!--    </label>-->
-    <!--    <button-->
-    <!--      class="game-timer-save-btn"-->
-    <!--      (click)="saveNewGameClock(data.match_data!, GameTimeMinutes.value, GameTimeSeconds.value)"-->
-    <!--    >Save New Time-->
-    <!--    </button>-->
-    <app-admin-submit-button
-      [disabled]="disabled || this.data.match_data?.gameclock_status === 'running'"
-      (click)="saveNewGameClock(data.match_data!)"
-    ></app-admin-submit-button>
-    <form
-      class="score-form"
-      [formGroup]="timeForm"
-    >
+
+  <form
+    class="game-time-form"
+    [formGroup]="timeForm"
+  >
+    <div class="time-inputs">
       <tui-input-number
+        class="game-timer-input"
         formControlName="gameTimeMinutes"
       > Game Time Minutes:
       </tui-input-number>
-      <tui-error
-        formControlName="gameTimeMinutes"
-        [error]="[] | tuiFieldError | async"
-      ></tui-error>
 
       <tui-input-number
+        class="game-timer-input"
         formControlName="gameTimeSeconds"
       > Game Time Seconds:
       </tui-input-number>
-      <tui-error
-        formControlName="gameTimeSeconds"
-        [error]="[] | tuiFieldError | async"
-      ></tui-error>
+    </div>
 
-      <button
+    <div class="time-inputs-save-btn">
+      <app-admin-submit-button
+        [disabled]="disabled || this.data.match_data?.gameclock_status === 'running'"
+        (click)="saveNewGameClock(data.match_data!)"
+      ></app-admin-submit-button>
+    </div>
 
-        (click)="startGameClock()"
-      >Start Game Timer
-      </button>
-      <button
+    <app-admin-down-button
+      [down]="'Start Game Clock'"
+      (click)="startGameClock()"
+      [disabled]="disabled || this.data.match_data?.gameclock_status === 'running'"
+    ></app-admin-down-button>
 
-        (click)="pauseGameClock()"
-      >Pause Game Timer
-      </button>
-      <button
+    <app-admin-down-button
+      [down]="'Pause Game Clock'"
+      (click)="pauseGameClock()"
+      [disabled]="
+      disabled
+      || (this.data.match_data?.gameclock_status === 'paused'
+      || this.data.match_data?.gameclock_status === 'stopped')"
+    ></app-admin-down-button>
 
-        (click)="resetGameClock()"
-      >Reset Game Timer
-      </button>
+    <app-admin-down-button
+      [down]="'Reset Game Clock'"
+      (click)="resetGameClock()"
+      [disabled]="disabled"
+    ></app-admin-down-button>
 
-    </form>
+    <!--    <button-->
+    <!--      (click)="startGameClock()"-->
+    <!--    >Start Game Timer-->
+    <!--    </button>-->
 
-    <!--    <input-->
-    <!--      type="number"-->
-    <!--      id="set-minutes"-->
-    <!--      min="0"-->
-    <!--      class="game-timer-min-input"-->
-    <!--      [disabled]="data.match_data?.gameclock_status == 'running'"-->
-    <!--      [value]="getMinutes(data.match_data!.gameclock!)"-->
-    <!--      [placeholder]="getMinutes(data.match_data!.gameclock!)"-->
-    <!--      #GameTimeMinutes-->
-    <!--    >-->
-    <!--    <input-->
-    <!--      type="number"-->
-    <!--      id="set-seconds"-->
-    <!--      min="0"-->
-    <!--      max="59"-->
-    <!--      class="game-timer-sec-input"-->
-    <!--      [disabled]="data.match_data?.gameclock_status == 'running'"-->
-    <!--      [value]="getSeconds(data.match_data?.gameclock!)"-->
-    <!--      [placeholder]="getSeconds(data.match_data?.gameclock!)"-->
-    <!--      #GameTimeSeconds-->
-    <!--    >-->
+    <!--    <button-->
+    <!--      (click)="pauseGameClock()"-->
+    <!--    >Pause Game Timer-->
+    <!--    </button>-->
 
+    <!--    <button-->
+    <!--      (click)="resetGameClock()"-->
+    <!--    >Reset Game Timer-->
+    <!--    </button>-->
 
-    <form
-      class="score-form"
-      [formGroup]="timeForm"
-    >
+  </form>
+
+  <form
+    class="play-time-form"
+    [formGroup]="timeForm"
+  >
+    <div class="play-time">
       <tui-input
+        class="game-timer-input"
         formControlName="playTimeSeconds"
       >Play Time
       </tui-input>
 
-
-      <!--    <div class="play-timer" id="play-timer">-->
-      <!--          <span-->
-      <!--            class="play-timer-display"-->
-      <!--            id="play-timer-display"-->
-      <!--          >{{ getPlayClockSeconds(data.match_data?.playclock!) }}</span>-->
-      <!--    </div>-->
-      <!--    <div class="displayed-play-time" id="displayed-play-time"></div>-->
-      <button
-        class="play-timer-reset-btn"
+      <app-admin-down-button
+        [down]="'Reset Timer'"
         (click)="resetPlayClock()"
-      >Reset Play Timer
-      </button>
-      <button
-        class="play-timer-40-btn"
+        [disabled]="disabled || this.data.match_data?.playclock_status === 'stopped'"
+      ></app-admin-down-button>
+    </div>
+
+    <div class="play-time-btns">
+      <app-admin-down-button
+        [down]="'40'"
         (click)="startPlayClock(40)"
-      >Start 40
-      </button>
-      <button
-        class="play-timer-25-btn"
-        (click)="startPlayClock(3)"
-      >Start 25
-      </button>
-    </form>
-  </div>
+        [disabled]="disabled || this.data.match_data?.playclock_status === 'running'"
+      ></app-admin-down-button>
+
+      <app-admin-down-button
+        [down]="'25'"
+        (click)="startPlayClock(5)"
+        [disabled]="disabled || this.data.match_data?.playclock_status === 'running'"
+      ></app-admin-down-button>
+    </div>
+
+    <!--    <button-->
+    <!--      (click)="resetPlayClock()"-->
+    <!--    >Reset Play Timer-->
+    <!--    </button>-->
+    <!--    <button-->
+    <!--      (click)="startPlayClock(40)"-->
+    <!--    >Start 40-->
+    <!--    </button>-->
+    <!--    <button-->
+    <!--      (click)="startPlayClock(3)"-->
+    <!--    >Start 25-->
+    <!--    </button>-->
+  </form>
 </div>
+
 <app-toggle-visible-button
   [isVisible$]="timeFormsVisible$"
   [formName]="'timeForms'"

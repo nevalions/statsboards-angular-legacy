@@ -1,40 +1,43 @@
-.play-timer-reset-btn {
-  grid-row: span 3;
-}
-
-.game-timer-start-btn,
-.game-timer-pause-btn,
-.game-timer-reset-btn,
-.game-timer-save-btn,
-.play-timer-40-btn,
-.play-timer-25-btn {
-  grid-row: span 2;
-}
-
-.game-timer-min-input,
-.game-timer-sec-input {
-  font-size: 25px;
+.game-timer-input {
   text-align: center;
-  width: 100%;
 }
 
 
 .timers-form {
-  border: 1px solid #000000;
+  //border: 1px solid #000000;
 
   display: grid;
   grid-template-rows: auto;
-  grid-template-columns: auto auto auto;
-  padding: 10px;
+  grid-template-columns: auto auto;
+  //padding: 10px;
   grid-gap: 10px;
 
   align-content: center;
-  justify-content: center;
+  justify-content: stretch;
 }
 
-.game-timer,
-.play-timer {
-  border: 1px solid #000000;
+.time-inputs {
+  //border: 1px solid #000000;
+  grid-column: span 3;
+
+  display: grid;
+  grid-template-rows: auto;
+  grid-template-columns: auto auto;
+  //padding: 10px;
+  grid-gap: 10px;
+
+  align-content: center;
+  justify-content: stretch;
+}
+
+.time-inputs-save-btn {
+  grid-column: span 3;
+}
+
+.game-time-form {
+  //border: 1px solid #000000;
+  box-shadow: 0px 0px 10px 0px #232323;
+  border-radius: 5px;
 
   display: grid;
   grid-template-rows: auto auto auto;
@@ -43,17 +46,49 @@
   grid-gap: 10px;
 
   align-content: center;
-  justify-content: center;
+  justify-content: stretch;
 }
 
-.game-timer-save-btn {
-  grid-row: span 2;
-  text-align: center;
+.play-time-form {
+  //border: 1px solid #000000;
+  box-shadow: 0px 0px 10px 0px #232323;
+  border-radius: 5px;
+
+  display: grid;
+  grid-template-rows: auto auto auto;
+  grid-template-columns: auto auto;
+  padding: 10px;
+  grid-gap: 10px;
+
+  align-content: center;
+  justify-content: stretch;
 }
 
-.displayed-play-time {
+.play-time {
+  //border: 1px solid #000000;
   grid-column: span 2;
-  font-size: 25px;
-  text-align: center;
-  height: 25px;
+
+  display: grid;
+  grid-template-rows: auto auto;
+  grid-template-columns: auto;
+  padding: 10px;
+  grid-gap: 10px;
+
+  align-content: center;
+  justify-content: stretch;
 }
+
+.play-time-btns {
+  //border: 1px solid #000000;
+  grid-column: span 2;
+
+  display: grid;
+  grid-template-rows: auto;
+  grid-template-columns: auto auto;
+
+  grid-gap: 10px;
+
+  align-content: center;
+  justify-content: stretch;
+}
+

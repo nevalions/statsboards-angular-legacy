@@ -25,6 +25,7 @@ import {
 } from '@angular/forms';
 import { TuiErrorModule } from '@taiga-ui/core';
 import { AdminSubmitButtonComponent } from '../../../ui/buttons/admin-submit-button/admin-submit-button.component';
+import { AdminDownButtonComponent } from '../../../ui/buttons/admin-down-button/admin-down-button.component';
 
 @Component({
   selector: 'app-time-forms',
@@ -39,6 +40,7 @@ import { AdminSubmitButtonComponent } from '../../../ui/buttons/admin-submit-but
     TuiInputNumberModule,
     TuiInputModule,
     AdminSubmitButtonComponent,
+    AdminDownButtonComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
@@ -92,7 +94,7 @@ export class TimeFormsComponent implements OnChanges {
       return new FormGroup({
         gameTimeMinutes: new FormControl<number | null | undefined>(
           gameMinutes,
-          [Validators.min(0), Validators.max(59)],
+          [Validators.min(0), Validators.max(12)],
         ),
         gameTimeSeconds: new FormControl<number | null | undefined>(
           gameSeconds,
@@ -107,7 +109,7 @@ export class TimeFormsComponent implements OnChanges {
       return new FormGroup({
         gameTimeMinutes: new FormControl<number | null | undefined>(null, [
           Validators.min(0),
-          Validators.max(59),
+          Validators.max(12),
         ]),
         gameTimeSeconds: new FormControl<number | null | undefined>(null, [
           Validators.min(0),
@@ -129,11 +131,7 @@ export class TimeFormsComponent implements OnChanges {
     this.matchData.pauseGameClock();
   }
 
-  saveNewGameClock(
-    matchData: IMatchData,
-    // min: string | number,
-    // sec: string | number,
-  ) {
+  saveNewGameClock(matchData: IMatchData) {
     if (!matchData) return;
 
     if (this.timeForm.valid) {
