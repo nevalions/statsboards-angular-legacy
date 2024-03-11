@@ -3,60 +3,87 @@
   *ngIf="downAndDistanceFormVisible$ | async"
   id="down-and-distance"
   class="down-and-distance">
-  <div class="change-down-distance-text" id="change-down-distance">
-    <div class="change-down-distance-text" id="change-down-distance-text"><label
-      class="change-down-distance-text-label" for="displayed-down-distance-text">Down &amp; Distance:</label>
-      <input
-        class="change-down-distance-text-input"
-        type="text"
-        id="displayed-down-distance-text"
-        [value]="downValue + distanceValue"
-        #downDistanceInput
-      >
-      <button
-        class="change-down-distance-text-btn"
-        id="change-down-distance-text-btn"
-        (click)="updateDownAndDistance(data.match_data!, downDistanceInput.value)"
-      >Save
-      </button>
-    </div>
-  </div>
+  <!--  <div class="change-down-distance-text" id="change-down-distance">-->
+
+  <!--      <label-->
+  <!--      class="change-down-distance-text-label" for="displayed-down-distance-text">Down &amp; Distance:</label>-->
+  <!--      class="change-down-distance-text-input"-->
+  <!--      type="text"-->
+  <!--      id="displayed-down-distance-text"-->
+  <!--      [value]="downValue + distanceValue"-->
+  <!--      #downDistanceInput-->
+
+  <!--      (click)="updateDownAndDistance(data.match_data!, downDistanceInput.value)"-->
+
+  <!--  </div>-->
+  <form
+    class="change-down-distance-text"
+    [formGroup]="downDistanceForm">
+    <tui-input
+      class="change-down-distance-text-input"
+      formControlName="downDistanceValue"
+      style="width: 100%"
+    >Down & Distance
+    </tui-input>
+
+    <app-admin-submit-button
+      style="width: 100%"
+      (click)="updateDownAndDistance(data.match_data!)"
+      [disabled]="disabled"
+    ></app-admin-submit-button>
+  </form>
+
+
   <div class="down-distance-selector" id="down-selector-form">
-    <label class="down-selector-label" for="select-distance">Select Down &amp; Distance:</label>
-    <select
-      class="down-selector-distance"
-      id="select-distance"
-      (change)="distanceValue = distanceSelect.value"
-      #distanceSelect
+    <form
+      [formGroup]="distanceForm"
     >
-      <option value=" & 1">1</option>
-      <option value=" & 2">2</option>
-      <option value=" & 3">3</option>
-      <option value=" & 4">4</option>
-      <option value=" & 5">5</option>
-      <option value=" & 6">6</option>
-      <option value=" & 7">7</option>
-      <option value=" & 8">8</option>
-      <option value=" & 9">9</option>
-      <option value=" & 10" selected>10</option>
-      <option value=" & 11">11</option>
-      <option value=" & 12">12</option>
-      <option value=" & 13">13</option>
-      <option value=" & 14">14</option>
-      <option value=" & 15">15</option>
-      <option value=" & 16">16</option>
-      <option value=" & 17">17</option>
-      <option value=" & 18">18</option>
-      <option value=" & 19">19</option>
-      <option value=" & 20">20</option>
-      <option value=" & 20">20+</option>
-      <option value=" & inch">inch</option>
-      <option value=" & Goal">Goal</option>
-    </select>
+      <tui-select
+        formControlName="distanceFormValue"
+        style="width: 100%; text-align: center"
+      >Select Distance
+        <tui-data-list-wrapper
+          *tuiDataList
+          [items]="items"
+        ></tui-data-list-wrapper>
+      </tui-select>
+    </form>
+
+    <!--    <label class="down-selector-label" for="select-distance">Select Down &amp; Distance:</label>-->
+    <!--    <select-->
+    <!--      class="down-selector-distance"-->
+    <!--      id="select-distance"-->
+    <!--      (change)="distanceValue = distanceSelect.value; updateFormValue()"-->
+    <!--      #distanceSelect-->
+    <!--    >-->
+    <!--      <option value=" & 1">1</option>-->
+    <!--      <option value=" & 2">2</option>-->
+    <!--      <option value=" & 3">3</option>-->
+    <!--      <option value=" & 4">4</option>-->
+    <!--      <option value=" & 5">5</option>-->
+    <!--      <option value=" & 6">6</option>-->
+    <!--      <option value=" & 7">7</option>-->
+    <!--      <option value=" & 8">8</option>-->
+    <!--      <option value=" & 9">9</option>-->
+    <!--      <option value=" & 10" selected>10</option>-->
+    <!--      <option value=" & 11">11</option>-->
+    <!--      <option value=" & 12">12</option>-->
+    <!--      <option value=" & 13">13</option>-->
+    <!--      <option value=" & 14">14</option>-->
+    <!--      <option value=" & 15">15</option>-->
+    <!--      <option value=" & 16">16</option>-->
+    <!--      <option value=" & 17">17</option>-->
+    <!--      <option value=" & 18">18</option>-->
+    <!--      <option value=" & 19">19</option>-->
+    <!--      <option value=" & 20">20</option>-->
+    <!--      <option value=" & 20">20+</option>-->
+    <!--      <option value=" & inch">inch</option>-->
+    <!--      <option value=" & Goal">Goal</option>-->
+    <!--    </select>-->
     <div class="down-selector">
       <button
         class="down-selector-1st-btn"
-        (click)="downValue = '1st'"
+        (click)="downValue = '1st'; updateFormValue()"
       >1st
       </button>
 
@@ -86,36 +113,36 @@
     <div class="down-dist-selector-game">
       <button
         class="first-and-ten-btn"
-        (click)="downValue = '1st'; distanceValue =' & 10'"
+        (click)="downValue = '1st'; distanceValue =' & 10'; updateFormValue()"
       >1st &amp; 10
       </button>
       <button
         class="goal-btn"
-        (click)="distanceValue =' & Goal'"
+        (click)="distanceValue =' & Goal'; updateFormValue()"
       >Goal
       </button>
     </div>
     <div class="down-dist-selector-conv">
       <button
         class="one-pt-btn"
-        (click)="downValue = ''; distanceValue ='1PT'"
+        (click)="downValue = ''; distanceValue ='1PT'; updateFormValue()"
       >1PT
       </button>
       <button
         class="two-pt-btn"
-        (click)="downValue = ''; distanceValue ='2PT'"
+        (click)="downValue = ''; distanceValue ='2PT'; updateFormValue()"
       >2PT
       </button>
     </div>
     <div class="down-dist-selector-kick">
       <button
         class="fg-btn"
-        (click)="downValue = ''; distanceValue ='FG'"
+        (click)="downValue = ''; distanceValue ='FG'; updateFormValue()"
       >FG
       </button>
       <button
         class="kickoff-btn"
-        (click)="downValue = ''; distanceValue ='KickOff'"
+        (click)="downValue = ''; distanceValue ='KickOff'; updateFormValue()"
       >KickOff
       </button>
     </div>
