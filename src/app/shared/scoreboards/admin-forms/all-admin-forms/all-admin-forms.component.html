@@ -26,6 +26,7 @@
   <app-qtr-forms
     [data]="data"
     [qtrFormsVisible$]="qtrFormVisible$"
+    [disabled]="(isMatchDataLoading$ | async)! || (isMatchDataSubmitting$ | async)!"
   ></app-qtr-forms>
 
   <app-down-distance-forms

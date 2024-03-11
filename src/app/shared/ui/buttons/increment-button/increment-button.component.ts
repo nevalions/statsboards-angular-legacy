@@ -4,17 +4,17 @@ import { IMatchData } from '../../../../type/matchdata.type';
 import { MatchData } from '../../../../components/match/matchdata';
 import { IMatchFullDataWithScoreboard } from '../../../../type/match.type';
 import { AddSignPipe } from '../../../../components/pipes/add-sign.pipe';
+import { TeamNamePipe } from '../../../../components/pipes/team-name.pipe';
 
 @Component({
   selector: 'app-increment-button',
   standalone: true,
-  imports: [TuiButtonModule, AddSignPipe],
+  imports: [TuiButtonModule, AddSignPipe, TeamNamePipe],
   templateUrl: './increment-button.component.html',
   styleUrl: './increment-button.component.less',
 })
 export class IncrementButtonComponent {
   @Input() score!: number;
-  @Input() homeAway!: 'home' | 'away';
   @Input() team!: 'a' | 'b';
   @Input() disabled: boolean = false;
   @Input() data!: IMatchFullDataWithScoreboard;

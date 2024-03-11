@@ -28,6 +28,7 @@ import {
   tuiInputNumberOptionsProvider,
 } from '@taiga-ui/kit';
 import { IncrementButtonComponent } from '../../../ui/buttons/increment-button/increment-button.component';
+import { AdminSubmitButtonComponent } from '../../../ui/buttons/admin-submit-button/admin-submit-button.component';
 
 @Component({
   selector: 'app-score-forms',
@@ -43,6 +44,7 @@ import { IncrementButtonComponent } from '../../../ui/buttons/increment-button/i
     TuiFieldErrorPipeModule,
     TuiTextfieldControllerModule,
     IncrementButtonComponent,
+    AdminSubmitButtonComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [

@@ -215,6 +215,24 @@ aside > * {
   });
 }
 
+// This goes into global, non-encapsulated styles
+[tuiWrapper][data-appearance='submit-admin'] {
+  background: #479569;
+  color: #fff;
+
+  .wrapper-hover({
+    background: var(--tui-positive-hover);;
+  });
+
+  .wrapper-active({
+    background: var(--tui-positive-hover);;
+  });
+
+  .wrapper-disabled({
+    background: var(--tui-base-07);
+  });
+}
+
 
 @media screen and (max-width: 600px) {
   .container, .content__body__title, .with__aside {

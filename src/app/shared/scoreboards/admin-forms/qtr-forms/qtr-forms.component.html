@@ -4,32 +4,57 @@
   id="quarter"
   *ngIf="qtrFormsVisible$ | async"
 >
-  <div class="quarter-selector" id="quarter-selector-form">
-    <label
-      class="quarter-selector-label"
-      for="select-quarter"
-    >Select Quarter:
-    </label>
-    <select
-      class="quarter-selector-sel"
-      id="select-quarter"
-      #quarterSelect
-    >
-      <option value="1st">1st</option>
-      <option value="2nd">2nd</option>
-      <option value="HT">HT</option>
-      <option value="3rd">3rd</option>
-      <option value="4th">4th</option>
-      <option value="Final">Final</option>
-      <option value="OT">OT</option>
-    </select>
-    <button
-      class="save-button"
-      id="save-qtr-button"
-      (click)="updateQuarter(data.match_data!, quarterSelect.value)"
-    >Save
-    </button>
-  </div>
+
+  <form
+    class="quarter-selector"
+    [formGroup]="qtrForm"
+  >
+    <tui-select
+      formControlName="qtrSelect"
+      style="width: 100%; text-align: center;"
+    >Select Quarter
+      <tui-data-list-wrapper
+        *tuiDataList
+        [items]="items"
+      ></tui-data-list-wrapper>
+    </tui-select>
+
+    <app-admin-submit-button
+      style="width: 100%"
+      [disabled]="disabled"
+      (click)="updateQuarter(data.match_data!)"
+    ></app-admin-submit-button>
+
+  </form>
+
+  <!--    <label-->
+  <!--      class="quarter-selector-label"-->
+  <!--      for="select-quarter"-->
+  <!--    >Select Quarter:-->
+  <!--    </label>-->
+
+
+  <!--    <select-->
+  <!--      class="quarter-selector-sel"-->
+  <!--      id="select-quarter"-->
+  <!--      #quarterSelect-->
+  <!--    >-->
+  <!--      <option value="1st">1st</option>-->
+  <!--      <option value="2nd">2nd</option>-->
+  <!--      <option value="HT">HT</option>-->
+  <!--      <option value="3rd">3rd</option>-->
+  <!--      <option value="4th">4th</option>-->
+  <!--      <option value="Final">Final</option>-->
+  <!--      <option value="OT">OT</option>-->
+  <!--    </select>-->
+
+  <!--    <button-->
+  <!--      class="save-button"-->
+  <!--      id="save-qtr-button"-->
+  <!--      (click)="updateQuarter(data.match_data!)"-->
+  <!--    >Save-->
+  <!--    </button>-->
+
 </div>
 <app-toggle-visible-button
   [isVisible$]="qtrFormsVisible$"

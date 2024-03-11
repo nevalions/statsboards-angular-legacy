@@ -11,22 +11,16 @@
       <tui-input-number
         class="score-form_team_input"
         formControlName="scoreTeamA"
-
       >Home Score:
       </tui-input-number>
       <tui-error
         formControlName="scoreTeamA"
         [error]="[] | tuiFieldError | async"
       ></tui-error>
-      <button
-        appearance="create"
-        tuiButton
-        size="s"
-        type="button"
-        (click)="updateScoreTeam('a', data.match_data!)"
+      <app-admin-submit-button
         [disabled]="disabled"
-      >Save
-      </button>
+        (click)="updateScoreTeam('a', data.match_data!)"
+      ></app-admin-submit-button>
     </form>
 
     <form
@@ -43,15 +37,10 @@
         formControlName="scoreTeamB"
         [error]="[] | tuiFieldError | async"
       ></tui-error>
-      <button
-        appearance="create"
-        tuiButton
-        size="s"
-        type="button"
-        (click)="updateScoreTeam('b', data.match_data!)"
+      <app-admin-submit-button
         [disabled]="disabled"
-      >Save
-      </button>
+        (click)="updateScoreTeam('b', data.match_data!)"
+      ></app-admin-submit-button>
     </form>
   </div>
 </div>
@@ -75,61 +64,56 @@
         [data]="data"
         [score]="6"
         [team]="'a'"
-        [homeAway]="'home'"
         [disabled]="disabled"
       ></app-increment-button>
-
-      <!--      <button-->
-      <!--        appearance="create"-->
-      <!--        tuiButton-->
-      <!--        size="s"-->
-      <!--        type="button"-->
-      <!--        (click)="adjustScore('a', 3)(data.match_data!)"-->
-      <!--        [disabled]="disabled"-->
-
-      <!--      >+3 SCORE A-->
-      <!--      </button>-->
-      <!--      <button-->
-      <!--        [disabled]="disabled"-->
-      <!--        class="score&#45;&#45;1-a-btn"-->
-      <!--        (click)="adjustScore('a', -1)(data.match_data!)"-->
-      <!--      >-1 SCORE A-->
-      <!--      </button>-->
-      <!--      <button-->
-      <!--        [disabled]="disabled"-->
-      <!--        class="score-+1-a-btn"-->
-      <!--        (click)="adjustScore('a', 1)(data.match_data!)"-->
-      <!--      >+1 SCORE A-->
-      <!--      </button>-->
-      <!--    </div>-->
-      <!--    <div class="score-increment-buttons">-->
-      <!--      <button-->
-      <!--        [disabled]="disabled"-->
-      <!--        class="score-+6-b-btn"-->
-      <!--        (click)="adjustScore('b', 6)(data.match_data!)"-->
-      <!--      >+6 SCORE B-->
-      <!--      </button>-->
-      <!--      <button-->
-      <!--        [disabled]="disabled"-->
-      <!--        class="score-+3-b-btn"-->
-      <!--        (click)="adjustScore('b', 3)(data.match_data!)"-->
-      <!--      >+3 SCORE B-->
-      <!--      </button>-->
-      <!--      <button-->
-      <!--        [disabled]="disabled"-->
-      <!--        class="score&#45;&#45;1-b-btn"-->
-      <!--        (click)="adjustScore('b', -1)(data.match_data!)"-->
-      <!--      >-1 SCORE B-->
-      <!--      </button>-->
-      <!--      <button-->
-      <!--        [disabled]="disabled"-->
-      <!--        class="score-+1-b-btn"-->
-      <!--        (click)="adjustScore('b', 1)(data.match_data!)"-->
-      <!--      >+1 SCORE B-->
-      <!--      </button>-->
+      <app-increment-button
+        [data]="data"
+        [score]="1"
+        [team]="'a'"
+        [disabled]="disabled"
+      ></app-increment-button>
+      <app-increment-button
+        [data]="data"
+        [score]="3"
+        [team]="'a'"
+        [disabled]="disabled"
+      ></app-increment-button>
+      <app-increment-button
+        [data]="data"
+        [score]="-1"
+        [team]="'a'"
+        [disabled]="disabled"
+      ></app-increment-button>
+    </div>
+    <div class="score-increment-buttons">
+      <app-increment-button
+        [data]="data"
+        [score]="6"
+        [team]="'b'"
+        [disabled]="disabled"
+      ></app-increment-button>
+      <app-increment-button
+        [data]="data"
+        [score]="1"
+        [team]="'b'"
+        [disabled]="disabled"
+      ></app-increment-button>
+      <app-increment-button
+        [data]="data"
+        [score]="3"
+        [team]="'b'"
+        [disabled]="disabled"
+      ></app-increment-button>
+      <app-increment-button
+        [data]="data"
+        [score]="-1"
+        [team]="'b'"
+        [disabled]="disabled"
+      ></app-increment-button>
     </div>
   </div>
 </div>
+
 <div class="admin-row-container">
   <app-toggle-visible-button
     [isVisible$]="scoreButtonsVisible$"
