@@ -1,23 +1,27 @@
 .admin-row-container {
+  //border: 1px solid #000000;
   display: grid;
   grid-template-columns: 1fr;
+  justify-content: stretch;
 }
 
 .score-forms {
-  border: 1px solid #000000;
+  //border: 1px solid #000000;
+  box-shadow: 0px 0px 10px 0px #232323;
+  border-radius: 5px;
 
   display: grid;
   grid-template-columns: auto auto;
   justify-content: stretch;
-  padding: 10px;
+  //padding: 10px;
+  margin-top: 5px;
+  margin-bottom: 5px;
 }
 
-.score-form-a,
-.score-form-b {
-  border: 1px solid #000000;
+.score-form {
+  //border: 1px solid #000000;
 
   display: grid;
-  grid-template-rows: auto auto auto;
   padding: 10px;
   grid-gap: 10px;
 
@@ -25,36 +29,57 @@
   justify-content: stretch;
 }
 
-.score-form_team_a_input,
-.score-form_team_b_input {
-  grid-row: span 2;
-  font-size: 25px; /* Adjust the font size as needed */
-  text-align: center; /* Adjust the text alignment as needed */
-  width: 100%;
+.score-form_team_input {
+  text-align: center;
 }
 
-.score-form_team_a_input::placeholder,
-.score-form_team_b_input::placeholder {
-  color: #888; /* Set the color you desire */
+.score-form_team_input::placeholder {
+  color: #888;
 }
 
+.score-increment {
+  //border: 1px solid #000000;
 
-.score-increment-buttons {
-  border: 1px solid #000000;
+  box-shadow: 0px 0px 10px 0px #232323;
+  border-radius: 5px;
 
   display: grid;
   grid-template-columns: auto auto;
   grid-template-rows: auto auto;
   padding: 10px;
   grid-gap: 10px;
-
 }
 
-.score-increment-home-buttons {
-  border: 1px solid #000000;
 
+.score-increment-buttons {
+  //border: 1px solid #000000;
   display: grid;
   grid-template-columns: auto auto;
+  grid-template-rows: auto auto;
   padding: 10px;
   grid-gap: 10px;
+
+
 }
+
+@media screen and (max-width: 720px) {
+  .score-forms {
+    grid-template-columns: auto
+  }
+
+  .score-increment-buttons,
+  .score-increment {
+    grid-template-columns: auto;
+  }
+
+
+}
+
+//.score-increment-home-buttons {
+//  border: 1px solid #000000;
+//
+//  display: grid;
+//  grid-template-columns: auto auto;
+//  padding: 10px;
+//  grid-gap: 10px;
+//}

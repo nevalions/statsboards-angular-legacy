@@ -1,0 +1,10 @@
+<button
+  appearance="create"
+  tuiButton
+  size="s"
+  type="button"
+  style="width: 100%"
+  (click)="adjustScore(team, score, data.match_data!)"
+  [disabled]="disabled"
+>{{ score | addSign }} {{ homeAway }} Team
+</button>

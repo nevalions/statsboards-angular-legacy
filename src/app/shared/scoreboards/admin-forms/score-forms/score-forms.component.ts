@@ -27,6 +27,7 @@ import {
   TuiInputNumberModule,
   tuiInputNumberOptionsProvider,
 } from '@taiga-ui/kit';
+import { IncrementButtonComponent } from '../../../ui/buttons/increment-button/increment-button.component';
 
 @Component({
   selector: 'app-score-forms',
@@ -41,6 +42,7 @@ import {
     TuiErrorModule,
     TuiFieldErrorPipeModule,
     TuiTextfieldControllerModule,
+    IncrementButtonComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
@@ -91,44 +93,37 @@ export class ScoreFormsComponent implements OnChanges {
     });
   }
 
-  adjustScore(team: 'a' | 'b', amount: number) {
-    return (matchData: IMatchData) => {
-      if (!matchData) return;
+  // adjustScore(team: 'a' | 'b', amount: number) {
+  //   return (matchData: IMatchData) => {
+  //     if (!matchData) return;
+  //
+  //     const currentScoreKey = team === 'a' ? 'score_team_a' : 'score_team_b';
+  //     let currentScore = matchData[currentScoreKey];
+  //     if (currentScore != null) {
+  //       currentScore = Math.max(0, currentScore + amount);
+  //       const newMatchData = { ...matchData, [currentScoreKey]: currentScore };
+  //       this.matchData.updateMatchData(newMatchData);
+  //     }
+  //   };
+  // }
 
-      const currentScoreKey = team === 'a' ? 'score_team_a' : 'score_team_b';
-      let currentScore = matchData[currentScoreKey];
-      if (currentScore != null) {
-        currentScore = Math.max(0, currentScore + amount);
-        const newMatchData = { ...matchData, [currentScoreKey]: currentScore };
-        this.matchData.updateMatchData(newMatchData);
-      }
-    };
-  }
-
-  updateScoreTeamA(matchData: IMatchData) {
+  updateScoreTeam(team: string, matchData: IMatchData) {
     if (!matchData) return;
 
     if (this.scoreForm.valid) {
       const formValue = this.scoreForm.getRawValue();
-      const score = Number(formValue.scoreTeamA);
+      const scoreA = Number(formValue.scoreTeamA);
+      const scoreB = Number(formValue.scoreTeamB);
 
-      if (score >= 0) {
-        const updatedMatchData = { ...matchData, score_team_a: score };
+      if (scoreA >= 0 && team == 'a') {
+        const updatedMatchData = { ...matchData, score_team_a: scoreA };
+        this.matchData.updateMatchData(updatedMatchData);
+      }
+
+      if (scoreB >= 0 && team == 'b') {
+        const updatedMatchData = { ...matchData, score_team_b: scoreB };
         this.matchData.updateMatchData(updatedMatchData);
       }
     }
-  }
-
-  updateScore(team: 'a' | 'b', inputValue: string) {
-    return (matchData: IMatchData) => {
-      if (!matchData) return;
-
-      const score = Number(inputValue);
-      if (score) {
-        const scoreKey = team === 'a' ? 'score_team_a' : 'score_team_b';
-        const updatedMatchData = { ...matchData, [scoreKey]: score };
-        this.matchData.updateMatchData(updatedMatchData);
-      }
-    };
   }
 }

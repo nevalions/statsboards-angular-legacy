@@ -1,18 +1,18 @@
 <!--SCORE INPUTS-->
 <div class="admin-row-container">
   <div
-    id="score-forms"
     class="score-forms"
     *ngIf="scoreInputsVisible$ | async"
   >
     <form
-      class="score-form-a"
+      class="score-form"
       [formGroup]="scoreForm"
     >
       <tui-input-number
+        class="score-form_team_input"
         formControlName="scoreTeamA"
-        [tuiTextfieldSize]="'l'"
-      >Team A Score:
+
+      >Home Score:
       </tui-input-number>
       <tui-error
         formControlName="scoreTeamA"
@@ -23,39 +23,39 @@
         tuiButton
         size="s"
         type="button"
-        (click)="updateScoreTeamA(data.match_data!)"
+        (click)="updateScoreTeam('a', data.match_data!)"
         [disabled]="disabled"
       >Save
       </button>
     </form>
+
     <form
-      class="score-form-b"
-      id="change-score-form-b"
+      class="score-form"
+      [formGroup]="scoreForm"
     >
-      <label
-        class="score-form_team_b_label"
-        for="score_team_b"
-      >Change Team B Score:
-      </label>
-      <input
-        class="score-form_team_b_input"
-        type="text"
-        id="score_team_b"
-        #teamBScoreInput
-        [value]="data.match_data?.score_team_b"
-        [placeholder]="data.match_data?.score_team_b"
-        [disabled]="disabled"
-      >
+      <tui-input-number
+        class="score-form_team_input"
+        formControlName="scoreTeamB"
+
+      >Away Score:
+      </tui-input-number>
+      <tui-error
+        formControlName="scoreTeamB"
+        [error]="[] | tuiFieldError | async"
+      ></tui-error>
       <button
-        class="score-form_team_b_btn"
+        appearance="create"
+        tuiButton
+        size="s"
         type="button"
-        (click)="updateScore('b', teamBScoreInput.value)(data.match_data!)"
+        (click)="updateScoreTeam('b', data.match_data!)"
         [disabled]="disabled"
       >Save
       </button>
     </form>
   </div>
 </div>
+
 <div class="admin-row-container">
   <app-toggle-visible-button
     [isVisible$]="scoreInputsVisible$"
@@ -63,60 +63,70 @@
     [buttonText]="'Score Inputs'">
   </app-toggle-visible-button>
 </div>
+
 <div class="admin-row-container">
   <!--SCORE BTNS-->
-  <div *ngIf="scoreButtonsVisible$ | async" id="score-increment-buttons" class="score-increment-buttons">
+  <div
+    *ngIf="scoreButtonsVisible$ | async"
+    class="score-increment"
+  >
     <div class="score-increment-buttons">
-      <button
+      <app-increment-button
+        [data]="data"
+        [score]="6"
+        [team]="'a'"
+        [homeAway]="'home'"
         [disabled]="disabled"
-        class="score-+6-a-btn"
-        (click)="adjustScore('a', 6)(data.match_data!)"
-      >+6 SCORE A
-      </button>
-      <button
-        [disabled]="disabled"
-        class="score-+3-a-btn"
-        (click)="adjustScore('a', 3)(data.match_data!)"
-      >+3 SCORE A
-      </button>
-      <button
-        [disabled]="disabled"
-        class="score--1-a-btn"
-        (click)="adjustScore('a', -1)(data.match_data!)"
-      >-1 SCORE A
-      </button>
-      <button
-        [disabled]="disabled"
-        class="score-+1-a-btn"
-        (click)="adjustScore('a', 1)(data.match_data!)"
-      >+1 SCORE A
-      </button>
-    </div>
-    <div class="score-increment-buttons">
-      <button
-        [disabled]="disabled"
-        class="score-+6-b-btn"
-        (click)="adjustScore('b', 6)(data.match_data!)"
-      >+6 SCORE B
-      </button>
-      <button
-        [disabled]="disabled"
-        class="score-+3-b-btn"
-        (click)="adjustScore('b', 3)(data.match_data!)"
-      >+3 SCORE B
-      </button>
-      <button
-        [disabled]="disabled"
-        class="score--1-b-btn"
-        (click)="adjustScore('b', -1)(data.match_data!)"
-      >-1 SCORE B
-      </button>
-      <button
-        [disabled]="disabled"
-        class="score-+1-b-btn"
-        (click)="adjustScore('b', 1)(data.match_data!)"
-      >+1 SCORE B
-      </button>
+      ></app-increment-button>
+
+      <!--      <button-->
+      <!--        appearance="create"-->
+      <!--        tuiButton-->
+      <!--        size="s"-->
+      <!--        type="button"-->
+      <!--        (click)="adjustScore('a', 3)(data.match_data!)"-->
+      <!--        [disabled]="disabled"-->
+
+      <!--      >+3 SCORE A-->
+      <!--      </button>-->
+      <!--      <button-->
+      <!--        [disabled]="disabled"-->
+      <!--        class="score&#45;&#45;1-a-btn"-->
+      <!--        (click)="adjustScore('a', -1)(data.match_data!)"-->
+      <!--      >-1 SCORE A-->
+      <!--      </button>-->
+      <!--      <button-->
+      <!--        [disabled]="disabled"-->
+      <!--        class="score-+1-a-btn"-->
+      <!--        (click)="adjustScore('a', 1)(data.match_data!)"-->
+      <!--      >+1 SCORE A-->
+      <!--      </button>-->
+      <!--    </div>-->
+      <!--    <div class="score-increment-buttons">-->
+      <!--      <button-->
+      <!--        [disabled]="disabled"-->
+      <!--        class="score-+6-b-btn"-->
+      <!--        (click)="adjustScore('b', 6)(data.match_data!)"-->
+      <!--      >+6 SCORE B-->
+      <!--      </button>-->
+      <!--      <button-->
+      <!--        [disabled]="disabled"-->
+      <!--        class="score-+3-b-btn"-->
+      <!--        (click)="adjustScore('b', 3)(data.match_data!)"-->
+      <!--      >+3 SCORE B-->
+      <!--      </button>-->
+      <!--      <button-->
+      <!--        [disabled]="disabled"-->
+      <!--        class="score&#45;&#45;1-b-btn"-->
+      <!--        (click)="adjustScore('b', -1)(data.match_data!)"-->
+      <!--      >-1 SCORE B-->
+      <!--      </button>-->
+      <!--      <button-->
+      <!--        [disabled]="disabled"-->
+      <!--        class="score-+1-b-btn"-->
+      <!--        (click)="adjustScore('b', 1)(data.match_data!)"-->
+      <!--      >+1 SCORE B-->
+      <!--      </button>-->
     </div>
   </div>
 </div>

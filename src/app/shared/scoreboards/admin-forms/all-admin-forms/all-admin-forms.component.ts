@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ViewEncapsulation } from '@angular/core';
 import { AsyncPipe, NgIf } from '@angular/common';
 import { IMatchData, IScoreboard } from '../../../../type/matchdata.type';
 import { IMatchFullDataWithScoreboard } from '../../../../type/match.type';
@@ -36,6 +36,7 @@ import { TUI_ARROW, TuiArrowModule } from '@taiga-ui/kit';
     TuiArrowModule,
     TuiDropdownHostModule,
   ],
+  encapsulation: ViewEncapsulation.None,
   templateUrl: './all-admin-forms.component.html',
   styleUrl: './all-admin-forms.component.less',
 })
