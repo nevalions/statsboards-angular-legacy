@@ -7,27 +7,23 @@
   >
     <form
       class="score-form-a"
-      id="change-score-form-a"
+      [formGroup]="scoreForm"
     >
-      <label
-        class="score-form_team_a_label"
-        for="score_team_a"
-      >Change Team A Score:
-      </label>
-      <input
-        class="score-form_team_a_input"
-        type="text"
-        id="score_team_a"
-        #teamAScoreInput
-        [placeholder]="data.match_data?.score_team_a"
-        [disabled]="disabled"
-      >
+      <tui-input-number
+        formControlName="scoreTeamA"
+        [tuiTextfieldSize]="'l'"
+      >Team A Score:
+      </tui-input-number>
+      <tui-error
+        formControlName="scoreTeamA"
+        [error]="[] | tuiFieldError | async"
+      ></tui-error>
       <button
         appearance="create"
         tuiButton
         size="s"
         type="button"
-        (click)="updateScore('a', teamAScoreInput.value)(data.match_data!)"
+        (click)="updateScoreTeamA(data.match_data!)"
         [disabled]="disabled"
       >Save
       </button>
@@ -46,6 +42,7 @@
         type="text"
         id="score_team_b"
         #teamBScoreInput
+        [value]="data.match_data?.score_team_b"
         [placeholder]="data.match_data?.score_team_b"
         [disabled]="disabled"
       >
