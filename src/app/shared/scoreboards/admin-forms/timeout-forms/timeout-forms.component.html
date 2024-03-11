@@ -1,54 +1,74 @@
 <!--TO-->
 <div
   *ngIf="timeoutBtnsVisible$ | async"
-  id="timeouts-btns"
   class="timeouts-btns"
 >
-  <div class="to-team_a-selector-form" id="to-team_a-selector-form">
-    <label class="to-team_a-selector-form-label">Select TO Home:</label>
-    <button
-      class="to-team_a-selector-form-t0-btn"
-      (click)="updateTeamTimeout('a', '○○○')(data.match_data!)"
-    >○○○
-    </button>
-    <button
-      class="to-team_a-selector-form-t1-btn"
-      (click)="updateTeamTimeout('a', '●○○')(data.match_data!)"
-    >●○○
-    </button>
-    <button
-      class="to-team_a-selector-form-t2-btn"
-      (click)="updateTeamTimeout('a', '●●○')(data.match_data!)"
-    >●●○
-    </button>
-    <button
-      class="to-team_a-selector-form-t3-btn"
-      (click)="updateTeamTimeout('a', '●●●')(data.match_data!)"
-    >●●●
-    </button>
+  <div class="to-selector-form">
+    <p
+      class="tui-text_body-l"
+      style="grid-column: span 4; justify-self: center"
+    >Select TO Home:</p>
+    <app-admin-timeout-button
+      #btnHomeToZero
+      [timeouts]="'○○○'"
+      (click)="updateTeamTimeout('a', btnHomeToZero.timeouts)(data.match_data!)"
+      [disabled]="disabled"
+    ></app-admin-timeout-button>
+
+    <app-admin-timeout-button
+      #btnHomeToOne
+      [timeouts]="'●○○'"
+      (click)="updateTeamTimeout('a', btnHomeToOne.timeouts)(data.match_data!)"
+      [disabled]="disabled"
+    ></app-admin-timeout-button>
+
+    <app-admin-timeout-button
+      #btnHomeToTwo
+      [timeouts]="'●●○'"
+      (click)="updateTeamTimeout('a', btnHomeToTwo.timeouts)(data.match_data!)"
+      [disabled]="disabled"
+    ></app-admin-timeout-button>
+
+    <app-admin-timeout-button
+      #btnHomeToThree
+      [timeouts]="'●●●'"
+      (click)="updateTeamTimeout('a', btnHomeToThree.timeouts)(data.match_data!)"
+      [disabled]="disabled"
+    ></app-admin-timeout-button>
   </div>
-  <div class="to-team_b-selector-form" id="to-team_b-selector-form">
-    <label class="to-team_b-selector-form-label">Select TO Away:</label>
-    <button
-      class="to-team_b-selector-form-t0-btn"
-      (click)="updateTeamTimeout('b', '○○○')(data.match_data!)"
-    >○○○
-    </button>
-    <button
-      class="to-team_b-selector-form-t1-btn"
-      (click)="updateTeamTimeout('b', '●○○')(data.match_data!)"
-    >●○○
-    </button>
-    <button
-      class="to-team_b-selector-form-t2-btn"
-      (click)="updateTeamTimeout('b', '●●○')(data.match_data!)"
-    >●●○
-    </button>
-    <button
-      class="to-team_b-selector-form-t3-btn"
-      (click)="updateTeamTimeout('b', '●●●')(data.match_data!)"
-    >●●●
-    </button>
+
+  <div class="to-selector-form">
+    <p
+      class="tui-text_body-l"
+      style="grid-column: span 4; justify-self: center"
+    >Select TO Away:</p>
+    <app-admin-timeout-button
+      #btnAwayToZero
+      [timeouts]="'○○○'"
+      (click)="updateTeamTimeout('b', btnAwayToZero.timeouts)(data.match_data!)"
+      [disabled]="disabled"
+    ></app-admin-timeout-button>
+
+    <app-admin-timeout-button
+      #btnAwayToOne
+      [timeouts]="'●○○'"
+      (click)="updateTeamTimeout('b', btnAwayToOne.timeouts)(data.match_data!)"
+      [disabled]="disabled"
+    ></app-admin-timeout-button>
+
+    <app-admin-timeout-button
+      #btnAwayToTwo
+      [timeouts]="'●●○'"
+      (click)="updateTeamTimeout('b', btnAwayToTwo.timeouts)(data.match_data!)"
+      [disabled]="disabled"
+    ></app-admin-timeout-button>
+
+    <app-admin-timeout-button
+      #btnAwayToThree
+      [timeouts]="'●●●'"
+      (click)="updateTeamTimeout('b', btnAwayToThree.timeouts)(data.match_data!)"
+      [disabled]="disabled"
+    ></app-admin-timeout-button>
   </div>
 </div>
 <app-toggle-visible-button

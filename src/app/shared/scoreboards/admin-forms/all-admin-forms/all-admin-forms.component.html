@@ -38,6 +38,7 @@
   <app-timeout-forms
     [data]="data"
     [timeoutBtnsVisible$]="timeoutBtnsVisible$"
+    [disabled]="(isMatchDataLoading$ | async)! || (isMatchDataSubmitting$ | async)!"
   ></app-timeout-forms>
 
   <app-time-forms

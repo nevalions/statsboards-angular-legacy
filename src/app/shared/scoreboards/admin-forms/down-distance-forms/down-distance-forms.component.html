@@ -3,26 +3,14 @@
   *ngIf="downAndDistanceFormVisible$ | async"
   id="down-and-distance"
   class="down-and-distance">
-  <!--  <div class="change-down-distance-text" id="change-down-distance">-->
 
-  <!--      <label-->
-  <!--      class="change-down-distance-text-label" for="displayed-down-distance-text">Down &amp; Distance:</label>-->
-  <!--      class="change-down-distance-text-input"-->
-  <!--      type="text"-->
-  <!--      id="displayed-down-distance-text"-->
-  <!--      [value]="downValue + distanceValue"-->
-  <!--      #downDistanceInput-->
-
-  <!--      (click)="updateDownAndDistance(data.match_data!, downDistanceInput.value)"-->
-
-  <!--  </div>-->
   <form
     class="change-down-distance-text"
     [formGroup]="downDistanceForm">
     <tui-input
       class="change-down-distance-text-input"
       formControlName="downDistanceValue"
-      style="width: 100%"
+      style="width: 100%;"
     >Down & Distance
     </tui-input>
 
@@ -41,44 +29,24 @@
         [down]="'1st'"
         (click)="downValue = btnFirstDown.down; updateFormValue()"
       ></app-admin-down-button>
-      <!--      <button-->
-      <!--        class="down-selector-1st-btn"-->
-      <!--        (click)="downValue = '1st'; updateFormValue()"-->
-      <!--      >1st-->
-      <!--      </button>-->
+
       <app-admin-down-button
         #btnSecondDown
         [down]="'2nd'"
         (click)="downValue = btnSecondDown.down; updateFormValue()"
       ></app-admin-down-button>
 
-      <!--      <button-->
-      <!--        class="down-selector-2nd-btn"-->
-      <!--        (click)="downValue = '2nd'"-->
-      <!--      >2nd-->
-      <!--      </button>-->
       <app-admin-down-button
         #btnThirdDown
         [down]="'3rd'"
         (click)="downValue = btnThirdDown.down; updateFormValue()"
       ></app-admin-down-button>
 
-      <!--      <button-->
-      <!--        class="down-selector-3rd-btn"-->
-      <!--        (click)="downValue = '3rd'"-->
-      <!--      >3rd-->
-      <!--      </button>-->
       <app-admin-down-button
         #btnFourthDown
         [down]="'4th'"
         (click)="downValue = btnFourthDown.down; updateFormValue()"
       ></app-admin-down-button>
-
-      <!--      <button-->
-      <!--        class="down-selector-4th-btn"-->
-      <!--        (click)="downValue = '4th'"-->
-      <!--      >4th-->
-      <!--      </button>-->
     </div>
     <form
       [formGroup]="distanceForm"
@@ -104,22 +72,13 @@
         [distance]="' & 10'"
         (click)="downValue = btnFirstAndTen.down; distanceValue= btnFirstAndTen.distance;  updateFormValue()"
       ></app-admin-down-button>
-      <!--      <button-->
-      <!--        class="first-and-ten-btn"-->
-      <!--        (click)="downValue = '1st'; distanceValue =' & 10'; updateFormValue()"-->
-      <!--      >1st &amp; 10-->
-      <!--      </button>-->
+
       <app-admin-down-button
         #btnFirstAndGoal
         [down]="''"
         [distance]="' & Goal'"
         (click)="distanceValue = btnFirstAndGoal.distance;  updateFormValue()"
       ></app-admin-down-button>
-      <!--      <button-->
-      <!--        class="goal-btn"-->
-      <!--        (click)="distanceValue =' & Goal'; updateFormValue()"-->
-      <!--      >Goal-->
-      <!--      </button>-->
     </div>
     <div class="down-dist-selector-conv">
       <app-admin-down-button
@@ -128,16 +87,7 @@
         [distance]="'1PT'"
         (click)="downValue = btnOnePT.down; distanceValue= btnOnePT.distance;  updateFormValue()"
       ></app-admin-down-button>
-      <!--      <button-->
-      <!--        class="one-pt-btn"-->
-      <!--        (click)="downValue = ''; distanceValue ='1PT'; updateFormValue()"-->
-      <!--      >1PT-->
-      <!--      </button>-->
-      <!--      <button-->
-      <!--        class="two-pt-btn"-->
-      <!--        (click)="downValue = ''; distanceValue ='2PT'; updateFormValue()"-->
-      <!--      >2PT-->
-      <!--      </button>-->
+
       <app-admin-down-button
         #btnTwoPT
         [down]="''"
@@ -153,23 +103,12 @@
         (click)="downValue = btnFG.down; distanceValue= btnFG.distance;  updateFormValue()"
       ></app-admin-down-button>
 
-      <!--      <button-->
-      <!--        class="fg-btn"-->
-      <!--        (click)="downValue = ''; distanceValue ='FG'; updateFormValue()"-->
-      <!--      >FG-->
-      <!--      </button>-->
       <app-admin-down-button
         #btnKickOff
         [down]="''"
         [distance]="'KickOff'"
         (click)="downValue = btnKickOff.down; distanceValue= btnKickOff.distance;  updateFormValue()"
       ></app-admin-down-button>
-
-      <!--      <button-->
-      <!--        class="kickoff-btn"-->
-      <!--        (click)="downValue = ''; distanceValue ='KickOff'; updateFormValue()"-->
-      <!--      >KickOff-->
-      <!--      </button>-->
     </div>
   </div>
 </div>

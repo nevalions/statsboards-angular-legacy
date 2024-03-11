@@ -7,19 +7,21 @@
 
 .score-forms {
   //border: 1px solid #000000;
-  box-shadow: 0px 0px 10px 0px #232323;
-  border-radius: 5px;
 
   display: grid;
   grid-template-columns: auto auto;
+  align-content: center;
   justify-content: stretch;
   //padding: 10px;
+  grid-gap: 10px;
   margin-top: 5px;
-  margin-bottom: 5px;
+  //margin-bottom: 5px;
 }
 
 .score-form {
   //border: 1px solid #000000;
+  box-shadow: 0px 0px 10px 0px #232323;
+  border-radius: 5px;
 
   display: grid;
   padding: 10px;
@@ -40,19 +42,22 @@
 .score-increment {
   //border: 1px solid #000000;
 
-  box-shadow: 0px 0px 10px 0px #232323;
-  border-radius: 5px;
+  //box-shadow: 0px 0px 10px 0px #232323;
+  //border-radius: 5px;
 
   display: grid;
   grid-template-columns: auto auto;
   grid-template-rows: auto auto;
   //padding: 10px;
-  //grid-gap: 10px;
+  grid-gap: 10px;
 }
 
 
 .score-increment-buttons {
   //border: 1px solid #000000;
+  box-shadow: 0px 0px 10px 0px #232323;
+  border-radius: 5px;
+
   display: grid;
   grid-template-columns: auto auto;
   grid-template-rows: auto auto;
@@ -63,11 +68,9 @@
 }
 
 @media screen and (max-width: 720px) {
-  .score-forms {
-    grid-template-columns: auto
-  }
-
-
+  //.score-forms {
+  //  grid-template-columns: auto
+  //}
   .score-increment {
     grid-template-columns: auto auto;
   }
@@ -79,11 +82,3 @@
 
 }
 
-//.score-increment-home-buttons {
-//  border: 1px solid #000000;
-//
-//  display: grid;
-//  grid-template-columns: auto auto;
-//  padding: 10px;
-//  grid-gap: 10px;
-//}
