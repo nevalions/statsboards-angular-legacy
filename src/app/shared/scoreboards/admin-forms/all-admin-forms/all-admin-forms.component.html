@@ -50,11 +50,13 @@
   <app-change-teams-forms
     [data]="data"
     [changeTeamsFormsVisible$]="changeTeamsFormsVisible$"
+    [disabled]="(isMatchDataLoading$ | async)! || (isMatchDataSubmitting$ | async)!"
   ></app-change-teams-forms>
 
   <app-scoreboard-data-forms
     [data]="data"
     [changeScoreBoardFormsVisible$]="changeScoreBoardFormsVisible$"
+    [disabled]="(isMatchDataLoading$ | async)! || (isMatchDataSubmitting$ | async)!"
   ></app-scoreboard-data-forms>
 
 </div>

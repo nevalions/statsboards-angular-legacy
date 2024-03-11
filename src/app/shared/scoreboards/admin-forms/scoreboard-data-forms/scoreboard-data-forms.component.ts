@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, SimpleChanges } from '@angular/core';
 import { AsyncPipe, NgIf } from '@angular/common';
 import { ToggleVisibleButtonComponent } from '../../../ui/buttons/toggle-visible-button/toggle-visible-button.component';
 import { Observable } from 'rxjs';
@@ -6,11 +6,20 @@ import { IMatchFullDataWithScoreboard } from '../../../../type/match.type';
 import { MatchData } from '../../../../components/match/matchdata';
 import { IScoreboard } from '../../../../type/matchdata.type';
 import { ScoreboardData } from '../../../../components/scoreboard-data/scoreboard-data';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { DownDistanceFormsComponent } from '../down-distance-forms/down-distance-forms.component';
+import { AdminDownButtonComponent } from '../../../ui/buttons/admin-down-button/admin-down-button.component';
 
 @Component({
   selector: 'app-scoreboard-data-forms',
   standalone: true,
-  imports: [NgIf, ToggleVisibleButtonComponent, AsyncPipe],
+  imports: [
+    NgIf,
+    ToggleVisibleButtonComponent,
+    AsyncPipe,
+    DownDistanceFormsComponent,
+    AdminDownButtonComponent,
+  ],
   templateUrl: './scoreboard-data-forms.component.html',
   styleUrl: './scoreboard-data-forms.component.less',
 })
@@ -18,8 +27,37 @@ export class ScoreboardDataFormsComponent {
   @Input() changeScoreBoardFormsVisible$!: Observable<boolean>;
   @Input() data!: IMatchFullDataWithScoreboard;
   @Input() isMatchDataSubmitting$?: Observable<boolean>;
+  @Input() disabled: boolean = false;
 
-  constructor(private scoreboardData: ScoreboardData) {}
+  teamColorForm: FormGroup;
+
+  constructor(private scoreboardData: ScoreboardData) {
+    this.teamColorForm = this.initForm();
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['data']) {
+      this.teamColorForm = this.initForm();
+    }
+    if (changes['disabled']) {
+      if (this.disabled) {
+        this.teamColorForm.disable();
+      } else {
+        this.teamColorForm.enable();
+      }
+    }
+  }
+
+  private initForm(): FormGroup {
+    return new FormGroup({
+      colorTeamA: new FormControl<string | null | undefined>(
+        this.data?.scoreboard_data?.team_a_color,
+      ),
+      colorTeamB: new FormControl<string | null | undefined>(
+        this.data?.scoreboard_data?.team_b_color,
+      ),
+    });
+  }
 
   toggleQuarterVisibility(scoreboardData: IScoreboard) {
     if (!scoreboardData) return;
