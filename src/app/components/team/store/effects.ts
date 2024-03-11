@@ -45,29 +45,6 @@ export class TeamEffects {
     { functional: false },
   );
 
-  // getTeamIdFromRouteEffect = createEffect(
-  //   () => {
-  //     return this.actions$.pipe(
-  //       ofType(teamActions.getId),
-  //       mergeMap(() =>
-  //         this.store
-  //           .select(getRouterSelectors().selectRouteParam('team_id'))
-  //           .pipe(
-  //             filter((id: string | undefined): id is string => !!id),
-  //             switchMap((id: string) => [
-  //               teamActions.get({ id: Number(id) }),
-  //               teamActions.getTeamIdSuccessfully({
-  //                 teamId: Number(id),
-  //               }),
-  //             ]),
-  //             catchError(() => of(teamActions.getTeamIdFailure())),
-  //           ),
-  //       ),
-  //     );
-  //   },
-  //   { functional: true },
-  // );
-
   createTeamEffect = createEffect(
     () => {
       return this.actions$.pipe(

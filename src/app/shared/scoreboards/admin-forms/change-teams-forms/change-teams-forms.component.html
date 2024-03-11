@@ -1,36 +1,79 @@
 <!--CHANGE TEAMS DATA-->
 <div
   *ngIf="changeTeamsFormsVisible$ | async"
-  id="change-team-info"
   class="change-team-info"
 >
-  <form class="name-form-a" id="change-name-form-a">
-    <label class="name-form-a-label" for="team_a_name">Change Team A Name:</label>
-    <input class="name-form-a-input" type="text" id="team_a_name" placeholder="aaaaaa">
-    <button class="name-form-a-btn" type="button" onclick="changeTeamName('team_a', 'change-name-form-a')">Save
-    </button>
+  <form
+    class="name-form-a"
+    [formGroup]="teamTitleForm"
+  >
+    <tui-input
+      formControlName="teamATitle"
+    >Game Home Team Title:
+    </tui-input>
+    <tui-error
+      formControlName="teamATitle"
+      [error]="[] | tuiFieldError | async"
+    ></tui-error>
+    <app-admin-submit-button
+
+    ></app-admin-submit-button>
   </form>
 
   <!-- Form for changing Team B's name -->
-  <form class="name-form-b" id="change-name-form-b">
-    <label class="name-form-b-label" for="team_b_name">Change Team B Name:</label>
-    <input class="name-form-b-input" type="text" id="team_b_name" placeholder="bbb">
-    <button class="name-form-b-btn" type="button" onclick="changeTeamName('team_b', 'change-name-form-b')">Save
-    </button>
+  <form
+    class="name-form-b"
+    [formGroup]="teamTitleForm"
+  >
+    <tui-input
+      formControlName="teamBTitle"
+    >Game Away Team Title:
+    </tui-input>
+    <tui-error
+      formControlName="teamBTitle"
+      [error]="[] | tuiFieldError | async"
+    ></tui-error>
+    <app-admin-submit-button
+
+    ></app-admin-submit-button>
   </form>
 
   <!-- Form for changing Team A's logo -->
-  <form class="logo-form-a" id="change-logo-form-a" enctype="multipart/form-data">
-    <label class="logo-form-a-label" for="team_a_logo">Change Team A Logo:</label>
-    <input class="logo-form-a-input" type="file" id="team_a_logo" accept="image/*" name="logo">
-    <button class="logo-form-a-btn" type="button" onclick="changeLogo('team_a', 'change-logo-form-a')">Save</button>
+  <form
+    class="logo-form-a"
+    [formGroup]="teamTitleForm"
+  >
+    <tui-input-files
+      formControlName="teamALogo"
+      accept="image/*"
+    >Game Home Team Logo:
+    </tui-input-files>
+    <tui-error
+      formControlName="teamALogo"
+      [error]="[] | tuiFieldError | async"
+    ></tui-error>
+    <app-admin-submit-button
+
+    ></app-admin-submit-button>
   </form>
 
   <!-- Form for changing Team B's logo -->
-  <form class="logo-form-b" id="change-logo-form-b" enctype="multipart/form-data">
-    <label class="logo-form-b-label" for="team_b_logo">Change Team B Logo:</label>
-    <input class="logo-form-b-input" type="file" id="team_b_logo" accept="image/*" name="logo">
-    <button class="logo-form-b-btn" type="button" onclick="changeLogo('team_b', 'change-logo-form-b')">Save</button>
+  <form
+    class="logo-form-b"
+    [formGroup]="teamTitleForm"
+  >
+    <tui-input-files
+      formControlName="teamBLogo"
+      accept="image/*"
+    >Game Home Team Logo:
+    </tui-input-files>
+    <tui-error
+      formControlName="teamBLogo"
+      [error]="[] | tuiFieldError | async"
+    ></tui-error>
+    <app-admin-submit-button
+
+    ></app-admin-submit-button>
   </form>
 </div>
 <app-toggle-visible-button

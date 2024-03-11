@@ -97,20 +97,6 @@ export class ScoreFormsComponent implements OnChanges {
     });
   }
 
-  // adjustScore(team: 'a' | 'b', amount: number) {
-  //   return (matchData: IMatchData) => {
-  //     if (!matchData) return;
-  //
-  //     const currentScoreKey = team === 'a' ? 'score_team_a' : 'score_team_b';
-  //     let currentScore = matchData[currentScoreKey];
-  //     if (currentScore != null) {
-  //       currentScore = Math.max(0, currentScore + amount);
-  //       const newMatchData = { ...matchData, [currentScoreKey]: currentScore };
-  //       this.matchData.updateMatchData(newMatchData);
-  //     }
-  //   };
-  // }
-
   updateScoreTeam(team: string, matchData: IMatchData) {
     if (!matchData) return;
 
