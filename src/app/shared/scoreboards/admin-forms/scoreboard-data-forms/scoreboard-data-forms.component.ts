@@ -9,6 +9,7 @@ import { ScoreboardData } from '../../../../components/scoreboard-data/scoreboar
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { DownDistanceFormsComponent } from '../down-distance-forms/down-distance-forms.component';
 import { AdminDownButtonComponent } from '../../../ui/buttons/admin-down-button/admin-down-button.component';
+import { AdminSubmitButtonComponent } from '../../../ui/buttons/admin-submit-button/admin-submit-button.component';
 
 @Component({
   selector: 'app-scoreboard-data-forms',
@@ -19,6 +20,7 @@ import { AdminDownButtonComponent } from '../../../ui/buttons/admin-down-button/
     AsyncPipe,
     DownDistanceFormsComponent,
     AdminDownButtonComponent,
+    AdminSubmitButtonComponent,
   ],
   templateUrl: './scoreboard-data-forms.component.html',
   styleUrl: './scoreboard-data-forms.component.less',

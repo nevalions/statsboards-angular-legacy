@@ -72,11 +72,10 @@
         [value]="data.scoreboard_data?.team_a_color"
         #TeamAColor
       >
-      <button
-        id="save-team-a-color"
+      <app-admin-submit-button
         (click)="updateTeamColor('a', TeamAColor.value)(data.scoreboard_data!)"
-      >Save
-      </button>
+      ></app-admin-submit-button>
+
     </div>
     <div id="team-b-color-settings" class="team-b-color-settings">
       <label class="color-team-b-label" for="team-b-color">Change Team B Color:</label>
@@ -87,11 +86,10 @@
         [value]="data.scoreboard_data?.team_b_color"
         #TeamBColor
       >
-      <button
-        id="save-team-b-color"
+      <app-admin-submit-button
         (click)="updateTeamColor('b', TeamBColor.value)(data.scoreboard_data!)"
-      >Save
-      </button>
+      ></app-admin-submit-button>
+
     </div>
   </div>
 </div>
