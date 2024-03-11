@@ -35,6 +35,51 @@
 
 
   <div class="down-distance-selector" id="down-selector-form">
+    <div class="down-selector">
+      <app-admin-down-button
+        #btnFirstDown
+        [down]="'1st'"
+        (click)="downValue = btnFirstDown.down; updateFormValue()"
+      ></app-admin-down-button>
+      <!--      <button-->
+      <!--        class="down-selector-1st-btn"-->
+      <!--        (click)="downValue = '1st'; updateFormValue()"-->
+      <!--      >1st-->
+      <!--      </button>-->
+      <app-admin-down-button
+        #btnSecondDown
+        [down]="'2nd'"
+        (click)="downValue = btnSecondDown.down; updateFormValue()"
+      ></app-admin-down-button>
+
+      <!--      <button-->
+      <!--        class="down-selector-2nd-btn"-->
+      <!--        (click)="downValue = '2nd'"-->
+      <!--      >2nd-->
+      <!--      </button>-->
+      <app-admin-down-button
+        #btnThirdDown
+        [down]="'3rd'"
+        (click)="downValue = btnThirdDown.down; updateFormValue()"
+      ></app-admin-down-button>
+
+      <!--      <button-->
+      <!--        class="down-selector-3rd-btn"-->
+      <!--        (click)="downValue = '3rd'"-->
+      <!--      >3rd-->
+      <!--      </button>-->
+      <app-admin-down-button
+        #btnFourthDown
+        [down]="'4th'"
+        (click)="downValue = btnFourthDown.down; updateFormValue()"
+      ></app-admin-down-button>
+
+      <!--      <button-->
+      <!--        class="down-selector-4th-btn"-->
+      <!--        (click)="downValue = '4th'"-->
+      <!--      >4th-->
+      <!--      </button>-->
+    </div>
     <form
       [formGroup]="distanceForm"
     >
@@ -49,102 +94,82 @@
       </tui-select>
     </form>
 
-    <!--    <label class="down-selector-label" for="select-distance">Select Down &amp; Distance:</label>-->
-    <!--    <select-->
-    <!--      class="down-selector-distance"-->
-    <!--      id="select-distance"-->
-    <!--      (change)="distanceValue = distanceSelect.value; updateFormValue()"-->
-    <!--      #distanceSelect-->
-    <!--    >-->
-    <!--      <option value=" & 1">1</option>-->
-    <!--      <option value=" & 2">2</option>-->
-    <!--      <option value=" & 3">3</option>-->
-    <!--      <option value=" & 4">4</option>-->
-    <!--      <option value=" & 5">5</option>-->
-    <!--      <option value=" & 6">6</option>-->
-    <!--      <option value=" & 7">7</option>-->
-    <!--      <option value=" & 8">8</option>-->
-    <!--      <option value=" & 9">9</option>-->
-    <!--      <option value=" & 10" selected>10</option>-->
-    <!--      <option value=" & 11">11</option>-->
-    <!--      <option value=" & 12">12</option>-->
-    <!--      <option value=" & 13">13</option>-->
-    <!--      <option value=" & 14">14</option>-->
-    <!--      <option value=" & 15">15</option>-->
-    <!--      <option value=" & 16">16</option>-->
-    <!--      <option value=" & 17">17</option>-->
-    <!--      <option value=" & 18">18</option>-->
-    <!--      <option value=" & 19">19</option>-->
-    <!--      <option value=" & 20">20</option>-->
-    <!--      <option value=" & 20">20+</option>-->
-    <!--      <option value=" & inch">inch</option>-->
-    <!--      <option value=" & Goal">Goal</option>-->
-    <!--    </select>-->
-    <div class="down-selector">
-      <button
-        class="down-selector-1st-btn"
-        (click)="downValue = '1st'; updateFormValue()"
-      >1st
-      </button>
-
-      <button
-        class="down-selector-2nd-btn"
-        (click)="downValue = '2nd'"
-      >2nd
-      </button>
-
-      <button
-        class="down-selector-3rd-btn"
-        (click)="downValue = '3rd'"
-      >3rd
-      </button>
-
-      <button
-        class="down-selector-4th-btn"
-        (click)="downValue = '4th'"
-      >4th
-      </button>
-    </div>
-
   </div>
 
-  <div class="down-dist-selector-form" id="down-dist-selector-form">
-    <label class="down-dist-selector-label">Select Play:</label>
+  <div class="down-dist-selector-form">
     <div class="down-dist-selector-game">
-      <button
-        class="first-and-ten-btn"
-        (click)="downValue = '1st'; distanceValue =' & 10'; updateFormValue()"
-      >1st &amp; 10
-      </button>
-      <button
-        class="goal-btn"
-        (click)="distanceValue =' & Goal'; updateFormValue()"
-      >Goal
-      </button>
+      <app-admin-down-button
+        #btnFirstAndTen
+        [down]="'1st'"
+        [distance]="' & 10'"
+        (click)="downValue = btnFirstAndTen.down; distanceValue= btnFirstAndTen.distance;  updateFormValue()"
+      ></app-admin-down-button>
+      <!--      <button-->
+      <!--        class="first-and-ten-btn"-->
+      <!--        (click)="downValue = '1st'; distanceValue =' & 10'; updateFormValue()"-->
+      <!--      >1st &amp; 10-->
+      <!--      </button>-->
+      <app-admin-down-button
+        #btnFirstAndGoal
+        [down]="''"
+        [distance]="' & Goal'"
+        (click)="distanceValue = btnFirstAndGoal.distance;  updateFormValue()"
+      ></app-admin-down-button>
+      <!--      <button-->
+      <!--        class="goal-btn"-->
+      <!--        (click)="distanceValue =' & Goal'; updateFormValue()"-->
+      <!--      >Goal-->
+      <!--      </button>-->
     </div>
     <div class="down-dist-selector-conv">
-      <button
-        class="one-pt-btn"
-        (click)="downValue = ''; distanceValue ='1PT'; updateFormValue()"
-      >1PT
-      </button>
-      <button
-        class="two-pt-btn"
-        (click)="downValue = ''; distanceValue ='2PT'; updateFormValue()"
-      >2PT
-      </button>
+      <app-admin-down-button
+        #btnOnePT
+        [down]="''"
+        [distance]="'1PT'"
+        (click)="downValue = btnOnePT.down; distanceValue= btnOnePT.distance;  updateFormValue()"
+      ></app-admin-down-button>
+      <!--      <button-->
+      <!--        class="one-pt-btn"-->
+      <!--        (click)="downValue = ''; distanceValue ='1PT'; updateFormValue()"-->
+      <!--      >1PT-->
+      <!--      </button>-->
+      <!--      <button-->
+      <!--        class="two-pt-btn"-->
+      <!--        (click)="downValue = ''; distanceValue ='2PT'; updateFormValue()"-->
+      <!--      >2PT-->
+      <!--      </button>-->
+      <app-admin-down-button
+        #btnTwoPT
+        [down]="''"
+        [distance]="'2PT'"
+        (click)="downValue = btnTwoPT.down; distanceValue= btnTwoPT.distance;  updateFormValue()"
+      ></app-admin-down-button>
     </div>
     <div class="down-dist-selector-kick">
-      <button
-        class="fg-btn"
-        (click)="downValue = ''; distanceValue ='FG'; updateFormValue()"
-      >FG
-      </button>
-      <button
-        class="kickoff-btn"
-        (click)="downValue = ''; distanceValue ='KickOff'; updateFormValue()"
-      >KickOff
-      </button>
+      <app-admin-down-button
+        #btnFG
+        [down]="''"
+        [distance]="'FG'"
+        (click)="downValue = btnFG.down; distanceValue= btnFG.distance;  updateFormValue()"
+      ></app-admin-down-button>
+
+      <!--      <button-->
+      <!--        class="fg-btn"-->
+      <!--        (click)="downValue = ''; distanceValue ='FG'; updateFormValue()"-->
+      <!--      >FG-->
+      <!--      </button>-->
+      <app-admin-down-button
+        #btnKickOff
+        [down]="''"
+        [distance]="'KickOff'"
+        (click)="downValue = btnKickOff.down; distanceValue= btnKickOff.distance;  updateFormValue()"
+      ></app-admin-down-button>
+
+      <!--      <button-->
+      <!--        class="kickoff-btn"-->
+      <!--        (click)="downValue = ''; distanceValue ='KickOff'; updateFormValue()"-->
+      <!--      >KickOff-->
+      <!--      </button>-->
     </div>
   </div>
 </div>

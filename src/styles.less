@@ -239,6 +239,23 @@ aside > * {
   });
 }
 
+// This goes into global, non-encapsulated styles
+[tuiWrapper][data-appearance='down-admin'] {
+  background: #e7e7e7;
+  color: #282828;
+
+  .wrapper-hover({
+    background: var(--tui-positive-hover);;
+  });
+
+  .wrapper-active({
+    background: var(--tui-positive-hover);;
+  });
+
+  .wrapper-disabled({
+    background: var(--tui-base-07);
+  });
+}
 
 @media screen and (max-width: 600px) {
   .container,

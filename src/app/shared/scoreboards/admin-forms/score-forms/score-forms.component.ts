@@ -24,6 +24,7 @@ import {
 } from '@angular/forms';
 import {
   TuiFieldErrorPipeModule,
+  TuiInputModule,
   TuiInputNumberModule,
   tuiInputNumberOptionsProvider,
 } from '@taiga-ui/kit';
@@ -45,6 +46,7 @@ import { AdminSubmitButtonComponent } from '../../../ui/buttons/admin-submit-but
     TuiTextfieldControllerModule,
     IncrementButtonComponent,
     AdminSubmitButtonComponent,
+    TuiInputModule,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [

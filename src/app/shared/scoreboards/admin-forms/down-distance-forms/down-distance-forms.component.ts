@@ -13,6 +13,7 @@ import {
   TuiInputNumberModule,
   TuiSelectModule,
 } from '@taiga-ui/kit';
+import { AdminDownButtonComponent } from '../../../ui/buttons/admin-down-button/admin-down-button.component';
 
 @Component({
   selector: 'app-down-distance-forms',
@@ -27,6 +28,7 @@ import {
     TuiInputModule,
     TuiSelectModule,
     TuiDataListWrapperModule,
+    AdminDownButtonComponent,
   ],
   templateUrl: './down-distance-forms.component.html',
   styleUrl: './down-distance-forms.component.less',
