@@ -7,15 +7,15 @@ import {
 import { IMatchData } from '../../../../type/matchdata.type';
 import { matchDataActions } from './actions';
 
-export interface MatchDataState extends crudStoreInterface {
+export interface MatchDataState {
   matchDataLoading: boolean;
   matchDataIsSubmitting: boolean;
   currentMatchDataId: number | undefined | null;
   currentMatchData: IMatchData | undefined | null;
+  errors: any | undefined | null;
 }
 
 const initialState: MatchDataState = {
-  ...getDefaultCrudStore(),
   matchDataLoading: false,
   matchDataIsSubmitting: false,
   currentMatchDataId: null,
@@ -48,37 +48,31 @@ const matchDataFeature = createFeature({
     // get actions
     on(matchDataActions.get, (state) => ({
       ...state,
-      isLoading: true,
       matchDataLoading: true,
     })),
     on(matchDataActions.getItemSuccess, (state, action) => ({
       ...state,
-      isLoading: false,
       matchDataLoading: false,
       currentMatchData: action.matchdata,
     })),
     on(matchDataActions.getItemFailure, (state, action) => ({
       ...state,
-      isLoading: false,
       matchDataLoading: false,
       errors: action,
     })),
 
     on(matchDataActions.getMatchDataByMatchId, (state) => ({
       ...state,
-      isLoading: true,
       matchDataLoading: true,
     })),
     on(matchDataActions.getMatchdataByMatchIDSuccess, (state, action) => ({
       ...state,
-      isLoading: false,
       matchDataLoading: false,
       currentMatchData: action.matchdata,
       currentMatchDataId: action.matchdata.id,
     })),
     on(matchDataActions.getMatchdataByMatchIDFailure, (state, action) => ({
       ...state,
-      isLoading: false,
       errors: action,
       matchDataLoading: false,
     })),
@@ -88,8 +82,6 @@ const matchDataFeature = createFeature({
 export const {
   name: matchDataFeatureKey,
   reducer: matchDataReducer,
-  selectIsSubmitting,
-  selectIsLoading,
   selectMatchDataLoading,
   selectMatchDataIsSubmitting,
   selectCurrentMatchDataId,

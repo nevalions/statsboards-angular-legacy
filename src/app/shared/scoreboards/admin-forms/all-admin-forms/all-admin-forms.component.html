@@ -1,17 +1,26 @@
 <div class="main-container">
-  <!--SHOW/HIDE ALL-->
-  <button
-    id="change-all-boards-hide"
-    class="show-hide-btn"
-    type="button"
-    (click)="toggleAllFormsVisibility()"
-  >{{ (showHideAllButtonVisible$ | async) ? 'Hide' : 'Show' }} All
-  </button>
+  <div class="admin-row-container">
+    <!--SHOW/HIDE ALL-->
+
+    <button
+      appearance="outline"
+      tuiButton
+      size="l"
+      type="button"
+      (click)="toggleAllFormsVisibility()"
+      [icon]="(showHideAllButtonVisible$ | async) ? 'tuiIconEyeOff' : 'tuiIconEye'"
+    >
+      {{ (showHideAllButtonVisible$ | async) ? 'Hide' : 'Show' }} All
+    </button>
+
+  </div>
+
 
   <app-score-forms
     [data]="data"
     [scoreInputsVisible$]="scoreInputsVisible$"
     [scoreButtonsVisible$]="scoreButtonsVisible$"
+    [disabled]="(isMatchDataLoading$ | async)! || (isMatchDataSubmitting$ | async)!"
   ></app-score-forms>
 
   <app-qtr-forms
@@ -43,5 +52,5 @@
     [data]="data"
     [changeScoreBoardFormsVisible$]="changeScoreBoardFormsVisible$"
   ></app-scoreboard-data-forms>
-  
+
 </div>

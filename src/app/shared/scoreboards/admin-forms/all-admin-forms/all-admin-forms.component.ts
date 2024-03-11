@@ -14,6 +14,9 @@ import { TimeoutFormsComponent } from '../timeout-forms/timeout-forms.component'
 import { TimeFormsComponent } from '../time-forms/time-forms.component';
 import { ChangeTeamsFormsComponent } from '../change-teams-forms/change-teams-forms.component';
 import { ScoreboardDataFormsComponent } from '../scoreboard-data-forms/scoreboard-data-forms.component';
+import { TuiButtonModule } from '@taiga-ui/core';
+import { tuiArrayToggle, TuiDropdownHostModule } from '@taiga-ui/cdk';
+import { TUI_ARROW, TuiArrowModule } from '@taiga-ui/kit';
 
 @Component({
   selector: 'app-all-admin-forms',
@@ -29,6 +32,9 @@ import { ScoreboardDataFormsComponent } from '../scoreboard-data-forms/scoreboar
     TimeFormsComponent,
     ChangeTeamsFormsComponent,
     ScoreboardDataFormsComponent,
+    TuiButtonModule,
+    TuiArrowModule,
+    TuiDropdownHostModule,
   ],
   templateUrl: './all-admin-forms.component.html',
   styleUrl: './all-admin-forms.component.less',
@@ -36,6 +42,7 @@ import { ScoreboardDataFormsComponent } from '../scoreboard-data-forms/scoreboar
 export class AllAdminFormsComponent {
   @Input() data!: IMatchFullDataWithScoreboard;
   isMatchDataSubmitting$ = this.matchData.matchDataIsSubmitting$;
+  isMatchDataLoading$ = this.matchData.matchDataIsLoading$;
 
   showHideAllButtonVisible$: Observable<boolean>;
   scoreInputsVisible$: Observable<boolean>;

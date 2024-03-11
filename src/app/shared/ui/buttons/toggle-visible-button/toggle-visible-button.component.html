@@ -1,6 +1,10 @@
 <button
-  class="show-hide-btn"
+  appearance="outline"
+  tuiButton
+  size="l"
   type="button"
   (click)="toggleItemVisibility(formName)"
->{{ (isVisible$ | async) ? 'Hide' : 'Show' }} {{ buttonText }}
+  [icon]="(isVisible$ | async) ? 'tuiIconEyeOff' : 'tuiIconEye'"
+>
+  {{ (isVisible$ | async) ? 'Hide' : 'Show' }} {{ buttonText }}
 </button>

@@ -1,6 +1,6 @@
 import { Injectable, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { AppState } from '../../store/appstate';
 import { IMatch } from '../../type/match.type';
 import { matchActions } from './store/actions';
@@ -10,6 +10,7 @@ import { matchDataActions } from './store/match-data/actions';
 import {
   selectCurrentMatchData,
   selectMatchDataIsSubmitting,
+  selectMatchDataLoading,
 } from './store/match-data/reducers';
 
 @Injectable({
@@ -17,13 +18,15 @@ import {
 })
 export class MatchData {
   matchData$: Observable<IMatchData | null | undefined>;
-  matchDataIsSubmitting$: Observable<boolean>;
+  matchDataIsSubmitting$: Observable<boolean> = of(false);
+  matchDataIsLoading$: Observable<boolean> = of(false);
 
   constructor(private store: Store<AppState>) {
     this.matchData$ = this.store.select(selectCurrentMatchData);
     this.matchDataIsSubmitting$ = this.store.select(
       selectMatchDataIsSubmitting,
     );
+    this.matchDataIsLoading$ = this.store.select(selectMatchDataLoading);
   }
 
   loadCurrentMatchDataByMatchId() {
