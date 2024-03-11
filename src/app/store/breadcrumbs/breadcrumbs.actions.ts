@@ -5,5 +5,6 @@ export const breadcrumbActions = createActionGroup({
   source: 'breadcrumb',
   events: {
     BreadcrumbsUpdated: props<{ breadcrumbs: Breadcrumb[] }>(),
+    LoadStateFromLocalStorage: emptyProps(),
   },
 });

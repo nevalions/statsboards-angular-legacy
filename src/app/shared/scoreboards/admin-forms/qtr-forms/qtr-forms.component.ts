@@ -76,11 +76,4 @@ export class QtrFormsComponent implements OnChanges {
       }
     }
   }
-
-  // updateQuarter(matchData: IMatchData, selectedQuarter: string) {
-  //   if (!matchData) return;
-  //
-  //   const updatedMatchData = { ...matchData, qtr: selectedQuarter };
-  //   this.matchData.updateMatchData(updatedMatchData);
-  // }
 }

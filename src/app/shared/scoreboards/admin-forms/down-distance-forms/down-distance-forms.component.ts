@@ -17,9 +17,12 @@ export class DownDistanceFormsComponent {
   @Input() downAndDistanceFormVisible$!: Observable<boolean>;
   @Input() data!: IMatchFullDataWithScoreboard;
   @Input() isMatchDataSubmitting$?: Observable<boolean>;
+  @Input() disabled: boolean = false;
 
   downValue: string = '1st';
   distanceValue: string = ' & 10';
+
+  items: string[] = ['1st', '2nd', 'HT', '3rd', '4th', 'Final', 'OT'];
 
   constructor(private matchData: MatchData) {}
 
@@ -44,7 +47,7 @@ export class DownDistanceFormsComponent {
     const updatedMatchData = {
       ...matchData,
       down: down,
-      distance: distance || '', // use an empty string if distance is undefined
+      distance: distance || '',
     };
 
     this.matchData.updateMatchData(updatedMatchData);

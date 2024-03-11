@@ -5,5 +5,6 @@ export const uiActions = createActionGroup({
   events: {
     ToggleForm: props<{ formName: string }>(),
     ToggleAllForms: emptyProps(),
+    loadStateFromLocalStorage: emptyProps(),
   },
 });

@@ -7,10 +7,23 @@ export interface BreadcrumbState {
   currentBreadcrumb: Breadcrumb | null;
 }
 
-const initialState: BreadcrumbState = {
+let initialState: BreadcrumbState = {
   breadcrumbs: [],
   currentBreadcrumb: null,
 };
+
+const localStorageState = localStorage.getItem('breadcrumbs');
+
+if (localStorageState) {
+  try {
+    initialState = {
+      ...initialState,
+      breadcrumbs: JSON.parse(localStorageState),
+    };
+  } catch (e) {
+    console.error(`Error parsing breadcrumbs from local storage: ${e}`);
+  }
+}
 
 const breadcrumbFeature = createFeature({
   name: 'breadcrumb',
@@ -43,7 +56,28 @@ const breadcrumbFeature = createFeature({
         }
       });
 
-      return { ...state, breadcrumbs: updatedBreadcrumbs };
+      const newState = { ...state, breadcrumbs: updatedBreadcrumbs };
+      try {
+        localStorage.setItem('breadcrumbs', JSON.stringify(newState));
+      } catch (e) {
+        console.error('Error saving state to local storage:', e);
+      }
+
+      return newState;
+    }),
+    on(breadcrumbActions.loadStateFromLocalStorage, (state) => {
+      const loadedState = localStorage.getItem('breadcrumbs');
+      if (loadedState === null) {
+        return state;
+      }
+
+      try {
+        const stateFromStorage: BreadcrumbState = JSON.parse(loadedState);
+        return { ...stateFromStorage };
+      } catch (e) {
+        console.error('Error parsing state from local storage:', e);
+        return state;
+      }
     }),
   ),
 });

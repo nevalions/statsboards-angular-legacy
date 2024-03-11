@@ -13,6 +13,9 @@ export class Ui {
 
   constructor(private store: Store<AppState>) {
     this.formVisibility$ = this.store.select(selectFormVisibility);
+
+    // Load UI state from localstorage.
+    this.store.dispatch(uiActions.loadStateFromLocalStorage());
   }
 
   toggleFormVisibility(formName: string) {

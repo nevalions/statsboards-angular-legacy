@@ -74,5 +74,7 @@ export class BreadcrumbEffects {
   constructor(
     private actions$: Actions,
     private store: Store<AppState>,
-  ) {}
+  ) {
+    this.store.dispatch(breadcrumbActions.loadStateFromLocalStorage());
+  }
 }

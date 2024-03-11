@@ -26,6 +26,12 @@ body {
   }
 }
 
+.super_main_container {
+  display: grid;
+  background-color: var(--tui-base-06);
+
+}
+
 .main_container {
   min-height: 100%;
   display: grid;
@@ -235,10 +241,13 @@ aside > * {
 
 
 @media screen and (max-width: 600px) {
-  .container, .content__body__title, .with__aside {
-    padding: 30px;
+  .container,
+  .content__body__title,
+  .with__aside,
+  .main_container,
+  .super_main_container {
     grid-template-columns: 100%;
-    justify-content: center; /* align horizontal */
+    justify-content: stretch; /* align horizontal */
     align-items: center; /* align vertical */
 
   }
