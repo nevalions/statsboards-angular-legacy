@@ -6,10 +6,16 @@ import { IMatchFullDataWithScoreboard } from '../../../../type/match.type';
 import { MatchData } from '../../../../components/match/matchdata';
 import { IScoreboard } from '../../../../type/matchdata.type';
 import { ScoreboardData } from '../../../../components/scoreboard-data/scoreboard-data';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { DownDistanceFormsComponent } from '../down-distance-forms/down-distance-forms.component';
 import { AdminDownButtonComponent } from '../../../ui/buttons/admin-down-button/admin-down-button.component';
 import { AdminSubmitButtonComponent } from '../../../ui/buttons/admin-submit-button/admin-submit-button.component';
+import { TuiInputModule } from '@taiga-ui/kit';
 
 @Component({
   selector: 'app-scoreboard-data-forms',
@@ -21,6 +27,8 @@ import { AdminSubmitButtonComponent } from '../../../ui/buttons/admin-submit-but
     DownDistanceFormsComponent,
     AdminDownButtonComponent,
     AdminSubmitButtonComponent,
+    TuiInputModule,
+    ReactiveFormsModule,
   ],
   templateUrl: './scoreboard-data-forms.component.html',
   styleUrl: './scoreboard-data-forms.component.less',
@@ -97,21 +105,36 @@ export class ScoreboardDataFormsComponent {
     this.scoreboardData.updateScoreboardData(updatedScoreboardData);
   }
 
-  updateTeamColor(team: 'a' | 'b', inputValue: string) {
-    return (scoreboardData: IScoreboard) => {
-      if (!scoreboardData) return;
-      console.log(scoreboardData);
+  updateTeamColor(team: 'a' | 'b', scoreboardData: IScoreboard) {
+    if (!scoreboardData) return;
+    // console.log(scoreboardData);
 
-      if (inputValue) {
-        console.log(inputValue);
-        const colortKey = team === 'a' ? 'team_a_color' : 'team_b_color';
+    if (this.teamColorForm.valid) {
+      const formValue = this.teamColorForm.getRawValue();
+      const colorTeamA = formValue.colorTeamA;
+      const colorTeamB = formValue.colorTeamB;
+
+      if (colorTeamA && team === 'a') {
+        // console.log(inputValue);
+        const colortKey = 'team_a_color';
         const updatedScoreboardData = {
           ...scoreboardData,
-          [colortKey]: inputValue,
+          [colortKey]: colorTeamA,
         };
-        console.log(updatedScoreboardData);
+        // console.log(updatedScoreboardData);
         this.scoreboardData.updateScoreboardData(updatedScoreboardData);
       }
-    };
+
+      if (colorTeamB && team === 'b') {
+        // console.log(inputValue);
+        const colortKey = 'team_b_color';
+        const updatedScoreboardData = {
+          ...scoreboardData,
+          [colortKey]: colorTeamB,
+        };
+        // console.log(updatedScoreboardData);
+        this.scoreboardData.updateScoreboardData(updatedScoreboardData);
+      }
+    }
   }
 }

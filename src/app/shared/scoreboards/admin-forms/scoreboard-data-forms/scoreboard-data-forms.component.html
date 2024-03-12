@@ -1,6 +1,6 @@
 <!--SCOREBOARD DATA-->
 <div
-  *ngIf="changeScoreBoardFormsVisible$ | async"
+  *ngIf="changeScoreBoardFormsVisible$ | async" xmlns="http://www.w3.org/1999/html"
   class="scoreboard-settings"
 >
   <div id="scoreboard-settings-btns" class="scoreboard-settings-btns">
@@ -29,35 +29,38 @@
     ></app-admin-down-button>
 
   </div>
-  <div id="scoreboard-teams-colors" class="scoreboard-teams-colors">
-    <div id="team-a-color-settings" class="team-a-color-settings">
-      <label class="color-team-a-label" for="team-a-color">Home Team Color:</label>
-      <input
-        id="team-a-color"
-        class="team-color-picker"
-        type="color"
-        [value]="data.scoreboard_data?.team_a_color"
-        #TeamAColor
-      >
-      <app-admin-submit-button
-        (click)="updateTeamColor('a', TeamAColor.value)(data.scoreboard_data!)"
-      ></app-admin-submit-button>
+  <div class="scoreboard-teams-colors">
+    <form
+      class="scoreboard-teams-colors-forms"
+      [formGroup]="teamColorForm"
+    >
+      <div class="team-color-settings">
+        <label class="tui-text_body-m">Home Team Color:</label>
+        <input
+          formControlName="colorTeamA"
+          class="team-color-picker"
+          type="color"
+          style="width: 100%"
+        />
+        <app-admin-submit-button
+          (click)="updateTeamColor('a', data.scoreboard_data!)"
+        ></app-admin-submit-button>
 
-    </div>
-    <div id="team-b-color-settings" class="team-b-color-settings">
-      <label class="color-team-b-label" for="team-b-color">Away Team Color:</label>
-      <input
-        id="team-b-color"
-        class="team-color-picker"
-        type="color"
-        [value]="data.scoreboard_data?.team_b_color"
-        #TeamBColor
-      >
-      <app-admin-submit-button
-        (click)="updateTeamColor('b', TeamBColor.value)(data.scoreboard_data!)"
-      ></app-admin-submit-button>
+      </div>
+      <div class="team-color-settings">
+        <label class="tui-text_body-m">Away Team Color:</label>
+        <input
+          formControlName="colorTeamB"
+          class="team-color-picker"
+          type="color"
+          style="width: 100%"
+        >
+        <app-admin-submit-button
+          (click)="updateTeamColor('b', data.scoreboard_data!)"
+        ></app-admin-submit-button>
 
-    </div>
+      </div>
+    </form>
   </div>
 </div>
 <app-toggle-visible-button

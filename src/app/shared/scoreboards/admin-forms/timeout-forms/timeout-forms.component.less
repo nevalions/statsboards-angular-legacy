@@ -2,7 +2,6 @@
 .timeouts-btns {
   //border: 1px solid #000000;
 
-
   display: grid;
   grid-template-columns: auto auto;
 
@@ -29,19 +28,25 @@
   justify-content: stretch;
 }
 
+.to-label {
+  grid-column: span 4;
+  justify-content: center;
+}
+
 
 @media screen and (max-width: 720px) {
   .timeouts-btns {
-    border: 1px solid #000000;
-
-    display: grid;
     grid-template-columns: auto;
+  }
+}
 
-    padding: 10px;
-    grid-gap: 10px;
+@media screen and (max-width: 450px) {
+  .to-selector-form {
+    grid-template-columns: auto auto;
+  }
 
-    align-content: center;
-    justify-content: stretch;
+  .to-label {
+    grid-column: span 2;
   }
 
 }
