@@ -50,9 +50,3 @@ export class Gameclock {
     this.store.dispatch(gameclockActions.resetGameClock({ seconds: seconds }));
   }
 }
-
-// loadCurrentMatchByMatchId(matchId: number) {
-//   this.store.dispatch(
-//     gameclockActions.getGameclockByMatchId({ matchId: matchId }),
-//   );
-// }

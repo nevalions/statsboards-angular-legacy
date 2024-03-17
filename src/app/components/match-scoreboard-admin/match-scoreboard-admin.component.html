@@ -1,8 +1,6 @@
 @if (data$ | async; as data) {
   @if (playclock$ | async; as playclock) {
     @if (gameclock$ | async; as gameclock) {
-      <!--      {{ playclock.playclock_status }}-->
-      <!--      {{ gameclock.gameclock_status }}-->
       <!--SCOREBOARD ADMIN-->
       <app-scoreboard-display-flat
         [scoreboardDisplayClass]="'scoreboard'"

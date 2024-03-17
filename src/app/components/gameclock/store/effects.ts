@@ -148,36 +148,6 @@ export class GameclockEffects {
     ),
   );
 
-  // startGameclock = createEffect(() =>
-  //   this.actions$.pipe(
-  //     ofType(gameclockActions.startGameClock),
-  //     withLatestFrom(this.store.select(selectCurrentGameclockId)),
-  //     exhaustMap(([action, gameclockId]) =>
-  //       this.gameclockService.startGameClock(gameclockId!, action.seconds).pipe(
-  //         map((response) =>
-  //           gameclockActions.gameClockStartSuccess({ gameclock: response }),
-  //         ),
-  //         catchError((error) => of(gameclockActions.gameClockStartFailure())),
-  //       ),
-  //     ),
-  //   ),
-  // );
-  //
-  // resetGameclock = createEffect(() =>
-  //   this.actions$.pipe(
-  //     ofType(gameclockActions.resetGameClock),
-  //     withLatestFrom(this.store.select(selectCurrentGameclockId)),
-  //     exhaustMap(([action, gameclockId]) =>
-  //       this.gameclockService.resetGameClock(gameclockId!).pipe(
-  //         map((response) =>
-  //           gameclockActions.gameClockResetSuccess({ gameclock: response }),
-  //         ),
-  //         catchError((error) => of(gameclockActions.gameClockResetFailure())),
-  //       ),
-  //     ),
-  //   ),
-  // );
-
   constructor(
     private actions$: Actions,
     private gameclockService: GameClockService,

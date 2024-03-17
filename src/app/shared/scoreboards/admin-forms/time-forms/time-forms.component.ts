@@ -8,9 +8,7 @@ import {
 import { AsyncPipe, NgIf } from '@angular/common';
 import { Observable } from 'rxjs';
 import { IMatchFullDataWithScoreboard } from '../../../../type/match.type';
-import { MatchData } from '../../../../components/match/matchdata';
 import { ToggleVisibleButtonComponent } from '../../../ui/buttons/toggle-visible-button/toggle-visible-button.component';
-import { IMatchData } from '../../../../type/matchdata.type';
 import {
   TuiFieldErrorPipeModule,
   TuiInputModule,
@@ -67,7 +65,6 @@ export class TimeFormsComponent implements OnChanges {
   timeForm: FormGroup;
 
   constructor(
-    // private matchData: MatchData,
     private playclockData: Playclock,
     private gameclockData: Gameclock,
   ) {
