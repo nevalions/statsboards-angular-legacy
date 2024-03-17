@@ -113,7 +113,7 @@ export abstract class BaseApiService<T> {
 
   startGameClock(matchDataId: number): Observable<IMatchData> {
     return this.http
-      .put<any>(`${this.endpoint}/id/${matchDataId}/gameclock/running/`, {})
+      .put<any>(`${this.endpoint}/id/${matchDataId}/running/`, {})
       .pipe(
         tap((response) => {
           console.log('Server response:', response);
@@ -126,7 +126,7 @@ export abstract class BaseApiService<T> {
 
   pauseGameClock(matchDataId: number): Observable<IMatchData> {
     return this.http
-      .put<any>(`${this.endpoint}/id/${matchDataId}/gameclock/paused/`, {})
+      .put<any>(`${this.endpoint}/id/${matchDataId}/paused/`, {})
       .pipe(
         tap((response) => {
           console.log('Server response:', response);
@@ -139,10 +139,7 @@ export abstract class BaseApiService<T> {
 
   resetGameClock(matchDataId: number, seconds: number): Observable<IMatchData> {
     return this.http
-      .put<any>(
-        `${this.endpoint}/id/${matchDataId}/gameclock/stopped/${seconds}`,
-        {},
-      )
+      .put<any>(`${this.endpoint}/id/${matchDataId}/stopped/${seconds}`, {})
       .pipe(
         tap((response) => {
           console.log('Server response:', response);

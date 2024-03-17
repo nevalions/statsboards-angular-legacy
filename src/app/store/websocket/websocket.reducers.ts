@@ -11,6 +11,7 @@ export enum WebSocketStateEnum {
 export interface WebSocketState {
   data: any | null;
   playclock: any | null;
+  gameclock: any | null;
   error: any | null;
   event: any | null;
   loading: boolean;
@@ -20,6 +21,7 @@ export interface WebSocketState {
 const initialState: WebSocketState = {
   data: null,
   playclock: null,
+  gameclock: null,
   error: null,
   event: null,
   loading: false,
@@ -42,6 +44,7 @@ const webSocketFeature = createFeature({
       error: null,
       data: message.data,
       playclock: message.playclock,
+      gameclock: message.gameclock,
       connectionState: WebSocketStateEnum.CONNECTED,
     })),
     on(webSocketActions.connectFailure, (state, { error }) => ({
@@ -80,6 +83,11 @@ const webSocketFeature = createFeature({
       ...state,
       loading: false,
       error,
+    })),
+    on(webSocketActions.gameclockMessage, (state, action) => ({
+      ...state,
+      gameclock: action.gameclock,
+      error: null,
     })),
     on(webSocketActions.playclockMessage, (state, action) => ({
       ...state,
@@ -120,6 +128,7 @@ export const {
   reducer: webSocketReducer,
   selectConnectionState,
   selectData,
+  selectGameclock,
   selectPlayclock,
   selectError,
   selectEvent,

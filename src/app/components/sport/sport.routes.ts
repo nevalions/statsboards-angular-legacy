@@ -51,6 +51,11 @@ import {
   playclockReducer,
 } from '../playclock/store/reducers';
 import { PlayclockEffects } from '../playclock/store/effects';
+import {
+  gameclockFeatureKey,
+  gameclockReducer,
+} from '../gameclock/store/reducers';
+import { GameclockEffects } from '../gameclock/store/effects';
 
 export const SPORT_ROUTES: Routes = [
   {
@@ -176,11 +181,13 @@ export const SPORT_ROUTES: Routes = [
                   provideState(webSocketFeatureKey, webSocketReducer),
                   provideState(matchFeatureKey, matchReducer),
                   provideState(matchDataFeatureKey, matchDataReducer),
+                  provideState(gameclockFeatureKey, gameclockReducer),
                   provideState(playclockFeatureKey, playclockReducer),
                   provideState(scoreboardDataFeatureKey, scoreboardDataReducer),
                   provideEffects(
                     MatchDataEffects,
                     PlayclockEffects,
+                    GameclockEffects,
                     ScoreboardDataEffects,
                     WebSocketEffects,
                   ),

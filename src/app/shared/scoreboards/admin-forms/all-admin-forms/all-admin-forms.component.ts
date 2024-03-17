@@ -18,6 +18,7 @@ import { TuiButtonModule } from '@taiga-ui/core';
 import { tuiArrayToggle, TuiDropdownHostModule } from '@taiga-ui/cdk';
 import { TUI_ARROW, TuiArrowModule } from '@taiga-ui/kit';
 import { IPlayclock } from '../../../../type/playclock.type';
+import { IGameclock } from '../../../../type/gameclock.type';
 
 @Component({
   selector: 'app-all-admin-forms',
@@ -44,6 +45,7 @@ import { IPlayclock } from '../../../../type/playclock.type';
 export class AllAdminFormsComponent {
   @Input() data!: IMatchFullDataWithScoreboard;
   @Input() playclock!: IPlayclock;
+  @Input() gameclock!: IGameclock;
   isMatchDataSubmitting$ = this.matchData.matchDataIsSubmitting$;
   isMatchDataLoading$ = this.matchData.matchDataIsLoading$;
   //TODO is clock loading and submitting

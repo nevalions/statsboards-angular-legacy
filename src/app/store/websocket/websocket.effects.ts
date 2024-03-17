@@ -36,6 +36,13 @@ export class WebSocketEffects {
               };
             }
 
+            if (parsedMessage && parsedMessage.gameclock) {
+              accumulatedMessage = {
+                ...accumulatedMessage,
+                gameclock: parsedMessage.gameclock,
+              };
+            }
+
             return accumulatedMessage;
           }, {}),
           map((accumulatedMessage) =>
@@ -73,6 +80,8 @@ export class WebSocketEffects {
             switch (type) {
               case 'playclock-update':
                 return webSocketActions.playclockMessage({ playclock: data });
+              case 'gameclock-update':
+                return webSocketActions.gameclockMessage({ gameclock: data });
               case 'message-update':
                 return webSocketActions.data({ data: data });
               default:

@@ -5,6 +5,7 @@ import { Websocket } from '../../store/websocket/websocket';
 import { AsyncPipe, NgIf } from '@angular/common';
 import { ScoreboardDisplayFlatComponent } from '../../shared/scoreboards/scoreboard-display-flat/scoreboard-display-flat.component';
 import { IPlayclock } from '../../type/playclock.type';
+import { IGameclock } from '../../type/gameclock.type';
 
 @Component({
   selector: 'app-match-scoreboard-display',
@@ -18,6 +19,7 @@ export class MatchScoreboardDisplayComponent implements OnInit, OnDestroy {
   // error$: Observable<any> = this.Websocket.error$;
   data$: Observable<IMatchFullDataWithScoreboard> = this.Websocket.data$;
   playclock$: Observable<IPlayclock> = this.Websocket.playclock$;
+  gameclock$: Observable<IGameclock> = this.Websocket.gameclock$;
 
   constructor(private Websocket: Websocket) {}
 

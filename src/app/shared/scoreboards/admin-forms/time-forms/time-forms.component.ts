@@ -28,6 +28,8 @@ import { AdminSubmitButtonComponent } from '../../../ui/buttons/admin-submit-but
 import { AdminDownButtonComponent } from '../../../ui/buttons/admin-down-button/admin-down-button.component';
 import { Playclock } from '../../../../components/playclock/playclock';
 import { IPlayclock } from '../../../../type/playclock.type';
+import { IGameclock } from '../../../../type/gameclock.type';
+import { Gameclock } from '../../../../components/gameclock/gameclock';
 
 @Component({
   selector: 'app-time-forms',
@@ -58,6 +60,7 @@ import { IPlayclock } from '../../../../type/playclock.type';
 export class TimeFormsComponent implements OnChanges {
   @Input() timeFormsVisible$!: Observable<boolean>;
   @Input() data!: IMatchFullDataWithScoreboard;
+  @Input() gameclock!: IGameclock;
   @Input() playclock!: IPlayclock;
   @Input() disabled: boolean = false;
 
@@ -66,14 +69,15 @@ export class TimeFormsComponent implements OnChanges {
   constructor(
     // private matchData: MatchData,
     private playclockData: Playclock,
+    private gameclockData: Gameclock,
   ) {
     this.timeForm = this.initForm();
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes['data'] || changes['playclock']) {
+    if (changes['data'] || changes['playclock'] || changes['gameclock']) {
       this.timeForm = this.initForm();
-      if (this.data.match_data?.gameclock_status === 'running') {
+      if (this.gameclock?.gameclock_status === 'running') {
         this.timeForm.get('gameTimeMinutes')?.disable();
         this.timeForm.get('gameTimeSeconds')?.disable();
       }
@@ -92,7 +96,7 @@ export class TimeFormsComponent implements OnChanges {
   }
 
   private initForm(): FormGroup {
-    const time = this.data?.match_data?.gameclock;
+    const time = this.gameclock?.gameclock;
 
     if (time) {
       let gameMinutes = Math.floor(time / 60);
@@ -130,31 +134,33 @@ export class TimeFormsComponent implements OnChanges {
   }
 
   startGameClock() {
-    // this.playclockData.startGameClock();
+    this.gameclockData.startGameClock();
   }
 
   pauseGameClock() {
-    // this.playclockData.pauseGameClock();
+    this.gameclockData.pauseGameClock();
   }
 
-  saveNewGameClock(matchData: IMatchData) {
-    // if (!matchData) return;
-    //
-    // if (this.timeForm.valid) {
-    //   const formValue = this.timeForm.getRawValue();
-    //
-    //   const minutes = Number(formValue.gameTimeMinutes);
-    //   const seconds = Number(formValue.gameTimeSeconds);
-    //   if (minutes && seconds) {
-    //     const time: number = minutes * 60 + seconds;
-    //     const updatedMatchData = { ...matchData, gameclock: time };
-    //     this.matchData.updateMatchData(updatedMatchData);
-    //   }
-    // }
+  saveNewGameClock(gameclock: IGameclock) {
+    console.log(gameclock);
+    if (!gameclock) return;
+
+    if (this.timeForm.valid) {
+      const formValue = this.timeForm.getRawValue();
+      console.log(formValue);
+
+      const minutes = Number(formValue.gameTimeMinutes);
+      const seconds = Number(formValue.gameTimeSeconds);
+      if (minutes >= 0 && seconds >= 0) {
+        const time: number = minutes * 60 + seconds;
+        const updatedGameclock = { ...gameclock, gameclock: time };
+        this.gameclockData.updateGameclock(updatedGameclock);
+      }
+    }
   }
 
   resetGameClock() {
-    // this.matchData.resetGameClock(720);
+    this.gameclockData.resetGameClock(720);
   }
 
   startPlayClock(sec: number) {

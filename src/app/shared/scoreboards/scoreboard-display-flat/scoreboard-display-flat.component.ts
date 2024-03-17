@@ -20,7 +20,7 @@ import { IMatchFullDataWithScoreboard } from '../../../type/match.type';
 })
 export class ScoreboardDisplayFlatComponent implements AfterViewInit {
   @Input() data!: IMatchFullDataWithScoreboard;
-  @Input() gameClock: number = 1;
+  @Input() gameClock: number = 0;
   @Input() playClock: number | null = null;
   @Input() scoreboardDisplayClass: string = 'fullhd-scoreboard';
 

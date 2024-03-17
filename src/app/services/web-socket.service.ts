@@ -79,6 +79,8 @@ export class WebSocketService {
         // Check if the message contains playclock data
         if ('playclock' in data) {
           return { type: 'playclock-update', data: data.playclock };
+        } else if ('gameclock' in data) {
+          return { type: 'gameclock-update', data: data.gameclock };
         } else {
           return { type: 'message-update', data: data };
         }
@@ -92,8 +94,11 @@ export class WebSocketService {
 
     if ('playclock' in message) {
       return { type: 'playclock-update', data: message.playclock };
+    } else if ('gameclock' in message) {
+      return { type: 'gameclock-update', data: message.gameclock };
+    } else {
+      return { type: 'message-update', data: message };
     }
-    return { type: 'message-update', data: message };
   }
 
   public sendMessage(message: any): void {

@@ -1,6 +1,9 @@
 <!--TIME-->
-<!--{{ playclock.playclock }}-->
-<!--{{ playclock.playclock_status }}-->
+{{ playclock.playclock }}
+{{ playclock.playclock_status }}
+
+{{ gameclock.gameclock }}
+{{ gameclock.gameclock_status }}
 
 <div
   *ngIf="timeFormsVisible$ | async"
@@ -28,15 +31,15 @@
 
     <div class="time-inputs-save-btn">
       <app-admin-submit-button
-        [disabled]="disabled || this.data.match_data?.gameclock_status === 'running'"
-        (click)="saveNewGameClock(data.match_data!)"
+        [disabled]="disabled || this.gameclock?.gameclock_status === 'running'"
+        (click)="saveNewGameClock(gameclock!)"
       ></app-admin-submit-button>
     </div>
 
     <app-admin-down-button
       [down]="'Start Clock'"
       (click)="startGameClock()"
-      [disabled]="disabled || this.data.match_data?.gameclock_status === 'running'"
+      [disabled]="disabled || this.gameclock?.gameclock_status === 'running'"
     ></app-admin-down-button>
 
     <app-admin-down-button
@@ -44,8 +47,8 @@
       (click)="pauseGameClock()"
       [disabled]="
       disabled
-      || (this.data.match_data?.gameclock_status === 'paused'
-      || this.data.match_data?.gameclock_status === 'stopped')"
+      || (this.gameclock?.gameclock_status === 'paused'
+      || this.gameclock?.gameclock_status === 'stopped')"
     ></app-admin-down-button>
 
     <app-admin-down-button

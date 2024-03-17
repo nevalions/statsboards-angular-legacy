@@ -6,6 +6,7 @@ import {
   selectConnectionState,
   selectData,
   selectError,
+  selectGameclock,
   selectLoading,
   selectPlayclock,
 } from './websocket.reducers';
@@ -18,6 +19,7 @@ export class Websocket {
   // loading$: Observable<any>;
   data$: Observable<any>;
   playclock$: Observable<any>;
+  gameclock$: Observable<any>;
 
   // error$: Observable<any>;
 
@@ -25,6 +27,7 @@ export class Websocket {
     // this.loading$ = this.store.select(selectLoading);
     this.data$ = this.store.select(selectData);
     this.playclock$ = this.store.select(selectPlayclock);
+    this.gameclock$ = this.store.select(selectGameclock);
     // this.error$ = this.store.select(selectError);
   }
 

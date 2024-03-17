@@ -4,7 +4,9 @@ export const webSocketActions = createActionGroup({
   source: 'webSocket',
   events: {
     Connect: emptyProps(),
-    ConnectSuccess: props<{ message: { data?: any; playclock?: any } }>(),
+    ConnectSuccess: props<{
+      message: { data?: any; playclock?: any; gameclock?: any };
+    }>(),
     ConnectFailure: props<{ error: any }>(),
 
     Reconnect: emptyProps(),
@@ -19,6 +21,7 @@ export const webSocketActions = createActionGroup({
 
     Data: props<{ data: any }>(),
     PlayclockMessage: props<{ playclock: any }>(),
+    GameclockMessage: props<{ gameclock: any }>(),
     Error: props<{ error: any }>(),
 
     connected: emptyProps(),

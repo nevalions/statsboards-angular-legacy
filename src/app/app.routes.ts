@@ -26,6 +26,11 @@ import {
   playclockReducer,
 } from './components/playclock/store/reducers';
 import { PlayclockEffects } from './components/playclock/store/effects';
+import {
+  gameclockFeatureKey,
+  gameclockReducer,
+} from './components/gameclock/store/reducers';
+import { GameclockEffects } from './components/gameclock/store/effects';
 
 export const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'index' },
@@ -35,8 +40,14 @@ export const routes: Routes = [
     providers: [
       provideState(webSocketFeatureKey, webSocketReducer),
       provideState(playclockFeatureKey, playclockReducer),
+      provideState(gameclockFeatureKey, gameclockReducer),
       provideState(matchFeatureKey, matchReducer),
-      provideEffects(MatchEffects, PlayclockEffects, WebSocketEffects),
+      provideEffects(
+        MatchEffects,
+        PlayclockEffects,
+        GameclockEffects,
+        WebSocketEffects,
+      ),
     ],
     data: { breadcrumb: { caption: 'HD' } },
   },
