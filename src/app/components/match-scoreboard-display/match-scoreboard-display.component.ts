@@ -17,7 +17,7 @@ export class MatchScoreboardDisplayComponent implements OnInit, OnDestroy {
   // loading$: Observable<boolean> = this.Websocket.loading$;
   // error$: Observable<any> = this.Websocket.error$;
   data$: Observable<IMatchFullDataWithScoreboard> = this.Websocket.data$;
-  playClock: number | null = null;
+  playclock$: Observable<IPlayclock> = this.Websocket.playclock$;
 
   constructor(private Websocket: Websocket) {}
 

@@ -62,33 +62,31 @@ export class WebSocketEffects {
     { dispatch: true },
   );
 
-  receiveMessage$ = createEffect(
-    () =>
-      this.actions$.pipe(
-        ofType(webSocketActions.connectSuccess),
-        switchMap(() =>
-          this.webSocketService.messages().pipe(
-            tap((data: any) => console.log('Data received:', data)),
-            map(({ type, data }) => {
-              console.log('TYPE', type);
-              switch (type) {
-                case 'playclock-update':
-                  // console.log(type);
-                  return webSocketActions.playclockMessage({ playclock: data });
-                case 'message-update':
-                  return webSocketActions.data({ data: data });
-                default:
-                  return {
-                    type: '[WebSocket] Unknown message type',
-                    data: data,
-                  };
-              }
-            }),
-            catchError((error) => of(webSocketActions.error({ error }))),
-          ),
+  receiveMessage$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(webSocketActions.connectSuccess),
+      switchMap(() =>
+        this.webSocketService.messages().pipe(
+          tap((data: any) => console.log('Data received:', data)),
+          map(({ type, data }) => {
+            console.log('TYPE', type);
+            switch (type) {
+              case 'playclock-update':
+                return webSocketActions.playclockMessage({ playclock: data });
+              case 'message-update':
+                return webSocketActions.data({ data: data });
+              default:
+                // Optional: handle unknown message types
+                return {
+                  type: '[WebSocket] Unknown message type',
+                  data: data,
+                };
+            }
+          }),
+          catchError((error) => of(webSocketActions.error({ error }))),
         ),
       ),
-    { functional: true },
+    ),
   );
 
   // Effect to send a message to the WebSocket server when the Send action is dispatched

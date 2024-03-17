@@ -86,6 +86,16 @@ export class WebSocketService {
     );
   }
 
+  public onReceiveMessage(event: MessageEvent) {
+    console.log('Received WebSocket message: ', event.data);
+    let message = JSON.parse(event.data);
+
+    if ('playclock' in message) {
+      return { type: 'playclock-update', data: message.playclock };
+    }
+    return { type: 'message-update', data: message };
+  }
+
   public sendMessage(message: any): void {
     if (this.socket) {
       console.log('Sending message:', message);

@@ -1,10 +1,12 @@
 @if (data$ | async; as data) {
-  <div class="main-container-fullhd">
-    <div class="fullhd-separator"></div>
-    <app-scoreboard-display-flat
-      [scoreboardDisplayClass]="'fullhd-scoreboard'"
-      [data]="data"
-      [playClock]="playClock"
-    ></app-scoreboard-display-flat>
-  </div>
+  @if (playclock$| async; as playclock) {
+    <div class="main-container-fullhd">
+      <div class="fullhd-separator"></div>
+      <app-scoreboard-display-flat
+        [scoreboardDisplayClass]="'fullhd-scoreboard'"
+        [data]="data"
+        [playClock]="playclock.playclock!"
+      ></app-scoreboard-display-flat>
+    </div>
+  }
 }
