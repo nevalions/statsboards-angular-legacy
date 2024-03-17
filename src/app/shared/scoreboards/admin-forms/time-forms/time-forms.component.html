@@ -1,4 +1,7 @@
 <!--TIME-->
+<!--{{ playclock.playclock }}-->
+<!--{{ playclock.playclock_status }}-->
+
 <div
   *ngIf="timeFormsVisible$ | async"
   id="timers-form"
@@ -67,7 +70,7 @@
       <app-admin-down-button
         [down]="'Reset Timer'"
         (click)="resetPlayClock()"
-        [disabled]="disabled || this.data.match_data?.playclock_status === 'stopped'"
+        [disabled]="disabled || this.playclock.playclock_status === 'stopped'"
       ></app-admin-down-button>
     </div>
 
@@ -75,13 +78,13 @@
       <app-admin-down-button
         [down]="'40'"
         (click)="startPlayClock(40)"
-        [disabled]="disabled || this.data.match_data?.playclock_status === 'running'"
+        [disabled]="disabled || this.playclock.playclock_status === 'running'"
       ></app-admin-down-button>
 
       <app-admin-down-button
         [down]="'25'"
         (click)="startPlayClock(5)"
-        [disabled]="disabled || this.data.match_data?.playclock_status === 'running'"
+        [disabled]="disabled || this.playclock.playclock_status === 'running'"
       ></app-admin-down-button>
     </div>
 

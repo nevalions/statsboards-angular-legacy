@@ -1,17 +1,13 @@
-import { AfterViewChecked, Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 
 import { Observable } from 'rxjs';
-
-import { IMatchData, IScoreboard } from '../../type/matchdata.type';
-
-import { MatchData } from '../match/matchdata';
 import { AsyncPipe, NgIf } from '@angular/common';
 import { IMatchFullDataWithScoreboard } from '../../type/match.type';
 import { Websocket } from '../../store/websocket/websocket';
 import { TuiLoaderModule } from '@taiga-ui/core';
-import { ScoreboardData } from '../scoreboard-data/scoreboard-data';
 import { ScoreboardDisplayFlatComponent } from '../../shared/scoreboards/scoreboard-display-flat/scoreboard-display-flat.component';
 import { AllAdminFormsComponent } from '../../shared/scoreboards/admin-forms/all-admin-forms/all-admin-forms.component';
+import { IPlayclock } from '../../type/playclock.type';
 
 @Component({
   selector: 'app-match-scoreboard-admin',
@@ -27,15 +23,12 @@ import { AllAdminFormsComponent } from '../../shared/scoreboards/admin-forms/all
   styleUrl: './match-scoreboard-admin.component.less',
 })
 export class MatchScoreboardAdminComponent implements OnInit, OnDestroy {
-  loading$: Observable<boolean> = this.Websocket.loading$;
-  error$: Observable<any> = this.Websocket.error$;
+  // loading$: Observable<boolean> = this.Websocket.loading$;
+  // error$: Observable<any> = this.Websocket.error$;
   data$: Observable<IMatchFullDataWithScoreboard> = this.Websocket.data$;
+  playclock$: Observable<IPlayclock> = this.Websocket.playclock$;
 
-  constructor(
-    private Websocket: Websocket,
-    private matchData: MatchData,
-    private scoreboardData: ScoreboardData,
-  ) {}
+  constructor(private Websocket: Websocket) {}
 
   ngOnInit() {
     this.Websocket.connect();

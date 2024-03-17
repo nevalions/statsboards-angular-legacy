@@ -4,60 +4,28 @@ import { HomeComponent } from './components/home/home.component';
 import { SeasonComponent } from './components/season/season.component';
 import { TournamentComponent } from './components/tournament/tournament.component';
 import { provideState } from '@ngrx/store';
-import {
-  tournamentFeatureKey,
-  tournamentReducer,
-} from './components/tournament/store/reducers';
 import { provideEffects } from '@ngrx/effects';
-import * as createTournamentEffect from './components/tournament/store/effects';
-import {
-  seasonFeatureKey,
-  seasonReducer,
-} from './components/season/store/reducers';
-import { SeasonEffects } from './components/season/store/effects';
-import { TournamentEffects } from './components/tournament/store/effects';
 import { ItemTeamComponent } from './components/team/item-team/item-team.component';
 import { teamFeatureKey, teamReducer } from './components/team/store/reducers';
 import { TeamEffects } from './components/team/store/effects';
-import { ItemSportComponent } from './components/sport/item-sport/item-sport.component';
-import { WithTeamsComponent } from './components/sport/item-sport/with-teams/with-teams.component';
-import { ItemSportWithSeasonComponent } from './components/sport/item-sport/item-sport-with-season/item-sport-with-season.component';
-import { ItemTournamentComponent } from './components/tournament/item-tournament/item-tournament.component';
-import {
-  teamTournamentFeatureKey,
-  teamTournamentReducer,
-} from './components/team-tournament/store/reducers';
-import { TeamTournamentEffects } from './components/team-tournament/store/effects';
-import { ItemMatchComponent } from './components/match/item-match/item-match.component';
 import {
   matchFeatureKey,
   matchReducer,
 } from './components/match/store/reducers';
 import { MatchEffects } from './components/match/store/effects';
-import { MatchWithFullDataEffects } from './components/match-with-full-data/store/effects';
-import {
-  matchWithFullDataFeatureKey,
-  matchWithFullDataReducer,
-} from './components/match-with-full-data/store/reducers';
-import { MatchScoreboardAdminComponent } from './components/match-scoreboard-admin/match-scoreboard-admin.component';
-import { MatchDataEffects } from './components/match/store/match-data/effects';
-import {
-  matchDataFeatureKey,
-  matchDataReducer,
-} from './components/match/store/match-data/reducers';
 import {
   webSocketFeatureKey,
   webSocketReducer,
 } from './store/websocket/websocket.reducers';
 import { WebSocketEffects } from './store/websocket/websocket.effects';
-import { ScoreboardDataEffects } from './components/scoreboard-data/store/effects';
-import {
-  scoreboardDataFeatureKey,
-  scoreboardDataReducer,
-} from './components/scoreboard-data/store/reducers';
 import { MatchScoreboardDisplayComponent } from './components/match-scoreboard-display/match-scoreboard-display.component';
 import { SportComponent } from './components/sport/sport.component';
 import { LayoutComponent } from './components/layout/layout.component';
+import {
+  playclockFeatureKey,
+  playclockReducer,
+} from './components/playclock/store/reducers';
+import { PlayclockEffects } from './components/playclock/store/effects';
 
 export const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'index' },
@@ -66,8 +34,9 @@ export const routes: Routes = [
     component: MatchScoreboardDisplayComponent,
     providers: [
       provideState(webSocketFeatureKey, webSocketReducer),
+      provideState(playclockFeatureKey, playclockReducer),
       provideState(matchFeatureKey, matchReducer),
-      provideEffects(MatchEffects, WebSocketEffects),
+      provideEffects(MatchEffects, PlayclockEffects, WebSocketEffects),
     ],
     data: { breadcrumb: { caption: 'HD' } },
   },

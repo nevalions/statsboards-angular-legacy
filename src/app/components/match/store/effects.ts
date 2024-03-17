@@ -56,28 +56,6 @@ export class MatchEffects {
     },
     { functional: false },
   );
-  // getMatchIdFromRouteEffect = createEffect(
-  //   () => {
-  //     return this.actions$.pipe(
-  //       ofType(matchActions.getId),
-  //       mergeMap(() =>
-  //         this.store
-  //           .select(getRouterSelectors().selectRouteParam('match_id'))
-  //           .pipe(
-  //             filter((id: string | undefined): id is string => !!id),
-  //             switchMap((id: string) => [
-  //               matchActions.get({ id: Number(id) }),
-  //               matchActions.getMatchIdSuccessfully({
-  //                 matchId: Number(id),
-  //               }),
-  //             ]),
-  //             catchError(() => of(matchActions.getMatchIdFailure())),
-  //           ),
-  //       ),
-  //     );
-  //   },
-  //   { functional: true },
-  // );
 
   createMatchEffect = createEffect(
     () => {
@@ -190,28 +168,6 @@ export class MatchEffects {
     },
     { dispatch: true },
   );
-
-  // getMatchesBySportIdEffect = createEffect(
-  //   () => {
-  //     return this.actions$.pipe(
-  //       ofType(matchActions.getMatchesBySportId),
-  //       switchMap(() => this.store.select(selectCurrentSportId)),
-  //       filter(
-  //         (sportId): sportId is number =>
-  //           sportId !== null && sportId !== undefined,
-  //       ),
-  //       switchMap((sportId: number) =>
-  //         this.matchService.fetchMatchesBySportId(sportId).pipe(
-  //           map((teams: IMatch[]) =>
-  //             matchActions.getMatchesBySportIDSuccess({ teams }),
-  //           ),
-  //           catchError(() => of(matchActions.getMatchesBySportIDFailure())),
-  //         ),
-  //       ),
-  //     );
-  //   },
-  //   { functional: true },
-  // );
 
   getMatchesByTournamentIdEffect = createEffect(
     () => {
@@ -338,28 +294,6 @@ export class MatchEffects {
     { dispatch: false },
   );
 
-  // updateMatchesOnDeletionEffect = createEffect(
-  //   () =>
-  //     this.actions$.pipe(
-  //       ofType(matchActions.deletedSuccessfully),
-  //       withLatestFrom(
-  //         this.store.select(selectAllMatchesWithFullDataInTournament),
-  //       ),
-  //       concatMap(([action, matchesWithFullDataInTournament]) => {
-  //         const updatedMatches = matchesWithFullDataInTournament.filter(
-  //           (match) => match.match_id !== action.matchId,
-  //         );
-  //
-  //         return [
-  //           matchWithFullDataActions.updateAllMatchesWithFullDataOnDelete({
-  //             newMatchesWithFullData: updatedMatches,
-  //           }),
-  //         ];
-  //       }),
-  //     ),
-  //   { functional: true },
-  // );
-
   updateMatchesInTournamentEffect = createEffect(() =>
     this.actions$.pipe(
       ofType(matchActions.createdSuccessfully),
@@ -401,7 +335,6 @@ export class MatchEffects {
     private router: Router,
     private actions$: Actions,
     private matchService: MatchService,
-    private matchDataService: MatchDataService,
     private store: Store,
   ) {}
 }

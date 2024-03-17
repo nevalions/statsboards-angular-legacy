@@ -46,30 +46,6 @@ export class MatchWithFullDataEffects {
     },
     { functional: false },
   );
-  // getMatchWithFullDataIdFromRouteEffect = createEffect(
-  //   () => {
-  //     return this.actions$.pipe(
-  //       ofType(matchWithFullDataActions.getId),
-  //       mergeMap(() =>
-  //         this.store
-  //           .select(getRouterSelectors().selectRouteParam('match_id'))
-  //           .pipe(
-  //             filter((id: string | undefined): id is string => !!id),
-  //             switchMap((id: string) => [
-  //               matchWithFullDataActions.get({ id: Number(id) }),
-  //               matchWithFullDataActions.getMatchWithFullDataIdSuccessfully({
-  //                 matchWithFullDataId: Number(id),
-  //               }),
-  //             ]),
-  //             catchError(() =>
-  //               of(matchWithFullDataActions.getMatchWithFullDataIdFailure()),
-  //             ),
-  //           ),
-  //       ),
-  //     );
-  //   },
-  //   { functional: true },
-  // );
 
   createMatchWithFullDataEffect = createEffect(
     () => {
@@ -128,28 +104,6 @@ export class MatchWithFullDataEffects {
     },
     { functional: true },
   );
-
-  // getMatchesBySportIdEffect = createEffect(
-  //   () => {
-  //     return this.actions$.pipe(
-  //       ofType(matchWithFullDataActions.getMatchesBySportId),
-  //       switchMap(() => this.store.select(selectCurrentSportId)),
-  //       filter(
-  //         (sportId): sportId is number =>
-  //           sportId !== null && sportId !== undefined,
-  //       ),
-  //       switchMap((sportId: number) =>
-  //         this.matchService.fetchMatchesBySportId(sportId).pipe(
-  //           map((teams: IMatchWithFullData[]) =>
-  //             matchWithFullDataActions.getMatchesBySportIDSuccess({ teams }),
-  //           ),
-  //           catchError(() => of(matchWithFullDataActions.getMatchesBySportIDFailure())),
-  //         ),
-  //       ),
-  //     );
-  //   },
-  //   { functional: true },
-  // );
 
   getMatchesWithFullDataByTournamentIdEffect = createEffect(
     () => {

@@ -26,6 +26,8 @@ import {
 import { TuiErrorModule } from '@taiga-ui/core';
 import { AdminSubmitButtonComponent } from '../../../ui/buttons/admin-submit-button/admin-submit-button.component';
 import { AdminDownButtonComponent } from '../../../ui/buttons/admin-down-button/admin-down-button.component';
+import { Playclock } from '../../../../components/playclock/playclock';
+import { IPlayclock } from '../../../../type/playclock.type';
 
 @Component({
   selector: 'app-time-forms',
@@ -56,16 +58,20 @@ import { AdminDownButtonComponent } from '../../../ui/buttons/admin-down-button/
 export class TimeFormsComponent implements OnChanges {
   @Input() timeFormsVisible$!: Observable<boolean>;
   @Input() data!: IMatchFullDataWithScoreboard;
+  @Input() playclock!: IPlayclock;
   @Input() disabled: boolean = false;
 
   timeForm: FormGroup;
 
-  constructor(private matchData: MatchData) {
+  constructor(
+    // private matchData: MatchData,
+    private playclockData: Playclock,
+  ) {
     this.timeForm = this.initForm();
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes['data']) {
+    if (changes['data'] || changes['playclock']) {
       this.timeForm = this.initForm();
       if (this.data.match_data?.gameclock_status === 'running') {
         this.timeForm.get('gameTimeMinutes')?.disable();
@@ -101,7 +107,7 @@ export class TimeFormsComponent implements OnChanges {
           [Validators.min(0), Validators.max(59)],
         ),
         playTimeSeconds: new FormControl<number | null | undefined>(
-          this.data?.match_data?.playclock,
+          this.playclock.playclock,
           Validators.min(0),
         ),
       });
@@ -124,64 +130,38 @@ export class TimeFormsComponent implements OnChanges {
   }
 
   startGameClock() {
-    this.matchData.startGameClock();
+    // this.playclockData.startGameClock();
   }
 
   pauseGameClock() {
-    this.matchData.pauseGameClock();
+    // this.playclockData.pauseGameClock();
   }
 
   saveNewGameClock(matchData: IMatchData) {
-    if (!matchData) return;
-
-    if (this.timeForm.valid) {
-      const formValue = this.timeForm.getRawValue();
-
-      const minutes = Number(formValue.gameTimeMinutes);
-      const seconds = Number(formValue.gameTimeSeconds);
-      if (minutes && seconds) {
-        const time: number = minutes * 60 + seconds;
-        const updatedMatchData = { ...matchData, gameclock: time };
-        this.matchData.updateMatchData(updatedMatchData);
-      }
-    }
+    // if (!matchData) return;
+    //
+    // if (this.timeForm.valid) {
+    //   const formValue = this.timeForm.getRawValue();
+    //
+    //   const minutes = Number(formValue.gameTimeMinutes);
+    //   const seconds = Number(formValue.gameTimeSeconds);
+    //   if (minutes && seconds) {
+    //     const time: number = minutes * 60 + seconds;
+    //     const updatedMatchData = { ...matchData, gameclock: time };
+    //     this.matchData.updateMatchData(updatedMatchData);
+    //   }
+    // }
   }
 
   resetGameClock() {
-    this.matchData.resetGameClock(720);
+    // this.matchData.resetGameClock(720);
   }
 
   startPlayClock(sec: number) {
-    this.matchData.startPlayClock(sec);
+    this.playclockData.startPlayClock(sec);
   }
 
   resetPlayClock() {
-    this.matchData.resetPlayClock();
+    this.playclockData.resetPlayClock();
   }
-
-  // getMinutes(seconds: number): string {
-  //   if (seconds === undefined) {
-  //     return '--';
-  //   } else {
-  //     return Math.floor(seconds / 60)
-  //       .toString()
-  //       .padStart(2, '0');
-  //   }
-  // }
-  //
-  // getSeconds(seconds: number): string {
-  //   if (seconds === undefined) {
-  //     return '--';
-  //   } else {
-  //     return (seconds % 60).toString().padStart(2, '0');
-  //   }
-  // }
-  //
-  // getPlayClockSeconds(seconds: number): string {
-  //   if (seconds === undefined) {
-  //     return '';
-  //   } else {
-  //     return (seconds % 60).toString().padStart(1, '0');
-  //   }
-  // }
 }

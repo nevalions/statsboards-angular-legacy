@@ -33,18 +33,16 @@ const matchFeature = createFeature({
     initialState,
     on(matchActions.getId, (state) => ({
       ...state,
-      isLoading: true,
       matchIsLoading: true,
     })),
     on(matchActions.getMatchIdSuccessfully, (state, action) => ({
       ...state,
-      isLoading: false,
       matchIsLoading: false,
       currentMatchId: action.matchId,
     })),
     on(matchActions.getMatchIdFailure, (state) => ({
       ...state,
-      isLoading: false,
+      matchIsLoading: false,
     })),
 
     // create actions
@@ -188,31 +186,6 @@ const matchFeature = createFeature({
       isLoading: false,
       errors: action,
     })),
-
-    // on(matchActions.addMatchToTournament, (state, { team_id }) => {
-    //   const teamToAdd = state.allMatchsInSport.find(
-    //     (team) => team.id === team_id,
-    //   );
-    //   if (!teamToAdd) {
-    //     // console.log(store.allMatchsInSport);
-    //     console.log(`No team found with id: ${team_id}`);
-    //     return state;
-    //   }
-    //   // console.log(`Match with id: ${team_id} added to the tournament.`);
-    //   const newList = [...state.allMatchsInTournament, teamToAdd];
-    //   const sortedList = SortService.sort(newList, 'title');
-    //   return {
-    //     ...state,
-    //     allMatchsInTournament: sortedList,
-    //   };
-    // }),
-    //
-    // on(matchActions.removeMatchFromTournament, (state, action) => ({
-    //   ...state,
-    //   allMatchsInTournament: state.allMatchsInTournament.filter(
-    //     (team) => team.id !== action.id,
-    //   ),
-    // })),
   ),
 });
 

@@ -1,4 +1,12 @@
-import { AfterViewChecked, Component, Input } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  Input,
+  ViewChild,
+} from '@angular/core';
 import { NgIf } from '@angular/common';
 import { IMatchFullDataWithScoreboard } from '../../../type/match.type';
 
@@ -6,48 +14,48 @@ import { IMatchFullDataWithScoreboard } from '../../../type/match.type';
   selector: 'app-scoreboard-display-flat',
   standalone: true,
   imports: [NgIf],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './scoreboard-display-flat.component.html',
   styleUrl: './scoreboard-display-flat.component.less',
 })
-export class ScoreboardDisplayFlatComponent implements AfterViewChecked {
+export class ScoreboardDisplayFlatComponent implements AfterViewInit {
   @Input() data!: IMatchFullDataWithScoreboard;
+  @Input() gameClock: number = 1;
+  @Input() playClock: number | null = null;
   @Input() scoreboardDisplayClass: string = 'fullhd-scoreboard';
 
-  fontSizeA!: string;
-  fontSizeB!: string;
+  teamAFontSize: string = '26px';
+  teamBFontSize: string = '26px';
 
-  ngAfterViewChecked(): void {
-    this.adjustFontSize();
+  constructor(
+    private elRef: ElementRef,
+    private cd: ChangeDetectorRef,
+  ) {}
+
+  ngAfterViewInit() {
+    this.adjustFontSize('team_a-name');
+    this.adjustFontSize('team_b-name');
   }
 
-  adjustFontSize() {
-    setTimeout(() => {
-      // These selectors should point to your team names
-      const teamNameAElement = <HTMLElement>(
-        document.querySelector('.team_a-name span')
-      );
-      const teamNameBElement = <HTMLElement>(
-        document.querySelector('.team_b-name span')
-      );
+  adjustFontSize(teamNameClass: string) {
+    let fontSize = 26;
+    let teamNameSpanElementWidth = this.getWidth(`.${teamNameClass} span`);
+    let teamNameElementWidth = this.getWidth(`.${teamNameClass}`);
 
-      if (teamNameAElement && teamNameBElement) {
-        const maxWidthA = teamNameAElement.parentElement!.offsetWidth;
-        const maxWidthB = teamNameBElement.parentElement!.offsetWidth;
-
-        this.fontSizeA = Math.min(20, maxWidthA / 14) + 'px';
-        this.fontSizeB = Math.min(20, maxWidthB / 14) + 'px';
-      }
-    });
-  }
-
-  getTeamFontSize(elementId: string): string {
-    const element = document.querySelector(`.${elementId} span`);
-    if (!element) {
-      return '20px'; // default
+    while (teamNameSpanElementWidth > teamNameElementWidth && fontSize > 10) {
+      fontSize -= 1;
+      teamNameClass === 'team_a-name'
+        ? (this.teamAFontSize = `${fontSize}px`)
+        : (this.teamBFontSize = `${fontSize}px`);
+      this.cd.detectChanges();
+      teamNameSpanElementWidth = this.getWidth(`.${teamNameClass} span`);
+      teamNameElementWidth = this.getWidth(`.${teamNameClass}`);
     }
+  }
 
-    const maxWidth = element.parentElement!.offsetWidth;
-    return Math.min(26, maxWidth / 15) + 'px';
+  getWidth(queryString: string) {
+    const element = this.elRef.nativeElement.querySelector(queryString);
+    return element ? element.offsetWidth : 0;
   }
 
   getMinutes(seconds: number): string {

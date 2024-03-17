@@ -1,60 +1,84 @@
 @if (data) {
-  <div class="fullhd-scoreboard" id="fullhd-scoreboard-container">
-    <div id="fullhd-scoreboard" [class]="scoreboardDisplayClass">
+  <div class="fullhd-scoreboard">
+    <div [class]="scoreboardDisplayClass">
       <div class="teams-container">
         <div
           class="team_a-detail"
-          id="team_a-detail"
           [style]="{'background-color': data.scoreboard_data?.team_a_color}">
+
           <div class="team_a-name">
-            <div class="team_a-name">
-              <span id="team_a-name-display" [style.font-size]="getTeamFontSize('team_a-name')">
+              <span [style.font-size]="teamAFontSize">
                 {{ data.teams_data?.team_a?.title }}
               </span>
-            </div>
           </div>
-          <div class="team_a-logo"><img id="team_a-logo-img" src="" width="50" height="50" alt=""></div>
-          <div class="team_a-scoreblock"><span id="team_a-score">{{ data.match_data?.score_team_a }}</span></div>
+
+          <div class="team_a-logo">
+            <img src="" width="50" height="50" alt="">
+          </div>
+          <div class="team-scoreblock">
+            <span>{{ data.match_data?.score_team_a }}</span>
+          </div>
           <div class="team_a-thisgame">
-            <div class="team_a-timeout"><span
-              id="team_a-timeout-display"></span>{{ data.match_data?.timeout_team_a }}
+            <div class="team-timeout">
+              <span>{{ data.match_data?.timeout_team_a }}</span>
             </div>
           </div>
         </div>
         <div
           class="team_b-detail"
-          id="team_b-detail"
           [style]="{'background-color': data.scoreboard_data?.team_b_color}"
         >
           <div class="team_b-name">
-            <span id="team_b-name-display" [style.font-size]="getTeamFontSize('team_b-name')">
+            <span [style.font-size]="teamBFontSize">
               {{ data.teams_data?.team_b?.title }}
             </span>
           </div>
-          <div class="team_b-logo"><img id="team_b-logo-img" src="" width="50" height="50" alt=""></div>
-          <div class="team_b-scoreblock"><span id="team_b-score">{{ data.match_data?.score_team_b }}</span></div>
+          <div class="team_b-logo">
+            <img id="team_b-logo-img" src="" width="50" height="50" alt="">
+          </div>
+          <div class="team-scoreblock">
+            <span>{{ data.match_data?.score_team_b }}</span>
+          </div>
           <div class="team_b-thisgame">
-            <div class="team_b-timeout"><span
-              id="team_b-timeout-display">{{ data.match_data?.timeout_team_b }}</span>
+            <div class="team-timeout">
+              <span>{{ data.match_data?.timeout_team_b }}</span>
             </div>
           </div>
         </div>
       </div>
+
       <div class="game-container">
-        <div *ngIf="data.scoreboard_data?.is_qtr" id="quarter-display" class="quarter"><span
-          id="qtr">{{ data.match_data?.qtr }}</span></div>
-        <div *ngIf="data.scoreboard_data?.is_time" class="timeleft" id="timeleft">
-          <div id="clock">
-            <span id="displayed-game-time-min">{{ getMinutes(data.match_data!.gameclock!) }}</span>:<span
-            id="displayed-game-time-sec">{{ getSeconds(data.match_data!.gameclock!) }}</span>
-          </div>
+        <div
+          *ngIf="data.scoreboard_data?.is_qtr"
+          class="quarter">
+          <span>{{ data.match_data?.qtr }}</span>
         </div>
-        <div *ngIf="data.scoreboard_data?.is_playclock" class="play-clock" id="play-clock"><span
-          id="displayed-scoreboard-play-time">{{ data.match_data?.playclock }}</span></div>
-        <div *ngIf="data.scoreboard_data?.is_downdistance" class="downandyard" id="downandyard"><span id="downdist">
-          {{ data.match_data?.down }}{{ data.match_data?.down ? ' & ' : '' }}{{ data.match_data?.distance }}
-        </span>
+
+        <div
+          *ngIf="data.scoreboard_data?.is_time"
+          class="timeleft"
+        >
+          <span>{{ getMinutes(data.match_data!.gameclock!) }}</span>
+          <span class="clock-separator">:</span>
+          <span>{{ getSeconds(data.match_data!.gameclock!) }}</span>
         </div>
+
+        <div
+          *ngIf="data.scoreboard_data?.is_playclock"
+          class="play-clock"
+        >
+          <span>{{ playClock }}</span>
+        </div>
+
+        <div
+          *ngIf="data.scoreboard_data?.is_downdistance"
+          class="downandyard"
+        >
+          <span id="downdist">
+            {{ data.match_data?.down }}{{ data.match_data?.down ? ' & ' : '' }}{{ data.match_data?.distance }}
+          </span>
+        </div>
+
       </div>
     </div>
   </div>

@@ -9,17 +9,11 @@ import {
   tournamentReducer,
 } from '../tournament/store/reducers';
 import { provideEffects } from '@ngrx/effects';
-import * as createTournamentEffect from '../tournament/store/effects';
-import * as getTournamentsBySportAndSeasonEffect from '../tournament/store/effects';
 import { TournamentEffects } from '../tournament/store/effects';
-import { SeasonService } from '../season/season.service';
 import { SeasonEffects } from '../season/store/effects';
 import { seasonFeatureKey, seasonReducer } from '../season/store/reducers';
-import { sportFeatureKey, sportReducer } from './store/reducers';
-import { SportEffects } from './store/effects';
-import { SeasonComponent } from '../season/season.component';
 import { ItemTournamentComponent } from '../tournament/item-tournament/item-tournament.component';
-import { teamActions } from '../team/store/actions';
+
 import { teamFeatureKey, teamReducer } from '../team/store/reducers';
 import { TeamEffects } from '../team/store/effects';
 import { TeamTournamentEffects } from '../team-tournament/store/effects';
@@ -52,6 +46,11 @@ import {
 import { MatchDataEffects } from '../match/store/match-data/effects';
 import { ScoreboardDataEffects } from '../scoreboard-data/store/effects';
 import { WebSocketEffects } from '../../store/websocket/websocket.effects';
+import {
+  playclockFeatureKey,
+  playclockReducer,
+} from '../playclock/store/reducers';
+import { PlayclockEffects } from '../playclock/store/effects';
 
 export const SPORT_ROUTES: Routes = [
   {
@@ -177,9 +176,11 @@ export const SPORT_ROUTES: Routes = [
                   provideState(webSocketFeatureKey, webSocketReducer),
                   provideState(matchFeatureKey, matchReducer),
                   provideState(matchDataFeatureKey, matchDataReducer),
+                  provideState(playclockFeatureKey, playclockReducer),
                   provideState(scoreboardDataFeatureKey, scoreboardDataReducer),
                   provideEffects(
                     MatchDataEffects,
+                    PlayclockEffects,
                     ScoreboardDataEffects,
                     WebSocketEffects,
                   ),

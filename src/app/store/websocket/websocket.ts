@@ -7,22 +7,25 @@ import {
   selectData,
   selectError,
   selectLoading,
+  selectPlayclock,
 } from './websocket.reducers';
 import { webSocketActions } from './websocket.actions';
-import { IMatchFullDataWithScoreboard } from '../../type/match.type';
 
 @Injectable({
   providedIn: 'root',
 })
 export class Websocket {
-  loading$: Observable<any>;
+  // loading$: Observable<any>;
   data$: Observable<any>;
-  error$: Observable<any>;
+  playclock$: Observable<any>;
+
+  // error$: Observable<any>;
 
   constructor(private store: Store<AppState>) {
-    this.loading$ = this.store.select(selectLoading);
+    // this.loading$ = this.store.select(selectLoading);
     this.data$ = this.store.select(selectData);
-    this.error$ = this.store.select(selectError);
+    this.playclock$ = this.store.select(selectPlayclock);
+    // this.error$ = this.store.select(selectError);
   }
 
   isConnected() {
@@ -32,7 +35,7 @@ export class Websocket {
   }
 
   connect() {
-    this.store.dispatch(webSocketActions.connectIfNeeded());
+    this.store.dispatch(webSocketActions.connect());
   }
 
   disconnect() {

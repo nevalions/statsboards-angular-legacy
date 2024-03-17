@@ -10,12 +10,14 @@ import { MatchDataState } from '../components/match/store/match-data/reducers';
 import { WebSocketState } from './websocket/websocket.reducers';
 import { ScoreboardData } from '../components/scoreboard-data/scoreboard-data';
 import { UiState } from './ui/ui.reducers';
+import { PlayclockState } from '../components/playclock/store/reducers';
 
 export interface AppState {
   breadcrumb: BreadcrumbState;
   match: MatchState;
   matchData: MatchDataState;
   matchWithFullData: MatchWithFullDataState;
+  playclock: PlayclockState;
   scoreboard: ScoreboardData;
   season: SeasonState;
   sport: SportState;

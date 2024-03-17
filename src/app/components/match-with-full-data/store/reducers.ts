@@ -143,21 +143,6 @@ const matchWithFullDataFeature = createFeature({
       },
     ),
 
-    // on(
-    //   matchWithFullDataActions.updateAllMatchesWithFullDataOnDelete,
-    //   (state, { newMatchesWithFullData }) => {
-    //     const sortedMatches = SortService.sort(
-    //       newMatchesWithFullData, // should be an array, not an object
-    //       'match.week',
-    //       '-match.date',
-    //     );
-    //     return {
-    //       ...state,
-    //       allMatchesWithFullDataInTournament: sortedMatches,
-    //     };
-    //   },
-    // ),
-
     on(matchWithFullDataActions.removeMatchFromTournament, (state, action) => ({
       ...state,
       allMatchesWithFullDataInTournament:

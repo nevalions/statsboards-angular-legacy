@@ -38,10 +38,6 @@ import { uiFeatureKey, uiReducer } from './store/ui/ui.reducers';
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    tuiInputNumberOptionsProvider({
-      decimal: 'never',
-      step: 1,
-    }),
     provideAnimations(),
     provideRouter(
       routes,

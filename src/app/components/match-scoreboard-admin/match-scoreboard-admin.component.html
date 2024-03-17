@@ -1,13 +1,18 @@
 @if (data$ | async; as data) {
-  <!--SCOREBOARD ADMIN-->
-  <app-scoreboard-display-flat
-    [scoreboardDisplayClass]="'scoreboard'"
-    [data]="data"
-  ></app-scoreboard-display-flat>
-  <app-all-admin-forms
-    [data]="data">
-  </app-all-admin-forms>
+  @if (playclock$ | async; as playclock) {
 
+    {{ playclock.playclock_status }}
+    <!--SCOREBOARD ADMIN-->
+    <app-scoreboard-display-flat
+      [scoreboardDisplayClass]="'scoreboard'"
+      [data]="data"
+      [playClock]="playclock.playclock!"
+    ></app-scoreboard-display-flat>
+    <app-all-admin-forms
+      [playclock]="playclock"
+      [data]="data">
+    </app-all-admin-forms>
+  }
 } @else {
   <tui-loader></tui-loader>
 }

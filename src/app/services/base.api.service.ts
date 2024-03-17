@@ -10,6 +10,7 @@ import {
 import { tap } from 'rxjs/operators';
 import { ErrorHandlingService } from './error.service';
 import { IMatchData } from '../type/matchdata.type';
+import { IPlayclock } from '../type/playclock.type';
 
 @Injectable({
   providedIn: 'root',
@@ -152,12 +153,9 @@ export abstract class BaseApiService<T> {
       );
   }
 
-  startPlayClock(matchDataId: number, seconds: number): Observable<IMatchData> {
+  startPlayClock(playclockId: number, seconds: number): Observable<IPlayclock> {
     return this.http
-      .put<any>(
-        `${this.endpoint}/id/${matchDataId}/playclock/running/${seconds}`,
-        {},
-      )
+      .put<any>(`${this.endpoint}/id/${playclockId}/running/${seconds}`, {})
       .pipe(
         tap((response) => {
           console.log('Server response:', response);
@@ -168,9 +166,9 @@ export abstract class BaseApiService<T> {
       );
   }
 
-  resetPlayClock(matchDataId: number): Observable<IMatchData> {
+  resetPlayClock(playclockId: number): Observable<IPlayclock> {
     return this.http
-      .put<any>(`${this.endpoint}/id/${matchDataId}/playclock/stopped/`, {})
+      .put<any>(`${this.endpoint}/id/${playclockId}/stopped/`, {})
       .pipe(
         tap((response) => {
           console.log('Server response:', response);

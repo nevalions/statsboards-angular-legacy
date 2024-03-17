@@ -1,10 +1,10 @@
-import { AfterViewChecked, Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { IMatchFullDataWithScoreboard } from '../../type/match.type';
-import { Match } from '../match/match';
 import { Websocket } from '../../store/websocket/websocket';
 import { AsyncPipe, NgIf } from '@angular/common';
 import { ScoreboardDisplayFlatComponent } from '../../shared/scoreboards/scoreboard-display-flat/scoreboard-display-flat.component';
+import { IPlayclock } from '../../type/playclock.type';
 
 @Component({
   selector: 'app-match-scoreboard-display',
@@ -14,9 +14,10 @@ import { ScoreboardDisplayFlatComponent } from '../../shared/scoreboards/scorebo
   styleUrl: './match-scoreboard-display.component.less',
 })
 export class MatchScoreboardDisplayComponent implements OnInit, OnDestroy {
-  loading$: Observable<boolean> = this.Websocket.loading$;
-  error$: Observable<any> = this.Websocket.error$;
+  // loading$: Observable<boolean> = this.Websocket.loading$;
+  // error$: Observable<any> = this.Websocket.error$;
   data$: Observable<IMatchFullDataWithScoreboard> = this.Websocket.data$;
+  playClock: number | null = null;
 
   constructor(private Websocket: Websocket) {}
 

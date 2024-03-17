@@ -43,6 +43,7 @@
 
   <app-time-forms
     [data]="data"
+    [playclock]="playclock"
     [timeFormsVisible$]="timeFormsVisible$"
     [disabled]="(isMatchDataLoading$ | async)! || (isMatchDataSubmitting$ | async)!"
   ></app-time-forms>

@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { delay, filter, from, of, withLatestFrom } from 'rxjs';
+import { delay, filter, from, of, scan, withLatestFrom } from 'rxjs';
 import { catchError, map, switchMap, tap } from 'rxjs/operators';
-
 import { WebSocketService } from '../../services/web-socket.service';
 import { webSocketActions } from './websocket.actions';
 import { selectCurrentMatchId } from '../../components/match/store/reducers';
@@ -14,22 +13,34 @@ import {
 
 @Injectable()
 export class WebSocketEffects {
-  // Effect to connect to the WebSocket server when the Connect action is dispatched
   connect$ = createEffect(() =>
     this.actions$.pipe(
       ofType(webSocketActions.connect),
       switchMap(() => this.store.select(selectCurrentMatchId)),
       switchMap((matchId) =>
         this.webSocketService.connect(matchId!).pipe(
-          map(({ type, data }) => {
-            if (type === 'message') {
-              let parsedMessage = data ? JSON.parse(data) : null;
-              return webSocketActions.connectSuccess({
-                message: parsedMessage,
-              });
+          scan((accumulatedMessage: {}, parsedMessage) => {
+            // console.log('Received data inside effect', parsedMessage);
+
+            if (parsedMessage && parsedMessage.data) {
+              accumulatedMessage = {
+                ...accumulatedMessage,
+                data: parsedMessage.data,
+              };
             }
-            return { type: '[WebSocket] No Action' };
-          }),
+
+            if (parsedMessage && parsedMessage.playclock) {
+              accumulatedMessage = {
+                ...accumulatedMessage,
+                playclock: parsedMessage.playclock,
+              };
+            }
+
+            return accumulatedMessage;
+          }, {}),
+          map((accumulatedMessage) =>
+            webSocketActions.connectSuccess({ message: accumulatedMessage }),
+          ),
           catchError((error) => of(webSocketActions.connectFailure({ error }))),
         ),
       ),
@@ -57,15 +68,21 @@ export class WebSocketEffects {
         ofType(webSocketActions.connectSuccess),
         switchMap(() =>
           this.webSocketService.messages().pipe(
-            tap((message: any) =>
-              console.log('MESSAGE RECEIVED', message.data),
-            ),
-            map((message) => {
-              let parsedMessage =
-                message && message.data ? JSON.parse(message.data) : null;
-              return webSocketActions.message({
-                message: parsedMessage,
-              });
+            tap((data: any) => console.log('Data received:', data)),
+            map(({ type, data }) => {
+              console.log('TYPE', type);
+              switch (type) {
+                case 'playclock-update':
+                  // console.log(type);
+                  return webSocketActions.playclockMessage({ playclock: data });
+                case 'message-update':
+                  return webSocketActions.data({ data: data });
+                default:
+                  return {
+                    type: '[WebSocket] Unknown message type',
+                    data: data,
+                  };
+              }
             }),
             catchError((error) => of(webSocketActions.error({ error }))),
           ),
@@ -123,22 +140,6 @@ export class WebSocketEffects {
       ),
     { functional: true },
   );
-
-  // // Effect to disconnect from the WebSocket server when the Disconnect action is dispatched
-  // disconnect$ = createEffect(
-  //   () =>
-  //     this.actions$.pipe(
-  //       ofType(webSocketActions.disconnect),
-  //       tap(() => {
-  //         this.webSocketService.disconnect();
-  //         return webSocketActions.disconnectSuccess();
-  //       }),
-  //       catchError((error) => {
-  //         return of(webSocketActions.disconnectFailure({ error }));
-  //       }),
-  //     ),
-  //   { functional: true },
-  // );
 
   connectIfNeeded$ = createEffect(() =>
     this.actions$.pipe(
