@@ -59,12 +59,49 @@
     </div>
 
     <div class="tui-form__row">
-      <tui-input
-        formControlName="teamLogoUrl"
-        tuiAutoFocus
+      <tui-input-files
+        *ngIf="!teamLogoForm.value"
+        accept="image/*"
+        [formControl]="teamLogoForm"
+        (reject)="onReject($event)"
       >
         Team Logo Url
-      </tui-input>
+      </tui-input-files>
+
+      <tui-files>
+        <tui-file
+          *ngIf="loadedFiles$ | async as file"
+          [file]="file"
+          [showDelete]="teamLogoForm.enabled"
+          (removed)="removeFile()"
+        ></tui-file>
+
+        <tui-file
+          *ngIf="rejectedFiles$ | async as file"
+          state="error"
+          [file]="file"
+          [showDelete]="teamLogoForm.enabled"
+          (removed)="clearRejected()"
+        ></tui-file>
+
+        <tui-file
+          *ngIf="loadingFiles$ | async as file"
+          state="loading"
+          [file]="file"
+          [showDelete]="teamLogoForm.enabled"
+        ></tui-file>
+      </tui-files>
+
+
+      <!--      <img-->
+      <!--        *ngIf="teamForm.controls['teamLogoUrl'].value"-->
+      <!--        [src]="teamForm.controls['teamLogoUrl'].value"-->
+      <!--        alt="Uploaded Team Logo"-->
+      <!--        width="100px"-->
+      <!--        height="100px"-->
+      <!--      >-->
+
+
       <tui-error
         formControlName="teamLogoUrl"
         [error]="[] | tuiFieldError | async"
@@ -95,3 +132,16 @@
     </p>
   </form>
 </ng-template>
+
+<!--    <div class="tui-form__row">-->
+<!--      <tui-input-->
+<!--        formControlName="teamLogoUrl"-->
+<!--        tuiAutoFocus-->
+<!--      >-->
+<!--        Team Logo Url-->
+<!--      </tui-input>-->
+<!--      <tui-error-->
+<!--        formControlName="teamLogoUrl"-->
+<!--        [error]="[] | tuiFieldError | async"-->
+<!--      ></tui-error>-->
+<!--    </div>-->

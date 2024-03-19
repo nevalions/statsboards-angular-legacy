@@ -6,7 +6,7 @@ import {
   OnInit,
   ViewEncapsulation,
 } from '@angular/core';
-import { AsyncPipe, UpperCasePipe } from '@angular/common';
+import { AsyncPipe, NgOptimizedImage, UpperCasePipe } from '@angular/common';
 import { TuiLoaderModule } from '@taiga-ui/core';
 import { Observable, of, Subject, takeUntil } from 'rxjs';
 import { ActivatedRoute, Params, Router } from '@angular/router';
@@ -16,11 +16,18 @@ import { PaginationService } from '../../../services/pagination.service';
 import { ITeam } from '../../../type/team.type';
 import { DeleteDialogComponent } from '../../../shared/ui/dialogs/delete-dialog/delete-dialog.component';
 import { Team } from '../team';
+import { ImageService } from '../../../services/image.service';
 
 @Component({
   selector: 'app-item-team',
   standalone: true,
-  imports: [AsyncPipe, TuiLoaderModule, UpperCasePipe, DeleteDialogComponent],
+  imports: [
+    AsyncPipe,
+    TuiLoaderModule,
+    UpperCasePipe,
+    DeleteDialogComponent,
+    NgOptimizedImage,
+  ],
   templateUrl: './item-team.component.html',
   styleUrl: './item-team.component.less',
   encapsulation: ViewEncapsulation.None,
@@ -29,8 +36,15 @@ import { Team } from '../team';
 export class ItemTeamComponent {
   currentTeam$ = this.team.team$;
 
-  constructor(private team: Team) {
+  constructor(
+    private team: Team,
+    private imageService: ImageService,
+  ) {
     team.loadCurrentTeam();
+  }
+
+  onImgError(event: Event) {
+    this.imageService.handleError(event);
   }
 
   onDelete() {}

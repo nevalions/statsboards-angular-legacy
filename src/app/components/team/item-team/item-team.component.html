@@ -4,6 +4,13 @@
     <h3 class="tui-text_h3">
       {{ team.title | uppercase }}
     </h3>
+    <p><img
+      [src]="team.team_logo_url"
+      (error)="onImgError($event)"
+      width="100px"
+      height="100px"
+      alt="{{team.title | uppercase}} Logo"
+    ></p>
     <p class="content__title_description">{{ team.city }}</p>
 
   </div>

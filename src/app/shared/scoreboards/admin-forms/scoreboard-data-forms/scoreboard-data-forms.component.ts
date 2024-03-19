@@ -61,10 +61,10 @@ export class ScoreboardDataFormsComponent {
   private initForm(): FormGroup {
     return new FormGroup({
       colorTeamA: new FormControl<string | null | undefined>(
-        this.data?.scoreboard_data?.team_a_color,
+        this.data?.scoreboard_data?.team_a_game_color,
       ),
       colorTeamB: new FormControl<string | null | undefined>(
-        this.data?.scoreboard_data?.team_b_color,
+        this.data?.scoreboard_data?.team_b_game_color,
       ),
     });
   }
@@ -116,7 +116,7 @@ export class ScoreboardDataFormsComponent {
 
       if (colorTeamA && team === 'a') {
         // console.log(inputValue);
-        const colortKey = 'team_a_color';
+        const colortKey = 'team_a_game_color';
         const updatedScoreboardData = {
           ...scoreboardData,
           [colortKey]: colorTeamA,
@@ -127,7 +127,7 @@ export class ScoreboardDataFormsComponent {
 
       if (colorTeamB && team === 'b') {
         // console.log(inputValue);
-        const colortKey = 'team_b_color';
+        const colortKey = 'team_b_game_color';
         const updatedScoreboardData = {
           ...scoreboardData,
           [colortKey]: colorTeamB,

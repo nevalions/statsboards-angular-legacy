@@ -9,6 +9,7 @@ import {
 } from '@angular/core';
 import { NgIf } from '@angular/common';
 import { IMatchFullDataWithScoreboard } from '../../../type/match.type';
+import { ImageService } from '../../../services/image.service';
 
 @Component({
   selector: 'app-scoreboard-display-flat',
@@ -30,6 +31,7 @@ export class ScoreboardDisplayFlatComponent implements AfterViewInit {
   constructor(
     private elRef: ElementRef,
     private cd: ChangeDetectorRef,
+    private imageService: ImageService,
   ) {}
 
   ngAfterViewInit() {
@@ -82,5 +84,9 @@ export class ScoreboardDisplayFlatComponent implements AfterViewInit {
     } else {
       return (seconds % 60).toString().padStart(1, '0');
     }
+  }
+
+  onImgError(event: Event) {
+    this.imageService.handleError(event);
   }
 }

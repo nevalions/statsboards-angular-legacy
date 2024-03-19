@@ -4,15 +4,11 @@ export interface IMatchData {
   score_team_b?: number;
   timeout_team_a?: string;
   qtr?: string;
-  // gameclock_status?: string;
-  // playclock_status?: string;
   down?: string;
   match_id?: number;
   game_status?: string;
   field_length?: number;
   timeout_team_b?: string;
-  // gameclock?: number;
-  // playclock?: number | null;
   ball_on?: number;
   distance?: string;
 }
@@ -23,9 +19,22 @@ export interface IScoreboard {
   is_time?: boolean;
   is_playclock?: boolean;
   is_downdistance?: boolean;
-  team_a_color?: string;
-  team_b_color?: string;
-  match_id: 0;
+
+  team_a_game_color?: string;
+  team_b_game_color?: string;
+  team_a_game_title?: string;
+  team_b_game_title?: string;
+  team_a_game_logo?: string;
+  team_b_game_logo?: string;
+
+  use_team_a_game_color?: boolean;
+  use_team_b_game_color?: boolean;
+  use_team_a_game_title: boolean;
+  use_team_b_game_title: boolean;
+  use_team_a_game_logo: boolean;
+  use_team_b_game_logo: boolean;
+
+  match_id: number;
 }
 
 export function DefaultMatchData(match_id: number): IMatchData {

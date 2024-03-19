@@ -4,7 +4,7 @@
       <div class="teams-container">
         <div
           class="team_a-detail"
-          [style]="{'background-color': data.scoreboard_data?.team_a_color}">
+          [style]="{'background-color': data.scoreboard_data?.team_a_game_color}">
 
           <div class="team_a-name">
               <span [style.font-size]="teamAFontSize">
@@ -13,7 +13,12 @@
           </div>
 
           <div class="team_a-logo">
-            <img src="" width="50" height="50" alt="">
+            <img
+              src="{{data.teams_data?.team_a?.team_logo_url}}"
+              width="50"
+              height="50"
+              (error)="onImgError($event)"
+            >
           </div>
           <div class="team-scoreblock">
             <span>{{ data.match_data?.score_team_a }}</span>
@@ -26,7 +31,7 @@
         </div>
         <div
           class="team_b-detail"
-          [style]="{'background-color': data.scoreboard_data?.team_b_color}"
+          [style]="{'background-color': data.scoreboard_data?.team_b_game_color}"
         >
           <div class="team_b-name">
             <span [style.font-size]="teamBFontSize">
@@ -34,7 +39,12 @@
             </span>
           </div>
           <div class="team_b-logo">
-            <img id="team_b-logo-img" src="" width="50" height="50" alt="">
+            <img
+              src="{{data.teams_data?.team_b?.team_logo_url}}"
+              width="50"
+              height="50"
+              (error)="onImgError($event)"
+            >
           </div>
           <div class="team-scoreblock">
             <span>{{ data.match_data?.score_team_b }}</span>
