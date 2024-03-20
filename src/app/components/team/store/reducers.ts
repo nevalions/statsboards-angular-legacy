@@ -6,7 +6,6 @@ import {
   crudStoreInterface,
   getDefaultCrudStore,
 } from '../../../type/store.intarface';
-import { tournamentActions } from '../../tournament/store/actions';
 
 export interface TeamState extends crudStoreInterface {
   currentTeamId: number | undefined | null;

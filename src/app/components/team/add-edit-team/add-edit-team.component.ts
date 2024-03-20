@@ -24,17 +24,18 @@ import {
 import { CreateButtonInFormComponent } from '../../../shared/ui/buttons/create-button-in-form/create-button-in-form.component';
 import { CancelButtonInFormComponent } from '../../../shared/ui/buttons/cancel-button-in-form/cancel-button-in-form.component';
 import { Team } from '../team';
-import { HttpClient } from '@angular/common/http';
 import {
   catchError,
+  filter,
   finalize,
   map,
   Observable,
   of,
   Subject,
-  timer,
 } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { switchMap, tap } from 'rxjs/operators';
+import { ImageService } from '../../../services/image.service';
+import { UploadProgressService } from '../../../services/upload-progress.service';
 
 @Component({
   selector: 'app-add-edit-team',
@@ -62,9 +63,13 @@ import { switchMap } from 'rxjs/operators';
 export class AddEditTeamComponent {
   @Input() sportId!: number;
 
+  loadingFiles$ = this.uploadProgressService.loadingFiles$;
+  rejectedFiles$ = this.uploadProgressService.rejectedFiles$;
+
   constructor(
     private team: Team,
-    private http: HttpClient,
+    private imageService: ImageService,
+    private uploadProgressService: UploadProgressService,
   ) {}
 
   teamForm = new FormGroup({
@@ -81,43 +86,38 @@ export class AddEditTeamComponent {
     teamEeslId: new FormControl(undefined),
   });
 
-  teamLogoForm = new FormControl();
+  public teamLogoForm = new FormControl();
+
   open: boolean = false;
 
   showDialog(): void {
     this.open = true;
   }
 
-  readonly rejectedFiles$ = new Subject<TuiFileLike | null>();
-  readonly loadingFiles$ = new Subject<TuiFileLike | null>();
   readonly loadedFiles$ = this.teamLogoForm.valueChanges.pipe(
     switchMap((file) => (file ? this.makeRequest(file) : of(null))),
   );
   public uploadedFiles$ = new Subject<TuiFileLike | null>();
 
   onReject(file: TuiFileLike | readonly TuiFileLike[]): void {
-    this.rejectedFiles$.next(file as TuiFileLike);
+    this.uploadProgressService.onReject(file);
   }
 
   removeFile(): void {
-    this.teamLogoForm.setValue(null);
+    this.uploadProgressService.removeFile(this.teamLogoForm);
   }
 
   clearRejected(): void {
-    this.removeFile();
-    this.rejectedFiles$.next(null);
+    this.uploadProgressService.clearRejected(this.teamLogoForm);
   }
 
   makeRequest(file: File): Observable<TuiFileLike | null> {
     this.loadingFiles$.next(file);
 
     if (file && file.name) {
-      const formData = new FormData();
-      formData.append('file', file, file.name);
-
-      return this.http.post('teams/upload_logo', formData).pipe(
+      return this.imageService.uploadImage(file, 'teams/upload_logo').pipe(
         map((response: any) => {
-          this.teamForm.controls.teamLogoUrl.setValue(response.logoUrl);
+          this.teamForm.controls.teamLogoUrl.setValue(response.filePathUrl);
           this.uploadedFiles$.next(file);
 
           return file;

@@ -64,6 +64,7 @@
         accept="image/*"
         [formControl]="teamLogoForm"
         (reject)="onReject($event)"
+        [maxFileSize]="30 * 1000 * 1000"
       >
         Team Logo Url
       </tui-input-files>

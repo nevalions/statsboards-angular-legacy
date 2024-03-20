@@ -41,3 +41,7 @@ export type Breadcrumb = {
   routerLink: string;
   level?: number;
 };
+
+// export type UploadFile = {
+//   filePath: string;
+// };

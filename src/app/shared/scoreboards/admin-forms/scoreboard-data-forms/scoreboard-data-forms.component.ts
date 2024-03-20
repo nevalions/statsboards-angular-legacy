@@ -1,4 +1,4 @@
-import { Component, Input, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { AsyncPipe, NgIf } from '@angular/common';
 import { ToggleVisibleButtonComponent } from '../../../ui/buttons/toggle-visible-button/toggle-visible-button.component';
 import { Observable } from 'rxjs';
@@ -33,7 +33,7 @@ import { TuiInputModule } from '@taiga-ui/kit';
   templateUrl: './scoreboard-data-forms.component.html',
   styleUrl: './scoreboard-data-forms.component.less',
 })
-export class ScoreboardDataFormsComponent {
+export class ScoreboardDataFormsComponent implements OnChanges {
   @Input() changeScoreBoardFormsVisible$!: Observable<boolean>;
   @Input() data!: IMatchFullDataWithScoreboard;
   @Input() isMatchDataSubmitting$?: Observable<boolean>;
@@ -116,10 +116,10 @@ export class ScoreboardDataFormsComponent {
 
       if (colorTeamA && team === 'a') {
         // console.log(inputValue);
-        const colortKey = 'team_a_game_color';
+        const colorKey = 'team_a_game_color';
         const updatedScoreboardData = {
           ...scoreboardData,
-          [colortKey]: colorTeamA,
+          [colorKey]: colorTeamA,
         };
         // console.log(updatedScoreboardData);
         this.scoreboardData.updateScoreboardData(updatedScoreboardData);
@@ -127,10 +127,10 @@ export class ScoreboardDataFormsComponent {
 
       if (colorTeamB && team === 'b') {
         // console.log(inputValue);
-        const colortKey = 'team_b_game_color';
+        const colorKey = 'team_b_game_color';
         const updatedScoreboardData = {
           ...scoreboardData,
-          [colortKey]: colorTeamB,
+          [colorKey]: colorTeamB,
         };
         // console.log(updatedScoreboardData);
         this.scoreboardData.updateScoreboardData(updatedScoreboardData);

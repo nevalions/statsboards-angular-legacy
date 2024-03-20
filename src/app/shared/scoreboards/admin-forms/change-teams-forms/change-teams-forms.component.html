@@ -5,75 +5,188 @@
 >
   <form
     class="name-form-a"
-    [formGroup]="teamTitleForm"
+    [formGroup]="teamDataForm"
   >
     <tui-input
       formControlName="teamATitle"
-    >Game Home Team Title:
+    >Home Team Game Title:
     </tui-input>
     <tui-error
       formControlName="teamATitle"
       [error]="[] | tuiFieldError | async"
     ></tui-error>
     <app-admin-submit-button
-
+      (click)="updateTeamGameTitle('a',data.scoreboard_data!)"
     ></app-admin-submit-button>
+    <div>
+      <label class="to-label tui-text_body-m">
+        {{
+          teamDataForm.controls['useTeamAGameTitle'].value ?
+            'Use Season Title' : 'Use Game Title'
+        }}
+      </label>
+      <tui-toggle
+        formControlName="useTeamAGameTitle"
+        size="l"
+        [showIcons]="true"
+        (tuiValueChanges)="toggleItemsUsage('aTitle', $event, data.scoreboard_data!)"
+      ></tui-toggle>
+    </div>
   </form>
 
   <!-- Form for changing Team B's name -->
   <form
     class="name-form-b"
-    [formGroup]="teamTitleForm"
+    [formGroup]="teamDataForm"
   >
     <tui-input
       formControlName="teamBTitle"
-    >Game Away Team Title:
+    >Away Team Game Title:
     </tui-input>
     <tui-error
       formControlName="teamBTitle"
       [error]="[] | tuiFieldError | async"
     ></tui-error>
     <app-admin-submit-button
-
+      (click)="updateTeamGameTitle('b', data.scoreboard_data!)"
     ></app-admin-submit-button>
+    <div>
+      <label class="to-label tui-text_body-m">
+        {{
+          teamDataForm.controls['useTeamBGameTitle'].value ?
+            'Use Season Title' : 'Use Game Title'
+        }}
+      </label>
+      <tui-toggle
+        formControlName="useTeamBGameTitle"
+        size="l"
+        [showIcons]="true"
+        (tuiValueChanges)="toggleItemsUsage('bTitle', $event, data.scoreboard_data!)"
+      ></tui-toggle>
+    </div>
   </form>
 
   <!-- Form for changing Team A's logo -->
   <form
     class="logo-form-a"
-    [formGroup]="teamTitleForm"
+    [formGroup]="teamDataForm"
   >
-    <tui-input-files
-      formControlName="teamALogo"
-      accept="image/*"
-    >Game Home Team Logo:
-    </tui-input-files>
-    <tui-error
-      formControlName="teamALogo"
-      [error]="[] | tuiFieldError | async"
-    ></tui-error>
-    <app-admin-submit-button
 
+    <tui-input-files
+      *ngIf="!teamALogoForm.value"
+      accept="image/*"
+      [formControl]="teamALogoForm"
+      (reject)="onReject('a', $event)"
+      [maxFileSize]="30 * 1000 * 1000"
+    >Home Team Game Logo:
+    </tui-input-files>
+
+    <tui-files>
+      <tui-file
+        *ngIf="loadedTeamALogo$ | async as file"
+        [file]="file"
+        [showDelete]="teamALogoForm.enabled"
+        (removed)="removeFile('a')"
+      ></tui-file>
+
+      <tui-file
+        *ngIf="rejectedTeamAFiles$ | async as file"
+        state="error"
+        [file]="file"
+        [showDelete]="teamALogoForm.enabled"
+        (removed)="clearRejected('a')"
+      ></tui-file>
+
+      <tui-file
+        *ngIf="loadingTeamAFiles$ | async as file"
+        state="loading"
+        [file]="file"
+        [showDelete]="teamALogoForm.enabled"
+      ></tui-file>
+    </tui-files>
+
+    <!--    <tui-error-->
+    <!--      formControlName="teamALogo"-->
+    <!--      [error]="[] | tuiFieldError | async"-->
+    <!--    ></tui-error>-->
+    <app-admin-submit-button
+      (click)="updateTeamGameLogo('a', data.scoreboard_data!)"
     ></app-admin-submit-button>
+    <div>
+      <label class="to-label tui-text_body-m">
+        {{
+          teamDataForm.controls['useTeamAGameLogo'].value ?
+            'Use Season Logo' : 'Use Game Logo'
+        }}
+      </label>
+      <tui-toggle
+        formControlName="useTeamAGameLogo"
+        size="l"
+        [showIcons]="true"
+        (tuiValueChanges)="toggleItemsUsage('aLogo', $event, data.scoreboard_data!)"
+      ></tui-toggle>
+    </div>
   </form>
 
   <!-- Form for changing Team B's logo -->
   <form
     class="logo-form-b"
-    [formGroup]="teamTitleForm"
+    [formGroup]="teamDataForm"
   >
     <tui-input-files
-      formControlName="teamBLogo"
+      *ngIf="!teamBLogoForm.value"
       accept="image/*"
-    >Game Home Team Logo:
+      [formControl]="teamBLogoForm"
+      (reject)="onReject('b', $event)"
+      [maxFileSize]="30 * 1000 * 1000"
+    >Home Team Game Logo:
     </tui-input-files>
-    <tui-error
-      formControlName="teamBLogo"
-      [error]="[] | tuiFieldError | async"
-    ></tui-error>
-    <app-admin-submit-button
 
+    <tui-files>
+      <tui-file
+        *ngIf="loadedTeamBLogo$ | async as file"
+        [file]="file"
+        [showDelete]="teamBLogoForm.enabled"
+        (removed)="removeFile('b')"
+      ></tui-file>
+
+      <tui-file
+        *ngIf="rejectedTeamBFiles$ | async as file"
+        state="error"
+        [file]="file"
+        [showDelete]="teamBLogoForm.enabled"
+        (removed)="clearRejected('b')"
+      ></tui-file>
+
+      <tui-file
+        *ngIf="loadingTeamBFiles$| async as file"
+        state="loading"
+        [file]="file"
+        [showDelete]="teamBLogoForm.enabled"
+      ></tui-file>
+    </tui-files>
+    <!--    <tui-error-->
+    <!--      formControlName="teamBLogo"-->
+    <!--      [error]="[] | tuiFieldError | async"-->
+    <!--    ></tui-error>-->
+    <app-admin-submit-button
+      (click)="updateTeamGameLogo('b', data.scoreboard_data!)"
     ></app-admin-submit-button>
+
+    <div>
+      <label class="to-label tui-text_body-m">
+        {{
+          teamDataForm.controls['useTeamBGameLogo'].value ?
+            'Use Season Logo' : 'Use Game Logo'
+        }}
+      </label>
+      <tui-toggle
+        formControlName="useTeamBGameLogo"
+        size="l"
+        [showIcons]="true"
+        (tuiValueChanges)="toggleItemsUsage('bLogo', $event, data.scoreboard_data!)"
+      ></tui-toggle>
+    </div>
   </form>
 </div>
 <app-toggle-visible-button

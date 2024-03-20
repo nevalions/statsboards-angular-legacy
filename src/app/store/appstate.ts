@@ -11,9 +11,11 @@ import { WebSocketState } from './websocket/websocket.reducers';
 import { ScoreboardData } from '../components/scoreboard-data/scoreboard-data';
 import { UiState } from './ui/ui.reducers';
 import { PlayclockState } from '../components/playclock/store/reducers';
+import { FileState } from './file/file.reducers';
 
 export interface AppState {
   breadcrumb: BreadcrumbState;
+  file: FileState;
   match: MatchState;
   matchData: MatchDataState;
   matchWithFullData: MatchWithFullDataState;

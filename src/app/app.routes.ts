@@ -31,6 +31,8 @@ import {
   gameclockReducer,
 } from './components/gameclock/store/reducers';
 import { GameclockEffects } from './components/gameclock/store/effects';
+import { fileFeatureKey, fileReducer } from './store/file/file.reducers';
+import { FileEffects } from './store/file/file.effects';
 
 export const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'index' },

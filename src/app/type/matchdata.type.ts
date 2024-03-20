@@ -27,8 +27,8 @@ export interface IScoreboard {
   team_a_game_logo?: string;
   team_b_game_logo?: string;
 
-  use_team_a_game_color?: boolean;
-  use_team_b_game_color?: boolean;
+  use_team_a_game_color: boolean;
+  use_team_b_game_color: boolean;
   use_team_a_game_title: boolean;
   use_team_b_game_title: boolean;
   use_team_a_game_logo: boolean;
