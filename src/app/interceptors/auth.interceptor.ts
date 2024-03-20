@@ -1,31 +1,25 @@
 import {
   HttpHandlerFn,
   HttpInterceptorFn,
-  HttpRequest
-} from "@angular/common/http";
-
+  HttpRequest,
+} from '@angular/common/http';
 
 export const AuthInterceptor: HttpInterceptorFn = (
   req: HttpRequest<any>,
   next: HttpHandlerFn,
-  ) => {
-  const token: string | null = '12345'
+) => {
+  const token: string | null = '12345';
   // check for token in storage
   if (token) {
-    const authReq: HttpRequest<any> = req.clone(
-      {
-        headers: req.headers.set(
-          `Authorization`,
-          `Bearer ${token}`
-        ),
-        url: `http://localhost:9000/api/${req.url}`
-      })
-    return next(authReq)
+    const authReq: HttpRequest<any> = req.clone({
+      headers: req.headers.set(`Authorization`, `Bearer ${token}`),
+      url: `http://0.0.0.0:9000/api/${req.url}`,
+    });
+    return next(authReq);
+  } else {
+    const nonAuthReq: HttpRequest<any> = req.clone({
+      url: `http://0.0.0.0:9000/api/${req.url}`,
+    });
+    return next(nonAuthReq);
   }
-  else {
-    const nonAuthReq: HttpRequest<any> = req.clone(
-    {url: `http://localhost:9000/api/${req.url}`}
-    )
-    return next(nonAuthReq)
-  }
-}
+};
