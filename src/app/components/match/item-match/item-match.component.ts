@@ -25,6 +25,7 @@ import { TeamTournament } from '../../team-tournament/teamTournament';
 import { MatchWithFullData } from '../../match-with-full-data/matchWithFullData';
 import { Match } from '../match';
 import { ITeam } from '../../../type/team.type';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-item-match',
@@ -140,9 +141,10 @@ export class ItemMatchComponent {
   }
 
   navigateToWebSocketScoreboardDisplay(match_id: number) {
+    // this.router.navigate(['hd'], { relativeTo: this.route });
     if (match_id) {
       window.open(
-        `http://localhost:4200/scoreboard/match/${match_id}/hd/`,
+        `http://${environment.url}:4200/scoreboard/match/${match_id}/hd/`,
         '_blank',
       );
     }
