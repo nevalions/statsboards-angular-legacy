@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { catchError, fromEvent, merge, Observable, throwError } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class WebSocketService {
@@ -49,7 +50,7 @@ export class WebSocketService {
   public connect(matchId: number): Observable<any> {
     console.log('Attempting to connect');
     this.socket = new WebSocket(
-      `ws://localhost:9000/api/matches/ws/id/${matchId}/${this.clientId}/`,
+      `ws://${environment.url}:${environment.port}/api/matches/ws/id/${matchId}/${this.clientId}/`,
     );
 
     console.log('WebSocket readyState after creation:', this.socket.readyState);
