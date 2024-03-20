@@ -10,6 +10,7 @@ import {
 import { NgIf } from '@angular/common';
 import { IMatchFullDataWithScoreboard } from '../../../type/match.type';
 import { ImageService } from '../../../services/image.service';
+import { staticUrl } from '../../../base/constants';
 
 @Component({
   selector: 'app-scoreboard-display-flat',
@@ -89,4 +90,6 @@ export class ScoreboardDisplayFlatComponent implements AfterViewInit {
   onImgError(event: Event) {
     this.imageService.handleError(event);
   }
+
+  protected readonly staticUrl = staticUrl;
 }

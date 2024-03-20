@@ -17,6 +17,7 @@ import { ITeam } from '../../../type/team.type';
 import { DeleteDialogComponent } from '../../../shared/ui/dialogs/delete-dialog/delete-dialog.component';
 import { Team } from '../team';
 import { ImageService } from '../../../services/image.service';
+import { staticUrl } from '../../../base/constants';
 
 @Component({
   selector: 'app-item-team',
@@ -86,4 +87,5 @@ export class ItemTeamComponent {
   //     console.log('Invalid team object or missing ID');
   //   }
   // }
+  protected readonly staticUrl = staticUrl;
 }

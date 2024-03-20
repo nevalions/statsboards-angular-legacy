@@ -117,7 +117,7 @@ export class AddEditTeamComponent {
     if (file && file.name) {
       return this.imageService.uploadImage(file, 'teams/upload_logo').pipe(
         map((response: any) => {
-          this.teamForm.controls.teamLogoUrl.setValue(response.filePathUrl);
+          this.teamForm.controls.teamLogoUrl.setValue(response.logoUrl);
           this.uploadedFiles$.next(file);
 
           return file;
@@ -147,6 +147,8 @@ export class AddEditTeamComponent {
         team_eesl_id: formValue.teamEeslId,
         sport_id: this.sportId,
       };
+
+      console.log(data);
 
       // console.log(formValue.teamTitle, data.sport_id);
       this.team.createTeam(data);
