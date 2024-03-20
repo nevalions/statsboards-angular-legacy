@@ -10,7 +10,7 @@ import {
 import { NgIf } from '@angular/common';
 import { IMatchFullDataWithScoreboard } from '../../../type/match.type';
 import { ImageService } from '../../../services/image.service';
-import { staticUrl } from '../../../base/constants';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-scoreboard-display-flat',
@@ -25,6 +25,8 @@ export class ScoreboardDisplayFlatComponent implements AfterViewInit {
   @Input() gameClock: number = 0;
   @Input() playClock: number | null = null;
   @Input() scoreboardDisplayClass: string = 'fullhd-scoreboard';
+
+  staticUrl = environment.staticUrl;
 
   teamAFontSize: string = '26px';
   teamBFontSize: string = '26px';
@@ -90,6 +92,4 @@ export class ScoreboardDisplayFlatComponent implements AfterViewInit {
   onImgError(event: Event) {
     this.imageService.handleError(event);
   }
-
-  protected readonly staticUrl = staticUrl;
 }

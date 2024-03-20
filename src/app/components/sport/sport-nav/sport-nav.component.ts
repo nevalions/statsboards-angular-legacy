@@ -16,8 +16,9 @@ import { Store } from '@ngrx/store';
 import { SportState } from '../store/reducers';
 import { ISport } from '../../../type/sport.type';
 import { sportActions } from '../store/actions';
-import { currentSeasonId, currentYear } from '../../../base/constants';
+
 import { Sport } from '../sport';
+import { environment } from '../../../../environments/environment';
 // showBackButton: boolean = false;
 
 // constructor(
@@ -219,7 +220,9 @@ export class SportNavComponent {
   }
 
   sportRoutWithSeason(item: IBaseIdElse): any[] {
-    return [`/sport/${item.id}/season/${currentSeasonId}/tournaments`];
+    return [
+      `/sport/${item.id}/season/${environment.currentSeasonId}/tournaments`,
+    ];
   }
 
   sportTeamsRout(item: IBaseIdElse): any[] {
