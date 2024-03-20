@@ -50,27 +50,6 @@ export class ItemTeamComponent {
 
   onDelete() {}
 
-  // private readonly ngUnsubscribe = new Subject<void>();
-  //
-  // private route = inject(ActivatedRoute);
-  // private router = inject(Router);
-  // teamService = inject(TeamService);
-  //
-  // searchListService = inject(SearchListService);
-  // paginationService = inject(PaginationService);
-  //
-  // team$: Observable<ITeam> = of({} as ITeam);
-  // teamId: number | undefined;
-  //
-  // ngOnInit() {
-  //   this.route.params
-  //     .pipe(takeUntil(this.ngUnsubscribe))
-  //     .subscribe((params: Params) => {
-  //       this.teamId = Number(params['id']);
-  //       this.team$ = this.teamService.findById(this.teamId);
-  //     });
-  // }
-
   // onDelete() {
   //   if (this.teamId) {
   //     this.team$.subscribe((team: ITeam) => {
