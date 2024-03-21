@@ -4,5 +4,6 @@ export const environment = {
   currentSeasonId: 6,
   url: 'localhost',
   port: '9000',
+  angular_port: ':4200',
   staticUrl: 'http://0.0.0.0:9000',
 };

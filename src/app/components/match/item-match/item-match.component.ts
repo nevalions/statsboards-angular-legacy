@@ -118,23 +118,23 @@ export class ItemMatchComponent {
   //     });
   // }
 
-  navigateToScoreboardAdmin(match_id: number) {
-    if (match_id) {
-      window.open(
-        `http://0.0.0.0:9000/matches/id/${match_id}/scoreboard/`,
-        '_blank',
-      );
-    }
-  }
-
-  navigateToScoreboardDisplay(match_id: number) {
-    if (match_id) {
-      window.open(
-        `http://0.0.0.0:9000/matches/id/${match_id}/scoreboard/hd/`,
-        '_blank',
-      );
-    }
-  }
+  // navigateToScoreboardAdmin(match_id: number) {
+  //   if (match_id) {
+  //     window.open(
+  //       `http://0.0.0.0:9000/matches/id/${match_id}/scoreboard/`,
+  //       '_blank',
+  //     );
+  //   }
+  // }
+  //
+  // navigateToScoreboardDisplay(match_id: number) {
+  //   if (match_id) {
+  //     window.open(
+  //       `http://0.0.0.0:9000/matches/id/${match_id}/scoreboard/hd/`,
+  //       '_blank',
+  //     );
+  //   }
+  // }
 
   navigateToWebSocketItem(): void {
     this.router.navigate(['admin'], { relativeTo: this.route });
@@ -144,7 +144,7 @@ export class ItemMatchComponent {
     // this.router.navigate(['hd'], { relativeTo: this.route });
     if (match_id) {
       window.open(
-        `http://${environment.url}:4200/scoreboard/match/${match_id}/hd/`,
+        `http://${environment.url}${environment.angular_port}/scoreboard/match/${match_id}/hd/`,
         '_blank',
       );
     }
