@@ -12,7 +12,7 @@ export class ImageService {
     let image = event.target as HTMLImageElement;
     if (!image.dataset['alreadyErrored']) {
       image.dataset['alreadyErrored'] = 'true';
-      image.src = '/assets/blank2.png';
+      image.src = '/assets/blank.png';
     }
   }
 

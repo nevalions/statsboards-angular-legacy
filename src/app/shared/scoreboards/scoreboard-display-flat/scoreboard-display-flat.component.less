@@ -96,6 +96,37 @@
     text-overflow: ellipsis;
     padding-right: 5px;
   }
+
+  @media screen and (max-width: 900px) {
+    .team_a-name,
+    .team_b-name {
+      width: 200px;
+    }
+  }
+
+  @media screen and (max-width: 730px) {
+    .team_a-name,
+    .team_b-name {
+      width: 200px;
+    }
+  }
+
+  @media screen and (max-width: 420px) {
+    .game-container {
+      grid-template-columns: auto auto;
+    }
+
+    .team_a-name,
+    .team_b-name {
+      width: 160px;
+    }
+
+    .team_a-name span,
+    .team_b-name span {
+      white-space: nowrap;
+    }
+  }
+
 }
 
 .team_a-thisgame,
@@ -294,20 +325,28 @@
 
 }
 
-@media screen and (max-width: 550px) {
-  .team_a-name,
-  .team_b-name {
-    width: 180px;
-  }
-}
+//@media screen and (max-width: 550px) {
+//  .team_a-name,
+//  .team_b-name {
+//    width: 180px;
+//  }
+//}
 
 @media screen and (max-width: 420px) {
   .game-container {
     grid-template-columns: auto auto;
   }
 
-  .team_a-name,
-  .team_b-name {
-    width: 160px;
+  //.team_a-name,
+  //.team_b-name {
+  //  width: 80px;
+  //}
+  .team_a-logo,
+  .team_b-logo {
+    //width: 40px;
+  }
+
+  .team-scoreblock span {
+    font-size: 30px;
   }
 }
