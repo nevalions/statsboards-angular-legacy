@@ -1,123 +1,126 @@
 <!--SCORE INPUTS-->
-<div class="admin-row-container">
-  <div
-    class="score-forms"
-    *ngIf="scoreInputsVisible$ | async"
-  >
-    <form
-      class="score-form"
-      [formGroup]="scoreForm"
+@if (data) {
+  <div class="admin-row-container">
+    <div
+      class="score-forms"
+      *ngIf="scoreInputsVisible$ | async"
     >
-      <tui-input-number
-        class="score-form_team_input"
-        formControlName="scoreTeamA"
-      >Home:
-      </tui-input-number>
-      <tui-error
-        formControlName="scoreTeamA"
-        [error]="[] | tuiFieldError | async"
-      ></tui-error>
-      <app-admin-submit-button
-        [disabled]="disabled"
-        (click)="updateScoreTeam('a', data.match_data!)"
-      ></app-admin-submit-button>
-    </form>
+      <form
+        class="score-form"
+        [formGroup]="scoreForm"
+      >
+        <tui-input-number
+          class="score-form_team_input"
+          formControlName="scoreTeamA"
+        >Home:
+        </tui-input-number>
+        <tui-error
+          formControlName="scoreTeamA"
+          [error]="[] | tuiFieldError | async"
+        ></tui-error>
+        <app-admin-submit-button
+          [disabled]="disabled"
+          (click)="updateScoreTeam('a', data.match_data!)"
+        ></app-admin-submit-button>
+      </form>
 
-    <form
-      class="score-form"
-      [formGroup]="scoreForm"
-    >
-      <tui-input-number
-        class="score-form_team_input"
-        formControlName="scoreTeamB"
+      <form
+        class="score-form"
+        [formGroup]="scoreForm"
+      >
+        <tui-input-number
+          class="score-form_team_input"
+          formControlName="scoreTeamB"
 
-      >Away:
-      </tui-input-number>
-      <tui-error
-        formControlName="scoreTeamB"
-        [error]="[] | tuiFieldError | async"
-      ></tui-error>
-      <app-admin-submit-button
-        [disabled]="disabled"
-        (click)="updateScoreTeam('b', data.match_data!)"
-      ></app-admin-submit-button>
-    </form>
-  </div>
-</div>
-
-<div class="admin-row-container">
-  <app-toggle-visible-button
-    [isVisible$]="scoreInputsVisible$"
-    [formName]="'scoreInputs'"
-    [buttonText]="'Score Inputs'">
-  </app-toggle-visible-button>
-</div>
-
-<div class="admin-row-container">
-  <!--SCORE BTNS-->
-  <div
-    *ngIf="scoreButtonsVisible$ | async"
-    class="score-increment"
-  >
-    <div class="score-increment-buttons">
-      <app-increment-button
-        [data]="data"
-        [score]="6"
-        [team]="'a'"
-        [disabled]="disabled"
-      ></app-increment-button>
-      <app-increment-button
-        [data]="data"
-        [score]="1"
-        [team]="'a'"
-        [disabled]="disabled"
-      ></app-increment-button>
-      <app-increment-button
-        [data]="data"
-        [score]="3"
-        [team]="'a'"
-        [disabled]="disabled"
-      ></app-increment-button>
-      <app-increment-button
-        [data]="data"
-        [score]="-1"
-        [team]="'a'"
-        [disabled]="disabled"
-      ></app-increment-button>
-    </div>
-    <div class="score-increment-buttons">
-      <app-increment-button
-        [data]="data"
-        [score]="6"
-        [team]="'b'"
-        [disabled]="disabled"
-      ></app-increment-button>
-      <app-increment-button
-        [data]="data"
-        [score]="1"
-        [team]="'b'"
-        [disabled]="disabled"
-      ></app-increment-button>
-      <app-increment-button
-        [data]="data"
-        [score]="3"
-        [team]="'b'"
-        [disabled]="disabled"
-      ></app-increment-button>
-      <app-increment-button
-        [data]="data"
-        [score]="-1"
-        [team]="'b'"
-        [disabled]="disabled"
-      ></app-increment-button>
+        >Away:
+        </tui-input-number>
+        <tui-error
+          formControlName="scoreTeamB"
+          [error]="[] | tuiFieldError | async"
+        ></tui-error>
+        <app-admin-submit-button
+          [disabled]="disabled"
+          (click)="updateScoreTeam('b', data.match_data!)"
+        ></app-admin-submit-button>
+      </form>
     </div>
   </div>
-</div>
 
-<div class="admin-row-container">
-  <app-toggle-visible-button
-    [isVisible$]="scoreButtonsVisible$"
-    [formName]="'scoreButtons'"
-    [buttonText]="'Score Buttons'">
-  </app-toggle-visible-button>
-</div>
+  <div class="admin-row-container">
+    <app-toggle-visible-button
+      [isVisible$]="scoreInputsVisible$"
+      [formName]="'scoreInputs'"
+      [buttonText]="'Score Inputs'">
+    </app-toggle-visible-button>
+  </div>
+
+  <div class="admin-row-container">
+    <!--SCORE BTNS-->
+    <div
+      *ngIf="scoreButtonsVisible$ | async"
+      class="score-increment"
+    >
+      <div class="score-increment-buttons">
+        <app-increment-button
+          [data]="data"
+          [score]="6"
+          [team]="'a'"
+          [disabled]="disabled"
+        ></app-increment-button>
+        <app-increment-button
+          [data]="data"
+          [score]="1"
+          [team]="'a'"
+          [disabled]="disabled"
+        ></app-increment-button>
+        <app-increment-button
+          [data]="data"
+          [score]="3"
+          [team]="'a'"
+          [disabled]="disabled"
+        ></app-increment-button>
+        <app-increment-button
+          [data]="data"
+          [score]="-1"
+          [team]="'a'"
+          [disabled]="disabled"
+        ></app-increment-button>
+      </div>
+      <div class="score-increment-buttons">
+        <app-increment-button
+          [data]="data"
+          [score]="6"
+          [team]="'b'"
+          [disabled]="disabled"
+        ></app-increment-button>
+        <app-increment-button
+          [data]="data"
+          [score]="1"
+          [team]="'b'"
+          [disabled]="disabled"
+        ></app-increment-button>
+        <app-increment-button
+          [data]="data"
+          [score]="3"
+          [team]="'b'"
+          [disabled]="disabled"
+        ></app-increment-button>
+        <app-increment-button
+          [data]="data"
+          [score]="-1"
+          [team]="'b'"
+          [disabled]="disabled"
+        ></app-increment-button>
+      </div>
+    </div>
+  </div>
+
+  <div class="admin-row-container">
+    <app-toggle-visible-button
+      [isVisible$]="scoreButtonsVisible$"
+      [formName]="'scoreButtons'"
+      [buttonText]="'Score Buttons'">
+    </app-toggle-visible-button>
+  </div>
+
+}

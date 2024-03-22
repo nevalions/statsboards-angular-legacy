@@ -31,7 +31,7 @@ import { TuiDataListWrapperModule, TuiSelectModule } from '@taiga-ui/kit';
 })
 export class QtrFormsComponent implements OnChanges {
   @Input() qtrFormsVisible$!: Observable<boolean>;
-  @Input() data!: IMatchFullDataWithScoreboard;
+  @Input() data: IMatchFullDataWithScoreboard | undefined;
   @Input() disabled: boolean = false;
 
   qtrForm: FormGroup;

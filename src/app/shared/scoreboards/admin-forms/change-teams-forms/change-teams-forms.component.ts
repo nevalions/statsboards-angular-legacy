@@ -47,7 +47,7 @@ import { TuiValueChangesModule } from '@taiga-ui/cdk';
 })
 export class ChangeTeamsFormsComponent implements OnChanges {
   @Input() changeTeamsFormsVisible$!: Observable<boolean>;
-  @Input() data!: IMatchFullDataWithScoreboard;
+  @Input() data: IMatchFullDataWithScoreboard | undefined;
   @Input() disabled: boolean = false;
 
   readonly rejectedTeamAFiles$ = new Subject<TuiFileLike | null>();
@@ -84,7 +84,7 @@ export class ChangeTeamsFormsComponent implements OnChanges {
   ): Observable<TuiFileLike | null> {
     loadingFiles$.next(file);
 
-    if (file && file.name) {
+    if (this.data && file && file.name) {
       return this.imageService
         .uploadImage(file, `matches/id/${this.data.match_id}/upload_team_logo`)
         .pipe(

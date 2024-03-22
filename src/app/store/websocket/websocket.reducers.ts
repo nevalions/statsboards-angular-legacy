@@ -38,13 +38,22 @@ const webSocketFeature = createFeature({
       error: null,
       connectionState: WebSocketStateEnum.CONNECTING,
     })),
-    on(webSocketActions.connectSuccess, (state, { message }) => ({
+    // on(webSocketActions.connectSuccess, (state, {}) => ({
+    //   ...state,
+    //   loading: false,
+    //   error: null,
+    //   // data: message.data,
+    //   // playclock: message.playclock,
+    //   // gameclock: message.gameclock,
+    //   connectionState: WebSocketStateEnum.CONNECTED,
+    // })),
+    on(webSocketActions.connectSuccess, (state, { readyState }) => ({
       ...state,
       loading: false,
       error: null,
-      data: message.data,
-      playclock: message.playclock,
-      gameclock: message.gameclock,
+      // data: message.data,
+      // playclock: message.playclock,
+      // gameclock: message.gameclock,
       connectionState: WebSocketStateEnum.CONNECTED,
     })),
     on(webSocketActions.connectFailure, (state, { error }) => ({
@@ -96,7 +105,7 @@ const webSocketFeature = createFeature({
     })),
     on(webSocketActions.data, (state, action) => ({
       ...state,
-      data: action.data,
+      data: action.data.data,
       error: null,
     })),
     on(webSocketActions.error, (state, action) => ({

@@ -35,7 +35,7 @@ import { TuiInputModule } from '@taiga-ui/kit';
 })
 export class ScoreboardDataFormsComponent implements OnChanges {
   @Input() changeScoreBoardFormsVisible$!: Observable<boolean>;
-  @Input() data!: IMatchFullDataWithScoreboard;
+  @Input() data: IMatchFullDataWithScoreboard | undefined;
   @Input() isMatchDataSubmitting$?: Observable<boolean>;
   @Input() disabled: boolean = false;
 

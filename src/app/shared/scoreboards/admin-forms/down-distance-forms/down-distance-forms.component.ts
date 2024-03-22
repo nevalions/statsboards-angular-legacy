@@ -35,7 +35,7 @@ import { AdminDownButtonComponent } from '../../../ui/buttons/admin-down-button/
 })
 export class DownDistanceFormsComponent implements OnChanges {
   @Input() downAndDistanceFormVisible$!: Observable<boolean>;
-  @Input() data!: IMatchFullDataWithScoreboard;
+  @Input() data: IMatchFullDataWithScoreboard | undefined;
   @Input() disabled: boolean = false;
 
   downDistanceForm: FormGroup;

@@ -3,10 +3,15 @@ import { createActionGroup, emptyProps, props } from '@ngrx/store';
 export const webSocketActions = createActionGroup({
   source: 'webSocket',
   events: {
+    // Connect: emptyProps(),
+    // // ConnectSuccess: emptyProps(),
+    // ConnectSuccess: props<{
+    //   message: { data?: any; playclock?: any; gameclock?: any };
+    // }>(),
+    // ConnectFailure: props<{ error: any }>(),
+
     Connect: emptyProps(),
-    ConnectSuccess: props<{
-      message: { data?: any; playclock?: any; gameclock?: any };
-    }>(),
+    ConnectSuccess: props<{ readyState: number }>(),
     ConnectFailure: props<{ error: any }>(),
 
     Reconnect: emptyProps(),

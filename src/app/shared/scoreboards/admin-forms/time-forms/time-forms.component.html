@@ -1,95 +1,99 @@
 <!--TIME-->
-<div
-  *ngIf="timeFormsVisible$ | async"
-  id="timers-form"
-  class="timers-form"
->
+@if (gameclock) {
+  @if (playclock) {
+    <div
+      *ngIf="timeFormsVisible$ | async"
+      id="timers-form"
+      class="timers-form"
+    >
 
-  <form
-    class="game-time-form"
-    [formGroup]="timeForm"
-  >
-    <div class="time-inputs">
-      <tui-input-number
-        class="game-timer-input"
-        formControlName="gameTimeMinutes"
-      > Min.
-      </tui-input-number>
+      <form
+        class="game-time-form"
+        [formGroup]="timeForm"
+      >
+        <div class="time-inputs">
+          <tui-input-number
+            class="game-timer-input"
+            formControlName="gameTimeMinutes"
+          > Min.
+          </tui-input-number>
 
-      <tui-input-number
-        class="game-timer-input"
-        formControlName="gameTimeSeconds"
-      > Sec.
-      </tui-input-number>
-    </div>
+          <tui-input-number
+            class="game-timer-input"
+            formControlName="gameTimeSeconds"
+          > Sec.
+          </tui-input-number>
+        </div>
 
-    <div class="time-inputs-save-btn">
-      <app-admin-submit-button
-        [disabled]="disabled || this.gameclock.gameclock_status === 'running'"
-        (click)="saveNewGameClock(gameclock!)"
-      ></app-admin-submit-button>
-    </div>
+        <div class="time-inputs-save-btn">
+          <app-admin-submit-button
+            [disabled]="disabled || this.gameclock?.gameclock_status === 'running'"
+            (click)="saveNewGameClock(gameclock)"
+          ></app-admin-submit-button>
+        </div>
 
-    <app-admin-down-button
-      [down]="'Start Clock'"
-      (click)="startGameClock()"
-      [disabled]="disabled || this.gameclock.gameclock_status === 'running'"
-    ></app-admin-down-button>
+        <app-admin-down-button
+          [down]="'Start Clock'"
+          (click)="startGameClock()"
+          [disabled]="disabled || this.gameclock?.gameclock_status === 'running'"
+        ></app-admin-down-button>
 
-    <app-admin-down-button
-      [down]="'Pause Clock'"
-      (click)="pauseGameClock()"
-      [disabled]="
+        <app-admin-down-button
+          [down]="'Pause Clock'"
+          (click)="pauseGameClock()"
+          [disabled]="
       disabled
-      || (this.gameclock.gameclock_status === 'paused'
-      || this.gameclock.gameclock_status === 'stopped')"
-    ></app-admin-down-button>
+      || (this.gameclock?.gameclock_status === 'paused'
+      || this.gameclock?.gameclock_status === 'stopped')"
+        ></app-admin-down-button>
 
-    <app-admin-down-button
-      [down]="'Reset Clock'"
-      (click)="resetGameClock()"
-      [disabled]="disabled"
-    ></app-admin-down-button>
+        <app-admin-down-button
+          [down]="'Reset Clock'"
+          (click)="resetGameClock()"
+          [disabled]="disabled"
+        ></app-admin-down-button>
 
-  </form>
+      </form>
 
-  <form
-    class="play-time-form"
-    [formGroup]="timeForm"
-  >
-    <div class="play-time">
-      <tui-input
-        class="game-timer-input"
-        formControlName="playTimeSeconds"
-      >Play Time
-      </tui-input>
+      <form
+        class="play-time-form"
+        [formGroup]="timeForm"
+      >
+        <div class="play-time">
+          <tui-input
+            class="game-timer-input"
+            formControlName="playTimeSeconds"
+          >Play Time
+          </tui-input>
 
-      <app-admin-down-button
-        [down]="'Reset Timer'"
-        (click)="resetPlayClock()"
-        [disabled]="disabled || this.playclock.playclock_status === 'stopped'"
-      ></app-admin-down-button>
+          <app-admin-down-button
+            [down]="'Reset Timer'"
+            (click)="resetPlayClock()"
+            [disabled]="disabled || this.playclock?.playclock_status === 'stopped'"
+          ></app-admin-down-button>
+        </div>
+
+        <div class="play-time-btns">
+          <app-admin-down-button
+            [down]="'40'"
+            (click)="startPlayClock(41)"
+            [disabled]="disabled || this.playclock?.playclock_status === 'running'"
+          ></app-admin-down-button>
+
+          <app-admin-down-button
+            [down]="'25'"
+            (click)="startPlayClock(6)"
+            [disabled]="disabled || this.playclock?.playclock_status === 'running'"
+          ></app-admin-down-button>
+        </div>
+
+      </form>
     </div>
 
-    <div class="play-time-btns">
-      <app-admin-down-button
-        [down]="'40'"
-        (click)="startPlayClock(41)"
-        [disabled]="disabled || this.playclock.playclock_status === 'running'"
-      ></app-admin-down-button>
-
-      <app-admin-down-button
-        [down]="'25'"
-        (click)="startPlayClock(6)"
-        [disabled]="disabled || this.playclock.playclock_status === 'running'"
-      ></app-admin-down-button>
-    </div>
-
-  </form>
-</div>
-
-<app-toggle-visible-button
-  [isVisible$]="timeFormsVisible$"
-  [formName]="'timeForms'"
-  [buttonText]="'Time Forms'">
-</app-toggle-visible-button>
+    <app-toggle-visible-button
+      [isVisible$]="timeFormsVisible$"
+      [formName]="'timeForms'"
+      [buttonText]="'Time Forms'">
+    </app-toggle-visible-button>
+  }
+}

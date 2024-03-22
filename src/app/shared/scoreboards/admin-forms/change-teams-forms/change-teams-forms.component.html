@@ -16,7 +16,7 @@
       [error]="[] | tuiFieldError | async"
     ></tui-error>
     <app-admin-submit-button
-      (click)="updateTeamGameTitle('a',data.scoreboard_data!)"
+      (click)="updateTeamGameTitle('a',data?.scoreboard_data!)"
     ></app-admin-submit-button>
     <div>
       <label class="to-label tui-text_body-m">
@@ -29,7 +29,7 @@
         formControlName="useTeamAGameTitle"
         size="l"
         [showIcons]="true"
-        (tuiValueChanges)="toggleItemsUsage('aTitle', $event, data.scoreboard_data!)"
+        (tuiValueChanges)="toggleItemsUsage('aTitle', $event, data?.scoreboard_data!)"
       ></tui-toggle>
     </div>
   </form>
@@ -48,7 +48,7 @@
       [error]="[] | tuiFieldError | async"
     ></tui-error>
     <app-admin-submit-button
-      (click)="updateTeamGameTitle('b', data.scoreboard_data!)"
+      (click)="updateTeamGameTitle('b', data?.scoreboard_data!)"
     ></app-admin-submit-button>
     <div>
       <label class="to-label tui-text_body-m">
@@ -61,7 +61,7 @@
         formControlName="useTeamBGameTitle"
         size="l"
         [showIcons]="true"
-        (tuiValueChanges)="toggleItemsUsage('bTitle', $event, data.scoreboard_data!)"
+        (tuiValueChanges)="toggleItemsUsage('bTitle', $event, data?.scoreboard_data!)"
       ></tui-toggle>
     </div>
   </form>
@@ -110,7 +110,7 @@
     <!--      [error]="[] | tuiFieldError | async"-->
     <!--    ></tui-error>-->
     <app-admin-submit-button
-      (click)="updateTeamGameLogo('a', data.scoreboard_data!)"
+      (click)="updateTeamGameLogo('a', data?.scoreboard_data!)"
     ></app-admin-submit-button>
     <div>
       <label class="to-label tui-text_body-m">
@@ -123,7 +123,7 @@
         formControlName="useTeamAGameLogo"
         size="l"
         [showIcons]="true"
-        (tuiValueChanges)="toggleItemsUsage('aLogo', $event, data.scoreboard_data!)"
+        (tuiValueChanges)="toggleItemsUsage('aLogo', $event, data?.scoreboard_data!)"
       ></tui-toggle>
     </div>
   </form>
@@ -170,7 +170,7 @@
     <!--      [error]="[] | tuiFieldError | async"-->
     <!--    ></tui-error>-->
     <app-admin-submit-button
-      (click)="updateTeamGameLogo('b', data.scoreboard_data!)"
+      (click)="updateTeamGameLogo('b', data?.scoreboard_data!)"
     ></app-admin-submit-button>
 
     <div>
@@ -184,7 +184,7 @@
         formControlName="useTeamBGameLogo"
         size="l"
         [showIcons]="true"
-        (tuiValueChanges)="toggleItemsUsage('bLogo', $event, data.scoreboard_data!)"
+        (tuiValueChanges)="toggleItemsUsage('bLogo', $event, data?.scoreboard_data!)"
       ></tui-toggle>
     </div>
   </form>

@@ -13,7 +13,7 @@ export const AuthInterceptor: HttpInterceptorFn = (
   let serverIP = environment.url;
   let serverPort = environment.port;
   // check for token in storage
-  console.log(serverIP, serverIP);
+  // console.log(serverIP, serverIP);
   if (token) {
     const authReq: HttpRequest<any> = req.clone({
       headers: req.headers.set(`Authorization`, `Bearer ${token}`),

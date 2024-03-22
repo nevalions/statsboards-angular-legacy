@@ -47,13 +47,9 @@ export function DefaultMatchData(match_id: number): IMatchData {
     timeout_team_b: '',
     game_status: '',
     field_length: 0,
-    // gameclock: 0,
-    // playclock: null,
     ball_on: 0,
     distance: '',
     qtr: '',
-    // gameclock_status: '',
-    // playclock_status: '',
     down: '',
   };
 }

@@ -57,9 +57,9 @@ import { Gameclock } from '../../../../components/gameclock/gameclock';
 })
 export class TimeFormsComponent implements OnChanges {
   @Input() timeFormsVisible$!: Observable<boolean>;
-  @Input() data!: IMatchFullDataWithScoreboard;
-  @Input() gameclock!: IGameclock;
-  @Input() playclock!: IPlayclock;
+  @Input() data: IMatchFullDataWithScoreboard | undefined;
+  @Input() gameclock!: IGameclock | undefined;
+  @Input() playclock: IPlayclock | undefined;
   @Input() disabled: boolean = false;
 
   timeForm: FormGroup;
@@ -108,7 +108,7 @@ export class TimeFormsComponent implements OnChanges {
           [Validators.min(0), Validators.max(59)],
         ),
         playTimeSeconds: new FormControl<number | null | undefined>(
-          this.playclock.playclock,
+          this.playclock?.playclock,
           Validators.min(0),
         ),
       });

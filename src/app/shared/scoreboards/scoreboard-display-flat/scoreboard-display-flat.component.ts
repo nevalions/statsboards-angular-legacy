@@ -11,6 +11,7 @@ import { NgIf } from '@angular/common';
 import { IMatchFullDataWithScoreboard } from '../../../type/match.type';
 import { ImageService } from '../../../services/image.service';
 import { environment } from '../../../../environments/environment';
+import { DefaultMatchData } from '../../../type/matchdata.type';
 
 @Component({
   selector: 'app-scoreboard-display-flat',
@@ -21,7 +22,7 @@ import { environment } from '../../../../environments/environment';
   styleUrl: './scoreboard-display-flat.component.less',
 })
 export class ScoreboardDisplayFlatComponent implements AfterViewInit {
-  @Input() data!: IMatchFullDataWithScoreboard;
+  @Input() data: IMatchFullDataWithScoreboard | undefined;
   @Input() gameClock: number = 0;
   @Input() playClock: number | null = null;
   @Input() scoreboardDisplayClass: string = 'fullhd-scoreboard';

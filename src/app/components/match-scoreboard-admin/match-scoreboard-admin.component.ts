@@ -1,4 +1,9 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
 
 import { Observable } from 'rxjs';
 import { AsyncPipe, NgIf } from '@angular/common';
@@ -9,6 +14,8 @@ import { ScoreboardDisplayFlatComponent } from '../../shared/scoreboards/scorebo
 import { AllAdminFormsComponent } from '../../shared/scoreboards/admin-forms/all-admin-forms/all-admin-forms.component';
 import { IPlayclock } from '../../type/playclock.type';
 import { IGameclock } from '../../type/gameclock.type';
+import { Store } from '@ngrx/store';
+import { AppState } from '../../store/appstate';
 
 @Component({
   selector: 'app-match-scoreboard-admin',
@@ -22,21 +29,38 @@ import { IGameclock } from '../../type/gameclock.type';
   ],
   templateUrl: './match-scoreboard-admin.component.html',
   styleUrl: './match-scoreboard-admin.component.less',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MatchScoreboardAdminComponent implements OnInit, OnDestroy {
+export class MatchScoreboardAdminComponent {
   // loading$: Observable<boolean> = this.Websocket.loading$;
   // error$: Observable<any> = this.Websocket.error$;
   data$: Observable<IMatchFullDataWithScoreboard> = this.Websocket.data$;
   playclock$: Observable<IPlayclock> = this.Websocket.playclock$;
   gameclock$: Observable<IGameclock> = this.Websocket.gameclock$;
 
-  constructor(private Websocket: Websocket) {}
-
-  ngOnInit() {
+  constructor(
+    private Websocket: Websocket,
+    private store: Store<AppState>,
+  ) {
     this.Websocket.connect();
+    // this.data$.subscribe((result) => {
+    //   console.log('DATA DATA', result);
+    // });
   }
 
-  ngOnDestroy() {
-    this.Websocket.disconnect();
-  }
+  // ngOnInit() {
+  //   this.Websocket.connect();
+  //   this.data$.subscribe((result) => {
+  //     console.log('DATA DATA', result);
+  //   });
+  //   // this.store
+  //   //   .select((state) => state.webSocket)
+  //   //   .subscribe((result) => {
+  //   //     console.log(result);
+  //   //   });
+  // }
+  //
+  // ngOnDestroy() {
+  //   this.Websocket.disconnect();
+  // }
 }

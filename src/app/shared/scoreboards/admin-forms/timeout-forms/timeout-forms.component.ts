@@ -28,7 +28,7 @@ import { AdminTimeoutButtonComponent } from '../../../ui/buttons/admin-timeout-b
 })
 export class TimeoutFormsComponent {
   @Input() timeoutBtnsVisible$!: Observable<boolean>;
-  @Input() data!: IMatchFullDataWithScoreboard;
+  @Input() data: IMatchFullDataWithScoreboard | undefined;
   @Input() disabled: boolean = false;
 
   constructor(private matchData: MatchData) {}

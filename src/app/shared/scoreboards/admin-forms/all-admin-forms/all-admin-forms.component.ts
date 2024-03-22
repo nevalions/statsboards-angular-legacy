@@ -43,9 +43,9 @@ import { IGameclock } from '../../../../type/gameclock.type';
   styleUrl: './all-admin-forms.component.less',
 })
 export class AllAdminFormsComponent {
-  @Input() data!: IMatchFullDataWithScoreboard;
-  @Input() playclock!: IPlayclock;
-  @Input() gameclock!: IGameclock;
+  @Input() data: IMatchFullDataWithScoreboard | undefined;
+  @Input() playclock: IPlayclock | undefined;
+  @Input() gameclock: IGameclock | undefined;
   isMatchDataSubmitting$ = this.matchData.matchDataIsSubmitting$;
   isMatchDataLoading$ = this.matchData.matchDataIsLoading$;
   //TODO is clock loading and submitting

@@ -62,7 +62,7 @@ import { AdminSubmitButtonComponent } from '../../../ui/buttons/admin-submit-but
 export class ScoreFormsComponent implements OnChanges {
   @Input() scoreInputsVisible$!: Observable<boolean>;
   @Input() scoreButtonsVisible$!: Observable<boolean>;
-  @Input() data!: IMatchFullDataWithScoreboard;
+  @Input() data: IMatchFullDataWithScoreboard | undefined;
   @Input() disabled: boolean = false;
 
   scoreForm: FormGroup;

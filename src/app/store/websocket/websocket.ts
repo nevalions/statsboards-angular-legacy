@@ -25,10 +25,17 @@ export class Websocket {
 
   constructor(private store: Store<AppState>) {
     // this.loading$ = this.store.select(selectLoading);
-    this.data$ = this.store.select(selectData);
-    this.playclock$ = this.store.select(selectPlayclock);
-    this.gameclock$ = this.store.select(selectGameclock);
+    this.data$ = this.store.select((state) => state.webSocket.data);
+    this.playclock$ = this.store.select((state) => state.webSocket.playclock);
+    this.gameclock$ = this.store.select((state) => state.webSocket.gameclock);
+    // this.data$ = this.store.select(selectData);
+    // this.playclock$ = this.store.select(selectPlayclock);
+    // this.gameclock$ = this.store.select(selectGameclock);
     // this.error$ = this.store.select(selectError);
+  }
+
+  connect() {
+    this.store.dispatch(webSocketActions.connect());
   }
 
   isConnected() {
@@ -37,9 +44,9 @@ export class Websocket {
       .pipe(map((state) => state === 'CONNECTED'));
   }
 
-  connect() {
-    this.store.dispatch(webSocketActions.connect());
-  }
+  // message(){
+  //   this.store.dispatch(webSocketActions.());
+  // }
 
   disconnect() {
     this.store.dispatch(webSocketActions.disconnectIfNeeded());

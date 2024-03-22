@@ -1,12 +1,15 @@
 @if (data$ | async; as data) {
   @if (playclock$ | async; as playclock) {
     @if (gameclock$ | async; as gameclock) {
+      <!--      {{ data.id }}-->
+      <!--      {{ playclock?.playclock_status }}-->
+      <!--      {{ gameclock?.gameclock }}-->
       <!--SCOREBOARD ADMIN-->
       <app-scoreboard-display-flat
         [scoreboardDisplayClass]="'scoreboard'"
-        [gameClock]="gameclock.gameclock!"
+        [gameClock]="gameclock?.gameclock!"
         [data]="data"
-        [playClock]="playclock.playclock!"
+        [playClock]="playclock?.playclock!"
       ></app-scoreboard-display-flat>
       <app-all-admin-forms
         [gameclock]="gameclock"
