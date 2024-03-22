@@ -5,7 +5,7 @@
       {{ team.title | uppercase }}
     </h3>
     <p>
-      <!--      {{ staticUrl }}{{ team.team_logo_url }}-->
+      {{ staticUrl }}{{ team.team_logo_url }}
       <img
         src="{{staticUrl}}{{team.team_logo_url}}"
         (error)="onImgError($event)"
