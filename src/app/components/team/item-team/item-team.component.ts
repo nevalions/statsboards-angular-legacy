@@ -18,7 +18,10 @@ import { DeleteDialogComponent } from '../../../shared/ui/dialogs/delete-dialog/
 import { Team } from '../team';
 import { ImageService } from '../../../services/image.service';
 import { environment } from '../../../../environments/environment';
-import { urlWithPort } from '../../../base/constants';
+import {
+  urlWithProtocolAndPort,
+  urlWithProtocol,
+} from '../../../base/constants';
 
 @Component({
   selector: 'app-item-team',
@@ -69,5 +72,6 @@ export class ItemTeamComponent {
   //     console.log('Invalid team object or missing ID');
   //   }
   // }
-  protected readonly urlWithPort = urlWithPort;
+  protected readonly urlWithPort = urlWithProtocolAndPort;
+  protected readonly url = urlWithProtocol;
 }

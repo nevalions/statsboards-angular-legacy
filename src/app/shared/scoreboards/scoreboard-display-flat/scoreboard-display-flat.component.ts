@@ -12,7 +12,7 @@ import { IMatchFullDataWithScoreboard } from '../../../type/match.type';
 import { ImageService } from '../../../services/image.service';
 import { environment } from '../../../../environments/environment';
 import { DefaultMatchData } from '../../../type/matchdata.type';
-import { urlWithPort } from '../../../base/constants';
+import { urlWithProtocolAndPort } from '../../../base/constants';
 
 @Component({
   selector: 'app-scoreboard-display-flat',
@@ -96,5 +96,5 @@ export class ScoreboardDisplayFlatComponent implements AfterViewInit {
     this.imageService.handleError(event);
   }
 
-  protected readonly urlWithPort = urlWithPort;
+  protected readonly urlWithPort = urlWithProtocolAndPort;
 }

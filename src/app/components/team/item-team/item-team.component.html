@@ -5,12 +5,14 @@
       {{ team.title | uppercase }}
     </h3>
     <p>
-      url {{ staticUrl }}
-      port {{ staticPort }}
-      team url {{ team.team_logo_url }}
-      full url with port {{ urlWithPort }}
+      url: {{ staticUrl }}<br>
+      port: {{ staticPort }}<br>
+      team url: {{ team.team_logo_url }}<br>
+      url without port: {{ url }}<br>
+      full url with port: {{ urlWithPort }}<br>
+
       <img
-        src="{{urlWithPort}}{{team.team_logo_url}}"
+        src="{{url}}{{team.team_logo_url}}"
         (error)="onImgError($event)"
         width="100px"
         height="100px"
