@@ -12,6 +12,7 @@ import { IMatchFullDataWithScoreboard } from '../../../type/match.type';
 import { ImageService } from '../../../services/image.service';
 import { environment } from '../../../../environments/environment';
 import { DefaultMatchData } from '../../../type/matchdata.type';
+import { urlWithPort } from '../../../base/constants';
 
 @Component({
   selector: 'app-scoreboard-display-flat',
@@ -27,7 +28,7 @@ export class ScoreboardDisplayFlatComponent implements AfterViewInit {
   @Input() playClock: number | null = null;
   @Input() scoreboardDisplayClass: string = 'fullhd-scoreboard';
 
-  staticUrl = environment.staticUrl;
+  staticUrl = environment.url;
   staticPort = environment.port;
 
   teamAFontSize: string = '26px';
@@ -94,4 +95,6 @@ export class ScoreboardDisplayFlatComponent implements AfterViewInit {
   onImgError(event: Event) {
     this.imageService.handleError(event);
   }
+
+  protected readonly urlWithPort = urlWithPort;
 }

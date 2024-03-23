@@ -18,6 +18,7 @@ import { DeleteDialogComponent } from '../../../shared/ui/dialogs/delete-dialog/
 import { Team } from '../team';
 import { ImageService } from '../../../services/image.service';
 import { environment } from '../../../../environments/environment';
+import { urlWithPort } from '../../../base/constants';
 
 @Component({
   selector: 'app-item-team',
@@ -36,7 +37,7 @@ import { environment } from '../../../../environments/environment';
 })
 export class ItemTeamComponent {
   currentTeam$ = this.team.team$;
-  staticUrl = environment.staticUrl;
+  staticUrl = environment.url;
   staticPort = environment.port;
 
   constructor(
@@ -68,4 +69,5 @@ export class ItemTeamComponent {
   //     console.log('Invalid team object or missing ID');
   //   }
   // }
+  protected readonly urlWithPort = urlWithPort;
 }

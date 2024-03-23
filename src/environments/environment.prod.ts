@@ -5,5 +5,5 @@ export const environment = {
   url: 'statsboard.ru',
   port: ':9000',
   angular_port: '',
-  staticUrl: 'http://statsboard.ru',
+  protocol: 'https',
 };

@@ -5,5 +5,5 @@ export const environment = {
   url: 'localhost',
   port: ':9000',
   angular_port: ':4200',
-  staticUrl: 'http://0.0.0.0',
+  protocol: 'http',
 };

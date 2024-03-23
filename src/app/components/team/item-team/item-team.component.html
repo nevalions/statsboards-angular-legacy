@@ -6,6 +6,7 @@
     </h3>
     <p>
       {{ staticUrl }}{{ staticPort }}{{ team.team_logo_url }}
+      {{ urlWithPort }}
       <img
         src="{{staticUrl}}{{staticPort}}{{team.team_logo_url}}"
         (error)="onImgError($event)"
