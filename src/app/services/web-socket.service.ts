@@ -19,8 +19,7 @@ export class WebSocketService {
   private retryAttempt = 0;
   private maxRetryAttempts = 10;
   private retryTime = 2000; // time between retries (in milliseconds)
-
-  private clientId: string;
+  private readonly clientId: string;
 
   constructor() {
     // Generate a new UUID everytime the service is created (page refreshed)
@@ -66,7 +65,7 @@ export class WebSocketService {
         // Otherwise, create a new WebSocket.
         console.log('Attempting to connect');
         this.socket = new WebSocket(
-          `ws://${environment.url}:${environment.port}/api/matches/ws/id/${matchId}/${this.clientId}/`,
+          `ws://${environment.url}${environment.port}/api/matches/ws/id/${matchId}/${this.clientId}/`,
         );
 
         // When the WebSocket opens, emit its readyState.
