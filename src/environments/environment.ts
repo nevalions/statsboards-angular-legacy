@@ -6,5 +6,5 @@ export const environment = {
   port: ':9000',
   angular_port: ':4200',
   protocol: 'http',
-  backendProtocol: 'http',
+  // backendProtocol: 'http',
 };
