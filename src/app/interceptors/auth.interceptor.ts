@@ -12,7 +12,7 @@ export const AuthInterceptor: HttpInterceptorFn = (
   const token: string | null = '12345';
   let serverIP = environment.url;
   let serverPort = environment.port;
-  let serverProtocol = environment.backendProtocol;
+  let serverProtocol = environment.protocol;
   // check for token in storage
   // console.log(serverIP, serverIP);
   if (token) {
