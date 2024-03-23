@@ -8,7 +8,7 @@
       {{ staticUrl }}{{ staticPort }}{{ team.team_logo_url }}
       {{ urlWithPort }}
       <img
-        src="{{staticUrl}}{{staticPort}}{{team.team_logo_url}}"
+        src="{{urlWithPort}}{{team.team_logo_url}}"
         (error)="onImgError($event)"
         width="100px"
         height="100px"
