@@ -28,6 +28,7 @@ export class ScoreboardDisplayFlatComponent implements AfterViewInit {
   @Input() scoreboardDisplayClass: string = 'fullhd-scoreboard';
 
   staticUrl = environment.staticUrl;
+  staticPort = environment.port;
 
   teamAFontSize: string = '26px';
   teamBFontSize: string = '26px';

@@ -37,6 +37,7 @@ import { environment } from '../../../../environments/environment';
 export class ItemTeamComponent {
   currentTeam$ = this.team.team$;
   staticUrl = environment.staticUrl;
+  staticPort = environment.port;
 
   constructor(
     private team: Team,

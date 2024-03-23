@@ -17,12 +17,12 @@ export const AuthInterceptor: HttpInterceptorFn = (
   if (token) {
     const authReq: HttpRequest<any> = req.clone({
       headers: req.headers.set(`Authorization`, `Bearer ${token}`),
-      url: `http://${serverIP}:${serverPort}/api/${req.url}`,
+      url: `http://${serverIP}${serverPort}/api/${req.url}`,
     });
     return next(authReq);
   } else {
     const nonAuthReq: HttpRequest<any> = req.clone({
-      url: `http://${serverIP}:${serverPort}/api/${req.url}`,
+      url: `http://${serverIP}${serverPort}/api/${req.url}`,
     });
     return next(nonAuthReq);
   }
