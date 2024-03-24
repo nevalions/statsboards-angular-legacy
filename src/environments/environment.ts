@@ -7,4 +7,5 @@ export const environment = {
   angular_port: ':4200',
   protocol: 'http',
   wsProtocol: 'ws',
+  apiUrl: 'localhost:9000',
 };

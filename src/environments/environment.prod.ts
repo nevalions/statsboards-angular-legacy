@@ -7,4 +7,5 @@ export const environment = {
   angular_port: '',
   protocol: 'https',
   wsProtocol: 'wss',
+  apiUrl: 'statsboard.ru',
 };

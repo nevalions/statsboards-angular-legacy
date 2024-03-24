@@ -5,9 +5,10 @@
 import { environment } from '../../environments/environment';
 
 let serverIP = environment.url;
+let apiUrl = environment.apiUrl;
 let serverPort = environment.port;
 let serverProtocol = environment.protocol;
 
 export let urlWithProtocolAndPort =
   serverProtocol + '://' + serverIP + serverPort;
-export let urlWithProtocol = serverProtocol + '://' + serverIP;
+export let urlWithProtocol = serverProtocol + '://' + apiUrl;

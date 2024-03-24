@@ -10,7 +10,7 @@ export const AuthInterceptor: HttpInterceptorFn = (
   next: HttpHandlerFn,
 ) => {
   const token: string | null = '12345';
-  let serverIP = environment.url;
+  let serverIP = environment.apiUrl;
   let serverPort = environment.port;
   let serverProtocol = environment.protocol;
   // check for token in storage

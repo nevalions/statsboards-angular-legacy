@@ -66,7 +66,7 @@ export class WebSocketService {
         console.log('Attempting to connect');
         this.socket = new WebSocket(
           // `wss://`,
-          `${environment.wsProtocol}://${environment.url}/api/matches/ws/id/${matchId}/${this.clientId}/`,
+          `${environment.wsProtocol}://${environment.apiUrl}/api/matches/ws/id/${matchId}/${this.clientId}/`,
         );
 
         // When the WebSocket opens, emit its readyState.
