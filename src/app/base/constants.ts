@@ -12,3 +12,5 @@ let serverProtocol = environment.protocol;
 export let urlWithProtocolAndPort =
   serverProtocol + '://' + serverIP + serverPort;
 export let urlWithProtocol = serverProtocol + '://' + apiUrl;
+
+// http://statsboard.ru,http://www.statsboard.ru,http://statsboard.online,http://www.statsboard.online,https://statsboard.ru,https://www.statsboard.ru,https://statsboard.online,https://www.statsboard.online
