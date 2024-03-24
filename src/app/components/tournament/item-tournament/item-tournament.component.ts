@@ -68,6 +68,7 @@ import { TeamTournament } from '../../team-tournament/teamTournament';
 import { Season } from '../../season/season';
 import { Match } from '../../match/match';
 import { MatchWithFullData } from '../../match-with-full-data/matchWithFullData';
+import { urlWithProtocol } from '../../../base/constants';
 
 @Component({
   selector: 'app-item-tournament',
@@ -273,6 +274,8 @@ export class ItemTournamentComponent {
       ?.toString()
       .toLowerCase()
       .includes(search.toLowerCase()) ?? false;
+
+  protected readonly url = urlWithProtocol;
 }
 
 // routeId$: Observable<string | undefined> = this.tournamentStore.select(
