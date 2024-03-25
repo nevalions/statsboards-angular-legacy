@@ -5,6 +5,8 @@ import {
   Component,
   ElementRef,
   Input,
+  OnChanges,
+  SimpleChanges,
   ViewChild,
 } from '@angular/core';
 import { NgIf } from '@angular/common';
@@ -25,14 +27,17 @@ import {
   templateUrl: './scoreboard-display-flat.component.html',
   styleUrl: './scoreboard-display-flat.component.less',
 })
-export class ScoreboardDisplayFlatComponent implements AfterViewInit {
+export class ScoreboardDisplayFlatComponent
+  implements AfterViewInit, OnChanges
+{
   @Input() data: IMatchFullDataWithScoreboard | undefined;
   @Input() gameClock: number = 0;
   @Input() playClock: number | null = null;
   @Input() scoreboardDisplayClass: string = 'fullhd-scoreboard';
-
-  staticUrl = environment.url;
-  staticPort = environment.port;
+  @Input() logoTeamAScaleInput: number = 2;
+  @Input() logoTeamBScaleInput: number = 2;
+  logoTeamAScale = 'scale(2)';
+  logoTeamBScale = 'scale(2)';
 
   teamAFontSize: string = '26px';
   teamBFontSize: string = '26px';
@@ -46,6 +51,17 @@ export class ScoreboardDisplayFlatComponent implements AfterViewInit {
   ngAfterViewInit() {
     this.adjustFontSize('team_a-name');
     this.adjustFontSize('team_b-name');
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['logoTeamAScaleInput']) {
+      this.logoTeamAScale =
+        'scale(' + changes['logoTeamAScaleInput'].currentValue + ')';
+    }
+    if (changes['logoTeamBScaleInput']) {
+      this.logoTeamBScale =
+        'scale(' + changes['logoTeamBScaleInput'].currentValue + ')';
+    }
   }
 
   adjustFontSize(teamNameClass: string) {
