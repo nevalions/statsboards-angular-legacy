@@ -3,11 +3,12 @@
     <h3 class="tui-text_h3">
       {{ tournament.title | uppercase }}
     </h3>
-    <p>
+    <p style="text-align: center">
       <img
         src="{{url}}{{tournament.tournament_logo_url}}"
-        width="100px"
+        width="200px"
         alt="{{tournament.title | uppercase}} Logo"
+
       >
     </p>
     <p class="content__title_description">{{ tournament.description }}</p>
