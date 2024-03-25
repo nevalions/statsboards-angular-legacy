@@ -83,9 +83,9 @@
           *ngIf="data.scoreboard_data?.is_time"
           class="timeleft"
         >
-          <span>{{ getMinutes(gameClock) }}</span>
-          <span class="clock-separator">:</span>
-          <span>{{ getSeconds(gameClock) }}</span>
+          <span>{{ getMinutes(gameClock) }}:{{ getSeconds(gameClock) }}</span>
+          <!--          <span class="clock-separator">:</span>-->
+          <!--          <span>{{ getSeconds(gameClock) }}</span>-->
         </div>
 
         <div
