@@ -126,6 +126,19 @@
         (tuiValueChanges)="toggleItemsUsage('aLogo', $event, data?.scoreboard_data!)"
       ></tui-toggle>
     </div>
+    <div class="logo-scale-size">
+      <tui-input-slider
+        formControlName="scaleLogoA"
+        [max]="max"
+        [min]="min"
+        [quantum]="quantum"
+        [steps]="steps"
+      >Select Logo Size
+      </tui-input-slider>
+      <app-admin-submit-button
+        (click)="scaleLogoA('a', data?.scoreboard_data!)"
+      ></app-admin-submit-button>
+    </div>
   </form>
 
   <!-- Form for changing Team B's logo -->
@@ -186,6 +199,19 @@
         [showIcons]="true"
         (tuiValueChanges)="toggleItemsUsage('bLogo', $event, data?.scoreboard_data!)"
       ></tui-toggle>
+    </div>
+    <div class="logo-scale-size">
+      <tui-input-slider
+        formControlName="scaleLogoB"
+        [max]="max"
+        [min]="min"
+        [quantum]="quantum"
+        [steps]="steps"
+      >Select Logo Size
+      </tui-input-slider>
+      <app-admin-submit-button
+        (click)="scaleLogoA('b', data?.scoreboard_data!)"
+      ></app-admin-submit-button>
     </div>
   </form>
 </div>

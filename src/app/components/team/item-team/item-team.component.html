@@ -5,17 +5,18 @@
       {{ team.title | uppercase }}
     </h3>
     <p>
-      url: {{ staticUrl }}<br>
-      port: {{ staticPort }}<br>
-      team url: {{ team.team_logo_url }}<br>
-      url without port: {{ url }}<br>
-      full url with port: {{ urlWithPort }}<br>
+      <!--      url: {{ staticUrl }}<br>-->
+      <!--      port: {{ staticPort }}<br>-->
+      <!--      team url: {{ team.team_logo_url }}<br>-->
+      <!--      url without port: {{ url }}<br>-->
+      <!--      full url with port: {{ urlWithPort }}<br>-->
 
       <img
         src="{{url}}{{team.team_logo_url}}"
         width="100px"
         height="100px"
         alt="{{team.title | uppercase}} Logo"
+        (error)="onImgError($event)"
       ></p>
 
     <!--      <img-->

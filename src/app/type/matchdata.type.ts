@@ -34,6 +34,9 @@ export interface IScoreboard {
   use_team_a_game_logo: boolean;
   use_team_b_game_logo: boolean;
 
+  scale_logo_a: number;
+  scale_logo_b: number;
+
   match_id: number;
 }
 

@@ -34,10 +34,10 @@ export class ScoreboardDisplayFlatComponent
   @Input() gameClock: number = 0;
   @Input() playClock: number | null = null;
   @Input() scoreboardDisplayClass: string = 'fullhd-scoreboard';
-  @Input() logoTeamAScaleInput: number = 2;
-  @Input() logoTeamBScaleInput: number = 2;
-  logoTeamAScale = 'scale(2)';
-  logoTeamBScale = 'scale(2)';
+  // @Input() logoTeamAScaleInput: number = 2;
+  // @Input() logoTeamBScaleInput: number = 2;
+  // logoTeamAScale = `scale('${this.data.scoreboard_data?.scale_logo_a}')`;
+  // logoTeamBScale = `scale('${this.data.scoreboard_data?.scale_logo_a}')`;
 
   teamAFontSize: string = '26px';
   teamBFontSize: string = '26px';
@@ -54,14 +54,18 @@ export class ScoreboardDisplayFlatComponent
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes['logoTeamAScaleInput']) {
-      this.logoTeamAScale =
-        'scale(' + changes['logoTeamAScaleInput'].currentValue + ')';
-    }
-    if (changes['logoTeamBScaleInput']) {
-      this.logoTeamBScale =
-        'scale(' + changes['logoTeamBScaleInput'].currentValue + ')';
-    }
+    // if (changes['data.scoreboard_data.scale_logo_a']) {
+    //   this.logoTeamAScale =
+    //     'scale(' +
+    //     changes['data.scoreboard_data.scale_logo_a'].currentValue +
+    //     ')';
+    // }
+    // if (changes['data.scoreboard_data.scale_logo_b']) {
+    //   this.logoTeamBScale =
+    //     'scale(' +
+    //     changes['data.scoreboard_data.scale_logo_b'].currentValue +
+    //     ')';
+    // }
   }
 
   adjustFontSize(teamNameClass: string) {

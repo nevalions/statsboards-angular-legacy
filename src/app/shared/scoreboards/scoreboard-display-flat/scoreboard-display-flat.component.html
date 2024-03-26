@@ -26,7 +26,7 @@
               width="50"
               height="50"
               (error)="onImgError($event)"
-              [style.transform]="logoTeamAScale"
+              [style.transform]="'scale('+ data.scoreboard_data?.scale_logo_a +')'"
             >
           </div>
           <div class="team-scoreblock">
@@ -60,7 +60,7 @@
               width="50"
               height="50"
               (error)="onImgError($event)"
-              [style.transform]="logoTeamBScale"
+              [style.transform]="'scale('+ data.scoreboard_data?.scale_logo_b +')'"
             >
           </div>
           <div class="team-scoreblock">

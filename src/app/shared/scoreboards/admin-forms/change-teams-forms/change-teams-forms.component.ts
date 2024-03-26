@@ -15,9 +15,11 @@ import {
   TuiFileLike,
   TuiInputFilesModule,
   TuiInputModule,
+  TuiInputNumberModule,
+  TuiInputSliderModule,
   TuiToggleModule,
 } from '@taiga-ui/kit';
-import { TuiErrorModule } from '@taiga-ui/core';
+import { TuiErrorModule, TuiHintModule } from '@taiga-ui/core';
 import { AdminSubmitButtonComponent } from '../../../ui/buttons/admin-submit-button/admin-submit-button.component';
 import { ImageService } from '../../../../services/image.service';
 import { UploadProgressService } from '../../../../services/upload-progress.service';
@@ -41,6 +43,9 @@ import { TuiValueChangesModule } from '@taiga-ui/cdk';
     TuiInputFilesModule,
     TuiToggleModule,
     TuiValueChangesModule,
+    TuiInputNumberModule,
+    TuiInputSliderModule,
+    TuiHintModule,
   ],
   templateUrl: './change-teams-forms.component.html',
   styleUrl: './change-teams-forms.component.less',
@@ -67,6 +72,12 @@ export class ChangeTeamsFormsComponent implements OnChanges {
 
   public teamALogoForm = new FormControl();
   public teamBLogoForm = new FormControl();
+
+  readonly min = 0.1;
+  readonly max = 5;
+  readonly sliderStep = 0.1;
+  readonly steps = (this.max - this.min) / this.sliderStep;
+  readonly quantum = 0.01;
 
   createLoadedLogo$(
     logoForm: FormControl,
@@ -187,6 +198,11 @@ export class ChangeTeamsFormsComponent implements OnChanges {
           ? this.data.scoreboard_data.use_team_a_game_logo
           : false,
       ),
+      scaleLogoA: new FormControl<number>(
+        this.data?.scoreboard_data?.scale_logo_a !== undefined
+          ? this.data.scoreboard_data.scale_logo_a
+          : 2,
+      ),
       teamBLogo: new FormControl<string | null | undefined>(
         this.data?.scoreboard_data?.team_b_game_logo,
       ),
@@ -194,6 +210,11 @@ export class ChangeTeamsFormsComponent implements OnChanges {
         this.data?.scoreboard_data?.use_team_b_game_logo !== undefined
           ? this.data.scoreboard_data.use_team_b_game_logo
           : false,
+      ),
+      scaleLogoB: new FormControl<number>(
+        this.data?.scoreboard_data?.scale_logo_b !== undefined
+          ? this.data.scoreboard_data.scale_logo_b
+          : 2,
       ),
     });
   }
@@ -219,6 +240,38 @@ export class ChangeTeamsFormsComponent implements OnChanges {
       [currentControlKey]: useItem,
     };
     this.scoreboardData.updateScoreboardData(updatedScoreboardData);
+  }
+
+  scaleLogoA(team: 'a' | 'b', scoreboardData: IScoreboard) {
+    if (!scoreboardData) return;
+
+    if (this.teamDataForm.valid) {
+      const formValue = this.teamDataForm.getRawValue();
+      const scaleLogoA = formValue.scaleLogoA;
+      const scaleLogoB = formValue.scaleLogoB;
+      const numberScaleLogoA = Number(scaleLogoA);
+      const numberScaleLogoB = Number(scaleLogoB);
+
+      console.log(numberScaleLogoA, numberScaleLogoB);
+
+      if (numberScaleLogoA && team === 'a') {
+        const scaleLogoKey = 'scale_logo_a';
+        const updatedScoreboardData = {
+          ...scoreboardData,
+          [scaleLogoKey]: scaleLogoA,
+        };
+
+        this.scoreboardData.updateScoreboardData(updatedScoreboardData);
+      } else {
+        const scaleLogoKey = 'scale_logo_b';
+        const updatedScoreboardData = {
+          ...scoreboardData,
+          [scaleLogoKey]: scaleLogoB,
+        };
+
+        this.scoreboardData.updateScoreboardData(updatedScoreboardData);
+      }
+    }
   }
 
   updateTeamGameLogo(team: 'a' | 'b', scoreboardData: IScoreboard) {
