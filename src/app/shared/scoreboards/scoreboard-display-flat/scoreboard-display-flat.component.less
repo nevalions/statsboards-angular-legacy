@@ -31,7 +31,7 @@
   grid-template-columns: auto auto;
   grid-template-rows: auto;
 
-  grid-gap: 0; /* Set the gap to 0 to remove spaces between grid items */
+  grid-gap: 0;
 
   align-content: start;
   justify-content: start;
@@ -59,17 +59,24 @@
   grid-template-columns: auto auto auto auto;
 }
 
+.team-block {
+  display: grid;
+  grid-row: span 2;
+  grid-template-columns: auto;
+  grid-template-rows: 75% 20%;
+}
+
 .team_a-detail,
 .team_b-detail {
   display: grid;
   grid-column-gap: 5px;
-  grid-template-rows: auto auto;
   grid-template-columns: auto auto auto;
   align-items: center;
   justify-content: center;
   height: 70px;
   font-size: 16px;
   overflow: hidden;
+  padding-left: 10px;
 }
 
 .team_a-detail {
@@ -88,8 +95,8 @@
     justify-content: end;
   }
 
-  .team_a-name span,
-  .team_b-name span {
+  .team_a-name-span,
+  .team_b-name-span {
     font-size: 26px;
     text-transform: uppercase;
     white-space: nowrap;
@@ -132,15 +139,13 @@
 .team_a-thisgame,
 .team_b-thisgame {
   display: grid;
-
   justify-content: center;
 
 }
 
-.team-timeout span,
-.team-timeout span {
-  font-size: 16px;
-
+.timeout-text,
+.timeout-text {
+  font-size: 18px;
 }
 
 
@@ -156,12 +161,6 @@
   grid-row: span 2;
 
   overflow: hidden;
-}
-
-.team_a-logo img,
-.team_b-logo img {
-
-  //transform: scale(2);
 }
 
 .team-scoreblock {
@@ -183,7 +182,7 @@
   padding: 0 5px;
 }
 
-.team-scoreblock span {
+.team-scoreblock-text {
   //display: contents;
   font-size: 44px;
 }
@@ -345,25 +344,13 @@
 
 }
 
-//@media screen and (max-width: 550px) {
-//  .team_a-name,
-//  .team_b-name {
-//    width: 180px;
-//  }
-//}
-
 @media screen and (max-width: 420px) {
   .game-container {
     grid-template-columns: auto auto;
   }
 
-  //.team_a-name,
-  //.team_b-name {
-  //  width: 80px;
-  //}
   .team_a-logo,
   .team_b-logo {
-    //width: 40px;
   }
 
   .team-scoreblock span {
