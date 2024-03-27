@@ -136,7 +136,11 @@
           *ngIf="data.scoreboard_data?.is_playclock"
           class="play-clock"
         >
-          <span>{{ playClock }}</span>
+          @if (playClock !== null) {
+            <span
+              [style.color]="playClock <= 5 ? '#ee3030' : ''"
+            >{{ playClock }}</span>
+          }
         </div>
 
         <div
