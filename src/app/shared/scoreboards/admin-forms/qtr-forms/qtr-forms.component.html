@@ -1,7 +1,6 @@
 <!--QTR-->
 <div
   class="quarter"
-  id="quarter"
   *ngIf="qtrFormsVisible$ | async"
 >
 
@@ -27,33 +26,36 @@
 
   </form>
 
-  <!--    <label-->
-  <!--      class="quarter-selector-label"-->
-  <!--      for="select-quarter"-->
-  <!--    >Select Quarter:-->
-  <!--    </label>-->
-
-
-  <!--    <select-->
-  <!--      class="quarter-selector-sel"-->
-  <!--      id="select-quarter"-->
-  <!--      #quarterSelect-->
-  <!--    >-->
-  <!--      <option value="1st">1st</option>-->
-  <!--      <option value="2nd">2nd</option>-->
-  <!--      <option value="HT">HT</option>-->
-  <!--      <option value="3rd">3rd</option>-->
-  <!--      <option value="4th">4th</option>-->
-  <!--      <option value="Final">Final</option>-->
-  <!--      <option value="OT">OT</option>-->
-  <!--    </select>-->
-
-  <!--    <button-->
-  <!--      class="save-button"-->
-  <!--      id="save-qtr-button"-->
-  <!--      (click)="updateQuarter(data.match_data!)"-->
-  <!--    >Save-->
-  <!--    </button>-->
+  <form class="flag-goal-btns">
+    <button
+      class="flag-goal-btn"
+      appearance="secondary-destructive"
+      tuiButton
+      size="m"
+      type="button"
+      [disabled]="disabled"
+      (click)="toggleFlag(data?.scoreboard_data!)"
+    >FLAG
+    </button>
+    <button
+      class="flag-goal-btn"
+      appearance="down-admin"
+      tuiButton
+      size="m"
+      type="button"
+      [disabled]="disabled"
+    >TD HOME
+    </button>
+    <button
+      class="flag-goal-btn"
+      appearance="down-admin"
+      tuiButton
+      size="m"
+      type="button"
+      [disabled]="disabled"
+    >TD AWAY
+    </button>
+  </form>
 
 </div>
 <app-toggle-visible-button

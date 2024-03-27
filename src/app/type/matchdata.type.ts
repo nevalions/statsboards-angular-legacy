@@ -37,22 +37,26 @@ export interface IScoreboard {
   scale_logo_a: number;
   scale_logo_b: number;
 
+  is_flag: boolean;
+  is_goal_team_a: boolean;
+  is_goal_team_b: boolean;
+
   match_id: number;
 }
 
-export function DefaultMatchData(match_id: number): IMatchData {
-  return {
-    id: 83, // Or any default ID value
-    match_id: match_id, // It's better to set match_id manually as it seems to be a required field
-    score_team_a: 0,
-    score_team_b: 0,
-    timeout_team_a: '',
-    timeout_team_b: '',
-    game_status: '',
-    field_length: 0,
-    ball_on: 0,
-    distance: '',
-    qtr: '',
-    down: '',
-  };
-}
+// export function DefaultMatchData(match_id: number): IMatchData {
+//   return {
+//     id: 83, // Or any default ID value
+//     match_id: match_id, // It's better to set match_id manually as it seems to be a required field
+//     score_team_a: 0,
+//     score_team_b: 0,
+//     timeout_team_a: '',
+//     timeout_team_b: '',
+//     game_status: '',
+//     field_length: 0,
+//     ball_on: 0,
+//     distance: '',
+//     qtr: '',
+//     down: '',
+//   };
+// }

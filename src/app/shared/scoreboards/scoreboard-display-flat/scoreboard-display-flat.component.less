@@ -275,13 +275,13 @@
   align-items: center;
   justify-content: center;
   margin: 0;
+  position: relative;
+  overflow: visible;
 }
 
-.downandyard span {
+.downandyard-span {
   font-size: 20px;
-
   text-transform: uppercase;
-
 }
 
 
@@ -291,6 +291,25 @@
 .downandyard {
   font-family: 'IntegralCF-DemiBold', sans-serif;
 }
+
+.flag {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #f0d71d;
+  display: grid;
+  grid-template-columns: auto;
+  align-items: center;
+  justify-content: center;
+}
+
+.flag-span {
+  font-size: 30px;
+  text-transform: uppercase;
+}
+
 
 @media screen and (max-width: 1330px) {
   .scoreboard {

@@ -7,17 +7,19 @@ import {
   Input,
   OnChanges,
   SimpleChanges,
-  ViewChild,
 } from '@angular/core';
 import { NgIf } from '@angular/common';
 import { IMatchFullDataWithScoreboard } from '../../../type/match.type';
 import { ImageService } from '../../../services/image.service';
-import { environment } from '../../../../environments/environment';
-import { DefaultMatchData } from '../../../type/matchdata.type';
+import { urlWithProtocol } from '../../../base/constants';
 import {
-  urlWithProtocol,
-  urlWithProtocolAndPort,
-} from '../../../base/constants';
+  animate,
+  keyframes,
+  state,
+  style,
+  transition,
+  trigger,
+} from '@angular/animations';
 
 @Component({
   selector: 'app-scoreboard-display-flat',
@@ -26,6 +28,37 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './scoreboard-display-flat.component.html',
   styleUrl: './scoreboard-display-flat.component.less',
+  animations: [
+    trigger('scoreChange', [
+      state(
+        'unchanged',
+        style({
+          opacity: 1,
+          transform: 'scaleY(1)',
+          transformOrigin: 'bottom',
+        }),
+      ),
+      state(
+        'changed',
+        style({
+          opacity: 1,
+          transform: 'scaleY(1)',
+          transformOrigin: 'bottom',
+        }),
+      ),
+      transition('* => *', [
+        animate(
+          '0.2s',
+          keyframes([
+            style({ opacity: 1, transform: 'scaleY(1)', offset: 0 }),
+            style({ opacity: 0, transform: 'scaleY(0)', offset: 0.5 }),
+            style({ opacity: 0, transform: 'scaleY(0)', offset: 0.51 }),
+            style({ opacity: 1, transform: 'scaleY(1)', offset: 1.0 }),
+          ]),
+        ),
+      ]),
+    ]),
+  ],
 })
 export class ScoreboardDisplayFlatComponent
   implements AfterViewInit, OnChanges
@@ -34,10 +67,9 @@ export class ScoreboardDisplayFlatComponent
   @Input() gameClock: number = 0;
   @Input() playClock: number | null = null;
   @Input() scoreboardDisplayClass: string = 'fullhd-scoreboard';
-  // @Input() logoTeamAScaleInput: number = 2;
-  // @Input() logoTeamBScaleInput: number = 2;
-  // logoTeamAScale = `scale('${this.data.scoreboard_data?.scale_logo_a}')`;
-  // logoTeamBScale = `scale('${this.data.scoreboard_data?.scale_logo_a}')`;
+
+  scoreAState = 'unchanged';
+  scoreBState = 'unchanged';
 
   teamAFontSize: string = '26px';
   teamBFontSize: string = '26px';
@@ -54,18 +86,28 @@ export class ScoreboardDisplayFlatComponent
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    // if (changes['data.scoreboard_data.scale_logo_a']) {
-    //   this.logoTeamAScale =
-    //     'scale(' +
-    //     changes['data.scoreboard_data.scale_logo_a'].currentValue +
-    //     ')';
-    // }
-    // if (changes['data.scoreboard_data.scale_logo_b']) {
-    //   this.logoTeamBScale =
-    //     'scale(' +
-    //     changes['data.scoreboard_data.scale_logo_b'].currentValue +
-    //     ')';
-    // }
+    if (changes['data']) {
+      const prevData: IMatchFullDataWithScoreboard =
+        changes['data'].previousValue;
+      const currData: IMatchFullDataWithScoreboard =
+        changes['data'].currentValue;
+
+      if (
+        prevData &&
+        prevData.match_data?.score_team_a !== currData.match_data?.score_team_a
+      ) {
+        this.scoreAState =
+          this.scoreAState === 'unchanged' ? 'changed' : 'unchanged';
+      }
+
+      if (
+        prevData &&
+        prevData.match_data?.score_team_b !== currData.match_data?.score_team_b
+      ) {
+        this.scoreBState =
+          this.scoreBState === 'unchanged' ? 'changed' : 'unchanged';
+      }
+    }
   }
 
   adjustFontSize(teamNameClass: string) {

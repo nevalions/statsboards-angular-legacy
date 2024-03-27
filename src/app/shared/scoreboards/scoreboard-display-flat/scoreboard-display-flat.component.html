@@ -30,7 +30,7 @@
             >
           </div>
           <div class="team-scoreblock">
-            <span>{{ data.match_data?.score_team_a }}</span>
+            <span [@scoreChange]="scoreAState">{{ data.match_data?.score_team_a }}</span>
           </div>
           <div class="team_a-thisgame">
             <div class="team-timeout">
@@ -64,7 +64,7 @@
             >
           </div>
           <div class="team-scoreblock">
-            <span>{{ data.match_data?.score_team_b }}</span>
+            <span [@scoreChange]="scoreBState">{{ data.match_data?.score_team_b }}</span>
           </div>
           <div class="team_b-thisgame">
             <div class="team-timeout">
@@ -101,11 +101,18 @@
           *ngIf="data.scoreboard_data?.is_downdistance"
           class="downandyard"
         >
-          <span id="downdist">
+          <span class="downandyard-span">
             {{ data.match_data?.down }}{{ data.match_data?.down ? ' & ' : '' }}{{ data.match_data?.distance }}
           </span>
+          <div
+            *ngIf="data.scoreboard_data?.is_flag"
+            class="flag"
+          >
+            <span class="flag-span">
+            FLAG
+            </span>
+          </div>
         </div>
-
       </div>
     </div>
   </div>
