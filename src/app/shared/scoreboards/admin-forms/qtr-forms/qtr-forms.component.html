@@ -44,6 +44,7 @@
       size="m"
       type="button"
       [disabled]="disabled"
+      (click)="toggleTouchdownTeamA(data?.scoreboard_data!)"
     >TD HOME
     </button>
     <button
@@ -53,6 +54,7 @@
       size="m"
       type="button"
       [disabled]="disabled"
+      (click)="toggleTouchdownTeamB(data?.scoreboard_data!)"
     >TD AWAY
     </button>
   </form>

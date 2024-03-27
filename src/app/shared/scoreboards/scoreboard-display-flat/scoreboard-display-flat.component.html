@@ -8,7 +8,9 @@
           [style]="{'background-color': data.scoreboard_data?.team_a_game_color}">
           <div class="team-block">
             <div class="team_a-name">
-              <span class="team_a-name-span" [style.font-size]="teamAFontSize">
+              <span
+                *ngIf="!data.scoreboard_data?.is_goal_team_a"
+                class="team_a-name-span" [style.font-size]="teamAFontSize">
                 {{
                   data.scoreboard_data?.use_team_a_game_title ?
                     data.scoreboard_data?.team_a_game_title :
@@ -16,11 +18,25 @@
                 }}
               </span>
             </div>
-            <div class="team_a-thisgame">
-              <div class="team-timeout">
+            <div
+              *ngIf="!data.scoreboard_data?.is_goal_team_a"
+              class="team_a-thisgame"
+            >
+              <div
+                class="team-timeout">
                 <span class="timeout-text">{{ data.match_data?.timeout_team_a }}</span>
               </div>
             </div>
+
+            <div
+              *ngIf="data.scoreboard_data?.is_goal_team_a"
+              class="touchdown"
+            >
+            <span class="touchdown-span">
+              {{ goal | uppercase }}
+            </span>
+            </div>
+
           </div>
 
           <div class="team_a-logo">
@@ -49,7 +65,9 @@
         >
           <div class="team-block">
             <div class="team_b-name">
-              <span class="team_b-name-span" [style.font-size]="teamBFontSize">
+              <span
+                *ngIf="!data.scoreboard_data?.is_goal_team_b"
+                class="team_b-name-span" [style.font-size]="teamBFontSize">
                 {{
                   data.scoreboard_data?.use_team_b_game_title ?
                     data.scoreboard_data?.team_b_game_title :
@@ -57,10 +75,22 @@
                 }}
               </span>
             </div>
-            <div class="team_b-thisgame">
+            <div
+              *ngIf="!data.scoreboard_data?.is_goal_team_b"
+              class="team_b-thisgame"
+            >
               <div class="team-timeout">
                 <span class="timeout-text">{{ data.match_data?.timeout_team_b }}</span>
               </div>
+            </div>
+
+            <div
+              *ngIf="data.scoreboard_data?.is_goal_team_b"
+              class="touchdown"
+            >
+            <span class="touchdown-span">
+              {{ goal | uppercase }}
+            </span>
             </div>
 
           </div>

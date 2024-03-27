@@ -8,7 +8,7 @@ import {
   OnChanges,
   SimpleChanges,
 } from '@angular/core';
-import { NgIf } from '@angular/common';
+import { NgIf, UpperCasePipe } from '@angular/common';
 import { IMatchFullDataWithScoreboard } from '../../../type/match.type';
 import { ImageService } from '../../../services/image.service';
 import { urlWithProtocol } from '../../../base/constants';
@@ -24,7 +24,7 @@ import {
 @Component({
   selector: 'app-scoreboard-display-flat',
   standalone: true,
-  imports: [NgIf],
+  imports: [NgIf, UpperCasePipe],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './scoreboard-display-flat.component.html',
   styleUrl: './scoreboard-display-flat.component.less',
@@ -68,6 +68,7 @@ export class ScoreboardDisplayFlatComponent
   @Input() playClock: number | null = null;
   @Input() scoreboardDisplayClass: string = 'fullhd-scoreboard';
 
+  goal = 'touchdown';
   scoreAState = 'unchanged';
   scoreBState = 'unchanged';
 

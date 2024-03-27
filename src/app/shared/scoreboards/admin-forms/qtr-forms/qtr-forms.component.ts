@@ -77,6 +77,12 @@ export class QtrFormsComponent implements OnChanges {
       isFlag: new FormControl<boolean | null | undefined>(
         this.data?.scoreboard_data?.is_flag,
       ),
+      isTouchdownTeamA: new FormControl<boolean | null | undefined>(
+        this.data?.scoreboard_data?.is_goal_team_a,
+      ),
+      isTouchdownTeamB: new FormControl<boolean | null | undefined>(
+        this.data?.scoreboard_data?.is_goal_team_b,
+      ),
     });
   }
 
@@ -86,7 +92,7 @@ export class QtrFormsComponent implements OnChanges {
     if (this.isFlagAndGoalForm.valid) {
       const formValue = this.isFlagAndGoalForm.getRawValue();
       const isFlagged = formValue.isFlag;
-      console.log('FLAGED', isFlagged);
+      // console.log('FLAGED', isFlagged);
       if (isFlagged === true || isFlagged === false) {
         const updatedScoreboardData = {
           ...scoreboardData,
@@ -97,6 +103,54 @@ export class QtrFormsComponent implements OnChanges {
         const updatedScoreboardData = {
           ...scoreboardData,
           is_flag: false,
+        };
+        this.scoreboardData.updateScoreboardData(updatedScoreboardData);
+      }
+    }
+  }
+
+  toggleTouchdownTeamA(scoreboardData: IScoreboard) {
+    if (!scoreboardData) return;
+
+    if (this.isFlagAndGoalForm.valid) {
+      const formValue = this.isFlagAndGoalForm.getRawValue();
+      const isTouchdownTeamA = formValue.isTouchdownTeamA;
+
+      // console.log('TD', !isTouchdownTeamA);
+      if (isTouchdownTeamA === true || isTouchdownTeamA === false) {
+        const updatedScoreboardData = {
+          ...scoreboardData,
+          is_goal_team_a: !isTouchdownTeamA,
+        };
+        this.scoreboardData.updateScoreboardData(updatedScoreboardData);
+      } else {
+        const updatedScoreboardData = {
+          ...scoreboardData,
+          is_goal_team_a: true,
+        };
+        this.scoreboardData.updateScoreboardData(updatedScoreboardData);
+      }
+    }
+  }
+
+  toggleTouchdownTeamB(scoreboardData: IScoreboard) {
+    if (!scoreboardData) return;
+
+    if (this.isFlagAndGoalForm.valid) {
+      const formValue = this.isFlagAndGoalForm.getRawValue();
+      const isTouchdownTeamB = formValue.isTouchdownTeamB;
+
+      console.log('TD', !isTouchdownTeamB);
+      if (isTouchdownTeamB === true || isTouchdownTeamB === false) {
+        const updatedScoreboardData = {
+          ...scoreboardData,
+          is_goal_team_b: !isTouchdownTeamB,
+        };
+        this.scoreboardData.updateScoreboardData(updatedScoreboardData);
+      } else {
+        const updatedScoreboardData = {
+          ...scoreboardData,
+          is_goal_team_b: true,
         };
         this.scoreboardData.updateScoreboardData(updatedScoreboardData);
       }
