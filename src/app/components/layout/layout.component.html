@@ -2,26 +2,50 @@
   <tui-root>
     <app-header [title]="title"></app-header>
     <div style="margin: 0; padding-left: 15px;">
-      <tui-breadcrumbs
-        size="l"
-        class="tui-space_top-2"
-      >
-        @if (breadcrumbs$ | async; as bread) {
-          @for (item of bread; track $index) {
-            <ng-container>
+      @if (breadcrumbs$ | async; as items) {
+        <tui-breadcrumbs
+          size="l"
+          class="tui-space_top-2"
+        >
+          <tui-hosted-dropdown
+            *tuiItem
+            [content]="content"
+          >
+            <button
+              appearance="secondary"
+              icon="tuiIconMoreHorizontal"
+              size="xs"
+              title="More"
+              tuiIconButton
+            ></button>
+            <ng-template #content>
+              <tui-data-list>
+                <a
+                  *tuiRepeatTimes="let index of items.length - maxBreads"
+                  tuiOption
+                  [href]="items[index].routerLink"
+                >
+                  {{ items[index].caption }}
+                </a>
+              </tui-data-list>
+            </ng-template>
+          </tui-hosted-dropdown>
+          <ng-container *tuiRepeatTimes="let index of maxBreads">
+            @if (index + items.length - maxBreads >= 0) {
               <a
                 *tuiItem
                 tuiLink
-                [routerLink]="item.routerLink"
+                [href]="items[index + items.length - maxBreads].routerLink"
               >
-                {{ item.caption }}
+                {{ items[index + items.length - maxBreads].caption }}
               </a>
-            </ng-container>
-          }
-        } @else {
-          <tui-loader></tui-loader>
-        }
-      </tui-breadcrumbs>
+            }
+          </ng-container>
+        </tui-breadcrumbs>
+      } @else {
+        <tui-loader></tui-loader>
+      }
+
     </div>
     <main>
       <div class="main container">
