@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { AsyncPipe, DatePipe } from '@angular/common';
+import { AsyncPipe, DatePipe, TitleCasePipe } from '@angular/common';
 import { IMatchWithFullData } from '../../../type/match.type';
 import { TuiLoaderModule } from '@taiga-ui/core';
 import { TuiIslandModule } from '@taiga-ui/kit';
@@ -9,7 +9,13 @@ import { ActivatedRoute, Router } from '@angular/router';
 @Component({
   selector: 'app-list-of-matches',
   standalone: true,
-  imports: [AsyncPipe, TuiLoaderModule, TuiIslandModule, DatePipe],
+  imports: [
+    AsyncPipe,
+    TuiLoaderModule,
+    TuiIslandModule,
+    DatePipe,
+    TitleCasePipe,
+  ],
   templateUrl: './list-of-matches.component.html',
   styleUrl: './list-of-matches.component.less',
 })

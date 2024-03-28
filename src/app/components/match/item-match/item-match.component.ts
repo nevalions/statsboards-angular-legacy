@@ -3,7 +3,7 @@ import { Subject } from 'rxjs';
 import { IMatch } from '../../../type/match.type';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { MatchService } from '../match.service';
-import { AsyncPipe, DatePipe, NgIf } from '@angular/common';
+import { AsyncPipe, DatePipe, NgIf, TitleCasePipe } from '@angular/common';
 import {
   TuiAppearance,
   TuiButtonModule,
@@ -42,6 +42,7 @@ import { environment } from '../../../../environments/environment';
     CreateButtonShowDialogComponent,
     AddEditMatchComponent,
     NgIf,
+    TitleCasePipe,
   ],
   templateUrl: './item-match.component.html',
   styleUrl: './item-match.component.less',

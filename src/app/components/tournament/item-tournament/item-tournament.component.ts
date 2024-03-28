@@ -14,7 +14,13 @@ import {
   TuiPaginationModule,
   TuiStringifyContentPipeModule,
 } from '@taiga-ui/kit';
-import { AsyncPipe, SlicePipe, UpperCasePipe, Location } from '@angular/common';
+import {
+  AsyncPipe,
+  SlicePipe,
+  UpperCasePipe,
+  Location,
+  TitleCasePipe,
+} from '@angular/common';
 import { DropDownMenuComponent } from '../../../shared/ui/dropdownmenu/dropdownmenu.component';
 import { ListOfItemsIslandComponent } from '../../../shared/ui/list-of-items-island/list-of-items-island.component';
 import {
@@ -110,6 +116,7 @@ import { urlWithProtocol } from '../../../base/constants';
     CreateButtonShowDialogComponent,
     AddItemDialogFromListComponent,
     RouterOutlet,
+    TitleCasePipe,
   ],
   templateUrl: './item-tournament.component.html',
   styleUrl: './item-tournament.component.less',

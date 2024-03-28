@@ -6,7 +6,7 @@ import {
   OnInit,
 } from '@angular/core';
 import { TuiIslandModule } from '@taiga-ui/kit';
-import { AsyncPipe } from '@angular/common';
+import { AsyncPipe, TitleCasePipe, UpperCasePipe } from '@angular/common';
 import { TuiLoaderModule, TuiSizeL, TuiSizeS } from '@taiga-ui/core';
 import { Observable, of, Subscription } from 'rxjs';
 import { SearchListService } from '../../../services/search-list.service';
@@ -14,7 +14,13 @@ import { SearchListService } from '../../../services/search-list.service';
 @Component({
   selector: 'app-list-of-items-island',
   standalone: true,
-  imports: [TuiIslandModule, AsyncPipe, TuiLoaderModule],
+  imports: [
+    TuiIslandModule,
+    AsyncPipe,
+    TuiLoaderModule,
+    TitleCasePipe,
+    UpperCasePipe,
+  ],
   templateUrl: './list-of-items-island.component.html',
   styleUrl: './list-of-items-island.component.less',
   changeDetection: ChangeDetectionStrategy.OnPush,

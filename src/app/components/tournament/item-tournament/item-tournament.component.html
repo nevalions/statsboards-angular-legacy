@@ -118,7 +118,7 @@
                     type="button"
                     style="width: 80%"
                     (click)="navigateToTeamItem(team)"
-                  > {{ team.title }}
+                  > {{ team.title | titlecase }}
                   </button>
                   <app-delete-button-icon
                     [dialogId]="'removeDialog' + team.id"

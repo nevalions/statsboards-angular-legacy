@@ -16,7 +16,7 @@
           </figure>
           <div>
             <h3 class="tui-island__title content__body__title__center">
-              {{ item.teams_data!.team_a.title }} vs {{ item.teams_data!.team_b.title }}
+              {{ item.teams_data!.team_a.title | titlecase }} vs {{ item.teams_data!.team_b.title | titlecase }}
             </h3>
             <h4 class="tui-island__title content__body__title__center">
               {{ item.match_data!.score_team_a }} : {{ item.match_data!.score_team_b }}
