@@ -266,17 +266,20 @@ export class MatchEffects {
     { functional: true },
   );
 
-  deleteMatchSuccessEffect$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(matchActions.deletedSuccessfully),
-      switchMap((action) =>
-        of(
-          matchWithFullDataActions.removeMatchFromTournament({
-            id: action.matchId,
-          }),
-        ),
+  deleteMatchSuccessEffect$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(matchActions.deletedSuccessfully),
+        switchMap((action) => {
+          console.log('deleted match', action.matchId);
+          return of(
+            matchWithFullDataActions.removeMatchFromTournament({
+              id: action.matchId,
+            }),
+          );
+        }),
       ),
-    ),
+    { functional: true },
   );
 
   navigateOnMatchDeletion$ = createEffect(
@@ -288,7 +291,7 @@ export class MatchEffects {
             this.router.navigateByUrl(
               `/sport/${sportId}/season/${seasonId}/tournament/${tournamentId}`,
             );
-          }, 1500); // Use a small delay
+          }, 0); // Use a small delay
         }),
       ),
     { dispatch: false },

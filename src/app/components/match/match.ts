@@ -49,5 +49,6 @@ export class Match {
 
   deleteMatch() {
     this.store.dispatch(matchActions.delete());
+    //   DELETE FULL DATA FROM REDUCER
   }
 }

@@ -82,7 +82,10 @@ const matchWithFullDataFeature = createFeature({
     on(matchWithFullDataActions.deletedSuccessfully, (state, action) => ({
       ...state,
       isSubmitting: false,
-      itemsList: (state.allMatchesWithFullData || []).filter(
+      allMatchesWithFullDataInTournament: (
+        state.allMatchesWithFullDataInTournament || []
+      ).filter((item) => item.id !== action.id),
+      allMatchesWithFullData: (state.allMatchesWithFullData || []).filter(
         (item) => item.id !== action.id,
       ),
       errors: null,
@@ -149,6 +152,9 @@ const matchWithFullDataFeature = createFeature({
         state.allMatchesWithFullDataInTournament.filter(
           (match) => match.id !== action.id,
         ),
+      allMatchesWithFullData: state.allMatchesWithFullData.filter(
+        (match) => match.id !== action.id,
+      ),
     })),
 
     // get actions

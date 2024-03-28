@@ -107,10 +107,7 @@ import { Match } from '../match';
   ],
 })
 export class AddEditMatchComponent implements OnInit, OnChanges, OnDestroy {
-  constructor(
-    // private matchWithFullData: MatchWithFullData,
-    private match: Match,
-  ) {}
+  constructor(private match: Match) {}
 
   dateTimeService = inject(DateTimeService);
   dialogService = inject(DialogService);
@@ -118,15 +115,9 @@ export class AddEditMatchComponent implements OnInit, OnChanges, OnDestroy {
 
   @Input() action: string = 'add';
   @Input() dialogId: string = 'addDialog';
-
-  @Input() editMatch: IMatch = {} as IMatch;
-  // @Input() match$: Observable<IMatchWithFullData> = of(
-  //   {} as IMatchWithFullData,
-  // );
+  // @Input() editMatch: IMatch = {} as IMatch;
   @Input() matchWithFullData: IMatchWithFullData = {} as IMatchWithFullData;
-
   @Input() tournamentId!: number;
-
   // @Input() teams$: Observable<ITeam[]> = of([]);
   @Input() teams: ITeam[] = [];
 
@@ -166,8 +157,12 @@ export class AddEditMatchComponent implements OnInit, OnChanges, OnDestroy {
       this.teams.length > 0
     ) {
       const { match } = this.matchWithFullData;
-      const team_a = this.teams.find((team) => team.id === match.team_a_id);
-      const team_b = this.teams.find((team) => team.id === match.team_b_id);
+      const team_a: ITeam | undefined = this.teams.find(
+        (team) => team.id === match.team_a_id,
+      );
+      const team_b: ITeam | undefined = this.teams.find(
+        (team) => team.id === match.team_b_id,
+      );
 
       if (team_a && team_b) {
         this.matchForm.setValue({
@@ -184,45 +179,9 @@ export class AddEditMatchComponent implements OnInit, OnChanges, OnDestroy {
     }
   }
 
-  // private initForm(): void {
-  //   this.match$
-  //     .pipe(
-  //       switchMap((match) =>
-  //         this.teams$.pipe(
-  //           take(1),
-  //           tap((teams) => console.log('Teams Data Form: ', teams)), // log the teams data
-  //           map((teams) => ({ match, teams })), // combine match and teams into a single object
-  //         ),
-  //       ),
-  //     )
-  //     .subscribe(({ match, teams }) => {
-  //       if (this.action === 'edit' && match) {
-  //         let team_a = teams.find((team) => team.id === match.match.team_a_id);
-  //         let team_b = teams.find((team) => team.id === match.match.team_b_id);
-  //
-  //         if (team_a && team_b) {
-  //           console.log('Setting form values');
-  //           this.matchForm.setValue({
-  //             id: match.match.id,
-  //             match_date: this.dateTimeService.convertJsDateTime(
-  //               new Date(match.match.match_date),
-  //             ),
-  //             week: match.match.week,
-  //             team_a: team_a,
-  //             team_b: team_b,
-  //             match_eesl_id: match.match.match_eesl_id,
-  //           });
-  //         }
-  //       }
-  //     });
-  // }
-  //
   ngOnInit(): void {
     console.log(this.dialogId);
     console.log(this.action);
-    // this.initForm();
-
-    // this.matchForm.valueChanges.subscribe((value) => console.log(value));
 
     this.dialogSubscription = this.dialogService
       .getDialogEvent(this.dialogId)
@@ -258,7 +217,6 @@ export class AddEditMatchComponent implements OnInit, OnChanges, OnDestroy {
 
         if (team_a_id && team_b_id) {
           let data: IMatch = {
-            // notice IMatch is used instead of IMatchWithFullData
             id: this.matchForm.get('id')?.value,
             match_date: js_date,
             week: formValue.week!,
@@ -269,13 +227,12 @@ export class AddEditMatchComponent implements OnInit, OnChanges, OnDestroy {
           };
 
           if (this.action === 'add') {
-            console.log(data);
+            // console.log(data);
             this.match.createMatch(data);
           } else if (this.action === 'edit') {
             console.log(this.action);
-            console.log(data);
+            // console.log(data);
             this.match.updateMatch(data);
-            // this.editEvent.emit(data);
           }
         }
       }

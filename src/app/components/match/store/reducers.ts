@@ -78,6 +78,9 @@ const matchFeature = createFeature({
       allMatches: (state.allMatches || []).filter(
         (item) => item.id !== action.matchId,
       ),
+      allMatchesInTournament: (state.allMatchesInTournament || []).filter(
+        (item) => item.id !== action.matchId,
+      ),
       errors: null,
     })),
     on(matchActions.deleteFailure, (state, action) => ({
@@ -96,6 +99,9 @@ const matchFeature = createFeature({
       isSubmitting: false,
       currentMatch: action.updatedMatch,
       allMatches: state.allMatches.map((item) =>
+        item.id === action.updatedMatch.id ? action.updatedMatch : item,
+      ),
+      allMatchesInTournament: state.allMatchesInTournament.map((item) =>
         item.id === action.updatedMatch.id ? action.updatedMatch : item,
       ),
       errors: null,

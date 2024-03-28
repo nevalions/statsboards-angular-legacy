@@ -154,9 +154,6 @@ export class ItemMatchComponent {
     console.log(match);
     if (match && match.id) {
       // console.log(match);
-      // this.match.loadCurrentMatch();
-      // this.match.updateMatch(match);
-      // this.matchService.editMatch(match.id, match).subscribe((match) => {});
     } else {
       console.log('Match data is empty');
     }
