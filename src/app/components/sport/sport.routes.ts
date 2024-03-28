@@ -76,6 +76,7 @@ export const SPORT_ROUTES: Routes = [
             data: {
               breadcrumb: {
                 caption: 'Teams',
+                routerLink: 'sport/:sport_id',
               },
             },
           },
@@ -94,6 +95,7 @@ export const SPORT_ROUTES: Routes = [
                 data: {
                   breadcrumb: {
                     caption: 'Tournaments',
+                    routerLink: 'sport/season/:season_id',
                   },
                 },
               },
@@ -122,6 +124,7 @@ export const SPORT_ROUTES: Routes = [
                 data: {
                   breadcrumb: {
                     caption: 'Tournament',
+                    routerLink: 'sport/tournament/:tournament_id',
                   },
                 },
               },
@@ -143,6 +146,7 @@ export const SPORT_ROUTES: Routes = [
                 data: {
                   breadcrumb: {
                     caption: 'Team',
+                    routerLink: 'sport/tournament/:tournament_id/team/:team_id',
                   },
                 },
               },
@@ -195,6 +199,8 @@ export const SPORT_ROUTES: Routes = [
                 data: {
                   breadcrumb: {
                     caption: 'Admin',
+                    routerLink:
+                      'sport/tournament/:tournament_id/match/:match_id/admin',
                   },
                 },
               },

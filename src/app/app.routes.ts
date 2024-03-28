@@ -51,7 +51,12 @@ export const routes: Routes = [
         WebSocketEffects,
       ),
     ],
-    data: { breadcrumb: { caption: 'HD' } },
+    data: {
+      breadcrumb: {
+        caption: 'HD',
+        routerLink: 'scoreboard/match/:match_id/hd',
+      },
+    },
   },
   {
     path: '',
@@ -60,7 +65,7 @@ export const routes: Routes = [
       {
         path: 'index',
         component: HomeComponent,
-        data: { breadcrumb: { caption: 'Home' } },
+        data: { breadcrumb: { caption: 'Home', routerLink: 'index' } },
       },
       { path: 'seasons', component: SeasonComponent },
       { path: 'seasons/year/:year', component: SeasonComponent },
@@ -91,6 +96,7 @@ export const routes: Routes = [
         data: {
           breadcrumb: {
             caption: 'Team',
+            routerLink: 'team/:team_id',
           },
         },
       },
@@ -101,6 +107,7 @@ export const routes: Routes = [
     data: {
       breadcrumb: {
         caption: 'index',
+        routerLink: '',
       },
     },
   },
