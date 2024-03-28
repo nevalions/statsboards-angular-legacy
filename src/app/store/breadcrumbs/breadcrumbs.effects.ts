@@ -74,109 +74,12 @@ export class BreadcrumbEffects {
             }
           }
 
-          // if (route && routeConfig && routePath) {
-          //   // console.log(route);
-          //   if (routePath.includes(':sport_id')) {
-          //     routePath = routePath.replace(':sport_id', sportsId);
-          //   }
-          //   if (routePath.includes(':season_id')) {
-          //     routePath = routePath.replace(':season_id', seasonId);
-          //   }
-          //   if (routePath.includes(':tournament_id')) {
-          //     routePath = routePath.replace(':tournament_id', tournamentId);
-          //   }
-          //   if (routePath.includes(':match_id')) {
-          //     routePath = routePath.replace(':match_id', matchId);
-          //   }
-          //
-          //   const level = routePath
-          //     .split('/')
-          //     .filter((segment: string) => segment.length > 0).length;
-          //
-          //   console.log('PATH & LEVEL', routePath, level);
-          //   console.log('ROUTE & DATA', routeConfig, routeConfig.data);
-          //
-          //   if (routeConfig.data) {
-          //     const breadcrumb = {
-          //       caption: routeConfig.data['breadcrumb'].caption,
-          //       // routerLink: path,
-          //       routerLink: routeConfig.data['breadcrumb'].routerLink,
-          //       level: level,
-          //     };
-          //     console.log(routePath);
-          //     // console.log(breadcrumb);
-          //     breadcrumbs.push(breadcrumb);
-          //   }
-          // }
           console.log(breadcrumbs);
           return breadcrumbActions.breadcrumbsUpdated({ breadcrumbs });
         }),
       ),
     { functional: false },
   );
-
-  // updateBreadcrumbs$ = createEffect(
-  //   () =>
-  //     this.actions$.pipe(
-  //       ofType(ROUTER_NAVIGATION),
-  //       withLatestFrom(
-  //         this.store.select((state) => state.breadcrumb.breadcrumbs),
-  //       ),
-  //       map(([action, currentBreadcrumbs]) => {
-  //         let route = (action as RouterNavigationAction).payload.routerState
-  //           .root;
-  //         console.log('ROUTE', route);
-  //         let breadcrumbs: Breadcrumb[] = [];
-  //         while (route.firstChild) route = route.firstChild;
-  //         const params = route.params;
-  //         const sportsId = params['sport_id'];
-  //         const seasonId = params['season_id'];
-  //         const tournamentId = params['tournament_id'];
-  //         const matchId = params['match_id'];
-  //         console.log('PARAMS', params);
-  //
-  //         if (
-  //           route &&
-  //           route.routeConfig &&
-  //           route.routeConfig.path &&
-  //           route.params &&
-  //           route.data
-  //         ) {
-  //           // console.log(route);
-  //           let path = route.routeConfig.path;
-  //           if (path.includes(':sport_id')) {
-  //             path = path.replace(':sport_id', sportsId);
-  //           }
-  //           if (path.includes(':season_id')) {
-  //             path = path.replace(':season_id', seasonId);
-  //           }
-  //           if (path.includes(':tournament_id')) {
-  //             path = path.replace(':tournament_id', tournamentId);
-  //           }
-  //           if (path.includes(':match_id')) {
-  //             path = path.replace(':match_id', matchId);
-  //           }
-  //
-  //           const level = path
-  //             .split('/')
-  //             .filter((segment: string) => segment.length > 0).length;
-  //
-  //           const breadcrumb = {
-  //             caption: route.data['breadcrumb'].caption,
-  //             // routerLink: path,
-  //             routerLink: route.data['breadcrumb'].routerLink,
-  //             level: level,
-  //           };
-  //           console.log(path);
-  //           // console.log(breadcrumb);
-  //           breadcrumbs.push(breadcrumb);
-  //         }
-  //         console.log(breadcrumbs);
-  //         return breadcrumbActions.breadcrumbsUpdated({ breadcrumbs });
-  //       }),
-  //     ),
-  //   { functional: false },
-  // );
 
   constructor(
     private actions$: Actions,
