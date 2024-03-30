@@ -27,7 +27,7 @@
 
         <div class="time-inputs-save-btn">
           <app-admin-submit-button
-            [disabled]="disabled || this.gameclock?.gameclock_status === 'running'"
+            [disabled]="disabled || this.gameclock!.gameclock_status === 'running'"
             (click)="saveNewGameClock(gameclock)"
           ></app-admin-submit-button>
         </div>
@@ -35,7 +35,7 @@
         <app-admin-down-button
           [down]="'Start Clock'"
           (click)="startGameClock()"
-          [disabled]="disabled || this.gameclock?.gameclock_status === 'running'"
+          [disabled]="disabled || this.gameclock!.gameclock_status === 'running'"
         ></app-admin-down-button>
 
         <app-admin-down-button
@@ -43,8 +43,8 @@
           (click)="pauseGameClock()"
           [disabled]="
       disabled
-      || (this.gameclock?.gameclock_status === 'paused'
-      || this.gameclock?.gameclock_status === 'stopped')"
+      || (this.gameclock!.gameclock_status === 'paused'
+      || this.gameclock!.gameclock_status === 'stopped')"
         ></app-admin-down-button>
 
         <app-admin-down-button
@@ -69,7 +69,7 @@
           <app-admin-down-button
             [down]="'Reset Timer'"
             (click)="resetPlayClock()"
-            [disabled]="disabled || this.playclock?.playclock_status === 'stopped'"
+            [disabled]="disabled || this.playclock!.playclock_status === 'stopped'"
           ></app-admin-down-button>
         </div>
 
@@ -77,13 +77,13 @@
           <app-admin-down-button
             [down]="'40'"
             (click)="startPlayClock(40)"
-            [disabled]="disabled || this.playclock?.playclock_status === 'running'"
+            [disabled]="disabled || this.playclock!.playclock_status === 'running'"
           ></app-admin-down-button>
 
           <app-admin-down-button
             [down]="'25'"
             (click)="startPlayClock(25)"
-            [disabled]="disabled || this.playclock?.playclock_status === 'running'"
+            [disabled]="disabled || this.playclock!.playclock_status === 'running'"
           ></app-admin-down-button>
         </div>
 
