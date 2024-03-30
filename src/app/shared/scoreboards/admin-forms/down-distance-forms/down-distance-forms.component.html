@@ -14,11 +14,11 @@
     >Down & Distance
     </tui-input>
 
-    <app-admin-submit-button
-      style="width: 100%"
-      (click)="updateDownAndDistance(data?.match_data!)"
-      [disabled]="disabled"
-    ></app-admin-submit-button>
+    <!--    <app-admin-submit-button-->
+    <!--      style="width: 100%"-->
+    <!--      (click)="updateDownAndDistance(data?.match_data!)"-->
+    <!--      [disabled]="disabled"-->
+    <!--    ></app-admin-submit-button>-->
   </form>
 
 
@@ -53,13 +53,18 @@
     >
       <tui-select
         formControlName="distanceFormValue"
-        style="width: 100%; text-align: center"
+        style="width: 100%; text-align: center; padding-bottom: 10px;"
       >Select Distance
         <tui-data-list-wrapper
           *tuiDataList
           [items]="items"
         ></tui-data-list-wrapper>
       </tui-select>
+      <app-admin-submit-button
+        style="width: 100%"
+        (click)="updateDownAndDistance(data?.match_data!)"
+        [disabled]="disabled"
+      ></app-admin-submit-button>
     </form>
 
   </div>
@@ -79,6 +84,20 @@
         [distance]="' & Goal'"
         (click)="distanceValue = btnFirstAndGoal.distance;  updateFormValue()"
       ></app-admin-down-button>
+
+    </div>
+    <div class="flag-button-game">
+      <button
+        class="flag-btn"
+        appearance="secondary-destructive"
+        tuiButton
+        size="m"
+        type="button"
+        [disabled]="disabled"
+        (click)="toggleFlag(data?.scoreboard_data!)"
+        style="width: 100%; height: 100%;"
+      >FLAG
+      </button>
     </div>
     <div class="down-dist-selector-conv">
       <app-admin-down-button

@@ -38,7 +38,7 @@ export class QtrFormsComponent implements OnChanges {
   @Input() disabled: boolean = false;
 
   qtrForm: FormGroup;
-  isFlagAndGoalForm: FormGroup;
+  isGoalForm: FormGroup;
 
   items: string[] = ['1st', '2nd', 'HT', '3rd', '4th', 'Final', 'OT'];
 
@@ -47,13 +47,13 @@ export class QtrFormsComponent implements OnChanges {
     private scoreboardData: ScoreboardData,
   ) {
     this.qtrForm = this.initQtrForm();
-    this.isFlagAndGoalForm = this.initFlagGoalForm();
+    this.isGoalForm = this.initGoalForm();
   }
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['data']) {
       this.qtrForm = this.initQtrForm();
-      this.isFlagAndGoalForm = this.initFlagGoalForm();
+      this.isGoalForm = this.initGoalForm();
     }
     if (changes['disabled']) {
       if (this.disabled) {
@@ -72,11 +72,11 @@ export class QtrFormsComponent implements OnChanges {
     });
   }
 
-  private initFlagGoalForm(): FormGroup {
+  private initGoalForm(): FormGroup {
     return new FormGroup({
-      isFlag: new FormControl<boolean | null | undefined>(
-        this.data?.scoreboard_data?.is_flag,
-      ),
+      // isFlag: new FormControl<boolean | null | undefined>(
+      //   this.data?.scoreboard_data?.is_flag,
+      // ),
       isTouchdownTeamA: new FormControl<boolean | null | undefined>(
         this.data?.scoreboard_data?.is_goal_team_a,
       ),
@@ -86,34 +86,11 @@ export class QtrFormsComponent implements OnChanges {
     });
   }
 
-  toggleFlag(scoreboardData: IScoreboard) {
-    if (!scoreboardData) return;
-
-    if (this.isFlagAndGoalForm.valid) {
-      const formValue = this.isFlagAndGoalForm.getRawValue();
-      const isFlagged = formValue.isFlag;
-      // console.log('FLAGED', isFlagged);
-      if (isFlagged === true || isFlagged === false) {
-        const updatedScoreboardData = {
-          ...scoreboardData,
-          is_flag: !isFlagged,
-        };
-        this.scoreboardData.updateScoreboardData(updatedScoreboardData);
-      } else {
-        const updatedScoreboardData = {
-          ...scoreboardData,
-          is_flag: false,
-        };
-        this.scoreboardData.updateScoreboardData(updatedScoreboardData);
-      }
-    }
-  }
-
   toggleTouchdownTeamA(scoreboardData: IScoreboard) {
     if (!scoreboardData) return;
 
-    if (this.isFlagAndGoalForm.valid) {
-      const formValue = this.isFlagAndGoalForm.getRawValue();
+    if (this.isGoalForm.valid) {
+      const formValue = this.isGoalForm.getRawValue();
       const isTouchdownTeamA = formValue.isTouchdownTeamA;
 
       // console.log('TD', !isTouchdownTeamA);
@@ -136,8 +113,8 @@ export class QtrFormsComponent implements OnChanges {
   toggleTouchdownTeamB(scoreboardData: IScoreboard) {
     if (!scoreboardData) return;
 
-    if (this.isFlagAndGoalForm.valid) {
-      const formValue = this.isFlagAndGoalForm.getRawValue();
+    if (this.isGoalForm.valid) {
+      const formValue = this.isGoalForm.getRawValue();
       const isTouchdownTeamB = formValue.isTouchdownTeamB;
 
       console.log('TD', !isTouchdownTeamB);

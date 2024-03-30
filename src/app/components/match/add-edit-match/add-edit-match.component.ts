@@ -16,7 +16,7 @@ import {
   TuiLoaderModule,
   TuiTextfieldControllerModule,
 } from '@taiga-ui/core';
-import { AsyncPipe } from '@angular/common';
+import { AsyncPipe, TitleCasePipe } from '@angular/common';
 import {
   FormControl,
   FormGroup,
@@ -97,6 +97,7 @@ import { Match } from '../match';
     SelectTeamComponent,
     CreateButtonInFormComponent,
     CancelButtonInFormComponent,
+    TitleCasePipe,
   ],
   templateUrl: './add-edit-match.component.html',
   styleUrl: './add-edit-match.component.less',

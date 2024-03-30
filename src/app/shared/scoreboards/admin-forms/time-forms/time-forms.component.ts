@@ -101,7 +101,10 @@ export class TimeFormsComponent implements OnChanges {
       return new FormGroup({
         gameTimeMinutes: new FormControl<number | null | undefined>(
           gameMinutes,
-          [Validators.min(0), Validators.max(12)],
+          [
+            Validators.min(0),
+            // Validators.max(12)
+          ],
         ),
         gameTimeSeconds: new FormControl<number | null | undefined>(
           gameSeconds,

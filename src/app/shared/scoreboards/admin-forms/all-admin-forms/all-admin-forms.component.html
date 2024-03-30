@@ -15,6 +15,11 @@
 
   </div>
 
+  <app-down-distance-forms
+    [data]="data"
+    [downAndDistanceFormVisible$]="downAndDistanceFormVisible$"
+    [disabled]="(isMatchDataLoading$ | async)! || (isMatchDataSubmitting$ | async)!"
+  ></app-down-distance-forms>
 
   <app-score-forms
     [data]="data"
@@ -28,12 +33,6 @@
     [qtrFormsVisible$]="qtrFormVisible$"
     [disabled]="(isMatchDataLoading$ | async)! || (isMatchDataSubmitting$ | async)!"
   ></app-qtr-forms>
-
-  <app-down-distance-forms
-    [data]="data"
-    [downAndDistanceFormVisible$]="downAndDistanceFormVisible$"
-    [disabled]="(isMatchDataLoading$ | async)! || (isMatchDataSubmitting$ | async)!"
-  ></app-down-distance-forms>
 
   <app-timeout-forms
     [data]="data"

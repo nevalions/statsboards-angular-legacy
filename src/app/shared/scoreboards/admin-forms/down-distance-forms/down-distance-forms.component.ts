@@ -3,7 +3,7 @@ import { AsyncPipe, NgIf } from '@angular/common';
 import { Observable } from 'rxjs';
 import { IMatchFullDataWithScoreboard } from '../../../../type/match.type';
 import { MatchData } from '../../../../components/match/matchdata';
-import { IMatchData } from '../../../../type/matchdata.type';
+import { IMatchData, IScoreboard } from '../../../../type/matchdata.type';
 import { ToggleVisibleButtonComponent } from '../../../ui/buttons/toggle-visible-button/toggle-visible-button.component';
 import { AdminSubmitButtonComponent } from '../../../ui/buttons/admin-submit-button/admin-submit-button.component';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
@@ -14,6 +14,8 @@ import {
   TuiSelectModule,
 } from '@taiga-ui/kit';
 import { AdminDownButtonComponent } from '../../../ui/buttons/admin-down-button/admin-down-button.component';
+import { TuiButtonModule } from '@taiga-ui/core';
+import { ScoreboardData } from '../../../../components/scoreboard-data/scoreboard-data';
 
 @Component({
   selector: 'app-down-distance-forms',
@@ -29,6 +31,7 @@ import { AdminDownButtonComponent } from '../../../ui/buttons/admin-down-button/
     TuiSelectModule,
     TuiDataListWrapperModule,
     AdminDownButtonComponent,
+    TuiButtonModule,
   ],
   templateUrl: './down-distance-forms.component.html',
   styleUrl: './down-distance-forms.component.less',
@@ -40,6 +43,7 @@ export class DownDistanceFormsComponent implements OnChanges {
 
   downDistanceForm: FormGroup;
   distanceForm: FormGroup;
+  isFlagForm: FormGroup;
 
   downValue: string = '1st';
   distanceValue: string = ' & 10';
@@ -70,9 +74,13 @@ export class DownDistanceFormsComponent implements OnChanges {
     'Goal',
   ];
 
-  constructor(private matchData: MatchData) {
+  constructor(
+    private matchData: MatchData,
+    private scoreboardData: ScoreboardData,
+  ) {
     this.downDistanceForm = this.initForm();
     this.distanceForm = this.initDistanceForm();
+    this.isFlagForm = this.initFlagForm();
 
     this.distanceForm
       .get('distanceFormValue')
@@ -91,14 +99,25 @@ export class DownDistanceFormsComponent implements OnChanges {
     }
     if (changes['data']) {
       this.downDistanceForm = this.initForm();
+      this.isFlagForm = this.initFlagForm();
     }
     if (changes['disabled']) {
       if (this.disabled) {
         this.downDistanceForm.disable();
+        this.isFlagForm.disabled; //???? not ();
       } else {
         this.downDistanceForm.enable();
+        this.isFlagForm.enable();
       }
     }
+  }
+
+  private initFlagForm(): FormGroup {
+    return new FormGroup({
+      isFlag: new FormControl<boolean | null | undefined>(
+        this.data?.scoreboard_data?.is_flag,
+      ),
+    });
   }
 
   private initForm(): FormGroup {
@@ -115,6 +134,29 @@ export class DownDistanceFormsComponent implements OnChanges {
         this.distanceValue,
       ),
     });
+  }
+
+  toggleFlag(scoreboardData: IScoreboard) {
+    if (!scoreboardData) return;
+
+    if (this.isFlagForm.valid) {
+      const formValue = this.isFlagForm.getRawValue();
+      const isFlagged = formValue.isFlag;
+      // console.log('FLAGED', isFlagged);
+      if (isFlagged === true || isFlagged === false) {
+        const updatedScoreboardData = {
+          ...scoreboardData,
+          is_flag: !isFlagged,
+        };
+        this.scoreboardData.updateScoreboardData(updatedScoreboardData);
+      } else {
+        const updatedScoreboardData = {
+          ...scoreboardData,
+          is_flag: false,
+        };
+        this.scoreboardData.updateScoreboardData(updatedScoreboardData);
+      }
+    }
   }
 
   updateFormValue(): void {

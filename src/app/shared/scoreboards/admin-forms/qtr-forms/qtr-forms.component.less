@@ -3,7 +3,7 @@
   border-radius: 5px;
 
   display: grid;
-  grid-template-columns: auto auto auto auto;
+  grid-template-columns: auto;
 
   margin-top: 5px;
   margin-bottom: 5px;
@@ -21,33 +21,32 @@
   justify-content: stretch;
 }
 
-.flag-goal-btns {
+.goal-btns {
   width: 100%;
   height: 100%;
   display: grid;
-  grid-template-columns: auto auto auto;
-  grid-column: span 3;
+  grid-template-columns: auto auto;
 }
 
-.flag-goal-btn {
+.goal-btn {
   width: 100%;
   height: 100%;
   padding: 10px;
 }
 
-@media screen and (max-width: 720px) {
-  .quarter {
-    grid-template-columns: auto auto;
-  }
+//@media screen and (max-width: 720px) {
+//  .quarter {
+//    grid-template-columns: auto auto;
+//  }
 
-  .flag-goal-btns {
-    grid-template-columns: auto;
-    grid-column: span 1;
-  }
-}
+//.goal-btns {
+//  grid-template-columns: auto;
+//  grid-column: span 1;
+//}
+//}
 
-@media screen and (max-width: 420px) {
-  .quarter {
-    grid-template-columns: auto;
-  }
-}
+//@media screen and (max-width: 420px) {
+//  .quarter {
+//    grid-template-columns: auto;
+//  }
+//}
