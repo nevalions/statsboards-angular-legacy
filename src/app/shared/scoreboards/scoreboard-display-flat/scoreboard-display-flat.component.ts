@@ -13,13 +13,9 @@ import { IMatchFullDataWithScoreboard } from '../../../type/match.type';
 import { ImageService } from '../../../services/image.service';
 import { urlWithProtocol } from '../../../base/constants';
 import {
-  animate,
-  keyframes,
-  state,
-  style,
-  transition,
-  trigger,
-} from '@angular/animations';
+  RevealHideAnimation,
+  ScoreChangeAnimation,
+} from '../../animations/scoreboard-animations';
 
 @Component({
   selector: 'app-scoreboard-display-flat',
@@ -28,37 +24,7 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './scoreboard-display-flat.component.html',
   styleUrl: './scoreboard-display-flat.component.less',
-  animations: [
-    trigger('scoreChange', [
-      state(
-        'unchanged',
-        style({
-          opacity: 1,
-          transform: 'scaleY(1)',
-          transformOrigin: 'bottom',
-        }),
-      ),
-      state(
-        'changed',
-        style({
-          opacity: 1,
-          transform: 'scaleY(1)',
-          transformOrigin: 'bottom',
-        }),
-      ),
-      transition('* => *', [
-        animate(
-          '0.2s',
-          keyframes([
-            style({ opacity: 1, transform: 'scaleY(1)', offset: 0 }),
-            style({ opacity: 0, transform: 'scaleY(0)', offset: 0.5 }),
-            style({ opacity: 0, transform: 'scaleY(0)', offset: 0.51 }),
-            style({ opacity: 1, transform: 'scaleY(1)', offset: 1.0 }),
-          ]),
-        ),
-      ]),
-    ]),
-  ],
+  animations: [ScoreChangeAnimation, RevealHideAnimation],
 })
 export class ScoreboardDisplayFlatComponent
   implements AfterViewInit, OnChanges
@@ -71,6 +37,10 @@ export class ScoreboardDisplayFlatComponent
   goal = 'touchdown';
   scoreAState = 'unchanged';
   scoreBState = 'unchanged';
+  downAndYardVisibility = 'invisible';
+  flagVisibility = 'invisible';
+  teamAVisibility = 'invisible';
+  teamBVisibility = 'invisible';
 
   teamAFontSize: string = '26px';
   teamBFontSize: string = '26px';
@@ -108,6 +78,20 @@ export class ScoreboardDisplayFlatComponent
         this.scoreBState =
           this.scoreBState === 'unchanged' ? 'changed' : 'unchanged';
       }
+
+      this.downAndYardVisibility = currData.scoreboard_data?.is_downdistance
+        ? 'visible'
+        : 'invisible';
+      this.flagVisibility = currData.scoreboard_data?.is_flag
+        ? 'visible'
+        : 'invisible';
+
+      this.teamAVisibility = !currData.scoreboard_data?.is_goal_team_a
+        ? 'visible'
+        : 'invisible';
+      this.teamBVisibility = !currData.scoreboard_data?.is_goal_team_b
+        ? 'visible'
+        : 'invisible';
     }
   }
 
@@ -147,14 +131,6 @@ export class ScoreboardDisplayFlatComponent
       return '--';
     } else {
       return (seconds % 60).toString().padStart(2, '0');
-    }
-  }
-
-  getPlayClockSeconds(seconds: number): string {
-    if (seconds === undefined) {
-      return '';
-    } else {
-      return (seconds % 60).toString().padStart(1, '0');
     }
   }
 
