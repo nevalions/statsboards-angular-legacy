@@ -113,10 +113,10 @@
             "scripts": []
           }
         }
-      },
-      "cli": {
-        "analytics": "4ec48165-6fce-4659-92fd-19a105762c42"
       }
     }
+  },
+  "cli": {
+    "analytics": "4ec48165-6fce-4659-92fd-19a105762c42"
   }
 }
