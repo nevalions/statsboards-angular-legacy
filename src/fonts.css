@@ -27,3 +27,8 @@
   font-family: 'IntegralCF-Regular';
   src: url('assets/fonts/IntegralCF-Regular.ttf') format('truetype');
 }
+
+@font-face {
+  font-family: 'Noto Sans Black';
+  src: url("assets/fonts/NotoSans-Black.ttf") format('truetype');
+}
