@@ -19,7 +19,9 @@
           "options": {
             "allowedCommonJsDependencies": [
               "@taiga-ui/core",
-              "@taiga-ui/kit"
+              "@taiga-ui/kit",
+              "@taiga-ui/cdk",
+              "@taiga-ui/i18n"
             ],
             "outputPath": "dist/statsboards-angular-legacy",
             "index": "src/index.html",
