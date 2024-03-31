@@ -17,6 +17,10 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
+            "allowedCommonJsDependencies": [
+              "@taiga-ui/core",
+              "@taiga-ui/kit"
+            ],
             "outputPath": "dist/statsboards-angular-legacy",
             "index": "src/index.html",
             "browser": "src/main.ts",
