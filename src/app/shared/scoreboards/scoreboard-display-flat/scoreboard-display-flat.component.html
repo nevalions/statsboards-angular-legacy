@@ -131,7 +131,9 @@
         <div
           *ngIf="data.scoreboard_data?.is_qtr"
           class="quarter">
-          <span>{{ data.match_data?.qtr }}</span>
+          <span
+            [@scoreChange]="qtrState"
+          >{{ data.match_data?.qtr }}</span>
         </div>
 
         <div
@@ -160,7 +162,10 @@
           [hidden]="!data.scoreboard_data?.is_downdistance"
           [@visibilityChange]="downAndYardVisibility"
         >
-  <span class="downandyard-span">
+  <span
+    class="downandyard-span"
+    [@scoreChange]="downDistanceState"
+  >
     {{ data.match_data?.down }}{{ data.match_data?.down ? ' & ' : '' }}{{ data.match_data?.distance }}
   </span>
           <div

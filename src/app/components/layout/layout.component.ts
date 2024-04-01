@@ -51,7 +51,7 @@ import { TuiRepeatTimesModule } from '@taiga-ui/cdk';
 export class LayoutComponent {
   title = 'StatsBoards';
   breadcrumbs$: Observable<Breadcrumb[]>;
-  maxBreads: number = 4;
+  maxBreads: number = 2;
 
   constructor(private store: Store<AppState>) {
     this.breadcrumbs$ = this.store.select(

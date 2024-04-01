@@ -37,6 +37,8 @@ export class ScoreboardDisplayFlatComponent
   goal = 'touchdown';
   scoreAState = 'unchanged';
   scoreBState = 'unchanged';
+  downDistanceState = 'unchanged';
+  qtrState = 'unchanged';
   downAndYardVisibility = 'invisible';
   flagVisibility = 'invisible';
   teamAVisibility = 'invisible';
@@ -77,6 +79,19 @@ export class ScoreboardDisplayFlatComponent
       ) {
         this.scoreBState =
           this.scoreBState === 'unchanged' ? 'changed' : 'unchanged';
+      }
+
+      if (
+        (prevData && prevData.match_data?.down !== currData.match_data?.down) ||
+        (prevData &&
+          prevData.match_data?.distance !== currData.match_data?.distance)
+      ) {
+        this.downDistanceState =
+          this.downDistanceState === 'unchanged' ? 'changed' : 'unchanged';
+      }
+
+      if (prevData && prevData.match_data?.qtr !== currData.match_data?.qtr) {
+        this.qtrState = this.qtrState === 'unchanged' ? 'changed' : 'unchanged';
       }
 
       this.downAndYardVisibility = currData.scoreboard_data?.is_downdistance
