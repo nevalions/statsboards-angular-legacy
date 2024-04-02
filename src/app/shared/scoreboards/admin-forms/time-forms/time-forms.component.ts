@@ -74,20 +74,16 @@ export class TimeFormsComponent implements OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    // if (changes['data'] || changes['playclock'] || changes['gameclock']) {
-    //   this.gameClockForm = this.initGameClockForm();
-    //   if (this.gameclock?.gameclock_status === 'running') {
-    //     this.gameClockForm.get('gameTimeMinutes')?.disable();
-    //     this.gameClockForm.get('gameTimeSeconds')?.disable();
-    //   }
-    // }
-
     if (changes['data'] || changes['gameclock']) {
       this.gameClockForm = this.initGameClockForm();
       if (this.gameclock?.gameclock_status === 'running') {
         this.gameClockForm.get('gameTimeMinutes')?.disable();
         this.gameClockForm.get('gameTimeSeconds')?.disable();
       }
+    }
+
+    if (changes['playclock']) {
+      this.playClockForm = this.initPlayClockForm();
     }
 
     if (changes['disabled']) {
@@ -111,10 +107,7 @@ export class TimeFormsComponent implements OnChanges {
       return new FormGroup({
         gameTimeMinutes: new FormControl<number | null | undefined>(
           gameMinutes,
-          [
-            Validators.min(0),
-            // Validators.max(12)
-          ],
+          [Validators.min(0)],
         ),
         gameTimeSeconds: new FormControl<number | null | undefined>(
           gameSeconds,
@@ -125,7 +118,6 @@ export class TimeFormsComponent implements OnChanges {
       return new FormGroup({
         gameTimeMinutes: new FormControl<number | null | undefined>(null, [
           Validators.min(0),
-          Validators.max(12),
         ]),
         gameTimeSeconds: new FormControl<number | null | undefined>(null, [
           Validators.min(0),
@@ -138,7 +130,7 @@ export class TimeFormsComponent implements OnChanges {
   private initPlayClockForm(): FormGroup {
     return new FormGroup({
       playTimeSeconds: new FormControl<number | null | undefined>(
-        null,
+        this.playclock?.playclock,
         Validators.min(0),
       ),
     });

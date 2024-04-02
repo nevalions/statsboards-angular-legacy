@@ -42,9 +42,9 @@
           [down]="'Pause Clock'"
           (click)="pauseGameClock()"
           [disabled]="
-      disabled
-      || (this.gameclock!.gameclock_status === 'paused'
-      || this.gameclock!.gameclock_status === 'stopped')"
+          disabled
+          || (this.gameclock!.gameclock_status === 'paused'
+          || this.gameclock!.gameclock_status === 'stopped')"
         ></app-admin-down-button>
 
         <app-admin-down-button
