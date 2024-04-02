@@ -62,37 +62,47 @@ export class TimeFormsComponent implements OnChanges {
   @Input() playclock: IPlayclock | undefined;
   @Input() disabled: boolean = false;
 
-  timeForm: FormGroup;
+  gameClockForm: FormGroup;
+  playClockForm: FormGroup;
 
   constructor(
     private playclockData: Playclock,
     private gameclockData: Gameclock,
   ) {
-    this.timeForm = this.initForm();
+    this.gameClockForm = this.initGameClockForm();
+    this.playClockForm = this.initPlayClockForm();
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes['data'] || changes['playclock'] || changes['gameclock']) {
-      this.timeForm = this.initForm();
+    // if (changes['data'] || changes['playclock'] || changes['gameclock']) {
+    //   this.gameClockForm = this.initGameClockForm();
+    //   if (this.gameclock?.gameclock_status === 'running') {
+    //     this.gameClockForm.get('gameTimeMinutes')?.disable();
+    //     this.gameClockForm.get('gameTimeSeconds')?.disable();
+    //   }
+    // }
+
+    if (changes['data'] || changes['gameclock']) {
+      this.gameClockForm = this.initGameClockForm();
       if (this.gameclock?.gameclock_status === 'running') {
-        this.timeForm.get('gameTimeMinutes')?.disable();
-        this.timeForm.get('gameTimeSeconds')?.disable();
+        this.gameClockForm.get('gameTimeMinutes')?.disable();
+        this.gameClockForm.get('gameTimeSeconds')?.disable();
       }
     }
 
     if (changes['disabled']) {
       if (this.disabled) {
-        this.timeForm.disable();
+        this.gameClockForm.disable();
       } else {
-        this.timeForm.get('gameTimeMinutes')?.enable();
-        this.timeForm.get('gameTimeSeconds')?.enable();
+        this.gameClockForm.get('gameTimeMinutes')?.enable();
+        this.gameClockForm.get('gameTimeSeconds')?.enable();
       }
     }
 
-    this.timeForm.get('playTimeSeconds')!.disable();
+    this.playClockForm.get('playTimeSeconds')!.disable();
   }
 
-  private initForm(): FormGroup {
+  private initGameClockForm(): FormGroup {
     const time = this.gameclock?.gameclock;
 
     if (time) {
@@ -110,10 +120,6 @@ export class TimeFormsComponent implements OnChanges {
           gameSeconds,
           [Validators.min(0), Validators.max(59)],
         ),
-        playTimeSeconds: new FormControl<number | null | undefined>(
-          this.playclock?.playclock,
-          Validators.min(0),
-        ),
       });
     } else {
       return new FormGroup({
@@ -125,12 +131,17 @@ export class TimeFormsComponent implements OnChanges {
           Validators.min(0),
           Validators.max(59),
         ]),
-        playTimeSeconds: new FormControl<number | null | undefined>(
-          null,
-          Validators.min(0),
-        ),
       });
     }
+  }
+
+  private initPlayClockForm(): FormGroup {
+    return new FormGroup({
+      playTimeSeconds: new FormControl<number | null | undefined>(
+        null,
+        Validators.min(0),
+      ),
+    });
   }
 
   startGameClock() {
@@ -145,8 +156,8 @@ export class TimeFormsComponent implements OnChanges {
     console.log(gameclock);
     if (!gameclock) return;
 
-    if (this.timeForm.valid) {
-      const formValue = this.timeForm.getRawValue();
+    if (this.gameClockForm.valid) {
+      const formValue = this.gameClockForm.getRawValue();
       console.log(formValue);
 
       const minutes = Number(formValue.gameTimeMinutes);
