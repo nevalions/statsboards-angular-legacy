@@ -9,6 +9,7 @@ import { IMatchWithFullData } from '../../type/match.type';
 import { tap } from 'rxjs/operators';
 import { SortService } from '../../services/sort.service';
 import { ITeam } from '../../type/team.type';
+import { ISponsor } from '../../type/sponsor.type';
 
 @Injectable({
   providedIn: 'root',
@@ -25,80 +26,75 @@ export class TournamentService extends BaseApiService<ITournament> {
     super('tournaments', http, errorHandlingService);
   }
 
-  // refreshTournaments(sportId: number, seasonYear: number): void {
-  //   // call to fetch new data
-  //   this.fetchTournamentsBySportAndSeason({
-  //     id: sportId,
-  //     year: seasonYear,
-  //   }).subscribe((tournaments: ITournament[]) => {
-  //     // when new data arrives, update the tournaments$ source
-  //     this.tournamentsSubject.next(tournaments);
-  //   });
-  // }
-
-  addTournament(newTournament: ITournament): void {
-    this.addItem(newTournament)
-      .pipe(
-        tap((tournament: ITournament) => {
-          console.log(`ADDED TOURNAMENT`, tournament);
-          let updatedTournaments = [
-            ...this.tournamentsSubject.value,
-            tournament,
-          ];
-          // Sort tournaments based on their title
-          updatedTournaments = SortService.sort(updatedTournaments, 'title');
-          this.tournamentsSubject.next(updatedTournaments);
-        }),
-      )
-      .subscribe();
+  fetchMainSponsorByTournamentId(id: number) {
+    return this.http
+      .get<ISponsor>(`${this.endpoint}/id/${id}/main_sponsor/`)
+      .pipe(tap((items) => console.log('SPONSORS', items)));
   }
+
+  // addTournament(newTournament: ITournament): void {
+  //   this.addItem(newTournament)
+  //     .pipe(
+  //       tap((tournament: ITournament) => {
+  //         console.log(`ADDED TOURNAMENT`, tournament);
+  //         let updatedTournaments = [
+  //           ...this.tournamentsSubject.value,
+  //           tournament,
+  //         ];
+  //         // Sort tournaments based on their title
+  //         updatedTournaments = SortService.sort(updatedTournaments, 'title');
+  //         this.tournamentsSubject.next(updatedTournaments);
+  //       }),
+  //     )
+  //     .subscribe();
+  // }
 
   // addTournamentStore(newTournament: ITournament): Observable<ITournament> {
   //   return this.addItem(newTournament);
   // }
 
-  //TODO replace with base
-  fetchAllMatchesWithDataByTournamentId(id: number) {
-    return this.http
-      .get<IMatchWithFullData[]>(`${this.endpoint}/id/${id}/matches/all/data`)
-      .pipe(
-        tap((items) => console.log(`MATCHES from TOURNAMENT ID ${id}`, items)),
-        map((data) =>
-          SortService.sort(data, 'match.week', '-match.match_date'),
-        ),
-      );
-  }
+  // //TODO replace with base
+  // fetchAllMatchesWithDataByTournamentId(id: number) {
+  //   return this.http
+  //     .get<IMatchWithFullData[]>(`${this.endpoint}/id/${id}/matches/all/data`)
+  //     .pipe(
+  //       tap((items) => console.log(`MATCHES from TOURNAMENT ID ${id}`, items)),
+  //       map((data) =>
+  //         SortService.sort(data, 'match.week', '-match.match_date'),
+  //       ),
+  //     );
+  // }
 
-  fetchTournamentsBySportAndSeason(params: {
-    id: number;
-    year: number;
-  }): Observable<ITournament[]> {
-    const firstItem = 'seasons';
-    const firstKey = 'year';
-    const firstValue = params.year;
-    const secondItem = 'sports';
-    const secondKey = 'id';
-    const secondValue = params.id;
-    const optionalValue = 'tournaments';
-
-    return this.findByFirstItemKeyValueAndSecondItemSecondKeyValue(
-      firstItem,
-      firstKey,
-      firstValue,
-      secondItem,
-      secondKey,
-      secondValue,
-      optionalValue,
-    ).pipe(
-      tap((items) =>
-        console.log(
-          `Items fetched by findByValueAndSecondId: ID ${secondValue}`,
-          items,
-        ),
-      ),
-      map((data) => SortService.sort(data, 'title')),
-    );
-  }
+  // fetchTournamentsBySportAndSeason(params: {
+  //   id: number;
+  //   year: number;
+  // }): Observable<ITournament[]> {
+  //   const firstItem = 'seasons';
+  //   const firstKey = 'year';
+  //   const firstValue = params.year;
+  //   const secondItem = 'sports';
+  //   const secondKey = 'id';
+  //   const secondValue = params.id;
+  //   const optionalValue = 'tournaments';
+  //
+  //   return this.findByFirstItemKeyValueAndSecondItemSecondKeyValue(
+  //     firstItem,
+  //     firstKey,
+  //     firstValue,
+  //     secondItem,
+  //     secondKey,
+  //     secondValue,
+  //     optionalValue,
+  //   ).pipe(
+  //     tap((items) =>
+  //       console.log(
+  //         `Items fetched by findByValueAndSecondId: ID ${secondValue}`,
+  //         items,
+  //       ),
+  //     ),
+  //     map((data) => SortService.sort(data, 'title')),
+  //   );
+  // }
 
   fetchTournamentsBySportAndSeasonId(params: {
     sport_id: number;

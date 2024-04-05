@@ -21,6 +21,7 @@ import { getRouterSelectors, routerNavigatedAction } from '@ngrx/router-store';
 import { ISeason } from '../../../type/season.type';
 import { selectTournamentSportIdSeasonId } from './selectors';
 import { getAllRouteParameters } from '../../../router/router.selector';
+import { ISponsor } from '../../../type/sponsor.type';
 
 @Injectable()
 export class TournamentEffects {
@@ -117,6 +118,25 @@ export class TournamentEffects {
             ),
             catchError(() => of(tournamentActions.getItemFailure())),
           ),
+        ),
+      );
+    },
+    { functional: true },
+  );
+
+  getMainSponsorByTournamentIdEffect = createEffect(
+    () => {
+      return this.actions$.pipe(
+        ofType(tournamentActions.getTournamentIdSuccessfully),
+        switchMap(({ tournamentId }) =>
+          this.tournamentService
+            .fetchMainSponsorByTournamentId(tournamentId)
+            .pipe(
+              map((mainSponsor: ISponsor) =>
+                tournamentActions.getMainSponsorSuccess({ mainSponsor }),
+              ),
+              catchError(() => of(tournamentActions.getMainSponsorFailure())),
+            ),
         ),
       );
     },

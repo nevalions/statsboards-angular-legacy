@@ -8,9 +8,20 @@
         src="{{url}}{{tournament.tournament_logo_url}}"
         width="200px"
         alt="{{tournament.title | uppercase}} Logo"
-
       >
     </p>
+
+    @if (currentTournamentMainSponsor$| async; as sponsor) {
+      <p style="text-align: center">Sponsor</p>
+      <p style="text-align: center">{{ sponsor.title }}</p>
+      <p style="text-align: center">
+        <img
+          src="{{url}}{{sponsor.logo_url}}"
+          width="200px"
+          alt="{{sponsor.title | uppercase}} Logo"
+        >
+      </p>
+    }
     <p class="content__title_description">{{ tournament.description }}</p>
   } @else {
     <h3 class="tui-text_h3">

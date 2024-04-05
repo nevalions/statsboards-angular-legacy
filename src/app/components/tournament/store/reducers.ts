@@ -6,11 +6,12 @@ import {
 import { tournamentActions } from './actions';
 import { ITournament } from '../../../type/tournament.type';
 import { SortService } from '../../../services/sort.service';
-import { seasonActions } from '../../season/store/actions';
+import { ISponsor } from '../../../type/sponsor.type';
 
 export interface TournamentState extends crudStoreInterface {
   currentTournamentId: number | undefined | null;
   currentTournament: ITournament | undefined | null;
+  currentTournamentMainSponsor: ISponsor | undefined | null;
   allTournaments: ITournament[];
   allSeasonSportTournaments: ITournament[];
 }
@@ -21,6 +22,7 @@ const initialState: TournamentState = {
   allTournaments: [],
   allSeasonSportTournaments: [],
   currentTournament: null,
+  currentTournamentMainSponsor: null,
 };
 
 const tournamentFeature = createFeature({
@@ -37,6 +39,20 @@ const tournamentFeature = createFeature({
       currentTournamentId: action.tournamentId,
     })),
     on(tournamentActions.getTournamentIdFailure, (state) => ({
+      ...state,
+      isLoading: false,
+    })),
+
+    on(tournamentActions.getMainSponsorByTournamentId, (state) => ({
+      ...state,
+      isLoading: true,
+    })),
+    on(tournamentActions.getMainSponsorSuccess, (state, action) => ({
+      ...state,
+      isLoading: false,
+      currentTournamentMainSponsor: action.mainSponsor,
+    })),
+    on(tournamentActions.getMainSponsorFailure, (state) => ({
       ...state,
       isLoading: false,
     })),

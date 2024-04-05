@@ -4,12 +4,14 @@ import { Observable } from 'rxjs';
 import { ITournament } from '../../type/tournament.type';
 import { AppState } from '../../store/appstate';
 import { tournamentActions } from './store/actions';
+import { ISponsor } from '../../type/sponsor.type';
 
 @Injectable({
   providedIn: 'root',
 })
 export class Tournament {
   currentTournament$: Observable<ITournament | null | undefined>;
+  currentTournamentMainSponsor$: Observable<ISponsor | null | undefined>;
   allSeasonSportTournaments$: Observable<ITournament[]>;
 
   constructor(private store: Store<AppState>) {
@@ -18,6 +20,9 @@ export class Tournament {
     );
     this.allSeasonSportTournaments$ = store.select(
       (state) => state.tournament.allSeasonSportTournaments,
+    );
+    this.currentTournamentMainSponsor$ = store.select(
+      (state) => state.tournament.currentTournamentMainSponsor,
     );
   }
 

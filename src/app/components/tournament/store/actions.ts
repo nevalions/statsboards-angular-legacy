@@ -1,5 +1,6 @@
 import { createActionGroup, emptyProps, props } from '@ngrx/store';
 import { ITournament } from '../../../type/tournament.type';
+import { ISponsor } from '../../../type/sponsor.type';
 
 export const tournamentActions = createActionGroup({
   source: 'tournament',
@@ -25,6 +26,12 @@ export const tournamentActions = createActionGroup({
       tournaments: ITournament[];
     }>(),
     'Get tournaments by sport and season failure': emptyProps(),
+
+    GetMainSponsorByTournamentId: props<{ id: number }>(),
+    'Get main sponsor success': props<{
+      mainSponsor: ISponsor;
+    }>(),
+    'Get main sponsor failure': emptyProps(),
 
     Update: props<{ id: number; newTournamentData: ITournament }>(),
     'Updated successfully': props<{ updatedTournament: ITournament }>(),

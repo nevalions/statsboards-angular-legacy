@@ -127,6 +127,7 @@ export class ItemTournamentComponent {
   allSportTeams$ = this.team.teamsInSport$;
   teamsInTournament$ = this.team.teamsInTournament$;
   tournament$ = this.tournament.currentTournament$;
+  currentTournamentMainSponsor$ = this.tournament.currentTournamentMainSponsor$;
   matchesInTournament$ =
     this.matchWithFullData.matchesWithFullDataInTournament$;
 
