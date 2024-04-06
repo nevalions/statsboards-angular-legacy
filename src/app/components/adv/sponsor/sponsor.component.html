@@ -1,1 +1,15 @@
-<p>sponsor works!</p>
+<div class="sponsor container">
+  <div class="sponsor content">
+    <div class="sport content__title">
+      <h3 class="tui-text_h3">SPONSORS</h3>
+    </div>
+    @if (sponsors$ | async; as sponsors) {
+      <app-list-of-items-island
+        [data]="sponsors"
+        [formatPath]="itemHref"
+        [titleProperty]="islandTitleProperty"
+        [_size]="'l'"
+      ></app-list-of-items-island>
+    }
+  </div>
+</div>

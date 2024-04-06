@@ -12,6 +12,7 @@ import { ScoreboardData } from '../components/scoreboard-data/scoreboard-data';
 import { UiState } from './ui/ui.reducers';
 import { PlayclockState } from '../components/playclock/store/reducers';
 import { FileState } from './file/file.reducers';
+import { SponsorState } from '../components/adv/sponsor/store/reducers';
 
 export interface AppState {
   breadcrumb: BreadcrumbState;
@@ -22,6 +23,7 @@ export interface AppState {
   playclock: PlayclockState;
   scoreboard: ScoreboardData;
   season: SeasonState;
+  sponsor: SponsorState;
   sport: SportState;
   team: TeamState;
   teamTournament: TeamTournamentState;

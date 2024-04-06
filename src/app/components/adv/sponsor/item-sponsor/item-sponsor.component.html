@@ -1,0 +1,17 @@
+<div class="sponsor container">
+  <div class="sponsor content">
+    @if (sponsor$ | async; as sponsor) {
+      <div class="sport content__title">
+        <h3 class="tui-text_h3">{{ sponsor.title | uppercase }}</h3>
+      </div>
+
+      <p style="text-align: center">
+        <img
+          src="{{url}}{{sponsor.logo_url}}"
+          width="200px"
+          alt="{{sponsor.title | uppercase}} Logo"
+          (error)="onImgError($event)"
+        ></p>
+    }
+  </div>
+</div>

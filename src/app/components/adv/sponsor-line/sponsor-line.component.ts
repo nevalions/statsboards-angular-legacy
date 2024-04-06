@@ -1,12 +1,10 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-sponsor-line',
+  selector: 'app-store-line',
   standalone: true,
   imports: [],
   templateUrl: './sponsor-line.component.html',
-  styleUrl: './sponsor-line.component.less'
+  styleUrl: './sponsor-line.component.less',
 })
-export class SponsorLineComponent {
-
-}
+export class SponsorLineComponent {}

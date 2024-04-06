@@ -33,6 +33,18 @@ import {
 import { GameclockEffects } from './components/gameclock/store/effects';
 import { fileFeatureKey, fileReducer } from './store/file/file.reducers';
 import { FileEffects } from './store/file/file.effects';
+import {
+  sponsorFeatureKey,
+  sponsorReducer,
+} from './components/adv/sponsor/store/reducers';
+import { SponsorEffects } from './components/adv/sponsor/store/effects';
+import { SponsorComponent } from './components/adv/sponsor/sponsor.component';
+import { ItemSponsorComponent } from './components/adv/sponsor/item-sponsor/item-sponsor.component';
+import {
+  sponsorLineFeatureKey,
+  sponsorLineReducer,
+} from './components/adv/sponsor-line/store/reducers';
+import { SponsorLineComponent } from './components/adv/sponsor-line/sponsor-line.component';
 
 export const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'index' },
@@ -69,7 +81,11 @@ export const routes: Routes = [
       },
       {
         path: 'home/adv/sponsors',
-        component: HomeComponent,
+        component: SponsorComponent,
+        providers: [
+          provideState(sponsorFeatureKey, sponsorReducer),
+          provideEffects(SponsorEffects),
+        ],
         data: {
           breadcrumb: {
             caption: 'Sponsors List',
@@ -78,18 +94,26 @@ export const routes: Routes = [
         },
       },
       {
-        path: 'home/adv/sponsor/:sponsor',
-        component: HomeComponent,
+        path: 'home/adv/store/:sponsor_id',
+        component: ItemSponsorComponent,
+        providers: [
+          provideState(sponsorFeatureKey, sponsorReducer),
+          provideEffects(SponsorEffects),
+        ],
         data: {
           breadcrumb: {
             caption: 'Sponsor',
-            routerLink: 'home/adv/sponsor/:sponsor',
+            routerLink: 'home/adv/store/:sponsor_id',
           },
         },
       },
       {
         path: 'home/adv/sponsors/lines',
-        component: HomeComponent,
+        component: SponsorLineComponent,
+        providers: [
+          provideState(sponsorLineFeatureKey, sponsorLineReducer),
+          provideEffects(SponsorEffects),
+        ],
         data: {
           breadcrumb: {
             caption: 'Sponsors Lines List',
@@ -98,12 +122,12 @@ export const routes: Routes = [
         },
       },
       {
-        path: 'home/adv/sponsors/line/:sponsor_line',
+        path: 'home/adv/sponsors/line/:sponsor_line_id',
         component: HomeComponent,
         data: {
           breadcrumb: {
             caption: 'Sponsors Line',
-            routerLink: 'home/adv/sponsors/line/:sponsor_line',
+            routerLink: 'home/adv/sponsors/line/:sponsor_line_id',
           },
         },
       },

@@ -1,13 +1,8 @@
 import {
-  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
-  inject,
-  Input,
   ViewEncapsulation,
 } from '@angular/core';
-import { Observable, of } from 'rxjs';
-
 import { AsyncPipe, UpperCasePipe } from '@angular/common';
 import { TuiBlockStatusModule } from '@taiga-ui/layout';
 import { TuiIslandModule, TuiSelectModule } from '@taiga-ui/kit';
@@ -18,7 +13,6 @@ import {
 } from '@taiga-ui/core';
 import { SeasonDropdownComponent } from '../../../season/season-dropdown/season-dropdown.component';
 import { ListOfItemsIslandComponent } from '../../../../shared/ui/list-of-items-island/list-of-items-island.component';
-import { ITournament } from '../../../../type/tournament.type';
 import { DropDownMenuComponent } from '../../../../shared/ui/dropdownmenu/dropdownmenu.component';
 import { FormSearchTextComponent } from '../../../../shared/ui/forms/form-search-text/form-search-text.component';
 import { paginationWithItemsPerPage } from '../../../../shared/ui/pagination/pagination-with-items-per-page/pagination-with-items-per-page.component';
