@@ -14,6 +14,7 @@ import { PlayclockState } from '../components/playclock/store/reducers';
 import { FileState } from './file/file.reducers';
 import { SponsorState } from '../components/adv/sponsor/store/reducers';
 import { SponsorLineState } from '../components/adv/sponsor-line/store/reducers';
+import { SponsorSponsorLineConnectionState } from '../components/adv/sponsor-sponsor-line-connection/store/reducers';
 
 export interface AppState {
   breadcrumb: BreadcrumbState;
@@ -26,6 +27,7 @@ export interface AppState {
   season: SeasonState;
   sponsor: SponsorState;
   sponsorLine: SponsorLineState;
+  sponsorSponsorLineConnection: SponsorSponsorLineConnectionState;
   sport: SportState;
   team: TeamState;
   teamTournament: TeamTournamentState;

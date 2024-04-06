@@ -32,7 +32,7 @@ const sponsorFeature = createFeature({
     on(sponsorActions.getSponsorIdSuccessfully, (state, action) => ({
       ...state,
       sponsorIsLoading: false,
-      currentTournamentId: action.sponsorId,
+      currentSponsorId: action.sponsorId,
     })),
     on(sponsorActions.getSponsorIdFailure, (state) => ({
       ...state,

@@ -17,8 +17,12 @@ import { Store } from '@ngrx/store';
 import { routerNavigatedAction } from '@ngrx/router-store';
 import { getAllRouteParameters } from '../../../../router/router.selector';
 import { sponsorLineActions } from './actions';
-import { ISponsorLine } from '../../../../type/sponsor.type';
+import {
+  ISponsorLine,
+  ISponsorLineFullData,
+} from '../../../../type/sponsor.type';
 import { SponsorLineService } from '../../sponsor-line.service';
+import { SponsorSponsorLineConnectionService } from '../../sponsor-sponsor-line-connection.service';
 
 @Injectable()
 export class SponsorLineEffects {
@@ -152,22 +156,45 @@ export class SponsorLineEffects {
       return this.actions$.pipe(
         ofType(sponsorLineActions.getSponsorLineIdSuccessfully), // You will have to define this action
         switchMap(({ sponsorLineId }) => {
-          return this.sponsorLineService.findById(sponsorLineId).pipe(
-            // Assuming you have a getTournaments method in your service
-            map((currentSponsorLine: ISponsorLine) => {
-              return sponsorLineActions.getItemSuccess({
-                currentSponsorLine,
-              });
-            }),
-            catchError(() => {
-              return of(sponsorLineActions.getItemFailure());
-            }),
-          );
+          return this.sponsorSponsorLineConnectionService
+            .fetchSponsorLineFullDataByLineId(sponsorLineId)
+            .pipe(
+              map((currentSponsorLineWithFullData: ISponsorLineFullData) => {
+                return sponsorLineActions.getFullDataSponsorLineSuccess({
+                  currentSponsorLineWithFullData,
+                });
+              }),
+              catchError(() => {
+                return of(sponsorLineActions.getFullDataSponsorLineFailure());
+              }),
+            );
         }),
       );
     },
     { functional: true },
   );
+
+  // getSponsorLineBySuccessIdEffect = createEffect(
+  //   () => {
+  //     return this.actions$.pipe(
+  //       ofType(sponsorLineActions.getSponsorLineIdSuccessfully), // You will have to define this action
+  //       switchMap(({ sponsorLineId }) => {
+  //         return this.sponsorLineService.findById(sponsorLineId).pipe(
+  //           // Assuming you have a getTournaments method in your service
+  //           map((currentSponsorLine: ISponsorLine) => {
+  //             return sponsorLineActions.getItemSuccess({
+  //               currentSponsorLine,
+  //             });
+  //           }),
+  //           catchError(() => {
+  //             return of(sponsorLineActions.getItemFailure());
+  //           }),
+  //         );
+  //       }),
+  //     );
+  //   },
+  //   { functional: true },
+  // );
 
   // getSponsorLineByIdEffect = createEffect(
   //   () => {
@@ -225,7 +252,7 @@ export class SponsorLineEffects {
     private router: Router,
     private actions$: Actions,
     private sponsorLineService: SponsorLineService,
-    // private sponsorLineTournamentService: SponsorLineTournamentService,
+    private sponsorSponsorLineConnectionService: SponsorSponsorLineConnectionService,
     private store: Store,
   ) {}
 }

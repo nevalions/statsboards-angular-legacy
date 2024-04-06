@@ -5,6 +5,10 @@ export interface ISponsor {
   id?: number;
 }
 
+export interface ISponsorWithPosition extends ISponsor {
+  position: number;
+}
+
 export interface ISponsorLine {
   title: string;
   is_visible: boolean;
@@ -16,4 +20,9 @@ export interface ISponsorLineConnection {
   sponsor_id: number;
   sponsor_line_id: number;
   position: number;
+}
+
+export interface ISponsorLineFullData {
+  sponsor_line: ISponsorLine;
+  sponsors: ISponsorWithPosition[];
 }

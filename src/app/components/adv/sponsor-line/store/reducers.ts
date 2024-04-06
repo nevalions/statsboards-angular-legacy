@@ -1,13 +1,17 @@
 import { createFeature, createReducer, on } from '@ngrx/store';
 import { SortService } from '../../../../services/sort.service';
 import { sponsorLineActions } from './actions';
-import { ISponsorLine } from '../../../../type/sponsor.type';
+import {
+  ISponsorLine,
+  ISponsorLineFullData,
+} from '../../../../type/sponsor.type';
 
 export interface SponsorLineState {
   sponsorLineIsLoading: boolean;
   sponsorLineIsSubmitting: boolean;
   currentSponsorLineId: number | undefined | null;
   currentSponsorLine: ISponsorLine | undefined | null;
+  currentSponsorLineWithFullData: ISponsorLineFullData | undefined | null;
   allSponsorLines: ISponsorLine[];
   errors: any | undefined | null;
 }
@@ -18,6 +22,7 @@ const initialState: SponsorLineState = {
   currentSponsorLineId: null,
   allSponsorLines: [],
   currentSponsorLine: null,
+  currentSponsorLineWithFullData: null,
   errors: null,
 };
 
@@ -32,7 +37,7 @@ const sponsorLineFeature = createFeature({
     on(sponsorLineActions.getSponsorLineIdSuccessfully, (state, action) => ({
       ...state,
       sponsorLineIsLoading: false,
-      currentTournamentId: action.sponsorLineId,
+      currentSponsorLineId: action.sponsorLineId,
     })),
     on(sponsorLineActions.getSponsorLineIdFailure, (state) => ({
       ...state,
@@ -116,6 +121,22 @@ const sponsorLineFeature = createFeature({
       currentSponsorLine: action.currentSponsorLine,
     })),
     on(sponsorLineActions.getItemFailure, (state, action) => ({
+      ...state,
+      sponsorLineIsLoading: false,
+      errors: action,
+    })),
+
+    on(sponsorLineActions.getFullDataSponsorLine, (state) => ({
+      ...state,
+      sponsorLineIsLoading: true,
+    })),
+    on(sponsorLineActions.getFullDataSponsorLineSuccess, (state, action) => ({
+      ...state,
+      sponsorLineIsLoading: false,
+      currentSponsorLine: action.currentSponsorLineWithFullData.sponsor_line,
+      currentSponsorLineWithFullData: action.currentSponsorLineWithFullData,
+    })),
+    on(sponsorLineActions.getFullDataSponsorLineFailure, (state, action) => ({
       ...state,
       sponsorLineIsLoading: false,
       errors: action,
@@ -213,4 +234,5 @@ export const {
   selectCurrentSponsorLineId,
   selectCurrentSponsorLine,
   selectAllSponsorLines,
+  selectCurrentSponsorLineWithFullData,
 } = sponsorLineFeature;
