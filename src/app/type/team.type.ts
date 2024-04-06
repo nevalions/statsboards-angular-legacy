@@ -7,6 +7,8 @@ export interface ITeam {
   team_logo_url?: string;
   team_color?: string;
   sport_id: number;
+  sponsor_line_id?: number;
+  main_sponsor_id?: number;
 }
 
 export interface ITeamTournament {
