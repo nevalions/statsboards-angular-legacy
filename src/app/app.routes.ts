@@ -67,6 +67,46 @@ export const routes: Routes = [
         component: HomeComponent,
         data: { breadcrumb: { caption: 'Home', routerLink: 'index' } },
       },
+      {
+        path: 'home/adv/sponsors',
+        component: HomeComponent,
+        data: {
+          breadcrumb: {
+            caption: 'Sponsors List',
+            routerLink: 'home/adv/sponsors',
+          },
+        },
+      },
+      {
+        path: 'home/adv/sponsor/:sponsor',
+        component: HomeComponent,
+        data: {
+          breadcrumb: {
+            caption: 'Sponsor',
+            routerLink: 'home/adv/sponsor/:sponsor',
+          },
+        },
+      },
+      {
+        path: 'home/adv/sponsors/lines',
+        component: HomeComponent,
+        data: {
+          breadcrumb: {
+            caption: 'Sponsors Lines List',
+            routerLink: 'home/adv/sponsors/lines',
+          },
+        },
+      },
+      {
+        path: 'home/adv/sponsors/line/:sponsor_line',
+        component: HomeComponent,
+        data: {
+          breadcrumb: {
+            caption: 'Sponsors Line',
+            routerLink: 'home/adv/sponsors/line/:sponsor_line',
+          },
+        },
+      },
       { path: 'seasons', component: SeasonComponent },
       { path: 'seasons/year/:year', component: SeasonComponent },
 

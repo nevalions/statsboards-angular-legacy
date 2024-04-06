@@ -1,4 +1,31 @@
 <nav>
+  <div
+    tuiDropdownHover
+    [tuiDropdown]="sponsors"
+  >
+    <a
+      routerLinkActive="active"
+      href="/home/adv/sponsors"
+      tuiLink
+      ariaCurrentWhenActive="page"
+    >
+      SPONSORS
+    </a>
+  </div>
+  <ng-template #sponsors>
+    <tui-data-list role="menu">
+      <tui-opt-group>
+        <a
+          routerLinkActive="active"
+          href="/home/adv/sponsors/lines"
+          tuiOption
+          ariaCurrentWhenActive="page"
+        >
+          SPONSORS LINE
+        </a>
+      </tui-opt-group>
+    </tui-data-list>
+  </ng-template>
   @for (item of data; track item.id) {
     <div
       tuiDropdownHover
