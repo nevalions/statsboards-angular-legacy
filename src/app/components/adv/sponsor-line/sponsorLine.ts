@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { AppState } from '../../../store/appstate';
-import { ISponsorLine } from '../../../type/sponsor.type';
+import { ISponsorLine, ISponsorLineFullData } from '../../../type/sponsor.type';
 import { sponsorLineActions } from './store/actions';
 
 @Injectable({
@@ -10,6 +10,7 @@ import { sponsorLineActions } from './store/actions';
 })
 export class SponsorLine {
   sponsorLine$: Observable<ISponsorLine | null | undefined>;
+  sponsorLineWithFullData$: Observable<ISponsorLineFullData | null | undefined>;
   allSponsorLines$: Observable<ISponsorLine[]>;
 
   constructor(private store: Store<AppState>) {
@@ -18,6 +19,9 @@ export class SponsorLine {
     );
     this.allSponsorLines$ = store.select(
       (state) => state.sponsorLine.allSponsorLines,
+    );
+    this.sponsorLineWithFullData$ = store.select(
+      (state) => state.sponsorLine.currentSponsorLineWithFullData,
     );
   }
 

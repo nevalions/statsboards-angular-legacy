@@ -18,7 +18,7 @@ import { AsyncPipe, UpperCasePipe } from '@angular/common';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ItemSponsorLineComponent {
-  sponsorLine$ = this.sponsorLine.sponsorLine$;
+  sponsorLine$ = this.sponsorLine.sponsorLineWithFullData$;
 
   constructor(
     private sponsorLine: SponsorLine,

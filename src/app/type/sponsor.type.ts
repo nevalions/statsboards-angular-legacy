@@ -5,7 +5,8 @@ export interface ISponsor {
   id?: number;
 }
 
-export interface ISponsorWithPosition extends ISponsor {
+export interface ISponsorWithPosition {
+  sponsor: ISponsor;
   position: number;
 }
 

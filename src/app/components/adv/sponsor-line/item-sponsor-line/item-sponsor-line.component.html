@@ -1,17 +1,27 @@
-<div class="sponsor container">
-  <div class="sponsor content">
+<div class="sponsor_line container">
+  <div class="sponsor_line content">
     @if (sponsorLine$ | async; as sponsorLine) {
-      <div class="sport content__title">
-        <h3 class="tui-text_h3">{{ sponsorLine.title | uppercase }}</h3>
+      <div class="sponsor_line content__title">
+        <h3 class="tui-text_h3">{{ sponsorLine.sponsor_line.title | uppercase }}</h3>
       </div>
 
-      <!--      <p style="text-align: center">-->
-        <!--        <img-->
-        <!--          src="{{url}}{{sponsorLine.logo_url}}"-->
-        <!--          width="200px"-->
-        <!--          alt="{{sponsorLine.title | uppercase}} Logo"-->
-        <!--          (error)="onImgError($event)"-->
-        <!--        ></p>-->
+      <div class="sponsor_line content__body">
+        <div class="one_col_container">
+          @for (item of sponsorLine.sponsors; track item.sponsor.id) {
+            <p>POSITION {{ item.position }}</p>
+            <p style="text-align: center">{{ item.sponsor.title | uppercase }}</p>
+
+            <p style="text-align: center">
+              <img
+                src="{{url}}{{item.sponsor.logo_url}}"
+                width="200px"
+                alt="{{item.sponsor.title | uppercase}} Logo"
+                (error)="onImgError($event)"
+              ></p>
+          }
+        </div>
+      </div>
     }
+
   </div>
 </div>
