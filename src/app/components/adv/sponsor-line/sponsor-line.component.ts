@@ -27,6 +27,6 @@ export class SponsorLineComponent {
   islandTitleProperty: keyof ISponsor = 'title';
 
   itemHref(item: ISponsor): string {
-    return `home/adv/sponsors/line${item.id}`;
+    return `home/adv/sponsors/line/${item.id}`;
   }
 }

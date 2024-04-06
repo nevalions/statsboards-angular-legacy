@@ -28,7 +28,7 @@ export class SponsorLineEffects {
         ofType(routerNavigatedAction),
         switchMap(({ payload }) => {
           let params = getAllRouteParameters(payload.routerState);
-          let sponsorLineId = params.get('sponsorLine_id');
+          let sponsorLineId = params.get('sponsor_line_id');
           return of(sponsorLineId).pipe(
             filter((id: string | undefined): id is string => !!id),
             switchMap((id: string) => [

@@ -46,6 +46,7 @@ import {
 } from './components/adv/sponsor-line/store/reducers';
 import { SponsorLineComponent } from './components/adv/sponsor-line/sponsor-line.component';
 import { SponsorLineEffects } from './components/adv/sponsor-line/store/effects';
+import { ItemSponsorLineComponent } from './components/adv/sponsor-line/item-sponsor-line/item-sponsor-line.component';
 
 export const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'index' },
@@ -124,7 +125,11 @@ export const routes: Routes = [
       },
       {
         path: 'home/adv/sponsors/line/:sponsor_line_id',
-        component: HomeComponent,
+        component: ItemSponsorLineComponent,
+        providers: [
+          provideState(sponsorLineFeatureKey, sponsorLineReducer),
+          provideEffects(SponsorLineEffects),
+        ],
         data: {
           breadcrumb: {
             caption: 'Sponsors Line',
