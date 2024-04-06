@@ -90,10 +90,9 @@ export class TeamTournamentEffects {
   getTeamTournamentByIdEffect = createEffect(
     () => {
       return this.actions$.pipe(
-        ofType(teamTournamentActions.get), // You will have to define this action
+        ofType(teamTournamentActions.get),
         switchMap(({ id }) => {
           return this.teamTournamentService.findById(id).pipe(
-            // Assuming you have a getTournaments method in your service
             map((teamTournament: ITeamTournament) => {
               return teamTournamentActions.getItemSuccess({
                 teamTournament,

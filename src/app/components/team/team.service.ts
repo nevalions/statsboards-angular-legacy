@@ -33,12 +33,6 @@ export class TeamService extends BaseApiService<ITeam> {
     });
   }
 
-  // refreshTeamsInTournament(tournamentId: number): void {
-  //   this.fetchTeamsByTournamentId(tournamentId).subscribe((teams: ITeam[]) => {
-  //     this.teamsInTournamentSubject.next(teams);
-  //   });
-  // }
-
   fetchTeamsBySportId(id: number): Observable<ITeam[]> {
     // console.log('fetchTeamsBySportId sportId: ', id);
     return this.findByFirstKeyValue('sports', 'id', id, 'teams').pipe(

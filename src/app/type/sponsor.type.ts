@@ -6,8 +6,6 @@ export interface ISponsor {
 
 export interface ISponsorLine {
   title: string;
-  tournament_id?: number;
-  team_id?: number;
   id?: number;
 }
 
