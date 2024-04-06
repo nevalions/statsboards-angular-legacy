@@ -1,1 +1,15 @@
-<p>sponsor-line works!</p>
+<div class="sponsor container">
+  <div class="sponsor content">
+    <div class="sport content__title">
+      <h3 class="tui-text_h3">SPONSORS LINES</h3>
+    </div>
+    @if (sponsorLines$ | async; as sponsorLines) {
+      <app-list-of-items-island
+        [data]="sponsorLines"
+        [formatPath]="itemHref"
+        [titleProperty]="islandTitleProperty"
+        [_size]="'l'"
+      ></app-list-of-items-island>
+    }
+  </div>
+</div>
