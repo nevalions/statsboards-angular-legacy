@@ -12,6 +12,7 @@ export interface TournamentState extends crudStoreInterface {
   currentTournamentId: number | undefined | null;
   currentTournament: ITournament | undefined | null;
   currentTournamentMainSponsor: ISponsor | undefined | null;
+  currentTournamentSponsorLineId: number | undefined | null;
   allTournaments: ITournament[];
   allSeasonSportTournaments: ITournament[];
 }
@@ -21,6 +22,7 @@ const initialState: TournamentState = {
   currentTournamentId: null,
   allTournaments: [],
   allSeasonSportTournaments: [],
+  currentTournamentSponsorLineId: null,
   currentTournament: null,
   currentTournamentMainSponsor: null,
 };
@@ -139,6 +141,8 @@ const tournamentFeature = createFeature({
       ...state,
       isLoading: false,
       currentTournament: action.tournament,
+      currentTournamentId: action.tournament.id,
+      currentTournamentSponsorLineId: action.tournament.sponsor_line_id,
     })),
     on(tournamentActions.getItemFailure, (state, action) => ({
       ...state,
@@ -192,6 +196,7 @@ export const {
   reducer: tournamentReducer,
   selectIsSubmitting,
   selectIsLoading,
+  selectCurrentTournamentSponsorLineId,
   selectCurrentTournamentId,
   selectCurrentTournament,
   selectAllTournaments,

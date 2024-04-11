@@ -60,11 +60,13 @@ export const routes: Routes = [
       provideState(playclockFeatureKey, playclockReducer),
       provideState(gameclockFeatureKey, gameclockReducer),
       provideState(matchFeatureKey, matchReducer),
+      provideState(sponsorLineFeatureKey, sponsorLineReducer),
       provideEffects(
         MatchEffects,
         PlayclockEffects,
         GameclockEffects,
         WebSocketEffects,
+        SponsorLineEffects,
       ),
     ],
     data: {

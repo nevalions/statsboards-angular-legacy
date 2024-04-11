@@ -1,0 +1,13 @@
+@if (sponsorLine$ | async; as sponsorLine) {
+  <div class="sponsor_line">
+    @for (item of sponsorLine.sponsors; track item.sponsor.id) {
+      <div class="sponsor_image">
+        <img
+          src="{{url}}{{item.sponsor.logo_url}}"
+          height="100px"
+          alt="{{item.sponsor.title | uppercase}} Logo"
+          (error)="onImgError($event)">
+      </div>
+    }
+  </div>
+}

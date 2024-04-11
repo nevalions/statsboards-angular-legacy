@@ -29,6 +29,12 @@ export class SponsorLine {
     this.store.dispatch(sponsorLineActions.getId());
   }
 
+  loadSponsorLineWithFullData(sponsorLineId: number) {
+    this.store.dispatch(
+      sponsorLineActions.getFullDataSponsorLine({ sponsorLineId }),
+    );
+  }
+
   loadAllSponsorLines() {
     this.store.dispatch(sponsorLineActions.getAll());
   }

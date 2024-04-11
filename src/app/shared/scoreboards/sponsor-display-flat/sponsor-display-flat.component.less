@@ -1,0 +1,48 @@
+.sponsor_line {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: nowrap;
+  overflow: hidden;
+  transform-origin: top;
+  background-color: #6f0b0b;
+  animation: shrinkInOut 60s infinite;
+}
+
+@keyframes shrinkInOut {
+  0% {
+    transform: scaleY(0);
+  }
+  /* Fast transition to fully visible */
+  1% { /* About 0.6 seconds for transition */
+    transform: scaleY(1);
+  }
+  /* Stays fully visible for 9 seconds */
+  16% { /* 16% of 60 seconds = 9.6 seconds */
+    transform: scaleY(1);
+  }
+  /* Fast transition to invisible */
+  17% { /* About 0.6 seconds for transition */
+    transform: scaleY(0);
+  }
+  /* Stays invisible for the rest of the time (about 51 seconds) */
+  100% {
+    transform: scaleY(0);
+  }
+}
+
+.sponsor_image {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  height: 70px;
+}
+
+.sponsor_image:not(:last-child) {
+  padding-right: 10px;
+}
+
+.sponsor_line img {
+  transform: scale(1);
+}

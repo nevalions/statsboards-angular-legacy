@@ -23,6 +23,11 @@ import {
 } from '../../../../type/sponsor.type';
 import { SponsorLineService } from '../../sponsor-line.service';
 import { SponsorSponsorLineConnectionService } from '../../sponsor-sponsor-line-connection.service';
+import {
+  selectCurrentTournament,
+  selectCurrentTournamentSponsorLineId,
+} from '../../../tournament/store/reducers';
+import { ITournament } from '../../../../type/tournament.type';
 
 @Injectable()
 export class SponsorLineEffects {
@@ -143,6 +148,59 @@ export class SponsorLineEffects {
   //             }),
   //             catchError(() => {
   //               return of(sponsorLineActions.getSponsorLinesByTournamentIDFailure);
+  //             }),
+  //           );
+  //       }),
+  //     );
+  //   },
+  //   { functional: true },
+  // );
+
+  getSponsorLineWithFullDataByIdEffect = createEffect(
+    () => {
+      return this.actions$.pipe(
+        ofType(sponsorLineActions.getFullDataSponsorLine),
+        switchMap(({ sponsorLineId }) => {
+          return this.sponsorSponsorLineConnectionService
+            .fetchSponsorLineFullDataByLineId(sponsorLineId)
+            .pipe(
+              map((currentSponsorLineWithFullData: ISponsorLineFullData) => {
+                return sponsorLineActions.getFullDataSponsorLineSuccess({
+                  currentSponsorLineWithFullData,
+                });
+              }),
+              catchError(() => {
+                return of(sponsorLineActions.getFullDataSponsorLineFailure());
+              }),
+            );
+        }),
+      );
+    },
+    { functional: true },
+  );
+
+  // getSponsorLineWithFullDataByTournamentEffect = createEffect(
+  //   () => {
+  //     return this.actions$.pipe(
+  //       ofType(sponsorLineActions.getFullDataSponsorLine),
+  //       withLatestFrom(this.store.select(selectCurrentTournamentSponsorLineId)),
+  //       filter(
+  //         ([action, sponsorLineId]) =>
+  //           sponsorLineId !== null &&
+  //           sponsorLineId !== undefined &&
+  //           typeof sponsorLineId === 'number',
+  //       ),
+  //       switchMap(([action, sponsorLineId]) => {
+  //         return this.sponsorSponsorLineConnectionService
+  //           .fetchSponsorLineFullDataByLineId(sponsorLineId!)
+  //           .pipe(
+  //             map((currentSponsorLineWithFullData: ISponsorLineFullData) => {
+  //               return sponsorLineActions.getFullDataSponsorLineSuccess({
+  //                 currentSponsorLineWithFullData,
+  //               });
+  //             }),
+  //             catchError(() => {
+  //               return of(sponsorLineActions.getFullDataSponsorLineFailure());
   //             }),
   //           );
   //       }),

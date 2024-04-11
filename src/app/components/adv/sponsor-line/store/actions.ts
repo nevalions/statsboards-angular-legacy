@@ -4,6 +4,7 @@ import {
   ISponsorLineFullData,
   ISponsorWithPosition,
 } from '../../../../type/sponsor.type';
+import { ITournament } from '../../../../type/tournament.type';
 
 export const sponsorLineActions = createActionGroup({
   source: 'sponsorLine',
@@ -29,5 +30,13 @@ export const sponsorLineActions = createActionGroup({
       currentSponsorLineWithFullData: ISponsorLineFullData;
     }>(),
     'Get full data sponsor line failure': emptyProps(),
+
+    // GetFullDataSponsorLineWithTournament: props<{
+    //   sponsorLineTournament: ITournament;
+    // }>(),
+    // 'Get full data sponsor line with tournament success': props<{
+    //   currentSponsorLineWithFullData: ISponsorLineFullData;
+    // }>(),
+    // 'Get full data sponsor line with tournament failure': emptyProps(),
   },
 });

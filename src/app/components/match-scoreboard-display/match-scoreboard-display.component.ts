@@ -6,11 +6,17 @@ import { AsyncPipe, NgIf } from '@angular/common';
 import { ScoreboardDisplayFlatComponent } from '../../shared/scoreboards/scoreboard-display-flat/scoreboard-display-flat.component';
 import { IPlayclock } from '../../type/playclock.type';
 import { IGameclock } from '../../type/gameclock.type';
+import { SponsorDisplayFlatComponent } from '../../shared/scoreboards/sponsor-display-flat/sponsor-display-flat.component';
 
 @Component({
   selector: 'app-match-scoreboard-display',
   standalone: true,
-  imports: [AsyncPipe, NgIf, ScoreboardDisplayFlatComponent],
+  imports: [
+    AsyncPipe,
+    NgIf,
+    ScoreboardDisplayFlatComponent,
+    SponsorDisplayFlatComponent,
+  ],
   templateUrl: './match-scoreboard-display.component.html',
   styleUrl: './match-scoreboard-display.component.less',
 })
