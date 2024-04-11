@@ -13,7 +13,7 @@ import { AsyncPipe, UpperCasePipe } from '@angular/common';
 })
 export class SponsorDisplayFlatComponent {
   @Input() tournamentId!: number;
-  @Input() sponsorLineId: number = 2;
+  @Input() sponsorLineId: number = 1;
   sponsorLine$ = this.sponsorLine.sponsorLineWithFullData$;
 
   constructor(
