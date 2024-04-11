@@ -1,6 +1,6 @@
 @if (sponsorLine$ | async; as sponsorLine) {
-  <p style="color: #232323">{{ sponsorLine.sponsor_line.title }}</p>
-  <p style="color: #232323">{{ tournamentId }}</p>
+  <!--  <p style="color: #232323">{{ sponsorLine.sponsor_line.title }}</p>-->
+  <!--  <p style="color: #232323">{{ tournamentId }}</p>-->
 
   <div class="sponsor_line">
     @for (item of sponsorLine.sponsors; track item.sponsor.id) {
