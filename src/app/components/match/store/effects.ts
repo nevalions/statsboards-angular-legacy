@@ -65,7 +65,7 @@ export class MatchEffects {
       return this.actions$.pipe(
         ofType(matchActions.create),
         switchMap(({ request }) => {
-          return this.matchService.addItem(request).pipe(
+          return this.matchService.addItem(request, 'add').pipe(
             map((currentMatch: IMatch) => {
               return matchActions.createdSuccessfully({
                 currentMatch,

@@ -18,7 +18,6 @@ import {
   AsyncPipe,
   SlicePipe,
   UpperCasePipe,
-  Location,
   TitleCasePipe,
 } from '@angular/common';
 import { DropDownMenuComponent } from '../../../shared/ui/dropdownmenu/dropdownmenu.component';
@@ -28,9 +27,8 @@ import {
   TuiHintModule,
   TuiLoaderModule,
 } from '@taiga-ui/core';
-import { ActivatedRoute, Params, Router, RouterOutlet } from '@angular/router';
-import { first, Observable, of, take } from 'rxjs';
-import { IMatch, IMatchWithFullData } from '../../../type/match.type';
+import { ActivatedRoute, Router, RouterOutlet } from '@angular/router';
+import { IMatchWithFullData } from '../../../type/match.type';
 import { ListOfMatchesComponent } from '../../../shared/ui/list-of-matches/list-of-matches.component';
 import { CreateButtonComponent } from '../../../shared/ui/buttons/create-button/create-button.component';
 import { BodyTitleComponent } from '../../../shared/ui/body/body-title/body-title.component';
@@ -42,7 +40,7 @@ import {
 } from '@angular/forms';
 import { TuiValueChangesModule } from '@taiga-ui/cdk';
 import { ListOfTeamsComponent } from '../../team/list-of-teams/list-of-teams.component';
-import { ITeam, ITeamTournament } from '../../../type/team.type';
+import { ITeam } from '../../../type/team.type';
 import { ListOfTeamsSmallComponent } from '../../team/list-of-teams-small/list-of-teams-small.component';
 import { SearchListService } from '../../../services/search-list.service';
 import { PaginationService } from '../../../services/pagination.service';
@@ -53,26 +51,17 @@ import { TournamentDeleteFormComponent } from '../tournament-delete-form/tournam
 import { DeleteDialogComponent } from '../../../shared/ui/dialogs/delete-dialog/delete-dialog.component';
 import { AddEditMatchComponent } from '../../match/add-edit-match/add-edit-match.component';
 import { MatchService } from '../../match/match.service';
-import { MatchWithFullDataService } from '../../match-with-full-data/matchfulldata.service';
 import { AddTeamToTournamentComponent } from './add-team-to-tournament/add-team-to-tournament.component';
 import { DeleteButtonComponent } from '../../../shared/ui/buttons/delete-button/delete-button.component';
 import { DeleteButtonIconComponent } from '../../../shared/ui/buttons/delete-button-icon/delete-button-icon.component';
 import { RemoveDialogComponent } from '../../../shared/ui/dialogs/remove-dialog/remove-dialog.component';
 import { CreateButtonShowDialogComponent } from '../../../shared/ui/buttons/create-button-show-dialog/create-button-show-dialog.component';
 import { AddItemDialogFromListComponent } from '../../../shared/ui/dialogs/add-item-dialog-from-list/add-item-dialog-from-list.component';
-import { Store } from '@ngrx/store';
-import { tournamentActions } from '../store/actions';
-import { teamActions } from '../../team/store/actions';
-import { teamTournamentActions } from '../../team-tournament/store/actions';
-import { AppState } from '../../../store/appstate';
-import { ISport } from '../../../type/sport.type';
-import { sportActions } from '../../sport/store/actions';
 import { Sport } from '../../sport/sport';
 import { Tournament } from '../tournament';
 import { Team } from '../../team/team';
 import { TeamTournament } from '../../team-tournament/teamTournament';
 import { Season } from '../../season/season';
-import { Match } from '../../match/match';
 import { MatchWithFullData } from '../../match-with-full-data/matchWithFullData';
 import { urlWithProtocol } from '../../../base/constants';
 
@@ -152,7 +141,7 @@ export class ItemTournamentComponent {
   private router = inject(Router);
   // private tournamentService = inject(TournamentService);
   // private seasonService = inject(SeasonService);
-  matchService = inject(MatchService);
+  // matchService = inject(MatchService);
 
   //   routeId$: Observable<string | undefined> = this.store.select(
   //   fromRouter.getRouterSelectors().selectRouteParam('id'),
