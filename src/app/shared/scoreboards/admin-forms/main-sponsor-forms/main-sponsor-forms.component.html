@@ -18,7 +18,7 @@
         >Select Tournament Logo Size
         </tui-input-slider>
         <app-admin-submit-button
-          (click)="scaleLogo('tournament', data?.scoreboard_data!)"
+          (click)="scaleLogo('tournament', data!.scoreboard_data!)"
         ></app-admin-submit-button>
       </div>
       <div class="logo-scale-size">
@@ -31,7 +31,7 @@
         >Select Main Sponsor Size
         </tui-input-slider>
         <app-admin-submit-button
-          (click)="scaleLogo('mainSponsor', data?.scoreboard_data!)"
+          (click)="scaleLogo('mainSponsor', data.scoreboard_data!)"
         ></app-admin-submit-button>
       </div>
     </form>
