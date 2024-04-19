@@ -12,6 +12,7 @@
           [gameClock]="gameclock.gameclock!"
         ></app-scoreboard-display-flat>
         <app-sponsor-display-flat
+          *ngIf="data.scoreboard_data?.is_sponsor_line"
         ></app-sponsor-display-flat>
       </div>
 

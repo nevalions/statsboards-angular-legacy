@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  OnDestroy,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 import { Observable } from 'rxjs';
 import { AsyncPipe, NgIf } from '@angular/common';
@@ -14,8 +9,10 @@ import { ScoreboardDisplayFlatComponent } from '../../shared/scoreboards/scorebo
 import { AllAdminFormsComponent } from '../../shared/scoreboards/admin-forms/all-admin-forms/all-admin-forms.component';
 import { IPlayclock } from '../../type/playclock.type';
 import { IGameclock } from '../../type/gameclock.type';
-import { Store } from '@ngrx/store';
-import { AppState } from '../../store/appstate';
+import { Match } from '../match/match';
+import { ITournament } from '../../type/tournament.type';
+import { ISponsor } from '../../type/sponsor.type';
+import { Tournament } from '../tournament/tournament';
 
 @Component({
   selector: 'app-match-scoreboard-admin',
@@ -34,33 +31,20 @@ import { AppState } from '../../store/appstate';
 export class MatchScoreboardAdminComponent {
   // loading$: Observable<boolean> = this.Websocket.loading$;
   // error$: Observable<any> = this.Websocket.error$;
+  tournament$: Observable<ITournament | null | undefined> =
+    this.match.matchTournament$;
+  mainTournamentSponsor$: Observable<ISponsor | null | undefined> =
+    this.tournament.mainTournamentSponsor$;
   data$: Observable<IMatchFullDataWithScoreboard> = this.Websocket.data$;
   playclock$: Observable<IPlayclock> = this.Websocket.playclock$;
   gameclock$: Observable<IGameclock> = this.Websocket.gameclock$;
 
   constructor(
     private Websocket: Websocket,
-    private store: Store<AppState>,
+    private match: Match,
+    private tournament: Tournament,
   ) {
     this.Websocket.connect();
-    // this.data$.subscribe((result) => {
-    //   console.log('DATA DATA', result);
-    // });
+    match.loadCurrentMatch();
   }
-
-  // ngOnInit() {
-  //   this.Websocket.connect();
-  //   this.data$.subscribe((result) => {
-  //     console.log('DATA DATA', result);
-  //   });
-  //   // this.store
-  //   //   .select((state) => state.webSocket)
-  //   //   .subscribe((result) => {
-  //   //     console.log(result);
-  //   //   });
-  // }
-  //
-  // ngOnDestroy() {
-  //   this.Websocket.disconnect();
-  // }
 }
