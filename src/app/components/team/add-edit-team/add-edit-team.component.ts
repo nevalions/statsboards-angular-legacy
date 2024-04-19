@@ -24,16 +24,8 @@ import {
 import { CreateButtonInFormComponent } from '../../../shared/ui/buttons/create-button-in-form/create-button-in-form.component';
 import { CancelButtonInFormComponent } from '../../../shared/ui/buttons/cancel-button-in-form/cancel-button-in-form.component';
 import { Team } from '../team';
-import {
-  catchError,
-  filter,
-  finalize,
-  map,
-  Observable,
-  of,
-  Subject,
-} from 'rxjs';
-import { switchMap, tap } from 'rxjs/operators';
+import { catchError, finalize, map, Observable, of, Subject } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
 import { ImageService } from '../../../services/image.service';
 import { UploadProgressService } from '../../../services/upload-progress.service';
 
@@ -95,7 +87,7 @@ export class AddEditTeamComponent {
   }
 
   readonly loadedFiles$ = this.teamLogoForm.valueChanges.pipe(
-    switchMap((file) => (file ? this.makeRequest(file) : of(null))),
+    switchMap((file) => (file ? this.uploadTeamLogo(file) : of(null))),
   );
   public uploadedFiles$ = new Subject<TuiFileLike | null>();
 
@@ -111,7 +103,7 @@ export class AddEditTeamComponent {
     this.uploadProgressService.clearRejected(this.teamLogoForm);
   }
 
-  makeRequest(file: File): Observable<TuiFileLike | null> {
+  uploadTeamLogo(file: File): Observable<TuiFileLike | null> {
     this.loadingFiles$.next(file);
 
     if (file && file.name) {
@@ -148,10 +140,11 @@ export class AddEditTeamComponent {
         sport_id: this.sportId,
       };
 
-      console.log(data);
+      // console.log(data);
 
       // console.log(formValue.teamTitle, data.sport_id);
       this.team.createTeam(data);
+      this.teamForm.reset();
     }
   }
 }

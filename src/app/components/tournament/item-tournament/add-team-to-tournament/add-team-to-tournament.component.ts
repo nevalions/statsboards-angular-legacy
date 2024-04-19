@@ -10,10 +10,7 @@ import {
   TuiSelectModule,
 } from '@taiga-ui/kit';
 import { TuiLetModule } from '@taiga-ui/cdk';
-import { TeamService } from '../../../team/team.service';
-import { TeamTournamentService } from '../../../team-tournament/team-tournament.service';
 import { AddItemDialogFromListComponent } from '../../../../shared/ui/dialogs/add-item-dialog-from-list/add-item-dialog-from-list.component';
-import { ItemTournamentComponent } from '../item-tournament.component';
 import { AppState } from '../../../../store/appstate';
 import { Store } from '@ngrx/store';
 import { teamTournamentActions } from '../../../team-tournament/store/actions';
@@ -67,31 +64,3 @@ export class AddTeamToTournamentComponent {
     }
   }
 }
-
-// private _sportId!: number;
-// private _tournamentId!: number;
-//
-// @Input()
-// set sportId(value: number) {
-//   this._sportId = value;
-//   this.teamService.refreshTeamsInSport(value);
-// }
-//
-// get sportId(): number {
-//   return this._sportId;
-// }
-//
-// @Input()
-// set tournamentId(value: number) {
-//   this._tournamentId = value;
-//   this.teamTournamentService.fetchTeamsByTournamentId(value);
-// }
-//
-// get tournamentId(): number {
-//   return this._tournamentId;
-// }
-
-// tournamentTeams$ = this.teamTournamentService.teamsInTournament$;
-// allTeams$ = this.teamService.teams$;
-
-// create availableTeams$ as a getter so it always reflects the current store of allTeams$ and tournamentTeams$

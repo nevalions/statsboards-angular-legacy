@@ -1,3 +1,6 @@
+let protocol = 'http';
+let apiUrl = 'localhost:9000';
+
 export const environment = {
   production: false,
   currentYear: new Date().getFullYear(),
@@ -5,7 +8,8 @@ export const environment = {
   url: 'localhost',
   port: ':9000',
   angular_port: ':4200',
-  protocol: 'http',
+  protocol: protocol,
   wsProtocol: 'ws',
-  apiUrl: 'localhost:9000',
+  apiUrl: apiUrl,
+  backendUrl: protocol + '://' + apiUrl,
 };

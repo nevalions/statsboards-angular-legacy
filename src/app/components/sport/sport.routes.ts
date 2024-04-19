@@ -56,6 +56,17 @@ import {
   gameclockReducer,
 } from '../gameclock/store/reducers';
 import { GameclockEffects } from '../gameclock/store/effects';
+import {
+  sponsorFeatureKey,
+  sponsorReducer,
+} from '../adv/sponsor/store/reducers';
+import {
+  sponsorLineFeatureKey,
+  sponsorLineReducer,
+} from '../adv/sponsor-line/store/reducers';
+import { Sponsor } from '../adv/sponsor/sponsor';
+import { SponsorEffects } from '../adv/sponsor/store/effects';
+import { SponsorLineEffects } from '../adv/sponsor-line/store/effects';
 
 export const SPORT_ROUTES: Routes = [
   {
@@ -90,7 +101,14 @@ export const SPORT_ROUTES: Routes = [
                 providers: [
                   provideState(tournamentFeatureKey, tournamentReducer),
                   provideState(seasonFeatureKey, seasonReducer),
-                  provideEffects(SeasonEffects, TournamentEffects),
+                  provideState(sponsorFeatureKey, sponsorReducer),
+                  provideState(sponsorLineFeatureKey, sponsorLineReducer),
+                  provideEffects(
+                    SeasonEffects,
+                    TournamentEffects,
+                    SponsorEffects,
+                    SponsorLineEffects,
+                  ),
                 ],
                 data: {
                   breadcrumb: {

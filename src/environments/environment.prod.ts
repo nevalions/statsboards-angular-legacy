@@ -1,3 +1,6 @@
+let protocol = 'https';
+let apiUrl = 'statsboard.ru';
+
 export const environment = {
   production: true,
   currentYear: new Date().getFullYear(),
@@ -5,7 +8,8 @@ export const environment = {
   url: 'statsboard.ru',
   port: ':9000',
   angular_port: '',
-  protocol: 'https',
+  protocol: protocol,
   wsProtocol: 'wss',
-  apiUrl: 'statsboard.ru',
+  apiUrl: apiUrl,
+  backendUrl: protocol + '://' + apiUrl,
 };

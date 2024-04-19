@@ -6,6 +6,6 @@ export interface ITournament extends IBaseDescription, IBaseTitle {
   tournament_eesl_id?: number | string;
   tournament_logo_url?: string;
   id?: number;
-  main_sponsor_id?: number;
-  sponsor_line_id?: number;
+  main_sponsor_id?: number | null;
+  sponsor_line_id?: number | null;
 }

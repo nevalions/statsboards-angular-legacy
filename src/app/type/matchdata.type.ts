@@ -19,6 +19,9 @@ export interface IScoreboard {
   is_time?: boolean;
   is_playclock?: boolean;
   is_downdistance?: boolean;
+  is_tournament_logo?: boolean;
+  is_main_sponsor?: boolean;
+  is_sponsor_line?: boolean;
 
   team_a_game_color?: string;
   team_b_game_color?: string;
@@ -34,6 +37,8 @@ export interface IScoreboard {
   use_team_a_game_logo: boolean;
   use_team_b_game_logo: boolean;
 
+  scale_tournament_logo: number;
+  scale_main_sponsor: number;
   scale_logo_a: number;
   scale_logo_b: number;
 

@@ -118,7 +118,7 @@ const sponsorSponsorLineConnectionFeature = createFeature({
 
 export const {
   name: sponsorSponsorLineConnectionFeatureKey,
-  reducer: sponsorLineReducer,
+  reducer: sponsorSponsorLineConnectionReducer,
   selectSponsorSponsorLineConnectionId,
   selectSponsorSponsorLineConnectionIsLoading,
   selectSponsorSponsorLineConnectionIsSubmitting,

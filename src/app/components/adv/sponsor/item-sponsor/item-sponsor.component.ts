@@ -24,7 +24,7 @@ export class ItemSponsorComponent {
     private sponsor: Sponsor,
     private imageService: ImageService,
   ) {
-    sponsor.loadCurrentSponsor();
+    sponsor.loadCurrentSponsorByUrlId();
   }
 
   onImgError(event: Event) {

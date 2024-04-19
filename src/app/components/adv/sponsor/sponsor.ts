@@ -17,8 +17,12 @@ export class Sponsor {
     this.allSponsors$ = store.select((state) => state.sponsor.allSponsors);
   }
 
-  loadCurrentSponsor() {
+  loadCurrentSponsorByUrlId() {
     this.store.dispatch(sponsorActions.getId());
+  }
+
+  loadCurrentSponsor(id: number) {
+    this.store.dispatch(sponsorActions.get({ id }));
   }
 
   loadAllSponsors() {

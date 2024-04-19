@@ -12,6 +12,12 @@ export interface IBaseTitle {
   title?: string;
 }
 
+export interface AnyObjectWithTitle {
+  title: string;
+
+  [key: string]: any;
+}
+
 export interface IBaseName {
   name?: string;
 }

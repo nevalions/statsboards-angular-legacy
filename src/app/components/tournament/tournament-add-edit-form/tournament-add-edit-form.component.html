@@ -43,6 +43,74 @@
         [error]="[] | tuiFieldError | async"
       ></tui-error>
     </div>
+    <div class="tui-form__row">
+      <tui-input-files
+        *ngIf="!tournamentLogoForm.value"
+        accept="image/*"
+        [formControl]="tournamentLogoForm"
+        (reject)="onReject($event)"
+        [maxFileSize]="30 * 1000 * 1000"
+      >
+        Team Logo Url
+      </tui-input-files>
+
+      <tui-files>
+        <tui-file
+          *ngIf="loadedFiles$ | async as file"
+          [file]="file"
+          [showDelete]="tournamentLogoForm.enabled"
+          (removed)="removeFile()"
+        ></tui-file>
+
+        <tui-file
+          *ngIf="rejectedFiles$ | async as file"
+          state="error"
+          [file]="file"
+          [showDelete]="tournamentLogoForm.enabled"
+          (removed)="clearRejected()"
+        ></tui-file>
+
+        <tui-file
+          *ngIf="loadingFiles$ | async as file"
+          state="loading"
+          [file]="file"
+          [showDelete]="tournamentLogoForm.enabled"
+        ></tui-file>
+      </tui-files>
+
+
+      <!--      <img-->
+      <!--        *ngIf="tournamentForm.controls['tournamentLogoUrl'].value"-->
+      <!--        [src]="tournamentForm.controls['tournamentLogoUrl'].value"-->
+      <!--        alt="Uploaded Tournament Logo"-->
+      <!--        width="100px"-->
+      <!--        height="100px"-->
+      <!--      >-->
+
+
+      <tui-error
+        formControlName="tournamentLogoUrl"
+        [error]="[] | tuiFieldError | async"
+      ></tui-error>
+    </div>
+
+    @if (allSponsors$ | async; as allSponsors) {
+      <app-select-from-list
+        [itemsList]="allSponsors"
+        [title]="'Main Sponsor'"
+        [formField]="tournamentForm.controls['tournamentMainSponsor']"
+        [avatarProperty]="'logo_url'"
+      ></app-select-from-list>
+    }
+
+    @if (allSponsorLines$ | async; as allSponsorLines) {
+      <app-select-from-list
+        [itemsList]="allSponsorLines"
+        [title]="'Sponsor Line'"
+        [formField]="tournamentForm.controls['tournamentSponsorLine']"
+      ></app-select-from-list>
+    }
+
     <p>
       <app-create-button-in-form
         [action]="'add'"
