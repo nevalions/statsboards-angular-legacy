@@ -16,6 +16,7 @@ let initialState: UiState = {
     timeForms: true,
     changeTeamsForms: true,
     changeScoreBoardForms: true,
+    sponsorsForms: true,
   },
 };
 

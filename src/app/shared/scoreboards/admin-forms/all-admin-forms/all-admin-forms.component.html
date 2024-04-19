@@ -60,4 +60,10 @@
     [disabled]="(isMatchDataLoading$ | async)! || (isMatchDataSubmitting$ | async)!"
   ></app-scoreboard-data-forms>
 
+  <app-main-sponsor-forms
+    [data]="data"
+    [sponsorsFormsVisible$]="sponsorsFormsVisible$"
+    [disabled]="(isMatchDataLoading$ | async)! || (isMatchDataSubmitting$ | async)!"
+  ></app-main-sponsor-forms>
+
 </div>

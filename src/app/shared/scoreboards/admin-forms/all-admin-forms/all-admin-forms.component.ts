@@ -19,6 +19,7 @@ import { tuiArrayToggle, TuiDropdownHostModule } from '@taiga-ui/cdk';
 import { TUI_ARROW, TuiArrowModule } from '@taiga-ui/kit';
 import { IPlayclock } from '../../../../type/playclock.type';
 import { IGameclock } from '../../../../type/gameclock.type';
+import { MainSponsorFormsComponent } from '../main-sponsor-forms/main-sponsor-forms.component';
 
 @Component({
   selector: 'app-all-admin-forms',
@@ -37,6 +38,7 @@ import { IGameclock } from '../../../../type/gameclock.type';
     TuiButtonModule,
     TuiArrowModule,
     TuiDropdownHostModule,
+    MainSponsorFormsComponent,
   ],
   encapsulation: ViewEncapsulation.None,
   templateUrl: './all-admin-forms.component.html',
@@ -59,6 +61,7 @@ export class AllAdminFormsComponent {
   timeFormsVisible$: Observable<boolean>;
   changeTeamsFormsVisible$: Observable<boolean>;
   changeScoreBoardFormsVisible$: Observable<boolean>;
+  sponsorsFormsVisible$: Observable<boolean>;
 
   constructor(
     private matchData: MatchData,
@@ -90,6 +93,9 @@ export class AllAdminFormsComponent {
     );
     this.changeScoreBoardFormsVisible$ = this.ui.formVisibility$.pipe(
       map((formVisibility) => formVisibility['changeScoreBoardForms']),
+    );
+    this.sponsorsFormsVisible$ = this.ui.formVisibility$.pipe(
+      map((formVisibility) => formVisibility['sponsorsForms']),
     );
   }
 

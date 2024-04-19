@@ -242,7 +242,7 @@ export class ChangeTeamsFormsComponent implements OnChanges {
     this.scoreboardData.updateScoreboardData(updatedScoreboardData);
   }
 
-  scaleLogoA(team: 'a' | 'b', scoreboardData: IScoreboard) {
+  scaleLogo(team: 'a' | 'b', scoreboardData: IScoreboard) {
     if (!scoreboardData) return;
 
     if (this.teamDataForm.valid) {
