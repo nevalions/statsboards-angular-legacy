@@ -5,14 +5,14 @@
         <div class="fullhd-separator"></div>
         <app-scoreboard-display-flat
           [scoreboardDisplayClass]="'fullhd-scoreboard'"
+          [tournament]="tournament$ | async"
+          [tournamentSponsor]="mainTournamentSponsor$ | async"
           [data]="data"
           [playClock]="playclock.playclock!"
           [gameClock]="gameclock.gameclock!"
         ></app-scoreboard-display-flat>
         <app-sponsor-display-flat
-          [tournamentId]="data.match.tournament_id"
-        >
-        </app-sponsor-display-flat>
+        ></app-sponsor-display-flat>
       </div>
 
     }

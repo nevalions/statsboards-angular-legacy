@@ -1,5 +1,5 @@
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { inject, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { TournamentService } from '../tournament.service';
 import { tournamentActions } from './actions';
 import {
@@ -16,12 +16,16 @@ import { tap } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { selectSportIdAndSeasonId } from '../../sport/store/selectors';
-import { seasonActions } from '../../season/store/actions';
-import { getRouterSelectors, routerNavigatedAction } from '@ngrx/router-store';
-import { ISeason } from '../../../type/season.type';
+import { routerNavigatedAction } from '@ngrx/router-store';
 import { selectTournamentSportIdSeasonId } from './selectors';
 import { getAllRouteParameters } from '../../../router/router.selector';
-import { ISponsor } from '../../../type/sponsor.type';
+import { ISponsor, ISponsorLineFullData } from '../../../type/sponsor.type';
+import { matchActions } from '../../match/store/actions';
+import { SponsorService } from '../../adv/sponsor.service';
+import { sponsorActions } from '../../adv/sponsor/store/actions';
+import { SponsorLineService } from '../../adv/sponsor-line.service';
+import { sponsorLineActions } from '../../adv/sponsor-line/store/actions';
+import { SponsorSponsorLineConnectionService } from '../../adv/sponsor-sponsor-line-connection.service';
 
 @Injectable()
 export class TournamentEffects {
@@ -102,6 +106,64 @@ export class TournamentEffects {
             catchError(() => of(tournamentActions.getItemFailure())),
           ),
         ),
+      );
+    },
+    { functional: true },
+  );
+
+  getSponsorByTournamentEffect = createEffect(
+    () => {
+      return this.actions$.pipe(
+        ofType(tournamentActions.getItemSuccess),
+        filter(
+          ({ tournament }) =>
+            tournament.main_sponsor_id !== null &&
+            tournament.main_sponsor_id !== undefined,
+        ),
+        switchMap(({ tournament }) => {
+          return this.sponsorService
+            .findById(tournament.main_sponsor_id as number)
+            .pipe(
+              map((currentSponsor: ISponsor | null | undefined) => {
+                return sponsorActions.getItemSuccess({
+                  currentSponsor: currentSponsor,
+                });
+              }),
+              catchError(() => {
+                return of(sponsorActions.getItemFailure());
+              }),
+            );
+        }),
+      );
+    },
+    { functional: true },
+  );
+
+  getSponsorLineByTournamentEffect = createEffect(
+    () => {
+      return this.actions$.pipe(
+        ofType(tournamentActions.getItemSuccess),
+        filter(
+          ({ tournament }) =>
+            tournament.sponsor_line_id !== null &&
+            tournament.sponsor_line_id !== undefined,
+        ),
+        switchMap(({ tournament }) => {
+          return this.sponsorSponsorLineConnectionService
+            .fetchSponsorLineFullDataByLineId(
+              tournament.sponsor_line_id as number,
+            )
+            .pipe(
+              map((currentSponsorLineWithFullData: ISponsorLineFullData) => {
+                return sponsorLineActions.getFullDataSponsorLineSuccess({
+                  currentSponsorLineWithFullData,
+                });
+              }),
+              catchError(() => {
+                return of(sponsorLineActions.getFullDataSponsorLineFailure());
+              }),
+            );
+        }),
       );
     },
     { functional: true },
@@ -236,6 +298,9 @@ export class TournamentEffects {
     private router: Router,
     private actions$: Actions,
     private tournamentService: TournamentService,
+    private sponsorSponsorLineConnectionService: SponsorSponsorLineConnectionService,
+    private sponsorLineService: SponsorLineService,
+    private sponsorService: SponsorService,
     private store: Store,
   ) {}
 }

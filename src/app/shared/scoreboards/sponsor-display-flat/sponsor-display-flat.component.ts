@@ -12,15 +12,17 @@ import { AsyncPipe, UpperCasePipe } from '@angular/common';
   styleUrl: './sponsor-display-flat.component.less',
 })
 export class SponsorDisplayFlatComponent {
-  @Input() tournamentId!: number;
-  @Input() sponsorLineId: number = 1;
+  // @Input() tournamentId!: number;
+  // @Input() sponsorLineId: number | null | undefined;
   sponsorLine$ = this.sponsorLine.sponsorLineWithFullData$;
 
   constructor(
     private sponsorLine: SponsorLine,
     private imageService: ImageService,
   ) {
-    sponsorLine.loadSponsorLineWithFullData(this.sponsorLineId);
+    // if (this.sponsorLineId) {
+    //   sponsorLine.loadSponsorLineWithFullData(this.sponsorLineId);
+    // }
   }
 
   onImgError(event: Event) {

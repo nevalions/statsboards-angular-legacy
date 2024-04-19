@@ -2,6 +2,24 @@
   <div
     class="fullhd-scoreboard">
     <div [class]="scoreboardDisplayClass">
+      <div class="main-logos">
+        <div *ngIf="data.scoreboard_data?.is_main_sponsor" class="sponsor-logo-scoreboard">
+          <img
+            src="{{urlWithProtocol}}{{tournamentSponsor?.logo_url}}"
+            width="50"
+            (error)="onImgError($event)"
+            [style.transform]="'scale('+ data.scoreboard_data?.scale_main_sponsor +')'"
+          >
+        </div>
+        <div *ngIf="data.scoreboard_data?.is_tournament_logo" class="tournament-logo-scoreboard">
+          <img
+            src="{{urlWithProtocol}}{{tournament?.tournament_logo_url}}"
+            width="50"
+            (error)="onImgError($event)"
+            [style.transform]="'scale('+ data.scoreboard_data?.scale_tournament_logo +')'"
+          >
+        </div>
+      </div>
       <div class="teams-container">
         <div
           class="team_a-detail"
@@ -50,7 +68,6 @@
               data.scoreboard_data?.team_a_game_logo :
               data.teams_data?.team_a?.team_logo_url}}"
               width="50"
-              height="50"
               (error)="onImgError($event)"
               [style.transform]="'scale('+ data.scoreboard_data?.scale_logo_a +')'"
             >
@@ -112,7 +129,6 @@
               data.scoreboard_data?.team_b_game_logo :
               data.teams_data?.team_b?.team_logo_url}}"
               width="50"
-              height="50"
               (error)="onImgError($event)"
               [style.transform]="'scale('+ data.scoreboard_data?.scale_logo_b +')'"
             >

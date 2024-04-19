@@ -16,6 +16,8 @@ import {
   RevealHideAnimation,
   ScoreChangeAnimation,
 } from '../../animations/scoreboard-animations';
+import { ISponsor } from '../../../type/sponsor.type';
+import { ITournament } from '../../../type/tournament.type';
 
 @Component({
   selector: 'app-scoreboard-display-flat',
@@ -30,6 +32,8 @@ export class ScoreboardDisplayFlatComponent
   implements AfterViewInit, OnChanges
 {
   @Input() data: IMatchFullDataWithScoreboard | undefined;
+  @Input() tournamentSponsor: ISponsor | null | undefined;
+  @Input() tournament: ITournament | null | undefined;
   @Input() gameClock: number = 0;
   @Input() playClock: number | null = null;
   @Input() scoreboardDisplayClass: string = 'fullhd-scoreboard';

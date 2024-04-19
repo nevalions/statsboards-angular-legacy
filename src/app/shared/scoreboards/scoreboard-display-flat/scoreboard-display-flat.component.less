@@ -14,7 +14,7 @@
   display: grid;
   unicode-bidi: isolate;
 
-  grid-template-columns: auto auto;
+  grid-template-columns: auto auto auto;
   grid-template-rows: auto;
 
   grid-gap: 0;
@@ -30,7 +30,7 @@
 
   display: grid;
 
-  grid-template-columns: auto auto;
+  grid-template-columns: auto auto auto;
   grid-template-rows: auto;
 
   grid-gap: 0;
@@ -42,6 +42,36 @@
   color: #ffffff;
   font-weight: bold;
   text-shadow: 0 1px 8px #000;
+}
+
+.main-logos {
+  background-color: #4A4A4AFF;
+  border-top: 1px solid #bababa;
+  border-bottom: 1px solid #bababa;
+  border-left: 1px solid #bababa;
+
+
+  display: grid;
+  grid-row: span 2;
+  grid-template-columns: auto auto;
+}
+
+.sponsor-logo-scoreboard,
+.tournament-logo-scoreboard {
+  display: grid;
+
+  align-items: center;
+  justify-content: center;
+
+  width: 80px;
+  height: 70px;
+  grid-row: span 2;
+
+  overflow: hidden;
+}
+
+.sponsor-logo-scoreboard {
+  border-right: 1px solid #bababa;
 }
 
 .teams-container {
@@ -385,10 +415,9 @@
     grid-template-columns: auto auto;
   }
 
-  .team_a-logo,
-  .team_b-logo {
-  }
-
+  //.team_a-logo,
+  //.team_b-logo {
+  //}
   .team-scoreblock span {
     font-size: 30px;
   }

@@ -49,6 +49,11 @@ import { SponsorLineEffects } from './components/adv/sponsor-line/store/effects'
 import { ItemSponsorLineComponent } from './components/adv/sponsor-line/item-sponsor-line/item-sponsor-line.component';
 import { sponsorSponsorLineConnectionFeatureKey } from './components/adv/sponsor-sponsor-line-connection/store/reducers';
 import { SponsorSponsorLineConnectionService } from './components/adv/sponsor-sponsor-line-connection.service';
+import {
+  tournamentFeatureKey,
+  tournamentReducer,
+} from './components/tournament/store/reducers';
+import { TournamentEffects } from './components/tournament/store/effects';
 
 export const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'index' },
@@ -60,13 +65,17 @@ export const routes: Routes = [
       provideState(playclockFeatureKey, playclockReducer),
       provideState(gameclockFeatureKey, gameclockReducer),
       provideState(matchFeatureKey, matchReducer),
+      provideState(tournamentFeatureKey, tournamentReducer),
+      provideState(sponsorFeatureKey, sponsorReducer),
       provideState(sponsorLineFeatureKey, sponsorLineReducer),
       provideEffects(
         MatchEffects,
         PlayclockEffects,
         GameclockEffects,
         WebSocketEffects,
+        SponsorEffects,
         SponsorLineEffects,
+        TournamentEffects,
       ),
     ],
     data: {

@@ -13,7 +13,9 @@ export const sponsorActions = createActionGroup({
     'Create failure': emptyProps(),
 
     Get: props<{ id: number }>(),
-    'Get item success': props<{ currentSponsor: ISponsor }>(),
+    'Get item success': props<{
+      currentSponsor: ISponsor | null | undefined;
+    }>(),
     'Get item failure': emptyProps(),
 
     GetAll: emptyProps(),

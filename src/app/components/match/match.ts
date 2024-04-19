@@ -5,6 +5,7 @@ import { AppState } from '../../store/appstate';
 import { IMatch } from '../../type/match.type';
 import { matchActions } from './store/actions';
 import { selectCurrentMatchWithTeams } from './store/selectors';
+import { ITournament } from '../../type/tournament.type';
 
 @Injectable({
   providedIn: 'root',
@@ -13,6 +14,7 @@ export class Match {
   match$: Observable<IMatch | null | undefined>;
   matchesInSport$: Observable<IMatch[]>;
   matchesInTournament$: Observable<IMatch[]>;
+  matchTournament$: Observable<ITournament | null | undefined>;
 
   constructor(private store: Store<AppState>) {
     this.match$ = store.select((state) => state.match.currentMatch);
@@ -21,6 +23,9 @@ export class Match {
     );
     this.matchesInTournament$ = store.select(
       (state) => state.match.allMatchesInTournament,
+    );
+    this.matchTournament$ = store.select(
+      (state) => state.tournament.currentTournament,
     );
   }
 

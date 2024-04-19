@@ -34,6 +34,9 @@ import { matchDataActions } from './match-data/actions';
 import { MatchDataService } from '../matchData.service';
 import { getAllRouteParameters } from '../../../router/router.selector';
 import { sportActions } from '../../sport/store/actions';
+import { ITournament } from '../../../type/tournament.type';
+import { tournamentActions } from '../../tournament/store/actions';
+import { TournamentService } from '../../tournament/tournament.service';
 
 @Injectable()
 export class MatchEffects {
@@ -197,13 +200,12 @@ export class MatchEffects {
     { functional: true },
   );
 
-  getMatchByIdSuccesEffect = createEffect(
+  getMatchByIdSuccessEffect = createEffect(
     () => {
       return this.actions$.pipe(
-        ofType(matchActions.getMatchIdSuccessfully), // You will have to define this action
+        ofType(matchActions.getMatchIdSuccessfully),
         switchMap(({ matchId }) => {
           return this.matchService.findById(matchId).pipe(
-            // Assuming you have a getTournaments method in your service
             map((match: IMatch) => {
               return matchActions.getItemSuccess({
                 match,
@@ -211,6 +213,25 @@ export class MatchEffects {
             }),
             catchError(() => {
               return of(matchActions.getItemFailure());
+            }),
+          );
+        }),
+      );
+    },
+    { functional: true },
+  );
+
+  getTournamentByMatchEffect = createEffect(
+    () => {
+      return this.actions$.pipe(
+        ofType(matchActions.getItemSuccess),
+        switchMap(({ match }) => {
+          return this.tournamentService.findById(match.tournament_id).pipe(
+            map((tournament: ITournament) => {
+              return tournamentActions.getItemSuccess({ tournament });
+            }),
+            catchError(() => {
+              return of(tournamentActions.getItemFailure());
             }),
           );
         }),
@@ -339,5 +360,6 @@ export class MatchEffects {
     private actions$: Actions,
     private matchService: MatchService,
     private store: Store,
+    private tournamentService: TournamentService,
   ) {}
 }
