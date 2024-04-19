@@ -64,6 +64,9 @@ import { TeamTournament } from '../../team-tournament/teamTournament';
 import { Season } from '../../season/season';
 import { MatchWithFullData } from '../../match-with-full-data/matchWithFullData';
 import { urlWithProtocol } from '../../../base/constants';
+import { SponsorLine } from '../../adv/sponsor-line/sponsorLine';
+import { SponsorDisplayFlatComponent } from '../../../shared/scoreboards/sponsor-display-flat/sponsor-display-flat.component';
+import { SponsorLineComponent } from '../../../shared/scoreboards/sponsor-line/sponsor-line.component';
 
 @Component({
   selector: 'app-item-tournament',
@@ -106,6 +109,8 @@ import { urlWithProtocol } from '../../../base/constants';
     AddItemDialogFromListComponent,
     RouterOutlet,
     TitleCasePipe,
+    SponsorDisplayFlatComponent,
+    SponsorLineComponent,
   ],
   templateUrl: './item-tournament.component.html',
   styleUrl: './item-tournament.component.less',
@@ -117,6 +122,7 @@ export class ItemTournamentComponent {
   teamsInTournament$ = this.team.teamsInTournament$;
   tournament$ = this.tournament.currentTournament$;
   currentTournamentMainSponsor$ = this.tournament.currentTournamentMainSponsor$;
+  sponsorLine$ = this.sponsorLine.sponsorLineWithFullData$;
   matchesInTournament$ =
     this.matchWithFullData.matchesWithFullDataInTournament$;
 
@@ -126,12 +132,9 @@ export class ItemTournamentComponent {
     private tournament: Tournament,
     private team: Team,
     private teamTournament: TeamTournament,
-    // private match: Match,
     private matchWithFullData: MatchWithFullData,
+    private sponsorLine: SponsorLine,
   ) {
-    // season.loadCurrentSeason();
-    // sport.loadCurrentSport();
-    // tournament.loadCurrentTournament();
     team.loadAllTeamsInTournament();
     team.loadAllTeamsInSport();
     matchWithFullData.loadAllMatchesInTournament();

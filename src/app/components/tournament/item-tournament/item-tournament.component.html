@@ -11,9 +11,9 @@
       >
     </p>
 
-    @if (currentTournamentMainSponsor$| async; as sponsor) {
-      <p style="text-align: center">Sponsor</p>
-      <p style="text-align: center">{{ sponsor.title }}</p>
+    @if (currentTournamentMainSponsor$ | async; as sponsor) {
+      <p style="text-align: center">Main Sponsor</p>
+      <!--      <p style="text-align: center">{{ sponsor.title }}</p>-->
       <p style="text-align: center">
         <img
           src="{{url}}{{sponsor.logo_url}}"
@@ -21,6 +21,13 @@
           alt="{{sponsor.title | uppercase}} Logo"
         >
       </p>
+    }
+    @if (sponsorLine$ | async; as sponsorLine) {
+      <div class="tournament_sponsor_line">
+        <app-sponsor-line
+          [sponsorLine]="sponsorLine"
+        ></app-sponsor-line>
+      </div>
     }
     <p class="content__title_description">{{ tournament.description }}</p>
   } @else {

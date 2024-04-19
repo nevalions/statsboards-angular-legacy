@@ -130,7 +130,11 @@ export const SPORT_ROUTES: Routes = [
                     matchWithFullDataFeatureKey,
                     matchWithFullDataReducer,
                   ),
+                  provideState(sponsorLineFeatureKey, sponsorLineReducer),
+                  provideState(sponsorFeatureKey, sponsorReducer),
                   provideEffects(
+                    SponsorLineEffects,
+                    SponsorEffects,
                     SeasonEffects,
                     TournamentEffects,
                     TeamEffects,
