@@ -28,6 +28,7 @@ import { catchError, finalize, map, Observable, of, Subject } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { ImageService } from '../../../services/image.service';
 import { UploadProgressService } from '../../../services/upload-progress.service';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-add-edit-team',
@@ -54,6 +55,7 @@ import { UploadProgressService } from '../../../services/upload-progress.service
 })
 export class AddEditTeamComponent {
   @Input() sportId!: number;
+  backendUrl = environment.backendUrl;
 
   loadingFiles$ = this.uploadProgressService.loadingFiles$;
   rejectedFiles$ = this.uploadProgressService.rejectedFiles$;

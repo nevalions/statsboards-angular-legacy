@@ -13,6 +13,7 @@ import {
   TuiHintModule,
 } from '@taiga-ui/core';
 import {
+  TuiAvatarModule,
   TuiDataListWrapperModule,
   TuiFieldErrorPipeModule,
   TuiFileLike,
@@ -26,9 +27,6 @@ import { ITournament } from '../../../type/tournament.type';
 import { AsyncPipe, NgIf, TitleCasePipe } from '@angular/common';
 import { CreateButtonInFormComponent } from '../../../shared/ui/buttons/create-button-in-form/create-button-in-form.component';
 import { CancelButtonInFormComponent } from '../../../shared/ui/buttons/cancel-button-in-form/cancel-button-in-form.component';
-import { Store } from '@ngrx/store';
-import { tournamentActions } from '../store/actions';
-import { TournamentState } from '../store/reducers';
 import { Tournament } from '../tournament';
 import { ImageService } from '../../../services/image.service';
 import { UploadProgressService } from '../../../services/upload-progress.service';
@@ -38,6 +36,7 @@ import { Sponsor } from '../../adv/sponsor/sponsor';
 import { SponsorLine } from '../../adv/sponsor-line/sponsorLine';
 import { ISponsor, ISponsorLine } from '../../../type/sponsor.type';
 import { SelectFromListComponent } from '../../../shared/ui/select/select-from-list/select-from-list.component';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-tournament-add-edit-form',
@@ -62,6 +61,7 @@ import { SelectFromListComponent } from '../../../shared/ui/select/select-from-l
     TuiLetModule,
     TuiSelectModule,
     SelectFromListComponent,
+    TuiAvatarModule,
   ],
   templateUrl: './tournament-add-edit-form.component.html',
   styleUrl: './tournament-add-edit-form.component.less',
@@ -69,6 +69,8 @@ import { SelectFromListComponent } from '../../../shared/ui/select/select-from-l
 export class TournamentAddEditFormComponent {
   @Input() sport_Id!: number;
   @Input() season_Id!: number;
+  backendUrl = environment.backendUrl;
+
   allSponsors$ = this.sponsor.allSponsors$;
   allSponsorLines$ = this.sponsorLine.allSponsorLines$;
 

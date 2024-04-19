@@ -50,9 +50,8 @@
         [formControl]="tournamentLogoForm"
         (reject)="onReject($event)"
         [maxFileSize]="30 * 1000 * 1000"
-      >
-        Team Logo Url
-      </tui-input-files>
+        label="Tournament Logo"
+      ></tui-input-files>
 
       <tui-files>
         <tui-file
@@ -78,14 +77,21 @@
         ></tui-file>
       </tui-files>
 
-
-      <!--      <img-->
+      <!--      <tui-avatar-->
       <!--        *ngIf="tournamentForm.controls['tournamentLogoUrl'].value"-->
-      <!--        [src]="tournamentForm.controls['tournamentLogoUrl'].value"-->
-      <!--        alt="Uploaded Tournament Logo"-->
-      <!--        width="100px"-->
-      <!--        height="100px"-->
-      <!--      >-->
+      <!--        size="l"-->
+      <!--        text="uploaded logo"-->
+      <!--        class="tui-space_top-1"-->
+      <!--        [rounded]="false"-->
+      <!--        [avatarUrl]="backendUrl + tournamentForm.controls['tournamentLogoUrl'].value || null"-->
+      <!--      ></tui-avatar>-->
+
+      <img
+        *ngIf="tournamentForm.controls['tournamentLogoUrl'].value"
+        [src]="backendUrl + tournamentForm.controls['tournamentLogoUrl'].value"
+        alt="Uploaded Tournament Logo"
+        height="100px"
+      >
 
 
       <tui-error

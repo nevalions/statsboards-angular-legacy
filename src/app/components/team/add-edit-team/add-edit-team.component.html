@@ -65,9 +65,8 @@
         [formControl]="teamLogoForm"
         (reject)="onReject($event)"
         [maxFileSize]="30 * 1000 * 1000"
-      >
-        Team Logo Url
-      </tui-input-files>
+        label="Team Logo"
+      ></tui-input-files>
 
       <tui-files>
         <tui-file
@@ -94,13 +93,12 @@
       </tui-files>
 
 
-      <!--      <img-->
-      <!--        *ngIf="teamForm.controls['teamLogoUrl'].value"-->
-      <!--        [src]="teamForm.controls['teamLogoUrl'].value"-->
-      <!--        alt="Uploaded Team Logo"-->
-      <!--        width="100px"-->
-      <!--        height="100px"-->
-      <!--      >-->
+      <img
+        *ngIf="teamForm.controls['teamLogoUrl'].value"
+        [src]="backendUrl + teamForm.controls['teamLogoUrl'].value"
+        alt="Uploaded Team Logo"
+        width="100px"
+      >
 
 
       <tui-error
@@ -113,7 +111,7 @@
       <tui-input-number
         formControlName="teamEeslId"
       >
-        Match EESL ID
+        TEAM EESL ID
       </tui-input-number>
       <tui-error
         formControlName="teamEeslId"
