@@ -22,6 +22,7 @@ import { DialogService } from '../../../../services/dialog.service';
 import { Observable, of, Subject, Subscription, takeUntil } from 'rxjs';
 import { CreateButtonInFormComponent } from '../../buttons/create-button-in-form/create-button-in-form.component';
 import { CancelButtonInFormComponent } from '../../buttons/cancel-button-in-form/cancel-button-in-form.component';
+import { HasTitlePipe } from '../../../../pipes/has-title.pipe';
 
 @Component({
   selector: 'app-add-item-dialog-from-list',
@@ -39,6 +40,7 @@ import { CancelButtonInFormComponent } from '../../buttons/cancel-button-in-form
     UpperCasePipe,
     CreateButtonInFormComponent,
     CancelButtonInFormComponent,
+    HasTitlePipe,
   ],
   templateUrl: './add-item-dialog-from-list.component.html',
   styleUrl: './add-item-dialog-from-list.component.less',

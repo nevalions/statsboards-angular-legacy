@@ -14,6 +14,7 @@ import { AddItemDialogFromListComponent } from '../../../../shared/ui/dialogs/ad
 import { AppState } from '../../../../store/appstate';
 import { Store } from '@ngrx/store';
 import { teamTournamentActions } from '../../../team-tournament/store/actions';
+import { hasTitle, toTitleCase } from '../../../../base/helpers';
 
 @Component({
   selector: 'app-add-team-to-tournament',
@@ -33,7 +34,8 @@ import { teamTournamentActions } from '../../../team-tournament/store/actions';
   styleUrl: './add-team-to-tournament.component.less',
   providers: [
     tuiItemsHandlersProvider({
-      stringify: (item: ITeam) => `${item.title}`,
+      stringify: (item: ITeam) =>
+        hasTitle(item) ? toTitleCase(item.title) : toTitleCase(String(item)),
     }),
   ],
 })

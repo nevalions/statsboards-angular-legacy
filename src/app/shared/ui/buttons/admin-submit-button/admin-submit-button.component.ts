@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
-import { AddSignPipe } from '../../../../components/pipes/add-sign.pipe';
-import { TeamNamePipe } from '../../../../components/pipes/team-name.pipe';
+import { AddSignPipe } from '../../../../pipes/add-sign.pipe';
+import { TeamNamePipe } from '../../../../pipes/team-name.pipe';
 import { TuiButtonModule } from '@taiga-ui/core';
 
 @Component({

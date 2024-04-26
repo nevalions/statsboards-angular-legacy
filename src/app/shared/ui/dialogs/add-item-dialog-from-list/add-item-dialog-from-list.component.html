@@ -19,7 +19,8 @@
           formControlName="itemToAdd"
           style="padding-left: 10px; padding-right: 10px;"
         >
-          Select {{ item | titlecase }}
+          SELECT {{ item | uppercase }}
+          <!--          Select {{ itemAddForm.get('itemToAdd')?.value | hasTitlePipe | titlecase }}-->
           <tui-data-list-wrapper
             *tuiDataList
             size="l"

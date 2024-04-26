@@ -3,8 +3,8 @@ import { TuiButtonModule } from '@taiga-ui/core';
 import { IMatchData } from '../../../../type/matchdata.type';
 import { MatchData } from '../../../../components/match/matchdata';
 import { IMatchFullDataWithScoreboard } from '../../../../type/match.type';
-import { AddSignPipe } from '../../../../components/pipes/add-sign.pipe';
-import { TeamNamePipe } from '../../../../components/pipes/team-name.pipe';
+import { AddSignPipe } from '../../../../pipes/add-sign.pipe';
+import { TeamNamePipe } from '../../../../pipes/team-name.pipe';
 
 @Component({
   selector: 'app-increment-button',
