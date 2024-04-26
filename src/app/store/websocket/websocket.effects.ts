@@ -6,10 +6,6 @@ import { WebSocketService } from '../../services/web-socket.service';
 import { webSocketActions } from './websocket.actions';
 import { selectCurrentMatchId } from '../../components/match/store/reducers';
 import { select, Store } from '@ngrx/store';
-import {
-  selectConnectionState,
-  WebSocketStateEnum,
-} from './websocket.reducers';
 import { routerNavigatedAction } from '@ngrx/router-store';
 import { selectRouterState } from '../../router/router.selector';
 
@@ -99,91 +95,6 @@ export class WebSocketEffects {
       ),
     ),
   );
-  //
-  // connect$ = createEffect(() =>
-  //   this.actions$.pipe(
-  //     ofType(webSocketActions.connect),
-  //     switchMap(() => this.store.select(selectCurrentMatchId)),
-  //     switchMap((matchId) =>
-  //       this.webSocketService.connect(matchId!).pipe(
-  //         scan((accumulatedMessage: {}, parsedMessage) => {
-  //           // console.log('Received data inside effect', parsedMessage);
-  //
-  //           if (parsedMessage && parsedMessage.data) {
-  //             accumulatedMessage = {
-  //               ...accumulatedMessage,
-  //               data: parsedMessage.data,
-  //             };
-  //           }
-  //
-  //           if (parsedMessage && parsedMessage.playclock) {
-  //             accumulatedMessage = {
-  //               ...accumulatedMessage,
-  //               playclock: parsedMessage.playclock,
-  //             };
-  //           }
-  //
-  //           if (parsedMessage && parsedMessage.gameclock) {
-  //             accumulatedMessage = {
-  //               ...accumulatedMessage,
-  //               gameclock: parsedMessage.gameclock,
-  //             };
-  //           }
-  //
-  //           return accumulatedMessage;
-  //         }, {}),
-  //         map((accumulatedMessage) =>
-  //           webSocketActions.connectSuccess({ message: accumulatedMessage }),
-  //         ),
-  //         catchError((error) => of(webSocketActions.connectFailure({ error }))),
-  //       ),
-  //     ),
-  //   ),
-  // );
-  //
-  // disconnect$ = createEffect(
-  //   () =>
-  //     this.actions$.pipe(
-  //       ofType(webSocketActions.disconnect),
-  //       map(() => {
-  //         this.webSocketService.disconnect();
-  //         return webSocketActions.disconnectSuccess();
-  //       }),
-  //       catchError((error) =>
-  //         of(webSocketActions.disconnectFailure({ error })),
-  //       ),
-  //     ),
-  //   { dispatch: true },
-  // );
-  //
-  // receiveMessage$ = createEffect(() =>
-  //   this.actions$.pipe(
-  //     ofType(webSocketActions.connectSuccess),
-  //     switchMap(() =>
-  //       this.webSocketService.messages().pipe(
-  //         tap((data: any) => console.log('Data received:', data)),
-  //         map(({ type, data }) => {
-  //           console.log('TYPE', type);
-  //           switch (type) {
-  //             case 'playclock-update':
-  //               return webSocketActions.playclockMessage({ playclock: data });
-  //             case 'gameclock-update':
-  //               return webSocketActions.gameclockMessage({ gameclock: data });
-  //             case 'message-update':
-  //               return webSocketActions.data({ data: data });
-  //             default:
-  //               // Optional: handle unknown message types
-  //               return {
-  //                 type: '[WebSocket] Unknown message type',
-  //                 data: data,
-  //               };
-  //           }
-  //         }),
-  //         catchError((error) => of(webSocketActions.error({ error }))),
-  //       ),
-  //     ),
-  //   ),
-  // );
 
   // Effect to send a message to the WebSocket server when the Send action is dispatched
   sendMessage$ = createEffect(
@@ -200,64 +111,6 @@ export class WebSocketEffects {
       ),
     { functional: true },
   );
-
-  // reconnect$ = createEffect(() =>
-  //   this.actions$.pipe(
-  //     ofType(webSocketActions.closeFailure, webSocketActions.connectFailure),
-  //     // Utilize a delay or any other logic required for your reconnection strategy
-  //     delay(2000),
-  //     map(() => webSocketActions.reconnect()),
-  //   ),
-  // );
-  //
-  // // Effect to reconnect to the WebSocket server when the Reconnect action is dispatched
-  // connectOnReconnect$ = createEffect(
-  //   () =>
-  //     this.actions$.pipe(
-  //       ofType(webSocketActions.reconnect),
-  //       switchMap(() => this.store.select(selectCurrentMatchId)),
-  //       switchMap((matchId) =>
-  //         this.webSocketService.connect(matchId!).pipe(
-  //           tap((message: any) =>
-  //             console.log('MESSAGE ON RECONNECT', message.data),
-  //           ),
-  //           map((message) =>
-  //             webSocketActions.connectSuccess({
-  //               message: message.data ? JSON.parse(message.data) : null,
-  //             }),
-  //           ),
-  //           catchError((error) =>
-  //             of(webSocketActions.connectFailure({ error })),
-  //           ),
-  //         ),
-  //       ),
-  //     ),
-  //   { functional: true },
-  // );
-  //
-  // connectIfNeeded$ = createEffect(() =>
-  //   this.actions$.pipe(
-  //     ofType(webSocketActions.connectIfNeeded),
-  //     withLatestFrom(this.store.select(selectConnectionState)),
-  //     filter(
-  //       ([action, connectionState]) =>
-  //         connectionState !== WebSocketStateEnum.CONNECTED,
-  //     ),
-  //     map(() => webSocketActions.connect()),
-  //   ),
-  // );
-  //
-  // disconnectIfNeeded$ = createEffect(() =>
-  //   this.actions$.pipe(
-  //     ofType(webSocketActions.disconnectIfNeeded),
-  //     withLatestFrom(this.store.select(selectConnectionState)),
-  //     filter(
-  //       ([action, connectionState]) =>
-  //         connectionState !== WebSocketStateEnum.DISCONNECTED,
-  //     ),
-  //     map(() => webSocketActions.disconnect()),
-  //   ),
-  // );
 
   constructor(
     private actions$: Actions,
