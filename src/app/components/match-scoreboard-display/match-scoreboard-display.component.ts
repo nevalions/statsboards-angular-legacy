@@ -24,7 +24,7 @@ import { Tournament } from '../tournament/tournament';
   templateUrl: './match-scoreboard-display.component.html',
   styleUrl: './match-scoreboard-display.component.less',
 })
-export class MatchScoreboardDisplayComponent implements OnInit, OnDestroy {
+export class MatchScoreboardDisplayComponent implements OnDestroy {
   // loading$: Observable<boolean> = this.Websocket.loading$;
   // error$: Observable<any> = this.Websocket.error$;
   tournament$: Observable<ITournament | null | undefined> =
@@ -43,9 +43,9 @@ export class MatchScoreboardDisplayComponent implements OnInit, OnDestroy {
     match.loadCurrentMatch();
   }
 
-  ngOnInit() {
-    this.Websocket.connect();
-  }
+  // ngOnInit() {
+  //   // this.Websocket.connect();
+  // }
 
   ngOnDestroy() {
     this.Websocket.disconnect();

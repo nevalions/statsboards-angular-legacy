@@ -38,22 +38,10 @@ const webSocketFeature = createFeature({
       error: null,
       connectionState: WebSocketStateEnum.CONNECTING,
     })),
-    // on(webSocketActions.connectSuccess, (state, {}) => ({
-    //   ...state,
-    //   loading: false,
-    //   error: null,
-    //   // data: message.data,
-    //   // playclock: message.playclock,
-    //   // gameclock: message.gameclock,
-    //   connectionState: WebSocketStateEnum.CONNECTED,
-    // })),
     on(webSocketActions.connectSuccess, (state, { readyState }) => ({
       ...state,
       loading: false,
       error: null,
-      // data: message.data,
-      // playclock: message.playclock,
-      // gameclock: message.gameclock,
       connectionState: WebSocketStateEnum.CONNECTED,
     })),
     on(webSocketActions.connectFailure, (state, { error }) => ({

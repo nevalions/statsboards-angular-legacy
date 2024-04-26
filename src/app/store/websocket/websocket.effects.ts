@@ -5,14 +5,50 @@ import { catchError, map, switchMap, tap } from 'rxjs/operators';
 import { WebSocketService } from '../../services/web-socket.service';
 import { webSocketActions } from './websocket.actions';
 import { selectCurrentMatchId } from '../../components/match/store/reducers';
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import {
   selectConnectionState,
   WebSocketStateEnum,
 } from './websocket.reducers';
+import { routerNavigatedAction } from '@ngrx/router-store';
+import { selectRouterState } from '../../router/router.selector';
 
 @Injectable()
 export class WebSocketEffects {
+  connectWebSocketOnMatchRoutes$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(routerNavigatedAction),
+      withLatestFrom(this.store.pipe(select(selectRouterState))),
+      filter(([_, routerState]) => {
+        // Use a regular expression to check for the URL pattern /match/{matchId}/admin or /match/{matchId}/hd
+        const matchPattern = /\/match\/(\d+)\/(admin|hd)/;
+        return matchPattern.test(routerState.url);
+      }),
+      map(([_, routerState]) => {
+        // Extract the matchId using the same regular expression
+        const match = routerState.url.match(/\/match\/(\d+)\/(admin|hd)/);
+        return match ? Number(match[1]) : undefined; // match[1] contains the matchId
+      }),
+      filter((matchId) => matchId !== undefined),
+      tap(() => this.webSocketService.disconnect()), // Ensure to clean up any previous WebSocket connections
+      switchMap((matchId) => {
+        // Now we can be sure that matchId is a number and not undefined
+        return this.webSocketService.connect(matchId!).pipe(
+          mergeMap((readyState) =>
+            readyState === WebSocket.OPEN
+              ? of(webSocketActions.connectSuccess({ readyState }))
+              : of(
+                  webSocketActions.connectFailure({
+                    error: { message: 'WebSocket connection failed' },
+                  }),
+                ),
+          ),
+          catchError((error) => of(webSocketActions.connectFailure({ error }))),
+        );
+      }),
+    ),
+  );
+
   connect$ = createEffect(() =>
     this.actions$.pipe(
       ofType(webSocketActions.connect),

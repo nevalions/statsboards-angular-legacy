@@ -5,7 +5,6 @@ import {
   getRouterSelectors,
   SerializedRouterStateSnapshot,
 } from '@ngrx/router-store';
-import { Params } from '@angular/router';
 
 export const ROUTER_FEATURE_KEY = 'router';
 
@@ -14,28 +13,10 @@ export const routerFeatureState =
     ROUTER_FEATURE_KEY,
   );
 
-// `router` is used as the default feature name. You can use the feature name
-// of your choice by creating a feature selector and pass it to the `getRouterSelectors` function
-// export const selectRouter = createFeatureSelector<RouterReducerState>('yourFeatureName');
-
-// export const selectRouteNestedParams = createSelector(
-//   getRouterSelectors,
-//   (router) => {
-//     let currentRoute = router?.state?.root;
-//     let params: Params = {};
-//     while (currentRoute?.firstChild) {
-//       currentRoute = currentRoute.firstChild;
-//       params = {
-//         ...params,
-//         ...currentRoute.params,
-//       };
-//     }
-//     return params;
-//   },
-// );
-
-// export const selectRouteNestedParam = (param: string) =>
-//   createSelector(selectRouteNestedParams, (params) => params && params[param]);
+export const selectRouterState = createSelector(
+  routerFeatureState,
+  (routerReducerState) => routerReducerState && routerReducerState.state,
+);
 
 export function getAllRouteParameters(snapshot: SerializedRouterStateSnapshot) {
   let route = snapshot.root;
@@ -62,4 +43,4 @@ export const {
   selectRouteDataParam, // factory function to select a route data param
   selectUrl, // select the current url
   selectTitle, // select the title if available
-} = getRouterSelectors();
+} = getRouterSelectors(routerFeatureState);

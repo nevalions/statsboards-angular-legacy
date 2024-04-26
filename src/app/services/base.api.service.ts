@@ -16,14 +16,84 @@ import { IPlayclock } from '../type/playclock.type';
   providedIn: 'root',
 })
 export abstract class BaseApiService<T> {
-  private cache$: { [id: number]: Observable<T> } = {};
-  private cache$ByFirstKeyValue: { [key: string]: Observable<any> } = {};
+  // private cache$: { [id: number]: Observable<T> } = {};
+  // private cache$ByFirstKeyValue: { [key: string]: Observable<any> } = {};
 
   protected constructor(
     protected endpoint: string,
     protected readonly http: HttpClient,
     protected errorHandlingService: ErrorHandlingService,
   ) {}
+
+  findById(id: number): Observable<T> {
+    return this.http.get<T>(`${this.endpoint}/id/${id}`).pipe(
+      tap((item) =>
+        console.log(
+          `Received /API/${this.endpoint.toUpperCase()}/id/${id} \ndata:`,
+          item,
+        ),
+      ),
+      catchError((error) => {
+        return this.errorHandlingService.handleError(error);
+      }),
+    );
+  }
+
+  // findById(id: number): Observable<T> {
+  //   if (!this.cache$[id]) {
+  //     this.cache$[id] = this.http.get<T>(`${this.endpoint}/id/${id}`).pipe(
+  //       tap((item) =>
+  //         console.log(
+  //           `Received /API/${this.endpoint.toUpperCase()}/id/${id} \ndata:`,
+  //           item,
+  //         ),
+  //       ),
+  //       catchError((error) => {
+  //         return this.errorHandlingService.handleError(error);
+  //       }),
+  //       shareReplay(1),
+  //     );
+  //   }
+  //   return this.cache$[id];
+  // }
+
+  // findByFirstKeyValue(
+  //   firstItem: string,
+  //   firstKey: string,
+  //   firstValue: any,
+  //   optionalValue?: any | undefined,
+  // ): Observable<any> {
+  //   const cacheKey = `${firstItem}/${firstKey}/${firstValue}${optionalValue ? `/${optionalValue}` : ''}`;
+  //   // console.log(cacheKey);
+  //
+  //   if (!this.cache$ByFirstKeyValue[cacheKey]) {
+  //     let finalEndpoint = `${firstItem}/${firstKey}/${firstValue}`;
+  //     // console.log(finalEndpoint);
+  //
+  //     if (optionalValue !== null && optionalValue !== undefined) {
+  //       finalEndpoint += `/${optionalValue}`;
+  //     }
+  //
+  //     // console.log(finalEndpoint);
+  //
+  //     this.cache$ByFirstKeyValue[cacheKey] = this.http
+  //       .get<any>(finalEndpoint)
+  //       .pipe(
+  //         tap((items) =>
+  //           console.log(
+  //             `Received  /API/${firstItem}/${firstKey}/${firstValue}` +
+  //               (optionalValue ? `/${optionalValue}` : '') +
+  //               `\n data:`,
+  //             items,
+  //           ),
+  //         ),
+  //         catchError(this.errorHandlingService.handleError),
+  //         shareReplay(1),
+  //       );
+  //   }
+  //
+  //   return this.cache$ByFirstKeyValue[cacheKey];
+  // }
 
   findAll(postValue?: string): Observable<T[]> {
     const finalEndpoint = postValue
@@ -92,24 +162,6 @@ export abstract class BaseApiService<T> {
         return this.errorHandlingService.handleError(error);
       }),
     );
-  }
-
-  findById(id: number): Observable<T> {
-    if (!this.cache$[id]) {
-      this.cache$[id] = this.http.get<T>(`${this.endpoint}/id/${id}`).pipe(
-        tap((item) =>
-          console.log(
-            `Received /API/${this.endpoint.toUpperCase()}/id/${id} \ndata:`,
-            item,
-          ),
-        ),
-        catchError((error) => {
-          return this.errorHandlingService.handleError(error);
-        }),
-        shareReplay(1),
-      );
-    }
-    return this.cache$[id];
   }
 
   startGameClock(matchDataId: number): Observable<IMatchData> {
@@ -229,36 +281,23 @@ export abstract class BaseApiService<T> {
     firstValue: any,
     optionalValue?: any | undefined,
   ): Observable<any> {
-    const cacheKey = `${firstItem}/${firstKey}/${firstValue}${optionalValue ? `/${optionalValue}` : ''}`;
-    // console.log(cacheKey);
+    let finalEndpoint = `${firstItem}/${firstKey}/${firstValue}`;
 
-    if (!this.cache$ByFirstKeyValue[cacheKey]) {
-      let finalEndpoint = `${firstItem}/${firstKey}/${firstValue}`;
-      // console.log(finalEndpoint);
-
-      if (optionalValue !== null && optionalValue !== undefined) {
-        finalEndpoint += `/${optionalValue}`;
-      }
-
-      // console.log(finalEndpoint);
-
-      this.cache$ByFirstKeyValue[cacheKey] = this.http
-        .get<any>(finalEndpoint)
-        .pipe(
-          tap((items) =>
-            console.log(
-              `Received  /API/${firstItem}/${firstKey}/${firstValue}` +
-                (optionalValue ? `/${optionalValue}` : '') +
-                `\n data:`,
-              items,
-            ),
-          ),
-          catchError(this.errorHandlingService.handleError),
-          shareReplay(1),
-        );
+    if (optionalValue !== null && optionalValue !== undefined) {
+      finalEndpoint += `/${optionalValue}`;
     }
 
-    return this.cache$ByFirstKeyValue[cacheKey];
+    return this.http.get<any>(finalEndpoint).pipe(
+      tap((items) =>
+        console.log(
+          `Received /API/${firstItem}/${firstKey}/${firstValue}` +
+            (optionalValue ? `/${optionalValue}` : '') +
+            `\n data:`,
+          items,
+        ),
+      ),
+      catchError(this.errorHandlingService.handleError),
+    );
   }
 
   findByFirstItemKeyValueAndSecondItemSecondKeyValue(

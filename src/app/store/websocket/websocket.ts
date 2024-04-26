@@ -38,6 +38,10 @@ export class Websocket {
     this.store.dispatch(webSocketActions.connect());
   }
 
+  // connectMatchByUrl() {
+  //   this.store.dispatch();
+  // }
+
   isConnected() {
     this.store
       .select(selectConnectionState)

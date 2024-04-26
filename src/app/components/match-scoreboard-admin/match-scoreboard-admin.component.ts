@@ -29,8 +29,6 @@ import { Tournament } from '../tournament/tournament';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MatchScoreboardAdminComponent {
-  // loading$: Observable<boolean> = this.Websocket.loading$;
-  // error$: Observable<any> = this.Websocket.error$;
   tournament$: Observable<ITournament | null | undefined> =
     this.match.matchTournament$;
   mainTournamentSponsor$: Observable<ISponsor | null | undefined> =
@@ -44,7 +42,7 @@ export class MatchScoreboardAdminComponent {
     private match: Match,
     private tournament: Tournament,
   ) {
-    this.Websocket.connect();
+    // Websocket.connect();
     match.loadCurrentMatch();
   }
 }

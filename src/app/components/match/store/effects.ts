@@ -47,17 +47,54 @@ export class MatchEffects {
         switchMap(({ payload }) => {
           let params = getAllRouteParameters(payload.routerState);
           let matchId = params.get('match_id');
+
+          if (matchId) {
+            // Log only if matchId exists
+            // console.log(`Route navigated with match_id: ${matchId}`);
+          }
+
           return of(matchId).pipe(
             filter((id: string | undefined): id is string => !!id),
-            switchMap((id: string) => [
+            // tap((id) => console.log(`Loading Match ID: ${id}`)),
+            map((id: string) =>
               matchActions.getMatchIdSuccessfully({ matchId: Number(id) }),
-            ]),
-            catchError(() => of(matchActions.getMatchIdFailure())),
+            ),
+            catchError(() => {
+              console.error(
+                `Failed to load match data for match_id: ${matchId}`,
+              );
+              return of(matchActions.getMatchIdFailure());
+            }),
           );
         }),
       );
     },
     { functional: false },
+  );
+
+  getMatchByIdSuccessEffect = createEffect(
+    () => {
+      return this.actions$.pipe(
+        ofType(matchActions.getMatchIdSuccessfully),
+        // tap((action) =>
+        //   console.log(`Fetching data for match ID: ${action.matchId}`),
+        // ), // Log the matchId here
+        switchMap(({ matchId }) => {
+          return this.matchService.findById(matchId).pipe(
+            map((match: IMatch) => {
+              return matchActions.getItemSuccess({
+                match,
+              });
+            }),
+            catchError(() => {
+              console.error(`Failed to fetch data for match ID: ${matchId}`);
+              return of(matchActions.getItemFailure());
+            }),
+          );
+        }),
+      );
+    },
+    { functional: true },
   );
 
   createMatchEffect = createEffect(
@@ -194,27 +231,6 @@ export class MatchEffects {
                 return of(matchActions.getMatchesByTournamentIDFailure);
               }),
             );
-        }),
-      );
-    },
-    { functional: true },
-  );
-
-  getMatchByIdSuccessEffect = createEffect(
-    () => {
-      return this.actions$.pipe(
-        ofType(matchActions.getMatchIdSuccessfully),
-        switchMap(({ matchId }) => {
-          return this.matchService.findById(matchId).pipe(
-            map((match: IMatch) => {
-              return matchActions.getItemSuccess({
-                match,
-              });
-            }),
-            catchError(() => {
-              return of(matchActions.getItemFailure());
-            }),
-          );
         }),
       );
     },
