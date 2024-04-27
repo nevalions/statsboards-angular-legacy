@@ -37,7 +37,16 @@ export class Team {
     this.store.dispatch(teamActions.create({ request: team }));
   }
 
-  deleteTeam(id: number) {
-    this.store.dispatch(teamActions.delete({ id }));
+  updateTeam(team: ITeam) {
+    this.store.dispatch(
+      teamActions.update({
+        id: team.id!,
+        newTeamData: team,
+      }),
+    );
+  }
+
+  deleteTeam() {
+    this.store.dispatch(teamActions.delete());
   }
 }

@@ -32,7 +32,7 @@ import { ActivatedRoute, Router, RouterOutlet } from '@angular/router';
 import { IMatchWithFullData } from '../../../type/match.type';
 import { ListOfMatchesComponent } from '../../../shared/ui/list-of-matches/list-of-matches.component';
 import { CreateButtonComponent } from '../../../shared/ui/buttons/create-button/create-button.component';
-import { BodyTitleComponent } from '../../../shared/ui/body/body-title/body-title.component';
+import { BodyListTitleComponent } from '../../../shared/ui/body/body-title/body-list-title.component';
 import {
   FormControl,
   FormGroup,
@@ -86,7 +86,7 @@ import { Sponsor } from '../../adv/sponsor/sponsor';
     SlicePipe,
     TuiPaginationModule,
     CreateButtonComponent,
-    BodyTitleComponent,
+    BodyListTitleComponent,
     TuiInputModule,
     TuiHintModule,
     ReactiveFormsModule,
@@ -117,6 +117,7 @@ import { Sponsor } from '../../adv/sponsor/sponsor';
     SponsorLineComponent,
     EditButtonComponent,
     TournamentAddEditFormComponent,
+    BodyListTitleComponent,
   ],
   templateUrl: './item-tournament.component.html',
   styleUrl: './item-tournament.component.less',

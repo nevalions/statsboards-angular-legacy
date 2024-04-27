@@ -37,8 +37,15 @@ export const teamActions = createActionGroup({
 
     'Update all Teams in sport': props<{ newTeam: ITeam }>(),
 
-    Delete: props<{ id: number }>(),
-    'Deleted successfully': props<{ id: number }>(),
+    // Delete: props<{ id: number }>(),
+    // 'Deleted successfully': props<{ id: number }>(),
+    // 'Delete failure': emptyProps(),
+
+    Delete: emptyProps(),
+    'Deleted successfully': props<{
+      teamId: number;
+      sportId: number;
+    }>(),
     'Delete failure': emptyProps(),
   },
 });

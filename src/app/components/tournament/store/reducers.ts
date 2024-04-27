@@ -13,6 +13,7 @@ export interface TournamentState {
   currentTournamentSponsorLineId: number | undefined | null;
   allTournaments: ITournament[];
   allSeasonSportTournaments: ITournament[];
+  errors: any;
 }
 
 const initialState: TournamentState = {
@@ -24,6 +25,7 @@ const initialState: TournamentState = {
   currentTournamentSponsorLineId: null,
   currentTournament: null,
   currentTournamentMainSponsor: null,
+  errors: null,
 };
 
 const tournamentFeature = createFeature({

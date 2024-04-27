@@ -18,7 +18,7 @@ import { FormSearchTextComponent } from '../../../../shared/ui/forms/form-search
 import { paginationWithItemsPerPage } from '../../../../shared/ui/pagination/pagination-with-items-per-page/pagination-with-items-per-page.component';
 import { SportWithSeasonDropdownComponent } from '../../../../shared/ui/dropdownmenu/sport-with-season-dropdown/sport-with-season-dropdown.component';
 import { CreateButtonComponent } from '../../../../shared/ui/buttons/create-button/create-button.component';
-import { BodyTitleComponent } from '../../../../shared/ui/body/body-title/body-title.component';
+import { BodyListTitleComponent } from '../../../../shared/ui/body/body-title/body-list-title.component';
 import { TournamentAddEditFormComponent } from '../../../tournament/tournament-add-edit-form/tournament-add-edit-form.component';
 import { IslandListOfTournamentsComponent } from '../../../tournament/island-list-of-tournaments/island-list-of-tournaments.component';
 import { Sport } from '../../sport';
@@ -48,7 +48,7 @@ import { SponsorLine } from '../../../adv/sponsor-line/sponsorLine';
     paginationWithItemsPerPage,
     SportWithSeasonDropdownComponent,
     CreateButtonComponent,
-    BodyTitleComponent,
+    BodyListTitleComponent,
     TournamentAddEditFormComponent,
     IslandListOfTournamentsComponent,
     CreateButtonShowDialogComponent,

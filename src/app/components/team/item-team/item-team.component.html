@@ -20,6 +20,25 @@
         (error)="onImgError($event)"
       ></p>
 
+    @if (currentTeamMainSponsor$ | async; as sponsor) {
+      <p style="text-align: center">Main Sponsor</p>
+      <!--      <p style="text-align: center">{{ sponsor.title }}</p>-->
+      <p style="text-align: center">
+        <img
+          src="{{url}}{{sponsor.logo_url}}"
+          width="200px"
+          alt="{{sponsor.title | uppercase}} Logo"
+        >
+      </p>
+    }
+    @if (sponsorLine$ | async; as sponsorLine) {
+      <div class="tournament_sponsor_line">
+        <app-sponsor-line
+          [sponsorLine]="sponsorLine"
+        ></app-sponsor-line>
+      </div>
+    }
+
     <p class="content__title_description">{{ team.city }}</p>
 
   </div>
@@ -28,11 +47,32 @@
     <div class="one_col_container">
       <div class="tournament content__body__title__flex">
 
-        <h3>Players List</h3>
+        <app-body-list-title
+          titleMany='players'
+        ></app-body-list-title>
 
-        <app-delete-dialog
+        <app-edit-button
+          [action]="'edit'"
           [item]="'Team'"
+          [dialogId]="'editDialog'"
+        ></app-edit-button>
+
+        <app-add-edit-team
+          [action]="'edit'"
+          [dialogId]="'editDialog'"
+          [new_team]="team"
+          [allSponsors]="allSponsors$ | async"
+          [allSponsorLines]="allSponsorLines$ | async"
+        ></app-add-edit-team>
+
+        <app-delete-button
+          [item]="buttonTitle"
+          [dialogId]="'deleteDialog'"
+        ></app-delete-button>
+        <app-delete-dialog
+          [item]="buttonTitle"
           (delete)="onDelete()"
+          [dialogId]="'deleteDialog'"
         ></app-delete-dialog>
       </div>
     </div>

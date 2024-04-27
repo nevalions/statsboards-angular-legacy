@@ -7,16 +7,20 @@ import {
   getDefaultCrudStore,
 } from '../../../type/store.intarface';
 
-export interface TeamState extends crudStoreInterface {
+export interface TeamState {
+  isTeamSubmitting: boolean;
+  isTeamLoading: boolean;
   currentTeamId: number | undefined | null;
   currentTeam: ITeam | undefined | null;
   allTeams: ITeam[];
   allTeamsInSport: ITeam[];
   allTeamsInTournament: ITeam[];
+  errors: any;
 }
 
 const initialState: TeamState = {
-  ...getDefaultCrudStore(),
+  isTeamSubmitting: false,
+  isTeamLoading: false,
   currentTeamId: null,
   allTeams: [],
   allTeamsInSport: [],
@@ -31,64 +35,66 @@ const teamFeature = createFeature({
     initialState,
     on(teamActions.getId, (state) => ({
       ...state,
-      isLoading: true,
+      isTeamLoading: true,
     })),
     on(teamActions.getTeamIdSuccessfully, (state, action) => ({
       ...state,
-      isLoading: false,
-      currentTournamentId: action.teamId,
+      isTeamLoading: false,
+      currentTeamId: action.teamId,
     })),
     on(teamActions.getTeamIdFailure, (state) => ({
       ...state,
-      isLoading: false,
+      isTeamLoading: false,
     })),
 
     // create actions
     on(teamActions.create, (state) => ({
       ...state,
-      isSubmitting: true,
+      isTeamSubmitting: true,
     })),
     on(teamActions.createdSuccessfully, (state, action) => {
       const newList = [...state.allTeams, action.currentTeam];
       const sortedTournaments = SortService.sort(newList, 'title');
       return {
         ...state,
-        isSubmitting: false,
+        isTeamSubmitting: false,
         currentTeam: action.currentTeam,
         allTeams: sortedTournaments, // sorted list
       };
     }),
     on(teamActions.createFailure, (state, action) => ({
       ...state,
-      isSubmitting: false,
+      isTeamSubmitting: false,
       errors: action,
     })),
 
     // delete actions
     on(teamActions.delete, (state) => ({
       ...state,
-      isSubmitting: true,
+      isTeamSubmitting: true,
     })),
     on(teamActions.deletedSuccessfully, (state, action) => ({
       ...state,
-      isSubmitting: false,
-      itemsList: (state.allTeams || []).filter((item) => item.id !== action.id),
+      isTeamSubmitting: false,
+      itemsList: (state.allTeams || []).filter(
+        (item) => item.id !== action.teamId,
+      ),
       errors: null,
     })),
     on(teamActions.deleteFailure, (state, action) => ({
       ...state,
-      isSubmitting: false,
+      isTeamSubmitting: false,
       errors: action,
     })),
 
     // update actions
     on(teamActions.update, (state) => ({
       ...state,
-      isSubmitting: true,
+      isTeamSubmitting: true,
     })),
     on(teamActions.updatedSuccessfully, (state, action) => ({
       ...state,
-      isSubmitting: false,
+      isTeamSubmitting: false,
       currentTeam: action.updatedTeam,
       allTeams: state.allTeams.map((item) =>
         item.id === action.updatedTeam.id ? action.updatedTeam : item,
@@ -97,7 +103,7 @@ const teamFeature = createFeature({
     })),
     on(teamActions.updateFailure, (state, action) => ({
       ...state,
-      isSubmitting: false,
+      isTeamSubmitting: false,
       errors: action,
     })),
     on(teamActions.updateAllTeamsInSport, (state, { newTeam }) => {
@@ -112,70 +118,70 @@ const teamFeature = createFeature({
     // get actions
     on(teamActions.get, (state) => ({
       ...state,
-      isLoading: true,
+      isTeamLoading: true,
     })),
     on(teamActions.getItemSuccess, (state, action) => ({
       ...state,
-      isLoading: false,
+      isTeamLoading: false,
       currentTeam: action.team,
     })),
     on(teamActions.getItemFailure, (state, action) => ({
       ...state,
-      isLoading: false,
+      isTeamLoading: false,
       errors: action,
     })),
 
     on(teamActions.getAll, (state) => ({
       ...state,
-      isLoading: true,
+      isTeamLoading: true,
     })),
     on(teamActions.getAllItemsSuccess, (state, action) => {
       const sortedTournaments = SortService.sort(action.teams, 'title');
       return {
         ...state,
-        isLoading: false,
+        isTeamLoading: false,
         allTeams: sortedTournaments,
       };
     }),
     on(teamActions.getAllItemsFailure, (state, action) => ({
       ...state,
-      isLoading: false,
+      isTeamLoading: false,
       errors: action,
     })),
 
     on(teamActions.getTeamsBySportId, (state) => ({
       ...state,
-      isLoading: true,
+      isTeamLoading: true,
     })),
     on(teamActions.getTeamsBySportIDSuccess, (state, action) => {
       const sortedTournaments = SortService.sort(action.teams, 'title');
       return {
         ...state,
-        isLoading: false,
+        isTeamLoading: false,
         allTeamsInSport: sortedTournaments,
       };
     }),
     on(teamActions.getTeamsBySportIDFailure, (state, action) => ({
       ...state,
-      isLoading: false,
+      isTeamLoading: false,
       errors: action,
     })),
 
     on(teamActions.getTeamsByTournamentId, (state) => ({
       ...state,
-      isLoading: true,
+      isTeamLoading: true,
     })),
     on(teamActions.getTeamsByTournamentIDSuccess, (state, action) => {
       const sortedTeams = SortService.sort(action.teams, 'title');
       return {
         ...state,
-        isLoading: false,
+        isTeamLoading: false,
         allTeamsInTournament: sortedTeams,
       };
     }),
     on(teamActions.getTeamsByTournamentIDFailure, (state, action) => ({
       ...state,
-      isLoading: false,
+      isTeamLoading: false,
       errors: action,
     })),
 
@@ -209,8 +215,8 @@ const teamFeature = createFeature({
 export const {
   name: teamFeatureKey,
   reducer: teamReducer,
-  selectIsSubmitting,
-  selectIsLoading,
+  selectIsTeamSubmitting,
+  selectIsTeamLoading,
   selectCurrentTeamId,
   selectCurrentTeam,
   selectAllTeams,

@@ -1,14 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import {
-  catchError,
-  filter,
-  map,
-  mergeMap,
-  of,
-  switchMap,
-  withLatestFrom,
-} from 'rxjs';
+import { catchError, filter, map, of, switchMap, withLatestFrom } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { TeamService } from '../team.service';
@@ -18,10 +10,12 @@ import { TeamTournamentService } from '../../team-tournament/team-tournament.ser
 import { Store } from '@ngrx/store';
 import { selectCurrentTournamentId } from '../../tournament/store/reducers';
 import { selectCurrentSportId } from '../../sport/store/reducers';
-import { tournamentActions } from '../../tournament/store/actions';
-import { getRouterSelectors, routerNavigatedAction } from '@ngrx/router-store';
+import { routerNavigatedAction } from '@ngrx/router-store';
 import { getAllRouteParameters } from '../../../router/router.selector';
-import { sportActions } from '../../sport/store/actions';
+import { tournamentActions } from '../../tournament/store/actions';
+import { selectTournamentSportIdSeasonId } from '../../tournament/store/selectors';
+import { selectTeamSportId } from './selectors';
+import { selectCurrentTeam, selectCurrentTeamId } from './reducers';
 
 @Injectable()
 export class TeamEffects {
@@ -192,16 +186,44 @@ export class TeamEffects {
     { functional: true },
   );
 
+  updateTeamEffect = createEffect(
+    () => {
+      return this.actions$.pipe(
+        ofType(teamActions.update),
+        switchMap(({ id, newTeamData }) => {
+          return this.teamService.editItem(id, newTeamData).pipe(
+            map((updatedTeam: ITeam) => {
+              return teamActions.updatedSuccessfully({
+                updatedTeam,
+              });
+            }),
+            catchError(() => {
+              return of(teamActions.updateFailure);
+            }),
+          );
+        }),
+      );
+    },
+    { functional: true },
+  );
+
   deleteTeamEffect = createEffect(
     () => {
       return this.actions$.pipe(
         ofType(teamActions.delete),
-        switchMap(({ id }) => {
-          // const _id = typeof id === 'string' ? Number(id) : id;
-          return this.teamService.deleteItem(id).pipe(
-            map(() => {
-              return teamActions.deletedSuccessfully({ id: id });
-            }),
+        withLatestFrom(this.store.select(selectCurrentTeam)),
+        switchMap(([action, currentTeam]) => {
+          if (!currentTeam || !currentTeam.id) {
+            return of(teamActions.deleteFailure());
+          }
+
+          return this.teamService.deleteItem(currentTeam.id).pipe(
+            map(() =>
+              teamActions.deletedSuccessfully({
+                teamId: currentTeam.id!,
+                sportId: currentTeam.sport_id!,
+              }),
+            ),
             catchError(() => {
               return of(teamActions.deleteFailure());
             }),
@@ -216,7 +238,9 @@ export class TeamEffects {
     () => {
       return this.actions$.pipe(
         ofType(teamActions.deletedSuccessfully),
-        tap(() => this.router.navigateByUrl('/')),
+        tap(({ sportId }) => {
+          this.router.navigateByUrl(`/sport/${sportId}/teams`);
+        }),
       );
     },
     { dispatch: false },

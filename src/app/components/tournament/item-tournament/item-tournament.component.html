@@ -41,9 +41,9 @@
   <div class="one_col_container">
     @if (this.tournament$ | async; as tournament) {
       <div class="tournament content__body__title__flex">
-        <app-body-title
+        <app-body-list-title
           titleMany='matches'
-        ></app-body-title>
+        ></app-body-list-title>
 
         <app-edit-button
           [action]="'edit'"

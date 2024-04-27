@@ -160,7 +160,7 @@ export class MatchEffects {
       return this.actions$.pipe(
         ofType(matchActions.update),
         switchMap(({ id, newMatchData }) => {
-          return this.matchService.editMatch(id, newMatchData).pipe(
+          return this.matchService.editItem(id, newMatchData).pipe(
             map((updatedMatch: IMatch) => {
               return matchActions.updatedSuccessfully({
                 updatedMatch,

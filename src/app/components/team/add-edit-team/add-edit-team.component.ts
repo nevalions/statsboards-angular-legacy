@@ -1,4 +1,13 @@
-import { Component, Input } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnDestroy,
+  OnInit,
+  Output,
+  SimpleChanges,
+} from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -24,11 +33,23 @@ import {
 import { CreateButtonInFormComponent } from '../../../shared/ui/buttons/create-button-in-form/create-button-in-form.component';
 import { CancelButtonInFormComponent } from '../../../shared/ui/buttons/cancel-button-in-form/cancel-button-in-form.component';
 import { Team } from '../team';
-import { catchError, finalize, map, Observable, of, Subject } from 'rxjs';
+import {
+  catchError,
+  finalize,
+  map,
+  Observable,
+  of,
+  Subject,
+  Subscription,
+} from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { ImageService } from '../../../services/image.service';
 import { UploadProgressService } from '../../../services/upload-progress.service';
 import { environment } from '../../../../environments/environment';
+import { ITournament } from '../../../type/tournament.type';
+import { DialogService } from '../../../services/dialog.service';
+import { ISponsor, ISponsorLine } from '../../../type/sponsor.type';
+import { SelectFromListComponent } from '../../../shared/ui/select/select-from-list/select-from-list.component';
 
 @Component({
   selector: 'app-add-edit-team',
@@ -49,12 +70,23 @@ import { environment } from '../../../../environments/environment';
     TuiInputFilesModule,
     NgIf,
     NgOptimizedImage,
+    SelectFromListComponent,
   ],
   templateUrl: './add-edit-team.component.html',
   styleUrl: './add-edit-team.component.less',
 })
-export class AddEditTeamComponent {
+export class AddEditTeamComponent implements OnInit, OnDestroy, OnChanges {
+  private dialogSubscription: Subscription | undefined;
+
+  @Input() action: string = 'add';
+  @Input() dialogId: string = 'addDialog';
+  @Input() new_team: ITeam = {} as ITeam;
   @Input() sportId!: number;
+  @Input() allSponsors: ISponsor[] | null = [];
+  @Input() allSponsorLines: ISponsorLine[] | null = [];
+
+  @Output() addEvent = new EventEmitter<any>();
+  @Output() editEvent = new EventEmitter<any>();
   backendUrl = environment.backendUrl;
 
   loadingFiles$ = this.uploadProgressService.loadingFiles$;
@@ -64,28 +96,29 @@ export class AddEditTeamComponent {
     private team: Team,
     private imageService: ImageService,
     private uploadProgressService: UploadProgressService,
+    private dialogService: DialogService,
   ) {}
 
   teamForm = new FormGroup({
+    id: new FormControl<number | null | undefined>(undefined),
     teamTitle: new FormControl('', [
       Validators.required,
       Validators.minLength(3),
     ]),
-    teamCity: new FormControl('', [
-      Validators.required,
-      Validators.minLength(3),
-    ]),
+    teamCity: new FormControl(''),
     teamDescription: new FormControl(''),
     teamLogoUrl: new FormControl(''),
-    teamEeslId: new FormControl(undefined),
+    teamEeslId: new FormControl<number | null | undefined>(undefined),
+    teamMainSponsor: new FormControl<ISponsor | null>(null),
+    teamSponsorLine: new FormControl<ISponsorLine | null>(null),
   });
 
   public teamLogoForm = new FormControl();
 
   open: boolean = false;
 
-  showDialog(): void {
-    this.open = true;
+  showDialog(open: boolean): void {
+    this.open = open;
   }
 
   readonly loadedFiles$ = this.teamLogoForm.valueChanges.pipe(
@@ -129,24 +162,87 @@ export class AddEditTeamComponent {
     return of(null);
   }
 
+  ngOnChanges(changes: SimpleChanges): void {
+    if (
+      changes['new_team'] &&
+      this.action === 'edit' &&
+      this.new_team &&
+      this.allSponsors &&
+      this.allSponsorLines
+    ) {
+      console.log('TEAM TO UPDATE', this.new_team);
+      const item: ITeam = this.new_team;
+
+      const mainSponsor: ISponsor | undefined | null = this.allSponsors.find(
+        (sponsor: ISponsor) => sponsor.id === item.main_sponsor_id,
+      );
+
+      const tournamentSponsorLine: ISponsorLine | undefined | null =
+        this.allSponsorLines.find(
+          (sponsorLine: ISponsorLine) =>
+            sponsorLine.id === item.sponsor_line_id,
+        );
+
+      this.teamForm.setValue({
+        id: item.id,
+        teamTitle: item.title,
+        teamCity: item.city ?? null,
+        teamDescription: item.description ?? null,
+        teamLogoUrl: item.team_logo_url ?? null,
+        teamEeslId: item.team_eesl_id ?? null,
+        teamMainSponsor: mainSponsor ?? null,
+        teamSponsorLine: tournamentSponsorLine ?? null,
+      });
+    }
+  }
+
+  ngOnInit(): void {
+    // console.log(this.dialogId);
+    // console.log(this.action);
+
+    this.dialogSubscription = this.dialogService
+      .getDialogEvent(this.dialogId)
+      .subscribe(() => {
+        this.showDialog(true);
+      });
+  }
+
+  ngOnDestroy(): void {
+    if (this.dialogSubscription) {
+      this.dialogSubscription.unsubscribe();
+    }
+  }
+
   onSubmit(): void {
     if (this.teamForm.valid) {
       const formValue = this.teamForm.getRawValue();
 
       const data: ITeam = {
+        id: this.teamForm.get('id')?.value,
         title: formValue.teamTitle!,
         city: formValue.teamCity!,
         description: formValue.teamDescription!,
         team_logo_url: formValue.teamLogoUrl!,
         team_eesl_id: formValue.teamEeslId,
         sport_id: this.sportId,
+        sponsor_line_id: formValue.teamMainSponsor?.id ?? null,
+        main_sponsor_id: formValue.teamSponsorLine?.id ?? null,
       };
 
       // console.log(data);
 
       // console.log(formValue.teamTitle, data.sport_id);
-      this.team.createTeam(data);
-      this.teamForm.reset();
+
+      if (this.action === 'add') {
+        // console.log(data);
+        this.team.createTeam(data);
+        this.teamForm.reset();
+      } else if (this.action === 'edit') {
+        console.log(this.action);
+        console.log(data);
+        this.team.updateTeam(data);
+        // this.tournamentForm.reset();
+      }
     }
   }
 }

@@ -1,15 +1,6 @@
-<button
-  appearance="create"
-  size="m"
-  tuiButton
-  type="button"
-  (click)="showDialog()"
->
-  NEW TEAM
-</button>
 <ng-template
   let-observer
-  [tuiDialogOptions]="{label: 'Add New team', size: 'm'}"
+  [tuiDialogOptions]="{label: action.toUpperCase() + 'TEAM', size: 'm'}"
   [(tuiDialog)]="open"
 >
   <form
@@ -38,7 +29,6 @@
         tuiAutoFocus
       >
         Team City
-        <span class="tui-required"></span>
       </tui-input>
       <tui-error
         formControlName="teamCity"
@@ -60,7 +50,6 @@
 
     <div class="tui-form__row">
       <tui-input-files
-        *ngIf="!teamLogoForm.value"
         accept="image/*"
         [formControl]="teamLogoForm"
         (reject)="onReject($event)"
@@ -119,9 +108,28 @@
       ></tui-error>
     </div>
 
+    @if (allSponsors) {
+      <app-select-from-list
+        [itemsList]="allSponsors"
+        [title]="'Main Sponsor'"
+        [formField]="teamForm.controls['teamMainSponsor']"
+        [avatarProperty]="'logo_url'"
+        [nullable]="true"
+      ></app-select-from-list>
+    }
+
+    @if (allSponsorLines) {
+      <app-select-from-list
+        [itemsList]="allSponsorLines"
+        [title]="'Sponsor Line'"
+        [formField]="teamForm.controls['teamSponsorLine']"
+        [nullable]="true"
+      ></app-select-from-list>
+    }
+
     <p>
       <app-create-button-in-form
-        [action]="'add'"
+        [action]="action"
         [disabled]="!teamForm.valid"
       ></app-create-button-in-form>
 

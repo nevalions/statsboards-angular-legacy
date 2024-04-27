@@ -31,8 +31,6 @@ import {
   gameclockReducer,
 } from './components/gameclock/store/reducers';
 import { GameclockEffects } from './components/gameclock/store/effects';
-import { fileFeatureKey, fileReducer } from './store/file/file.reducers';
-import { FileEffects } from './store/file/file.effects';
 import {
   sponsorFeatureKey,
   sponsorReducer,
@@ -181,7 +179,9 @@ export const routes: Routes = [
         component: ItemTeamComponent,
         providers: [
           provideState(teamFeatureKey, teamReducer),
-          provideEffects(TeamEffects),
+          provideState(sponsorLineFeatureKey, sponsorLineReducer),
+          provideState(sponsorFeatureKey, sponsorReducer),
+          provideEffects(TeamEffects, SponsorEffects, SponsorLineEffects),
         ],
         data: {
           breadcrumb: {

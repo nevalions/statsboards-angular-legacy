@@ -187,12 +187,12 @@ export class TournamentAddEditFormComponent
       this.allSponsors &&
       this.allSponsorLines
     ) {
-      console.log(
-        'TOURNAMENT TO UPDATE',
-        this.new_tournament,
-        this.allSponsors,
-        this.allSponsorLines,
-      );
+      // console.log(
+      //   'TOURNAMENT TO UPDATE',
+      //   this.new_tournament,
+      //   this.allSponsors,
+      //   this.allSponsorLines,
+      // );
       const item: ITournament = this.new_tournament;
       const mainSponsor: ISponsor | undefined = this.allSponsors.find(
         (sponsor: ISponsor) => sponsor.id === item.main_sponsor_id,
@@ -204,7 +204,7 @@ export class TournamentAddEditFormComponent
             sponsorLine.id === item.sponsor_line_id,
         );
 
-      console.log('TOURNAMENT VALUES', tournamentSponsorLine, mainSponsor);
+      // console.log('TOURNAMENT VALUES', tournamentSponsorLine, mainSponsor);
 
       this.tournamentForm.setValue({
         id: item.id,
