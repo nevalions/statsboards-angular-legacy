@@ -10,9 +10,19 @@
             titleMany='tournaments'
           ></app-body-title>
 
+          <app-create-button-show-dialog
+            [action]="'add'"
+            [item]="'Tournament'"
+            [dialogId]="'addDialog'"
+          ></app-create-button-show-dialog>
+
           <app-tournament-add-edit-form
+            [action]="'add'"
+            [dialogId]="'addDialog'"
             [sport_Id]="sport.id!"
             [season_Id]="season.id!"
+            [allSponsors]="allSponsors$ | async"
+            [allSponsorLines]="allSponsorLines$ | async"
           ></app-tournament-add-edit-form>
 
           <app-sport-with-season-dropdown

@@ -23,6 +23,7 @@ import {
 import { DropDownMenuComponent } from '../../../shared/ui/dropdownmenu/dropdownmenu.component';
 import { ListOfItemsIslandComponent } from '../../../shared/ui/list-of-items-island/list-of-items-island.component';
 import {
+  TuiAppearance,
   TuiButtonModule,
   TuiHintModule,
   TuiLoaderModule,
@@ -67,6 +68,9 @@ import { urlWithProtocol } from '../../../base/constants';
 import { SponsorLine } from '../../adv/sponsor-line/sponsorLine';
 import { SponsorDisplayFlatComponent } from '../../../shared/scoreboards/sponsor-display-flat/sponsor-display-flat.component';
 import { SponsorLineComponent } from '../../../shared/scoreboards/sponsor-line/sponsor-line.component';
+import { EditButtonComponent } from '../../../shared/ui/buttons/edit-button/edit-button.component';
+import { TournamentAddEditFormComponent } from '../tournament-add-edit-form/tournament-add-edit-form.component';
+import { Sponsor } from '../../adv/sponsor/sponsor';
 
 @Component({
   selector: 'app-item-tournament',
@@ -111,6 +115,8 @@ import { SponsorLineComponent } from '../../../shared/scoreboards/sponsor-line/s
     TitleCasePipe,
     SponsorDisplayFlatComponent,
     SponsorLineComponent,
+    EditButtonComponent,
+    TournamentAddEditFormComponent,
   ],
   templateUrl: './item-tournament.component.html',
   styleUrl: './item-tournament.component.less',
@@ -123,6 +129,8 @@ export class ItemTournamentComponent {
   tournament$ = this.tournament.currentTournament$;
   currentTournamentMainSponsor$ = this.tournament.currentTournamentMainSponsor$;
   sponsorLine$ = this.sponsorLine.sponsorLineWithFullData$;
+  allSponsors$ = this.sponsor.allSponsors$;
+  allSponsorLines$ = this.sponsorLine.allSponsorLines$;
   matchesInTournament$ =
     this.matchWithFullData.matchesWithFullDataInTournament$;
 
@@ -133,8 +141,11 @@ export class ItemTournamentComponent {
     private team: Team,
     private teamTournament: TeamTournament,
     private matchWithFullData: MatchWithFullData,
+    private sponsor: Sponsor,
     private sponsorLine: SponsorLine,
   ) {
+    sponsor.loadAllSponsors();
+    sponsorLine.loadAllSponsorLines();
     team.loadAllTeamsInTournament();
     team.loadAllTeamsInSport();
     matchWithFullData.loadAllMatchesInTournament();
@@ -142,26 +153,9 @@ export class ItemTournamentComponent {
 
   private route = inject(ActivatedRoute);
   private router = inject(Router);
-  // private tournamentService = inject(TournamentService);
-  // private seasonService = inject(SeasonService);
-  // matchService = inject(MatchService);
-
-  //   routeId$: Observable<string | undefined> = this.store.select(
-  //   fromRouter.getRouterSelectors().selectRouteParam('id'),
-  // );
-  // routeParams$: Observable<Params> = this.tournamentStore.select(
-  //   fromRouter.getRouterSelectors().selectRouteParams,
-  // );
-
-  // matchWithFullDataService = inject(MatchFullDataService);
 
   searchListService = inject(SearchListService);
   paginationService = inject(PaginationService);
-
-  // tournamentId!: number;
-
-  // matchesWithFullData$: Observable<IMatchFullData[]> =
-  //   this.matchWithFullDataService.matchesWithFullData$;
 
   readonly formWeek = new FormGroup({
     matchWeekSearch: new FormControl(1),
@@ -171,59 +165,9 @@ export class ItemTournamentComponent {
 
   islandTeamTitleProperty: keyof ITeam = 'title';
 
-  // teamItemHref(item: ITeam): string {
-  //   return `/team/${item.id}`;
-  // }
-
   navigateToTeamItem(item: ITeam): void {
     this.router.navigate(['team', item.id], { relativeTo: this.route });
   }
-
-  // navigateToMatchItem(item: IMatchFullData): void {
-  //   this.router.navigate(['match', item.id], { relativeTo: this.route });
-  // }
-
-  // navigateTo(route: string): void {
-  //   this.router.navigateByUrl(route);
-  // }
-  //
-  // matchHref(item: IMatchFullData): string {
-  //   return `/matches/id/${item.id}`;
-  // }
-
-  // ngOnInit() {
-  //   // this.route.paramMap.subscribe((params) => {
-  //   //   let tournamentId = params.get('tournament_id');
-  //   //   let seasonId = params.get('season_id');
-  //   //   let sportId = params.get('sport_id');
-  //   //   console.log(tournamentId, seasonId, sportId);
-  //
-  //   // if (tournamentId && seasonId && sportId) {
-  //   //   this.tournamentId = Number(tournamentId);
-  //   // this.store.dispatch(sportActions.getId());
-  //   // this.loadTournament();
-  //   // this.loadTeamsInSport();
-  //   // this.loadTeamsInTournament();
-  //
-  //   // this.matchWithFullDataService.refreshMatchesWithDataInTournament(
-  //   //   this.tournamentId,
-  //   // );
-  //   //
-  //   // this.matchWithFullDataService.matchesWithFullData$.subscribe(
-  //   //   (matches: IMatchFullData[]) => {
-  //   //     this.searchListService.updateData(of(matches));
-  //   //     this.paginationService.initializePagination(
-  //   //       this.searchListService.filteredData$,
-  //   //     );
-  //   //   },
-  //   // );
-  //   // } else {
-  //   //   console.log('Params are empty');
-  //   // }
-  //   // });
-  // }
-
-  // }
 
   onSearch() {
     this.formWeek
@@ -244,22 +188,6 @@ export class ItemTournamentComponent {
     this.tournament.deleteTournament();
   }
 
-  // onMatchAdd(match: IMatch | null | undefined): void {
-  //   if (match && this.tournamentId) {
-  //     this.matchWithFullDataService.addMatchWithFullData(match);
-  //   } else {
-  //     console.log('Match data is empty');
-  //   }
-  // }
-
-  // onMatchAdd(match: IMatch | null | undefined): void {
-  //   if (match && this.tournamentId) {
-  //     this.matchWithFullDataService.addMatchWithFullData(match);
-  //   } else {
-  //     console.log('Match data is empty');
-  //   }
-  // }
-
   onTeamRemoveFromTournament(teamId: number, tournamentId: number) {
     this.teamTournament.deleteTeamTournamentConnection(teamId, tournamentId);
   }
@@ -276,58 +204,5 @@ export class ItemTournamentComponent {
       .includes(search.toLowerCase()) ?? false;
 
   protected readonly url = urlWithProtocol;
+  protected readonly TuiAppearance = TuiAppearance;
 }
-
-// routeId$: Observable<string | undefined> = this.tournamentStore.select(
-//   fromRouter.getRouterSelectors().selectRouteParam('id'),
-// );
-// routeParams$: Observable<Params> = this.tournamentStore.select(
-//   fromRouter.getRouterSelectors().selectRouteParams,
-// );
-
-// this.tournament$
-//   .pipe(
-//     switchMap((tournament) =>
-//       this.seasonService
-//         .findById(tournament.season_id)
-//         .pipe(
-//           switchMap((season) =>
-//             this.tournamentService
-//               .deleteTournament(tournament.id!)
-//               .pipe(map(() => ({ tournament, season }))),
-//           ),
-//         ),
-//     ),
-//   )
-//   .subscribe(({ tournament, season }) => {
-//     const sport_id = tournament.sport_id;
-//     const year = season.year;
-//     this.router.navigateByUrl(
-//       `/sports/id/${sport_id}/seasons/${year}/tournaments`,
-//     );
-//   });
-
-//   this.route.params
-//     .pipe(takeUntil(this.ngUnsubscribe))
-//     .subscribe((params: Params) => {
-//       const t_id = Number([params['id']]);
-//       this.tournamentId = t_id;
-//       // this.tournament$ = this.tournamentService.findById(this.tournamentId);
-//       this.tournamentStore.dispatch(tournamentActions.get({ id: t_id }));
-//
-//       this.teamTournamentService.refreshTeamsInTournament(t_id);
-//       this.matchWithFullDataService.refreshMatchesWithDataInTournament(
-//         this.tournamentId,
-//       );
-//     });
-//
-//   this.matchWithFullDataService.matchesWithFullData$
-//     .pipe(takeUntil(this.ngUnsubscribe))
-//     .subscribe((matches: IMatchFullData[]) => {
-//       this.searchListService.updateData(of(matches));
-//       this.paginationService.initializePagination(
-//         this.searchListService.filteredData$,
-//       );
-//     });
-//
-//   this.onSearch();

@@ -24,6 +24,10 @@ import { IslandListOfTournamentsComponent } from '../../../tournament/island-lis
 import { Sport } from '../../sport';
 import { Season } from '../../../season/season';
 import { Tournament } from '../../../tournament/tournament';
+import { CreateButtonShowDialogComponent } from '../../../../shared/ui/buttons/create-button-show-dialog/create-button-show-dialog.component';
+import { AddEditMatchComponent } from '../../../match/add-edit-match/add-edit-match.component';
+import { Sponsor } from '../../../adv/sponsor/sponsor';
+import { SponsorLine } from '../../../adv/sponsor-line/sponsorLine';
 
 @Component({
   selector: 'app-item-sport-with-season',
@@ -47,6 +51,8 @@ import { Tournament } from '../../../tournament/tournament';
     BodyTitleComponent,
     TournamentAddEditFormComponent,
     IslandListOfTournamentsComponent,
+    CreateButtonShowDialogComponent,
+    AddEditMatchComponent,
   ],
   providers: [],
   templateUrl: './item-sport-with-season.component.html',
@@ -58,15 +64,21 @@ export class ItemSportWithSeasonComponent {
   sport$ = this.sport.sport$;
   season$ = this.season.season$;
   allSeasonSportTournaments$ = this.tournament.allSeasonSportTournaments$;
+  allSponsors$ = this.sponsor.allSponsors$;
+  allSponsorLines$ = this.sponsorLine.allSponsorLines$;
 
   constructor(
     private sport: Sport,
     private season: Season,
     private tournament: Tournament,
+    private sponsor: Sponsor,
+    private sponsorLine: SponsorLine,
   ) {
     // sport.loadCurrentSport();
     // season.loadCurrentSeason();
     tournament.loadSeasonSportTournaments();
+    sponsor.loadAllSponsors();
+    sponsorLine.loadAllSponsorLines();
   }
 
   // tournamentItemHref(item: ITournament): string {

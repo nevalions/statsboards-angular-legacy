@@ -44,6 +44,21 @@
         <app-body-title
           titleMany='matches'
         ></app-body-title>
+
+        <app-edit-button
+          [action]="'edit'"
+          [item]="'Tournament'"
+          [dialogId]="'editDialog'"
+        ></app-edit-button>
+
+        <app-tournament-add-edit-form
+          [action]="'edit'"
+          [dialogId]="'editDialog'"
+          [new_tournament]="tournament"
+          [allSponsors]="allSponsors$ | async"
+          [allSponsorLines]="allSponsorLines$ | async"
+        ></app-tournament-add-edit-form>
+
         @if (tournament.id) {
           @if (teamsInTournament$ | async; as teams) {
 

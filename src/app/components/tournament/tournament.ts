@@ -46,6 +46,15 @@ export class Tournament {
     this.store.dispatch(tournamentActions.create({ request: tournament }));
   }
 
+  updateTournament(tournament: ITournament) {
+    this.store.dispatch(
+      tournamentActions.update({
+        id: tournament.id!,
+        newTournamentData: tournament,
+      }),
+    );
+  }
+
   deleteTournament() {
     this.store.dispatch(tournamentActions.delete());
   }

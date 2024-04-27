@@ -239,6 +239,27 @@ export class TournamentEffects {
     { functional: true },
   );
 
+  updateTournamentEffect = createEffect(
+    () => {
+      return this.actions$.pipe(
+        ofType(tournamentActions.update),
+        switchMap(({ id, newTournamentData }) => {
+          return this.tournamentService.editItem(id, newTournamentData).pipe(
+            map((updatedTournament: ITournament) => {
+              return tournamentActions.updatedSuccessfully({
+                updatedTournament,
+              });
+            }),
+            catchError(() => {
+              return of(tournamentActions.updateFailure());
+            }),
+          );
+        }),
+      );
+    },
+    { functional: true },
+  );
+
   updateSportSeasonTournamentsEffect = createEffect(() =>
     this.actions$.pipe(
       ofType(tournamentActions.createdSuccessfully),

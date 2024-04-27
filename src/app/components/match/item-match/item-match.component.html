@@ -20,8 +20,9 @@
                   <h4 class="tui-island__title content__body__title__center">
                     {{ matchWithFullData.match_data!.score_team_a }} : {{ matchWithFullData.match_data!.score_team_b }}
                   </h4>
-                  <p
-                    class="tui-island__paragraph">{{ matchWithFullData.match.match_date | date:"dd MMM yyyy, HH:mm" }}</p>
+                  <p class="tui-island__paragraph">
+                    {{ matchWithFullData.match.match_date | date:"dd MMM yyyy, HH:mm" }}
+                  </p>
 
                   <app-edit-button
                     [appearance]="TuiAppearance.Flat"

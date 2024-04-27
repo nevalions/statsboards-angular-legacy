@@ -1,14 +1,12 @@
 import { createFeature, createReducer, on } from '@ngrx/store';
-import {
-  crudStoreInterface,
-  getDefaultCrudStore,
-} from '../../../type/store.intarface';
 import { tournamentActions } from './actions';
 import { ITournament } from '../../../type/tournament.type';
 import { SortService } from '../../../services/sort.service';
 import { ISponsor } from '../../../type/sponsor.type';
 
-export interface TournamentState extends crudStoreInterface {
+export interface TournamentState {
+  isTournamentSubmitting: boolean;
+  isTournamentLoading: boolean;
   currentTournamentId: number | undefined | null;
   currentTournament: ITournament | undefined | null;
   currentTournamentMainSponsor: ISponsor | undefined | null;
@@ -18,7 +16,8 @@ export interface TournamentState extends crudStoreInterface {
 }
 
 const initialState: TournamentState = {
-  ...getDefaultCrudStore(),
+  isTournamentSubmitting: false,
+  isTournamentLoading: false,
   currentTournamentId: null,
   allTournaments: [],
   allSeasonSportTournaments: [],
@@ -33,61 +32,61 @@ const tournamentFeature = createFeature({
     initialState,
     on(tournamentActions.getId, (state) => ({
       ...state,
-      isLoading: true,
+      isTournamentLoading: true,
     })),
     on(tournamentActions.getTournamentIdSuccessfully, (state, action) => ({
       ...state,
-      isLoading: false,
+      isTournamentLoading: false,
       currentTournamentId: action.tournamentId,
     })),
     on(tournamentActions.getTournamentIdFailure, (state) => ({
       ...state,
-      isLoading: false,
+      isTournamentLoading: false,
     })),
 
     on(tournamentActions.getMainSponsorByTournamentId, (state) => ({
       ...state,
-      isLoading: true,
+      isTournamentLoading: true,
     })),
     on(tournamentActions.getMainSponsorSuccess, (state, action) => ({
       ...state,
-      isLoading: false,
+      isTournamentLoading: false,
       currentTournamentMainSponsor: action.mainSponsor,
     })),
     on(tournamentActions.getMainSponsorFailure, (state) => ({
       ...state,
-      isLoading: false,
+      isTournamentLoading: false,
     })),
 
     // create actions
     on(tournamentActions.create, (state) => ({
       ...state,
-      isSubmitting: true,
+      isTournamentSubmitting: true,
     })),
     on(tournamentActions.createdSuccessfully, (state, action) => {
       const newList = [...state.allTournaments, action.currentTournament];
       const sortedTournaments = SortService.sort(newList, 'title');
       return {
         ...state,
-        isSubmitting: false,
+        isTournamentSubmitting: false,
         currentTournament: action.currentTournament,
         allTournaments: sortedTournaments, // sorted list
       };
     }),
     on(tournamentActions.createFailure, (state, action) => ({
       ...state,
-      isSubmitting: false,
+      isTournamentSubmitting: false,
       errors: action,
     })),
 
     // delete actions
     on(tournamentActions.delete, (state) => ({
       ...state,
-      isSubmitting: true,
+      isTournamentSubmitting: true,
     })),
     on(tournamentActions.deletedSuccessfully, (state, action) => ({
       ...state,
-      isSubmitting: false,
+      isTournamentSubmitting: false,
       allTournaments: (state.allTournaments || []).filter(
         (item) => item.id !== action.tournamentId,
       ),
@@ -95,18 +94,18 @@ const tournamentFeature = createFeature({
     })),
     on(tournamentActions.deleteFailure, (state, action) => ({
       ...state,
-      isSubmitting: false,
+      isTournamentSubmitting: false,
       errors: action,
     })),
 
     // update actions
     on(tournamentActions.update, (state) => ({
       ...state,
-      isSubmitting: true,
+      isTournamentSubmitting: true,
     })),
     on(tournamentActions.updatedSuccessfully, (state, action) => ({
       ...state,
-      isSubmitting: false,
+      isTournamentSubmitting: false,
       currentTournament: action.updatedTournament,
       allTournaments: state.allTournaments.map((item) =>
         item.id === action.updatedTournament.id
@@ -117,7 +116,7 @@ const tournamentFeature = createFeature({
     })),
     on(tournamentActions.updateFailure, (state, action) => ({
       ...state,
-      isSubmitting: false,
+      isTournamentSubmitting: false,
       errors: action,
     })),
     on(
@@ -135,39 +134,39 @@ const tournamentFeature = createFeature({
     // get actions
     on(tournamentActions.get, (state) => ({
       ...state,
-      isLoading: true,
+      isTournamentLoading: true,
     })),
     on(tournamentActions.getItemSuccess, (state, action) => ({
       ...state,
-      isLoading: false,
+      isTournamentLoading: false,
       currentTournament: action.tournament,
       currentTournamentId: action.tournament.id,
       currentTournamentSponsorLineId: action.tournament.sponsor_line_id,
     })),
     on(tournamentActions.getItemFailure, (state, action) => ({
       ...state,
-      isLoading: false,
+      isTournamentLoading: false,
       errors: action,
     })),
 
     on(tournamentActions.getAll, (state) => ({
       ...state,
-      isLoading: true,
+      isTournamentLoading: true,
     })),
     on(tournamentActions.getAllItemsSuccess, (state, action) => ({
       ...state,
-      isLoading: false,
+      isTournamentLoading: false,
       allTournaments: action.tournaments,
     })),
     on(tournamentActions.getAllItemsFailure, (state, action) => ({
       ...state,
-      isLoading: false,
+      isTournamentLoading: false,
       errors: action,
     })),
 
     on(tournamentActions.getTournamentsBySportAndSeason, (state) => ({
       ...state,
-      isLoading: true,
+      isTournamentLoading: true,
     })),
     on(
       tournamentActions.getTournamentsBySportAndSeasonSuccess,
@@ -175,7 +174,7 @@ const tournamentFeature = createFeature({
         const sortedTournaments = SortService.sort(action.tournaments, 'title');
         return {
           ...state,
-          isLoading: false,
+          isTournamentLoading: false,
           allSeasonSportTournaments: sortedTournaments,
         };
       },
@@ -184,7 +183,7 @@ const tournamentFeature = createFeature({
       tournamentActions.getTournamentsBySportAndSeasonFailure,
       (state, action) => ({
         ...state,
-        isLoading: false,
+        isTournamentLoading: false,
         errors: action,
       }),
     ),
@@ -194,8 +193,8 @@ const tournamentFeature = createFeature({
 export const {
   name: tournamentFeatureKey,
   reducer: tournamentReducer,
-  selectIsSubmitting,
-  selectIsLoading,
+  selectIsTournamentSubmitting,
+  selectIsTournamentLoading,
   selectCurrentTournamentSponsorLineId,
   selectCurrentTournamentId,
   selectCurrentTournament,

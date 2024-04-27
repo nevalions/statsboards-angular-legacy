@@ -32,6 +32,14 @@ export class TournamentService extends BaseApiService<ITournament> {
       .pipe(tap((items) => console.log('SPONSORS', items)));
   }
 
+  // editTournament(id: number | string, data: ITournament): Observable<ITournament>{
+  //   return  this.editItem(id, data).pipe(
+  //     tap((updatedTournament: ITournament) =>{
+  //       const updatedTournaments: ITournament[] =
+  //     })
+  //   )
+  // }
+
   // addTournament(newTournament: ITournament): void {
   //   this.addItem(newTournament)
   //     .pipe(

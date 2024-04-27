@@ -116,10 +116,8 @@ export class AddEditMatchComponent implements OnInit, OnChanges, OnDestroy {
 
   @Input() action: string = 'add';
   @Input() dialogId: string = 'addDialog';
-  // @Input() editMatch: IMatch = {} as IMatch;
   @Input() matchWithFullData: IMatchWithFullData = {} as IMatchWithFullData;
   @Input() tournamentId!: number;
-  // @Input() teams$: Observable<ITeam[]> = of([]);
   @Input() teams: ITeam[] = [];
 
   @Output() addEvent = new EventEmitter<any>();
@@ -230,6 +228,7 @@ export class AddEditMatchComponent implements OnInit, OnChanges, OnDestroy {
           if (this.action === 'add') {
             // console.log(data);
             this.match.createMatch(data);
+            this.matchForm.reset();
           } else if (this.action === 'edit') {
             console.log(this.action);
             // console.log(data);
