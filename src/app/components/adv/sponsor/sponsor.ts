@@ -9,11 +9,13 @@ import { sponsorActions } from './store/actions';
   providedIn: 'root',
 })
 export class Sponsor {
-  sponsor$: Observable<ISponsor | null | undefined>;
+  currentSponsor$: Observable<ISponsor | null | undefined>;
   allSponsors$: Observable<ISponsor[]>;
 
   constructor(private store: Store<AppState>) {
-    this.sponsor$ = store.select((state) => state.sponsor.currentSponsor);
+    this.currentSponsor$ = store.select(
+      (state) => state.sponsor.currentSponsor,
+    );
     this.allSponsors$ = store.select((state) => state.sponsor.allSponsors);
   }
 

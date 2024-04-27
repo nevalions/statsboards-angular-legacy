@@ -128,6 +128,7 @@ export class ItemTournamentComponent {
   teamsInTournament$ = this.team.teamsInTournament$;
   tournament$ = this.tournament.currentTournament$;
   currentTournamentMainSponsor$ = this.tournament.currentTournamentMainSponsor$;
+  // currentTournamentMainSponsor$ = this.sponsor.currentSponsor$;
   sponsorLine$ = this.sponsorLine.sponsorLineWithFullData$;
   allSponsors$ = this.sponsor.allSponsors$;
   allSponsorLines$ = this.sponsorLine.allSponsorLines$;

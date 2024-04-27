@@ -18,7 +18,7 @@ import { ImageService } from '../../../../services/image.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ItemSponsorComponent {
-  sponsor$ = this.sponsor.sponsor$;
+  sponsor$ = this.sponsor.currentSponsor$;
 
   constructor(
     private sponsor: Sponsor,

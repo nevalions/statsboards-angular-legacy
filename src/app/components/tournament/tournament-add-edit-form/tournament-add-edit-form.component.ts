@@ -183,22 +183,29 @@ export class TournamentAddEditFormComponent
     if (
       changes['new_tournament'] &&
       this.action === 'edit' &&
-      this.new_tournament
+      this.new_tournament &&
+      this.allSponsors &&
+      this.allSponsorLines
     ) {
+      console.log(
+        'TOURNAMENT TO UPDATE',
+        this.new_tournament,
+        this.allSponsors,
+        this.allSponsorLines,
+      );
       const item: ITournament = this.new_tournament;
-      let tournamentSponsorLine: ISponsorLine | undefined;
-      let mainSponsor: ISponsor | undefined;
-      if (this.allSponsors) {
-        mainSponsor = this.allSponsors.find(
-          (sponsor: ISponsor) => sponsor.id === item.main_sponsor_id,
-        );
-      }
-      if (this.allSponsorLines) {
-        tournamentSponsorLine = this.allSponsorLines.find(
+      const mainSponsor: ISponsor | undefined = this.allSponsors.find(
+        (sponsor: ISponsor) => sponsor.id === item.main_sponsor_id,
+      );
+
+      const tournamentSponsorLine: ISponsorLine | undefined =
+        this.allSponsorLines.find(
           (sponsorLine: ISponsorLine) =>
             sponsorLine.id === item.sponsor_line_id,
         );
-      }
+
+      console.log('TOURNAMENT VALUES', tournamentSponsorLine, mainSponsor);
+
       this.tournamentForm.setValue({
         id: item.id,
         tournamentTitle: item.title,
@@ -211,8 +218,8 @@ export class TournamentAddEditFormComponent
   }
 
   ngOnInit(): void {
-    console.log(this.dialogId);
-    console.log(this.action);
+    // console.log(this.dialogId);
+    // console.log(this.action);
 
     this.dialogSubscription = this.dialogService
       .getDialogEvent(this.dialogId)
@@ -241,8 +248,6 @@ export class TournamentAddEditFormComponent
         season_id: this.season_Id,
         sport_id: this.sport_Id,
       };
-      // this.tournament.createTournament(data);
-      // this.tournamentForm.reset();
 
       if (this.action === 'add') {
         // console.log(data);
@@ -250,6 +255,7 @@ export class TournamentAddEditFormComponent
         this.tournamentForm.reset();
       } else if (this.action === 'edit') {
         console.log(this.action);
+        // console.log(data);
         this.tournament.updateTournament(data);
         // this.tournamentForm.reset();
       }
