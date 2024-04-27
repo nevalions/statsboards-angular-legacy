@@ -9,7 +9,7 @@
       *tuiDataList
       size="l"
       [itemContent]="content"
-      [items]="items"
+      [items]="items | withNullOption:nullable"
     ></tui-data-list-wrapper>
   </tui-select>
 

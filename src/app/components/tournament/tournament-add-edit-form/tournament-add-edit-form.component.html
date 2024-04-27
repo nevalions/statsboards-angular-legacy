@@ -106,6 +106,7 @@
         [title]="'Main Sponsor'"
         [formField]="tournamentForm.controls['tournamentMainSponsor']"
         [avatarProperty]="'logo_url'"
+        [nullable]="true"
       ></app-select-from-list>
     }
 
@@ -114,6 +115,7 @@
         [itemsList]="allSponsorLines"
         [title]="'Sponsor Line'"
         [formField]="tournamentForm.controls['tournamentSponsorLine']"
+        [nullable]="true"
       ></app-select-from-list>
     }
 

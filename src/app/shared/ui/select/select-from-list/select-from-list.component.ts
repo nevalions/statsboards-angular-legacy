@@ -10,6 +10,7 @@ import {
 import { TuiLetModule } from '@taiga-ui/cdk';
 import { AnyObjectWithTitle } from '../../../../type/base.type';
 import { environment } from '../../../../../environments/environment';
+import { WithNullOptionPipe } from '../../../../pipes/with-null-option.pipe';
 
 @Component({
   selector: 'app-select-from-list',
@@ -23,6 +24,7 @@ import { environment } from '../../../../../environments/environment';
     TuiSelectModule,
     UpperCasePipe,
     TuiAvatarModule,
+    WithNullOptionPipe,
   ],
   providers: [
     tuiItemsHandlersProvider({
@@ -37,5 +39,6 @@ export class SelectFromListComponent<T> {
   @Input() itemsList: T[] = [];
   @Input() formField!: FormControl;
   @Input() avatarProperty: string = 'avatarUrl';
+  @Input() nullable: boolean = false;
   backendUrl = environment.backendUrl;
 }
