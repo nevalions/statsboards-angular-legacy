@@ -46,7 +46,6 @@
     </div>
     <div class="tui-form__row">
       <tui-input-files
-        *ngIf="!tournamentLogoForm.value"
         accept="image/*"
         [formControl]="tournamentLogoForm"
         (reject)="onReject($event)"
