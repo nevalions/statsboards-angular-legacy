@@ -42,34 +42,19 @@ import {
   TuiSelectModule,
   TuiTextareaModule,
 } from '@taiga-ui/kit';
-import { ITournament } from '../../../type/tournament.type';
-import {
-  getDefaultFullData,
-  IMatch,
-  IMatchWithFullData,
-} from '../../../type/match.type';
-import { TournamentService } from '../../tournament/tournament.service';
-import {
-  combineLatest,
-  map,
-  Observable,
-  of,
-  Subscription,
-  switchMap,
-  take,
-  takeUntil,
-} from 'rxjs';
-import { ITeam, ITeamTournament } from '../../../type/team.type';
+
+import { IMatch, IMatchWithFullData } from '../../../type/match.type';
+
+import { Subscription } from 'rxjs';
+import { ITeam } from '../../../type/team.type';
 import { DateTimeService } from '../../../services/date-time.service';
 import { SelectTeamComponent } from '../../../shared/ui/forms/select-team/select-team.component';
 import { CreateButtonInFormComponent } from '../../../shared/ui/buttons/create-button-in-form/create-button-in-form.component';
 import { CancelButtonInFormComponent } from '../../../shared/ui/buttons/cancel-button-in-form/cancel-button-in-form.component';
 import { DialogService } from '../../../services/dialog.service';
-import { MatchService } from '../match.service';
-import { tap } from 'rxjs/operators';
-import { Tournament } from '../../tournament/tournament';
-import { MatchWithFullData } from '../../match-with-full-data/matchWithFullData';
+
 import { Match } from '../match';
+import { SelectFromListComponent } from '../../../shared/ui/select/select-from-list/select-from-list.component';
 
 @Component({
   selector: 'app-add-edit-match',
@@ -98,6 +83,7 @@ import { Match } from '../match';
     CreateButtonInFormComponent,
     CancelButtonInFormComponent,
     TitleCasePipe,
+    SelectFromListComponent,
   ],
   templateUrl: './add-edit-match.component.html',
   styleUrl: './add-edit-match.component.less',
