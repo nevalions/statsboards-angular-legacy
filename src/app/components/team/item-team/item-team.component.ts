@@ -50,9 +50,6 @@ export class ItemTeamComponent {
   allSponsors$ = this.sponsor.allSponsors$;
   allSponsorLines$ = this.sponsorLine.allSponsorLines$;
 
-  staticUrl = environment.url;
-  staticPort = environment.port;
-
   buttonTitle: string = 'Team';
 
   constructor(
@@ -74,22 +71,5 @@ export class ItemTeamComponent {
     this.team.deleteTeam();
   }
 
-  // onDelete() {
-  //   if (this.teamId) {
-  //     this.team$.subscribe((team: ITeam) => {
-  //       if (team && team.id && team.sport_id) {
-  //         this.teamService.deleteTeam(team.id).subscribe(() => {
-  //           const sportId = this.router.navigateByUrl(
-  //             `/sports/id/${team.sport_id}/teams`,
-  //           );
-  //           console.log(`TEAM ID: ${this.teamId} deleted successfully`);
-  //         });
-  //       }
-  //     });
-  //   } else {
-  //     console.log('Invalid team object or missing ID');
-  //   }
-  // }
-  protected readonly urlWithPort = urlWithProtocolAndPort;
   protected readonly url = urlWithProtocol;
 }

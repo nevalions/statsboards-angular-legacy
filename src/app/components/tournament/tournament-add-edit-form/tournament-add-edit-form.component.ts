@@ -254,7 +254,7 @@ export class TournamentAddEditFormComponent
         this.tournament.createTournament(data);
         this.tournamentForm.reset();
       } else if (this.action === 'edit') {
-        console.log(this.action);
+        // console.log(this.action);
         // console.log(data);
         this.tournament.updateTournament(data);
         // this.tournamentForm.reset();

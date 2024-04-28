@@ -11,6 +11,10 @@ import { TuiLoaderModule } from '@taiga-ui/core';
 import { ListOfTeamsComponent } from '../../../team/list-of-teams/list-of-teams.component';
 import { Sport } from '../../sport';
 import { Team } from '../../../team/team';
+import { AddEditTeamComponent } from '../../../team/add-edit-team/add-edit-team.component';
+import { EditButtonComponent } from '../../../../shared/ui/buttons/edit-button/edit-button.component';
+import { Sponsor } from '../../../adv/sponsor/sponsor';
+import { SponsorLine } from '../../../adv/sponsor-line/sponsorLine';
 
 @Component({
   selector: 'app-with-teams',
@@ -23,6 +27,8 @@ import { Team } from '../../../team/team';
     ListOfTeamsComponent,
     TuiLoaderModule,
     UpperCasePipe,
+    AddEditTeamComponent,
+    EditButtonComponent,
   ],
   templateUrl: './with-teams.component.html',
   styleUrl: './with-teams.component.less',
@@ -32,10 +38,14 @@ import { Team } from '../../../team/team';
 export class WithTeamsComponent {
   sport$ = this.sport.sport$;
   teamsInSport$ = this.team.teamsInSport$;
+  allSponsors$ = this.sponsor.allSponsors$;
+  allSponsorLines$ = this.sponsorLine.allSponsorLines$;
 
   constructor(
     private sport: Sport,
     private team: Team,
+    private sponsor: Sponsor,
+    private sponsorLine: SponsorLine,
   ) {
     // sport.loadCurrentSport();
     team.loadAllTeamsInSport();

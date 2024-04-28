@@ -46,7 +46,6 @@ import { switchMap } from 'rxjs/operators';
 import { ImageService } from '../../../services/image.service';
 import { UploadProgressService } from '../../../services/upload-progress.service';
 import { environment } from '../../../../environments/environment';
-import { ITournament } from '../../../type/tournament.type';
 import { DialogService } from '../../../services/dialog.service';
 import { ISponsor, ISponsorLine } from '../../../type/sponsor.type';
 import { SelectFromListComponent } from '../../../shared/ui/select/select-from-list/select-from-list.component';
@@ -109,6 +108,7 @@ export class AddEditTeamComponent implements OnInit, OnDestroy, OnChanges {
     teamDescription: new FormControl(''),
     teamLogoUrl: new FormControl(''),
     teamEeslId: new FormControl<number | null | undefined>(undefined),
+    teamColor: new FormControl<string>(''),
     teamMainSponsor: new FormControl<ISponsor | null>(null),
     teamSponsorLine: new FormControl<ISponsorLine | null>(null),
   });
@@ -190,6 +190,7 @@ export class AddEditTeamComponent implements OnInit, OnDestroy, OnChanges {
         teamDescription: item.description ?? null,
         teamLogoUrl: item.team_logo_url ?? null,
         teamEeslId: item.team_eesl_id ?? null,
+        teamColor: item.team_color ?? '#6a6a6a',
         teamMainSponsor: mainSponsor ?? null,
         teamSponsorLine: tournamentSponsorLine ?? null,
       });
@@ -197,9 +198,6 @@ export class AddEditTeamComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   ngOnInit(): void {
-    // console.log(this.dialogId);
-    // console.log(this.action);
-
     this.dialogSubscription = this.dialogService
       .getDialogEvent(this.dialogId)
       .subscribe(() => {
@@ -225,12 +223,12 @@ export class AddEditTeamComponent implements OnInit, OnDestroy, OnChanges {
         team_logo_url: formValue.teamLogoUrl!,
         team_eesl_id: formValue.teamEeslId,
         sport_id: this.sportId,
+        team_color: formValue.teamColor!,
         sponsor_line_id: formValue.teamMainSponsor?.id ?? null,
         main_sponsor_id: formValue.teamSponsorLine?.id ?? null,
       };
 
       // console.log(data);
-
       // console.log(formValue.teamTitle, data.sport_id);
 
       if (this.action === 'add') {
@@ -238,8 +236,8 @@ export class AddEditTeamComponent implements OnInit, OnDestroy, OnChanges {
         this.team.createTeam(data);
         this.teamForm.reset();
       } else if (this.action === 'edit') {
-        console.log(this.action);
-        console.log(data);
+        // console.log(this.action);
+        // console.log(data);
         this.team.updateTeam(data);
         // this.tournamentForm.reset();
       }

@@ -74,14 +74,8 @@ export class ItemSportWithSeasonComponent {
     private sponsor: Sponsor,
     private sponsorLine: SponsorLine,
   ) {
-    // sport.loadCurrentSport();
-    // season.loadCurrentSeason();
     tournament.loadSeasonSportTournaments();
     sponsor.loadAllSponsors();
     sponsorLine.loadAllSponsorLines();
   }
-
-  // tournamentItemHref(item: ITournament): string {
-  //   return `sport/${item.sport_id}/season/${item.season_id}/tournament/${item.id}`;
-  // }
 }
