@@ -14,6 +14,17 @@
           [item]="'Player'"
           [dialogId]="'addDialog'"
         ></app-edit-button>
+        @if (allPersons$ | async; as persons) {
+          @if (sport$ | async; as sport) {
+            <app-add-edit-player
+              [action]="'add'"
+              [dialogId]="'addDialog'"
+              [allPersons]="persons"
+              [allSportPlayers]="players"
+              [sportId]="sport.id!"
+            ></app-add-edit-player>
+          }
+        }
       </div>
 
       <div class="list-of-items-with-data">

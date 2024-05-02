@@ -7,6 +7,7 @@ import {
 } from './reducers';
 import { IPlayer, IPlayerInSport } from '../../../type/player.type';
 import { IPerson } from '../../../type/person.type';
+import { SortService } from '../../../services/sort.service';
 
 // Helper function to combine player with person data
 function combinePlayerWithPerson(
@@ -29,8 +30,12 @@ export const selectAllPlayersWithPersons = createSelector(
 export const selectAllSportPlayersWithPersons = createSelector(
   selectAllPersons,
   selectAllSportPlayers,
-  (persons, players) =>
-    players.map((player) => combinePlayerWithPerson(persons, player)),
+  (persons, players): IPlayerInSport[] => {
+    const playersWithPersons = players.map((player) =>
+      combinePlayerWithPerson(persons, player),
+    );
+    return SortService.sort(playersWithPersons, 'person.second_name');
+  },
 );
 
 // Selector to find the current player and combine with person data

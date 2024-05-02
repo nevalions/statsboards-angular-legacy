@@ -165,8 +165,8 @@ export class AddEditPersonComponent implements OnInit, OnDestroy, OnChanges {
       if (p.person_dob) {
         this.personForm.setValue({
           id: p.id,
-          firstName: p.first_name,
-          secondName: p.second_name,
+          firstName: p.first_name!,
+          secondName: p.second_name!,
           personPhotoUrl: p.person_photo_url ?? null,
           personEeslId: p.person_eesl_id ?? null,
           personDob: this.dateTimeService.convertJsDateTime(
@@ -178,8 +178,8 @@ export class AddEditPersonComponent implements OnInit, OnDestroy, OnChanges {
       if (!p.person_dob) {
         this.personForm.setValue({
           id: p.id,
-          firstName: p.first_name,
-          secondName: p.second_name,
+          firstName: p.first_name!,
+          secondName: p.second_name!,
           personPhotoUrl: p.person_photo_url ?? null,
           personEeslId: p.person_eesl_id ?? null,
           personDob: null,

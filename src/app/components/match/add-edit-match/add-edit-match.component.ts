@@ -165,8 +165,8 @@ export class AddEditMatchComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   ngOnInit(): void {
-    console.log(this.dialogId);
-    console.log(this.action);
+    // console.log(this.dialogId);
+    // console.log(this.action);
 
     this.dialogSubscription = this.dialogService
       .getDialogEvent(this.dialogId)

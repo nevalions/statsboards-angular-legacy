@@ -47,12 +47,14 @@ const playerFeature = createFeature({
     })),
     on(playerActions.createdSuccessfully, (state, action) => {
       const newList = [...state.allPlayers, action.currentPlayer];
-      const sortedTournaments = SortService.sort(newList, 'second_name');
+      const newSportList = [...state.allSportPlayers, action.currentPlayer];
+
       return {
         ...state,
         playerIsSubmitting: false,
         currentPlayer: action.currentPlayer,
-        allPlayers: sortedTournaments, // sorted list
+        allPlayers: newList,
+        allSportPlayers: newSportList,
       };
     }),
     on(playerActions.createFailure, (state, action) => ({
@@ -95,6 +97,10 @@ const playerFeature = createFeature({
       allPlayers: state.allPlayers.map((item) =>
         item.id === action.updatedPlayer.id ? action.updatedPlayer : item,
       ),
+      allSportPlayers: state.allSportPlayers.map((item) =>
+        item.id === action.updatedPlayer.id ? action.updatedPlayer : item,
+      ),
+
       errors: null,
     })),
     on(playerActions.updateFailure, (state, action) => ({

@@ -40,5 +40,8 @@ export class SelectFromListComponent<T> {
   @Input() formField!: FormControl;
   @Input() avatarProperty: string = 'avatarUrl';
   @Input() nullable: boolean = false;
+
+  @Input() stringifyFn?: (item: T) => string;
+
   backendUrl = environment.backendUrl;
 }

@@ -1,0 +1,30 @@
+<ng-template
+  let-observer
+  [tuiDialogOptions]="{label: action.toUpperCase() + ' PLAYER', size: 'm'}"
+  [(tuiDialog)]="open"
+>
+  <form
+    [formGroup]="playerForm"
+    (ngSubmit)="onSubmit(); observer.complete()"
+  >
+    <app-select-from-list
+      [itemsList]="availablePersons"
+      [title]="'Person'"
+      [formField]="playerForm.controls['person']"
+      [nullable]="false"
+      [avatarProperty]="'person_photo_url'"
+      [stringifyFn]="stringifyNameSurname"
+    ></app-select-from-list>
+    <div class="tui-form__row">
+      <p>
+        <app-create-button-in-form
+          [action]="action"
+          [disabled]="!playerForm.valid"
+        ></app-create-button-in-form>
+        <app-cancel-button-in-form
+          (click)="observer.complete()"
+        ></app-cancel-button-in-form>
+      </p>
+    </div>
+  </form>
+</ng-template>

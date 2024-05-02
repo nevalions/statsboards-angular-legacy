@@ -23,8 +23,8 @@
         class="avatar"
         [avatarUrl]="backendUrl + data[avatarProperty] || null"
       ></tui-avatar>
-      <div class="name">{{ data.title }}</div>
+      <div class="name">{{ stringifyFn ? stringifyFn(data) : data.title }}</div>
+      <!--      <div class="name">{{ data.title }}</div>-->
     </div>
-    <!--    {{ data[avatarProperty] }}-->
   </ng-template>
 </div>

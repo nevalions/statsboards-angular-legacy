@@ -4,7 +4,7 @@ export interface IPlayer {
   id?: number | null;
   sport_id?: number;
   person_id: number | null;
-  player_eesl_id: number | null;
+  player_eesl_id?: number | null;
 }
 
 export interface IPlayerInSport {
