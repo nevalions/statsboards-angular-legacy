@@ -8,47 +8,42 @@ import {
 import { IPlayer, IPlayerInSport } from '../../../type/player.type';
 import { IPerson } from '../../../type/person.type';
 
+// Helper function to combine player with person data
+function combinePlayerWithPerson(
+  persons: IPerson[],
+  player: IPlayer,
+): IPlayerInSport {
+  const person = persons.find((p) => p.id === player.person_id) || null;
+  return { player, person };
+}
+
+// Selector that uses the helper function to combine an array of players with persons
 export const selectAllPlayersWithPersons = createSelector(
   selectAllPersons,
   selectAllPlayers,
-  (persons: IPerson[], players: IPlayer[]) => {
-    const combinedPlayers: IPlayerInSport[] = players.map((player) => {
-      const person = persons.find((p) => p.id === player.person_id) || null;
-      return { player, person };
-    });
-    // console.log('Combined Players with Persons:', combinedPlayers);
-    return combinedPlayers;
-  },
+  (persons, players) =>
+    players.map((player) => combinePlayerWithPerson(persons, player)),
 );
 
+// Similar selector for sports players
 export const selectAllSportPlayersWithPersons = createSelector(
   selectAllPersons,
   selectAllSportPlayers,
-  (persons: IPerson[], players: IPlayer[]) => {
-    const combinedPlayers: IPlayerInSport[] = players.map((player) => {
-      const person = persons.find((p) => p.id === player.person_id) || null;
-      return { player, person };
-    });
-    // console.log('Combined Players with Persons:', combinedPlayers);
-    return combinedPlayers;
-  },
+  (persons, players) =>
+    players.map((player) => combinePlayerWithPerson(persons, player)),
 );
 
+// Selector to find the current player and combine with person data
 export const selectCurrentPlayerWithPerson = createSelector(
   selectAllPersons,
   selectAllPlayers,
   selectCurrentPlayerId,
   (persons, players, currentPlayerId): IPlayerInSport | null | undefined => {
-    const currentPlayer: IPlayer | undefined | null = players.find(
+    const currentPlayer = players.find(
       (player) => player.id === currentPlayerId,
     );
-    const currentPerson: IPerson | undefined | null = currentPlayer
-      ? persons.find((person) => person.id === currentPlayer.person_id)
+    return currentPlayer
+      ? combinePlayerWithPerson(persons, currentPlayer)
       : null;
-    const result: IPlayerInSport | undefined | null = currentPlayer
-      ? ({ player: currentPlayer, person: currentPerson } as IPlayerInSport)
-      : null;
-    // console.log('Current Player with Person:', result);
-    return result;
   },
 );
