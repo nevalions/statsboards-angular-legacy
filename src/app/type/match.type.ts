@@ -1,4 +1,3 @@
-import { IBaseID } from './base.type';
 import { ITeam } from './team.type';
 import { IMatchData, IScoreboard } from './matchdata.type';
 

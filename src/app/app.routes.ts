@@ -52,6 +52,12 @@ import {
   tournamentReducer,
 } from './components/tournament/store/reducers';
 import { TournamentEffects } from './components/tournament/store/effects';
+import { AllPersonsComponent } from './components/person/all-persons/all-persons.component';
+import {
+  personFeatureKey,
+  personReducer,
+} from './components/person/store/reducers';
+import { PersonEffects } from './components/person/store/effects';
 
 export const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'index' },
@@ -157,6 +163,14 @@ export const routes: Routes = [
       },
       { path: 'seasons', component: SeasonComponent },
       { path: 'seasons/year/:year', component: SeasonComponent },
+      {
+        path: 'persons',
+        component: AllPersonsComponent,
+        providers: [
+          provideState(personFeatureKey, personReducer),
+          provideEffects(PersonEffects),
+        ],
+      },
 
       {
         path: 'sport',

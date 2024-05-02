@@ -1,7 +1,6 @@
 import {
   Component,
   EventEmitter,
-  inject,
   Input,
   OnChanges,
   OnDestroy,
@@ -50,13 +49,10 @@ import {
   Subject,
   Subscription,
 } from 'rxjs';
-import { Sponsor } from '../../adv/sponsor/sponsor';
-import { SponsorLine } from '../../adv/sponsor-line/sponsorLine';
 import { ISponsor, ISponsorLine } from '../../../type/sponsor.type';
 import { SelectFromListComponent } from '../../../shared/ui/select/select-from-list/select-from-list.component';
 import { environment } from '../../../../environments/environment';
 import { DialogService } from '../../../services/dialog.service';
-import { ITeam } from '../../../type/team.type';
 
 @Component({
   selector: 'app-tournament-add-edit-form',

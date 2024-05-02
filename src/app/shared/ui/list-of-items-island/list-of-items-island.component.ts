@@ -25,18 +25,22 @@ import { SearchListService } from '../../../services/search-list.service';
   styleUrl: './list-of-items-island.component.less',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ListOfItemsIslandComponent<T extends { id: number; p?: string }> {
+export class ListOfItemsIslandComponent<
+  T extends { id: number; p?: string; none: '' },
+> {
   @Input() itemData: T = {} as T;
 
   @Input() emptyMessage: string = 'No data available';
   @Input() formatPath: (item: T) => string = () => '';
-  @Input() titleProperty: keyof T = 'id';
+  @Input() titleProperty: keyof T = 'none';
+  @Input() titlePropertyFirst: keyof T = 'none';
+  @Input() titlePropertySecond: keyof T = 'none';
+  // @Input() titleString: string = 'Title';
   @Input() paragraphProperty: keyof T = 'p';
 
   // Initialize with an empty array
   @Input() data: T[] = [];
 
-  // @Input() data$: Observable<T[]> = of({} as T[]);
   @Input() _size: TuiSizeL | TuiSizeS = 'l';
   @Input() hoverable: boolean = true;
 }

@@ -1,7 +1,5 @@
 import { createActionGroup, emptyProps, props } from '@ngrx/store';
 import { ISport } from '../../../type/sport.type';
-import { Params } from '@angular/router';
-import { Observable } from 'rxjs';
 
 export const sportActions = createActionGroup({
   source: 'sport',

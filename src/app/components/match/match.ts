@@ -46,7 +46,7 @@ export class Match {
   }
 
   updateMatch(match: IMatch) {
-    console.log(match, match.id);
+    // console.log(match, match.id);
     this.store.dispatch(
       matchActions.update({ id: match.id!, newMatchData: match }),
     );

@@ -35,7 +35,10 @@
 
     @if (teams) {
       <div class="tui-form__row"
-           style="display: grid; grid-template-columns: auto auto; justify-content: stretch; grid-gap: 10px">
+           style="display: grid;
+           grid-template-columns: auto auto;
+           justify-content: stretch; grid-gap: 10px"
+      >
         <app-select-from-list
           [itemsList]="teams"
           [title]="'Home Team'"

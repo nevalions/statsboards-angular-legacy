@@ -1,0 +1,36 @@
+<div class="person container">
+  <div class="person content">
+    <div class="person content__title">
+      <h3 class="tui-text_h3">{{ "persons" | uppercase }}</h3>
+    </div>
+    <div class="person content__body">
+      <div class="one_col_container">
+        <div class="person content__body__title__flex">
+          <h2>LIST OF PERSONS</h2>
+          <app-edit-button
+            [action]="'add'"
+            [item]="'Person'"
+            [dialogId]="'addDialog'"
+          ></app-edit-button>
+
+          <app-add-edit-person
+            [action]="'add'"
+            [dialogId]="'addDialog'"
+          ></app-add-edit-person>
+        </div>
+        @if (persons$ | async; as persons) {
+          <app-list-of-items-island
+            [data]="persons"
+            [formatPath]="personItemHref"
+            [titlePropertyFirst]="first_name"
+            [titlePropertySecond]="second_name"
+          ></app-list-of-items-island>
+        } @else {
+          <tui-loader></tui-loader>
+        }
+
+      </div>
+    </div>
+  </div>
+</div>
+

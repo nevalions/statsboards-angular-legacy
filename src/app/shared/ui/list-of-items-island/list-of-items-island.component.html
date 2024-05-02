@@ -1,5 +1,4 @@
 <div class="list-of-items-with-data">
-  <!--  @if (data$ | async; as data) {-->
   @for (item of data; track item.id) {
     <div class="item-with-data-island">
       <a
@@ -17,7 +16,14 @@
           </figure>
           <div>
             <h3 class="tui-island__title">
-              {{ item[titleProperty] }}
+              @if (titleProperty != 'none') {
+                {{ item[titleProperty] }}
+              } @else if (item[titlePropertyFirst] != 'none' &&
+              item[titlePropertySecond] != 'none') {
+                {{ item[titlePropertyFirst] }} {{ item[titlePropertySecond] }}
+              } @else {
+                No Title
+              }
             </h3>
             <p class="tui-island__paragraph">
               @if (item[paragraphProperty]) {
@@ -32,8 +38,5 @@
   } @empty {
     No Items Found
   }
-  <!--  } @else {-->
-  <!--    <tui-loader [inheritColor]="true"></tui-loader>-->
-  <!--  }-->
 </div>
 
