@@ -24,8 +24,11 @@ export const personActions = createActionGroup({
     'Updated successfully': props<{ updatedPerson: IPerson }>(),
     'Update failure': emptyProps(),
 
-    Delete: props<{ id: number }>(),
-    'Deleted successfully': props<{ id: number }>(),
+    // Delete: props<{ id: number }>(),
+    // 'Deleted successfully': props<{ id: number }>(),
+    // 'Delete failure': emptyProps(),
+    Delete: emptyProps(),
+    'Deleted successfully': props<{ personId: number }>(),
     'Delete failure': emptyProps(),
   },
 });

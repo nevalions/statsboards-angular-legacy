@@ -58,6 +58,7 @@ import {
   personReducer,
 } from './components/person/store/reducers';
 import { PersonEffects } from './components/person/store/effects';
+import { ItemPersonComponent } from './components/person/item-person/item-person.component';
 
 export const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'index' },
@@ -163,9 +164,19 @@ export const routes: Routes = [
       },
       { path: 'seasons', component: SeasonComponent },
       { path: 'seasons/year/:year', component: SeasonComponent },
+
       {
         path: 'persons',
         component: AllPersonsComponent,
+        providers: [
+          provideState(personFeatureKey, personReducer),
+          provideEffects(PersonEffects),
+        ],
+      },
+
+      {
+        path: 'person/:person_id',
+        component: ItemPersonComponent,
         providers: [
           provideState(personFeatureKey, personReducer),
           provideEffects(PersonEffects),

@@ -18,7 +18,6 @@ import {
   Subscription,
 } from 'rxjs';
 import { environment } from '../../../../environments/environment';
-import { Sport } from '../../sport/sport';
 import { ImageService } from '../../../services/image.service';
 import { UploadProgressService } from '../../../services/upload-progress.service';
 import { DialogService } from '../../../services/dialog.service';
@@ -29,7 +28,6 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { ISponsor, ISponsorLine } from '../../../type/sponsor.type';
 import { switchMap } from 'rxjs/operators';
 import {
   TuiFieldErrorPipeModule,
@@ -41,7 +39,6 @@ import {
   TuiInputNumberModule,
 } from '@taiga-ui/kit';
 import { DateTimeService } from '../../../services/date-time.service';
-import { ITeam } from '../../../type/team.type';
 import { IPerson } from '../../../type/person.type';
 import { TuiDay, TuiTime } from '@taiga-ui/cdk';
 import { AsyncPipe, NgIf } from '@angular/common';
@@ -75,21 +72,10 @@ export class AddEditPersonComponent implements OnInit, OnDestroy, OnChanges {
 
   @Input() action: string = 'add';
   @Input() dialogId: string = 'addDialog';
-  @Input() sport_Id!: number;
   @Input() personToUpdate: IPerson = {} as IPerson;
 
   @Output() addEvent = new EventEmitter<any>();
   @Output() editEvent = new EventEmitter<any>();
-
-  current_date = new Date();
-  tui_current_date = [
-    new TuiDay(
-      this.current_date.getFullYear(),
-      this.current_date.getMonth(),
-      this.current_date.getDate(),
-    ),
-    new TuiTime(12, 0),
-  ];
 
   backendUrl = environment.backendUrl;
 
@@ -172,21 +158,33 @@ export class AddEditPersonComponent implements OnInit, OnDestroy, OnChanges {
     if (
       changes['personToUpdate'] &&
       this.action === 'edit' &&
-      this.personToUpdate &&
-      this.sport_Id
+      this.personToUpdate
     ) {
       const p = this.personToUpdate;
 
-      this.personForm.setValue({
-        id: p.id,
-        firstName: p.first_name,
-        secondName: p.second_name,
-        personPhotoUrl: p.person_photo_url ?? null,
-        personEeslId: p.person_eesl_id ?? null,
-        personDob: this.dateTimeService.convertJsDateTime(
-          new Date(p.person_dob!) ?? null,
-        ),
-      });
+      if (p.person_dob) {
+        this.personForm.setValue({
+          id: p.id,
+          firstName: p.first_name,
+          secondName: p.second_name,
+          personPhotoUrl: p.person_photo_url ?? null,
+          personEeslId: p.person_eesl_id ?? null,
+          personDob: this.dateTimeService.convertJsDateTime(
+            new Date(p.person_dob!) ?? null,
+          ),
+        });
+      }
+
+      if (!p.person_dob) {
+        this.personForm.setValue({
+          id: p.id,
+          firstName: p.first_name,
+          secondName: p.second_name,
+          personPhotoUrl: p.person_photo_url ?? null,
+          personEeslId: p.person_eesl_id ?? null,
+          personDob: null,
+        });
+      }
     }
   }
 
@@ -195,23 +193,43 @@ export class AddEditPersonComponent implements OnInit, OnDestroy, OnChanges {
       const formValue = this.personForm.getRawValue();
 
       const personDob = formValue.personDob;
-      const jsDate = this.dateTimeService.convertTuiDateTime(personDob);
+      if (personDob) {
+        const jsDate = this.dateTimeService.convertTuiDateTime(personDob);
 
-      let data: IPerson = {
-        id: this.personForm.get('id')?.value,
-        first_name: formValue.firstName!,
-        second_name: formValue.secondName!,
-        person_photo_url: formValue.personPhotoUrl ?? '',
-        person_eesl_id: formValue.personEeslId,
-        person_dob: jsDate,
-      };
+        let data: IPerson = {
+          id: this.personForm.get('id')?.value,
+          first_name: formValue.firstName!,
+          second_name: formValue.secondName!,
+          person_photo_url: formValue.personPhotoUrl ?? '',
+          person_eesl_id: formValue.personEeslId,
+          person_dob: jsDate,
+        };
 
-      if (this.action === 'add') {
-        this.person.createPerson(data);
-      } else if (this.action === 'edit') {
-        console.log(this.action);
-        console.log(data);
-        this.person.updatePerson(data);
+        if (this.action === 'add') {
+          this.person.createPerson(data);
+        } else if (this.action === 'edit') {
+          console.log(this.action);
+          console.log(data);
+          this.person.updatePerson(data);
+        }
+      }
+      if (!personDob) {
+        let data: IPerson = {
+          id: this.personForm.get('id')?.value,
+          first_name: formValue.firstName!,
+          second_name: formValue.secondName!,
+          person_photo_url: formValue.personPhotoUrl ?? '',
+          person_eesl_id: formValue.personEeslId,
+          person_dob: null,
+        };
+
+        if (this.action === 'add') {
+          this.person.createPerson(data);
+        } else if (this.action === 'edit') {
+          console.log(this.action);
+          console.log(data);
+          this.person.updatePerson(data);
+        }
       }
     }
   }

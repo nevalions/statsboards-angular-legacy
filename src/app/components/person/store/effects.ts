@@ -1,14 +1,15 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { catchError, filter, map, of, switchMap } from 'rxjs';
+import { catchError, filter, map, of, switchMap, withLatestFrom } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { PersonService } from '../person.service';
-import { IPerson } from '../../../type/person.type';
-import { personActions } from './actions';
 import { Store } from '@ngrx/store';
-import { getRouterSelectors, routerNavigatedAction } from '@ngrx/router-store';
+import { routerNavigatedAction } from '@ngrx/router-store';
 import { getAllRouteParameters } from '../../../router/router.selector';
+import { personActions } from './actions';
+import { IPerson } from '../../../type/person.type';
+import { selectCurrentPerson } from './reducers';
 
 @Injectable()
 export class PersonEffects {
@@ -47,6 +48,25 @@ export class PersonEffects {
               return of(personActions.createFailure());
             }),
           );
+        }),
+      );
+    },
+    { functional: true },
+  );
+
+  updatePersonEffect = createEffect(
+    () => {
+      return this.actions$.pipe(
+        ofType(personActions.update),
+        switchMap(({ id, newPersonData }) => {
+          return this.personService.editItem(id, newPersonData).pipe(
+            map((updatedPerson: IPerson) => {
+              return personActions.updatedSuccessfully({ updatedPerson });
+            }),
+          );
+        }),
+        catchError(() => {
+          return of(personActions.updateFailure);
         }),
       );
     },
@@ -108,12 +128,18 @@ export class PersonEffects {
     () => {
       return this.actions$.pipe(
         ofType(personActions.delete),
-        switchMap(({ id }) => {
-          // const _id = typeof id === 'string' ? Number(id) : id;
-          return this.personService.deleteItem(id).pipe(
-            map(() => {
-              return personActions.deletedSuccessfully({ id: id });
-            }),
+        withLatestFrom(this.store.select(selectCurrentPerson)),
+        switchMap(([action, currentPerson]) => {
+          if (!currentPerson || !currentPerson.id) {
+            return of(personActions.deleteFailure());
+          }
+
+          return this.personService.deleteItem(currentPerson.id).pipe(
+            map(() =>
+              personActions.deletedSuccessfully({
+                personId: currentPerson.id!,
+              }),
+            ),
             catchError(() => {
               return of(personActions.deleteFailure());
             }),
@@ -124,11 +150,31 @@ export class PersonEffects {
     { functional: true },
   );
 
+  // deletePersonEffect = createEffect(
+  //   () => {
+  //     return this.actions$.pipe(
+  //       ofType(personActions.delete),
+  //       switchMap(({ id }) => {
+  //         // const _id = typeof id === 'string' ? Number(id) : id;
+  //         return this.personService.deleteItem(id).pipe(
+  //           map(() => {
+  //             return personActions.deletedSuccessfully({ id: id });
+  //           }),
+  //           catchError(() => {
+  //             return of(personActions.deleteFailure());
+  //           }),
+  //         );
+  //       }),
+  //     );
+  //   },
+  //   { functional: true },
+  // );
+
   navigateOnPersonDeletion$ = createEffect(
     () => {
       return this.actions$.pipe(
         ofType(personActions.deletedSuccessfully),
-        tap(() => this.router.navigateByUrl('/')),
+        tap(() => this.router.navigateByUrl('/persons')),
       );
     },
     { dispatch: false },

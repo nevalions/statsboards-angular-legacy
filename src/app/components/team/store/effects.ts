@@ -12,9 +12,6 @@ import { selectCurrentTournamentId } from '../../tournament/store/reducers';
 import { selectCurrentSportId } from '../../sport/store/reducers';
 import { routerNavigatedAction } from '@ngrx/router-store';
 import { getAllRouteParameters } from '../../../router/router.selector';
-import { tournamentActions } from '../../tournament/store/actions';
-import { selectTournamentSportIdSeasonId } from '../../tournament/store/selectors';
-import { selectTeamSportId } from './selectors';
 import { selectCurrentTeam, selectCurrentTeamId } from './reducers';
 
 @Injectable()

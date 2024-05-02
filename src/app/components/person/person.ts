@@ -9,12 +9,12 @@ import { AppState } from '../../store/appstate';
   providedIn: 'root',
 })
 export class Person {
-  person$: Observable<IPerson | null | undefined>;
-  persons$: Observable<IPerson[]>;
+  curretnPerson$: Observable<IPerson | null | undefined>;
+  allPersons$: Observable<IPerson[]>;
 
   constructor(private store: Store<AppState>) {
-    this.person$ = store.select((state) => state.person.currentPerson);
-    this.persons$ = store.select((state) => state.person.allPersons);
+    this.curretnPerson$ = store.select((state) => state.person.currentPerson);
+    this.allPersons$ = store.select((state) => state.person.allPersons);
   }
 
   createPerson(person: IPerson) {
@@ -33,5 +33,9 @@ export class Person {
 
   loadAllPersons() {
     this.store.dispatch(personActions.getAll());
+  }
+
+  deletePerson() {
+    this.store.dispatch(personActions.delete());
   }
 }

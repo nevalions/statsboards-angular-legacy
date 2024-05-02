@@ -24,9 +24,7 @@ export class DateTimeService {
         // console.log('DATE', date);
         return date;
       } else {
-        console.error(
-          'match_date array does not contain TuiDay and TuiTime instances',
-        );
+        console.log('Array does not contain TuiDay and TuiTime instances');
         return null;
       }
     } else {

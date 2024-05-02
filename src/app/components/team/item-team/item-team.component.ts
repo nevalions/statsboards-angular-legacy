@@ -8,11 +8,7 @@ import { TuiLoaderModule } from '@taiga-ui/core';
 import { DeleteDialogComponent } from '../../../shared/ui/dialogs/delete-dialog/delete-dialog.component';
 import { Team } from '../team';
 import { ImageService } from '../../../services/image.service';
-import { environment } from '../../../../environments/environment';
-import {
-  urlWithProtocolAndPort,
-  urlWithProtocol,
-} from '../../../base/constants';
+import { urlWithProtocol } from '../../../base/constants';
 import { BodyListTitleComponent } from '../../../shared/ui/body/body-title/body-list-title.component';
 import { EditButtonComponent } from '../../../shared/ui/buttons/edit-button/edit-button.component';
 import { AddEditTeamComponent } from '../add-edit-team/add-edit-team.component';

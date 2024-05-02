@@ -45,7 +45,7 @@ const personFeature = createFeature({
     })),
     on(personActions.createdSuccessfully, (state, action) => {
       const newList = [...state.allPersons, action.currentPerson];
-      const sortedTournaments = SortService.sort(newList, 'title');
+      const sortedTournaments = SortService.sort(newList, 'second_name');
       return {
         ...state,
         personIsSubmitting: false,
@@ -68,7 +68,7 @@ const personFeature = createFeature({
       ...state,
       personIsSubmitting: false,
       allPersons: (state.allPersons || []).filter(
-        (item) => item.id !== action.id,
+        (item) => item.id !== action.personId,
       ),
       errors: null,
     })),
@@ -119,7 +119,7 @@ const personFeature = createFeature({
       personIsLoading: true,
     })),
     on(personActions.getAllItemsSuccess, (state, action) => {
-      const sortedTournaments = SortService.sort(action.persons, 'title');
+      const sortedTournaments = SortService.sort(action.persons, 'second_name');
       return {
         ...state,
         personIsLoading: false,

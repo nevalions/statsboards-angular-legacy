@@ -1,0 +1,48 @@
+@if (currentPerson$ | async; as person) {
+  <div class="person container">
+    <div class="person content">
+      <div class="person content__title">
+        <h3 class="tui-text_h3">
+          {{ person.first_name | uppercase }} {{ person.second_name | uppercase }}
+        </h3>
+
+        <p>
+          <img
+            src="{{url}}{{person.person_photo_url}}"
+            width="100px"
+            height="100px"
+            alt="{{person.first_name | uppercase}} {{person.second_name | uppercase }} Photo"
+            (error)="onImgError($event)"
+          ></p>
+      </div>
+      <div class="tournament content__body">
+        <div class="one_col_container">
+          <div class="tournament content__body__title__flex">
+            <app-edit-button
+              [action]="'edit'"
+              [item]="'Person'"
+              [dialogId]="'editDialog'"
+            ></app-edit-button>
+
+            <app-add-edit-person
+              [action]="'edit'"
+              [dialogId]="'editDialog'"
+              [personToUpdate]="person"
+            ></app-add-edit-person>
+
+            <app-delete-button
+              [item]="buttonTitle"
+              [dialogId]="'deleteDialog'"
+            ></app-delete-button>
+            <app-delete-dialog
+              [item]="buttonTitle"
+              (delete)="onDelete()"
+              [dialogId]="'deleteDialog'"
+            ></app-delete-dialog>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+}
