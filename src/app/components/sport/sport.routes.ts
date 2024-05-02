@@ -64,9 +64,13 @@ import {
   sponsorLineFeatureKey,
   sponsorLineReducer,
 } from '../adv/sponsor-line/store/reducers';
-import { Sponsor } from '../adv/sponsor/sponsor';
 import { SponsorEffects } from '../adv/sponsor/store/effects';
 import { SponsorLineEffects } from '../adv/sponsor-line/store/effects';
+import { WithPlayersComponent } from './item-sport/with-players/with-players.component';
+import { personFeatureKey, personReducer } from '../person/store/reducers';
+import { playerFeatureKey, playerReducer } from '../player/store/reducers';
+import { PersonEffects } from '../person/store/effects';
+import { PlayerEffects } from '../player/store/effects';
 
 export const SPORT_ROUTES: Routes = [
   {
@@ -81,12 +85,30 @@ export const SPORT_ROUTES: Routes = [
             path: 'teams',
             component: WithTeamsComponent,
             providers: [
+              provideState(sponsorFeatureKey, sponsorReducer),
+              provideState(sponsorLineFeatureKey, sponsorLineReducer),
               provideState(teamFeatureKey, teamReducer),
-              provideEffects(TeamEffects),
+              provideEffects(TeamEffects, SponsorEffects, SponsorLineEffects),
             ],
             data: {
               breadcrumb: {
                 caption: 'Teams',
+                routerLink: 'sport/:sport_id',
+              },
+            },
+          },
+          {
+            path: 'players',
+            component: WithPlayersComponent,
+            providers: [
+              provideState(personFeatureKey, personReducer),
+              provideState(playerFeatureKey, playerReducer),
+              provideState(teamFeatureKey, teamReducer),
+              provideEffects(TeamEffects, PersonEffects, PlayerEffects),
+            ],
+            data: {
+              breadcrumb: {
+                caption: 'Players',
                 routerLink: 'sport/:sport_id',
               },
             },

@@ -25,7 +25,7 @@ import { AddEditPersonComponent } from '../add-edit-person/add-edit-person.compo
   styleUrl: './item-person.component.less',
 })
 export class ItemPersonComponent {
-  currentPerson$ = this.person.curretnPerson$;
+  currentPerson$ = this.person.currentPerson$;
   buttonTitle: string = 'Person';
 
   constructor(

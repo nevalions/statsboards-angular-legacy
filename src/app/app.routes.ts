@@ -59,6 +59,12 @@ import {
 } from './components/person/store/reducers';
 import { PersonEffects } from './components/person/store/effects';
 import { ItemPersonComponent } from './components/person/item-person/item-person.component';
+import {
+  playerFeatureKey,
+  playerReducer,
+} from './components/player/store/reducers';
+import { PlayerEffects } from './components/player/store/effects';
+import { ItemPlayerComponent } from './components/player/item-player/item-player.component';
 
 export const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'index' },
@@ -181,6 +187,22 @@ export const routes: Routes = [
           provideState(personFeatureKey, personReducer),
           provideEffects(PersonEffects),
         ],
+      },
+
+      {
+        path: 'player/:player_id',
+        component: ItemPlayerComponent,
+        providers: [
+          provideState(personFeatureKey, personReducer),
+          provideState(playerFeatureKey, playerReducer),
+          provideEffects(PersonEffects, PlayerEffects),
+        ],
+        data: {
+          breadcrumb: {
+            caption: 'Player',
+            routerLink: 'player/:player_id',
+          },
+        },
       },
 
       {

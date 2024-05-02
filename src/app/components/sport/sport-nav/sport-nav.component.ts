@@ -209,7 +209,7 @@ import { environment } from '../../../../environments/environment';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SportNavComponent {
-  sports$ = this.sport.sports$;
+  sports$ = this.sport.allSports$;
 
   constructor(private sport: Sport) {
     sport.loadAllSports();

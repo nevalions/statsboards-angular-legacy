@@ -36,7 +36,7 @@ import { SponsorLine } from '../../../adv/sponsor-line/sponsorLine';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WithTeamsComponent {
-  sport$ = this.sport.sport$;
+  sport$ = this.sport.currentSport$;
   teamsInSport$ = this.team.teamsInSport$;
   allSponsors$ = this.sponsor.allSponsors$;
   allSponsorLines$ = this.sponsorLine.allSponsorLines$;
@@ -47,7 +47,8 @@ export class WithTeamsComponent {
     private sponsor: Sponsor,
     private sponsorLine: SponsorLine,
   ) {
-    // sport.loadCurrentSport();
+    sponsor.loadAllSponsors();
+    sponsorLine.loadAllSponsorLines();
     team.loadAllTeamsInSport();
   }
 

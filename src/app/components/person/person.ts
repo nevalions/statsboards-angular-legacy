@@ -9,11 +9,11 @@ import { AppState } from '../../store/appstate';
   providedIn: 'root',
 })
 export class Person {
-  curretnPerson$: Observable<IPerson | null | undefined>;
+  currentPerson$: Observable<IPerson | null | undefined>;
   allPersons$: Observable<IPerson[]>;
 
   constructor(private store: Store<AppState>) {
-    this.curretnPerson$ = store.select((state) => state.person.currentPerson);
+    this.currentPerson$ = store.select((state) => state.person.currentPerson);
     this.allPersons$ = store.select((state) => state.person.allPersons);
   }
 

@@ -25,7 +25,7 @@ import { AddEditPersonComponent } from '../add-edit-person/add-edit-person.compo
   styleUrl: './all-persons.component.less',
 })
 export class AllPersonsComponent {
-  persons$ = this.person.allPersons$;
+  allPersons$ = this.person.allPersons$;
 
   constructor(private person: Person) {
     person.loadAllPersons();

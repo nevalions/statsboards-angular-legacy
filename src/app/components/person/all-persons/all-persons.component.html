@@ -18,7 +18,7 @@
             [dialogId]="'addDialog'"
           ></app-add-edit-person>
         </div>
-        @if (persons$ | async; as persons) {
+        @if (allPersons$ | async; as persons) {
           <app-list-of-items-island
             [data]="persons"
             [formatPath]="personItemHref"

@@ -61,7 +61,7 @@ import { SponsorLine } from '../../../adv/sponsor-line/sponsorLine';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ItemSportWithSeasonComponent {
-  sport$ = this.sport.sport$;
+  sport$ = this.sport.currentSport$;
   season$ = this.season.season$;
   allSeasonSportTournaments$ = this.tournament.allSeasonSportTournaments$;
   allSponsors$ = this.sponsor.allSponsors$;

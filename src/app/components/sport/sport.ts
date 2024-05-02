@@ -9,12 +9,12 @@ import { AppState } from '../../store/appstate';
   providedIn: 'root',
 })
 export class Sport {
-  sport$: Observable<ISport | null | undefined>;
-  sports$: Observable<ISport[]>;
+  currentSport$: Observable<ISport | null | undefined>;
+  allSports$: Observable<ISport[]>;
 
   constructor(private store: Store<AppState>) {
-    this.sport$ = store.select((state) => state.sport.currentSport);
-    this.sports$ = store.select((state) => state.sport.allSports);
+    this.currentSport$ = store.select((state) => state.sport.currentSport);
+    this.allSports$ = store.select((state) => state.sport.allSports);
   }
 
   loadCurrentSport() {

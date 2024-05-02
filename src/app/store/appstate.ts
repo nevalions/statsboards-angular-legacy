@@ -16,6 +16,7 @@ import { SponsorLineState } from '../components/adv/sponsor-line/store/reducers'
 import { SponsorSponsorLineConnectionState } from '../components/adv/sponsor-sponsor-line-connection/store/reducers';
 import { PersonState } from '../components/person/store/reducers';
 import { ScoreboardDataState } from '../components/scoreboard-data/store/reducers';
+import { PlayerState } from '../components/player/store/reducers';
 
 export interface AppState {
   breadcrumb: BreadcrumbState;
@@ -24,6 +25,7 @@ export interface AppState {
   matchData: MatchDataState;
   matchWithFullData: MatchWithFullDataState;
   person: PersonState;
+  player: PlayerState;
   playclock: PlayclockState;
   scoreboard: ScoreboardDataState;
   season: SeasonState;

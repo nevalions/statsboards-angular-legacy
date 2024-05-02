@@ -2,10 +2,13 @@ import { Injectable } from '@angular/core';
 import { ISport } from '../../type/sport.type';
 import { BaseApiService } from '../../services/base.api.service';
 import { HttpClient } from '@angular/common/http';
-import { Observable, Subject } from 'rxjs';
+import { map, Observable, Subject } from 'rxjs';
 import { Router } from '@angular/router';
 import { ErrorHandlingService } from '../../services/error.service';
 import { ITeam } from '../../type/team.type';
+import { IPlayer } from '../../type/player.type';
+import { SortService } from '../../services/sort.service';
+import { tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',

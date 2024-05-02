@@ -49,7 +49,7 @@ export class TeamTournamentService extends BaseApiService<ITeamTournament> {
       id,
       'teams',
     ).pipe(
-      tap((teams) => console.log(`TEAMS from TOURNAMENT ID: ${id}`, teams)),
+      // tap((teams) => console.log(`TEAMS from TOURNAMENT ID: ${id}`, teams)),
       map((data) => SortService.sort(data, 'title')),
     );
   }

@@ -9,7 +9,7 @@ export interface IPlayer {
 
 export interface IPlayerInSport {
   player: IPlayer;
-  person: IPerson;
+  person: IPerson | null;
 }
 
 export interface IPlayerInTeamTournament {
