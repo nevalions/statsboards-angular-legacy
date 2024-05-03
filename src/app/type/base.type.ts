@@ -48,6 +48,12 @@ export type Breadcrumb = {
   level?: number;
 };
 
+export interface UploadResizePersonPhotoResponse {
+  original: string;
+  icon: string;
+  webview: string;
+}
+
 // export type UploadFile = {
 //   filePath: string;
 // };

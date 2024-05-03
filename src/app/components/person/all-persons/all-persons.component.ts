@@ -33,7 +33,9 @@ export class AllPersonsComponent {
 
   first_name: keyof IPerson = 'first_name';
   second_name: keyof IPerson = 'second_name';
-  avatarUrl: keyof IPerson = 'person_photo_url';
+  avatarIconUrl: keyof IPerson = 'person_photo_icon_url';
+  // avatarWebUrl: keyof IPerson = 'person_photo_web_url';
+  // avatarUrl: keyof IPerson = 'person_photo_url';
 
   personItemHref(item: ITeam): string {
     return `person/${item.id}`;

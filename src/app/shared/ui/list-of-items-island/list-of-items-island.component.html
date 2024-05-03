@@ -13,7 +13,7 @@
         <div class="tui-island__content">
           <figure class="tui-island__figure">
             <div class="some-figure">
-              @if (avatarUrl != 'none') {
+              @if (avatarUrl != 'none' || avatarUrl) {
                 <tui-avatar
                   size="l"
                   text="{{item[titleProperty] || item[titlePropertyFirst] || item[titlePropertySecond] || 'image'}}"
