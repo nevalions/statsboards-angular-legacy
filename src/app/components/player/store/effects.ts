@@ -166,6 +166,7 @@ export class PlayerEffects {
             map(() =>
               playerActions.deletedSuccessfully({
                 playerId: currentPlayer.id!,
+                sportId: currentPlayer.sport_id!,
               }),
             ),
             catchError(() => {
@@ -202,7 +203,9 @@ export class PlayerEffects {
     () => {
       return this.actions$.pipe(
         ofType(playerActions.deletedSuccessfully),
-        tap(() => this.router.navigateByUrl('/players')),
+        tap(({ sportId }) =>
+          this.router.navigateByUrl(`/sport/${sportId}/players`),
+        ),
       );
     },
     { dispatch: false },

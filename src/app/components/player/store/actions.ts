@@ -29,7 +29,7 @@ export const playerActions = createActionGroup({
     'Update failure': emptyProps(),
 
     Delete: emptyProps(),
-    'Deleted successfully': props<{ playerId: number }>(),
+    'Deleted successfully': props<{ playerId: number; sportId: number }>(),
     'Delete failure': emptyProps(),
   },
 });

@@ -7,14 +7,19 @@
     [formGroup]="playerForm"
     (ngSubmit)="onSubmit(); observer.complete()"
   >
-    <app-select-from-person
-      [itemsList]="availablePersons"
-      [title]="'Person'"
-      [formField]="playerForm.controls['person']"
-      [nullable]="false"
-      [avatarProperty]="'person_photo_url'"
-      [stringifyFn]="stringifyNameSurname"
-    ></app-select-from-person>
+    @if (availablePersons) {
+      <app-select-from-person
+        [itemsList]="availablePersons"
+        [title]="'Person'"
+        [formField]="playerForm.controls['person']"
+        [nullable]="false"
+        [avatarProperty]="'person_photo_url'"
+        [stringifyFn]="stringifyNameSurname"
+      ></app-select-from-person>
+    } @else {
+      NO AVAILABLE PERSONS
+    }
+
     <div class="tui-form__row">
       <p>
         <app-create-button-in-form

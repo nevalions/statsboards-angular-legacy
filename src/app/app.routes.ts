@@ -189,21 +189,21 @@ export const routes: Routes = [
         ],
       },
 
-      {
-        path: 'player/:player_id',
-        component: ItemPlayerComponent,
-        providers: [
-          provideState(personFeatureKey, personReducer),
-          provideState(playerFeatureKey, playerReducer),
-          provideEffects(PersonEffects, PlayerEffects),
-        ],
-        data: {
-          breadcrumb: {
-            caption: 'Player',
-            routerLink: 'player/:player_id',
-          },
-        },
-      },
+      // {
+      //   path: 'player/:player_id',
+      //   component: ItemPlayerComponent,
+      //   providers: [
+      //     provideState(personFeatureKey, personReducer),
+      //     provideState(playerFeatureKey, playerReducer),
+      //     provideEffects(PersonEffects, PlayerEffects),
+      //   ],
+      //   data: {
+      //     breadcrumb: {
+      //       caption: 'Player',
+      //       routerLink: 'player/:player_id',
+      //     },
+      //   },
+      // },
 
       {
         path: 'sport',

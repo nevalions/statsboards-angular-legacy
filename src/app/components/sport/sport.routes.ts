@@ -71,6 +71,7 @@ import { personFeatureKey, personReducer } from '../person/store/reducers';
 import { playerFeatureKey, playerReducer } from '../player/store/reducers';
 import { PersonEffects } from '../person/store/effects';
 import { PlayerEffects } from '../player/store/effects';
+import { ItemPlayerComponent } from '../player/item-player/item-player.component';
 
 export const SPORT_ROUTES: Routes = [
   {
@@ -113,6 +114,23 @@ export const SPORT_ROUTES: Routes = [
               },
             },
           },
+
+          {
+            path: 'player/:player_id',
+            component: ItemPlayerComponent,
+            providers: [
+              provideState(personFeatureKey, personReducer),
+              provideState(playerFeatureKey, playerReducer),
+              provideEffects(PersonEffects, PlayerEffects),
+            ],
+            data: {
+              breadcrumb: {
+                caption: 'Player',
+                routerLink: 'player/:player_id',
+              },
+            },
+          },
+
           {
             path: 'season/:season_id',
             component: ItemSportComponent,

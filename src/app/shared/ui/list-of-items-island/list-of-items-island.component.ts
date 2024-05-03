@@ -5,11 +5,12 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { TuiIslandModule } from '@taiga-ui/kit';
+import { TuiAvatarModule, TuiIslandModule } from '@taiga-ui/kit';
 import { AsyncPipe, TitleCasePipe, UpperCasePipe } from '@angular/common';
 import { TuiLoaderModule, TuiSizeL, TuiSizeS } from '@taiga-ui/core';
 import { Observable, of, Subscription } from 'rxjs';
 import { SearchListService } from '../../../services/search-list.service';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-list-of-items-island',
@@ -20,6 +21,7 @@ import { SearchListService } from '../../../services/search-list.service';
     TuiLoaderModule,
     TitleCasePipe,
     UpperCasePipe,
+    TuiAvatarModule,
   ],
   templateUrl: './list-of-items-island.component.html',
   styleUrl: './list-of-items-island.component.less',
@@ -35,12 +37,14 @@ export class ListOfItemsIslandComponent<
   @Input() titleProperty: keyof T = 'none';
   @Input() titlePropertyFirst: keyof T = 'none';
   @Input() titlePropertySecond: keyof T = 'none';
-  // @Input() titleString: string = 'Title';
+  @Input() avatarUrl: keyof T = 'none';
+
   @Input() paragraphProperty: keyof T = 'p';
 
-  // Initialize with an empty array
   @Input() data: T[] = [];
 
   @Input() _size: TuiSizeL | TuiSizeS = 'l';
   @Input() hoverable: boolean = true;
+
+  backendUrl = environment.backendUrl;
 }

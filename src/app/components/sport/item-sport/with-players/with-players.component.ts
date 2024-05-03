@@ -41,7 +41,7 @@ export class WithPlayersComponent {
   }
 
   playerItemHref(item: IPlayer): string {
-    return `player/${item.id}`;
+    return `/sport/${item.sport_id}/player/${item.id}`;
   }
 
   backendUrl = environment.backendUrl;

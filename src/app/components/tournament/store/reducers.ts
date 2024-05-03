@@ -68,11 +68,20 @@ const tournamentFeature = createFeature({
     on(tournamentActions.createdSuccessfully, (state, action) => {
       const newList = [...state.allTournaments, action.currentTournament];
       const sortedTournaments = SortService.sort(newList, 'title');
+      const newListSeasonSportTournaments = [
+        ...state.allSeasonSportTournaments,
+        action.currentTournament,
+      ];
+      const sorterSeasonSportTournaments = SortService.sort(
+        newListSeasonSportTournaments,
+        'title',
+      );
       return {
         ...state,
         isTournamentSubmitting: false,
         currentTournament: action.currentTournament,
-        allTournaments: sortedTournaments, // sorted list
+        allTournaments: sortedTournaments,
+        allSeasonSportTournaments: sorterSeasonSportTournaments,
       };
     }),
     on(tournamentActions.createFailure, (state, action) => ({
@@ -90,6 +99,9 @@ const tournamentFeature = createFeature({
       ...state,
       isTournamentSubmitting: false,
       allTournaments: (state.allTournaments || []).filter(
+        (item) => item.id !== action.tournamentId,
+      ),
+      allSeasonSportTournaments: (state.allSeasonSportTournaments || []).filter(
         (item) => item.id !== action.tournamentId,
       ),
       errors: null,
@@ -110,6 +122,11 @@ const tournamentFeature = createFeature({
       isTournamentSubmitting: false,
       currentTournament: action.updatedTournament,
       allTournaments: state.allTournaments.map((item) =>
+        item.id === action.updatedTournament.id
+          ? action.updatedTournament
+          : item,
+      ),
+      allSeasonSportTournaments: state.allSeasonSportTournaments.map((item) =>
         item.id === action.updatedTournament.id
           ? action.updatedTournament
           : item,

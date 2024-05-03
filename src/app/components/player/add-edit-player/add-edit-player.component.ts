@@ -20,9 +20,6 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { tuiItemsHandlersProvider } from '@taiga-ui/kit';
-import { ITeam } from '../../../type/team.type';
-import { hasTitle, toTitleCase } from '../../../base/helpers';
 import { IPerson } from '../../../type/person.type';
 import { TuiDialogModule } from '@taiga-ui/core';
 import { SelectFromListComponent } from '../../../shared/ui/select/select-from-list/select-from-list.component';
@@ -43,21 +40,15 @@ import { SelectFromPersonComponent } from '../../../shared/ui/select/select-from
   ],
   templateUrl: './add-edit-player.component.html',
   styleUrl: './add-edit-player.component.less',
-  // providers: [
-  //   tuiItemsHandlersProvider({
-  //     stringify: (item: IPlayerInSport) =>
-  //       `${item.person?.first_name} ${item.person?.second_name}`,
-  //   }),
-  // ],
 })
 export class AddEditPlayerComponent implements OnInit, OnChanges, OnDestroy {
   private dialogSubscription: Subscription | undefined;
 
   @Input() action: string = 'add';
   @Input() dialogId: string = 'addDialog';
-  @Input() allPersons: IPerson[] = [];
-  @Input() allSportPlayers: IPlayerInSport[] = [];
-  @Input() playerToUpdate: IPlayerInSport = {} as IPlayerInSport;
+  @Input() allPersons: IPerson[] | null = [];
+  @Input() allSportPlayersWithPerson: IPlayerInSport[] | null = [];
+  @Input() playerWithPersonToUpdate: IPlayerInSport = {} as IPlayerInSport;
   @Input() sportId!: number;
 
   @Output() addEvent = new EventEmitter<any>();
@@ -70,13 +61,16 @@ export class AddEditPlayerComponent implements OnInit, OnChanges, OnDestroy {
     private dialogService: DialogService,
   ) {}
 
-  get availablePersons(): IPerson[] {
-    const playersPersonIds = this.allSportPlayers.map(
-      (player: IPlayerInSport) => player.player.person_id,
-    );
-    return this.allPersons.filter(
-      (person: IPerson) => !playersPersonIds.includes(person.id!),
-    );
+  get availablePersons(): IPerson[] | null {
+    if (this.allSportPlayersWithPerson && this.allPersons) {
+      const playersPersonIds = this.allSportPlayersWithPerson.map(
+        (player: IPlayerInSport) => player.player.person_id,
+      );
+      return this.allPersons.filter(
+        (person: IPerson) => !playersPersonIds.includes(person.id!),
+      );
+    }
+    return null;
   }
 
   playerForm = new FormGroup({
@@ -97,12 +91,13 @@ export class AddEditPlayerComponent implements OnInit, OnChanges, OnDestroy {
 
   ngOnChanges(changes: SimpleChanges) {
     if (
-      changes['playerToUpdate'] &&
+      changes['playerWithPersonToUpdate'] &&
       this.action === 'edit' &&
-      this.playerToUpdate &&
+      this.playerWithPersonToUpdate &&
       this.sportId
     ) {
-      const pl = this.playerToUpdate;
+      const pl = this.playerWithPersonToUpdate;
+      // console.log('ID', pl.player.id);
 
       this.playerForm.setValue({
         id: pl.player.id,
