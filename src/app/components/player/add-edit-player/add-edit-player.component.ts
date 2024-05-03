@@ -28,6 +28,7 @@ import { TuiDialogModule } from '@taiga-ui/core';
 import { SelectFromListComponent } from '../../../shared/ui/select/select-from-list/select-from-list.component';
 import { CancelButtonInFormComponent } from '../../../shared/ui/buttons/cancel-button-in-form/cancel-button-in-form.component';
 import { CreateButtonInFormComponent } from '../../../shared/ui/buttons/create-button-in-form/create-button-in-form.component';
+import { SelectFromPersonComponent } from '../../../shared/ui/select/select-from-person/select-from-person.component';
 
 @Component({
   selector: 'app-add-edit-player',
@@ -38,6 +39,7 @@ import { CreateButtonInFormComponent } from '../../../shared/ui/buttons/create-b
     SelectFromListComponent,
     CancelButtonInFormComponent,
     CreateButtonInFormComponent,
+    SelectFromPersonComponent,
   ],
   templateUrl: './add-edit-player.component.html',
   styleUrl: './add-edit-player.component.less',

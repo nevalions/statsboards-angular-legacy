@@ -1,0 +1,30 @@
+<div class="tui-form__row">
+  <tui-select
+    *tuiLet="itemsList as items"
+    [formControl]="formField"
+    style="padding-top: 10px;"
+  >
+    SELECT {{ title | uppercase }}
+    <tui-data-list-wrapper
+      *tuiDataList
+      size="l"
+      [itemContent]="content"
+      [items]="items | withNullOption:nullable"
+    ></tui-data-list-wrapper>
+  </tui-select>
+
+  <ng-template
+    #content
+    let-data
+  >
+    <div class="template">
+      <tui-avatar
+        size="xs"
+        class="avatar"
+        [avatarUrl]="backendUrl + data[avatarProperty] || null"
+      ></tui-avatar>
+      <div class="name">{{ stringifyFn ? stringifyFn(data) : data.title }}</div>
+      <!--      <div class="name">{{ data.title }}</div>-->
+    </div>
+  </ng-template>
+</div>
