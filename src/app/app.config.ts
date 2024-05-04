@@ -35,11 +35,6 @@ import {
 } from './store/breadcrumbs/breadcrumbs.reducers';
 import { BreadcrumbEffects } from './store/breadcrumbs/breadcrumbs.effects';
 import { uiFeatureKey, uiReducer } from './store/ui/ui.reducers';
-import {
-  searchFeatureKey,
-  searchReducer,
-} from './store/search/search.reducers';
-import { SearchEffects } from './store/search/search.effects';
 
 export const appConfig: ApplicationConfig = {
   providers: [
