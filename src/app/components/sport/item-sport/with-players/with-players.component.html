@@ -9,13 +9,15 @@
     <div class="one_col_container">
       <div class="tournament content__body__title__flex">
         <h2>LIST OF PLAYERS</h2>
-        <app-edit-button
-          [action]="'add'"
-          [item]="'Player'"
-          [dialogId]="'addDialog'"
-        ></app-edit-button>
         @if (allPersons$ | async; as persons) {
           @if (sport$ | async; as sport) {
+
+            <app-edit-button
+              [action]="'add'"
+              [item]="'Player'"
+              [dialogId]="'addDialog'"
+            ></app-edit-button>
+            
             <app-add-edit-player
               [action]="'add'"
               [dialogId]="'addDialog'"

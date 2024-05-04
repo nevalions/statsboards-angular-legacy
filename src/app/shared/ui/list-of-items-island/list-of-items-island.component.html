@@ -27,10 +27,11 @@
           <div>
             <h3 class="tui-island__title">
               @if (titleProperty != 'none') {
-                {{ item[titleProperty] }}
+                {{ getTitleCase(item, titleProperty) | titlecase }}
               } @else if (item[titlePropertyFirst] != 'none' &&
               item[titlePropertySecond] != 'none') {
-                {{ item[titlePropertyFirst] }} {{ item[titlePropertySecond] }}
+                {{ getTitleCase(item, titlePropertyFirst) | titlecase }}
+                {{ getTitleCase(item, titlePropertySecond) | titlecase }}
               } @else {
                 No Title
               }

@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { Person } from '../person';
-import { AsyncPipe, UpperCasePipe } from '@angular/common';
+import { AsyncPipe, TitleCasePipe, UpperCasePipe } from '@angular/common';
 import { EditButtonComponent } from '../../../shared/ui/buttons/edit-button/edit-button.component';
 import { ListOfItemsIslandComponent } from '../../../shared/ui/list-of-items-island/list-of-items-island.component';
 import { TuiLoaderModule } from '@taiga-ui/core';
@@ -20,6 +20,7 @@ import { AddEditPersonComponent } from '../add-edit-person/add-edit-person.compo
     AsyncPipe,
     TuiLoaderModule,
     AddEditPersonComponent,
+    TitleCasePipe,
   ],
   templateUrl: './all-persons.component.html',
   styleUrl: './all-persons.component.less',

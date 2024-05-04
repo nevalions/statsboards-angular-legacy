@@ -9,8 +9,9 @@ import {
 } from '@taiga-ui/kit';
 import { IPerson } from '../../../../type/person.type';
 import { TuiLetModule } from '@taiga-ui/cdk';
-import { AsyncPipe, UpperCasePipe } from '@angular/common';
+import { AsyncPipe, NgIf, UpperCasePipe } from '@angular/common';
 import { WithNullOptionPipe } from '../../../../pipes/with-null-option.pipe';
+import { toTitleCase } from '../../../../base/helpers';
 
 @Component({
   selector: 'app-select-from-person',
@@ -25,11 +26,12 @@ import { WithNullOptionPipe } from '../../../../pipes/with-null-option.pipe';
     UpperCasePipe,
     TuiAvatarModule,
     WithNullOptionPipe,
+    NgIf,
   ],
   providers: [
     tuiItemsHandlersProvider({
       stringify: (person: IPerson) =>
-        `${person.first_name} ${person.second_name}`,
+        `${toTitleCase(person.first_name)} ${toTitleCase(person.second_name)}`,
     }),
   ],
   templateUrl: './select-from-person.component.html',
@@ -39,7 +41,7 @@ export class SelectFromPersonComponent<T> {
   @Input() title: string = 'item';
   @Input() itemsList: T[] = [];
   @Input() formField!: FormControl;
-  @Input() avatarProperty: string = 'avatarUrl';
+  @Input() avatarProperty: string | null = 'avatarUrl';
   @Input() nullable: boolean = false;
 
   @Input() stringifyFn?: (item: T) => string;

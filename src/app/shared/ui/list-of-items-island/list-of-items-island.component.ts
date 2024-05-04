@@ -47,4 +47,9 @@ export class ListOfItemsIslandComponent<
   @Input() hoverable: boolean = true;
 
   backendUrl = environment.backendUrl;
+
+  getTitleCase(item: T, prop: keyof T): string {
+    const val = item[prop];
+    return typeof val === 'string' ? val : '';
+  }
 }

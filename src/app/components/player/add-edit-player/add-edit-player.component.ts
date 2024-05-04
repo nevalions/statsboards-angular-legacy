@@ -26,6 +26,7 @@ import { SelectFromListComponent } from '../../../shared/ui/select/select-from-l
 import { CancelButtonInFormComponent } from '../../../shared/ui/buttons/cancel-button-in-form/cancel-button-in-form.component';
 import { CreateButtonInFormComponent } from '../../../shared/ui/buttons/create-button-in-form/create-button-in-form.component';
 import { SelectFromPersonComponent } from '../../../shared/ui/select/select-from-person/select-from-person.component';
+import { toTitleCase } from '../../../base/helpers';
 
 @Component({
   selector: 'app-add-edit-player',
@@ -86,7 +87,7 @@ export class AddEditPlayerComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   stringifyNameSurname(item: IPerson): string {
-    return `${item.first_name ?? ''} ${item.second_name ?? ''}`.trim();
+    return `${toTitleCase(item.first_name) ?? ''} ${toTitleCase(item.second_name) ?? ''}`.trim();
   }
 
   ngOnChanges(changes: SimpleChanges) {

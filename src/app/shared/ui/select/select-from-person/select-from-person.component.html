@@ -19,12 +19,12 @@
   >
     <div class="template">
       <tui-avatar
+        *ngIf="avatarProperty"
         size="xs"
         class="avatar"
-        [avatarUrl]="backendUrl + data[avatarProperty] || null"
+        [avatarUrl]="backendUrl + data[avatarProperty]"
       ></tui-avatar>
       <div class="name">{{ stringifyFn ? stringifyFn(data) : data.title }}</div>
-      <!--      <div class="name">{{ data.title }}</div>-->
     </div>
   </ng-template>
 </div>
