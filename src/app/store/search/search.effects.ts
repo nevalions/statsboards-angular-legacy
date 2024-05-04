@@ -3,7 +3,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store, select } from '@ngrx/store';
 import { searchActions } from './search.actions';
 import { catchError, map, switchMap } from 'rxjs/operators';
-import { combineLatest, of, withLatestFrom } from 'rxjs';
+import { combineLatest, of } from 'rxjs';
 import { ITeam } from '../../type/team.type';
 import {
   selectAllTeams,

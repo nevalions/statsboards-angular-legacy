@@ -4,10 +4,8 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { ITeam } from '../../../../type/team.type';
-import { RouterLink } from '@angular/router';
-import { AsyncPipe, SlicePipe, UpperCasePipe } from '@angular/common';
-import { TuiInputModule, TuiPaginationModule } from '@taiga-ui/kit';
-import { TuiLoaderModule, TuiTextfieldControllerModule } from '@taiga-ui/core';
+import { AsyncPipe, UpperCasePipe } from '@angular/common';
+import { TuiLoaderModule } from '@taiga-ui/core';
 import { ListOfTeamsComponent } from '../../../team/list-of-teams/list-of-teams.component';
 import { Sport } from '../../sport';
 import { Team } from '../../../team/team';
@@ -15,8 +13,6 @@ import { AddEditTeamComponent } from '../../../team/add-edit-team/add-edit-team.
 import { EditButtonComponent } from '../../../../shared/ui/buttons/edit-button/edit-button.component';
 import { Sponsor } from '../../../adv/sponsor/sponsor';
 import { SponsorLine } from '../../../adv/sponsor-line/sponsorLine';
-import { ReactiveFormsModule } from '@angular/forms';
-import { TuiValueChangesModule } from '@taiga-ui/cdk';
 import { Search } from '../../../../store/search/search';
 import { BaseSearchFormComponent } from '../../../../shared/ui/search/base-search-form/base-search-form.component';
 
@@ -25,19 +21,12 @@ import { BaseSearchFormComponent } from '../../../../shared/ui/search/base-searc
   standalone: true,
   imports: [
     AsyncPipe,
-    TuiPaginationModule,
-    SlicePipe,
-    RouterLink,
+    EditButtonComponent,
+    AddEditTeamComponent,
+    BaseSearchFormComponent,
     ListOfTeamsComponent,
     TuiLoaderModule,
     UpperCasePipe,
-    AddEditTeamComponent,
-    EditButtonComponent,
-    ReactiveFormsModule,
-    TuiInputModule,
-    TuiValueChangesModule,
-    TuiTextfieldControllerModule,
-    BaseSearchFormComponent,
   ],
   templateUrl: './with-teams.component.html',
   styleUrl: './with-teams.component.less',

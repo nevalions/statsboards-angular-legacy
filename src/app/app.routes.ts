@@ -59,12 +59,6 @@ import {
 } from './components/person/store/reducers';
 import { PersonEffects } from './components/person/store/effects';
 import { ItemPersonComponent } from './components/person/item-person/item-person.component';
-import {
-  playerFeatureKey,
-  playerReducer,
-} from './components/player/store/reducers';
-import { PlayerEffects } from './components/player/store/effects';
-import { ItemPlayerComponent } from './components/player/item-player/item-player.component';
 
 export const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'index' },

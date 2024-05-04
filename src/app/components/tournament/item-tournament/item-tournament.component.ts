@@ -2,62 +2,31 @@ import {
   ChangeDetectionStrategy,
   Component,
   inject,
-  OnInit,
   ViewEncapsulation,
 } from '@angular/core';
-import {
-  TuiDataListWrapperModule,
-  TuiElasticContainerModule,
-  TuiFilterByInputPipeModule,
-  TuiInputModule,
-  TuiInputNumberModule,
-  TuiPaginationModule,
-  TuiStringifyContentPipeModule,
-} from '@taiga-ui/kit';
-import {
-  AsyncPipe,
-  SlicePipe,
-  UpperCasePipe,
-  TitleCasePipe,
-} from '@angular/common';
-import { DropDownMenuComponent } from '../../../shared/ui/dropdownmenu/dropdownmenu.component';
-import { ListOfItemsIslandComponent } from '../../../shared/ui/list-of-items-island/list-of-items-island.component';
+import { TuiElasticContainerModule, TuiInputNumberModule } from '@taiga-ui/kit';
+import { AsyncPipe, UpperCasePipe, TitleCasePipe } from '@angular/common';
 import {
   TuiAppearance,
   TuiButtonModule,
-  TuiHintModule,
   TuiLoaderModule,
 } from '@taiga-ui/core';
-import { ActivatedRoute, Router, RouterOutlet } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { IMatchWithFullData } from '../../../type/match.type';
 import { ListOfMatchesComponent } from '../../../shared/ui/list-of-matches/list-of-matches.component';
-import { CreateButtonComponent } from '../../../shared/ui/buttons/create-button/create-button.component';
 import { BodyListTitleComponent } from '../../../shared/ui/body/body-title/body-list-title.component';
-import {
-  FormControl,
-  FormGroup,
-  FormsModule,
-  ReactiveFormsModule,
-} from '@angular/forms';
-import { TuiValueChangesModule } from '@taiga-ui/cdk';
-import { ListOfTeamsComponent } from '../../team/list-of-teams/list-of-teams.component';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { ITeam } from '../../../type/team.type';
-import { ListOfTeamsSmallComponent } from '../../team/list-of-teams-small/list-of-teams-small.component';
 import { SearchListService } from '../../../services/search-list.service';
 import { PaginationService } from '../../../services/pagination.service';
 import { FormSearchTextComponent } from '../../../shared/ui/forms/form-search-text/form-search-text.component';
 import { paginationWithItemsPerPage } from '../../../shared/ui/pagination/pagination-with-items-per-page/pagination-with-items-per-page.component';
-import { FormSearchAutoCompleteComponent } from '../../../shared/ui/forms/form-search-auto-complete/form-search-auto-complete.component';
-import { TournamentDeleteFormComponent } from '../tournament-delete-form/tournament-delete-form.component';
 import { DeleteDialogComponent } from '../../../shared/ui/dialogs/delete-dialog/delete-dialog.component';
-import { AddEditMatchComponent } from '../../match/add-edit-match/add-edit-match.component';
-import { MatchService } from '../../match/match.service';
 import { AddTeamToTournamentComponent } from './add-team-to-tournament/add-team-to-tournament.component';
 import { DeleteButtonComponent } from '../../../shared/ui/buttons/delete-button/delete-button.component';
 import { DeleteButtonIconComponent } from '../../../shared/ui/buttons/delete-button-icon/delete-button-icon.component';
 import { RemoveDialogComponent } from '../../../shared/ui/dialogs/remove-dialog/remove-dialog.component';
 import { CreateButtonShowDialogComponent } from '../../../shared/ui/buttons/create-button-show-dialog/create-button-show-dialog.component';
-import { AddItemDialogFromListComponent } from '../../../shared/ui/dialogs/add-item-dialog-from-list/add-item-dialog-from-list.component';
 import { Sport } from '../../sport/sport';
 import { Tournament } from '../tournament';
 import { Team } from '../../team/team';
@@ -66,58 +35,40 @@ import { Season } from '../../season/season';
 import { MatchWithFullData } from '../../match-with-full-data/matchWithFullData';
 import { urlWithProtocol } from '../../../base/constants';
 import { SponsorLine } from '../../adv/sponsor-line/sponsorLine';
-import { SponsorDisplayFlatComponent } from '../../../shared/scoreboards/sponsor-display-flat/sponsor-display-flat.component';
 import { SponsorLineComponent } from '../../../shared/scoreboards/sponsor-line/sponsor-line.component';
 import { EditButtonComponent } from '../../../shared/ui/buttons/edit-button/edit-button.component';
 import { TournamentAddEditFormComponent } from '../tournament-add-edit-form/tournament-add-edit-form.component';
 import { Sponsor } from '../../adv/sponsor/sponsor';
+import { TuiValueChangesModule } from '@taiga-ui/cdk';
+import { AddEditMatchComponent } from '../../match/add-edit-match/add-edit-match.component';
 
 @Component({
   selector: 'app-item-tournament',
   standalone: true,
   imports: [
     AsyncPipe,
-    DropDownMenuComponent,
-    ListOfItemsIslandComponent,
-    TuiButtonModule,
-    TuiLoaderModule,
     UpperCasePipe,
-    ListOfMatchesComponent,
-    SlicePipe,
-    TuiPaginationModule,
-    CreateButtonComponent,
-    BodyListTitleComponent,
-    TuiInputModule,
-    TuiHintModule,
-    ReactiveFormsModule,
-    FormsModule,
-    TuiDataListWrapperModule,
-    TuiFilterByInputPipeModule,
-    TuiStringifyContentPipeModule,
-    TuiInputNumberModule,
-    TuiValueChangesModule,
-    ListOfTeamsComponent,
-    ListOfTeamsSmallComponent,
-    FormSearchTextComponent,
-    paginationWithItemsPerPage,
-    FormSearchAutoCompleteComponent,
-    TournamentDeleteFormComponent,
-    DeleteDialogComponent,
-    AddEditMatchComponent,
-    AddTeamToTournamentComponent,
-    TuiElasticContainerModule,
-    DeleteButtonComponent,
-    DeleteButtonIconComponent,
-    RemoveDialogComponent,
-    CreateButtonShowDialogComponent,
-    AddItemDialogFromListComponent,
-    RouterOutlet,
-    TitleCasePipe,
-    SponsorDisplayFlatComponent,
     SponsorLineComponent,
+    TuiLoaderModule,
+    BodyListTitleComponent,
     EditButtonComponent,
     TournamentAddEditFormComponent,
-    BodyListTitleComponent,
+    CreateButtonShowDialogComponent,
+    DeleteButtonComponent,
+    DeleteDialogComponent,
+    ReactiveFormsModule,
+    TuiInputNumberModule,
+    FormSearchTextComponent,
+    paginationWithItemsPerPage,
+    ListOfMatchesComponent,
+    TuiElasticContainerModule,
+    DeleteButtonIconComponent,
+    RemoveDialogComponent,
+    AddTeamToTournamentComponent,
+    TitleCasePipe,
+    TuiValueChangesModule,
+    AddEditMatchComponent,
+    TuiButtonModule,
   ],
   templateUrl: './item-tournament.component.html',
   styleUrl: './item-tournament.component.less',
@@ -129,7 +80,6 @@ export class ItemTournamentComponent {
   teamsInTournament$ = this.team.teamsInTournament$;
   tournament$ = this.tournament.currentTournament$;
   currentTournamentMainSponsor$ = this.tournament.currentTournamentMainSponsor$;
-  // currentTournamentMainSponsor$ = this.sponsor.currentSponsor$;
   sponsorLine$ = this.sponsorLine.sponsorLineWithFullData$;
   allSponsors$ = this.sponsor.allSponsors$;
   allSponsorLines$ = this.sponsorLine.allSponsorLines$;
