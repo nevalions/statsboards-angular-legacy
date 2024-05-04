@@ -49,6 +49,7 @@ import { environment } from '../../../../environments/environment';
 import { DialogService } from '../../../services/dialog.service';
 import { ISponsor, ISponsorLine } from '../../../type/sponsor.type';
 import { SelectFromListComponent } from '../../../shared/ui/select/select-from-list/select-from-list.component';
+import { stringifyTitle } from '../../../base/helpers';
 
 @Component({
   selector: 'app-add-edit-team',
@@ -243,4 +244,6 @@ export class AddEditTeamComponent implements OnInit, OnDestroy, OnChanges {
       }
     }
   }
+
+  protected readonly stringifyTitle = stringifyTitle;
 }

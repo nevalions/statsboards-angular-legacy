@@ -124,6 +124,7 @@
         [title]="'Main Sponsor'"
         [formField]="teamForm.controls['teamMainSponsor']"
         [avatarProperty]="'logo_url'"
+        [stringifyFn]="stringifyTitle"
         [nullable]="true"
       ></app-select-from-list>
     }
@@ -133,6 +134,7 @@
         [itemsList]="allSponsorLines"
         [title]="'Sponsor Line'"
         [formField]="teamForm.controls['teamSponsorLine']"
+        [stringifyFn]="stringifyTitle"
         [nullable]="true"
       ></app-select-from-list>
     }

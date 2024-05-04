@@ -45,6 +45,7 @@
           [formField]="matchForm.controls['team_a']"
           [nullable]="false"
           [avatarProperty]="'team_logo_url'"
+          [stringifyFn]="stringifyTitle"
         ></app-select-from-list>
 
         <app-select-from-list
@@ -53,6 +54,7 @@
           [formField]="matchForm.controls['team_b']"
           [nullable]="false"
           [avatarProperty]="'team_logo_url'"
+          [stringifyFn]="stringifyTitle"
         ></app-select-from-list>
 
       </div>

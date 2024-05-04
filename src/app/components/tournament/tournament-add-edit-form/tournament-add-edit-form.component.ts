@@ -53,6 +53,7 @@ import { ISponsor, ISponsorLine } from '../../../type/sponsor.type';
 import { SelectFromListComponent } from '../../../shared/ui/select/select-from-list/select-from-list.component';
 import { environment } from '../../../../environments/environment';
 import { DialogService } from '../../../services/dialog.service';
+import { stringifyTitle } from '../../../base/helpers';
 
 @Component({
   selector: 'app-tournament-add-edit-form',
@@ -257,4 +258,6 @@ export class TournamentAddEditFormComponent
       }
     }
   }
+
+  protected readonly stringifyTitle = stringifyTitle;
 }

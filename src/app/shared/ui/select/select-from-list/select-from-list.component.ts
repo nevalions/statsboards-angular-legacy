@@ -11,6 +11,7 @@ import { TuiLetModule } from '@taiga-ui/cdk';
 import { AnyObjectWithTitle } from '../../../../type/base.type';
 import { environment } from '../../../../../environments/environment';
 import { WithNullOptionPipe } from '../../../../pipes/with-null-option.pipe';
+import { toTitleCase } from '../../../../base/helpers';
 
 @Component({
   selector: 'app-select-from-list',
@@ -28,7 +29,7 @@ import { WithNullOptionPipe } from '../../../../pipes/with-null-option.pipe';
   ],
   providers: [
     tuiItemsHandlersProvider({
-      stringify: (item: AnyObjectWithTitle) => `${item.title}`,
+      stringify: (item: AnyObjectWithTitle) => `${toTitleCase(item.title)}`,
     }),
   ],
   templateUrl: './select-from-list.component.html',

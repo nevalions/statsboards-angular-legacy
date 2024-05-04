@@ -2,9 +2,7 @@ import { Component, Input } from '@angular/core';
 import { AsyncPipe } from '@angular/common';
 import { TuiIslandModule } from '@taiga-ui/kit';
 import { TuiLoaderModule, TuiSizeL, TuiSizeS } from '@taiga-ui/core';
-import { Observable, of } from 'rxjs';
 import { ITournament } from '../../../type/tournament.type';
-import { IMatchWithFullData } from '../../../type/match.type';
 import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
@@ -16,11 +14,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class IslandListOfTournamentsComponent {
   @Input() emptyMessage: string = 'No data available';
-  // @Input() formatPath: (item: ITournament) => string = () => '';
   @Input() titleProperty: keyof ITournament = 'title';
   @Input() paragraphProperty: keyof ITournament = 'description';
 
-  // Initialize with an empty array
   @Input() data: ITournament[] = [];
   @Input() _size: TuiSizeL | TuiSizeS = 'l';
   @Input() hoverable: boolean = true;
@@ -30,21 +26,6 @@ export class IslandListOfTournamentsComponent {
     private route: ActivatedRoute,
   ) {}
 
-  // navigateToTournamentItem(item: ITournament): void {
-  //   let sportId = this.route.snapshot.params['sport_id'];
-  //   let seasonId = this.route.snapshot.params['season_id'];
-  //
-  //   console.log(sportId, seasonId);
-  //
-  //   this.router.navigate([
-  //     '/sport',
-  //     sportId,
-  //     'season',
-  //     seasonId,
-  //     'tournament',
-  //     item.id,
-  //   ]);
-  // }
   navigateToTournamentItem(item: ITournament): void {
     let currentUrl = this.router.url.split('/');
     if (currentUrl[currentUrl.length - 1] === 'tournaments') {

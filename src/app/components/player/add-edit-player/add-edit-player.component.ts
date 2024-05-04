@@ -13,7 +13,6 @@ import { IPlayer, IPlayerInSport } from '../../../type/player.type';
 import { environment } from '../../../../environments/environment';
 import { Player } from '../player';
 import { DialogService } from '../../../services/dialog.service';
-import { Person } from '../../person/person';
 import {
   FormControl,
   FormGroup,
@@ -26,7 +25,7 @@ import { SelectFromListComponent } from '../../../shared/ui/select/select-from-l
 import { CancelButtonInFormComponent } from '../../../shared/ui/buttons/cancel-button-in-form/cancel-button-in-form.component';
 import { CreateButtonInFormComponent } from '../../../shared/ui/buttons/create-button-in-form/create-button-in-form.component';
 import { SelectFromPersonComponent } from '../../../shared/ui/select/select-from-person/select-from-person.component';
-import { toTitleCase } from '../../../base/helpers';
+import { stringifyNameSurname } from '../../../base/helpers';
 
 @Component({
   selector: 'app-add-edit-player',
@@ -86,9 +85,9 @@ export class AddEditPlayerComponent implements OnInit, OnChanges, OnDestroy {
     this.open = open;
   }
 
-  stringifyNameSurname(item: IPerson): string {
-    return `${toTitleCase(item.first_name) ?? ''} ${toTitleCase(item.second_name) ?? ''}`.trim();
-  }
+  // stringifyNameSurname(item: IPerson): string {
+  //   return `${toTitleCase(item.first_name) ?? ''} ${toTitleCase(item.second_name) ?? ''}`.trim();
+  // }
 
   ngOnChanges(changes: SimpleChanges) {
     if (
@@ -149,4 +148,6 @@ export class AddEditPlayerComponent implements OnInit, OnChanges, OnDestroy {
       this.dialogSubscription.unsubscribe();
     }
   }
+
+  protected readonly stringifyNameSurname = stringifyNameSurname;
 }

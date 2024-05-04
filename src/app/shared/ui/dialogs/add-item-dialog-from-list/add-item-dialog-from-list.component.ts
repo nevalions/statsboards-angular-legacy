@@ -7,7 +7,7 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
-import { AsyncPipe, TitleCasePipe, UpperCasePipe } from '@angular/common';
+import { AsyncPipe, NgIf, TitleCasePipe, UpperCasePipe } from '@angular/common';
 import {
   FormControl,
   FormGroup,
@@ -16,13 +16,22 @@ import {
   Validators,
 } from '@angular/forms';
 import { TuiButtonModule, TuiDialogModule } from '@taiga-ui/core';
-import { TuiDataListWrapperModule, TuiSelectModule } from '@taiga-ui/kit';
+import {
+  TuiAvatarModule,
+  TuiDataListWrapperModule,
+  tuiItemsHandlersProvider,
+  TuiSelectModule,
+} from '@taiga-ui/kit';
 import { TuiLetModule } from '@taiga-ui/cdk';
 import { DialogService } from '../../../../services/dialog.service';
 import { Observable, of, Subject, Subscription, takeUntil } from 'rxjs';
 import { CreateButtonInFormComponent } from '../../buttons/create-button-in-form/create-button-in-form.component';
 import { CancelButtonInFormComponent } from '../../buttons/cancel-button-in-form/cancel-button-in-form.component';
 import { HasTitlePipe } from '../../../../pipes/has-title.pipe';
+import { IPerson } from '../../../../type/person.type';
+import { toTitleCase } from '../../../../base/helpers';
+import { AnyObjectWithTitle } from '../../../../type/base.type';
+import { environment } from '../../../../../environments/environment';
 
 @Component({
   selector: 'app-add-item-dialog-from-list',
@@ -41,6 +50,13 @@ import { HasTitlePipe } from '../../../../pipes/has-title.pipe';
     CreateButtonInFormComponent,
     CancelButtonInFormComponent,
     HasTitlePipe,
+    NgIf,
+    TuiAvatarModule,
+  ],
+  providers: [
+    tuiItemsHandlersProvider({
+      stringify: (item: AnyObjectWithTitle) => `${toTitleCase(item.title)}`,
+    }),
   ],
   templateUrl: './add-item-dialog-from-list.component.html',
   styleUrl: './add-item-dialog-from-list.component.less',
@@ -54,6 +70,9 @@ export class AddItemDialogFromListComponent<T> implements OnInit, OnDestroy {
   @Input() itemsList$: Observable<T[]> = of([]);
   @Input() dialogId: string = 'addDialog';
   @Output() add = new EventEmitter<T | null | undefined>();
+  @Input() avatarProperty: string | null = 'avatarUrl';
+
+  backendUrl = environment.backendUrl;
 
   private destroy$ = new Subject<void>();
 

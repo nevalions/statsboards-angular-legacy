@@ -24,12 +24,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import {
-  TuiAutoFocusModule,
-  TuiDay,
-  TuiLetModule,
-  TuiTime,
-} from '@taiga-ui/cdk';
+import { TuiDay, TuiLetModule, TuiTime } from '@taiga-ui/cdk';
 import {
   TuiAvatarModule,
   TuiDataListWrapperModule,
@@ -55,6 +50,7 @@ import { DialogService } from '../../../services/dialog.service';
 
 import { Match } from '../match';
 import { SelectFromListComponent } from '../../../shared/ui/select/select-from-list/select-from-list.component';
+import { stringifyTitle } from '../../../base/helpers';
 
 @Component({
   selector: 'app-add-edit-match',
@@ -63,7 +59,6 @@ import { SelectFromListComponent } from '../../../shared/ui/select/select-from-l
     TuiButtonModule,
     AsyncPipe,
     ReactiveFormsModule,
-    TuiAutoFocusModule,
     TuiDialogModule,
     TuiErrorModule,
     TuiFieldErrorPipeModule,
@@ -224,4 +219,6 @@ export class AddEditMatchComponent implements OnInit, OnChanges, OnDestroy {
       }
     }
   }
+
+  protected readonly stringifyTitle = stringifyTitle;
 }

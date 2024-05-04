@@ -32,12 +32,12 @@ import { hasTitle, toTitleCase } from '../../../../base/helpers';
   ],
   templateUrl: './add-team-to-tournament.component.html',
   styleUrl: './add-team-to-tournament.component.less',
-  providers: [
-    tuiItemsHandlersProvider({
-      stringify: (item: ITeam) =>
-        hasTitle(item) ? toTitleCase(item.title) : toTitleCase(String(item)),
-    }),
-  ],
+  // providers: [
+  //   tuiItemsHandlersProvider({
+  //     stringify: (item: ITeam) =>
+  //       hasTitle(item) ? toTitleCase(item.title) : toTitleCase(String(item)),
+  //   }),
+  // ],
 })
 export class AddTeamToTournamentComponent {
   store: Store<AppState> = inject(Store);

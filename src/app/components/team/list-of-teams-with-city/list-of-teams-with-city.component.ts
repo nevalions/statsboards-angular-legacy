@@ -4,6 +4,7 @@ import { ListOfItemsIslandComponent } from '../../../shared/ui/list-of-items-isl
 import { TuiLoaderModule, TuiSizeL, TuiSizeS } from '@taiga-ui/core';
 import { Observable, of } from 'rxjs';
 import { ITeam } from '../../../type/team.type';
+import { stringifyTitle } from '../../../base/helpers';
 
 @Component({
   selector: 'app-list-of-teams-with-city',
@@ -20,4 +21,5 @@ export class ListOfTeamsWithCityComponent {
   @Input() titleProperty: keyof ITeam = 'title';
   @Input() _size: TuiSizeL | TuiSizeS = 's';
   @Input() hoverable: boolean = false;
+  protected readonly stringifyTitle = stringifyTitle;
 }

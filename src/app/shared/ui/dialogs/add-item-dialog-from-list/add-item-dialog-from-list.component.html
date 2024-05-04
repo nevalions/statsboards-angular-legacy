@@ -20,7 +20,6 @@
           style="padding-left: 10px; padding-right: 10px;"
         >
           SELECT {{ item | uppercase }}
-          <!--          Select {{ itemAddForm.get('itemToAdd')?.value | hasTitlePipe | titlecase }}-->
           <tui-data-list-wrapper
             *tuiDataList
             size="l"
@@ -35,6 +34,12 @@
           let-data
         >
           <div class="template">
+            <tui-avatar
+              *ngIf="avatarProperty"
+              size="xs"
+              class="avatar"
+              [avatarUrl]="backendUrl + data[avatarProperty]"
+            ></tui-avatar>
             <div>{{ data.title | titlecase }}</div>
           </div>
         </ng-template>
