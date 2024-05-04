@@ -48,7 +48,7 @@ export type Breadcrumb = {
   level?: number;
 };
 
-export interface UploadResizePersonPhotoResponse {
+export interface UploadResizeImageResponse {
   original: string;
   icon: string;
   webview: string;

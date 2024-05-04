@@ -5,6 +5,8 @@ export interface ITeam {
   description?: string;
   team_eesl_id?: number | undefined | null;
   team_logo_url?: string;
+  team_logo_icon_url?: string;
+  team_logo_web_url?: string;
   team_color?: string;
   sport_id: number;
   sponsor_line_id?: number | null;

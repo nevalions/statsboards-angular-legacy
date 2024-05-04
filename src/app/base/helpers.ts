@@ -24,3 +24,8 @@ export function stringifyNameSurname(item: IPerson): string {
 export function stringifyTitle(item: AnyObjectWithTitle): string {
   return `${toTitleCase(item.title) ?? ''}`.trim();
 }
+
+export function getTitleCase<T>(item: T, prop: keyof T): string {
+  const val = item[prop];
+  return typeof val === 'string' ? val : '';
+}

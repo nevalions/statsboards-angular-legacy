@@ -45,7 +45,7 @@ import { AsyncPipe, NgIf } from '@angular/common';
 import { TuiDialogModule, TuiErrorModule } from '@taiga-ui/core';
 import { CancelButtonInFormComponent } from '../../../shared/ui/buttons/cancel-button-in-form/cancel-button-in-form.component';
 import { CreateButtonInFormComponent } from '../../../shared/ui/buttons/create-button-in-form/create-button-in-form.component';
-import { UploadResizePersonPhotoResponse } from '../../../type/base.type';
+import { UploadResizeImageResponse } from '../../../type/base.type';
 
 @Component({
   selector: 'app-add-edit-person',
@@ -158,7 +158,7 @@ export class AddEditPersonComponent implements OnInit, OnDestroy, OnChanges {
       return this.imageService
         .uploadResizeImage(file, 'persons/upload_resize_photo')
         .pipe(
-          map((response: UploadResizePersonPhotoResponse) => {
+          map((response: UploadResizeImageResponse) => {
             {
               this.personForm.controls.personPhotoUrl.setValue(
                 response.original,

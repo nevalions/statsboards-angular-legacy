@@ -50,6 +50,7 @@ import { DialogService } from '../../../services/dialog.service';
 import { ISponsor, ISponsorLine } from '../../../type/sponsor.type';
 import { SelectFromListComponent } from '../../../shared/ui/select/select-from-list/select-from-list.component';
 import { stringifyTitle } from '../../../base/helpers';
+import { UploadResizeImageResponse } from '../../../type/base.type';
 
 @Component({
   selector: 'app-add-edit-team',
@@ -108,6 +109,8 @@ export class AddEditTeamComponent implements OnInit, OnDestroy, OnChanges {
     teamCity: new FormControl(''),
     teamDescription: new FormControl(''),
     teamLogoUrl: new FormControl(''),
+    teamLogoIconUrl: new FormControl(''),
+    teamLogoWebUrl: new FormControl(''),
     teamEeslId: new FormControl<number | null | undefined>(undefined),
     teamColor: new FormControl<string>(''),
     teamMainSponsor: new FormControl<ISponsor | null>(null),
@@ -139,28 +142,58 @@ export class AddEditTeamComponent implements OnInit, OnDestroy, OnChanges {
     this.uploadProgressService.clearRejected(this.teamLogoForm);
   }
 
+  // uploadTeamLogo(file: File): Observable<TuiFileLike | null> {
+  //   this.loadingFiles$.next(file);
+  //
+  //   if (file && file.name) {
+  //     return this.imageService.uploadImage(file, 'teams/upload_logo').pipe(
+  //       map((response: any) => {
+  //         this.teamForm.controls.teamLogoUrl.setValue(response.logoUrl);
+  //         this.uploadedFiles$.next(file);
+  //
+  //         return file;
+  //       }),
+  //       catchError((error) => {
+  //         console.error('Error while uploading logo:', error);
+  //         return of(null);
+  //       }),
+  //       finalize(() => {
+  //         this.loadingFiles$.next(null);
+  //       }),
+  //     );
+  //   }
+  //
+  //   return of(null);
+  // }
+
   uploadTeamLogo(file: File): Observable<TuiFileLike | null> {
     this.loadingFiles$.next(file);
 
     if (file && file.name) {
-      return this.imageService.uploadImage(file, 'teams/upload_logo').pipe(
-        map((response: any) => {
-          this.teamForm.controls.teamLogoUrl.setValue(response.logoUrl);
-          this.uploadedFiles$.next(file);
+      return this.imageService
+        .uploadResizeImage(file, 'teams/upload_resize_logo')
+        .pipe(
+          map((response: UploadResizeImageResponse) => {
+            {
+              this.teamForm.controls.teamLogoUrl.setValue(response.original);
+              this.teamForm.controls.teamLogoIconUrl.setValue(response.icon);
+              this.teamForm.controls.teamLogoWebUrl.setValue(response.webview);
+            }
+            this.uploadedFiles$.next(file);
 
-          return file;
-        }),
-        catchError((error) => {
-          console.error('Error while uploading logo:', error);
-          return of(null);
-        }),
-        finalize(() => {
-          this.loadingFiles$.next(null);
-        }),
-      );
+            return file; // Return the file as a TuiFileLike object if needed, or adapt as required
+          }),
+          catchError((error) => {
+            console.error('Error while uploading photo:', error);
+            return of(null); // Return null to indicate the upload failed
+          }),
+          finalize(() => {
+            this.loadingFiles$.next(null); // Indicate that loading has finished
+          }),
+        );
     }
 
-    return of(null);
+    return of(null); // Return null immediately if there's no file selected
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -190,6 +223,8 @@ export class AddEditTeamComponent implements OnInit, OnDestroy, OnChanges {
         teamCity: item.city ?? null,
         teamDescription: item.description ?? null,
         teamLogoUrl: item.team_logo_url ?? null,
+        teamLogoIconUrl: item.team_logo_icon_url ?? null,
+        teamLogoWebUrl: item.team_logo_web_url ?? null,
         teamEeslId: item.team_eesl_id ?? null,
         teamColor: item.team_color ?? '#6a6a6a',
         teamMainSponsor: mainSponsor ?? null,
@@ -222,6 +257,8 @@ export class AddEditTeamComponent implements OnInit, OnDestroy, OnChanges {
         city: formValue.teamCity!,
         description: formValue.teamDescription!,
         team_logo_url: formValue.teamLogoUrl!,
+        team_logo_icon_url: formValue.teamLogoIconUrl!,
+        team_logo_web_url: formValue.teamLogoWebUrl!,
         team_eesl_id: formValue.teamEeslId,
         sport_id: this.sportId,
         team_color: formValue.teamColor!,

@@ -11,6 +11,7 @@ import { TuiLoaderModule, TuiSizeL, TuiSizeS } from '@taiga-ui/core';
 import { Observable, of, Subscription } from 'rxjs';
 import { SearchListService } from '../../../services/search-list.service';
 import { environment } from '../../../../environments/environment';
+import { getTitleCase } from '../../../base/helpers';
 
 @Component({
   selector: 'app-list-of-items-island',
@@ -48,8 +49,9 @@ export class ListOfItemsIslandComponent<
 
   backendUrl = environment.backendUrl;
 
-  getTitleCase(item: T, prop: keyof T): string {
-    const val = item[prop];
-    return typeof val === 'string' ? val : '';
-  }
+  // getTitleCase(item: T, prop: keyof T): string {
+  //   const val = item[prop];
+  //   return typeof val === 'string' ? val : '';
+  // }
+  protected readonly getTitleCase = getTitleCase;
 }
