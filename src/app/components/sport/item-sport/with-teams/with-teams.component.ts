@@ -1,7 +1,6 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  OnInit,
   ViewEncapsulation,
 } from '@angular/core';
 import { ITeam } from '../../../../type/team.type';
@@ -16,12 +15,9 @@ import { AddEditTeamComponent } from '../../../team/add-edit-team/add-edit-team.
 import { EditButtonComponent } from '../../../../shared/ui/buttons/edit-button/edit-button.component';
 import { Sponsor } from '../../../adv/sponsor/sponsor';
 import { SponsorLine } from '../../../adv/sponsor-line/sponsorLine';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { TuiValueChangesModule } from '@taiga-ui/cdk';
 import { Search } from '../../../../store/search/search';
-import { debounceTime, distinctUntilChanged, Observable, of } from 'rxjs';
-import { emptyProps, Store } from '@ngrx/store';
-import { AppState } from '../../../../store/appstate';
 import { BaseSearchFormComponent } from '../../../../shared/ui/search/base-search-form/base-search-form.component';
 
 @Component({
@@ -54,10 +50,6 @@ export class WithTeamsComponent {
   allSponsorLines$ = this.sponsorLine.allSponsorLines$;
   teamInSportSearchResults$ = this.search.teamInSportSearchResults$;
 
-  searchForm = new FormGroup({
-    searchValue: new FormControl(''),
-  });
-
   constructor(
     private sport: Sport,
     private team: Team,
@@ -70,13 +62,6 @@ export class WithTeamsComponent {
     team.loadAllTeamsInSport();
 
     this.search.searchTeamInSport(null);
-
-    // this.searchForm
-    //   .get('searchValue')!
-    //   .valueChanges.pipe(debounceTime(200), distinctUntilChanged())
-    //   .subscribe((searchTerm) => {
-    //     this.search.searchTeamInSport(searchTerm);
-    //   });
   }
 
   islandTeamTitleProperty: keyof ITeam = 'title';
@@ -88,6 +73,4 @@ export class WithTeamsComponent {
   onSearch(searchTerm: string | null) {
     this.search.searchTeamInSport(searchTerm);
   }
-
-  protected readonly emptyProps = emptyProps;
 }

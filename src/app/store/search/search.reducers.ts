@@ -45,7 +45,6 @@ export const searchFeature = createFeature({
     on(searchActions.updateTeamSearchTerm, (state, { term }) => ({
       ...state,
       teamSearchTerm: term,
-      teamSearchResults: [], // Clear previous results when the search term updates
     })),
     on(searchActions.teamSearchSuccess, (state, { teams }) => ({
       ...state,
@@ -67,6 +66,7 @@ export const searchFeature = createFeature({
       ...state,
     })),
 
+    // TOURNAMENTS
     on(searchActions.updateTournamentSearchTerm, (state, { term }) => ({
       ...state,
       tournamentSearchTerm: term,
@@ -78,14 +78,12 @@ export const searchFeature = createFeature({
     on(searchActions.tournamentSearchFailure, (state) => ({
       ...state,
     })),
-    // Add more reducer logic for additional search actions as necessary
   ),
 });
 
 export const {
   name: searchFeatureKey,
   reducer: searchReducer,
-  // Define selectors to retrieve different parts of the search state
   selectListSearchResults,
 
   selectTeamSearchTerm,

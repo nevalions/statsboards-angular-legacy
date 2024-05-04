@@ -25,24 +25,6 @@
         (search)="onSearch($event)"
       ></app-base-search-form>
 
-      <!--      <div class="search block__fullwidth_center">-->
-      <!--        <div class="" style="display: block; padding: 10px; min-width: 100%">-->
-      <!--          <div class="tui-form__row">-->
-      <!--            <form-->
-      <!--              [formGroup]="searchForm"-->
-      <!--            >-->
-      <!--              <tui-input-->
-      <!--                formControlName="searchValue"-->
-      <!--                style="min-width: max-content"-->
-      <!--                [tuiTextfieldCleaner]="true"-->
-      <!--              >-->
-      <!--                SEARCH BY {{ 'Team title' | uppercase }}-->
-      <!--              </tui-input>-->
-      <!--            </form>-->
-      <!--          </div>-->
-      <!--        </div>-->
-      <!--      </div>-->
-
       @if (teamInSportSearchResults$ | async; as teams) {
         <app-list-of-teams
           [sportId]="sport.id!"
