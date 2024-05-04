@@ -66,7 +66,7 @@
               src="{{urlWithProtocol}}{{
               data.scoreboard_data?.use_team_a_game_logo ?
               data.scoreboard_data?.team_a_game_logo :
-              data.teams_data?.team_a?.team_logo_url}}"
+              data.teams_data?.team_a?.team_logo_web_url}}"
               width="50"
               (error)="onImgError($event)"
               [style.transform]="'scale('+ data.scoreboard_data?.scale_logo_a +')'"
@@ -127,7 +127,7 @@
               src="{{urlWithProtocol}}{{
               data.scoreboard_data?.use_team_b_game_logo ?
               data.scoreboard_data?.team_b_game_logo :
-              data.teams_data?.team_b?.team_logo_url}}"
+              data.teams_data?.team_b?.team_logo_web_url}}"
               width="50"
               (error)="onImgError($event)"
               [style.transform]="'scale('+ data.scoreboard_data?.scale_logo_b +')'"
