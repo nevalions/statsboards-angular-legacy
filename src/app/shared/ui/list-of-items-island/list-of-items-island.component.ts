@@ -49,9 +49,5 @@ export class ListOfItemsIslandComponent<
 
   backendUrl = environment.backendUrl;
 
-  // getTitleCase(item: T, prop: keyof T): string {
-  //   const val = item[prop];
-  //   return typeof val === 'string' ? val : '';
-  // }
   protected readonly getTitleCase = getTitleCase;
 }

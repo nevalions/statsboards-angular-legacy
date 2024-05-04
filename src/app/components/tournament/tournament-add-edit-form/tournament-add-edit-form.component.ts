@@ -54,6 +54,7 @@ import { SelectFromListComponent } from '../../../shared/ui/select/select-from-l
 import { environment } from '../../../../environments/environment';
 import { DialogService } from '../../../services/dialog.service';
 import { stringifyTitle } from '../../../base/helpers';
+import { UploadResizeImageResponse } from '../../../type/base.type';
 
 @Component({
   selector: 'app-tournament-add-edit-form',
@@ -119,6 +120,8 @@ export class TournamentAddEditFormComponent
     ]),
     tournamentDescription: new FormControl(''),
     tournamentLogoUrl: new FormControl(''),
+    tournamentLogoIconUrl: new FormControl(''),
+    tournamentLogoWebUrl: new FormControl(''),
     tournamentMainSponsor: new FormControl<ISponsor | null>(null),
     tournamentSponsorLine: new FormControl<ISponsorLine | null>(null),
   });
@@ -148,23 +151,59 @@ export class TournamentAddEditFormComponent
     this.uploadProgressService.clearRejected(this.tournamentLogoForm);
   }
 
+  // uploadTournamentLogo(file: File): Observable<TuiFileLike | null> {
+  //   this.loadingFiles$.next(file);
+  //
+  //   if (file && file.name) {
+  //     return this.imageService
+  //       .uploadImage(file, 'tournaments/upload_logo')
+  //       .pipe(
+  //         map((response: any) => {
+  //           this.tournamentForm.controls.tournamentLogoUrl.setValue(
+  //             response.logoUrl,
+  //           );
+  //           this.uploadedFiles$.next(file);
+  //
+  //           return file;
+  //         }),
+  //         catchError((error) => {
+  //           console.error('Error while uploading logo:', error);
+  //           return of(null);
+  //         }),
+  //         finalize(() => {
+  //           this.loadingFiles$.next(null);
+  //         }),
+  //       );
+  //   }
+  //
+  //   return of(null);
+  // }
+
   uploadTournamentLogo(file: File): Observable<TuiFileLike | null> {
     this.loadingFiles$.next(file);
 
     if (file && file.name) {
       return this.imageService
-        .uploadImage(file, 'tournaments/upload_logo')
+        .uploadResizeImage(file, 'tournaments/upload_resize_logo')
         .pipe(
-          map((response: any) => {
-            this.tournamentForm.controls.tournamentLogoUrl.setValue(
-              response.logoUrl,
-            );
+          map((response: UploadResizeImageResponse) => {
+            {
+              this.tournamentForm.controls.tournamentLogoUrl.setValue(
+                response.original,
+              );
+              this.tournamentForm.controls.tournamentLogoIconUrl.setValue(
+                response.icon,
+              );
+              this.tournamentForm.controls.tournamentLogoWebUrl.setValue(
+                response.webview,
+              );
+            }
             this.uploadedFiles$.next(file);
 
             return file;
           }),
           catchError((error) => {
-            console.error('Error while uploading logo:', error);
+            console.error('Error while uploading photo:', error);
             return of(null);
           }),
           finalize(() => {
@@ -208,6 +247,8 @@ export class TournamentAddEditFormComponent
         tournamentTitle: item.title,
         tournamentDescription: item.description,
         tournamentLogoUrl: item.tournament_logo_url ?? null,
+        tournamentLogoIconUrl: item.tournament_logo_url ?? null,
+        tournamentLogoWebUrl: item.tournament_logo_url ?? null,
         tournamentMainSponsor: mainSponsor ?? null,
         tournamentSponsorLine: tournamentSponsorLine ?? null,
       });
@@ -240,6 +281,8 @@ export class TournamentAddEditFormComponent
         title: formValue.tournamentTitle!,
         description: formValue.tournamentDescription!,
         tournament_logo_url: formValue.tournamentLogoUrl!,
+        tournament_logo_icon_url: formValue.tournamentLogoIconUrl!,
+        tournament_logo_web_url: formValue.tournamentLogoWebUrl!,
         main_sponsor_id: formValue.tournamentMainSponsor?.id ?? null,
         sponsor_line_id: formValue.tournamentSponsorLine?.id ?? null,
         season_id: this.season_Id,

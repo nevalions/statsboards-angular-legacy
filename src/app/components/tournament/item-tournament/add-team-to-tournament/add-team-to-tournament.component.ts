@@ -4,17 +4,12 @@ import { ITeam, ITeamTournament } from '../../../../type/team.type';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TuiButtonModule, TuiDialogModule } from '@taiga-ui/core';
 import { AsyncPipe } from '@angular/common';
-import {
-  TuiDataListWrapperModule,
-  tuiItemsHandlersProvider,
-  TuiSelectModule,
-} from '@taiga-ui/kit';
+import { TuiDataListWrapperModule, TuiSelectModule } from '@taiga-ui/kit';
 import { TuiLetModule } from '@taiga-ui/cdk';
 import { AddItemDialogFromListComponent } from '../../../../shared/ui/dialogs/add-item-dialog-from-list/add-item-dialog-from-list.component';
 import { AppState } from '../../../../store/appstate';
 import { Store } from '@ngrx/store';
 import { teamTournamentActions } from '../../../team-tournament/store/actions';
-import { hasTitle, toTitleCase } from '../../../../base/helpers';
 
 @Component({
   selector: 'app-add-team-to-tournament',
@@ -32,12 +27,6 @@ import { hasTitle, toTitleCase } from '../../../../base/helpers';
   ],
   templateUrl: './add-team-to-tournament.component.html',
   styleUrl: './add-team-to-tournament.component.less',
-  // providers: [
-  //   tuiItemsHandlersProvider({
-  //     stringify: (item: ITeam) =>
-  //       hasTitle(item) ? toTitleCase(item.title) : toTitleCase(String(item)),
-  //   }),
-  // ],
 })
 export class AddTeamToTournamentComponent {
   store: Store<AppState> = inject(Store);

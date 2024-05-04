@@ -13,7 +13,7 @@
         </div>
         <div *ngIf="data.scoreboard_data?.is_tournament_logo" class="tournament-logo-scoreboard">
           <img
-            src="{{urlWithProtocol}}{{tournament?.tournament_logo_url}}"
+            src="{{urlWithProtocol}}{{tournament?.tournament_logo_web_url}}"
             width="50"
             (error)="onImgError($event)"
             [style.transform]="'scale('+ data.scoreboard_data?.scale_tournament_logo +')'"

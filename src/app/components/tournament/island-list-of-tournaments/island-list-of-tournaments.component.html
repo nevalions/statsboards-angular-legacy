@@ -12,11 +12,23 @@
       >
         <div class="tui-island__content">
           <figure class="tui-island__figure">
-            <div class="some-figure"></div>
+            <div class="some-figure">
+              <div class="some-figure">
+                @if (avatarUrl == 'title' || avatarUrl) {
+                  <tui-avatar
+                    size="l"
+                    text="{{item[titleProperty] || 'image'}}"
+                    class="tui-space_top-1"
+                    [rounded]="false"
+                    [avatarUrl]="backendUrl + item[avatarUrl] || null"
+                  ></tui-avatar>
+                }
+              </div>
+            </div>
           </figure>
           <div>
             <h3 class="tui-island__title">
-              {{ item[titleProperty] }}
+              {{ getTitleCase(item, titleProperty) | uppercase }}
             </h3>
             <p class="tui-island__paragraph">
               @if (item[paragraphProperty]) {
