@@ -17,6 +17,7 @@ import { SponsorSponsorLineConnectionState } from '../components/adv/sponsor-spo
 import { PersonState } from '../components/person/store/reducers';
 import { ScoreboardDataState } from '../components/scoreboard-data/store/reducers';
 import { PlayerState } from '../components/player/store/reducers';
+import { SearchState } from './search/search.reducers';
 
 export interface AppState {
   breadcrumb: BreadcrumbState;
@@ -28,6 +29,7 @@ export interface AppState {
   player: PlayerState;
   playclock: PlayclockState;
   scoreboard: ScoreboardDataState;
+  search: SearchState;
   season: SeasonState;
   sponsor: SponsorState;
   sponsorLine: SponsorLineState;

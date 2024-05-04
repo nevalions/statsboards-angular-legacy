@@ -11,6 +11,34 @@
   }
 </div>
 
+<!--<div class="search block__fullwidth_center">-->
+<!--  <div class="" style="display: block; padding: 10px; min-width: 100%">-->
+<!--    <div class="tui-form__row">-->
+<!--      <form-->
+<!--        [formGroup]="searchForm"-->
+<!--      >-->
+<!--        <tui-input-->
+<!--          formControlName="searchValue"-->
+<!--          (tuiValueChanges)="onSearch()"-->
+<!--          style="min-width: max-content"-->
+<!--          [tuiTextfieldCleaner]="true"-->
+<!--        >-->
+<!--          SEARCH BY {{ 'Teams' | uppercase }}-->
+<!--        </tui-input>-->
+<!--      </form>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</div>-->
+
+@if (teams) {
+  <app-list-of-teams-with-city
+    [teams]="teams"
+    [formatPath]="formatPath"
+    [titleProperty]="titleProperty"
+    [_size]="'l'"
+  ></app-list-of-teams-with-city>
+}
+
 <!--<app-pagination-with-items-per-page-->
 <!--  [items$]="teams$"-->
 <!--&gt;-->
@@ -23,12 +51,7 @@
 <!--&gt;</app-form-search-text>-->
 
 <!--@if (teams$ | async; as teams) {-->
-<app-list-of-teams-with-city
-  [teams]="teams"
-  [formatPath]="formatPath"
-  [titleProperty]="titleProperty"
-  [_size]="'l'"
-></app-list-of-teams-with-city>
+
 <!--  <app-list-of-items-island-->
 <!--    [data$]="paginationService.paginatedItems$"-->
 <!--    [formatPath]="formatPath"-->

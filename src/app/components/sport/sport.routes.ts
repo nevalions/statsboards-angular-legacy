@@ -72,6 +72,11 @@ import { playerFeatureKey, playerReducer } from '../player/store/reducers';
 import { PersonEffects } from '../person/store/effects';
 import { PlayerEffects } from '../player/store/effects';
 import { ItemPlayerComponent } from '../player/item-player/item-player.component';
+import {
+  searchFeatureKey,
+  searchReducer,
+} from '../../store/search/search.reducers';
+import { SearchEffects } from '../../store/search/search.effects';
 
 export const SPORT_ROUTES: Routes = [
   {
@@ -89,7 +94,13 @@ export const SPORT_ROUTES: Routes = [
               provideState(sponsorFeatureKey, sponsorReducer),
               provideState(sponsorLineFeatureKey, sponsorLineReducer),
               provideState(teamFeatureKey, teamReducer),
-              provideEffects(TeamEffects, SponsorEffects, SponsorLineEffects),
+              provideState(searchFeatureKey, searchReducer),
+              provideEffects(
+                TeamEffects,
+                SponsorEffects,
+                SponsorLineEffects,
+                SearchEffects,
+              ),
             ],
             data: {
               breadcrumb: {

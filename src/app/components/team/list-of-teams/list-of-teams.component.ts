@@ -5,10 +5,18 @@ import {
   Input,
   OnInit,
 } from '@angular/core';
-import { AsyncPipe, SlicePipe } from '@angular/common';
+import { AsyncPipe, SlicePipe, UpperCasePipe } from '@angular/common';
 import { ListOfItemsIslandComponent } from '../../../shared/ui/list-of-items-island/list-of-items-island.component';
-import { TuiButtonModule, TuiLoaderModule } from '@taiga-ui/core';
-import { TuiInputNumberModule, TuiPaginationModule } from '@taiga-ui/kit';
+import {
+  TuiButtonModule,
+  TuiLoaderModule,
+  TuiTextfieldControllerModule,
+} from '@taiga-ui/core';
+import {
+  TuiInputModule,
+  TuiInputNumberModule,
+  TuiPaginationModule,
+} from '@taiga-ui/kit';
 import { ITeam } from '../../../type/team.type';
 import { Observable, of } from 'rxjs';
 import { FormSearchAutoCompleteComponent } from '../../../shared/ui/forms/form-search-auto-complete/form-search-auto-complete.component';
@@ -46,6 +54,9 @@ import { Team } from '../team';
     DeleteDialogComponent,
     AddEditTeamComponent,
     ListOfTeamsWithCityComponent,
+    TuiInputModule,
+    UpperCasePipe,
+    TuiTextfieldControllerModule,
   ],
 
   templateUrl: './list-of-teams.component.html',
@@ -53,6 +64,20 @@ import { Team } from '../team';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ListOfTeamsComponent {
+  @Input() teams: ITeam[] | null = [];
+
+  @Input() sportId!: number;
+  @Input() emptyMessage: string = 'No teams available';
+
+  @Input() formatPath: (item: ITeam) => string = () => '';
+  @Input() titleProperty: keyof ITeam = 'id';
+
+  // searchForm = new FormGroup({
+  //   searchValue: new FormControl(''),
+  // });
+  //
+  // onSearch() {}
+
   // searchListService = inject(SearchListService);
   // paginationService = inject(PaginationService);
   // teamService = inject(TeamService);
@@ -61,14 +86,6 @@ export class ListOfTeamsComponent {
   // constructor(private team: Team) {
   //   team.loadAllTeamsInSport();
   // }
-
-  @Input() teams: ITeam[] = [];
-
-  @Input() sportId!: number;
-  @Input() emptyMessage: string = 'No teams available';
-
-  @Input() formatPath: (item: ITeam) => string = () => '';
-  @Input() titleProperty: keyof ITeam = 'id';
 
   // ngOnInit() {
   //   this.searchListService.updateData(this.teams$);
