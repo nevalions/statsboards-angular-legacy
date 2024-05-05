@@ -77,6 +77,11 @@ import {
   searchReducer,
 } from '../../store/search/search.reducers';
 import { SearchEffects } from '../../store/search/search.effects';
+import {
+  paginationFeatureKey,
+  paginationReducer,
+} from '../../store/pagination/pagination.reducers';
+import { Pagination } from '../../store/pagination/pagination';
 
 export const SPORT_ROUTES: Routes = [
   {
@@ -95,10 +100,12 @@ export const SPORT_ROUTES: Routes = [
               provideState(sponsorLineFeatureKey, sponsorLineReducer),
               provideState(teamFeatureKey, teamReducer),
               provideState(searchFeatureKey, searchReducer),
+              provideState(paginationFeatureKey, paginationReducer),
               provideEffects(
                 TeamEffects,
                 SponsorEffects,
                 SponsorLineEffects,
+                Pagination,
                 SearchEffects,
               ),
             ],

@@ -1,0 +1,30 @@
+<div class="pagination"
+     style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
+  <div style="flex: 1;"></div>
+  <div style="flex: 2; text-align: center; padding: 10px">
+    <tui-pagination
+      [focusable]="false"
+      [size]="'m'"
+      [index]="currentPage - 1"
+      [length]="totalPages"
+      [activePadding]="1"
+      [sidePadding]="1"
+      (indexChange)="onIndexChange($event)"
+    ></tui-pagination>
+  </div>
+  <div style="flex: 1;">
+    <form [formGroup]="itemPerPageForm">
+      <tui-select
+        tuiTextfieldSize="s"
+        formControlName="itemPerPageValue"
+      >
+        <input placeholder="Items per page" tuiTextfield/>
+        <tui-data-list-wrapper
+          *tuiDataList
+          [items]="itemsPerPageOptions"
+        ></tui-data-list-wrapper>
+      </tui-select>
+    </form>
+  </div>
+
+</div>

@@ -25,7 +25,59 @@
         (search)="onSearch($event)"
       ></app-base-search-form>
 
-      @if (teamInSportSearchResults$ | async; as teams) {
+      @if (totalTeamInSportSearchPages$ | async; as totalPages) {
+        @if (currentPage$ | async; as currentPage) {
+          <app-base-pagination
+            [currentPage]="currentPage"
+            [totalPages]="totalPages"
+            (pageChange)="setCurrentPage($event)"
+            (pageSizeChange)="changePageSize($event)"
+          ></app-base-pagination>
+        }
+      }
+
+
+      <!--      <div class="pagination"-->
+      <!--           style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">-->
+      <!--        <div style="flex: 1;"></div>-->
+      <!--        <div style="flex: 2; text-align: center; padding: 10px">-->
+      <!--          @if (totalTeamInSportSearchPages$ | async; as totalPages) {-->
+      <!--            @if (currentPage$ | async; as currentPage) {-->
+      <!--              <tui-pagination-->
+      <!--                [focusable]="false"-->
+      <!--                [size]="'m'"-->
+      <!--                [index]="currentPage - 1"-->
+      <!--                [length]="totalPages"-->
+      <!--                [activePadding]="1"-->
+      <!--                [sidePadding]="1"-->
+      <!--                (indexChange)="setCurrentPage($event + 1)"-->
+      <!--              ></tui-pagination>-->
+      <!--            }-->
+      <!--          }-->
+      <!--        </div>-->
+      <!--        <div style="flex: 1;">-->
+      <!--          <form-->
+      <!--            [formGroup]="itemPerPageForm"-->
+      <!--          >-->
+      <!--            <tui-select-->
+      <!--              tuiTextfieldSize="s"-->
+      <!--              formControlName="itemPerPageValue"-->
+      <!--            >-->
+      <!--              <input-->
+      <!--                placeholder="ItemsPerPage"-->
+      <!--                tuiTextfield-->
+      <!--              />-->
+      <!--              <tui-data-list-wrapper-->
+      <!--                *tuiDataList-->
+      <!--                [items]="itemsPerPage"-->
+      <!--              ></tui-data-list-wrapper>-->
+      <!--            </tui-select>-->
+      <!--          </form>-->
+      <!--        </div>-->
+      <!--      </div>-->
+
+
+      @if (paginatedTeamInSportSearchResults$ | async; as teams) {
         <app-list-of-teams
           [sportId]="sport.id!"
           [teams]="teams"
@@ -35,6 +87,7 @@
       } @else {
         <tui-loader></tui-loader>
       }
+
 
     </div>
   </div>

@@ -18,6 +18,7 @@ import { PersonState } from '../components/person/store/reducers';
 import { ScoreboardDataState } from '../components/scoreboard-data/store/reducers';
 import { PlayerState } from '../components/player/store/reducers';
 import { SearchState } from './search/search.reducers';
+import { PaginationState } from './pagination/pagination.reducers';
 
 export interface AppState {
   breadcrumb: BreadcrumbState;
@@ -25,6 +26,7 @@ export interface AppState {
   match: MatchState;
   matchData: MatchDataState;
   matchWithFullData: MatchWithFullDataState;
+  pagination: PaginationState;
   person: PersonState;
   player: PlayerState;
   playclock: PlayclockState;
