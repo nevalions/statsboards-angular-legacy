@@ -77,6 +77,7 @@ export class WithTeamsComponent {
     team.loadAllTeamsInSport();
 
     this.search.searchTeamInSport(null);
+    this.pagination.resetCurrentPage();
   }
 
   islandTeamTitleProperty: keyof ITeam = 'title';

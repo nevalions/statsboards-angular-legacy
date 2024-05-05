@@ -46,6 +46,7 @@ export class AllPersonsComponent {
     person.loadAllPersons();
 
     this.search.searchPerson(null);
+    this.pagination.resetCurrentPage();
   }
 
   first_name: keyof IPerson = 'first_name';
