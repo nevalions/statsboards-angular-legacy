@@ -3,7 +3,7 @@ import { paginationActions } from './pagination.actions';
 
 export interface PaginationState {
   currentPage: number;
-  itemsPerPage: number | string;
+  itemsPerPage: number | 'All';
 }
 
 export const initialPaginationState: PaginationState = {

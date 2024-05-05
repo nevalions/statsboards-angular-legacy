@@ -56,6 +56,15 @@ import {
 } from './components/person/store/reducers';
 import { PersonEffects } from './components/person/store/effects';
 import { ItemPersonComponent } from './components/person/item-person/item-person.component';
+import {
+  searchFeatureKey,
+  searchReducer,
+} from './store/search/search.reducers';
+import {
+  paginationFeatureKey,
+  paginationReducer,
+} from './store/pagination/pagination.reducers';
+import { SearchEffects } from './store/search/search.effects';
 
 export const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'index' },
@@ -167,7 +176,9 @@ export const routes: Routes = [
         component: AllPersonsComponent,
         providers: [
           provideState(personFeatureKey, personReducer),
-          provideEffects(PersonEffects),
+          provideState(searchFeatureKey, searchReducer),
+          provideState(paginationFeatureKey, paginationReducer),
+          provideEffects(PersonEffects, SearchEffects),
         ],
       },
 

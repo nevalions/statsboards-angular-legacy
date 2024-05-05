@@ -2,6 +2,7 @@ import { createActionGroup, emptyProps, props } from '@ngrx/store';
 import { ITeam } from '../../type/team.type';
 import { ITournament } from '../../type/tournament.type';
 import { AnyObjectWithTitle } from '../../type/base.type';
+import { IPerson } from '../../type/person.type';
 
 export const searchActions = createActionGroup({
   source: 'search',
@@ -16,6 +17,11 @@ export const searchActions = createActionGroup({
       context: string;
       results: any[];
     }>(),
+
+    // Actions for person search
+    UpdatePersonSearchTerm: props<{ term: string | null }>(),
+    PersonSearchSuccess: props<{ persons: IPerson[] }>(),
+    PersonSearchFailure: emptyProps(),
 
     // Actions for team search
     UpdateTeamSearchTerm: props<{ term: string }>(),

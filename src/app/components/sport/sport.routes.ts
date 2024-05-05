@@ -81,7 +81,6 @@ import {
   paginationFeatureKey,
   paginationReducer,
 } from '../../store/pagination/pagination.reducers';
-import { Pagination } from '../../store/pagination/pagination';
 
 export const SPORT_ROUTES: Routes = [
   {
@@ -105,7 +104,6 @@ export const SPORT_ROUTES: Routes = [
                 TeamEffects,
                 SponsorEffects,
                 SponsorLineEffects,
-                Pagination,
                 SearchEffects,
               ),
             ],

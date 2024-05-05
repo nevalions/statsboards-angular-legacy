@@ -5,21 +5,36 @@ import { combineLatest, map, Observable, startWith } from 'rxjs';
 import { ITeam } from '../../type/team.type';
 import { searchActions } from './search.actions';
 import { selectAllTeamsInSport } from '../../components/team/store/reducers';
+import { IPerson } from '../../type/person.type';
 
 @Injectable({
   providedIn: 'root',
 })
 export class Search {
+  personSearchTerm$: Observable<string | null>;
+  personSearchResults$: Observable<IPerson[]>;
+
   teamInSportSearchTerm$: Observable<string | null>;
   teamInSportSearchResults$: Observable<ITeam[]>;
 
   constructor(private store: Store<AppState>) {
+    this.personSearchTerm$ = this.store.select(
+      (state) => state.search.personSearchTerm,
+    );
+    this.personSearchResults$ = this.store.select(
+      (state) => state.search.personSearchResults,
+    );
+
     this.teamInSportSearchTerm$ = this.store.select(
       (state) => state.search.teamInSportSearchTerm,
     );
     this.teamInSportSearchResults$ = this.store.select(
       (state) => state.search.teamInSportSearchResults,
     );
+  }
+
+  searchPerson(term: string | null) {
+    this.store.dispatch(searchActions.updatePersonSearchTerm({ term }));
   }
 
   searchTeamInSport(term: string | null) {

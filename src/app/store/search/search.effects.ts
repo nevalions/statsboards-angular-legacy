@@ -4,14 +4,11 @@ import { Store, select } from '@ngrx/store';
 import { searchActions } from './search.actions';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { combineLatest, of } from 'rxjs';
-import { ITeam } from '../../type/team.type';
-import {
-  selectAllTeams,
-  selectAllTeamsInSport,
-} from '../../components/team/store/reducers';
+import { selectAllTeamsInSport } from '../../components/team/store/reducers';
 import { selectAllTournaments } from '../../components/tournament/store/reducers';
 import { ITournament } from '../../type/tournament.type';
 import { AnyObjectWithTitle } from '../../type/base.type';
+import { selectAllPersons } from '../../components/person/store/reducers';
 
 @Injectable()
 export class SearchEffects {
@@ -27,25 +24,34 @@ export class SearchEffects {
     ),
   );
 
-  searchTeams$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(searchActions.updateTeamSearchTerm),
-      switchMap(({ term }) =>
-        // Pretend we're calling a selector to get all teams
-        this.store.pipe(select(selectAllTeams)).pipe(
-          map((teams: ITeam[]) =>
-            searchActions.teamSearchSuccess({
-              teams: teams.filter((team) =>
-                team.title.toLowerCase().startsWith(term.toLowerCase()),
-              ),
+  // PERSONS
+  searchPersonEffect$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(searchActions.updatePersonSearchTerm),
+        switchMap((action) =>
+          combineLatest([
+            of(action.term),
+            this.store.pipe(select(selectAllPersons)),
+          ]).pipe(
+            map(([searchTerm, persons]) => {
+              const results = searchTerm
+                ? persons.filter((person) =>
+                    person.second_name
+                      .toLowerCase()
+                      .startsWith(searchTerm.toLowerCase()),
+                  )
+                : persons;
+              return searchActions.personSearchSuccess({ persons: results });
             }),
+            catchError(() => of(searchActions.personSearchFailure())),
           ),
-          catchError(() => of(searchActions.teamSearchFailure())),
         ),
       ),
-    ),
+    { functional: true },
   );
 
+  // TEAMS
   searchTeamsInSport$ = createEffect(
     () =>
       this.actions$.pipe(

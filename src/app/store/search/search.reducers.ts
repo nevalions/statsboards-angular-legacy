@@ -2,11 +2,15 @@ import { createFeature, createReducer, on } from '@ngrx/store';
 import { searchActions } from './search.actions';
 import { ITeam } from '../../type/team.type';
 import { ITournament } from '../../type/tournament.type';
+import { IPerson } from '../../type/person.type';
 
 export interface SearchState {
   listSearchResults: {
     [context: string]: any[];
   };
+
+  personSearchTerm: string | null;
+  personSearchResults: IPerson[];
 
   teamSearchTerm: string;
   teamSearchResults: ITeam[];
@@ -19,6 +23,9 @@ export interface SearchState {
 
 const initialState: SearchState = {
   listSearchResults: {},
+
+  personSearchTerm: null,
+  personSearchResults: [],
 
   teamSearchTerm: '',
   teamSearchResults: [],
@@ -39,6 +46,19 @@ export const searchFeature = createFeature({
         ...state.listSearchResults,
         [context]: results,
       },
+    })),
+
+    // PERSON
+    on(searchActions.updatePersonSearchTerm, (state, { term }) => ({
+      ...state,
+      personSearchTerm: term,
+    })),
+    on(searchActions.personSearchSuccess, (state, { persons }) => ({
+      ...state,
+      personSearchResults: persons,
+    })),
+    on(searchActions.teamSearchFailure, (state) => ({
+      ...state,
     })),
 
     // TEAMS
@@ -85,6 +105,9 @@ export const {
   name: searchFeatureKey,
   reducer: searchReducer,
   selectListSearchResults,
+
+  selectPersonSearchTerm,
+  selectPersonSearchResults,
 
   selectTeamSearchTerm,
   selectTeamSearchResults,

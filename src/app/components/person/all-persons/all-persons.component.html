@@ -18,7 +18,24 @@
             [dialogId]="'addDialog'"
           ></app-add-edit-person>
         </div>
-        @if (allPersons$ | async; as persons) {
+
+        <app-base-search-form
+          [placeholder]="'Person Second Name'"
+          (search)="onSearch($event)"
+        ></app-base-search-form>
+
+        @if (totalPersonSearchPages$ | async; as totalPages) {
+          @if (currentPage$ | async; as currentPage) {
+            <app-base-pagination
+              [currentPage]="currentPage"
+              [totalPages]="totalPages"
+              (pageChange)="setCurrentPage($event)"
+              (pageSizeChange)="changePageSize($event)"
+            ></app-base-pagination>
+          }
+        }
+
+        @if (paginatedPersonSearchResults$ | async; as persons) {
           <app-list-of-items-island
             [data]="persons"
             [formatPath]="personItemHref"
