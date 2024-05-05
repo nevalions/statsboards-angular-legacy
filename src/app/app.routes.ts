@@ -5,9 +5,6 @@ import { SeasonComponent } from './components/season/season.component';
 import { TournamentComponent } from './components/tournament/tournament.component';
 import { provideState } from '@ngrx/store';
 import { provideEffects } from '@ngrx/effects';
-import { ItemTeamComponent } from './components/team/item-team/item-team.component';
-import { teamFeatureKey, teamReducer } from './components/team/store/reducers';
-import { TeamEffects } from './components/team/store/effects';
 import {
   matchFeatureKey,
   matchReducer,
@@ -183,22 +180,6 @@ export const routes: Routes = [
         ],
       },
 
-      // {
-      //   path: 'player/:player_id',
-      //   component: ItemPlayerComponent,
-      //   providers: [
-      //     provideState(personFeatureKey, personReducer),
-      //     provideState(playerFeatureKey, playerReducer),
-      //     provideEffects(PersonEffects, PlayerEffects),
-      //   ],
-      //   data: {
-      //     breadcrumb: {
-      //       caption: 'Player',
-      //       routerLink: 'player/:player_id',
-      //     },
-      //   },
-      // },
-
       {
         path: 'sport',
         component: SportComponent,
@@ -215,23 +196,6 @@ export const routes: Routes = [
           ),
       },
 
-      // {
-      //   path: 'team/:team_id',
-      //   component: ItemTeamComponent,
-      //   providers: [
-      //     provideState(teamFeatureKey, teamReducer),
-      //     provideState(sponsorLineFeatureKey, sponsorLineReducer),
-      //     provideState(sponsorFeatureKey, sponsorReducer),
-      //     provideEffects(TeamEffects, SponsorEffects, SponsorLineEffects),
-      //   ],
-      //   data: {
-      //     breadcrumb: {
-      //       caption: 'Team',
-      //       routerLink: 'team/:team_id',
-      //     },
-      //   },
-      // },
-
       { path: 'error404', component: PageNotFoundComponent },
       { path: '**', component: PageNotFoundComponent },
     ],
@@ -243,29 +207,3 @@ export const routes: Routes = [
     },
   },
 ];
-
-// {
-//   path: 'matches',
-//   component: MatchComponent,
-//   loadChildren: () =>
-//     import('./components/match/match.routes').then((r) => r.MATCH_ROUTES),
-// },
-
-// {
-//   path: 'sport/:sport_id',
-//   component: ItemSportComponent,
-// },
-// {
-//   path: 'sport/:sport_id/teams',
-//   component: WithTeamsComponent,
-//   providers: [
-//     provideState(teamFeatureKey, teamReducer),
-//     provideEffects(TeamEffects),
-//   ],
-//   data: {
-//     breadcrumb: {
-//       caption: 'Teams',
-//       routerLink: 'sport/:sport_id/teams',
-//     },
-//   },
-// },
