@@ -1,16 +1,3 @@
-<div
-  class="content__body__title__flex"
->
-  <h2>LIST OF TEAMS</h2>
-  @if (this.sportId) {
-    <app-add-edit-team
-      [sportId]="sportId"
-    ></app-add-edit-team>
-  } @else {
-    <tui-loader></tui-loader>
-  }
-</div>
-
 @if (teams) {
   <app-list-of-teams-with-city
     [teams]="teams"
@@ -21,16 +8,3 @@
 } @else {
   <tui-loader></tui-loader>
 }
-
-<!--<app-pagination-with-items-per-page-->
-<!--  [items$]="teams$"-->
-<!--&gt;-->
-<!--</app-pagination-with-items-per-page>-->
-
-<!--<app-form-search-text-->
-<!--  [data$]="teams$"-->
-<!--  [searchTitle]="'team name'"-->
-<!--  [parameter]="'title'"-->
-<!--&gt;</app-form-search-text>-->
-
-
