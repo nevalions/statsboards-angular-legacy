@@ -9,6 +9,7 @@ import { ListOfItemsIslandComponent } from '../../../../shared/ui/list-of-items-
 import { TuiAvatarModule, TuiIslandModule } from '@taiga-ui/kit';
 import { environment } from '../../../../../environments/environment';
 import { AddEditPlayerComponent } from '../../../player/add-edit-player/add-edit-player.component';
+import { ListOfPlayersComponent } from '../../../player/list-of-players/list-of-players.component';
 
 @Component({
   selector: 'app-with-players',
@@ -22,6 +23,7 @@ import { AddEditPlayerComponent } from '../../../player/add-edit-player/add-edit
     TitleCasePipe,
     TuiAvatarModule,
     AddEditPlayerComponent,
+    ListOfPlayersComponent,
   ],
   templateUrl: './with-players.component.html',
   styleUrl: './with-players.component.less',

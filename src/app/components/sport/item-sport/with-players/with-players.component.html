@@ -17,7 +17,7 @@
               [item]="'Player'"
               [dialogId]="'addDialog'"
             ></app-edit-button>
-            
+
             <app-add-edit-player
               [action]="'add'"
               [dialogId]="'addDialog'"
@@ -29,43 +29,48 @@
         }
       </div>
 
-      <div class="list-of-items-with-data">
-        @for (p of players; track p.player.id) {
-          <div class="item-with-data-island">
-            <a
-              [href]="playerItemHref(p.player)"
-              rel="noreferrer"
-              target="_self"
-              tuiIsland
-              textAlign="center"
-              [hoverable]="true"
-            >
-              <div class="tui-island__content">
-                <figure class="tui-island__figure">
-                  <div class="some-figure">
-                    <tui-avatar
-                      size="l"
-                      text="{{p.person?.first_name}}"
-                      class="tui-space_top-1"
-                      [rounded]="false"
-                      [avatarUrl]="backendUrl + p.person?.person_photo_icon_url || null"
-                    ></tui-avatar>
-                  </div>
-                </figure>
-                <div>
-                  <h3 class="tui-island__title">
-                    {{ p.person?.first_name | titlecase }} {{ p.person?.second_name | titlecase }}
-                  </h3>
-                  <p class="tui-island__paragraph">
-                  </p>
-                </div>
-              </div>
-            </a>
-          </div>
-        } @empty {
-          No Items Found
-        }
-      </div>
+      <app-list-of-players
+        [players]="players"
+        [playerItemHref]="playerItemHref"
+      ></app-list-of-players>
+
+      <!--      <div class="list-of-items-with-data">-->
+      <!--        @for (p of players; track p.player.id) {-->
+      <!--          <div class="item-with-data-island">-->
+      <!--            <a-->
+      <!--              [href]="playerItemHref(p.player)"-->
+      <!--              rel="noreferrer"-->
+      <!--              target="_self"-->
+      <!--              tuiIsland-->
+      <!--              textAlign="center"-->
+      <!--              [hoverable]="true"-->
+      <!--            >-->
+      <!--              <div class="tui-island__content">-->
+      <!--                <figure class="tui-island__figure">-->
+      <!--                  <div class="some-figure">-->
+      <!--                    <tui-avatar-->
+      <!--                      size="l"-->
+      <!--                      text="{{p.person?.first_name}}"-->
+      <!--                      class="tui-space_top-1"-->
+      <!--                      [rounded]="false"-->
+      <!--                      [avatarUrl]="backendUrl + p.person?.person_photo_icon_url || null"-->
+      <!--                    ></tui-avatar>-->
+      <!--                  </div>-->
+      <!--                </figure>-->
+      <!--                <div>-->
+      <!--                  <h3 class="tui-island__title">-->
+      <!--                    {{ p.person?.first_name | titlecase }} {{ p.person?.second_name | titlecase }}-->
+      <!--                  </h3>-->
+      <!--                  <p class="tui-island__paragraph">-->
+      <!--                  </p>-->
+      <!--                </div>-->
+      <!--              </div>-->
+      <!--            </a>-->
+      <!--          </div>-->
+      <!--        } @empty {-->
+      <!--          No Items Found-->
+      <!--        }-->
+      <!--      </div>-->
 
     </div>
   </div>
