@@ -139,7 +139,14 @@ export const SPORT_ROUTES: Routes = [
               provideState(personFeatureKey, personReducer),
               provideState(playerFeatureKey, playerReducer),
               provideState(teamFeatureKey, teamReducer),
-              provideEffects(TeamEffects, PersonEffects, PlayerEffects),
+              provideState(searchFeatureKey, searchReducer),
+              provideState(paginationFeatureKey, paginationReducer),
+              provideEffects(
+                TeamEffects,
+                PersonEffects,
+                PlayerEffects,
+                SearchEffects,
+              ),
             ],
             data: {
               breadcrumb: {

@@ -6,6 +6,7 @@ import { ITeam } from '../../type/team.type';
 import { searchActions } from './search.actions';
 import { selectAllTeamsInSport } from '../../components/team/store/reducers';
 import { IPerson } from '../../type/person.type';
+import { IPlayer, IPlayerInSport } from '../../type/player.type';
 
 @Injectable({
   providedIn: 'root',
@@ -13,6 +14,9 @@ import { IPerson } from '../../type/person.type';
 export class Search {
   personSearchTerm$: Observable<string | null>;
   personSearchResults$: Observable<IPerson[]>;
+
+  playerSearchTerm$: Observable<string | null>;
+  playerInSportSearchResults$: Observable<IPlayerInSport[]>;
 
   teamInSportSearchTerm$: Observable<string | null>;
   teamInSportSearchResults$: Observable<ITeam[]>;
@@ -25,6 +29,14 @@ export class Search {
       (state) => state.search.personSearchResults,
     );
 
+    this.playerSearchTerm$ = this.store.select(
+      (state) => state.search.playerInSportSearchTerm,
+    );
+
+    this.playerInSportSearchResults$ = this.store.select(
+      (state) => state.search.playerInSportSearchResults,
+    );
+
     this.teamInSportSearchTerm$ = this.store.select(
       (state) => state.search.teamInSportSearchTerm,
     );
@@ -35,6 +47,10 @@ export class Search {
 
   searchPerson(term: string | null) {
     this.store.dispatch(searchActions.updatePersonSearchTerm({ term }));
+  }
+
+  searchPlayerInSport(term: string | null) {
+    this.store.dispatch(searchActions.updatePlayerInSportSearchTerm({ term }));
   }
 
   searchTeamInSport(term: string | null) {

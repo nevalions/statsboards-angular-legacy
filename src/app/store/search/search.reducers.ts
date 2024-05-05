@@ -3,6 +3,7 @@ import { searchActions } from './search.actions';
 import { ITeam } from '../../type/team.type';
 import { ITournament } from '../../type/tournament.type';
 import { IPerson } from '../../type/person.type';
+import { IPlayerInSport } from '../../type/player.type';
 
 export interface SearchState {
   listSearchResults: {
@@ -11,6 +12,9 @@ export interface SearchState {
 
   personSearchTerm: string | null;
   personSearchResults: IPerson[];
+
+  playerInSportSearchTerm: string | null;
+  playerInSportSearchResults: IPlayerInSport[];
 
   teamSearchTerm: string;
   teamSearchResults: ITeam[];
@@ -26,6 +30,9 @@ const initialState: SearchState = {
 
   personSearchTerm: null,
   personSearchResults: [],
+
+  playerInSportSearchTerm: null,
+  playerInSportSearchResults: [],
 
   teamSearchTerm: '',
   teamSearchResults: [],
@@ -58,6 +65,19 @@ export const searchFeature = createFeature({
       personSearchResults: persons,
     })),
     on(searchActions.teamSearchFailure, (state) => ({
+      ...state,
+    })),
+
+    // PLAYER
+    on(searchActions.updatePlayerInSportSearchTerm, (state, { term }) => ({
+      ...state,
+      playerInSportSearchTerm: term,
+    })),
+    on(searchActions.playerInSportSearchSuccess, (state, { player }) => ({
+      ...state,
+      playerInSportSearchResults: player,
+    })),
+    on(searchActions.playerInSportSearchFailure, (state) => ({
       ...state,
     })),
 
@@ -108,6 +128,9 @@ export const {
 
   selectPersonSearchTerm,
   selectPersonSearchResults,
+
+  selectPlayerInSportSearchTerm,
+  selectPlayerInSportSearchResults,
 
   selectTeamSearchTerm,
   selectTeamSearchResults,

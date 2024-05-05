@@ -10,6 +10,10 @@ import { TuiAvatarModule, TuiIslandModule } from '@taiga-ui/kit';
 import { environment } from '../../../../../environments/environment';
 import { AddEditPlayerComponent } from '../../../player/add-edit-player/add-edit-player.component';
 import { ListOfPlayersComponent } from '../../../player/list-of-players/list-of-players.component';
+import { Search } from '../../../../store/search/search';
+import { Pagination } from '../../../../store/pagination/pagination';
+import { BasePaginationComponent } from '../../../../shared/ui/pagination/base-pagination/base-pagination.component';
+import { BaseSearchFormComponent } from '../../../../shared/ui/search/base-search-form/base-search-form.component';
 
 @Component({
   selector: 'app-with-players',
@@ -24,6 +28,8 @@ import { ListOfPlayersComponent } from '../../../player/list-of-players/list-of-
     TuiAvatarModule,
     AddEditPlayerComponent,
     ListOfPlayersComponent,
+    BasePaginationComponent,
+    BaseSearchFormComponent,
   ],
   templateUrl: './with-players.component.html',
   styleUrl: './with-players.component.less',
@@ -31,20 +37,43 @@ import { ListOfPlayersComponent } from '../../../player/list-of-players/list-of-
 export class WithPlayersComponent {
   sport$ = this.sport.currentSport$;
   allPersons$ = this.person.allPersons$;
-  allPlayersInSport$ = this.player.allSportPlayersWithPerson$;
+  paginatedPlayerInSportSearchResults$ =
+    this.pagination.paginatedPlayerInSportSearchResults$;
+  totalPlayerInSportSearchPages$ =
+    this.pagination.totalPlayerInSportSearchPages$;
+  currentPage$ = this.pagination.currentPage$;
+  // allPlayersInSport$ = this.player.allSportPlayersWithPerson$;
+
+  backendUrl = environment.backendUrl;
 
   constructor(
     private sport: Sport,
     private player: Player,
     private person: Person,
+    private search: Search,
+    private pagination: Pagination,
   ) {
     person.loadAllPersons();
     player.loadAllPlayersBySportId();
+
+    this.search.searchPlayerInSport(null);
+    this.pagination.resetCurrentPage();
   }
 
   playerItemHref(item: IPlayer): string {
     return `/sport/${item.sport_id}/player/${item.id}`;
   }
 
-  backendUrl = environment.backendUrl;
+  onSearch(searchTerm: string | null) {
+    this.search.searchPlayerInSport(searchTerm);
+    this.pagination.resetCurrentPage();
+  }
+
+  setCurrentPage(page: number): void {
+    this.pagination.changePage(page);
+  }
+
+  changePageSize(size: number | 'All'): void {
+    this.pagination.changeItemsPerPage(size);
+  }
 }

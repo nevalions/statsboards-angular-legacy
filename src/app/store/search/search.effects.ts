@@ -9,6 +9,10 @@ import { selectAllTournaments } from '../../components/tournament/store/reducers
 import { ITournament } from '../../type/tournament.type';
 import { AnyObjectWithTitle } from '../../type/base.type';
 import { selectAllPersons } from '../../components/person/store/reducers';
+import {
+  selectAllPlayersWithPersons,
+  selectAllSportPlayersWithPersons,
+} from '../../components/player/store/selectors';
 
 @Injectable()
 export class SearchEffects {
@@ -45,6 +49,35 @@ export class SearchEffects {
               return searchActions.personSearchSuccess({ persons: results });
             }),
             catchError(() => of(searchActions.personSearchFailure())),
+          ),
+        ),
+      ),
+    { functional: true },
+  );
+
+  // PLAYERS
+  searchPlayerEffect$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(searchActions.updatePlayerInSportSearchTerm),
+        switchMap((action) =>
+          combineLatest([
+            of(action.term),
+            this.store.pipe(select(selectAllSportPlayersWithPersons)),
+          ]).pipe(
+            map(([searchTerm, player]) => {
+              const results = searchTerm
+                ? player.filter((player) =>
+                    player
+                      .person!.second_name.toLowerCase()
+                      .startsWith(searchTerm.toLowerCase()),
+                  )
+                : player;
+              return searchActions.playerInSportSearchSuccess({
+                player: results,
+              });
+            }),
+            catchError(() => of(searchActions.playerInSportSearchFailure())),
           ),
         ),
       ),

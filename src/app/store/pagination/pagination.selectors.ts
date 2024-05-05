@@ -2,6 +2,7 @@ import { createSelector } from '@ngrx/store';
 import { selectPaginationState } from './pagination.reducers';
 import {
   selectPersonSearchResults,
+  selectPlayerInSportSearchResults,
   selectTeamInSportSearchResults,
 } from '../search/search.reducers';
 
@@ -37,6 +38,10 @@ export const selectPersonSearchItems = createSelector(
   selectPersonSearchResults,
   (results) => results.length,
 );
+export const selectPlayerInSportSearchItems = createSelector(
+  selectPlayerInSportSearchResults,
+  (results) => results.length,
+);
 export const selectTeamInSportSearchItems = createSelector(
   selectTeamInSportSearchResults,
   (results) => results.length,
@@ -49,7 +54,12 @@ export const selectTotalPersonSearchPages = createSelector(
   (totalItems, pagination) =>
     getTotalPages(totalItems, pagination.itemsPerPage),
 );
-
+export const selectTotalPlayerInSportSearchPages = createSelector(
+  selectPlayerInSportSearchItems,
+  selectPaginationState,
+  (totalItems, pagination) =>
+    getTotalPages(totalItems, pagination.itemsPerPage),
+);
 export const selectTotalTeamInSportSearchPages = createSelector(
   selectTeamInSportSearchItems,
   selectPaginationState,
@@ -68,7 +78,16 @@ export const selectPaginatedPersonSearchResults = createSelector(
       pagination.itemsPerPage,
     ),
 );
-
+export const selectPaginatedPlayerInSportSearchResults = createSelector(
+  selectPlayerInSportSearchResults,
+  selectPaginationState,
+  (playerSearchResults, pagination) =>
+    getPaginatedResults(
+      playerSearchResults,
+      pagination.currentPage,
+      pagination.itemsPerPage,
+    ),
+);
 export const selectPaginatedTeamInSportSearchResults = createSelector(
   selectTeamInSportSearchResults,
   selectPaginationState,

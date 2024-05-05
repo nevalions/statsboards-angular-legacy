@@ -4,7 +4,7 @@
   </div>
 }
 
-@if (allPlayersInSport$ | async; as players) {
+@if (paginatedPlayerInSportSearchResults$ | async; as players) {
   <div class="tournament content__body">
     <div class="one_col_container">
       <div class="tournament content__body__title__flex">
@@ -28,6 +28,22 @@
           }
         }
       </div>
+
+      <app-base-search-form
+        [placeholder]="'Player Second Name'"
+        (search)="onSearch($event)"
+      ></app-base-search-form>
+
+      @if (totalPlayerInSportSearchPages$ | async; as totalPages) {
+        @if (currentPage$ | async; as currentPage) {
+          <app-base-pagination
+            [currentPage]="currentPage"
+            [totalPages]="totalPages"
+            (pageChange)="setCurrentPage($event)"
+            (pageSizeChange)="changePageSize($event)"
+          ></app-base-pagination>
+        }
+      }
 
       <app-list-of-players
         [players]="players"

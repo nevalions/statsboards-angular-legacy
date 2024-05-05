@@ -3,6 +3,7 @@ import { ITeam } from '../../type/team.type';
 import { ITournament } from '../../type/tournament.type';
 import { AnyObjectWithTitle } from '../../type/base.type';
 import { IPerson } from '../../type/person.type';
+import { IPlayerInSport } from '../../type/player.type';
 
 export const searchActions = createActionGroup({
   source: 'search',
@@ -22,6 +23,11 @@ export const searchActions = createActionGroup({
     UpdatePersonSearchTerm: props<{ term: string | null }>(),
     PersonSearchSuccess: props<{ persons: IPerson[] }>(),
     PersonSearchFailure: emptyProps(),
+
+    // Actions for play in sport search
+    UpdatePlayerInSportSearchTerm: props<{ term: string | null }>(),
+    PlayerInSportSearchSuccess: props<{ player: IPlayerInSport[] }>(),
+    PlayerInSportSearchFailure: emptyProps(),
 
     // Actions for team search
     UpdateTeamSearchTerm: props<{ term: string }>(),
