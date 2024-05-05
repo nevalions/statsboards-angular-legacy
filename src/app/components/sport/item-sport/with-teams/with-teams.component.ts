@@ -82,7 +82,7 @@ export class WithTeamsComponent {
   islandTeamTitleProperty: keyof ITeam = 'title';
 
   teamItemHref(item: ITeam): string {
-    return `team/${item.id}`;
+    return `/sport/${item.sport_id}/team/${item.id}`;
   }
 
   onSearch(searchTerm: string | null) {

@@ -215,22 +215,22 @@ export const routes: Routes = [
           ),
       },
 
-      {
-        path: 'team/:team_id',
-        component: ItemTeamComponent,
-        providers: [
-          provideState(teamFeatureKey, teamReducer),
-          provideState(sponsorLineFeatureKey, sponsorLineReducer),
-          provideState(sponsorFeatureKey, sponsorReducer),
-          provideEffects(TeamEffects, SponsorEffects, SponsorLineEffects),
-        ],
-        data: {
-          breadcrumb: {
-            caption: 'Team',
-            routerLink: 'team/:team_id',
-          },
-        },
-      },
+      // {
+      //   path: 'team/:team_id',
+      //   component: ItemTeamComponent,
+      //   providers: [
+      //     provideState(teamFeatureKey, teamReducer),
+      //     provideState(sponsorLineFeatureKey, sponsorLineReducer),
+      //     provideState(sponsorFeatureKey, sponsorReducer),
+      //     provideEffects(TeamEffects, SponsorEffects, SponsorLineEffects),
+      //   ],
+      //   data: {
+      //     breadcrumb: {
+      //       caption: 'Team',
+      //       routerLink: 'team/:team_id',
+      //     },
+      //   },
+      // },
 
       { path: 'error404', component: PageNotFoundComponent },
       { path: '**', component: PageNotFoundComponent },

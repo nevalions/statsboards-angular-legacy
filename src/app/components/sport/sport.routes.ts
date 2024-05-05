@@ -116,6 +116,24 @@ export const SPORT_ROUTES: Routes = [
               },
             },
           },
+
+          {
+            path: 'team/:team_id',
+            component: ItemTeamComponent,
+            providers: [
+              provideState(teamFeatureKey, teamReducer),
+              provideState(sponsorLineFeatureKey, sponsorLineReducer),
+              provideState(sponsorFeatureKey, sponsorReducer),
+              provideEffects(TeamEffects, SponsorEffects, SponsorLineEffects),
+            ],
+            data: {
+              breadcrumb: {
+                caption: 'Team',
+                routerLink: 'team/:team_id',
+              },
+            },
+          },
+
           {
             path: 'players',
             component: WithPlayersComponent,
@@ -128,7 +146,7 @@ export const SPORT_ROUTES: Routes = [
             data: {
               breadcrumb: {
                 caption: 'Players',
-                routerLink: 'sport/:sport_id',
+                routerLink: 'sport/:sport_id/players',
               },
             },
           },
@@ -297,42 +315,3 @@ export const SPORT_ROUTES: Routes = [
     ],
   },
 ];
-
-//   {
-//     path: ':sport_id',
-//     component: ItemSportComponent,
-//   },
-//   {
-//     path: ':sport_id/teams',
-//     component: WithTeamsComponent,
-//     providers: [
-//       provideState(teamFeatureKey, teamReducer),
-//       provideEffects(TeamEffects),
-//     ],
-//   },
-//   {
-//     path: ':sport_id/season/:season_id/tournaments',
-//     component: ItemSportWithSeasonComponent,
-//     providers: [
-//       provideState(tournamentFeatureKey, tournamentReducer),
-//       provideState(seasonFeatureKey, seasonReducer),
-//       provideEffects(SeasonEffects, TournamentEffects),
-//     ],
-//   },
-//   {
-//     path: ':sport_id/season/:season_id/tournament/:tournament_id',
-//     component: ItemTournamentComponent,
-//     providers: [
-//       provideState(seasonFeatureKey, seasonReducer),
-//       provideState(teamFeatureKey, teamReducer),
-//       provideState(tournamentFeatureKey, tournamentReducer),
-//       provideState(teamTournamentFeatureKey, teamTournamentReducer),
-//       provideEffects(
-//         SeasonEffects,
-//         TournamentEffects,
-//         TeamEffects,
-//         TeamTournamentEffects,
-//       ),
-//     ],
-//   },
-// ];
