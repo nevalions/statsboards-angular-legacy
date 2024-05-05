@@ -25,7 +25,13 @@ import { SelectFromListComponent } from '../../../shared/ui/select/select-from-l
 import { CancelButtonInFormComponent } from '../../../shared/ui/buttons/cancel-button-in-form/cancel-button-in-form.component';
 import { CreateButtonInFormComponent } from '../../../shared/ui/buttons/create-button-in-form/create-button-in-form.component';
 import { SelectFromPersonComponent } from '../../../shared/ui/select/select-from-person/select-from-person.component';
-import { stringifyNameSurname } from '../../../base/helpers';
+import {
+  stringifyNameSurname,
+  stringifySurnameName,
+} from '../../../base/helpers';
+import { SearchInputAutocompleteComponent } from '../../../shared/ui/search/search-input-autocomplete/search-input-autocomplete.component';
+import { Search } from '../../../store/search/search';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
   selector: 'app-add-edit-player',
@@ -37,6 +43,8 @@ import { stringifyNameSurname } from '../../../base/helpers';
     CancelButtonInFormComponent,
     CreateButtonInFormComponent,
     SelectFromPersonComponent,
+    SearchInputAutocompleteComponent,
+    AsyncPipe,
   ],
   templateUrl: './add-edit-player.component.html',
   styleUrl: './add-edit-player.component.less',
@@ -54,12 +62,17 @@ export class AddEditPlayerComponent implements OnInit, OnChanges, OnDestroy {
   @Output() addEvent = new EventEmitter<any>();
   @Output() editEvent = new EventEmitter<any>();
 
+  personSearchResults$ = this.search.personSearchResults$;
+
   backendUrl = environment.backendUrl;
 
   constructor(
     private player: Player,
     private dialogService: DialogService,
-  ) {}
+    private search: Search,
+  ) {
+    this.search.searchPerson(null);
+  }
 
   get availablePersons(): IPerson[] | null {
     if (this.allSportPlayersWithPerson && this.allPersons) {
@@ -149,5 +162,10 @@ export class AddEditPlayerComponent implements OnInit, OnChanges, OnDestroy {
     }
   }
 
+  onSearch(searchTerm: string | null) {
+    this.search.searchPerson(searchTerm);
+  }
+
   protected readonly stringifyNameSurname = stringifyNameSurname;
+  protected readonly stringifySurnameName = stringifySurnameName;
 }

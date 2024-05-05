@@ -42,7 +42,7 @@ export class WithPlayersComponent {
   totalPlayerInSportSearchPages$ =
     this.pagination.totalPlayerInSportSearchPages$;
   currentPage$ = this.pagination.currentPage$;
-  // allPlayersInSport$ = this.player.allSportPlayersWithPerson$;
+  allPlayersInSport$ = this.player.allSportPlayersWithPerson$;
 
   backendUrl = environment.backendUrl;
 

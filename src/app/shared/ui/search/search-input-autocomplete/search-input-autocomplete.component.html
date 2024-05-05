@@ -1,0 +1,120 @@
+<div class="tui-form__row">
+  <form [formGroup]="searchForm">
+    <tui-input
+      *tuiLet="persons"
+      class="b-form"
+      formControlName="searchValue"
+      [tuiTextfieldCustomContent]="stringifyNameSurname"
+    >
+      {{ 'search person' | uppercase }}
+      <ng-container *ngIf="persons?.length">
+        <tui-data-list *tuiDataList>
+          <button
+            *ngFor="let person of persons"
+            tuiOption
+            [value]="(person.first_name.toString() + ' ' + person.second_name.toString() | titlecase)"
+            (click)="onSelected(person)"
+          >
+            <span class="name">
+              {{ person.first_name | titlecase }}
+              {{ person.second_name | titlecase }}
+            </span>
+            <tui-avatar
+              size="xs"
+              class="avatar"
+              [avatarUrl]="backendUrl + person.person_photo_icon_url || null"
+              [text]="person.second_name.toString()"
+            ></tui-avatar>
+
+          </button>
+        </tui-data-list>
+      </ng-container>
+    </tui-input>
+
+
+    <div class="tui-form__row">
+      <tui-select
+        *tuiLet="persons as person"
+        [formControl]="formField"
+        style="padding-top: 10px;"
+      >
+        SELECT {{ 'Person' | uppercase }}
+        <tui-data-list-wrapper
+          *tuiDataList
+          size="l"
+          [itemContent]="content"
+          [items]="person | withNullOption:false"
+        ></tui-data-list-wrapper>
+      </tui-select>
+
+
+      <ng-template
+        #content
+        let-person
+      >
+        <div class="template">
+          <tui-avatar
+            *ngIf="person.person_photo_icon_url"
+            size="xs"
+            class="avatar"
+            [avatarUrl]="backendUrl + person.person_photo_icon_url || null"
+          ></tui-avatar>
+          <div class="name">{{ person.first_name | titlecase }}
+            {{ person.second_name | titlecase }}
+          </div>
+        </div>
+      </ng-template>
+    </div>
+
+
+    <!--    <tui-input-->
+    <!--      *tuiLet="persons"-->
+    <!--      formControlName="searchValue"-->
+    <!--      [tuiTextfieldCustomContent]="stringifyNameSurname"-->
+    <!--      [tuiTextfieldIcon]="'tuiIconSearchLarge'"-->
+    <!--      [tuiTextfieldCleaner]="true"-->
+    <!--    >-->
+    <!--      Person-->
+    <!--      <input-->
+    <!--        placeholder="Person Second Name"-->
+    <!--        tuiTextfield-->
+    <!--      />-->
+    <!--      <ng-container *ngIf="persons.length">-->
+    <!--        <tui-data-list-->
+    <!--          *tuiDataList>-->
+    <!--          <button-->
+    <!--            *ngFor="let person of persons"-->
+    <!--            tuiOption-->
+    <!--            [value]="person.toString()"-->
+    <!--            (click)="onSelected(person)"-->
+    <!--          >-->
+    <!--            {{ person.first_name | titlecase }} {{ person.second_name | titlecase }}-->
+    <!--            <tui-avatar-->
+    <!--              size="xs"-->
+    <!--              [avatarUrl]="backendUrl + person.person_photo_icon_url || null"-->
+    <!--              [text]="person.first_name.toString() + ' ' + person.second_name.toString()"-->
+    <!--            ></tui-avatar>-->
+    <!--          </button>-->
+    <!--        </tui-data-list>-->
+    <!--      </ng-container>-->
+    <!--    </tui-input>-->
+    <!--    <ng-template #avatar>-->
+    <!--      <tui-avatar-->
+    <!--        *ngIf="selectedPerson"-->
+    <!--        size="s"-->
+    <!--        [avatarUrl]="selectedPerson.person_photo_icon_url || null"-->
+    <!--        [rounded]="true"-->
+    <!--        [text]="selectedPerson.first_name.toString() + ' ' + selectedPerson.second_name.toString()"-->
+    <!--      ></tui-avatar>-->
+    <!--    </ng-template>-->
+    <!--    <tui-input-->
+    <!--      formControlName="searchValue"-->
+    <!--      style="min-width: max-content"-->
+    <!--      [tuiTextfieldCleaner]="true"-->
+    <!--      [tuiTextfieldIcon]="'tuiIconSearchLarge'"-->
+    <!--    >-->
+    <!--      SEARCH BY {{ placeholder | uppercase }}-->
+    <!--    </tui-input>-->
+  </form>
+</div>
+

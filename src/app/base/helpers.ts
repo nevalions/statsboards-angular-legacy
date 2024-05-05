@@ -21,6 +21,10 @@ export function stringifyNameSurname(item: IPerson): string {
   return `${toTitleCase(item.first_name) ?? ''} ${toTitleCase(item.second_name) ?? ''}`.trim();
 }
 
+export function stringifySurnameName(item: IPerson): string {
+  return `${toTitleCase(item.second_name) ?? ''} ${toTitleCase(item.first_name) ?? ''}`.trim();
+}
+
 export function stringifyTitle(item: AnyObjectWithTitle): string {
   return `${toTitleCase(item.title) ?? ''}`.trim();
 }

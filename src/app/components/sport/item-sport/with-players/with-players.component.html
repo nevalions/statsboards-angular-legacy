@@ -18,13 +18,17 @@
               [dialogId]="'addDialog'"
             ></app-edit-button>
 
-            <app-add-edit-player
-              [action]="'add'"
-              [dialogId]="'addDialog'"
-              [allPersons]="persons"
-              [allSportPlayersWithPerson]="players"
-              [sportId]="sport.id!"
-            ></app-add-edit-player>
+            @if (allPersons$ | async; as persons) {
+              @if (allPlayersInSport$ | async; as playersInSports) {
+                <app-add-edit-player
+                  [action]="'add'"
+                  [dialogId]="'addDialog'"
+                  [allPersons]="persons"
+                  [allSportPlayersWithPerson]="playersInSports"
+                  [sportId]="sport.id!"
+                ></app-add-edit-player>
+              }
+            }
           }
         }
       </div>

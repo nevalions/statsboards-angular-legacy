@@ -7,6 +7,17 @@
     [formGroup]="playerForm"
     (ngSubmit)="onSubmit(); observer.complete()"
   >
+
+    <!--    @if (personSearchResults$ | async; as persons) {-->
+    <!--      <app-search-input-autocomplete-->
+    <!--        [placeholder]="'person'"-->
+    <!--        [persons]="persons"-->
+    <!--        [formField]="playerForm.controls['person']"-->
+    <!--        (search)="onSearch($event)"-->
+    <!--      ></app-search-input-autocomplete>-->
+    <!--    } @else {-->
+    <!--      NO AVAILABLE PERSONS-->
+    <!--    }-->
     @if (availablePersons) {
       <app-select-from-person
         [itemsList]="availablePersons"
@@ -14,7 +25,7 @@
         [formField]="playerForm.controls['person']"
         [nullable]="false"
         [avatarProperty]="null"
-        [stringifyFn]="stringifyNameSurname"
+        [stringifyFn]="stringifySurnameName"
       ></app-select-from-person>
     } @else {
       NO AVAILABLE PERSONS
