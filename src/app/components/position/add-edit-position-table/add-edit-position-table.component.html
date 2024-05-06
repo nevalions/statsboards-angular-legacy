@@ -30,22 +30,27 @@
             <td
               tuiTd
               (dblclick)="makeEditable(i)"
-
+              (keyup.escape)="disableAll(i)"
+              (focusout)="disableAll(i)"
             >
               <tui-input
+                [tuiTextfieldCleaner]="true"
                 [formControlName]="getControlNameByIndex(i)"
                 tuiAutoFocus
               >
                 <input
                   #positionInput
+                  [tuiAutoFocus]="isEnabled"
                   [attr.data-index]="i"
                   placeholder="POS"
                   tuiTextfield
                   (keyup.enter)="onSubmit($event, p.id!)"
-                  (blur)="disableInput(i)"
-                  (keyup.escape)="disableInput(i)"
                 />{{ p.title | uppercase }}
               </tui-input>
+              <tui-error
+                [formControlName]="getControlNameByIndex(i)"
+                [error]="[] | tuiFieldError | async"
+              ></tui-error>
             </td>
             <td tuiTd>
               @if (p.id) {
@@ -92,6 +97,17 @@
                   style="padding: 5px"
                   (click)="onSubmit($event, null)"
                 ></button>
+                <button
+                  appearance="accent"
+                  icon="tuiIconX"
+                  shape="rounded"
+                  size="m"
+                  title="Remove"
+                  tuiIconButton
+                  type="button"
+                  class="remove"
+                  style="padding: 5px"
+                  (click)="onCancelButtonClick()"></button>
               }
             </td>
           </tr>

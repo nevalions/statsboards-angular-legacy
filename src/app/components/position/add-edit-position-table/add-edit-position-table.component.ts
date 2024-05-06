@@ -17,15 +17,28 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { TuiButtonModule, TuiTextfieldControllerModule } from '@taiga-ui/core';
-import { TuiInputDateTimeModule, TuiInputModule } from '@taiga-ui/kit';
+import {
+  TuiButtonModule,
+  TuiErrorModule,
+  TuiTextfieldControllerModule,
+} from '@taiga-ui/core';
+import {
+  TuiFieldErrorPipeModule,
+  TuiInputDateTimeModule,
+  TuiInputModule,
+} from '@taiga-ui/kit';
 import { TuiTableModule } from '@taiga-ui/addon-table';
 import { Position } from '../postion';
-import { UpperCasePipe } from '@angular/common';
+import { AsyncPipe, UpperCasePipe } from '@angular/common';
 import { DeleteDialogComponent } from '../../../shared/ui/dialogs/delete-dialog/delete-dialog.component';
 import { DialogService } from '../../../services/dialog.service';
 import { DeleteButtonComponent } from '../../../shared/ui/buttons/delete-button/delete-button.component';
-import { TuiAutoFocusModule } from '@taiga-ui/cdk';
+import {
+  TuiAutoFocusModule,
+  tuiAutoFocusOptionsProvider,
+  TuiFocusedModule,
+  TuiFocusVisibleModule,
+} from '@taiga-ui/cdk';
 
 @Component({
   selector: 'app-add-edit-position-table',
@@ -41,6 +54,11 @@ import { TuiAutoFocusModule } from '@taiga-ui/cdk';
     DeleteDialogComponent,
     DeleteButtonComponent,
     TuiAutoFocusModule,
+    AsyncPipe,
+    TuiErrorModule,
+    TuiFieldErrorPipeModule,
+    TuiFocusedModule,
+    TuiFocusVisibleModule,
   ],
   templateUrl: './add-edit-position-table.component.html',
   styleUrl: './add-edit-position-table.component.less',
@@ -52,6 +70,7 @@ export class AddEditPositionTableComponent implements OnChanges {
   @ViewChildren('positionInput') positionInputs!: QueryList<ElementRef>;
 
   newPositionsCount = 0;
+  isEnabled: boolean = false;
   editableIndex: number | null = null;
   positionForm = new FormGroup({});
 
@@ -85,7 +104,6 @@ export class AddEditPositionTableComponent implements OnChanges {
     const newControlName = `newPosition${this.newPositionsCount}`;
     if (this.isNewPosition()) {
       this.positionForm.get(newControlName)!.enable();
-      // this.focusNewPosition();
     }
   }
 
@@ -146,51 +164,88 @@ export class AddEditPositionTableComponent implements OnChanges {
       this.positionForm.controls;
 
     // If the same control is clicked again (double-clicked), disable it
-    if (this.editableIndex === index) {
+    if (this.editableIndex === index && !this.isNewPosition()) {
       const controlName = this.getControlNameByIndex(index);
       const controlToToggle = this.positionForm.get(controlName);
 
       if (controlToToggle && controlToToggle.enabled) {
         controlToToggle.disable();
-        // Clear editableIndex as no control is editable now
         this.editableIndex = null;
       } else {
         if (controlToToggle) {
           controlToToggle.enable();
-          // Set editableIndex to the current control as it is now the editable one
+          this.isEnabled = true;
+          this.editableIndex = index;
+        }
+      }
+    } else if (this.isNewPosition()) {
+      Object.keys(allControls).forEach((controlName) => {
+        allControls[controlName].disable();
+      });
+
+      const newControlName = `newPosition${this.newPositionsCount}`;
+      if (this.isNewPosition()) {
+        this.positionForm.get(newControlName)!.enable();
+
+        const editableControlName = this.getControlNameByIndex(index);
+        const controlToEdit = this.positionForm.get(editableControlName);
+        if (controlToEdit) {
+          controlToEdit.enable();
           this.editableIndex = index;
         }
       }
     } else {
-      // If a different control is clicked, disable all and then enable the clicked one
-
-      // Disable all controls
       Object.keys(allControls).forEach((controlName) => {
         allControls[controlName].disable();
       });
 
       const editableControlName = this.getControlNameByIndex(index);
       const controlToEdit = this.positionForm.get(editableControlName);
-
-      // Enable the clicked control and set it as the new editableIndex
       if (controlToEdit) {
         controlToEdit.enable();
         this.editableIndex = index;
-        // Focus on the selected input after a short delay
-        // setTimeout(() => this.positionInputs.toArray()[index]?.nativeElement.focus(), 100);
       }
     }
   }
 
-  disableInput(index: number): void {
-    if (this.editableIndex !== index && !this.isNewPosition()) {
+  disableAll(index: number): void {
+    const allControls: { [key: string]: AbstractControl } =
+      this.positionForm.controls;
+
+    if (this.editableIndex === index && !this.isNewPosition()) {
       const controlName = this.getControlNameByIndex(index);
-      const control = this.positionForm.get(controlName);
-      if (control) {
-        control.disable();
+      const controlToToggle = this.positionForm.get(controlName);
+
+      if (controlToToggle && controlToToggle.enabled) {
+        controlToToggle.disable();
+        this.editableIndex = null;
       }
+    } else if (this.isNewPosition()) {
+      Object.keys(allControls).forEach((controlName) => {
+        allControls[controlName].disable();
+      });
+
+      const newControlName = `newPosition${this.newPositionsCount}`;
+      if (this.isNewPosition()) {
+        this.positionForm.get(newControlName)!.enable();
+      }
+    } else {
+      Object.keys(allControls).forEach((controlName) => {
+        allControls[controlName].disable();
+      });
     }
+    this.initializeForm();
   }
+
+  // disableInput(index: number): void {
+  //   if (this.editableIndex !== index && !this.isNewPosition()) {
+  //     const controlName = this.getControlNameByIndex(index);
+  //     const control = this.positionForm.get(controlName);
+  //     if (control) {
+  //       control.disable();
+  //     }
+  //   }
+  // }
 
   getControlNameByIndex(index: number): string {
     const p = this.positions[index];
@@ -202,7 +257,16 @@ export class AddEditPositionTableComponent implements OnChanges {
     this.dialogService.showDialog(dialogId);
   }
 
+  onCancelButtonClick() {
+    if (this.positions.length > 0) {
+      this.positions = this.positions.slice(0, this.positions.length - 1);
+      this.initializeForm();
+    }
+  }
+
   onDelete(id: number) {
     this.position.deletePositionWithId(id);
   }
+
+  protected readonly tuiAutoFocusOptionsProvider = tuiAutoFocusOptionsProvider;
 }
