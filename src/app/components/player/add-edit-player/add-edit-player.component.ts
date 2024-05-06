@@ -10,7 +10,6 @@ import {
 } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { IPlayer, IPlayerInSport } from '../../../type/player.type';
-import { environment } from '../../../../environments/environment';
 import { Player } from '../player';
 import { DialogService } from '../../../services/dialog.service';
 import {
@@ -21,32 +20,19 @@ import {
 } from '@angular/forms';
 import { IPerson } from '../../../type/person.type';
 import { TuiDialogModule } from '@taiga-ui/core';
-import { SelectFromListComponent } from '../../../shared/ui/select/select-from-list/select-from-list.component';
-import { CancelButtonInFormComponent } from '../../../shared/ui/buttons/cancel-button-in-form/cancel-button-in-form.component';
-import { CreateButtonInFormComponent } from '../../../shared/ui/buttons/create-button-in-form/create-button-in-form.component';
-import { SelectFromPersonComponent } from '../../../shared/ui/select/select-from-person/select-from-person.component';
-import {
-  stringifyNameSurname,
-  stringifySurnameName,
-} from '../../../base/helpers';
-import { SearchInputAutocompleteComponent } from '../../../shared/ui/search/search-input-autocomplete/search-input-autocomplete.component';
-import { Search } from '../../../store/search/search';
-import { AsyncPipe } from '@angular/common';
 import { SearchPersonInputAutocompleteComponent } from '../../../shared/ui/search/search-person-input-autocomplete/search-person-input-autocomplete.component';
+import { CreateButtonInFormComponent } from '../../../shared/ui/buttons/create-button-in-form/create-button-in-form.component';
+import { CancelButtonInFormComponent } from '../../../shared/ui/buttons/cancel-button-in-form/cancel-button-in-form.component';
 
 @Component({
   selector: 'app-add-edit-player',
   standalone: true,
   imports: [
-    ReactiveFormsModule,
     TuiDialogModule,
-    SelectFromListComponent,
-    CancelButtonInFormComponent,
-    CreateButtonInFormComponent,
-    SelectFromPersonComponent,
-    SearchInputAutocompleteComponent,
-    AsyncPipe,
+    ReactiveFormsModule,
     SearchPersonInputAutocompleteComponent,
+    CreateButtonInFormComponent,
+    CancelButtonInFormComponent,
   ],
   templateUrl: './add-edit-player.component.html',
   styleUrl: './add-edit-player.component.less',
@@ -62,10 +48,6 @@ export class AddEditPlayerComponent implements OnInit, OnChanges, OnDestroy {
 
   @Output() addEvent = new EventEmitter<any>();
   @Output() editEvent = new EventEmitter<any>();
-
-  // filteredPersons: IPerson[] | null = null;
-
-  backendUrl = environment.backendUrl;
 
   constructor(
     private player: Player,
@@ -92,7 +74,6 @@ export class AddEditPlayerComponent implements OnInit, OnChanges, OnDestroy {
       this.sportId
     ) {
       const pl = this.playerWithPersonToUpdate;
-      // console.log('ID', pl.player.id);
 
       this.playerForm.setValue({
         id: pl.player.id,
@@ -100,11 +81,6 @@ export class AddEditPlayerComponent implements OnInit, OnChanges, OnDestroy {
         playerEeslId: pl.player.player_eesl_id,
       });
     }
-
-    // if (changes['allAvailablePersons']) {
-    //   this.filteredPersons = [...this.allAvailablePersons];
-    //   this.onSearch(null);
-    // }
   }
 
   onSubmit(): void {
@@ -135,8 +111,6 @@ export class AddEditPlayerComponent implements OnInit, OnChanges, OnDestroy {
   ngOnInit(): void {
     // console.log(this.dialogId);
     // console.log(this.action);
-    // this.filteredPersons = [...this.allAvailablePersons];
-
     this.dialogSubscription = this.dialogService
       .getDialogEvent(this.dialogId)
       .subscribe(() => {
@@ -149,16 +123,4 @@ export class AddEditPlayerComponent implements OnInit, OnChanges, OnDestroy {
       this.dialogSubscription.unsubscribe();
     }
   }
-
-  // onSearch(searchTerm: string | null) {
-  //   if (searchTerm) {
-  //     this.filteredPersons = this.allAvailablePersons.filter((person) =>
-  //       person.second_name.toLowerCase().includes(searchTerm.toLowerCase()),
-  //     );
-  //   } else {
-  //     this.filteredPersons = [...this.allAvailablePersons];
-  //   }
-  // }
-
-  protected readonly stringifySurnameName = stringifySurnameName;
 }
