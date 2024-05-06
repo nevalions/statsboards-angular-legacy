@@ -1,14 +1,4 @@
-import {
-  Component,
-  ElementRef,
-  Inject,
-  Input,
-  OnChanges,
-  QueryList,
-  SimpleChanges,
-  ViewChild,
-  ViewChildren,
-} from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { IPosition } from '../../../type/position.type';
 import {
   AbstractControl,
@@ -20,7 +10,6 @@ import {
 import {
   TuiButtonModule,
   TuiErrorModule,
-  TuiTextfieldComponent,
   TuiTextfieldControllerModule,
 } from '@taiga-ui/core';
 import {
@@ -30,7 +19,7 @@ import {
 } from '@taiga-ui/kit';
 import { TuiTableModule } from '@taiga-ui/addon-table';
 import { Position } from '../postion';
-import { AsyncPipe, DOCUMENT, UpperCasePipe } from '@angular/common';
+import { AsyncPipe, UpperCasePipe } from '@angular/common';
 import { DeleteDialogComponent } from '../../../shared/ui/dialogs/delete-dialog/delete-dialog.component';
 import { DialogService } from '../../../services/dialog.service';
 import { DeleteButtonComponent } from '../../../shared/ui/buttons/delete-button/delete-button.component';
@@ -39,7 +28,6 @@ import {
   TuiClickOutsideModule,
   TuiFocusedModule,
   TuiFocusVisibleModule,
-  tuiMoveFocus,
 } from '@taiga-ui/cdk';
 
 @Component({
@@ -69,8 +57,8 @@ import {
 export class AddEditPositionTableComponent implements OnChanges {
   @Input() sportId!: number;
   @Input() positions: IPosition[] = [];
-  @ViewChildren('positionInput') positionInputs!: QueryList<ElementRef>;
-  @ViewChild('positionInput') tuiTextField!: TuiTextfieldComponent;
+
+  // @ViewChild('positionInput') tuiTextField!: TuiTextfieldComponent;
 
   newPositionsCount = 0;
   isEnabled: boolean = false;
@@ -80,7 +68,7 @@ export class AddEditPositionTableComponent implements OnChanges {
   constructor(
     private position: Position,
     private dialogService: DialogService,
-    @Inject(DOCUMENT) private document: Document,
+    // @Inject(DOCUMENT) private document: Document,
   ) {}
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -155,15 +143,15 @@ export class AddEditPositionTableComponent implements OnChanges {
     return false;
   }
 
-  focusOn(i: number): void {
-    const elId = this.tuiTextField.id;
-
-    const el = this.document.getElementById(elId);
-    console.log(el);
-    if (el) {
-      el!.focus();
-    }
-  }
+  // focusOn(i: number): void {
+  //   const elId = this.tuiTextField.id;
+  //
+  //   const el = this.document.getElementById(elId);
+  //   console.log(el);
+  //   if (el) {
+  //     el!.focus();
+  //   }
+  // }
 
   makeEditable(index: number): void {
     const allControls: { [key: string]: AbstractControl } =
@@ -270,6 +258,4 @@ export class AddEditPositionTableComponent implements OnChanges {
   onDelete(id: number) {
     this.position.deletePositionWithId(id);
   }
-
-  protected readonly tuiMoveFocus = tuiMoveFocus;
 }
