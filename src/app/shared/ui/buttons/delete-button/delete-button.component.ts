@@ -22,6 +22,7 @@ export class DeleteButtonComponent {
 
   onButtonClick(dialogId: string) {
     // console.log('clicked');
+    // console.log('dialogId', dialogId);
     this.dialogService.showDialog(dialogId);
   }
 }

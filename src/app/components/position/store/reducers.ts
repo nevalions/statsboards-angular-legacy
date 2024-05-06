@@ -47,14 +47,16 @@ const positionFeature = createFeature({
     })),
     on(positionActions.createdSuccessfully, (state, action) => {
       const newList = [...state.allPositions, action.currentPosition];
+      const sortedList = SortService.sort(newList, 'title');
       const newSportList = [...state.allSportPositions, action.currentPosition];
+      const sortedSportList = SortService.sort(newSportList, 'title');
 
       return {
         ...state,
         positionIsSubmitting: false,
         currentPosition: action.currentPosition,
-        allPositions: newList,
-        allSportPositions: newSportList,
+        allPositions: sortedList,
+        allSportPositions: sortedSportList,
       };
     }),
     on(positionActions.createFailure, (state, action) => ({
@@ -74,12 +76,33 @@ const positionFeature = createFeature({
       allPositions: (state.allPositions || []).filter(
         (item) => item.id !== action.positionId,
       ),
-      allSportPositions: (state.allPositions || []).filter(
+      allSportPositions: (state.allSportPositions || []).filter(
         (item) => item.id !== action.positionId,
       ),
       errors: null,
     })),
     on(positionActions.deleteFailure, (state, action) => ({
+      ...state,
+      positionIsSubmitting: false,
+      errors: action,
+    })),
+
+    on(positionActions.deleteById, (state) => ({
+      ...state,
+      positionIsSubmitting: true,
+    })),
+    on(positionActions.deletedByIdSuccessfully, (state, action) => ({
+      ...state,
+      positionIsSubmitting: false,
+      allPositions: (state.allPositions || []).filter(
+        (item) => item.id !== action.positionId,
+      ),
+      allSportPositions: (state.allSportPositions || []).filter(
+        (item) => item.id !== action.positionId,
+      ),
+      errors: null,
+    })),
+    on(positionActions.deleteByIdFailure, (state, action) => ({
       ...state,
       positionIsSubmitting: false,
       errors: action,
@@ -100,7 +123,6 @@ const positionFeature = createFeature({
       allSportPositions: state.allSportPositions.map((item) =>
         item.id === action.updatedPosition.id ? action.updatedPosition : item,
       ),
-
       errors: null,
     })),
     on(positionActions.updateFailure, (state, action) => ({
@@ -130,10 +152,7 @@ const positionFeature = createFeature({
       positionIsLoading: true,
     })),
     on(positionActions.getAllItemsSuccess, (state, action) => {
-      const sortedTournaments = SortService.sort(
-        action.positions,
-        'second_name',
-      );
+      const sortedTournaments = SortService.sort(action.positions, 'title');
       return {
         ...state,
         positionIsLoading: false,
@@ -151,7 +170,7 @@ const positionFeature = createFeature({
       positionIsLoading: true,
     })),
     on(positionActions.getAllPositionsBySportIdSuccess, (state, action) => {
-      const sortedPositions = SortService.sort(action.positions, 'id');
+      const sortedPositions = SortService.sort(action.positions, 'title');
       return {
         ...state,
         positionIsLoading: false,

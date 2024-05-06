@@ -2,10 +2,6 @@ import { createFeature, createReducer, on } from '@ngrx/store';
 import { SortService } from '../../../services/sort.service';
 import { teamActions } from './actions';
 import { ITeam } from '../../../type/team.type';
-import {
-  crudStoreInterface,
-  getDefaultCrudStore,
-} from '../../../type/store.intarface';
 
 export interface TeamState {
   isTeamSubmitting: boolean;
@@ -54,12 +50,12 @@ const teamFeature = createFeature({
     })),
     on(teamActions.createdSuccessfully, (state, action) => {
       const newList = [...state.allTeams, action.currentTeam];
-      const sortedTournaments = SortService.sort(newList, 'title');
+      const sortedTeams = SortService.sort(newList, 'title');
       return {
         ...state,
         isTeamSubmitting: false,
         currentTeam: action.currentTeam,
-        allTeams: sortedTournaments, // sorted list
+        allTeams: sortedTeams, // sorted list
       };
     }),
     on(teamActions.createFailure, (state, action) => ({
@@ -76,7 +72,13 @@ const teamFeature = createFeature({
     on(teamActions.deletedSuccessfully, (state, action) => ({
       ...state,
       isTeamSubmitting: false,
-      itemsList: (state.allTeams || []).filter(
+      allTeams: (state.allTeams || []).filter(
+        (item) => item.id !== action.teamId,
+      ),
+      allTeamsInSport: (state.allTeamsInSport || []).filter(
+        (item) => item.id !== action.teamId,
+      ),
+      allTeamsInTournament: (state.allTeamsInTournament || []).filter(
         (item) => item.id !== action.teamId,
       ),
       errors: null,

@@ -48,4 +48,8 @@ export class Position {
   deletePosition() {
     this.store.dispatch(positionActions.delete());
   }
+
+  deletePositionWithId(positionId: number) {
+    this.store.dispatch(positionActions.deleteById({ id: positionId }));
+  }
 }

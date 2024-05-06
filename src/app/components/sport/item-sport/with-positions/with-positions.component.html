@@ -2,30 +2,33 @@
   <div class="sport content__title">
     <h3 class="tui-text_h3">{{ sport.title | uppercase }}</h3>
   </div>
-}
 
-@if (allSportPositions$ | async; as positions) {
-  <div class="position content__body">
-    <div class="one_col_container">
-      <div class="position content__body__title__flex">
-        <h2>LIST OF POSITIONS</h2>
-        @if (sport$ | async; as sport) {
-          <app-edit-button
-            [action]="'add'"
-            [item]="'Position'"
-            [dialogId]="'addDialog'"
-          ></app-edit-button>
-          <app-add-edit-position
-            [action]="'add'"
-            [dialogId]="'addDialog'"
-            [sport_Id]="sport.id!"
-          ></app-add-edit-position>
-        }
+
+  @if (allSportPositions$ | async; as positions) {
+    <div class="position content__body">
+      <div class="one_col_container">
+        <div class="position content__body__title__flex">
+          <h2>LIST OF POSITIONS</h2>
+          @if (sport$ | async; as sport) {
+            <app-edit-button
+              [action]="'add'"
+              [item]="'Position'"
+              [dialogId]="'addDialog'"
+            ></app-edit-button>
+            <app-add-edit-position
+              [action]="'add'"
+              [dialogId]="'addDialog'"
+              [sport_Id]="sport.id!"
+            ></app-add-edit-position>
+          }
+        </div>
+
+        <app-add-edit-position-table
+          [sportId]="sport.id!"
+          [positions]="positions"
+        ></app-add-edit-position-table>
+
       </div>
-      @for (p of positions; track p.id) {
-        <p>{{ p.title }}</p>
-      }
-
     </div>
-  </div>
+  }
 }

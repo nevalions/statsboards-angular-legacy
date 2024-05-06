@@ -1,0 +1,109 @@
+@if (positions) {
+  <form
+    tuiTextfieldSize="m"
+    [formGroup]="positionForm"
+    [tuiTextfieldLabelOutside]="true"
+  >
+    <table
+      tuiTable
+      class="table"
+    >
+      <thead>
+      <tr>
+        <th tuiTh>
+          Title
+        </th>
+        <th tuiTh>Actions</th>
+      </tr>
+      </thead>
+      <tbody>
+        @for (p of positions; let i = $index; track p.id) {
+          <tr>
+            <td tuiTd>
+              <tui-input
+                [formControlName]="p.id ? 'position' + p.id : 'newPosition' + (this.newPositionsCount)"
+              >
+
+                <input
+                  #positionInput
+                  [attr.data-index]="i"
+                  placeholder="POS"
+                  tuiTextfield
+                  (keyup.enter)="onSubmit($event, p.id!)"
+                />{{ p.title | uppercase }}
+              </tui-input>
+            </td>
+            <td tuiTd>
+              @if (p.id) {
+                <app-delete-dialog
+                  [item]="p.title + ' ' + 'Position'"
+                  (delete)="onDelete(p.id)"
+                  [dialogId]="'deleteDialog'+p.id"
+                ></app-delete-dialog>
+                <button
+                  appearance="create"
+                  icon="tuiIconSave"
+                  shape="rounded"
+                  size="m"
+                  title="Save"
+                  tuiIconButton
+                  type="button"
+                  class="update"
+                  style="padding: 5px"
+                  (click)="onSubmit($event, p.id!)"
+                ></button>
+
+                <button
+                  appearance="accent"
+                  icon="tuiIconTrash"
+                  shape="rounded"
+                  size="m"
+                  title="Remove"
+                  tuiIconButton
+                  type="button"
+                  class="remove"
+                  style="padding: 5px"
+                  (click)="onDeleteButtonClick('deleteDialog'+p.id)"
+                ></button>
+              } @else {
+                <button
+                  appearance="primary"
+                  icon="tuiIconSave"
+                  shape="rounded"
+                  size="m"
+                  title="Save New"
+                  tuiIconButton
+                  type="button"
+                  class="save-new"
+                  style="padding: 5px"
+                  (click)="onSubmit($event, null)"
+                ></button>
+              }
+            </td>
+          </tr>
+        }
+        @if (!positions.length || positions[positions.length - 1].id !== null) {
+          <tr>
+            <td class="table-cell" tuiTd [attr.colspan]="2">
+              <button
+                appearance="create"
+                icon="tuiIconPlus"
+                shape="square"
+                size="m"
+                title="Add New"
+                tuiIconButton
+                type="button"
+                class="add-new"
+                style="padding: 10px; width: 100%"
+                (click)="addNewPosition()"
+              >
+              </button>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </form>
+  <!--  <button (click)="addNewPosition()" title="Add New Position">Add New Position</button>-->
+
+}

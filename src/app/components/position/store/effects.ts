@@ -13,6 +13,7 @@ import { selectCurrentPosition } from './reducers';
 import { selectCurrentSportId } from '../../sport/store/reducers';
 import { SportService } from '../../sport/sport.service';
 import { PositionService } from '../position.service';
+import { sportActions } from '../../sport/store/actions';
 
 @Injectable()
 export class PositionEffects {
@@ -178,6 +179,27 @@ export class PositionEffects {
             ),
             catchError(() => {
               return of(positionActions.deleteFailure());
+            }),
+          );
+        }),
+      );
+    },
+    { functional: true },
+  );
+
+  deletePositionByIdEffect = createEffect(
+    () => {
+      return this.actions$.pipe(
+        ofType(positionActions.deleteById),
+        switchMap(({ id }) => {
+          return this.positionService.deleteItem(id).pipe(
+            map(() => {
+              return positionActions.deletedByIdSuccessfully({
+                positionId: id,
+              });
+            }),
+            catchError(() => {
+              return of(positionActions.deleteByIdFailure());
             }),
           );
         }),

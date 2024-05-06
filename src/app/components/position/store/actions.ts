@@ -33,5 +33,11 @@ export const positionActions = createActionGroup({
     Delete: emptyProps(),
     'Deleted successfully': props<{ positionId: number; sportId: number }>(),
     'Delete failure': emptyProps(),
+
+    DeleteById: props<{ id: number }>(),
+    'Deleted by id successfully': props<{
+      positionId: number;
+    }>(),
+    'Delete by id failure': emptyProps(),
   },
 });

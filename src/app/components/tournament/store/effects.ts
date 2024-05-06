@@ -20,7 +20,6 @@ import { routerNavigatedAction } from '@ngrx/router-store';
 import { selectTournamentSportIdSeasonId } from './selectors';
 import { getAllRouteParameters } from '../../../router/router.selector';
 import { ISponsor, ISponsorLineFullData } from '../../../type/sponsor.type';
-import { matchActions } from '../../match/store/actions';
 import { SponsorService } from '../../adv/sponsor.service';
 import { sponsorActions } from '../../adv/sponsor/store/actions';
 import { SponsorLineService } from '../../adv/sponsor-line.service';
