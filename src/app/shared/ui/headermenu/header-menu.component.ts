@@ -30,4 +30,5 @@ export class HeaderMenuComponent {
   @Input() mapItemToSportRoute: (item: IBaseIdElse) => any[] = () => [];
   @Input() mapItemToTeamsRoute: (item: IBaseIdElse) => any[] = () => [];
   @Input() mapItemToPayersRoute: (item: IBaseIdElse) => any[] = () => [];
+  @Input() mapItemToPositionRoute: (item: IBaseIdElse) => any[] = () => [];
 }

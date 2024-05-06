@@ -81,6 +81,13 @@ import {
   paginationFeatureKey,
   paginationReducer,
 } from '../../store/pagination/pagination.reducers';
+import { WithPositionsComponent } from './item-sport/with-positions/with-positions.component';
+import { ItemPositionComponent } from '../position/item-position/item-position.component';
+import {
+  positionFeatureKey,
+  positionReducer,
+} from '../position/store/reducers';
+import { PositionEffects } from '../position/store/effects';
 
 export const SPORT_ROUTES: Routes = [
   {
@@ -168,6 +175,36 @@ export const SPORT_ROUTES: Routes = [
               breadcrumb: {
                 caption: 'Player',
                 routerLink: 'player/:player_id',
+              },
+            },
+          },
+
+          {
+            path: 'positions',
+            component: WithPositionsComponent,
+            providers: [
+              provideState(positionFeatureKey, positionReducer),
+              provideEffects(PositionEffects),
+            ],
+            data: {
+              breadcrumb: {
+                caption: 'Positions',
+                routerLink: 'sport/:sport_id/positions',
+              },
+            },
+          },
+
+          {
+            path: 'position/:position_id',
+            component: ItemPositionComponent,
+            providers: [
+              provideState(positionFeatureKey, positionReducer),
+              provideEffects(PositionEffects),
+            ],
+            data: {
+              breadcrumb: {
+                caption: 'Position',
+                routerLink: 'sport/:sport_id/position/:position_id',
               },
             },
           },

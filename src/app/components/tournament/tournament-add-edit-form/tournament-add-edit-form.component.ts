@@ -151,34 +151,6 @@ export class TournamentAddEditFormComponent
     this.uploadProgressService.clearRejected(this.tournamentLogoForm);
   }
 
-  // uploadTournamentLogo(file: File): Observable<TuiFileLike | null> {
-  //   this.loadingFiles$.next(file);
-  //
-  //   if (file && file.name) {
-  //     return this.imageService
-  //       .uploadImage(file, 'tournaments/upload_logo')
-  //       .pipe(
-  //         map((response: any) => {
-  //           this.tournamentForm.controls.tournamentLogoUrl.setValue(
-  //             response.logoUrl,
-  //           );
-  //           this.uploadedFiles$.next(file);
-  //
-  //           return file;
-  //         }),
-  //         catchError((error) => {
-  //           console.error('Error while uploading logo:', error);
-  //           return of(null);
-  //         }),
-  //         finalize(() => {
-  //           this.loadingFiles$.next(null);
-  //         }),
-  //       );
-  //   }
-  //
-  //   return of(null);
-  // }
-
   uploadTournamentLogo(file: File): Observable<TuiFileLike | null> {
     this.loadingFiles$.next(file);
 
