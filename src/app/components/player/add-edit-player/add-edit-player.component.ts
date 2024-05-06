@@ -54,37 +54,21 @@ export class AddEditPlayerComponent implements OnInit, OnChanges, OnDestroy {
 
   @Input() action: string = 'add';
   @Input() dialogId: string = 'addDialog';
-  @Input() allPersons: IPerson[] | null = [];
-  @Input() allSportPlayersWithPerson: IPlayerInSport[] | null = [];
+  @Input() allAvailablePersons: IPerson[] = [];
   @Input() playerWithPersonToUpdate: IPlayerInSport = {} as IPlayerInSport;
   @Input() sportId!: number;
 
   @Output() addEvent = new EventEmitter<any>();
   @Output() editEvent = new EventEmitter<any>();
 
-  personSearchResults$ = this.search.personSearchResults$;
+  filteredPersons: IPerson[] | null = null;
 
   backendUrl = environment.backendUrl;
 
   constructor(
     private player: Player,
     private dialogService: DialogService,
-    private search: Search,
-  ) {
-    this.search.searchPerson(null);
-  }
-
-  get availablePersons(): IPerson[] | null {
-    if (this.allSportPlayersWithPerson && this.allPersons) {
-      const playersPersonIds = this.allSportPlayersWithPerson.map(
-        (player: IPlayerInSport) => player.player.person_id,
-      );
-      return this.allPersons.filter(
-        (person: IPerson) => !playersPersonIds.includes(person.id!),
-      );
-    }
-    return null;
-  }
+  ) {}
 
   playerForm = new FormGroup({
     id: new FormControl<number | null | undefined>(undefined),
@@ -97,10 +81,6 @@ export class AddEditPlayerComponent implements OnInit, OnChanges, OnDestroy {
   showDialog(open: boolean): void {
     this.open = open;
   }
-
-  // stringifyNameSurname(item: IPerson): string {
-  //   return `${toTitleCase(item.first_name) ?? ''} ${toTitleCase(item.second_name) ?? ''}`.trim();
-  // }
 
   ngOnChanges(changes: SimpleChanges) {
     if (
@@ -117,6 +97,11 @@ export class AddEditPlayerComponent implements OnInit, OnChanges, OnDestroy {
         person: pl.person!,
         playerEeslId: pl.player.player_eesl_id,
       });
+    }
+
+    if (changes['allAvailablePersons']) {
+      this.filteredPersons = [...this.allAvailablePersons];
+      this.onSearch(null);
     }
   }
 
@@ -148,6 +133,7 @@ export class AddEditPlayerComponent implements OnInit, OnChanges, OnDestroy {
   ngOnInit(): void {
     // console.log(this.dialogId);
     // console.log(this.action);
+    this.filteredPersons = [...this.allAvailablePersons];
 
     this.dialogSubscription = this.dialogService
       .getDialogEvent(this.dialogId)
@@ -163,9 +149,14 @@ export class AddEditPlayerComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   onSearch(searchTerm: string | null) {
-    this.search.searchPerson(searchTerm);
+    if (searchTerm) {
+      this.filteredPersons = this.allAvailablePersons.filter((person) =>
+        person.second_name.toLowerCase().includes(searchTerm.toLowerCase()),
+      );
+    } else {
+      this.filteredPersons = [...this.allAvailablePersons];
+    }
   }
 
-  protected readonly stringifyNameSurname = stringifyNameSurname;
   protected readonly stringifySurnameName = stringifySurnameName;
 }

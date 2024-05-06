@@ -9,26 +9,21 @@
     <div class="one_col_container">
       <div class="tournament content__body__title__flex">
         <h2>LIST OF PLAYERS</h2>
-        @if (allPersons$ | async; as persons) {
-          @if (sport$ | async; as sport) {
+        @if (sport$ | async; as sport) {
 
-            <app-edit-button
+          <app-edit-button
+            [action]="'add'"
+            [item]="'Player'"
+            [dialogId]="'addDialog'"
+          ></app-edit-button>
+
+          @if (availablePersonsForSport$ | async; as persons) {
+            <app-add-edit-player
               [action]="'add'"
-              [item]="'Player'"
               [dialogId]="'addDialog'"
-            ></app-edit-button>
-
-            @if (allPersons$ | async; as persons) {
-              @if (allPlayersInSport$ | async; as playersInSports) {
-                <app-add-edit-player
-                  [action]="'add'"
-                  [dialogId]="'addDialog'"
-                  [allPersons]="persons"
-                  [allSportPlayersWithPerson]="playersInSports"
-                  [sportId]="sport.id!"
-                ></app-add-edit-player>
-              }
-            }
+              [allAvailablePersons]="persons"
+              [sportId]="sport.id!"
+            ></app-add-edit-player>
           }
         }
       </div>

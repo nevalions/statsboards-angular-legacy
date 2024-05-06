@@ -24,14 +24,15 @@
               [dialogId]="'editPlayerDialog'"
             ></app-edit-button>
 
-            <app-add-edit-player
-              [action]="'edit'"
-              [dialogId]="'editPlayerDialog'"
-              [playerWithPersonToUpdate]="player"
-              [allSportPlayersWithPerson]="allSportPlayersWithPerson$ | async"
-              [allPersons]="allPersons$ | async"
-              [sportId]="player.player.sport_id!"
-            ></app-add-edit-player>
+            @if (availablePersonsForSport$ | async; as persons) {
+              <app-add-edit-player
+                [action]="'edit'"
+                [dialogId]="'editPlayerDialog'"
+                [playerWithPersonToUpdate]="player"
+                [allAvailablePersons]="persons"
+                [sportId]="player.player.sport_id!"
+              ></app-add-edit-player>
+            }
 
             @if (player.person) {
 

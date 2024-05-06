@@ -19,6 +19,17 @@ export const searchActions = createActionGroup({
       results: any[];
     }>(),
 
+    // Actions for list search with person second name
+    // SearchOnListOfPerson: props<{
+    //   context: string;
+    //   term: string;
+    //   list: IPerson;
+    // }>(),
+    // ListOfPersonSuccess: props<{
+    //   context: string;
+    //   results: any[];
+    // }>(),
+
     // Actions for person search
     UpdatePersonSearchTerm: props<{ term: string | null }>(),
     PersonSearchSuccess: props<{ persons: IPerson[] }>(),

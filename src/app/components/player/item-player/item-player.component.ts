@@ -28,6 +28,8 @@ import { AddEditPersonComponent } from '../../person/add-edit-person/add-edit-pe
 export class ItemPlayerComponent {
   // currentPlayer$ = this.player.currentPlayer$;
   currentPlayerWithPerson$ = this.player.currentPlayerWithPerson$;
+  availablePersonsForSport$ = this.person.availablePersonsForSport$;
+
   allPersons$ = this.person.allPersons$;
   allSportPlayersWithPerson$ = this.player.allSportPlayersWithPerson$;
 

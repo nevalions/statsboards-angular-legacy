@@ -36,13 +36,12 @@ import { BaseSearchFormComponent } from '../../../../shared/ui/search/base-searc
 })
 export class WithPlayersComponent {
   sport$ = this.sport.currentSport$;
-  allPersons$ = this.person.allPersons$;
   paginatedPlayerInSportSearchResults$ =
     this.pagination.paginatedPlayerInSportSearchResults$;
   totalPlayerInSportSearchPages$ =
     this.pagination.totalPlayerInSportSearchPages$;
   currentPage$ = this.pagination.currentPage$;
-  allPlayersInSport$ = this.player.allSportPlayersWithPerson$;
+  availablePersonsForSport$ = this.person.availablePersonsForSport$;
 
   backendUrl = environment.backendUrl;
 

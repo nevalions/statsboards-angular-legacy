@@ -3,7 +3,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store, select } from '@ngrx/store';
 import { searchActions } from './search.actions';
 import { catchError, map, switchMap } from 'rxjs/operators';
-import { combineLatest, of } from 'rxjs';
+import { combineLatest, of, withLatestFrom } from 'rxjs';
 import { selectAllTeamsInSport } from '../../components/team/store/reducers';
 import { selectAllTournaments } from '../../components/tournament/store/reducers';
 import { ITournament } from '../../type/tournament.type';
@@ -13,6 +13,7 @@ import {
   selectAllPlayersWithPersons,
   selectAllSportPlayersWithPersons,
 } from '../../components/player/store/selectors';
+import { IPerson } from '../../type/person.type';
 
 @Injectable()
 export class SearchEffects {
@@ -27,6 +28,22 @@ export class SearchEffects {
       }),
     ),
   );
+
+  // searchPersonsOnList$ = createEffect(() =>
+  //   this.actions$.pipe(
+  //     ofType(searchActions.updatePersonSearchTerm),
+  //     withLatestFrom(this.store.pipe(select(selectAllPersons))),
+  //     map(([{ term }, allPersons]) => {
+  //       const results = term
+  //         ? allPersons.filter((person: IPerson) =>
+  //             person.second_name.toLowerCase().includes(term.toLowerCase()),
+  //           )
+  //         : allPersons;
+  //       return searchActions.personSearchSuccess({ persons: results });
+  //     }),
+  //     catchError(() => of(searchActions.personSearchFailure())),
+  //   ),
+  // );
 
   // PERSONS
   searchPersonEffect$ = createEffect(
@@ -43,7 +60,7 @@ export class SearchEffects {
                 ? persons.filter((person) =>
                     person.second_name
                       .toLowerCase()
-                      .startsWith(searchTerm.toLowerCase()),
+                      .includes(searchTerm.toLowerCase()),
                   )
                 : persons;
               return searchActions.personSearchSuccess({ persons: results });

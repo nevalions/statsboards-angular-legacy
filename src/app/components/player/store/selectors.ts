@@ -38,6 +38,21 @@ export const selectAllSportPlayersWithPersons = createSelector(
   },
 );
 
+// Selector to get available persons (persons not already selected as sport players)
+export const selectAvailablePersonsForSport = createSelector(
+  selectAllPersons,
+  selectAllSportPlayersWithPersons,
+  (allPersons: IPerson[], sportPlayersWithPersons) => {
+    const playersPersonIds = sportPlayersWithPersons.map(
+      (playerWithPerson) => playerWithPerson.person?.id,
+    );
+
+    return allPersons.filter(
+      (person: IPerson) => !playersPersonIds.includes(person.id),
+    );
+  },
+);
+
 // Selector to find the current player and combine with person data
 export const selectCurrentPlayerWithPerson = createSelector(
   selectAllPersons,

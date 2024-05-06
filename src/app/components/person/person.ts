@@ -4,6 +4,7 @@ import { personActions } from './store/actions';
 import { Observable } from 'rxjs';
 import { IPerson } from '../../type/person.type';
 import { AppState } from '../../store/appstate';
+import { selectAvailablePersonsForSport } from '../player/store/selectors';
 
 @Injectable({
   providedIn: 'root',
@@ -11,10 +12,14 @@ import { AppState } from '../../store/appstate';
 export class Person {
   currentPerson$: Observable<IPerson | null | undefined>;
   allPersons$: Observable<IPerson[]>;
+  availablePersonsForSport$: Observable<IPerson[]>;
 
   constructor(private store: Store<AppState>) {
     this.currentPerson$ = store.select((state) => state.person.currentPerson);
     this.allPersons$ = store.select((state) => state.person.allPersons);
+    this.availablePersonsForSport$ = store.select(
+      selectAvailablePersonsForSport,
+    );
   }
 
   createPerson(person: IPerson) {

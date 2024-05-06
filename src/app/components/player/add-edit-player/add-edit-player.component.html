@@ -8,28 +8,27 @@
     (ngSubmit)="onSubmit(); observer.complete()"
   >
 
-    <!--    @if (personSearchResults$ | async; as persons) {-->
-    <!--      <app-search-input-autocomplete-->
-    <!--        [placeholder]="'person'"-->
-    <!--        [persons]="persons"-->
-    <!--        [formField]="playerForm.controls['person']"-->
-    <!--        (search)="onSearch($event)"-->
-    <!--      ></app-search-input-autocomplete>-->
-    <!--    } @else {-->
-    <!--      NO AVAILABLE PERSONS-->
-    <!--    }-->
-    @if (availablePersons) {
-      <app-select-from-person
-        [itemsList]="availablePersons"
-        [title]="'Person'"
+    @if (filteredPersons) {
+      <app-search-input-autocomplete
+        [placeholder]="'person by last name'"
+        [persons]="filteredPersons"
         [formField]="playerForm.controls['person']"
-        [nullable]="false"
-        [avatarProperty]="null"
-        [stringifyFn]="stringifySurnameName"
-      ></app-select-from-person>
+      ></app-search-input-autocomplete>
     } @else {
       NO AVAILABLE PERSONS
     }
+    <!--    @if (allAvailablePersons) {-->
+    <!--      <app-select-from-person-->
+    <!--        [itemsList]="allAvailablePersons"-->
+    <!--        [title]="'Person'"-->
+    <!--        [formField]="playerForm.controls['person']"-->
+    <!--        [nullable]="false"-->
+    <!--        [avatarProperty]="null"-->
+    <!--        [stringifyFn]="stringifySurnameName"-->
+    <!--      ></app-select-from-person>-->
+    <!--    } @else {-->
+    <!--      NO AVAILABLE PERSONS-->
+    <!--    }-->
 
     <div class="tui-form__row">
       <p>

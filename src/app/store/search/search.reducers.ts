@@ -9,6 +9,9 @@ export interface SearchState {
   listSearchResults: {
     [context: string]: any[];
   };
+  // listOfPersonSearchResults: {
+  //   [context: string]: IPerson[];
+  // };
 
   personSearchTerm: string | null;
   personSearchResults: IPerson[];
@@ -27,6 +30,7 @@ export interface SearchState {
 
 const initialState: SearchState = {
   listSearchResults: {},
+  // listOfPersonSearchResults: {},
 
   personSearchTerm: null,
   personSearchResults: [],
@@ -54,6 +58,13 @@ export const searchFeature = createFeature({
         [context]: results,
       },
     })),
+    // on(searchActions.listOfPersonSuccess, (state, { context, results }) => ({
+    //   ...state,
+    //   listOfPersonSearchResults: {
+    //     ...state.listSearchResults,
+    //     [context]: results,
+    //   },
+    // })),
 
     // PERSON
     on(searchActions.updatePersonSearchTerm, (state, { term }) => ({
