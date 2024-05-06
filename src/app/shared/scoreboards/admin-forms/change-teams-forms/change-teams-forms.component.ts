@@ -22,11 +22,11 @@ import {
 import { TuiErrorModule, TuiHintModule } from '@taiga-ui/core';
 import { AdminSubmitButtonComponent } from '../../../ui/buttons/admin-submit-button/admin-submit-button.component';
 import { ImageService } from '../../../../services/image.service';
-import { UploadProgressService } from '../../../../services/upload-progress.service';
 import { switchMap } from 'rxjs/operators';
 import { ScoreboardData } from '../../../../components/scoreboard-data/scoreboard-data';
 import { IScoreboard } from '../../../../type/matchdata.type';
 import { TuiValueChangesModule } from '@taiga-ui/cdk';
+import { UploadResizeImageResponse } from '../../../../type/base.type';
 
 @Component({
   selector: 'app-change-teams-forms',
@@ -97,12 +97,15 @@ export class ChangeTeamsFormsComponent implements OnChanges {
 
     if (this.data && file && file.name) {
       return this.imageService
-        .uploadImage(file, `matches/id/${this.data.match_id}/upload_team_logo`)
+        .uploadResizeImage(
+          file,
+          `matches/id/${this.data.match_id}/upload_resize_logo`,
+        )
         .pipe(
           map((response: any) => {
             // console.log(response);
             // console.log(response.logoUrl);
-            this.teamDataForm.controls[controlName].setValue(response.logoUrl);
+            this.teamDataForm.controls[controlName].setValue(response.webview);
 
             return file;
           }),
@@ -118,6 +121,37 @@ export class ChangeTeamsFormsComponent implements OnChanges {
 
     return of(null);
   }
+
+  // loadTeamLogo(
+  //   file: File,
+  //   loadingFiles$: Subject<TuiFileLike | null>,
+  //   controlName: string,
+  // ): Observable<TuiFileLike | null> {
+  //   loadingFiles$.next(file);
+  //
+  //   if (this.data && file && file.name) {
+  //     return this.imageService
+  //       .uploadImage(file, `matches/id/${this.data.match_id}/upload_team_logo`)
+  //       .pipe(
+  //         map((response: any) => {
+  //           // console.log(response);
+  //           // console.log(response.logoUrl);
+  //           this.teamDataForm.controls[controlName].setValue(response.logoUrl);
+  //
+  //           return file;
+  //         }),
+  //         catchError((error) => {
+  //           console.error('Error while uploading logo:', error);
+  //           return of(null);
+  //         }),
+  //         finalize(() => {
+  //           loadingFiles$.next(null);
+  //         }),
+  //       );
+  //   }
+  //
+  //   return of(null);
+  // }
 
   readonly loadedTeamALogo$ = this.createLoadedLogo$(
     this.teamALogoForm,
