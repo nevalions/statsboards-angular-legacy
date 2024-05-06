@@ -9,41 +9,47 @@
     [formGroup]="itemAddForm"
     (ngSubmit)="onSubmit(); observer.complete()"
   >
-    <p></p>
-    @if (itemsList$ | async) {
-      <div class="tui-form__row">
+    @if (itemsList$ | async; as items) {
+      <app-search-input-autocomplete
+        [placeholder]="'team'"
+        [formField]="itemAddForm.controls['itemToAdd']"
+        [items]="items"
+      ></app-search-input-autocomplete>
+      <!--    <p></p>-->
+        <!--    @if (itemsList$ | async) {-->
+        <!--      <div class="tui-form__row">-->
 
-        <tui-select
-          *tuiLet="itemsList$ | async as items"
-          class="b-form"
-          formControlName="itemToAdd"
-          style="padding-left: 10px; padding-right: 10px;"
-        >
-          SELECT {{ item | uppercase }}
-          <tui-data-list-wrapper
-            *tuiDataList
-            size="l"
-            [itemContent]="content"
-            [items]="items"
-          ></tui-data-list-wrapper>
+        <!--        <tui-select-->
+        <!--          *tuiLet="itemsList$ | async as items"-->
+        <!--          class="b-form"-->
+        <!--          formControlName="itemToAdd"-->
+        <!--          style="padding-left: 10px; padding-right: 10px;"-->
+        <!--        >-->
+        <!--          SELECT {{ item | uppercase }}-->
+        <!--          <tui-data-list-wrapper-->
+        <!--            *tuiDataList-->
+        <!--            size="l"-->
+        <!--            [itemContent]="content"-->
+        <!--            [items]="items"-->
+        <!--          ></tui-data-list-wrapper>-->
 
-        </tui-select>
+        <!--        </tui-select>-->
 
-        <ng-template
-          #content
-          let-data
-        >
-          <div class="template">
-            <tui-avatar
-              *ngIf="avatarProperty"
-              size="xs"
-              class="avatar"
-              [avatarUrl]="backendUrl + data[avatarProperty]"
-            ></tui-avatar>
-            <div>{{ data.title | titlecase }}</div>
-          </div>
-        </ng-template>
-      </div>
+        <!--        <ng-template-->
+        <!--          #content-->
+        <!--          let-data-->
+        <!--        >-->
+        <!--          <div class="template">-->
+        <!--            <tui-avatar-->
+        <!--              *ngIf="avatarProperty"-->
+        <!--              size="xs"-->
+        <!--              class="avatar"-->
+        <!--              [avatarUrl]="backendUrl + data[avatarProperty]"-->
+        <!--            ></tui-avatar>-->
+        <!--            <div>{{ data.title | titlecase }}</div>-->
+        <!--          </div>-->
+        <!--        </ng-template>-->
+        <!--      </div>-->
       <div class="tui-form__row">
         <p>
           <app-create-button-in-form

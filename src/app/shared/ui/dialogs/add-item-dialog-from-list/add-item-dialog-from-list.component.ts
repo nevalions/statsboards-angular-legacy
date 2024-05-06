@@ -32,6 +32,7 @@ import { IPerson } from '../../../../type/person.type';
 import { toTitleCase } from '../../../../base/helpers';
 import { AnyObjectWithTitle } from '../../../../type/base.type';
 import { environment } from '../../../../../environments/environment';
+import { SearchInputAutocompleteComponent } from '../../search/search-input-autocomplete/search-input-autocomplete.component';
 
 @Component({
   selector: 'app-add-item-dialog-from-list',
@@ -52,6 +53,7 @@ import { environment } from '../../../../../environments/environment';
     HasTitlePipe,
     NgIf,
     TuiAvatarModule,
+    SearchInputAutocompleteComponent,
   ],
   providers: [
     tuiItemsHandlersProvider({
@@ -92,16 +94,16 @@ export class AddItemDialogFromListComponent<T> implements OnInit, OnDestroy {
   }
 
   showDialog(open: boolean): void {
-    console.log(`Add Dialog ${open ? 'opened' : 'closed'}`);
+    // console.log(`Add Dialog ${open ? 'opened' : 'closed'}`);
     this.open = open;
   }
 
   onSubmit(): void {
     if (this.itemAddForm.valid) {
-      console.log('Emitting add event');
+      // console.log('Emitting add event');
       this.add.emit(this.itemAddForm.get('itemToAdd')?.value);
       this.itemAddForm.reset();
-      this.showDialog(false); // close the dialog
+      this.showDialog(false);
     } else {
       console.log('Form not valid, emitting null');
       this.add.emit(null);
