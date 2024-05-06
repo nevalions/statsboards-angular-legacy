@@ -32,6 +32,7 @@ import {
 import { SearchInputAutocompleteComponent } from '../../../shared/ui/search/search-input-autocomplete/search-input-autocomplete.component';
 import { Search } from '../../../store/search/search';
 import { AsyncPipe } from '@angular/common';
+import { SearchPersonInputAutocompleteComponent } from '../../../shared/ui/search/search-person-input-autocomplete/search-person-input-autocomplete.component';
 
 @Component({
   selector: 'app-add-edit-player',
@@ -45,6 +46,7 @@ import { AsyncPipe } from '@angular/common';
     SelectFromPersonComponent,
     SearchInputAutocompleteComponent,
     AsyncPipe,
+    SearchPersonInputAutocompleteComponent,
   ],
   templateUrl: './add-edit-player.component.html',
   styleUrl: './add-edit-player.component.less',
@@ -61,7 +63,7 @@ export class AddEditPlayerComponent implements OnInit, OnChanges, OnDestroy {
   @Output() addEvent = new EventEmitter<any>();
   @Output() editEvent = new EventEmitter<any>();
 
-  filteredPersons: IPerson[] | null = null;
+  // filteredPersons: IPerson[] | null = null;
 
   backendUrl = environment.backendUrl;
 
@@ -99,10 +101,10 @@ export class AddEditPlayerComponent implements OnInit, OnChanges, OnDestroy {
       });
     }
 
-    if (changes['allAvailablePersons']) {
-      this.filteredPersons = [...this.allAvailablePersons];
-      this.onSearch(null);
-    }
+    // if (changes['allAvailablePersons']) {
+    //   this.filteredPersons = [...this.allAvailablePersons];
+    //   this.onSearch(null);
+    // }
   }
 
   onSubmit(): void {
@@ -133,7 +135,7 @@ export class AddEditPlayerComponent implements OnInit, OnChanges, OnDestroy {
   ngOnInit(): void {
     // console.log(this.dialogId);
     // console.log(this.action);
-    this.filteredPersons = [...this.allAvailablePersons];
+    // this.filteredPersons = [...this.allAvailablePersons];
 
     this.dialogSubscription = this.dialogService
       .getDialogEvent(this.dialogId)
@@ -148,15 +150,15 @@ export class AddEditPlayerComponent implements OnInit, OnChanges, OnDestroy {
     }
   }
 
-  onSearch(searchTerm: string | null) {
-    if (searchTerm) {
-      this.filteredPersons = this.allAvailablePersons.filter((person) =>
-        person.second_name.toLowerCase().includes(searchTerm.toLowerCase()),
-      );
-    } else {
-      this.filteredPersons = [...this.allAvailablePersons];
-    }
-  }
+  // onSearch(searchTerm: string | null) {
+  //   if (searchTerm) {
+  //     this.filteredPersons = this.allAvailablePersons.filter((person) =>
+  //       person.second_name.toLowerCase().includes(searchTerm.toLowerCase()),
+  //     );
+  //   } else {
+  //     this.filteredPersons = [...this.allAvailablePersons];
+  //   }
+  // }
 
   protected readonly stringifySurnameName = stringifySurnameName;
 }

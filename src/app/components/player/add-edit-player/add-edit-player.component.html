@@ -8,12 +8,12 @@
     (ngSubmit)="onSubmit(); observer.complete()"
   >
 
-    @if (filteredPersons) {
-      <app-search-input-autocomplete
+    @if (allAvailablePersons) {
+      <app-search-person-input-autocomplete
         [placeholder]="'person by last name'"
-        [persons]="filteredPersons"
+        [persons]="allAvailablePersons"
         [formField]="playerForm.controls['person']"
-      ></app-search-input-autocomplete>
+      ></app-search-person-input-autocomplete>
     } @else {
       NO AVAILABLE PERSONS
     }

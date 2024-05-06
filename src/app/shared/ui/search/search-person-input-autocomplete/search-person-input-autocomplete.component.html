@@ -3,14 +3,13 @@
     <tui-combo-box
       formControlName="person"
     >
-      {{ 'search ' | uppercase }} {{ placeholder | uppercase }} {{ ' title' | uppercase }}
+      {{ 'search ' | uppercase }} {{ placeholder | uppercase }}
       <tui-data-list-wrapper
         *tuiDataList
         [itemContent]="stringifySurnameName | tuiStringifyContent"
-        [items]="items | tuiFilterByInput: matcherString"
+        [items]="persons | tuiFilterByInput: matcherString"
         (itemClick)="onSelected($event)"
       ></tui-data-list-wrapper>
     </tui-combo-box>
   </form>
 </div>
-
