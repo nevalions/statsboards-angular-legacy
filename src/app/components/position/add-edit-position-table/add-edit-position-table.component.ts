@@ -1,10 +1,10 @@
 import {
   Component,
   ElementRef,
+  Inject,
   Input,
   OnChanges,
   QueryList,
-  Renderer2,
   SimpleChanges,
   ViewChild,
   ViewChildren,
@@ -20,6 +20,7 @@ import {
 import {
   TuiButtonModule,
   TuiErrorModule,
+  TuiTextfieldComponent,
   TuiTextfieldControllerModule,
 } from '@taiga-ui/core';
 import {
@@ -29,15 +30,16 @@ import {
 } from '@taiga-ui/kit';
 import { TuiTableModule } from '@taiga-ui/addon-table';
 import { Position } from '../postion';
-import { AsyncPipe, UpperCasePipe } from '@angular/common';
+import { AsyncPipe, DOCUMENT, UpperCasePipe } from '@angular/common';
 import { DeleteDialogComponent } from '../../../shared/ui/dialogs/delete-dialog/delete-dialog.component';
 import { DialogService } from '../../../services/dialog.service';
 import { DeleteButtonComponent } from '../../../shared/ui/buttons/delete-button/delete-button.component';
 import {
   TuiAutoFocusModule,
-  tuiAutoFocusOptionsProvider,
+  TuiClickOutsideModule,
   TuiFocusedModule,
   TuiFocusVisibleModule,
+  tuiMoveFocus,
 } from '@taiga-ui/cdk';
 
 @Component({
@@ -59,6 +61,7 @@ import {
     TuiFieldErrorPipeModule,
     TuiFocusedModule,
     TuiFocusVisibleModule,
+    TuiClickOutsideModule,
   ],
   templateUrl: './add-edit-position-table.component.html',
   styleUrl: './add-edit-position-table.component.less',
@@ -66,8 +69,8 @@ import {
 export class AddEditPositionTableComponent implements OnChanges {
   @Input() sportId!: number;
   @Input() positions: IPosition[] = [];
-  @ViewChild('positionInput') newPositionInput!: ElementRef;
   @ViewChildren('positionInput') positionInputs!: QueryList<ElementRef>;
+  @ViewChild('positionInput') tuiTextField!: TuiTextfieldComponent;
 
   newPositionsCount = 0;
   isEnabled: boolean = false;
@@ -77,7 +80,7 @@ export class AddEditPositionTableComponent implements OnChanges {
   constructor(
     private position: Position,
     private dialogService: DialogService,
-    private renderer: Renderer2,
+    @Inject(DOCUMENT) private document: Document,
   ) {}
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -88,19 +91,14 @@ export class AddEditPositionTableComponent implements OnChanges {
 
   private initializeForm(): void {
     this.positionForm = new FormGroup({});
-
     this.positions.forEach((position, index) => {
-      // const isLastPosition = index === this.positions.length - 1;
       const controlName = this.getControlNameByIndex(index);
-
       const control = new FormControl(
         { value: position.title, disabled: true }, // Only enable the last position (assumed to be "new position")
         [Validators.required, Validators.minLength(1)],
       );
-
       this.positionForm.addControl(controlName, control);
     });
-
     const newControlName = `newPosition${this.newPositionsCount}`;
     if (this.isNewPosition()) {
       this.positionForm.get(newControlName)!.enable();
@@ -109,9 +107,7 @@ export class AddEditPositionTableComponent implements OnChanges {
 
   addNewPosition(): void {
     const lastPosition = this.positions[this.positions.length - 1];
-
     if (lastPosition && lastPosition.id === null && lastPosition.title === '') {
-      // console.log('An empty new position row is already present.');
       return;
     }
     this.newPositionsCount++;
@@ -123,7 +119,7 @@ export class AddEditPositionTableComponent implements OnChanges {
 
     this.positions = [...this.positions, newPosition as IPosition];
     this.initializeForm();
-    console.log(this.isNewPosition());
+    // console.log(this.isNewPosition());
   }
 
   onSubmit(event: Event, positionId: number | null): void {
@@ -159,6 +155,16 @@ export class AddEditPositionTableComponent implements OnChanges {
     return false;
   }
 
+  focusOn(i: number): void {
+    const elId = this.tuiTextField.id;
+
+    const el = this.document.getElementById(elId);
+    console.log(el);
+    if (el) {
+      el!.focus();
+    }
+  }
+
   makeEditable(index: number): void {
     const allControls: { [key: string]: AbstractControl } =
       this.positionForm.controls;
@@ -176,6 +182,7 @@ export class AddEditPositionTableComponent implements OnChanges {
           controlToToggle.enable();
           this.isEnabled = true;
           this.editableIndex = index;
+          // this.focusOn(index);
         }
       }
     } else if (this.isNewPosition()) {
@@ -192,6 +199,7 @@ export class AddEditPositionTableComponent implements OnChanges {
         if (controlToEdit) {
           controlToEdit.enable();
           this.editableIndex = index;
+          // this.focusOn(index);
         }
       }
     } else {
@@ -204,6 +212,7 @@ export class AddEditPositionTableComponent implements OnChanges {
       if (controlToEdit) {
         controlToEdit.enable();
         this.editableIndex = index;
+        // this.focusOn(index);
       }
     }
   }
@@ -234,18 +243,9 @@ export class AddEditPositionTableComponent implements OnChanges {
         allControls[controlName].disable();
       });
     }
+    this.onCancelButtonClick();
     this.initializeForm();
   }
-
-  // disableInput(index: number): void {
-  //   if (this.editableIndex !== index && !this.isNewPosition()) {
-  //     const controlName = this.getControlNameByIndex(index);
-  //     const control = this.positionForm.get(controlName);
-  //     if (control) {
-  //       control.disable();
-  //     }
-  //   }
-  // }
 
   getControlNameByIndex(index: number): string {
     const p = this.positions[index];
@@ -259,8 +259,11 @@ export class AddEditPositionTableComponent implements OnChanges {
 
   onCancelButtonClick() {
     if (this.positions.length > 0) {
-      this.positions = this.positions.slice(0, this.positions.length - 1);
-      this.initializeForm();
+      const lastPosition = this.positions[this.positions.length - 1];
+      if (!lastPosition.id) {
+        this.positions = this.positions.slice(0, this.positions.length - 1);
+        this.initializeForm();
+      }
     }
   }
 
@@ -268,5 +271,5 @@ export class AddEditPositionTableComponent implements OnChanges {
     this.position.deletePositionWithId(id);
   }
 
-  protected readonly tuiAutoFocusOptionsProvider = tuiAutoFocusOptionsProvider;
+  protected readonly tuiMoveFocus = tuiMoveFocus;
 }

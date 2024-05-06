@@ -31,19 +31,19 @@
               tuiTd
               (dblclick)="makeEditable(i)"
               (keyup.escape)="disableAll(i)"
-              (focusout)="disableAll(i)"
             >
               <tui-input
+
                 [tuiTextfieldCleaner]="true"
                 [formControlName]="getControlNameByIndex(i)"
                 tuiAutoFocus
               >
                 <input
                   #positionInput
-                  [tuiAutoFocus]="isEnabled"
                   [attr.data-index]="i"
                   placeholder="POS"
                   tuiTextfield
+
                   (keyup.enter)="onSubmit($event, p.id!)"
                 />{{ p.title | uppercase }}
               </tui-input>
@@ -59,6 +59,19 @@
                   (delete)="onDelete(p.id)"
                   [dialogId]="'deleteDialog'+p.id"
                 ></app-delete-dialog>
+                <button
+                  appearance="primary"
+                  icon="tuiIconEdit2"
+                  shape="rounded"
+                  size="m"
+                  title="Save"
+                  tuiIconButton
+                  type="button"
+                  class="update"
+                  style="padding: 5px"
+                  (click)="makeEditable(i)"
+                ></button>
+
                 <button
                   appearance="create"
                   icon="tuiIconSave"
