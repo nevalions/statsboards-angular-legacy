@@ -117,11 +117,17 @@ const positionFeature = createFeature({
       ...state,
       positionIsSubmitting: false,
       currentPosition: action.updatedPosition,
-      allPositions: state.allPositions.map((item) =>
-        item.id === action.updatedPosition.id ? action.updatedPosition : item,
+      allPositions: SortService.sort(
+        state.allPositions.map((item) =>
+          item.id === action.updatedPosition.id ? action.updatedPosition : item,
+        ),
+        'title',
       ),
-      allSportPositions: state.allSportPositions.map((item) =>
-        item.id === action.updatedPosition.id ? action.updatedPosition : item,
+      allSportPositions: SortService.sort(
+        state.allSportPositions.map((item) =>
+          item.id === action.updatedPosition.id ? action.updatedPosition : item,
+        ),
+        'title',
       ),
       errors: null,
     })),

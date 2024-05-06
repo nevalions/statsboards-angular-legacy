@@ -6,30 +6,44 @@
   >
     <table
       tuiTable
-      class="table"
+      class="table-positions"
+      style="width: 100%"
+
     >
       <thead>
       <tr>
-        <th tuiTh>
-          Title
+        <th
+          tuiTh
+          style="width: 60%"
+        >Position Title
         </th>
-        <th tuiTh>Actions</th>
+        <th
+          tuiTh
+          style="width: 40%"
+        >Actions
+        </th>
       </tr>
       </thead>
       <tbody>
         @for (p of positions; let i = $index; track p.id) {
           <tr>
-            <td tuiTd>
-              <tui-input
-                [formControlName]="p.id ? 'position' + p.id : 'newPosition' + (this.newPositionsCount)"
-              >
+            <td
+              tuiTd
+              (dblclick)="makeEditable(i)"
 
+            >
+              <tui-input
+                [formControlName]="getControlNameByIndex(i)"
+                tuiAutoFocus
+              >
                 <input
                   #positionInput
                   [attr.data-index]="i"
                   placeholder="POS"
                   tuiTextfield
                   (keyup.enter)="onSubmit($event, p.id!)"
+                  (blur)="disableInput(i)"
+                  (keyup.escape)="disableInput(i)"
                 />{{ p.title | uppercase }}
               </tui-input>
             </td>
@@ -104,6 +118,4 @@
       </tbody>
     </table>
   </form>
-  <!--  <button (click)="addNewPosition()" title="Add New Position">Add New Position</button>-->
-
 }
