@@ -1,0 +1,11 @@
+<button
+  [appearance]="'icon'"
+  [class]="buttonClass"
+  [size]="buttonSize"
+  [icon]="'tuiIconPlusCircleLarge'"
+  tuiButton
+  type="button"
+  (click)="onButtonClick(dialogId)"
+>
+  {{ action | uppercase }} {{ item | uppercase }}
+</button>

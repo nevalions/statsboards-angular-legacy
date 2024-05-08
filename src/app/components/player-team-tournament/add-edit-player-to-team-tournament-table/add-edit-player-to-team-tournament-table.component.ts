@@ -43,6 +43,8 @@ import { WithNullOptionPipe } from '../../../pipes/with-null-option.pipe';
 import { WithNullOptionRetStringOnlyPipe } from '../../../pipes/with-null-option-ret-string-only.pipe';
 import { SelectPlayerNumberComponent } from '../../../shared/ui/select/select-player-number/select-player-number.component';
 import { SelectPlayerPositionComponent } from '../../../shared/ui/select/select-player-position/select-player-position.component';
+import { AddEditPositionComponent } from '../../position/add-edit-position/add-edit-position.component';
+import { EditButtonComponent } from '../../../shared/ui/buttons/edit-button/edit-button.component';
 
 @Component({
   selector: 'app-add-edit-player-to-team-tournament-table',
@@ -74,6 +76,8 @@ import { SelectPlayerPositionComponent } from '../../../shared/ui/select/select-
     TuiLoaderModule,
     SelectPlayerNumberComponent,
     SelectPlayerPositionComponent,
+    AddEditPositionComponent,
+    EditButtonComponent,
   ],
   templateUrl: './add-edit-player-to-team-tournament-table.component.html',
   styleUrl: './add-edit-player-to-team-tournament-table.component.less',
@@ -86,9 +90,6 @@ export class AddEditPlayerToTeamTournamentTableComponent implements OnChanges {
   @Input() positions: IPosition[] | null = [];
 
   newPlayerCount = 0;
-  // numbers = Array.from({ length: 100 }, (_, i) => i.toString());
-  // playerForm = new FormGroup({});
-
   playerForm!: FormGroup;
 
   getFormControl(index: number, text: string): FormControl {
@@ -175,6 +176,7 @@ export class AddEditPlayerToTeamTournamentTableComponent implements OnChanges {
   private initializeForm(): void {
     const playersFormArray = this.players.map((player, index) => {
       const controlNamePlayerInTournamentId = `playerId${index}`;
+      const controlNameSportId = `sportId${index}`;
       const controlNameFullName = `fullName${index}`;
       const controlNamePosition = `position${index}`;
       const controlNameNumber = `number${index}`;
@@ -184,6 +186,7 @@ export class AddEditPlayerToTeamTournamentTableComponent implements OnChanges {
         [controlNamePlayerInTournamentId]: new FormControl(
           player.playerInTeamTournament.id,
         ),
+        [controlNameSportId]: new FormControl(player.player.sport_id),
         [controlNameFullName]: new FormControl(
           `${player.person.first_name} ${player.person.second_name}`,
         ),
@@ -194,7 +197,6 @@ export class AddEditPlayerToTeamTournamentTableComponent implements OnChanges {
       });
     });
 
-    // Initialize the form group with the form array of players
     this.playerForm = this.fb.group({
       players: this.fb.array(playersFormArray),
     });
@@ -240,9 +242,46 @@ export class AddEditPlayerToTeamTournamentTableComponent implements OnChanges {
   //   }
   // }
 
-  onSubmit(event: Event, playerId: number | null): void {
+  getArrayFormDataByIndexAndKey(
+    array: FormArray,
+    index: number,
+    key: string,
+  ): any {
+    const playersArray = array as FormArray;
+    const playerFormGroup = playersArray.at(index);
+    return playerFormGroup.get(`${key}${index}`)?.value;
+  }
+
+  onSubmit(event: Event, index: number, playerId: number | null): void {
+    event.preventDefault();
     if (playerId && this.playerForm.valid) {
-      event.preventDefault();
+      const array = this.playerForm.get('players') as FormArray;
+
+      if (array) {
+        const playerData = {
+          playerId: this.getArrayFormDataByIndexAndKey(
+            array,
+            index,
+            'playerId',
+          ),
+          sportId: this.getArrayFormDataByIndexAndKey(array, index, 'sportId'),
+          fullName: this.getArrayFormDataByIndexAndKey(
+            array,
+            index,
+            'fullName',
+          ),
+
+          position: this.getArrayFormDataByIndexAndKey(
+            array,
+            index,
+            'position',
+          ),
+          number: this.getArrayFormDataByIndexAndKey(array, index, 'number'),
+        };
+        console.log('Specific player data at index', index, ':', playerData);
+      }
+    } else {
+      console.error('Form is invalid or playerId is null');
     }
   }
 

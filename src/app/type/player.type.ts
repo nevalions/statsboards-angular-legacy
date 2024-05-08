@@ -30,6 +30,14 @@ export interface IPlayerInTeamTournamentWithPersonWithSportWithPosition {
   position?: IPosition | null;
 }
 
+// export interface IFormPlayerInTeam {
+//   playerId: number;
+//   sportId: number;
+//   fullName: string;
+//   position: IPosition | null;
+//   number: string; // This is a string based on your example, adjust if needed
+// }
+
 // export interface IPlayerInTeamTournamentWithPerson {
 //   person: IPerson;
 //   playerInTeamTournament: IPlayerInTeamTournament;

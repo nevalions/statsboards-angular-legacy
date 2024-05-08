@@ -40,54 +40,30 @@
           <app-select-player-number
             [control]="getFormControl(i, 'number')"
           ></app-select-player-number>
-          <!--          <tui-select-->
-          <!--            *tuiLet="numbers as items"-->
-          <!--            formControlName="number{{i}}"-->
-          <!--            style="padding-top: 10px;"-->
-          <!--          >-->
-          <!--            <tui-data-list-wrapper-->
-          <!--              *tuiDataList-->
-          <!--              size="l"-->
-          <!--              [itemContent]="content"-->
-          <!--              [items]="items | withNullOptionRetStringOnly:true"-->
-          <!--            ></tui-data-list-wrapper>-->
-
-          <!--            <ng-template-->
-          <!--              #content-->
-          <!--              let-data-->
-          <!--            >-->
-          <!--              <div class="template">-->
-          <!--                <div class="name">{{ data }}</div>-->
-          <!--              </div>-->
-          <!--            </ng-template>-->
-          <!--          </tui-select>-->
         <td tuiTd>
-          @if (positions) {
-            <app-select-player-position
-              [positionList]="positions"
-              [control]="getFormControl(i, 'position')"
-            ></app-select-player-position>
-            <!--            <tui-select-->
-              <!--              *tuiLet="positions as items"-->
-              <!--              formControlName="position{{i}}"-->
-              <!--              style="padding-top: 10px;"-->
-              <!--            >-->
-              <!--              <tui-data-list-wrapper-->
-              <!--                *tuiDataList-->
-              <!--                size="l"-->
-              <!--                [itemContent]="content"-->
-              <!--                [items]="items | withNullOption:true"-->
+          @if (playerFormGroup.get('sportId' + i)!.value; as sportId) {
+            @if (positions) {
+              <app-select-player-position
+                [positionList]="positions"
+                [index]="i"
+                [sportId]="sportId"
+                [control]="getFormControl(i, 'position')"
+              ></app-select-player-position>
+            }
+            <!--            @else {-->
+              <!--              <app-edit-button-->
+              <!--                [action]="'add'"-->
+              <!--                [item]="'Position'"-->
+              <!--                [buttonSize]="'s'"-->
+              <!--                [dialogId]="'addPositionDialog'+i"-->
+              <!--              ></app-edit-button>-->
 
-              <!--              ></tui-data-list-wrapper>-->
-              <!--              <ng-template-->
-              <!--                #content-->
-              <!--                let-data-->
-              <!--              >-->
-              <!--                <div class="template">-->
-              <!--                  <div class="name">{{ data }}</div>-->
-              <!--                </div>-->
-              <!--              </ng-template>-->
-              <!--            </tui-select>-->
+              <!--              <app-add-edit-position-->
+              <!--                [action]="'add'"-->
+              <!--                [dialogId]="'addPositionDialog'+i"-->
+              <!--                [sport_Id]="sportId"-->
+              <!--              ></app-add-edit-position>-->
+              <!--            }-->
           }
         </td>
         <td tuiTd>
@@ -119,7 +95,7 @@
               type="button"
               class="update"
               style="padding: 5px"
-              (click)="onSubmit($event, id)"
+              (click)="onSubmit($event, i, id)"
             ></button>
             <button
               appearance="accent"
@@ -144,7 +120,7 @@
               type="button"
               class="save-new"
               style="padding: 5px"
-              (click)="onSubmit($event, null)"
+              (click)="onSubmit($event, i, null)"
             ></button>
             <button
               appearance="accent"
