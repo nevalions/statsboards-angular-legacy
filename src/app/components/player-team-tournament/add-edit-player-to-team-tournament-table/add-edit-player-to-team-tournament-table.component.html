@@ -30,10 +30,14 @@
       <tbody formArrayName="players">
       <tr *ngFor="let playerFormGroup of playersArray.controls; let i = index" [formGroupName]="i">
         <td tuiTd>
-          @if (playerFormGroup.get('fullName' + i)!.value; as name) {
-            {{ name | uppercase }}
+          @if (playerFormGroup.get('playerId' + i)!.value; ) {
+            @if (playerFormGroup.get('fullName' + i)!.value; as name) {
+              {{ name | uppercase }}
+            } @else {
+              <tui-loader></tui-loader>
+            }
           } @else {
-            <tui-loader></tui-loader>
+            <select></select>
           }
         </td>
         <td tuiTd>
@@ -67,11 +71,11 @@
           }
         </td>
         <td tuiTd>
-          @if (playerFormGroup.get('playerId' + i)!.value; as id) {
+          @if (playerFormGroup.get('playerInTeamId' + i)!.value; as id) {
             <app-delete-dialog
               [item]="playerFormGroup.get('fullName' + i)!.value"
               (delete)="onDelete(id)"
-              [dialogId]="'deleteDialogPlayer'+playerFormGroup.get('playerId' + i)!.value"
+              [dialogId]="'deleteDialogPlayer'+playerFormGroup.get('playerInTeamId' + i)!.value"
             ></app-delete-dialog>
             <button
               appearance="primary"
@@ -95,7 +99,7 @@
               type="button"
               class="update"
               style="padding: 5px"
-              (click)="onSubmit($event, i, id)"
+              (click)="onSubmit($event, 'add', i, id)"
             ></button>
             <button
               appearance="accent"
@@ -120,7 +124,7 @@
               type="button"
               class="save-new"
               style="padding: 5px"
-              (click)="onSubmit($event, i, null)"
+              (click)="onSubmit($event, 'edit', i,  null)"
             ></button>
             <button
               appearance="accent"
@@ -286,7 +290,7 @@
                 type="button"
                 class="add-new"
                 style="padding: 10px; width: 100%"
-
+                (click)="addNewPlayer()"
               >
               </button>
             </td>

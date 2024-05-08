@@ -13,7 +13,7 @@ import { IPlayerInTeamTournament } from '../../type/player.type';
 })
 export class PlayerTeamTournamentService extends BaseApiService<IPlayerInTeamTournament> {
   constructor(http: HttpClient, errorHandlingService: ErrorHandlingService) {
-    super('positions', http, errorHandlingService);
+    super('players_team_tournament', http, errorHandlingService);
   }
 
   // findIPlayersInTeamTournamentByTeamIdTournament(id: number): Observable<IPosition[]> {

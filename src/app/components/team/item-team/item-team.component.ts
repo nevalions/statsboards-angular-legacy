@@ -23,6 +23,7 @@ import { Player } from '../../player/player';
 import { PlayerInTeamTournament } from '../../player-team-tournament/player-team-tournament';
 import { Position } from '../../position/postion';
 import { AddEditPlayerToTeamTournamentTableComponent } from '../../player-team-tournament/add-edit-player-to-team-tournament-table/add-edit-player-to-team-tournament-table.component';
+import { Sport } from '../../sport/sport';
 
 @Component({
   selector: 'app-item-team',
@@ -47,6 +48,7 @@ import { AddEditPlayerToTeamTournamentTableComponent } from '../../player-team-t
   changeDetection: ChangeDetectionStrategy.Default,
 })
 export class ItemTeamComponent {
+  sport$ = this.sport.currentSport$;
   currentTeam$ = this.team.team$;
   currentTournament$ = this.tournament.currentTournament$;
   currentTeamMainSponsor$ = this.sponsor.currentSponsor$;
@@ -62,6 +64,7 @@ export class ItemTeamComponent {
   buttonTitle: string = 'Team';
 
   constructor(
+    private sport: Sport,
     private team: Team,
     private person: Person,
     private tournament: Tournament,

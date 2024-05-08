@@ -20,12 +20,12 @@ export interface IPlayerInTeamTournament {
   position_id?: number | null;
   team_id?: number | null;
   tournament_id?: number | null;
-  player_number: string;
+  player_number?: string;
 }
 
 export interface IPlayerInTeamTournamentWithPersonWithSportWithPosition {
-  player: IPlayer;
-  person: IPerson;
+  player: IPlayer | null;
+  person: IPerson | null;
   playerInTeamTournament: IPlayerInTeamTournament;
   position?: IPosition | null;
 }
