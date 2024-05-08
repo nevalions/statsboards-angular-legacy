@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { AsyncPipe, DatePipe, TitleCasePipe } from '@angular/common';
-import { IMatchWithFullData } from '../../../type/match.type';
+import { IMatchWithFullData } from '../../../../type/match.type';
 import { TuiLoaderModule } from '@taiga-ui/core';
 import { TuiIslandModule } from '@taiga-ui/kit';
 import { Observable, of } from 'rxjs';

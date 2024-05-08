@@ -1,5 +1,5 @@
 export interface IPosition {
   id?: number | null;
-  title?: string;
+  title: string | null;
   sport_id?: number;
 }

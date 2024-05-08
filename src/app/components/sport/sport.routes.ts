@@ -88,6 +88,11 @@ import {
   positionReducer,
 } from '../position/store/reducers';
 import { PositionEffects } from '../position/store/effects';
+import {
+  playerInTeamTournamentFeatureKey,
+  playerInTeamTournamentReducer,
+} from '../player-team-tournament/store/reducers';
+import { PlayerInTeamTournamentEffects } from '../player-team-tournament/store/effects';
 
 export const SPORT_ROUTES: Routes = [
   {
@@ -274,6 +279,13 @@ export const SPORT_ROUTES: Routes = [
                 providers: [
                   provideState(seasonFeatureKey, seasonReducer),
                   provideState(teamFeatureKey, teamReducer),
+                  provideState(personFeatureKey, personReducer),
+                  provideState(playerFeatureKey, playerReducer),
+                  provideState(positionFeatureKey, positionReducer),
+                  provideState(
+                    playerInTeamTournamentFeatureKey,
+                    playerInTeamTournamentReducer,
+                  ),
                   provideState(tournamentFeatureKey, tournamentReducer),
                   provideState(teamTournamentFeatureKey, teamTournamentReducer),
                   provideEffects(
@@ -281,6 +293,10 @@ export const SPORT_ROUTES: Routes = [
                     TournamentEffects,
                     TeamEffects,
                     TeamTournamentEffects,
+                    PersonEffects,
+                    PlayerEffects,
+                    PositionEffects,
+                    PlayerInTeamTournamentEffects,
                   ),
                 ],
                 data: {

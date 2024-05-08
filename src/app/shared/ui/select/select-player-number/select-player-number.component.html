@@ -1,0 +1,21 @@
+<tui-select
+  *tuiLet="numbers as items"
+  [formControl]="control"
+  style="padding-top: 10px;"
+>
+  <tui-data-list-wrapper
+    *tuiDataList
+    size="l"
+    [itemContent]="content"
+    [items]="items | withNullOptionRetStringOnly:true"
+  ></tui-data-list-wrapper>
+
+  <ng-template
+    #content
+    let-data
+  >
+    <div class="template">
+      <div class="name">{{ data }}</div>
+    </div>
+  </ng-template>
+</tui-select>

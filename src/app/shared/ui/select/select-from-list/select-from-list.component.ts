@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { AsyncPipe, UpperCasePipe } from '@angular/common';
+import { AsyncPipe, NgIf, UpperCasePipe } from '@angular/common';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
   TuiAvatarModule,
@@ -26,10 +26,12 @@ import { toTitleCase } from '../../../../base/helpers';
     UpperCasePipe,
     TuiAvatarModule,
     WithNullOptionPipe,
+    NgIf,
   ],
   providers: [
     tuiItemsHandlersProvider({
-      stringify: (item: AnyObjectWithTitle) => `${toTitleCase(item.title)}`,
+      stringify: (item: AnyObjectWithTitle) =>
+        `${toTitleCase(item.title)}` || item.toString(),
     }),
   ],
   templateUrl: './select-from-list.component.html',

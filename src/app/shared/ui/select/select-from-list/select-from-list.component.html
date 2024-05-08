@@ -19,6 +19,7 @@
   >
     <div class="template">
       <tui-avatar
+        *ngIf="avatarProperty !== 'none'"
         size="xs"
         class="avatar"
         [avatarUrl]="backendUrl + data[avatarProperty] || null"

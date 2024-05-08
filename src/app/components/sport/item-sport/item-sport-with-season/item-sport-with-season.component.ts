@@ -12,7 +12,7 @@ import {
   TuiLoaderModule,
 } from '@taiga-ui/core';
 import { SeasonDropdownComponent } from '../../../season/season-dropdown/season-dropdown.component';
-import { ListOfItemsIslandComponent } from '../../../../shared/ui/list-of-items-island/list-of-items-island.component';
+import { ListOfItemsIslandComponent } from '../../../../shared/ui/list/list-of-items-island/list-of-items-island.component';
 import { DropDownMenuComponent } from '../../../../shared/ui/dropdownmenu/dropdownmenu.component';
 import { FormSearchTextComponent } from '../../../../shared/ui/forms/form-search-text/form-search-text.component';
 import { paginationWithItemsPerPage } from '../../../../shared/ui/pagination/pagination-with-items-per-page/pagination-with-items-per-page.component';

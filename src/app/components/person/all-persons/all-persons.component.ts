@@ -3,7 +3,7 @@ import { RouterOutlet } from '@angular/router';
 import { Person } from '../person';
 import { AsyncPipe, TitleCasePipe, UpperCasePipe } from '@angular/common';
 import { EditButtonComponent } from '../../../shared/ui/buttons/edit-button/edit-button.component';
-import { ListOfItemsIslandComponent } from '../../../shared/ui/list-of-items-island/list-of-items-island.component';
+import { ListOfItemsIslandComponent } from '../../../shared/ui/list/list-of-items-island/list-of-items-island.component';
 import { TuiLoaderModule } from '@taiga-ui/core';
 import { ITeam } from '../../../type/team.type';
 import { IPerson } from '../../../type/person.type';

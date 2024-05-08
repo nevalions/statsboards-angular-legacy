@@ -1,0 +1,323 @@
+@if (players) {
+  <form
+    tuiTextfieldSize="m"
+    [formGroup]="playerForm"
+    [tuiTextfieldLabelOutside]="true"
+  >
+    <table
+      tuiTable
+      class="table-players"
+      style="width: 100%"
+    >
+      <thead>
+      <tr>
+        <th tuiTh
+            style="width: 30%"
+        >Player Full Name
+        </th>
+        <th tuiTh
+        >Player Number
+        </th>
+        <th tuiTh
+        >Player Position
+        </th>
+        <th tuiTh
+            style="width: 30%"
+        >Actions
+        </th>
+      </tr>
+      </thead>
+      <tbody formArrayName="players">
+      <tr *ngFor="let playerFormGroup of playersArray.controls; let i = index" [formGroupName]="i">
+        <td tuiTd>
+          @if (playerFormGroup.get('fullName' + i)!.value; as name) {
+            {{ name | uppercase }}
+          } @else {
+            <tui-loader></tui-loader>
+          }
+        </td>
+        <td tuiTd>
+          <app-select-player-number
+            [control]="getFormControl(i, 'number')"
+          ></app-select-player-number>
+          <!--          <tui-select-->
+          <!--            *tuiLet="numbers as items"-->
+          <!--            formControlName="number{{i}}"-->
+          <!--            style="padding-top: 10px;"-->
+          <!--          >-->
+          <!--            <tui-data-list-wrapper-->
+          <!--              *tuiDataList-->
+          <!--              size="l"-->
+          <!--              [itemContent]="content"-->
+          <!--              [items]="items | withNullOptionRetStringOnly:true"-->
+          <!--            ></tui-data-list-wrapper>-->
+
+          <!--            <ng-template-->
+          <!--              #content-->
+          <!--              let-data-->
+          <!--            >-->
+          <!--              <div class="template">-->
+          <!--                <div class="name">{{ data }}</div>-->
+          <!--              </div>-->
+          <!--            </ng-template>-->
+          <!--          </tui-select>-->
+        <td tuiTd>
+          @if (positions) {
+            <app-select-player-position
+              [positionList]="positions"
+              [control]="getFormControl(i, 'position')"
+            ></app-select-player-position>
+            <!--            <tui-select-->
+              <!--              *tuiLet="positions as items"-->
+              <!--              formControlName="position{{i}}"-->
+              <!--              style="padding-top: 10px;"-->
+              <!--            >-->
+              <!--              <tui-data-list-wrapper-->
+              <!--                *tuiDataList-->
+              <!--                size="l"-->
+              <!--                [itemContent]="content"-->
+              <!--                [items]="items | withNullOption:true"-->
+
+              <!--              ></tui-data-list-wrapper>-->
+              <!--              <ng-template-->
+              <!--                #content-->
+              <!--                let-data-->
+              <!--              >-->
+              <!--                <div class="template">-->
+              <!--                  <div class="name">{{ data }}</div>-->
+              <!--                </div>-->
+              <!--              </ng-template>-->
+              <!--            </tui-select>-->
+          }
+        </td>
+        <td tuiTd>
+          @if (playerFormGroup.get('playerId' + i)!.value; as id) {
+            <app-delete-dialog
+              [item]="playerFormGroup.get('fullName' + i)!.value"
+              (delete)="onDelete(id)"
+              [dialogId]="'deleteDialogPlayer'+playerFormGroup.get('playerId' + i)!.value"
+            ></app-delete-dialog>
+            <button
+              appearance="primary"
+              icon="tuiIconEdit2"
+              shape="rounded"
+              size="m"
+              title="Edit"
+              tuiIconButton
+              type="button"
+              class="edit"
+              style="padding: 5px"
+
+            ></button>
+            <button
+              appearance="create"
+              icon="tuiIconSave"
+              shape="rounded"
+              size="m"
+              title="Save"
+              tuiIconButton
+              type="button"
+              class="update"
+              style="padding: 5px"
+              (click)="onSubmit($event, id)"
+            ></button>
+            <button
+              appearance="accent"
+              icon="tuiIconTrash"
+              shape="rounded"
+              size="m"
+              title="Remove"
+              tuiIconButton
+              type="button"
+              class="remove"
+              style="padding: 5px"
+              (click)="onDeleteButtonClick('deleteDialogPlayer'+id)"
+            ></button>
+          } @else {
+            <button
+              appearance="create"
+              icon="tuiIconSave"
+              shape="rounded"
+              size="m"
+              title="Save New"
+              tuiIconButton
+              type="button"
+              class="save-new"
+              style="padding: 5px"
+              (click)="onSubmit($event, null)"
+            ></button>
+            <button
+              appearance="accent"
+              icon="tuiIconX"
+              shape="rounded"
+              size="m"
+              title="Remove"
+              tuiIconButton
+              type="button"
+              class="remove"
+              style="padding: 5px"
+              (click)="onCancelButtonClick()"></button>
+          }
+        </td>
+      </tr>
+
+
+      <!--        @for (p of players; let i = $index; track p.playerInTeamTournament.id) {-->
+      <!--          <tr>-->
+      <!--            <td-->
+      <!--              tuiTd-->
+      <!--            >-->
+      <!--              {{ p.person.first_name | titlecase }} {{ p.person.second_name | titlecase }}-->
+      <!--            </td>-->
+      <!--            <td-->
+      <!--              tuiTd-->
+      <!--            >-->
+      <!--                    <tui-select-->
+      <!--                      *tuiLet="numbers as items"-->
+      <!--                      [formControlName]="getControlNameByIndexAndData('player', i, 'number')"-->
+      <!--                      style="padding-top: 10px;"-->
+      <!--                    >-->
+      <!--                      <tui-data-list-wrapper-->
+      <!--                        *tuiDataList-->
+      <!--                        size="l"-->
+      <!--                        [itemContent]="content"-->
+      <!--                        [items]="items | withNullOptionRetStringOnly:true"-->
+      <!--                      ></tui-data-list-wrapper>-->
+
+      <!--                      <ng-template-->
+      <!--                        #content-->
+      <!--                        let-data-->
+      <!--                      >-->
+      <!--                        <div class="template">-->
+      <!--                          <div class="name">{{ data }}</div>-->
+      <!--                        </div>-->
+      <!--                      </ng-template>-->
+      <!--                    </tui-select>-->
+
+      <!--            </td>-->
+      <!--            <td-->
+      <!--              tuiTd-->
+      <!--            >-->
+      <!--                    @if (positions) {-->
+      <!--                      <tui-select-->
+      <!--                        *tuiLet="positions as items"-->
+      <!--                        [formControlName]="getControlNameByIndexAndData('player', i, 'position')"-->
+      <!--                        style="padding-top: 10px;"-->
+      <!--                      >-->
+      <!--                        <tui-data-list-wrapper-->
+      <!--                          *tuiDataList-->
+      <!--                          size="l"-->
+      <!--                          [itemContent]="content"-->
+      <!--                          [items]="items | withNullOption:true"-->
+
+      <!--                        ></tui-data-list-wrapper>-->
+
+      <!--                        <ng-template-->
+      <!--                          #content-->
+      <!--                          let-data-->
+      <!--                        >-->
+      <!--                          <div class="template">-->
+      <!--                            <div class="name">{{ data }}</div>-->
+      <!--                          </div>-->
+      <!--                        </ng-template>-->
+      <!--                      </tui-select>-->
+      <!--                    }-->
+
+      <!--            </td>-->
+      <!--                  <td tuiTd>-->
+      <!--                    @if (p.playerInTeamTournament.id) {-->
+      <!--                      <app-delete-dialog-->
+      <!--                        [item]="p.person.first_name + ' ' + p.person.second_name"-->
+      <!--                        (delete)="onDelete(p.playerInTeamTournament.id)"-->
+      <!--                        [dialogId]="'deleteDialogPlayer'+p.playerInTeamTournament.id"-->
+      <!--                      ></app-delete-dialog>-->
+      <!--                      <button-->
+      <!--                        appearance="primary"-->
+      <!--                        icon="tuiIconEdit2"-->
+      <!--                        shape="rounded"-->
+      <!--                        size="m"-->
+      <!--                        title="Edit"-->
+      <!--                        tuiIconButton-->
+      <!--                        type="button"-->
+      <!--                        class="edit"-->
+      <!--                        style="padding: 5px"-->
+
+      <!--                      ></button>-->
+
+      <!--                      <button-->
+      <!--                        appearance="create"-->
+      <!--                        icon="tuiIconSave"-->
+      <!--                        shape="rounded"-->
+      <!--                        size="m"-->
+      <!--                        title="Save"-->
+      <!--                        tuiIconButton-->
+      <!--                        type="button"-->
+      <!--                        class="update"-->
+      <!--                        style="padding: 5px"-->
+      <!--                        (click)="onSubmit($event, p.playerInTeamTournament.id!)"-->
+      <!--                      ></button>-->
+
+      <!--                      <button-->
+      <!--                        appearance="accent"-->
+      <!--                        icon="tuiIconTrash"-->
+      <!--                        shape="rounded"-->
+      <!--                        size="m"-->
+      <!--                        title="Remove"-->
+      <!--                        tuiIconButton-->
+      <!--                        type="button"-->
+      <!--                        class="remove"-->
+      <!--                        style="padding: 5px"-->
+      <!--                        (click)="onDeleteButtonClick('deleteDialogPlayer'+p.playerInTeamTournament.id)"-->
+      <!--                      ></button>-->
+      <!--                    } @else {-->
+      <!--                      <button-->
+      <!--                        appearance="create"-->
+      <!--                        icon="tuiIconSave"-->
+      <!--                        shape="rounded"-->
+      <!--                        size="m"-->
+      <!--                        title="Save New"-->
+      <!--                        tuiIconButton-->
+      <!--                        type="button"-->
+      <!--                        class="save-new"-->
+      <!--                        style="padding: 5px"-->
+      <!--                        (click)="onSubmit($event, null)"-->
+      <!--                      ></button>-->
+      <!--                      <button-->
+      <!--                        appearance="accent"-->
+      <!--                        icon="tuiIconX"-->
+      <!--                        shape="rounded"-->
+      <!--                        size="m"-->
+      <!--                        title="Remove"-->
+      <!--                        tuiIconButton-->
+      <!--                        type="button"-->
+      <!--                        class="remove"-->
+      <!--                        style="padding: 5px"-->
+      <!--                        (click)="onCancelButtonClick()"></button>-->
+      <!--                    }-->
+      <!--                  </td>-->
+      <!--                </tr>-->
+      <!--              }-->
+        @if (!players.length || players[players.length - 1].playerInTeamTournament.id !== null) {
+          <tr>
+            <td class="table-cell" tuiTd [attr.colspan]="4">
+              <button
+                appearance="create"
+                icon="tuiIconPlus"
+                shape="square"
+                size="m"
+                title="Add New"
+                tuiIconButton
+                type="button"
+                class="add-new"
+                style="padding: 10px; width: 100%"
+
+              >
+              </button>
+            </td>
+          </tr>
+
+        }
+      </tbody>
+    </table>
+  </form>
+}

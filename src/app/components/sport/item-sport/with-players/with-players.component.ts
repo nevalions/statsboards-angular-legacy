@@ -5,7 +5,7 @@ import { IPlayer } from '../../../../type/player.type';
 import { Sport } from '../../sport';
 import { AsyncPipe, TitleCasePipe, UpperCasePipe } from '@angular/common';
 import { EditButtonComponent } from '../../../../shared/ui/buttons/edit-button/edit-button.component';
-import { ListOfItemsIslandComponent } from '../../../../shared/ui/list-of-items-island/list-of-items-island.component';
+import { ListOfItemsIslandComponent } from '../../../../shared/ui/list/list-of-items-island/list-of-items-island.component';
 import { TuiAvatarModule, TuiIslandModule } from '@taiga-ui/kit';
 import { environment } from '../../../../../environments/environment';
 import { AddEditPlayerComponent } from '../../../player/add-edit-player/add-edit-player.component';

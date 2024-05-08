@@ -17,6 +17,12 @@ import { Sponsor } from '../../adv/sponsor/sponsor';
 import { SponsorLine } from '../../adv/sponsor-line/sponsorLine';
 import { DeleteButtonComponent } from '../../../shared/ui/buttons/delete-button/delete-button.component';
 import { SponsorLineComponent } from '../../../shared/scoreboards/sponsor-line/sponsor-line.component';
+import { Person } from '../../person/person';
+import { Tournament } from '../../tournament/tournament';
+import { Player } from '../../player/player';
+import { PlayerInTeamTournament } from '../../player-team-tournament/player-team-tournament';
+import { Position } from '../../position/postion';
+import { AddEditPlayerToTeamTournamentTableComponent } from '../../player-team-tournament/add-edit-player-to-team-tournament-table/add-edit-player-to-team-tournament-table.component';
 
 @Component({
   selector: 'app-item-team',
@@ -33,6 +39,7 @@ import { SponsorLineComponent } from '../../../shared/scoreboards/sponsor-line/s
     TournamentAddEditFormComponent,
     DeleteButtonComponent,
     SponsorLineComponent,
+    AddEditPlayerToTeamTournamentTableComponent,
   ],
   templateUrl: './item-team.component.html',
   styleUrl: './item-team.component.less',
@@ -41,7 +48,13 @@ import { SponsorLineComponent } from '../../../shared/scoreboards/sponsor-line/s
 })
 export class ItemTeamComponent {
   currentTeam$ = this.team.team$;
+  currentTournament$ = this.tournament.currentTournament$;
   currentTeamMainSponsor$ = this.sponsor.currentSponsor$;
+  allPlayers$ = this.player.allPlayers$;
+  allPlayersInTeamTournamentFullData$ =
+    this.playerInTeamTournament.allPlayersInTeamTournamentFullData$;
+  allSportPositions$ = this.position.allSportPositions$;
+
   sponsorLine$ = this.sponsorLine.sponsorLineWithFullData$;
   allSponsors$ = this.sponsor.allSponsors$;
   allSponsorLines$ = this.sponsorLine.allSponsorLines$;
@@ -50,6 +63,11 @@ export class ItemTeamComponent {
 
   constructor(
     private team: Team,
+    private person: Person,
+    private tournament: Tournament,
+    private player: Player,
+    private playerInTeamTournament: PlayerInTeamTournament,
+    private position: Position,
     private imageService: ImageService,
     private sponsor: Sponsor,
     private sponsorLine: SponsorLine,
@@ -57,6 +75,10 @@ export class ItemTeamComponent {
     sponsor.loadAllSponsors();
     sponsorLine.loadAllSponsorLines();
     team.loadCurrentTeam();
+    person.loadAllPersons();
+    player.loadAllPlayersBySportId();
+    position.loadAllPositionsBySportId();
+    playerInTeamTournament.loadAllPlayersInTeamTournament();
   }
 
   onImgError(event: Event) {

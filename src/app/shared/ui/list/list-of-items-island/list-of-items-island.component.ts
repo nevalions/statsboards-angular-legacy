@@ -9,9 +9,9 @@ import { TuiAvatarModule, TuiIslandModule } from '@taiga-ui/kit';
 import { AsyncPipe, TitleCasePipe, UpperCasePipe } from '@angular/common';
 import { TuiLoaderModule, TuiSizeL, TuiSizeS } from '@taiga-ui/core';
 import { Observable, of, Subscription } from 'rxjs';
-import { SearchListService } from '../../../services/search-list.service';
-import { environment } from '../../../../environments/environment';
-import { getTitleCase } from '../../../base/helpers';
+import { SearchListService } from '../../../../services/search-list.service';
+import { environment } from '../../../../../environments/environment';
+import { getTitleCase } from '../../../../base/helpers';
 
 @Component({
   selector: 'app-list-of-items-island',

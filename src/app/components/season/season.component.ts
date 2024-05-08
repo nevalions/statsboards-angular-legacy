@@ -3,7 +3,7 @@ import { SeasonService } from './season.service';
 import { map, Observable, of } from 'rxjs';
 import { IBaseIdElse } from '../../type/base.type';
 import { SortService } from '../../services/sort.service';
-import { ListOfItemsIslandComponent } from '../../shared/ui/list-of-items-island/list-of-items-island.component';
+import { ListOfItemsIslandComponent } from '../../shared/ui/list/list-of-items-island/list-of-items-island.component';
 import { AsyncPipe } from '@angular/common';
 
 @Component({

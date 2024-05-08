@@ -4,7 +4,7 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { Sponsor } from './sponsor';
-import { ListOfItemsIslandComponent } from '../../../shared/ui/list-of-items-island/list-of-items-island.component';
+import { ListOfItemsIslandComponent } from '../../../shared/ui/list/list-of-items-island/list-of-items-island.component';
 import { AsyncPipe, UpperCasePipe } from '@angular/common';
 import { ISponsor } from '../../../type/sponsor.type';
 

@@ -3,7 +3,7 @@ import {
   Component,
   ViewEncapsulation,
 } from '@angular/core';
-import { ListOfItemsIslandComponent } from '../../../shared/ui/list-of-items-island/list-of-items-island.component';
+import { ListOfItemsIslandComponent } from '../../../shared/ui/list/list-of-items-island/list-of-items-island.component';
 import { AsyncPipe, UpperCasePipe } from '@angular/common';
 import { SponsorLine } from './sponsorLine';
 import { ISponsor } from '../../../type/sponsor.type';

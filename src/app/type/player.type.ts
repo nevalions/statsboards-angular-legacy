@@ -23,15 +23,15 @@ export interface IPlayerInTeamTournament {
   player_number: string;
 }
 
-export interface IPlayerInTeamTournamentWithPerson {
+export interface IPlayerInTeamTournamentWithPersonWithSportWithPosition {
+  player: IPlayer;
   person: IPerson;
   playerInTeamTournament: IPlayerInTeamTournament;
-  position: IPosition;
+  position?: IPosition | null;
 }
 
-export interface IPlayerInTeamTournamentWithPersonWithSport {
-  player: IPlayerInSport;
-  person: IPerson;
-  playerInTeamTournament: IPlayerInTeamTournament;
-  position: IPosition;
-}
+// export interface IPlayerInTeamTournamentWithPerson {
+//   person: IPerson;
+//   playerInTeamTournament: IPlayerInTeamTournament;
+//   position: IPosition;
+// }

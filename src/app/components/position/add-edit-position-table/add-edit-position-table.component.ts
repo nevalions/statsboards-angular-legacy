@@ -118,7 +118,7 @@ export class AddEditPositionTableComponent implements OnChanges {
       )?.value;
       const updatedPosition: IPosition = {
         id: positionId,
-        title: updatedTitle,
+        title: updatedTitle!,
       };
       this.position.updatePosition(updatedPosition);
       this.initializeForm();
@@ -129,7 +129,10 @@ export class AddEditPositionTableComponent implements OnChanges {
       const newTitle: string | undefined = this.positionForm.get(
         `newPosition${this.newPositionsCount}`,
       )?.value;
-      this.position.createPosition({ title: newTitle, sport_id: this.sportId });
+      this.position.createPosition({
+        title: newTitle!,
+        sport_id: this.sportId,
+      });
       this.initializeForm();
     }
   }

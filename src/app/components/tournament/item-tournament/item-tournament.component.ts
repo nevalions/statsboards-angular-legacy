@@ -13,7 +13,7 @@ import {
 } from '@taiga-ui/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IMatchWithFullData } from '../../../type/match.type';
-import { ListOfMatchesComponent } from '../../../shared/ui/list-of-matches/list-of-matches.component';
+import { ListOfMatchesComponent } from '../../../shared/ui/list/list-of-matches/list-of-matches.component';
 import { BodyListTitleComponent } from '../../../shared/ui/body/body-title/body-list-title.component';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { ITeam } from '../../../type/team.type';

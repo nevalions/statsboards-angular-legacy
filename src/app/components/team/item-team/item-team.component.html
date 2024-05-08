@@ -75,6 +75,20 @@
           [dialogId]="'deleteDialog'"
         ></app-delete-dialog>
       </div>
+      @if (allPlayersInTeamTournamentFullData$ | async; as players) {
+        @if (currentTournament$ | async; as tournament) {
+          <app-add-edit-player-to-team-tournament-table
+            [teamId]="team.id!"
+            [tournamentId]="tournament.id!"
+            [players]="players"
+            [positions]="allSportPositions$ | async"
+          ></app-add-edit-player-to-team-tournament-table>
+        }
+        <!--        @for (p of players; track p.playerInTeamTournament.id) {-->
+          <!--          <p>{{ p.person.first_name }} {{ p.person.second_name }}</p>-->
+          <!--        }-->
+      }
+
     </div>
   </div>
 } @else {
