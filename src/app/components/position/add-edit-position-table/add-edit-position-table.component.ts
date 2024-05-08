@@ -69,7 +69,9 @@ export class AddEditPositionTableComponent implements OnChanges {
     private position: Position,
     private dialogService: DialogService,
     // @Inject(DOCUMENT) private document: Document,
-  ) {}
+  ) {
+    this.initializeForm();
+  }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['positions']) {

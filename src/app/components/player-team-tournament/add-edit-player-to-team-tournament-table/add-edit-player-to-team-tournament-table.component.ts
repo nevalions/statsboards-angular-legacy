@@ -188,7 +188,7 @@ export class AddEditPlayerToTeamTournamentTableComponent implements OnChanges {
         ),
         [controlNameSportId]: new FormControl(player.player.sport_id),
         [controlNameFullName]: new FormControl(
-          `${player.person.first_name} ${player.person.second_name}`,
+          `${player.person?.first_name} ${player.person?.second_name}`,
         ),
         [controlNamePosition]: new FormControl(player.position),
         [controlNameNumber]: new FormControl(
