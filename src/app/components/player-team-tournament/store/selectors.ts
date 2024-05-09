@@ -1,17 +1,10 @@
-import { IPerson } from '../../../type/person.type';
 import {
-  IPlayer,
   IPlayerInSport,
   IPlayerInTeamTournament,
   IPlayerInTeamTournamentWithPersonWithSportWithPosition,
 } from '../../../type/player.type';
 import { IPosition } from '../../../type/position.type';
 import { createSelector } from '@ngrx/store';
-import { selectAllPersons } from '../../person/store/reducers';
-import {
-  selectAllPlayers,
-  selectAllSportPlayers,
-} from '../../player/store/reducers';
 import {
   selectAllPositions,
   selectAllSportPositions,
@@ -22,10 +15,7 @@ import {
   selectCurrentPlayerInTeamTournamentId,
 } from './reducers';
 import { SortService } from '../../../services/sort.service';
-import {
-  selectAllPlayersWithPersons,
-  selectAllSportPlayersWithPersons,
-} from '../../player/store/selectors';
+import { selectAllSportPlayersWithPersons } from '../../player/store/selectors';
 import { selectCurrentTournamentId } from '../../tournament/store/reducers';
 
 function combinePlayerWithPersonWithPosition(
@@ -82,7 +72,10 @@ export const selectAllPlayersInTeamTournamentWithPersonsWithPositions =
             ),
         );
         if (playersInSport && playersInTeamTournament) {
-          return SortService.sort(playersWithPersons, 'person.second_name');
+          return SortService.sort(
+            playersWithPersons,
+            'playerInSport.person.second_name',
+          );
         } else {
           return [];
         }

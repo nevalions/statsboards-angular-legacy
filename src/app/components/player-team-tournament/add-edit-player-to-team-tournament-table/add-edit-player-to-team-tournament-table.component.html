@@ -41,22 +41,22 @@
                 [playerList]="availablePlayersInSport"
                 [teamId]="teamId"
                 [tournamentId]="tournamentId"
-                [control]="getFormControl(i, 'playerInSport')"
+                [control]="getFormControl(this.playerForm, i, 'playerInSport', 'players')"
               ></app-select-player-to-team-tournament>
             }
           </td>
           <td tuiTd>
             <app-select-player-number
-              [control]="getFormControl(i, 'number')"
+              [control]="getFormControl(this.playerForm, i, 'number', 'players')"
             ></app-select-player-number>
           <td tuiTd>
-            @if (playerFormGroup.get('sportId' + i)!.value; as sportId) {
+            @if (sportId) {
               @if (positions) {
                 <app-select-player-position
                   [positionList]="positions"
                   [index]="i"
                   [sportId]="sportId"
-                  [control]="getFormControl(i, 'position')"
+                  [control]="getFormControl(this.playerForm, i, 'position', 'players')"
                 ></app-select-player-position>
               }
               <!--            @else {-->
@@ -82,66 +82,110 @@
                 (delete)="onDelete(id)"
                 [dialogId]="'deleteDialogPlayer'+playerFormGroup.get('playerInTeamId' + i)!.value"
               ></app-delete-dialog>
-              <button
-                appearance="primary"
-                icon="tuiIconEdit2"
-                shape="rounded"
-                size="m"
-                title="Edit"
-                tuiIconButton
-                type="button"
-                class="edit"
-                style="padding: 5px"
+              <!--              <button-->
+                <!--                appearance="primary"-->
+                <!--                icon="tuiIconEdit2"-->
+                <!--                shape="rounded"-->
+                <!--                size="m"-->
+                <!--                title="Edit"-->
+                <!--                tuiIconButton-->
+                <!--                type="button"-->
+                <!--                class="button-edit"-->
+                <!--                style="padding: 5px"-->
 
-              ></button>
-              <button
-                appearance="create"
-                icon="tuiIconSave"
-                shape="rounded"
-                size="m"
-                title="Save"
-                tuiIconButton
-                type="button"
-                class="update"
-                style="padding: 5px"
+                <!--              ></button>-->
+                <!--              <button-->
+                <!--                appearance="create"-->
+                <!--                icon="tuiIconSave"-->
+                <!--                shape="rounded"-->
+                <!--                size="m"-->
+                <!--                title="Save"-->
+                <!--                tuiIconButton-->
+                <!--                type="button"-->
+                <!--                class="button-update"-->
+                <!--                style="padding: 5px"-->
+                <!--                (click)="onSubmit($event, 'edit', i, id)"-->
+                <!--              ></button>-->
+              <app-button-icon
+                [buttonAppear]="TuiAppearance.Primary"
+                [buttonShape]="'rounded'"
+                [buttonSize]="'m'"
+                [buttonIcon]="'tuiIconEdit2'"
+                [buttonClass]="'button-edit'"
+
+              ></app-button-icon>
+
+              <app-button-icon
+                [buttonAppear]="'create'"
+                [buttonShape]="'rounded'"
+                [buttonSize]="'m'"
+                [buttonIcon]="'tuiIconSave'"
+                [buttonClass]="'button-update'"
                 (click)="onSubmit($event, 'edit', i, id)"
-              ></button>
-              <button
-                appearance="accent"
-                icon="tuiIconTrash"
-                shape="rounded"
-                size="m"
-                title="Remove"
-                tuiIconButton
-                type="button"
-                class="remove"
-                style="padding: 5px"
+              ></app-button-icon>
+
+              <app-button-icon
+                [buttonAppear]="TuiAppearance.Accent"
+                [buttonShape]="'rounded'"
+                [buttonSize]="'m'"
+                [buttonIcon]="'tuiIconTrash'"
+                [buttonClass]="'button-remove'"
                 (click)="onDeleteButtonClick('deleteDialogPlayer'+id)"
-              ></button>
+              ></app-button-icon>
+              <!--              <button-->
+                <!--                appearance="accent"-->
+                <!--                icon="tuiIconTrash"-->
+                <!--                shape="rounded"-->
+                <!--                size="m"-->
+                <!--                title="Remove"-->
+                <!--                tuiIconButton-->
+                <!--                type="button"-->
+                <!--                class="button-remove"-->
+                <!--                style="padding: 5px"-->
+                <!--                (click)="onDeleteButtonClick('deleteDialogPlayer'+id)"-->
+                <!--              ></button>-->
             } @else {
-              <button
-                appearance="create"
-                icon="tuiIconSave"
-                shape="rounded"
-                size="m"
-                title="Save New"
-                tuiIconButton
-                type="button"
-                class="save-new"
-                style="padding: 5px"
+              <!--              <button-->
+                <!--                appearance="create"-->
+                <!--                icon="tuiIconSave"-->
+                <!--                shape="rounded"-->
+                <!--                size="m"-->
+                <!--                title="Save New"-->
+                <!--                tuiIconButton-->
+                <!--                type="button"-->
+                <!--                class="button-save-new"-->
+                <!--                style="padding: 5px"-->
+                <!--                (click)="onSubmit($event, 'add', i,  null)"-->
+                <!--              ></button>-->
+              <app-button-icon
+                [buttonAppear]="'create'"
+                [buttonShape]="'rounded'"
+                [buttonSize]="'m'"
+                [buttonIcon]="'tuiIconSave'"
+                [buttonClass]="'button-save-new'"
                 (click)="onSubmit($event, 'add', i,  null)"
-              ></button>
-              <button
-                appearance="accent"
-                icon="tuiIconX"
-                shape="rounded"
-                size="m"
-                title="Remove"
-                tuiIconButton
-                type="button"
-                class="remove"
-                style="padding: 5px"
-                (click)="onCancelButtonClick()"></button>
+              ></app-button-icon>
+
+              <app-button-icon
+                [buttonAppear]="TuiAppearance.Accent"
+                [buttonShape]="'rounded'"
+                [buttonSize]="'m'"
+                [buttonIcon]="'tuiIconX'"
+                [buttonClass]="'button-cancel'"
+                (click)="onCancelButtonClick()"
+              ></app-button-icon>
+
+              <!--              <button-->
+                <!--                appearance="accent"-->
+                <!--                icon="tuiIconX"-->
+                <!--                shape="rounded"-->
+                <!--                size="m"-->
+                <!--                title="Remove"-->
+                <!--                tuiIconButton-->
+                <!--                type="button"-->
+                <!--                class="remove"-->
+                <!--                style="padding: 5px"-->
+                <!--                (click)="onCancelButtonClick()"></button>-->
             }
           </td>
         </tr>
@@ -285,19 +329,27 @@
         @if (!players.length || players[players.length - 1].playerInTeamTournament.id !== null) {
           <tr>
             <td class="table-cell" tuiTd [attr.colspan]="4">
-              <button
-                appearance="create"
-                icon="tuiIconPlus"
-                shape="square"
-                size="m"
-                title="Add New"
-                tuiIconButton
-                type="button"
-                class="add-new"
-                style="padding: 10px; width: 100%"
+              <app-button-icon
+                [buttonAppear]="'create'"
+                [buttonShape]="'square'"
+                [buttonSize]="'m'"
+                [buttonIcon]="'tuiIconPlus'"
+                [buttonClass]="'add-new-button'"
                 (click)="addNewPlayer()"
-              >
-              </button>
+              ></app-button-icon>
+              <!--              <button-->
+              <!--                appearance="create"-->
+              <!--                icon="tuiIconPlus"-->
+              <!--                shape="square"-->
+              <!--                size="m"-->
+              <!--                title="Add New"-->
+              <!--                tuiIconButton-->
+              <!--                type="button"-->
+              <!--                class="add-new"-->
+              <!--                style="padding: 10px; width: 100%"-->
+              <!--                (click)="addNewPlayer()"-->
+              <!--              >-->
+              <!--              </button>-->
             </td>
           </tr>
 
@@ -305,19 +357,29 @@
       } @else {
         <tr>
           <td class="table-cell" tuiTd [attr.colspan]="4">
-            <button
-              appearance="create"
-              icon="tuiIconPlus"
-              shape="square"
-              size="m"
-              title="Add New"
-              tuiIconButton
-              type="button"
-              class="add-new"
-              style="padding: 10px; width: 100%"
+            <app-button-icon
+              [buttonAppear]="'create'"
+              [buttonShape]="'square'"
+              [buttonSize]="'m'"
+              [buttonIcon]="'tuiIconPlus'"
+              [buttonClass]="'add-new-button'"
               (click)="addNewPlayer()"
-            >
-            </button>
+            ></app-button-icon>
+
+
+            <!--            <button-->
+            <!--              appearance="create"-->
+            <!--              icon="tuiIconPlus"-->
+            <!--              shape="square"-->
+            <!--              size="m"-->
+            <!--              title="Add New"-->
+            <!--              tuiIconButton-->
+            <!--              type="button"-->
+            <!--              class="add-new"-->
+            <!--              style="padding: 10px; width: 100%"-->
+            <!--              (click)="addNewPlayer()"-->
+            <!--            >-->
+            <!--            </button>-->
           </td>
         </tr>
       }

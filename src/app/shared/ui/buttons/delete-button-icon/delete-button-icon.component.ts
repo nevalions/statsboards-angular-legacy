@@ -19,7 +19,7 @@ export class DeleteButtonIconComponent {
   @Input() dialogId: string = '';
 
   onButtonClick(dialogId: string) {
-    console.log('clicked');
+    // console.log('clicked');
     this.dialogService.showDialog(dialogId);
   }
 }

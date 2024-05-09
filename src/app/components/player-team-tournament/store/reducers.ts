@@ -56,7 +56,10 @@ const playerInTeamTournamentFeature = createFeature({
         ...state.allPlayersInTeamTournament,
         action.currentPlayerInTeamTournament,
       ];
-      const sortedList = SortService.sort(newList, 'title');
+      const sortedList = SortService.sort(
+        newList,
+        'playerInSport.person.second_name',
+      );
       // const newSportList = [
       //   ...state.allSportPlayersInTeamTournament,
       //   action.currentPlayerInTeamTournament,
@@ -138,7 +141,7 @@ const playerInTeamTournamentFeature = createFeature({
             ? action.updatedPlayerInTeamTournament
             : item,
         ),
-        'title',
+        'playerInSport.person.second_name',
       ),
       // allSportPlayersInTeamTournament: SortService.sort(
       //   state.allSportPlayersInTeamTournament.map((item) =>
@@ -179,7 +182,7 @@ const playerInTeamTournamentFeature = createFeature({
     on(playerInTeamTournamentActions.getAllItemsSuccess, (state, action) => {
       const sortedTournaments = SortService.sort(
         action.playerInTeamTournaments,
-        'title',
+        'playerInSport.person.second_name',
       );
       return {
         ...state,
@@ -205,7 +208,7 @@ const playerInTeamTournamentFeature = createFeature({
       (state, action) => {
         const sortedPlayerInTeamTournaments = SortService.sort(
           action.playersInTeamTournament,
-          'person.second_name',
+          'playerInSport.person.second_name',
         );
         return {
           ...state,
