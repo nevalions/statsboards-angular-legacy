@@ -176,14 +176,14 @@ export class AddEditPlayerToTeamTournamentTableComponent implements OnChanges {
     }
   }
 
-  isNewPlayer(): boolean {
-    const newControlName = `newPlayer${this.newPlayerCount}`;
-    if (this.playerForm.get(newControlName)) {
-      return !!this.playerForm.get(newControlName);
-    }
-    // console.log('null player', this.playerForm.get(newControlName));
-    return false;
-  }
+  // isNewPlayer(): boolean {
+  //   const newControlName = `newPlayer${this.newPlayerCount}`;
+  //   if (this.playerForm.get(newControlName)) {
+  //     return !!this.playerForm.get(newControlName);
+  //   }
+  //   // console.log('null player', this.playerForm.get(newControlName));
+  //   return false;
+  // }
 
   private initializeForm(): void {
     const playersFormArray = this.players.map((player, index) => {
@@ -206,7 +206,8 @@ export class AddEditPlayerToTeamTournamentTableComponent implements OnChanges {
         ),
         [controlNameSportId]: new FormControl(this.sportId),
         [controlNameFullName]: new FormControl(
-          `${player.person?.first_name} ${player.person?.second_name}`,
+          `${player.playerInSport?.person?.first_name} ${player.playerInSport?.person?.second_name}` ||
+            '',
         ),
         [controlNamePosition]: new FormControl(player.position),
         [controlNameNumber]: new FormControl(
@@ -350,7 +351,7 @@ export class AddEditPlayerToTeamTournamentTableComponent implements OnChanges {
           ),
         };
 
-        console.log(playerData);
+        // console.log(playerData);
         if (playerData.sportPlayer) {
           const playerInTeamTournamentData = {
             player_id: playerData.sportPlayer.player.id,
@@ -395,8 +396,8 @@ export class AddEditPlayerToTeamTournamentTableComponent implements OnChanges {
 
     const playerWithData: IPlayerInTeamTournamentWithPersonWithSportWithPosition =
       {
-        player: null,
-        person: null,
+        // player: null,
+        // person: null,
         playerInSport: null,
         playerInTeamTournament: newPlayer,
         position: null,

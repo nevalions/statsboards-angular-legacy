@@ -29,14 +29,14 @@ import {
 import { selectCurrentTournamentId } from '../../tournament/store/reducers';
 
 function combinePlayerWithPersonWithPosition(
-  persons: IPerson[],
-  players: IPlayer[],
+  // persons: IPerson[],
+  // players: IPlayer[],
   playersInSport: IPlayerInSport[],
   playerInTeamTournament: IPlayerInTeamTournament,
   positions: IPosition[],
 ): IPlayerInTeamTournamentWithPersonWithSportWithPosition | null {
-  const player = players.find((p) => p.id === playerInTeamTournament.player_id);
-  const person = persons.find((p) => p.id === player!.person_id);
+  // const player = players.find((p) => p.id === playerInTeamTournament.player_id);
+  // const person = playersInSport.find((p) => p.player.id === player!.person_id);
   const playerInSport = playersInSport.find(
     (p) => p.player.id === playerInTeamTournament.player_id,
   );
@@ -46,8 +46,8 @@ function combinePlayerWithPersonWithPosition(
 
   // if (player && person && playerInTeamTournament) {
   return {
-    player: player!,
-    person: person!,
+    // player: player!,
+    // person: person!,
     playerInSport: playerInSport!,
     playerInTeamTournament: playerInTeamTournament,
     position: position,
@@ -60,24 +60,28 @@ function combinePlayerWithPersonWithPosition(
 // Selector that uses the helper function to combine an array of players with persons
 export const selectAllPlayersInTeamTournamentWithPersonsWithPositions =
   createSelector(
-    selectAllPersons,
-    selectAllSportPlayers,
+    // selectAllPersons,
+    // selectAllSportPlayers,
     selectAllSportPlayersWithPersons,
     selectAllPlayersInTeamTournament,
     selectAllSportPositions,
-    (persons, players, playersInSport, playersInTeamTournament, positions) => {
-      if (persons && players && playersInSport && playersInTeamTournament) {
+    (
+      // persons,
+      // players,
+      playersInSport,
+      playersInTeamTournament,
+      positions,
+    ) => {
+      if (playersInSport && playersInTeamTournament) {
         const playersWithPersons = playersInTeamTournament.map(
           (playerInTeamTournament) =>
             combinePlayerWithPersonWithPosition(
-              persons,
-              players,
               playersInSport,
               playerInTeamTournament,
               positions,
             ),
         );
-        if (persons && players && playersInSport && playersInTeamTournament) {
+        if (playersInSport && playersInTeamTournament) {
           return SortService.sort(playersWithPersons, 'person.second_name');
         } else {
           return [];
@@ -90,15 +94,15 @@ export const selectAllPlayersInTeamTournamentWithPersonsWithPositions =
 
 export const selectCurrentPlayerInTeamTournamentWithPersonWithSportWithPosition =
   createSelector(
-    selectAllPersons,
-    selectAllSportPlayers,
+    // selectAllPersons,
+    // selectAllSportPlayers,
     selectAllSportPlayersWithPersons,
     selectAllPlayersInTeamTournament,
     selectCurrentPlayerInTeamTournamentId,
     selectAllPositions,
     (
-      persons: IPerson[],
-      players: IPlayer[],
+      // persons: IPerson[],
+      // players: IPlayer[],
       playersInSport: IPlayerInSport[],
       playersInTeamTournament: IPlayerInTeamTournament[],
       currentPlayerId: number | null | undefined,
@@ -111,8 +115,8 @@ export const selectCurrentPlayerInTeamTournamentWithPersonWithSportWithPosition 
         return null;
       }
       if (
-        persons &&
-        players &&
+        // persons &&
+        // players &&
         playersInSport &&
         playersInTeamTournament &&
         currentPlayerId &&
@@ -122,8 +126,8 @@ export const selectCurrentPlayerInTeamTournamentWithPersonWithSportWithPosition 
           (player) => player.id === currentPlayerId,
         );
         return combinePlayerWithPersonWithPosition(
-          persons,
-          players,
+          // persons,
+          // players,
           playersInSport,
           currentPlayer!,
           positions,
