@@ -58,6 +58,7 @@ import { SelectPlayerToTeamTournamentComponent } from '../../../shared/ui/select
 import {
   getArrayFormDataByIndexAndKey,
   getFormControl,
+  getFormDataByIndexAndKey,
 } from '../../../base/formHelpers';
 import { AddButtonIconComponent } from '../../../shared/ui/buttons/add-button-icon/add-button-icon.component';
 import { ButtonIconComponent } from '../../../shared/ui/buttons/button-icon/button-icon.component';
@@ -408,4 +409,5 @@ export class AddEditPlayerToTeamTournamentTableComponent implements OnChanges {
 
   protected readonly getFormControl = getFormControl;
   protected readonly TuiAppearance = TuiAppearance;
+  protected readonly getFormDataByIndexAndKey = getFormDataByIndexAndKey;
 }

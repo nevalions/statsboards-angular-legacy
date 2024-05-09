@@ -77,10 +77,26 @@ export function getArrayFormDataByIndexAndKey<T>(
   }
 }
 
+export function getFormDataByIndexAndKey<T>(
+  playerFormGroup: FormGroup | any,
+  index: number,
+  key: string,
+): any {
+  if (playerFormGroup) {
+    return playerFormGroup.get(`${key}${index}`)?.value;
+  } else {
+    return null;
+  }
+}
+
 export function getControlNameByIndexAndData(
   title: string,
   index: number,
   data: any,
 ): string {
   return `${title}-${index}-${data}`;
+}
+
+export function controlName(title: string, index: number): string {
+  return `${title}${index}`;
 }
