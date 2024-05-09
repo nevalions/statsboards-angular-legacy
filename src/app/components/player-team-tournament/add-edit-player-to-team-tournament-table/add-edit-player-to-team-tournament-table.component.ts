@@ -1,10 +1,4 @@
-import {
-  Component,
-  Input,
-  OnChanges,
-  SimpleChanges,
-  ViewEncapsulation,
-} from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import {
   FormArray,
   FormBuilder,
@@ -63,6 +57,7 @@ import {
 import { AddButtonIconComponent } from '../../../shared/ui/buttons/add-button-icon/add-button-icon.component';
 import { ButtonIconComponent } from '../../../shared/ui/buttons/button-icon/button-icon.component';
 import { ActionsButtonsComponent } from '../../../shared/ui/buttons/actions-buttons/actions-buttons.component';
+import { AddButtonOnFinalTrComponent } from '../../../shared/ui/buttons/add-button-on-final-tr/add-button-on-final-tr.component';
 
 @Component({
   selector: 'app-add-edit-player-to-team-tournament-table',
@@ -102,6 +97,7 @@ import { ActionsButtonsComponent } from '../../../shared/ui/buttons/actions-butt
     ButtonIconComponent,
     SelectPlayerPositionComponent,
     ActionsButtonsComponent,
+    AddButtonOnFinalTrComponent,
   ],
   templateUrl: './add-edit-player-to-team-tournament-table.component.html',
   styleUrl: './add-edit-player-to-team-tournament-table.component.less',

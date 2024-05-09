@@ -21,14 +21,10 @@
       @if (players) {
         @for (playerFormGroup of playersArray.controls; let i = $index; track i) {
           <tr [formGroupName]="i">
-            <!--        <tr *ngFor="let playerFormGroup of playersArray.controls; let i = index" [formGroupName]="i">-->
             <td tuiTd>
               @if (getFormDataByIndexAndKey(playerFormGroup, i, 'playerId')) {
-                <!--              @if (playerFormGroup.get('fullName' + i)!.value; as name) {-->
                 @if (getFormDataByIndexAndKey(playerFormGroup, i, 'fullName'); as name) {
                   {{ name | uppercase }}
-                } @else {
-                  <tui-loader></tui-loader>
                 }
               } @else {
                 <app-select-player-to-team-tournament
@@ -76,28 +72,20 @@
         @if (!players.length || players[players.length - 1].playerInTeamTournament.id !== null) {
           <tr>
             <td class="table-cell" tuiTd [attr.colspan]="4">
-              <app-button-icon
-                [buttonAppear]="'create'"
-                [buttonShape]="'square'"
-                [buttonSize]="'m'"
-                [buttonIcon]="'tuiIconPlus'"
-                [buttonClass]="'add-new-button'"
-                (click)="addNewPlayer()"
-              ></app-button-icon>
+              <app-add-button-on-final-tr
+                [span]="4"
+                (onAdd)="addNewPlayer()"
+              ></app-add-button-on-final-tr>
             </td>
           </tr>
         }
       } @else {
         <tr>
           <td class="table-cell" tuiTd [attr.colspan]="4">
-            <app-button-icon
-              [buttonAppear]="'create'"
-              [buttonShape]="'square'"
-              [buttonSize]="'m'"
-              [buttonIcon]="'tuiIconPlus'"
-              [buttonClass]="'add-new-button'"
-              (click)="addNewPlayer()"
-            ></app-button-icon>
+            <app-add-button-on-final-tr
+              [span]="4"
+              (onAdd)="addNewPlayer()"
+            ></app-add-button-on-final-tr>
           </td>
         </tr>
       }
