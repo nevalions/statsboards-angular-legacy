@@ -1,0 +1,45 @@
+@if (id) {
+  <app-button-icon
+    [buttonAppear]="TuiAppearance.Primary"
+    [buttonShape]="'rounded'"
+    [buttonSize]="'m'"
+    [buttonIcon]="'tuiIconEdit2'"
+    [buttonClass]="'button-edit'"
+  ></app-button-icon>
+
+  <app-button-icon
+    [buttonAppear]="'create'"
+    [buttonShape]="'rounded'"
+    [buttonSize]="'m'"
+    [buttonIcon]="'tuiIconSave'"
+    [buttonClass]="'button-update'"
+    (click)="submit('edit')"
+  ></app-button-icon>
+
+  <app-button-icon
+    [buttonAppear]="TuiAppearance.Accent"
+    [buttonShape]="'rounded'"
+    [buttonSize]="'m'"
+    [buttonIcon]="'tuiIconTrash'"
+    [buttonClass]="'button-remove'"
+    (click)="delete()"
+  ></app-button-icon>
+} @else {
+  <app-button-icon
+    [buttonAppear]="'create'"
+    [buttonShape]="'rounded'"
+    [buttonSize]="'m'"
+    [buttonIcon]="'tuiIconSave'"
+    [buttonClass]="'button-save-new'"
+    (click)="submit('add')"
+  ></app-button-icon>
+
+  <app-button-icon
+    [buttonAppear]="TuiAppearance.Accent"
+    [buttonShape]="'rounded'"
+    [buttonSize]="'m'"
+    [buttonIcon]="'tuiIconX'"
+    [buttonClass]="'button-cancel'"
+    (click)="cancel()"
+  ></app-button-icon>
+}

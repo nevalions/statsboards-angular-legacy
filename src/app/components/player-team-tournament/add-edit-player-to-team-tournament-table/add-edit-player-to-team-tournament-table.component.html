@@ -76,117 +76,66 @@
             }
           </td>
           <td tuiTd>
+            <app-actions-buttons
+              [id]="playerFormGroup.get('playerInTeamId' + i)!.value"
+              [index]="i"
+              (onSubmit)="onSubmit($event.action, $event.index, $event.id)"
+              (onCancel)="onCancelButtonClick()"
+              (onDelete)="onDeleteButtonClick('deleteDialogPlayer'+$event.id)"
+            ></app-actions-buttons>
             @if (playerFormGroup.get('playerInTeamId' + i)!.value; as id) {
               <app-delete-dialog
                 [item]="playerFormGroup.get('fullName' + i)!.value"
                 (delete)="onDelete(id)"
                 [dialogId]="'deleteDialogPlayer'+playerFormGroup.get('playerInTeamId' + i)!.value"
               ></app-delete-dialog>
-              <!--              <button-->
-                <!--                appearance="primary"-->
-                <!--                icon="tuiIconEdit2"-->
-                <!--                shape="rounded"-->
-                <!--                size="m"-->
-                <!--                title="Edit"-->
-                <!--                tuiIconButton-->
-                <!--                type="button"-->
-                <!--                class="button-edit"-->
-                <!--                style="padding: 5px"-->
-
-                <!--              ></button>-->
-                <!--              <button-->
-                <!--                appearance="create"-->
-                <!--                icon="tuiIconSave"-->
-                <!--                shape="rounded"-->
-                <!--                size="m"-->
-                <!--                title="Save"-->
-                <!--                tuiIconButton-->
-                <!--                type="button"-->
-                <!--                class="button-update"-->
-                <!--                style="padding: 5px"-->
-                <!--                (click)="onSubmit($event, 'edit', i, id)"-->
-                <!--              ></button>-->
-              <app-button-icon
-                [buttonAppear]="TuiAppearance.Primary"
-                [buttonShape]="'rounded'"
-                [buttonSize]="'m'"
-                [buttonIcon]="'tuiIconEdit2'"
-                [buttonClass]="'button-edit'"
-
-              ></app-button-icon>
-
-              <app-button-icon
-                [buttonAppear]="'create'"
-                [buttonShape]="'rounded'"
-                [buttonSize]="'m'"
-                [buttonIcon]="'tuiIconSave'"
-                [buttonClass]="'button-update'"
-                (click)="onSubmit($event, 'edit', i, id)"
-              ></app-button-icon>
-
-              <app-button-icon
-                [buttonAppear]="TuiAppearance.Accent"
-                [buttonShape]="'rounded'"
-                [buttonSize]="'m'"
-                [buttonIcon]="'tuiIconTrash'"
-                [buttonClass]="'button-remove'"
-                (click)="onDeleteButtonClick('deleteDialogPlayer'+id)"
-              ></app-button-icon>
-              <!--              <button-->
-                <!--                appearance="accent"-->
-                <!--                icon="tuiIconTrash"-->
-                <!--                shape="rounded"-->
-                <!--                size="m"-->
-                <!--                title="Remove"-->
-                <!--                tuiIconButton-->
-                <!--                type="button"-->
-                <!--                class="button-remove"-->
-                <!--                style="padding: 5px"-->
-                <!--                (click)="onDeleteButtonClick('deleteDialogPlayer'+id)"-->
-                <!--              ></button>-->
-            } @else {
-              <!--              <button-->
-                <!--                appearance="create"-->
-                <!--                icon="tuiIconSave"-->
-                <!--                shape="rounded"-->
-                <!--                size="m"-->
-                <!--                title="Save New"-->
-                <!--                tuiIconButton-->
-                <!--                type="button"-->
-                <!--                class="button-save-new"-->
-                <!--                style="padding: 5px"-->
-                <!--                (click)="onSubmit($event, 'add', i,  null)"-->
-                <!--              ></button>-->
-              <app-button-icon
-                [buttonAppear]="'create'"
-                [buttonShape]="'rounded'"
-                [buttonSize]="'m'"
-                [buttonIcon]="'tuiIconSave'"
-                [buttonClass]="'button-save-new'"
-                (click)="onSubmit($event, 'add', i,  null)"
-              ></app-button-icon>
-
-              <app-button-icon
-                [buttonAppear]="TuiAppearance.Accent"
-                [buttonShape]="'rounded'"
-                [buttonSize]="'m'"
-                [buttonIcon]="'tuiIconX'"
-                [buttonClass]="'button-cancel'"
-                (click)="onCancelButtonClick()"
-              ></app-button-icon>
-
-              <!--              <button-->
-                <!--                appearance="accent"-->
-                <!--                icon="tuiIconX"-->
-                <!--                shape="rounded"-->
-                <!--                size="m"-->
-                <!--                title="Remove"-->
-                <!--                tuiIconButton-->
-                <!--                type="button"-->
-                <!--                class="remove"-->
-                <!--                style="padding: 5px"-->
-                <!--                (click)="onCancelButtonClick()"></button>-->
             }
+
+            <!--              <app-button-icon-->
+            <!--                [buttonAppear]="TuiAppearance.Primary"-->
+            <!--                [buttonShape]="'rounded'"-->
+            <!--                [buttonSize]="'m'"-->
+            <!--                [buttonIcon]="'tuiIconEdit2'"-->
+            <!--                [buttonClass]="'button-edit'"-->
+
+            <!--              ></app-button-icon>-->
+
+            <!--              <app-button-icon-->
+            <!--                [buttonAppear]="'create'"-->
+            <!--                [buttonShape]="'rounded'"-->
+            <!--                [buttonSize]="'m'"-->
+            <!--                [buttonIcon]="'tuiIconSave'"-->
+            <!--                [buttonClass]="'button-update'"-->
+            <!--                (click)="onSubmit($event, 'edit', i, id)"-->
+            <!--              ></app-button-icon>-->
+
+            <!--              <app-button-icon-->
+            <!--                [buttonAppear]="TuiAppearance.Accent"-->
+            <!--                [buttonShape]="'rounded'"-->
+            <!--                [buttonSize]="'m'"-->
+            <!--                [buttonIcon]="'tuiIconTrash'"-->
+            <!--                [buttonClass]="'button-remove'"-->
+            <!--                (click)="onDeleteButtonClick('deleteDialogPlayer'+id)"-->
+            <!--              ></app-button-icon>-->
+            <!--            } @else {-->
+            <!--              <app-button-icon-->
+            <!--                [buttonAppear]="'create'"-->
+            <!--                [buttonShape]="'rounded'"-->
+            <!--                [buttonSize]="'m'"-->
+            <!--                [buttonIcon]="'tuiIconSave'"-->
+            <!--                [buttonClass]="'button-save-new'"-->
+            <!--                (click)="onSubmit($event, 'add', i,  null)"-->
+            <!--              ></app-button-icon>-->
+
+            <!--              <app-button-icon-->
+            <!--                [buttonAppear]="TuiAppearance.Accent"-->
+            <!--                [buttonShape]="'rounded'"-->
+            <!--                [buttonSize]="'m'"-->
+            <!--                [buttonIcon]="'tuiIconX'"-->
+            <!--                [buttonClass]="'button-cancel'"-->
+            <!--                (click)="onCancelButtonClick()"-->
+            <!--              ></app-button-icon>-->
+            <!--            }-->
           </td>
         </tr>
 

@@ -61,6 +61,7 @@ import {
 } from '../../../base/formHelpers';
 import { AddButtonIconComponent } from '../../../shared/ui/buttons/add-button-icon/add-button-icon.component';
 import { ButtonIconComponent } from '../../../shared/ui/buttons/button-icon/button-icon.component';
+import { ActionsButtonsComponent } from '../../../shared/ui/buttons/actions-buttons/actions-buttons.component';
 
 @Component({
   selector: 'app-add-edit-player-to-team-tournament-table',
@@ -99,6 +100,7 @@ import { ButtonIconComponent } from '../../../shared/ui/buttons/button-icon/butt
     AddButtonIconComponent,
     ButtonIconComponent,
     SelectPlayerPositionComponent,
+    ActionsButtonsComponent,
   ],
   templateUrl: './add-edit-player-to-team-tournament-table.component.html',
   styleUrl: './add-edit-player-to-team-tournament-table.component.less',
@@ -269,12 +271,12 @@ export class AddEditPlayerToTeamTournamentTableComponent implements OnChanges {
   // }
 
   onSubmit(
-    event: Event,
+    // event: Event,
     action: 'add' | 'edit',
     index: number,
     playerId: number | null,
   ): void {
-    event.preventDefault();
+    // event.preventDefault();
     if (this.playerForm.valid) {
       const array = this.playerForm.get('players') as FormArray;
 
