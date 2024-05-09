@@ -26,6 +26,7 @@ export interface IPlayerInTeamTournament {
 export interface IPlayerInTeamTournamentWithPersonWithSportWithPosition {
   player: IPlayer | null;
   person: IPerson | null;
+  playerInSport: IPlayerInSport | null;
   playerInTeamTournament: IPlayerInTeamTournament;
   position?: IPosition | null;
 }

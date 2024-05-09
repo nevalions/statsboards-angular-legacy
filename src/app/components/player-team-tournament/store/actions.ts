@@ -36,6 +36,12 @@ export const playerInTeamTournamentActions = createActionGroup({
     'Get all playersInTeamTournament by team id and tournament id failure':
       emptyProps(),
 
+    GetAllPlayersInTournamentByTournamentId: emptyProps(),
+    'Get all players in tournament by tournament id success': props<{
+      playersInTeamTournament: IPlayerInTeamTournament[];
+    }>(),
+    'Get all players in tournament by tournament id failure': emptyProps(),
+
     Update: props<{
       id: number;
       newPlayerInTeamTournamentData: IPlayerInTeamTournament;

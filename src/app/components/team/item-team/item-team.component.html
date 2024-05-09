@@ -78,13 +78,19 @@
       @if (sport$ | async; as sport) {
         @if (allPlayersInTeamTournamentFullData$ | async; as players) {
           @if (currentTournament$ | async; as tournament) {
-            <app-add-edit-player-to-team-tournament-table
-              [sportId]='sport.id!'
-              [teamId]="team.id!"
-              [tournamentId]="tournament.id!"
-              [players]="players"
-              [positions]="allSportPositions$ | async"
-            ></app-add-edit-player-to-team-tournament-table>
+            @if (allSportPlayersWithPerson$ | async; as playersInSport) {
+              @if (allAvailablePlayersInSport$| async; as availablePlayers) {
+                <app-add-edit-player-to-team-tournament-table
+                  [sportId]='sport.id!'
+                  [teamId]="team.id!"
+                  [tournamentId]="tournament.id!"
+                  [playersInSport]="playersInSport"
+                  [availablePlayersInSport]="availablePlayers"
+                  [players]="players"
+                  [positions]="allSportPositions$ | async"
+                ></app-add-edit-player-to-team-tournament-table>
+              }
+            }
           }
           <!--        @for (p of players; track p.playerInTeamTournament.id) {-->
             <!--          <p>{{ p.person.first_name }} {{ p.person.second_name }}</p>-->

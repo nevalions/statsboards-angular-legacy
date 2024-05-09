@@ -52,7 +52,9 @@ export class ItemTeamComponent {
   currentTeam$ = this.team.team$;
   currentTournament$ = this.tournament.currentTournament$;
   currentTeamMainSponsor$ = this.sponsor.currentSponsor$;
-  allPlayers$ = this.player.allPlayers$;
+  allSportPlayersWithPerson$ = this.player.allSportPlayersWithPerson$;
+  allAvailablePlayersInSport$ =
+    this.playerInTeamTournament.allAvailablePlayersToAddInTeamTournament$;
   allPlayersInTeamTournamentFullData$ =
     this.playerInTeamTournament.allPlayersInTeamTournamentFullData$;
   allSportPositions$ = this.position.allSportPositions$;
@@ -75,13 +77,17 @@ export class ItemTeamComponent {
     private sponsor: Sponsor,
     private sponsorLine: SponsorLine,
   ) {
+    team.loadCurrentTeam();
+    tournament.loadCurrentTournament();
+    playerInTeamTournament.loadAllPlayersInTeamTournament();
+    playerInTeamTournament.loadAllPlayersInTournament();
     sponsor.loadAllSponsors();
     sponsorLine.loadAllSponsorLines();
-    team.loadCurrentTeam();
+
     person.loadAllPersons();
+    // player.loadAllPlayers();
     player.loadAllPlayersBySportId();
     position.loadAllPositionsBySportId();
-    playerInTeamTournament.loadAllPlayersInTeamTournament();
   }
 
   onImgError(event: Event) {

@@ -16,13 +16,17 @@ export class PlayerTeamTournamentService extends BaseApiService<IPlayerInTeamTou
     super('players_team_tournament', http, errorHandlingService);
   }
 
-  // findIPlayersInTeamTournamentByTeamIdTournament(id: number): Observable<IPosition[]> {
-  //   return this.findByFirstKeyValue('sports', 'id', id, 'positions').pipe(
-  //     tap((teams) => console.log(`PLAYERS from SPORT ID: ${id}`, teams)),
-  //   );
-  // }
+  findPlayersInTournamentByTournamentId(
+    id: number,
+  ): Observable<IPlayerInTeamTournament[]> {
+    return this.findByFirstKeyValue('tournaments', 'id', id, 'players').pipe(
+      tap((players) =>
+        console.log(`PLAYERS from TOURNAMENT ID: ${id}`, players),
+      ),
+    );
+  }
 
-  findIPlayersInTeamTournamentByTeamIdTournament(
+  findPlayersInTeamTournamentByTeamIdTournament(
     teamId: number,
     tournamentId: number,
   ): Observable<IPlayerInTeamTournament[]> {

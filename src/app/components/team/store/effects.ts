@@ -23,6 +23,7 @@ export class TeamEffects {
         switchMap(({ payload }) => {
           let params = getAllRouteParameters(payload.routerState);
           let teamId = params.get('team_id');
+          console.log('IDIDIDIDIDDIDI', teamId);
           return of(teamId).pipe(
             filter((id: string | undefined): id is string => !!id),
             switchMap((id: string) => [

@@ -9,7 +9,7 @@ export interface PlayerInTeamTournamentState {
   currentPlayerInTeamTournamentId: number | undefined | null;
   currentPlayerInTeamTournament: IPlayerInTeamTournament | undefined | null;
   allPlayersInTeamTournament: IPlayerInTeamTournament[];
-  // allSportPlayersInTeamTournament: IPlayerInTeamTournament[];
+  allPlayersInTournament: IPlayerInTeamTournament[];
 }
 
 const initialState: PlayerInTeamTournamentState = {
@@ -17,7 +17,7 @@ const initialState: PlayerInTeamTournamentState = {
   playerInTeamTournamentIsSubmitting: false,
   currentPlayerInTeamTournamentId: null,
   allPlayersInTeamTournament: [],
-  // allSportPlayersInTeamTournament: [],
+  allPlayersInTournament: [],
   currentPlayerInTeamTournament: null,
 };
 
@@ -222,6 +222,36 @@ const playerInTeamTournamentFeature = createFeature({
         errors: action,
       }),
     ),
+
+    on(
+      playerInTeamTournamentActions.getAllPlayersInTournamentByTournamentId,
+      (state) => ({
+        ...state,
+        playerInTeamTournamentIsLoading: true,
+      }),
+    ),
+    on(
+      playerInTeamTournamentActions.getAllPlayersInTournamentByTournamentIdSuccess,
+      (state, action) => {
+        const sortedPlayerInTeamTournaments = SortService.sort(
+          action.playersInTeamTournament,
+          'id',
+        );
+        return {
+          ...state,
+          playerInTeamTournamentIsLoading: false,
+          allPlayersInTournament: sortedPlayerInTeamTournaments,
+        };
+      },
+    ),
+    on(
+      playerInTeamTournamentActions.getAllPlayersInTournamentByTournamentIdFailure,
+      (state, action) => ({
+        ...state,
+        playerInTeamTournamentIsLoading: false,
+        errors: action,
+      }),
+    ),
   ),
 });
 
@@ -233,5 +263,5 @@ export const {
   selectCurrentPlayerInTeamTournamentId,
   selectCurrentPlayerInTeamTournament,
   selectAllPlayersInTeamTournament,
-  // selectAllSportPlayersInTeamTournament,
+  selectAllPlayersInTournament,
 } = playerInTeamTournamentFeature;

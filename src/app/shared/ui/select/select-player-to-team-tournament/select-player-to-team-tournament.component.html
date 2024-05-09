@@ -1,0 +1,15 @@
+<tui-select
+  [formControl]="control"
+  style="padding-top: 10px;"
+>
+  <tui-data-list *tuiDataList>
+    @for (playerInSport of playerList; track playerInSport.player.id) {
+      <button
+        tuiOption
+        [value]="playerInSport"
+      >
+        {{ playerInSport.person?.second_name }} {{ playerInSport.person?.first_name }}
+      </button>
+    }
+  </tui-data-list>
+</tui-select>

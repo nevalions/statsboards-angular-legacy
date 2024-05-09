@@ -1,13 +1,25 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { catchError, filter, map, of, switchMap, withLatestFrom } from 'rxjs';
+import {
+  catchError,
+  combineLatest,
+  filter,
+  map,
+  of,
+  switchMap,
+  take,
+  withLatestFrom,
+} from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { routerNavigatedAction } from '@ngrx/router-store';
 import { getAllRouteParameters } from '../../../router/router.selector';
 import { playerInTeamTournamentActions } from './actions';
-import { selectCurrentPlayerInTeamTournament } from './reducers';
+import {
+  selectCurrentPlayerInTeamTournament,
+  selectCurrentPlayerInTeamTournamentId,
+} from './reducers';
 import { selectCurrentSportId } from '../../sport/store/reducers';
 import { IPlayerInTeamTournament } from '../../../type/player.type';
 import { PlayerTeamTournamentService } from '../player-team-tournament.service';
@@ -16,6 +28,10 @@ import {
   selectCurrentTournament,
   selectCurrentTournamentId,
 } from '../../tournament/store/reducers';
+import { tournamentActions } from '../../tournament/store/actions';
+import { selectSportIdAndSeasonId } from '../../sport/store/selectors';
+import { ITournament } from '../../../type/tournament.type';
+import { selectTeamTournamentId } from '../../team/store/selectors';
 
 @Injectable()
 export class PlayerInTeamTournamentEffects {
@@ -93,7 +109,7 @@ export class PlayerInTeamTournamentEffects {
     { functional: true },
   );
 
-  getAllPlayerInTeamTournaments = createEffect(
+  getAllPlayersInTeamTournamentEffect = createEffect(
     () => {
       return this.actions$.pipe(
         ofType(playerInTeamTournamentActions.getAll),
@@ -108,6 +124,38 @@ export class PlayerInTeamTournamentEffects {
               return of(playerInTeamTournamentActions.getAllItemsFailure());
             }),
           );
+        }),
+      );
+    },
+    { functional: true },
+  );
+
+  getAllPlayersInTournamentEffect = createEffect(
+    () => {
+      return this.actions$.pipe(
+        ofType(
+          playerInTeamTournamentActions.getAllPlayersInTournamentByTournamentId,
+        ),
+        switchMap(() => this.store.select(selectCurrentTournamentId)),
+        filter(
+          (tournamentId): tournamentId is number =>
+            tournamentId !== null && tournamentId !== undefined,
+        ),
+        switchMap((tournamentId: number) => {
+          return this.playerInTeamTournamentService
+            .findPlayersInTournamentByTournamentId(tournamentId)
+            .pipe(
+              map((playersInTeamTournament: IPlayerInTeamTournament[]) => {
+                return playerInTeamTournamentActions.getAllPlayersInTournamentByTournamentIdSuccess(
+                  { playersInTeamTournament },
+                );
+              }),
+              catchError(() => {
+                return of(
+                  playerInTeamTournamentActions.getAllPlayersInTournamentByTournamentIdFailure,
+                );
+              }),
+            );
         }),
       );
     },
@@ -160,45 +208,39 @@ export class PlayerInTeamTournamentEffects {
     { functional: true },
   );
 
-  getPlayersInTeamTournamentByTeamIdTournamentIdEffect = createEffect(
+  getPlayersInTeamTournamentEffect = createEffect(
     () => {
       return this.actions$.pipe(
         ofType(
           playerInTeamTournamentActions.getAllPlayerInTeamTournamentsByTeamIdTournamentId,
         ),
-        withLatestFrom(
-          this.store.select(selectCurrentTournamentId),
-          this.store.select(selectCurrentTeamId),
-        ),
+        switchMap(() => this.store.select(selectTeamTournamentId)),
         filter(
-          ([action, tournamentId, teamId]) =>
-            tournamentId !== null && tournamentId !== undefined,
+          ({ teamId, tournamentId }) =>
+            teamId !== null &&
+            teamId !== undefined &&
+            tournamentId !== null &&
+            tournamentId !== undefined,
         ),
-        switchMap(([action, tournamentId, teamId]) => {
-          if (typeof teamId === 'number' && typeof tournamentId === 'number') {
-            return this.playerInTeamTournamentService
-              .findIPlayersInTeamTournamentByTeamIdTournament(
-                teamId,
-                tournamentId,
-              )
-              .pipe(
-                map((playersInTeamTournament: IPlayerInTeamTournament[]) => {
-                  return playerInTeamTournamentActions.getAllPlayersInTeamTournamentByTeamIdAndTournamentIdSuccess(
-                    { playersInTeamTournament },
-                  );
-                }),
-                catchError((error) => {
-                  console.error(error);
-                  return of(
-                    playerInTeamTournamentActions.getAllPlayersInTeamTournamentByTeamIdAndTournamentIdFailure(),
-                  );
-                }),
-              );
-          } else {
-            // If either the teamId or tournamentId are not numbers, we return an never-observable.
-            return of(); // Never emitting anything as we do not have valid IDs.
-          }
-        }),
+        switchMap(({ teamId, tournamentId }) =>
+          this.playerInTeamTournamentService
+            .findPlayersInTeamTournamentByTeamIdTournament(
+              teamId!,
+              tournamentId!,
+            )
+            .pipe(
+              map((playersInTeamTournament: IPlayerInTeamTournament[]) =>
+                playerInTeamTournamentActions.getAllPlayersInTeamTournamentByTeamIdAndTournamentIdSuccess(
+                  {
+                    playersInTeamTournament,
+                  },
+                ),
+              ),
+              catchError(() =>
+                of(tournamentActions.getTournamentsBySportAndSeasonFailure()),
+              ),
+            ),
+        ),
       );
     },
     { functional: true },

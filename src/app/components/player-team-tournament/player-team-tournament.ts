@@ -4,13 +4,16 @@ import { playerInTeamTournamentActions } from './store/actions';
 import { Observable } from 'rxjs';
 import { AppState } from '../../store/appstate';
 import {
+  IPlayerInSport,
   IPlayerInTeamTournament,
   IPlayerInTeamTournamentWithPersonWithSportWithPosition,
 } from '../../type/player.type';
 import {
   selectAllPlayersInTeamTournamentWithPersonsWithPositions,
+  selectAvailablePlayersForTeamTournament,
   selectCurrentPlayerInTeamTournamentWithPersonWithSportWithPosition,
 } from './store/selectors';
+import { selectAllPlayersInTournament } from './store/reducers';
 
 @Injectable({
   providedIn: 'root',
@@ -23,9 +26,11 @@ export class PlayerInTeamTournament {
     IPlayerInTeamTournamentWithPersonWithSportWithPosition | null | undefined
   >;
   allPlayersInTeamTournament$: Observable<IPlayerInTeamTournament[]>;
+  allPlayerInTournament$: Observable<IPlayerInTeamTournament[]>;
   allPlayersInTeamTournamentFullData$: Observable<
     IPlayerInTeamTournamentWithPersonWithSportWithPosition[]
   >;
+  allAvailablePlayersToAddInTeamTournament$: Observable<IPlayerInSport[]>;
 
   constructor(private store: Store<AppState>) {
     this.currentPlayerInTeamTournament$ = store.select(
@@ -34,11 +39,16 @@ export class PlayerInTeamTournament {
     this.allPlayersInTeamTournament$ = store.select(
       (state) => state.playerInTeamTournament.allPlayersInTeamTournament,
     );
+    this.allPlayerInTournament$ = store.select(selectAllPlayersInTournament);
     this.currentPlayerInTeamTournamentFullData$ = store.select(
       selectCurrentPlayerInTeamTournamentWithPersonWithSportWithPosition,
     );
     this.allPlayersInTeamTournamentFullData$ = store.select(
       selectAllPlayersInTeamTournamentWithPersonsWithPositions,
+    );
+
+    this.allAvailablePlayersToAddInTeamTournament$ = store.select(
+      selectAvailablePlayersForTeamTournament,
     );
   }
 
@@ -68,6 +78,12 @@ export class PlayerInTeamTournament {
   loadAllPlayersInTeamTournament() {
     this.store.dispatch(
       playerInTeamTournamentActions.getAllPlayerInTeamTournamentsByTeamIdTournamentId(),
+    );
+  }
+
+  loadAllPlayersInTournament() {
+    this.store.dispatch(
+      playerInTeamTournamentActions.getAllPlayersInTournamentByTournamentId(),
     );
   }
 

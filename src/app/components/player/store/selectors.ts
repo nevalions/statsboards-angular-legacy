@@ -30,11 +30,16 @@ export const selectAllPlayersWithPersons = createSelector(
 export const selectAllSportPlayersWithPersons = createSelector(
   selectAllPersons,
   selectAllSportPlayers,
-  (persons, players): IPlayerInSport[] => {
-    const playersWithPersons = players.map((player) =>
-      combinePlayerWithPerson(persons, player),
-    );
-    return SortService.sort(playersWithPersons, 'person.second_name');
+  (persons, players): IPlayerInSport[] | [] => {
+    if (persons && players) {
+      const playersWithPersons = players.map((player) =>
+        combinePlayerWithPerson(persons, player),
+      );
+
+      return SortService.sort(playersWithPersons, 'person.second_name');
+    } else {
+      return [];
+    }
   },
 );
 

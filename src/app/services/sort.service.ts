@@ -1,6 +1,9 @@
 export class SortService {
   static sort(data: any[], ...properties: string[]): any[] {
-    return [...data].sort((a, b) => this.compareProperties(a, b, properties));
+    if (data && data.length > 0) {
+      return [...data].sort((a, b) => this.compareProperties(a, b, properties));
+    }
+    return data;
   }
 
   private static compareProperties(
@@ -11,21 +14,24 @@ export class SortService {
     for (let property of properties) {
       const isAscending = !property.startsWith('-');
 
-      const nestedProperties = (
-        isAscending ? property : property.slice(1)
-      ).split('.');
+      if (property.slice(1)) {
+        const nestedProperties = (
+          isAscending ? property : property.slice(1)
+        ).split('.');
 
-      let propertyA = this.getNestedProperty(a, nestedProperties);
-      let propertyB = this.getNestedProperty(b, nestedProperties);
+        let propertyA = this.getNestedProperty(a, nestedProperties);
+        let propertyB = this.getNestedProperty(b, nestedProperties);
 
-      [propertyA, propertyB] = this.normalizeProperties(propertyA, propertyB);
+        [propertyA, propertyB] = this.normalizeProperties(propertyA, propertyB);
 
-      if (propertyA < propertyB) {
-        return isAscending ? -1 : 1;
-      } else if (propertyA > propertyB) {
-        return isAscending ? 1 : -1;
+        if (propertyA < propertyB) {
+          return isAscending ? -1 : 1;
+        } else if (propertyA > propertyB) {
+          return isAscending ? 1 : -1;
+        }
       }
     }
+
     return 0;
   }
 
