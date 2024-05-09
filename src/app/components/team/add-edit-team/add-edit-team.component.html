@@ -1,6 +1,6 @@
 <ng-template
   let-observer
-  [tuiDialogOptions]="{label: action.toUpperCase() + 'TEAM', size: 'm'}"
+  [tuiDialogOptions]="{label: action.toUpperCase() +' ' + new_team.title.toUpperCase() +' TEAM', size: 'm'}"
   [(tuiDialog)]="open"
 >
   <form

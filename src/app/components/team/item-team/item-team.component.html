@@ -54,12 +54,12 @@
         <app-edit-button
           [action]="'edit'"
           [item]="'Team'"
-          [dialogId]="'editDialog'"
+          [dialogId]="'editTeamDialog'"
         ></app-edit-button>
 
         <app-add-edit-team
           [action]="'edit'"
-          [dialogId]="'editDialog'"
+          [dialogId]="'editTeamDialog'"
           [new_team]="team"
           [allSponsors]="allSponsors$ | async"
           [allSponsorLines]="allSponsorLines$ | async"
@@ -67,12 +67,12 @@
 
         <app-delete-button
           [item]="buttonTitle"
-          [dialogId]="'deleteDialog'"
+          [dialogId]="'deleteTeamDialog'"
         ></app-delete-button>
         <app-delete-dialog
-          [item]="buttonTitle"
+          [item]="team.title"
           (delete)="onDelete()"
-          [dialogId]="'deleteDialog'"
+          [dialogId]="'deleteTeamDialog'"
         ></app-delete-dialog>
       </div>
       @if (sport$ | async; as sport) {
@@ -92,9 +92,6 @@
               }
             }
           }
-          <!--        @for (p of players; track p.playerInTeamTournament.id) {-->
-            <!--          <p>{{ p.person.first_name }} {{ p.person.second_name }}</p>-->
-            <!--        }-->
         }
       }
 

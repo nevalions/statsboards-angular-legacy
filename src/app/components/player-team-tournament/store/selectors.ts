@@ -94,15 +94,11 @@ export const selectAllPlayersInTeamTournamentWithPersonsWithPositions =
 
 export const selectCurrentPlayerInTeamTournamentWithPersonWithSportWithPosition =
   createSelector(
-    // selectAllPersons,
-    // selectAllSportPlayers,
     selectAllSportPlayersWithPersons,
     selectAllPlayersInTeamTournament,
     selectCurrentPlayerInTeamTournamentId,
     selectAllPositions,
     (
-      // persons: IPerson[],
-      // players: IPlayer[],
       playersInSport: IPlayerInSport[],
       playersInTeamTournament: IPlayerInTeamTournament[],
       currentPlayerId: number | null | undefined,
@@ -115,8 +111,6 @@ export const selectCurrentPlayerInTeamTournamentWithPersonWithSportWithPosition 
         return null;
       }
       if (
-        // persons &&
-        // players &&
         playersInSport &&
         playersInTeamTournament &&
         currentPlayerId &&
@@ -126,8 +120,6 @@ export const selectCurrentPlayerInTeamTournamentWithPersonWithSportWithPosition 
           (player) => player.id === currentPlayerId,
         );
         return combinePlayerWithPersonWithPosition(
-          // persons,
-          // players,
           playersInSport,
           currentPlayer!,
           positions,

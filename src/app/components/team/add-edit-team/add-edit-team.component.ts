@@ -142,30 +142,6 @@ export class AddEditTeamComponent implements OnInit, OnDestroy, OnChanges {
     this.uploadProgressService.clearRejected(this.teamLogoForm);
   }
 
-  // uploadTeamLogo(file: File): Observable<TuiFileLike | null> {
-  //   this.loadingFiles$.next(file);
-  //
-  //   if (file && file.name) {
-  //     return this.imageService.uploadImage(file, 'teams/upload_logo').pipe(
-  //       map((response: any) => {
-  //         this.teamForm.controls.teamLogoUrl.setValue(response.logoUrl);
-  //         this.uploadedFiles$.next(file);
-  //
-  //         return file;
-  //       }),
-  //       catchError((error) => {
-  //         console.error('Error while uploading logo:', error);
-  //         return of(null);
-  //       }),
-  //       finalize(() => {
-  //         this.loadingFiles$.next(null);
-  //       }),
-  //     );
-  //   }
-  //
-  //   return of(null);
-  // }
-
   uploadTeamLogo(file: File): Observable<TuiFileLike | null> {
     this.loadingFiles$.next(file);
 
@@ -181,19 +157,19 @@ export class AddEditTeamComponent implements OnInit, OnDestroy, OnChanges {
             }
             this.uploadedFiles$.next(file);
 
-            return file; // Return the file as a TuiFileLike object if needed, or adapt as required
+            return file;
           }),
           catchError((error) => {
             console.error('Error while uploading photo:', error);
-            return of(null); // Return null to indicate the upload failed
+            return of(null);
           }),
           finalize(() => {
-            this.loadingFiles$.next(null); // Indicate that loading has finished
+            this.loadingFiles$.next(null);
           }),
         );
     }
 
-    return of(null); // Return null immediately if there's no file selected
+    return of(null);
   }
 
   ngOnChanges(changes: SimpleChanges): void {

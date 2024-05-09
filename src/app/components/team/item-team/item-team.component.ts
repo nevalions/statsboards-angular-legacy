@@ -83,9 +83,7 @@ export class ItemTeamComponent {
     playerInTeamTournament.loadAllPlayersInTournament();
     sponsor.loadAllSponsors();
     sponsorLine.loadAllSponsorLines();
-
     person.loadAllPersons();
-    // player.loadAllPlayers();
     player.loadAllPlayersBySportId();
     position.loadAllPositionsBySportId();
   }
