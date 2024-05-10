@@ -4,12 +4,14 @@
       formControlName="person"
     >
       {{ 'search ' | uppercase }} {{ placeholder | uppercase }}
-      <tui-data-list-wrapper
-        *tuiDataList
-        [itemContent]="stringifySurnameName | tuiStringifyContent"
-        [items]="persons | tuiFilterByInput: matcherString"
-        (itemClick)="onSelected($event)"
-      ></tui-data-list-wrapper>
+      @if (persons) {
+        <tui-data-list-wrapper
+          *tuiDataList
+          [itemContent]="stringifySurnameName | tuiStringifyContent"
+          [items]="persons | tuiFilterByInput: matcherString"
+          (itemClick)="onSelected($event)"
+        ></tui-data-list-wrapper>
+      }
     </tui-combo-box>
   </form>
 </div>

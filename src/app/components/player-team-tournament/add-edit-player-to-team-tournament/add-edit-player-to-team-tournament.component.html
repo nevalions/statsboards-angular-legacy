@@ -7,19 +7,26 @@
     [formGroup]="playerForm"
     (ngSubmit)="onSubmit(); observer.complete()"
   >
-    <p></p>
-    <div class="tui-form__row">
-      <tui-input
-        formControlName="positionTitle"
-      >
-        Position Title
-        <span class="tui-required"></span>
-      </tui-input>
-      <tui-error
-        formControlName="positionTitle"
-        [error]="[] | tuiFieldError | async"
-      ></tui-error>
-    </div>
+
+    @if (availablePlayers) {
+      <app-search-player-in-sport-autocomplite
+        [placeholder]="'person by last name'"
+        [sportPlayers]="availablePlayers"
+        [control]="playerForm.controls['playerInSport']"
+      ></app-search-player-in-sport-autocomplite>
+    } @else {
+      NO AVAILABLE PERSONS
+    }
+
+    <app-select-player-position
+      [positionList]="sportPositions"
+      [control]="playerForm.controls['position']"
+    ></app-select-player-position>
+
+    <app-select-player-number
+      [control]="playerForm.controls['number']"
+    ></app-select-player-number>
+
     <p>
       <app-create-button-in-form
         [action]="action"

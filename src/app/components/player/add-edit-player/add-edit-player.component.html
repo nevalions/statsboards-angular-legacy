@@ -12,7 +12,7 @@
       <app-search-person-input-autocomplete
         [placeholder]="'person by last name'"
         [persons]="allAvailablePersons"
-        [formField]="playerForm.controls['person']"
+        [control]="playerForm.controls['person']"
       ></app-search-person-input-autocomplete>
     } @else {
       NO AVAILABLE PERSONS

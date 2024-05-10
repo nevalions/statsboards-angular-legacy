@@ -28,6 +28,11 @@ import {
 import { DialogService } from '../../../services/dialog.service';
 import { PlayerInTeamTournament } from '../player-team-tournament';
 import { IPosition } from '../../../type/position.type';
+import { SearchPersonInputAutocompleteComponent } from '../../../shared/ui/search/search-person-input-autocomplete/search-person-input-autocomplete.component';
+import { IPerson } from '../../../type/person.type';
+import { SelectPlayerPositionComponent } from '../../../shared/ui/select/select-player-position/select-player-position.component';
+import { SelectPlayerNumberComponent } from '../../../shared/ui/select/select-player-number/select-player-number.component';
+import { SearchPlayerInSportAutocompliteComponent } from '../../../shared/ui/search/search-player-in-sport-autocomplite/search-player-in-sport-autocomplite.component';
 
 @Component({
   selector: 'app-add-edit-player-to-team-tournament',
@@ -41,6 +46,10 @@ import { IPosition } from '../../../type/position.type';
     TuiErrorModule,
     TuiFieldErrorPipeModule,
     TuiInputModule,
+    SearchPersonInputAutocompleteComponent,
+    SelectPlayerPositionComponent,
+    SelectPlayerNumberComponent,
+    SearchPlayerInSportAutocompliteComponent,
   ],
   templateUrl: './add-edit-player-to-team-tournament.component.html',
   styleUrl: './add-edit-player-to-team-tournament.component.less',
@@ -55,6 +64,8 @@ export class AddEditPlayerToTeamTournamentComponent
   @Input()
   playerToEdit: IPlayerInTeamTournamentWithPersonWithSportWithPosition =
     {} as IPlayerInTeamTournamentWithPersonWithSportWithPosition;
+  @Input() availablePlayers: IPlayerInSport[] = [];
+  @Input() sportPositions: IPosition[] | null = [];
   @Input() sport_Id!: number;
   @Input() teamId: number | null = null;
   @Input() tournamentId!: number;
@@ -78,6 +89,15 @@ export class AddEditPlayerToTeamTournamentComponent
 
   showDialog(open: boolean): void {
     this.open = open;
+  }
+
+  mapPersons(players: IPlayerInSport[]): IPerson[] | null {
+    const persons = players.map((player) => player.person);
+    const playersId = players.map((player) => player.player.id);
+    if (persons && persons.length > 0 && playersId.length > 0) {
+      return <IPerson[]>persons;
+    }
+    return null;
   }
 
   ngOnChanges(changes: SimpleChanges) {

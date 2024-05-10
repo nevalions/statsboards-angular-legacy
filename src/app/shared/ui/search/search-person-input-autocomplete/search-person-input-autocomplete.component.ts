@@ -33,8 +33,8 @@ import { stringifySurnameName, toTitleCase } from '../../../../base/helpers';
 })
 export class SearchPersonInputAutocompleteComponent {
   @Input() placeholder: string = 'person by last name';
-  @Input() persons: IPerson[] = [];
-  @Input() formField!: FormControl;
+  @Input() persons: IPerson[] | null = [];
+  @Input() control!: FormControl;
 
   readonly form = new FormGroup({
     person: new FormControl<IPerson | null>(null),
@@ -46,7 +46,7 @@ export class SearchPersonInputAutocompleteComponent {
     person.second_name.toLowerCase().startsWith(search.toLowerCase());
 
   onSelected(person: IPerson): void {
-    this.formField.setValue(person);
+    this.control.setValue(person);
   }
 
   protected readonly stringifySurnameName = stringifySurnameName;

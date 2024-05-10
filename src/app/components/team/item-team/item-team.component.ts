@@ -24,6 +24,8 @@ import { PlayerInTeamTournament } from '../../player-team-tournament/player-team
 import { Position } from '../../position/postion';
 import { AddEditPlayerToTeamTournamentTableComponent } from '../../player-team-tournament/add-edit-player-to-team-tournament-table/add-edit-player-to-team-tournament-table.component';
 import { Sport } from '../../sport/sport';
+import { AddEditPlayerToTeamTournamentComponent } from '../../player-team-tournament/add-edit-player-to-team-tournament/add-edit-player-to-team-tournament.component';
+import { CreateButtonShowDialogComponent } from '../../../shared/ui/buttons/create-button-show-dialog/create-button-show-dialog.component';
 
 @Component({
   selector: 'app-item-team',
@@ -41,6 +43,8 @@ import { Sport } from '../../sport/sport';
     DeleteButtonComponent,
     SponsorLineComponent,
     AddEditPlayerToTeamTournamentTableComponent,
+    AddEditPlayerToTeamTournamentComponent,
+    CreateButtonShowDialogComponent,
   ],
   templateUrl: './item-team.component.html',
   styleUrl: './item-team.component.less',
@@ -49,12 +53,15 @@ import { Sport } from '../../sport/sport';
 })
 export class ItemTeamComponent {
   sport$ = this.sport.currentSport$;
+  tournament$ = this.tournament.currentTournament$;
   currentTeam$ = this.team.team$;
   currentTournament$ = this.tournament.currentTournament$;
   currentTeamMainSponsor$ = this.sponsor.currentSponsor$;
   allSportPlayersWithPerson$ = this.player.allSportPlayersWithPerson$;
   allAvailablePlayersInTeamTournament$ =
     this.playerInTeamTournament.allAvailablePlayersToAddInTeamTournament$;
+  allAvailablePlayersToAddInTournament$ =
+    this.playerInTeamTournament.allAvailablePlayersToAddInTournament$;
   allPlayersInTeamTournamentFullData$ =
     this.playerInTeamTournament.allPlayersInTeamTournamentFullData$;
   allSportPositions$ = this.position.allSportPositions$;

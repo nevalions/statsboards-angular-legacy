@@ -37,7 +37,7 @@ import { AddButtonIconComponent } from '../../buttons/add-button-icon/add-button
   styleUrl: './select-player-position.component.less',
 })
 export class SelectPlayerPositionComponent {
-  @Input() positionList: IPosition[] = [];
+  @Input() positionList: IPosition[] | null = [];
   @Input() index!: number;
   @Input() sportId!: number;
   @Input() control!: FormControl;
