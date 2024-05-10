@@ -9,7 +9,6 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { ITournament } from '../../../type/tournament.type';
 import { IPosition } from '../../../type/position.type';
 import { DialogService } from '../../../services/dialog.service';
 import { Position } from '../postion';

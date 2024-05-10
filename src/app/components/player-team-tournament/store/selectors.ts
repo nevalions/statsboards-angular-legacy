@@ -17,58 +17,76 @@ import {
 import { SortService } from '../../../services/sort.service';
 import { selectAllSportPlayersWithPersons } from '../../player/store/selectors';
 import { selectCurrentTournamentId } from '../../tournament/store/reducers';
+import { selectAllTeamsInTournament } from '../../team/store/reducers';
+import { ITeam } from '../../../type/team.type';
 
-function combinePlayerWithPersonWithPosition(
-  // persons: IPerson[],
-  // players: IPlayer[],
+function combinePlayerWithPersonWithPositionWithTeam(
   playersInSport: IPlayerInSport[],
   playerInTeamTournament: IPlayerInTeamTournament,
-  positions: IPosition[],
+  positions: IPosition[] = [],
+  teams: ITeam[] = [],
 ): IPlayerInTeamTournamentWithPersonWithSportWithPosition | null {
-  // const player = players.find((p) => p.id === playerInTeamTournament.player_id);
-  // const person = playersInSport.find((p) => p.player.id === player!.person_id);
   const playerInSport = playersInSport.find(
     (p) => p.player.id === playerInTeamTournament.player_id,
   );
   const position =
     positions.find((pos) => pos.id === playerInTeamTournament.position_id) ||
     null;
-
-  // if (player && person && playerInTeamTournament) {
+  const team =
+    teams.find((team) => team.id === playerInTeamTournament.team_id) || null;
   return {
-    // player: player!,
-    // person: person!,
     playerInSport: playerInSport!,
     playerInTeamTournament: playerInTeamTournament,
     position: position,
+    team: team,
   };
-  // } else {
-  //   return null;
-  // }
 }
 
 // Selector that uses the helper function to combine an array of players with persons
 export const selectAllPlayersInTeamTournamentWithPersonsWithPositions =
   createSelector(
-    // selectAllPersons,
-    // selectAllSportPlayers,
     selectAllSportPlayersWithPersons,
     selectAllPlayersInTeamTournament,
     selectAllSportPositions,
-    (
-      // persons,
-      // players,
-      playersInSport,
-      playersInTeamTournament,
-      positions,
-    ) => {
+    (playersInSport, playersInTeamTournament, positions) => {
       if (playersInSport && playersInTeamTournament) {
         const playersWithPersons = playersInTeamTournament.map(
           (playerInTeamTournament) =>
-            combinePlayerWithPersonWithPosition(
+            combinePlayerWithPersonWithPositionWithTeam(
               playersInSport,
               playerInTeamTournament,
               positions,
+            ),
+        );
+        if (playersInSport && playersInTeamTournament) {
+          return SortService.sort(
+            playersWithPersons,
+            'playerInSport.person.second_name',
+          );
+        } else {
+          return [];
+        }
+      } else {
+        return [];
+      }
+    },
+  );
+
+export const selectAllPlayersInTournamentWithPersonsWithPositions =
+  createSelector(
+    selectAllSportPlayersWithPersons,
+    selectAllPlayersInTournament,
+    selectAllSportPositions,
+    selectAllTeamsInTournament,
+    (playersInSport, playersInTeamTournament, positions, teams) => {
+      if (playersInSport && playersInTeamTournament) {
+        const playersWithPersons = playersInTeamTournament.map(
+          (playerInTeamTournament) =>
+            combinePlayerWithPersonWithPositionWithTeam(
+              playersInSport,
+              playerInTeamTournament,
+              positions,
+              teams,
             ),
         );
         if (playersInSport && playersInTeamTournament) {
@@ -112,7 +130,7 @@ export const selectCurrentPlayerInTeamTournamentWithPersonWithSportWithPosition 
         const currentPlayer = playersInTeamTournament.find(
           (player) => player.id === currentPlayerId,
         );
-        return combinePlayerWithPersonWithPosition(
+        return combinePlayerWithPersonWithPositionWithTeam(
           playersInSport,
           currentPlayer!,
           positions,
@@ -123,7 +141,7 @@ export const selectCurrentPlayerInTeamTournamentWithPersonWithSportWithPosition 
     },
   );
 
-export const selectAvailablePlayersForTeamTournament = createSelector(
+export const selectAvailablePlayersForTournament = createSelector(
   selectAllSportPlayersWithPersons,
   selectAllPlayersInTournament,
   selectCurrentTournamentId,
@@ -132,36 +150,55 @@ export const selectAvailablePlayersForTeamTournament = createSelector(
     teamTournamentPlayers: IPlayerInTeamTournament[],
     currentTournamentId: number | null | undefined,
   ) => {
-    // console.log(
-    //   'all',
-    //   allSportPlayers,
-    //   teamTournamentPlayers,
-    //   currentTournamentId,
-    // );
     if (!currentTournamentId) {
       return [];
     }
-    // console.log(allSportPlayers);
-    // console.log(teamTournamentPlayers);
-    if (teamTournamentPlayers.length === 0) {
+
+    const playersInThisTournamentIds = teamTournamentPlayers
+      .filter(
+        (playerInTournament) =>
+          playerInTournament.tournament_id === currentTournamentId,
+      )
+      .map((playerInTournament) => playerInTournament.player_id);
+    const availablePlayers: IPlayerInSport[] = allSportPlayers.filter(
+      (sportPlayer) =>
+        !playersInThisTournamentIds.includes(sportPlayer.player.id!),
+    );
+    console.log('availablePlayers', availablePlayers);
+    return availablePlayers;
+  },
+);
+
+export const selectAvailablePlayersForTeamTournament = createSelector(
+  selectAllSportPlayersWithPersons, // All players in the sport
+  selectAllPlayersInTournamentWithPersonsWithPositions, // All players in the current tournament
+  selectCurrentTournamentId, // The current tournament ID
+  (
+    allSportPlayers: IPlayerInSport[],
+    allTournamentPlayers: IPlayerInTeamTournamentWithPersonWithSportWithPosition[],
+    currentTournamentId: number | null | undefined,
+  ) => {
+    if (!currentTournamentId) {
       return [];
     }
-    if (teamTournamentPlayers.length > 0) {
-      const playersInThisTournamentIds = teamTournamentPlayers
+
+    const playerIdsInTeams = new Set<number>(
+      allTournamentPlayers
         .filter(
-          (playerInTournament) =>
-            playerInTournament.tournament_id === currentTournamentId,
+          (player) =>
+            player.playerInTeamTournament.team_id === null &&
+            player.playerInTeamTournament.tournament_id === currentTournamentId,
         )
-        .map((playerInTournament) => playerInTournament.player_id);
-      // console.log(playersInThisTournamentIds, currentTournamentId);
-      // Filter out those players from the list of all sport players
-      const availablePlayers: IPlayerInSport[] = allSportPlayers.filter(
-        (sportPlayer) =>
-          !playersInThisTournamentIds.includes(sportPlayer.player.id!),
-      );
-      console.log('availablePlayers', availablePlayers);
-      return availablePlayers;
-    }
-    return allSportPlayers;
+        .map((player) => {
+          console.log('player', player);
+          return player.playerInTeamTournament.player_id!;
+        }),
+    );
+
+    return allSportPlayers.filter(
+      (sportPlayer) =>
+        sportPlayer.player.id && // Player has an ID
+        playerIdsInTeams.has(sportPlayer.player.id),
+    );
   },
 );

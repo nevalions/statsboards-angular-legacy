@@ -4,11 +4,17 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { tuiItemsHandlersProvider, TuiSelectModule } from '@taiga-ui/kit';
 import { TuiDataListModule } from '@taiga-ui/core';
 import { stringifySurnameName } from '../../../../base/helpers';
+import { TitleCasePipe } from '@angular/common';
 
 @Component({
   selector: 'app-select-player-to-team-tournament',
   standalone: true,
-  imports: [TuiSelectModule, TuiDataListModule, ReactiveFormsModule],
+  imports: [
+    TuiSelectModule,
+    TuiDataListModule,
+    ReactiveFormsModule,
+    TitleCasePipe,
+  ],
   providers: [
     tuiItemsHandlersProvider({
       stringify: (item: IPlayerInSport) =>
@@ -20,7 +26,6 @@ import { stringifySurnameName } from '../../../../base/helpers';
 })
 export class SelectPlayerToTeamTournamentComponent {
   @Input() playerList: IPlayerInSport[] = [];
-  @Input() teamId!: number;
   @Input() tournamentId!: number;
   @Input() control!: FormControl;
 }

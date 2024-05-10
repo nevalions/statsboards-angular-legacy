@@ -5,15 +5,20 @@
 >
   <table
     tuiTable
+    [size]="'l'"
     class="table-players"
-    style="width: 100%"
+    style="width: 100%;padding: 20px;"
   >
     <thead>
     <tr>
-      <th tuiTh style="width: 30%">Player Full Name</th>
-      <th tuiTh>Player Number</th>
-      <th tuiTh>Player Position</th>
-      <th tuiTh style="width: 30%">Actions</th>
+      <th tuiTh>Full Name</th>
+      @if (teamId) {
+        <th tuiTh>Number</th>
+      } @else {
+        <th tuiTh>Team</th>
+      }
+      <th tuiTh>Position</th>
+      <th tuiTh>Actions</th>
     </tr>
     </thead>
 
@@ -27,18 +32,27 @@
                   {{ name | uppercase }}
                 }
               } @else {
+
                 <app-select-player-to-team-tournament
                   [playerList]="availablePlayersInSport"
-                  [teamId]="teamId"
                   [tournamentId]="tournamentId"
                   [control]="getFormControl(this.playerForm, i, 'playerInSport', 'players')"
                 ></app-select-player-to-team-tournament>
+
               }
             </td>
+
             <td tuiTd>
-              <app-select-player-number
-                [control]="getFormControl(this.playerForm, i, 'number', 'players')"
-              ></app-select-player-number>
+              @if (teamId) {
+                <app-select-player-number
+                  [control]="getFormControl(this.playerForm, i, 'number', 'players')"
+                ></app-select-player-number>
+              } @else {
+                @if (getFormDataByIndexAndKey(playerFormGroup, i, 'team'); as team) {
+                  {{ team | uppercase }}
+                }
+              }
+            </td>
             <td tuiTd>
               @if (sportId) {
                 @if (positions) {
@@ -52,19 +66,28 @@
               }
             </td>
             <td tuiTd>
-              <app-actions-buttons
-                [id]="playerFormGroup.get('playerInTeamId' + i)!.value"
-                [index]="i"
-                (onSubmit)="onSubmit($event.action, $event.index, $event.id)"
-                (onCancel)="onCancelButtonClick()"
-                (onDelete)="onDeleteButtonClick('deleteDialogPlayer'+$event.id)"
-              ></app-actions-buttons>
               @if (playerFormGroup.get('playerInTeamId' + i)!.value; as id) {
-                <app-delete-dialog
-                  [item]="playerFormGroup.get('fullName' + i)!.value"
-                  (delete)="onDelete(id)"
-                  [dialogId]="'deleteDialogPlayer'+playerFormGroup.get('playerInTeamId' + i)!.value"
-                ></app-delete-dialog>
+                <app-actions-buttons
+                  [id]="id"
+                  [index]="i"
+                  (onSubmit)="onSubmit($event.action, $event.index, $event.id)"
+                  (onCancel)="onCancelButtonClick()"
+                  (onDelete)="onDeleteButtonClick('deleteDialogPlayer'+$event.id)"
+                ></app-actions-buttons>
+                <!--                {{ id }}-->
+                @if (players) {
+                  <app-delete-dialog
+                    [item]="playerFormGroup.get('fullName' + i)!.value"
+                    (delete)="onDelete(id)"
+                    [dialogId]="'deleteDialogPlayer'+id"
+                  ></app-delete-dialog>
+                }
+              } @else {
+                <app-actions-buttons
+                  [index]="i"
+                  (onSubmit)="onSubmit($event.action, $event.index, $event.id)"
+                  (onCancel)="onCancelButtonClick()"
+                ></app-actions-buttons>
               }
             </td>
           </tr>

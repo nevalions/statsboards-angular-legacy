@@ -48,12 +48,12 @@
         <app-edit-button
           [action]="'edit'"
           [item]="'Tournament'"
-          [dialogId]="'editDialog'"
+          [dialogId]="'editTournamentDialog'"
         ></app-edit-button>
 
         <app-tournament-add-edit-form
           [action]="'edit'"
-          [dialogId]="'editDialog'"
+          [dialogId]="'editTournamentDialog'"
           [new_tournament]="tournament"
           [allSponsors]="allSponsors$ | async"
           [allSponsorLines]="allSponsorLines$ | async"
@@ -116,14 +116,34 @@
             <app-pagination-with-items-per-page
               [items$]="matchesInTournament$"
             ></app-pagination-with-items-per-page>
-
-
           </div>
           <div class="list-of-items-with-data" style="padding: 20px">
             <app-list-of-matches
               [data$]="matchesInTournament$"
-            >
-            </app-list-of-matches>
+            ></app-list-of-matches>
+          </div>
+          <div>
+            @if (sport$ | async; as sport) {
+              @if (tournament$ | async; as tournament) {
+                @if (allPlayerInTournamentFullData$ | async; as players) {
+                  @if (allSportPlayersWithPerson$ | async; as playersInSports) {
+                    @if (allAvailablePlayersToAddInTournament$ | async; as availablePlayers) {
+                      <app-add-edit-player-to-team-tournament-table
+                        [sportId]="sport.id!"
+                        [tournamentId]="tournament.id!"
+                        [playersInSport]="playersInSports"
+                        [players]="players"
+                        [availablePlayersInSport]="availablePlayers"
+                        [positions]="allSportPositions$ | async"
+                      ></app-add-edit-player-to-team-tournament-table>
+                    }
+                  }
+                }
+              }
+            } @else {
+              <tui-loader></tui-loader>
+            }
+
 
             <!--            <app-list-of-matches-->
             <!--              [data$]="paginationService.paginatedItems$"-->

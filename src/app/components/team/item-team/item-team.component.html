@@ -79,7 +79,7 @@
         @if (allPlayersInTeamTournamentFullData$ | async; as players) {
           @if (currentTournament$ | async; as tournament) {
             @if (allSportPlayersWithPerson$ | async; as playersInSport) {
-              @if (allAvailablePlayersInSport$| async; as availablePlayers) {
+              @if (allAvailablePlayersInTeamTournament$| async; as availablePlayers) {
                 <app-add-edit-player-to-team-tournament-table
                   [sportId]='sport.id!'
                   [teamId]="team.id!"

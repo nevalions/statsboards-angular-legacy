@@ -1,5 +1,6 @@
 import { IPerson } from './person.type';
 import { IPosition } from './position.type';
+import { ITeam } from './team.type';
 
 export interface IPlayer {
   id?: number | null;
@@ -20,11 +21,12 @@ export interface IPlayerInTeamTournament {
   position_id?: number | null;
   team_id?: number | null;
   tournament_id?: number | null;
-  player_number?: string;
+  player_number?: string | null;
 }
 
 export interface IPlayerInTeamTournamentWithPersonWithSportWithPosition {
   playerInSport: IPlayerInSport | null;
   playerInTeamTournament: IPlayerInTeamTournament;
   position?: IPosition | null;
+  team?: ITeam | null;
 }

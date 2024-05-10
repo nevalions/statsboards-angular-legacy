@@ -10,7 +10,9 @@ import {
 } from '../../type/player.type';
 import {
   selectAllPlayersInTeamTournamentWithPersonsWithPositions,
+  selectAllPlayersInTournamentWithPersonsWithPositions,
   selectAvailablePlayersForTeamTournament,
+  selectAvailablePlayersForTournament,
   selectCurrentPlayerInTeamTournamentWithPersonWithSportWithPosition,
 } from './store/selectors';
 import { selectAllPlayersInTournament } from './store/reducers';
@@ -27,9 +29,13 @@ export class PlayerInTeamTournament {
   >;
   allPlayersInTeamTournament$: Observable<IPlayerInTeamTournament[]>;
   allPlayerInTournament$: Observable<IPlayerInTeamTournament[]>;
+  allPlayerInTournamentFullData$: Observable<
+    IPlayerInTeamTournamentWithPersonWithSportWithPosition[]
+  >;
   allPlayersInTeamTournamentFullData$: Observable<
     IPlayerInTeamTournamentWithPersonWithSportWithPosition[]
   >;
+  allAvailablePlayersToAddInTournament$: Observable<IPlayerInSport[]>;
   allAvailablePlayersToAddInTeamTournament$: Observable<IPlayerInSport[]>;
 
   constructor(private store: Store<AppState>) {
@@ -40,6 +46,9 @@ export class PlayerInTeamTournament {
       (state) => state.playerInTeamTournament.allPlayersInTeamTournament,
     );
     this.allPlayerInTournament$ = store.select(selectAllPlayersInTournament);
+    this.allPlayerInTournamentFullData$ = store.select(
+      selectAllPlayersInTournamentWithPersonsWithPositions,
+    );
     this.currentPlayerInTeamTournamentFullData$ = store.select(
       selectCurrentPlayerInTeamTournamentWithPersonWithSportWithPosition,
     );
@@ -49,6 +58,9 @@ export class PlayerInTeamTournament {
 
     this.allAvailablePlayersToAddInTeamTournament$ = store.select(
       selectAvailablePlayersForTeamTournament,
+    );
+    this.allAvailablePlayersToAddInTournament$ = store.select(
+      selectAvailablePlayersForTournament,
     );
   }
 

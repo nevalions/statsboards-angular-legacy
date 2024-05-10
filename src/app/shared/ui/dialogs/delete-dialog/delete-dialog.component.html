@@ -1,6 +1,6 @@
 <ng-template
   let-observer
-  [tuiDialogOptions]="{label: action.toUpperCase() + ' ' + item.toUpperCase() + '?', size: 'm'}"
+  [tuiDialogOptions]="{label: action.toUpperCase() + ' ' + item.toUpperCase() + '?' , size: 'm'}"
   [(tuiDialog)]="open"
 >
   <div class="tui-form__row flex__fullwidth_center">
@@ -8,7 +8,7 @@
       [formGroup]="itemDeleteForm"
       (ngSubmit)="onSubmit(); observer.complete()"
     >
-      <p style="text-align: center; padding:10px; background-color: var(--tui-negative-hover)">
+      <p style="text-align: center; padding:10px; background-color: var(--tui-negative-hover)" [id]="dialogId">
         All {{ item | uppercase }}'s stats will be lost!
       </p>
       <p style="text-align: center; padding:10px;">

@@ -1,12 +1,16 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { getFormControl } from '../../../../base/formHelpers';
-import { TuiAppearance } from '@taiga-ui/core';
+import {
+  TuiAppearance,
+  TuiButtonModule,
+  TuiHostedDropdownModule,
+} from '@taiga-ui/core';
 import { ButtonIconComponent } from '../button-icon/button-icon.component';
 
 @Component({
   selector: 'app-actions-buttons',
   standalone: true,
-  imports: [ButtonIconComponent],
+  imports: [ButtonIconComponent, TuiHostedDropdownModule, TuiButtonModule],
   templateUrl: './actions-buttons.component.html',
   styleUrl: './actions-buttons.component.less',
 })
@@ -23,7 +27,10 @@ export class ActionsButtonsComponent {
   @Output() onDelete = new EventEmitter<{
     id: number | null;
   }>();
+  // @Output() onDelete = new EventEmitter<void>();
   @Output() onCancel = new EventEmitter<void>();
+
+  dropdownOpen = false;
 
   // Call these methods when the corresponding button is clicked
   // edit(event: Event, index: number) {
@@ -38,6 +45,9 @@ export class ActionsButtonsComponent {
 
   delete() {
     if (this.id !== null) {
+      // console.log('action id', this.id);
+      // this.onDelete.emit();
+
       this.onDelete.emit({ id: this.id });
     }
   }

@@ -68,20 +68,22 @@ const tournamentFeature = createFeature({
     on(tournamentActions.createdSuccessfully, (state, action) => {
       const newList = [...state.allTournaments, action.currentTournament];
       const sortedTournaments = SortService.sort(newList, 'title');
-      const newListSeasonSportTournaments = [
-        ...state.allSeasonSportTournaments,
-        action.currentTournament,
-      ];
-      const sorterSeasonSportTournaments = SortService.sort(
-        newListSeasonSportTournaments,
-        'title',
-      );
+
+      // const newListSeasonSportTournaments = [
+      //   ...state.allSeasonSportTournaments,
+      //   action.currentTournament,
+      // ];
+      // const sorterSeasonSportTournaments = SortService.sort(
+      //   newListSeasonSportTournaments,
+      //   'title',
+      // );
+
       return {
         ...state,
         isTournamentSubmitting: false,
         currentTournament: action.currentTournament,
         allTournaments: sortedTournaments,
-        allSeasonSportTournaments: sorterSeasonSportTournaments,
+        // allSeasonSportTournaments: sorterSeasonSportTournaments,
       };
     }),
     on(tournamentActions.createFailure, (state, action) => ({

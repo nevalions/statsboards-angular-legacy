@@ -60,18 +60,18 @@ const playerInTeamTournamentFeature = createFeature({
         newList,
         'playerInSport.person.second_name',
       );
-      // const newSportList = [
-      //   ...state.allSportPlayersInTeamTournament,
-      //   action.currentPlayerInTeamTournament,
-      // ];
-      // const sortedSportList = SortService.sort(newSportList, 'title');
+      const newSportList = [
+        ...state.allPlayersInTournament,
+        action.currentPlayerInTeamTournament,
+      ];
+      const sortedPlayerList = SortService.sort(newSportList, 'title');
 
       return {
         ...state,
         playerInTeamTournamentIsSubmitting: false,
         currentPlayerInTeamTournament: action.currentPlayerInTeamTournament,
         allPlayersInTeamTournament: sortedList,
-        // allSportPlayersInTeamTournament: sortedSportList,
+        allPlayersInTournament: sortedPlayerList,
       };
     }),
     on(playerInTeamTournamentActions.createFailure, (state, action) => ({
@@ -91,9 +91,9 @@ const playerInTeamTournamentFeature = createFeature({
       allPlayersInTeamTournament: (
         state.allPlayersInTeamTournament || []
       ).filter((item) => item.id !== action.playerInTeamTournamentId),
-      // allSportPlayersInTeamTournament: (
-      //   state.allSportPlayersInTeamTournament || []
-      // ).filter((item) => item.id !== action.playerInTeamTournamentId),
+      allPlayersInTournament: (state.allPlayersInTournament || []).filter(
+        (item) => item.id !== action.playerInTeamTournamentId,
+      ),
       errors: null,
     })),
     on(playerInTeamTournamentActions.deleteFailure, (state, action) => ({
@@ -114,9 +114,9 @@ const playerInTeamTournamentFeature = createFeature({
         allPlayersInTeamTournament: (
           state.allPlayersInTeamTournament || []
         ).filter((item) => item.id !== action.playerInTeamTournamentId),
-        // allSportPlayersInTeamTournament: (
-        //   state.allSportPlayersInTeamTournament || []
-        // ).filter((item) => item.id !== action.playerInTeamTournamentId),
+        allPlayersInTournament: (state.allPlayersInTournament || []).filter(
+          (item) => item.id !== action.playerInTeamTournamentId,
+        ),
         errors: null,
       }),
     ),
@@ -143,14 +143,14 @@ const playerInTeamTournamentFeature = createFeature({
         ),
         'playerInSport.person.second_name',
       ),
-      // allSportPlayersInTeamTournament: SortService.sort(
-      //   state.allSportPlayersInTeamTournament.map((item) =>
-      //     item.id === action.updatedPlayerInTeamTournament.id
-      //       ? action.updatedPlayerInTeamTournament
-      //       : item,
-      //   ),
-      //   'title',
-      // ),
+      allPlayersInTournament: SortService.sort(
+        state.allPlayersInTournament.map((item) =>
+          item.id === action.updatedPlayerInTeamTournament.id
+            ? action.updatedPlayerInTeamTournament
+            : item,
+        ),
+        'title',
+      ),
       errors: null,
     })),
     on(playerInTeamTournamentActions.updateFailure, (state, action) => ({

@@ -249,6 +249,13 @@ export const SPORT_ROUTES: Routes = [
                   provideState(tournamentFeatureKey, tournamentReducer),
                   provideState(teamTournamentFeatureKey, teamTournamentReducer),
                   provideState(matchFeatureKey, matchReducer),
+                  provideState(personFeatureKey, personReducer),
+                  provideState(playerFeatureKey, playerReducer),
+                  provideState(positionFeatureKey, positionReducer),
+                  provideState(
+                    playerInTeamTournamentFeatureKey,
+                    playerInTeamTournamentReducer,
+                  ),
                   provideState(
                     matchWithFullDataFeatureKey,
                     matchWithFullDataReducer,
@@ -264,6 +271,10 @@ export const SPORT_ROUTES: Routes = [
                     TeamTournamentEffects,
                     MatchEffects,
                     MatchWithFullDataEffects,
+                    PersonEffects,
+                    PlayerEffects,
+                    PositionEffects,
+                    PlayerInTeamTournamentEffects,
                   ),
                 ],
                 data: {

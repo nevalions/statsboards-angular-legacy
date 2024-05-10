@@ -41,6 +41,11 @@ import { TournamentAddEditFormComponent } from '../tournament-add-edit-form/tour
 import { Sponsor } from '../../adv/sponsor/sponsor';
 import { TuiValueChangesModule } from '@taiga-ui/cdk';
 import { AddEditMatchComponent } from '../../match/add-edit-match/add-edit-match.component';
+import { AddEditPlayerToTeamTournamentTableComponent } from '../../player-team-tournament/add-edit-player-to-team-tournament-table/add-edit-player-to-team-tournament-table.component';
+import { Player } from '../../player/player';
+import { Position } from '../../position/postion';
+import { PlayerInTeamTournament } from '../../player-team-tournament/player-team-tournament';
+import { Person } from '../../person/person';
 
 @Component({
   selector: 'app-item-tournament',
@@ -69,6 +74,7 @@ import { AddEditMatchComponent } from '../../match/add-edit-match/add-edit-match
     TuiValueChangesModule,
     AddEditMatchComponent,
     TuiButtonModule,
+    AddEditPlayerToTeamTournamentTableComponent,
   ],
   templateUrl: './item-tournament.component.html',
   styleUrl: './item-tournament.component.less',
@@ -76,6 +82,7 @@ import { AddEditMatchComponent } from '../../match/add-edit-match/add-edit-match
   changeDetection: ChangeDetectionStrategy.Default,
 })
 export class ItemTournamentComponent {
+  sport$ = this.sport.currentSport$;
   allSportTeams$ = this.team.teamsInSport$;
   teamsInTournament$ = this.team.teamsInTournament$;
   tournament$ = this.tournament.currentTournament$;
@@ -85,6 +92,12 @@ export class ItemTournamentComponent {
   allSponsorLines$ = this.sponsorLine.allSponsorLines$;
   matchesInTournament$ =
     this.matchWithFullData.matchesWithFullDataInTournament$;
+  allSportPlayersWithPerson$ = this.player.allSportPlayersWithPerson$;
+  allPlayerInTournamentFullData$ =
+    this.playerInTeamTournament.allPlayerInTournamentFullData$;
+  allAvailablePlayersToAddInTournament$ =
+    this.playerInTeamTournament.allAvailablePlayersToAddInTournament$;
+  allSportPositions$ = this.position.allSportPositions$;
 
   constructor(
     private season: Season,
@@ -95,12 +108,20 @@ export class ItemTournamentComponent {
     private matchWithFullData: MatchWithFullData,
     private sponsor: Sponsor,
     private sponsorLine: SponsorLine,
+    private position: Position,
+    private person: Person,
+    private playerInTeamTournament: PlayerInTeamTournament,
+    private player: Player,
   ) {
     sponsor.loadAllSponsors();
     sponsorLine.loadAllSponsorLines();
     team.loadAllTeamsInTournament();
     team.loadAllTeamsInSport();
     matchWithFullData.loadAllMatchesInTournament();
+    playerInTeamTournament.loadAllPlayersInTournament();
+    person.loadAllPersons();
+    player.loadAllPlayersBySportId();
+    position.loadAllPositionsBySportId();
   }
 
   private route = inject(ActivatedRoute);

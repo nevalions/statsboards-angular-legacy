@@ -59,7 +59,7 @@ export class DeleteDialogComponent implements OnInit, OnDestroy {
   constructor() {}
 
   ngOnInit(): void {
-    // console.log(this.dialogId); // logging dialogId
+    console.log('dialogId on delete', this.dialogId); // logging dialogId
     this.dialogSubscription = this.dialogService
       .getDialogEvent(this.dialogId)
       .subscribe(() => {

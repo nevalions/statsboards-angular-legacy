@@ -1,0 +1,33 @@
+<ng-template
+  let-observer
+  [tuiDialogOptions]="{label: action.toUpperCase() + ' PLAYER', size: 'm'}"
+  [(tuiDialog)]="open"
+>
+  <form
+    [formGroup]="playerForm"
+    (ngSubmit)="onSubmit(); observer.complete()"
+  >
+    <p></p>
+    <div class="tui-form__row">
+      <tui-input
+        formControlName="positionTitle"
+      >
+        Position Title
+        <span class="tui-required"></span>
+      </tui-input>
+      <tui-error
+        formControlName="positionTitle"
+        [error]="[] | tuiFieldError | async"
+      ></tui-error>
+    </div>
+    <p>
+      <app-create-button-in-form
+        [action]="action"
+        [disabled]="!playerForm.valid"
+      ></app-create-button-in-form>
+      <app-cancel-button-in-form
+        (click)="observer.complete()"
+      ></app-cancel-button-in-form>
+    </p>
+  </form>
+</ng-template>

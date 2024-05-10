@@ -8,7 +8,7 @@
         tuiOption
         [value]="playerInSport"
       >
-        {{ playerInSport.person?.second_name }} {{ playerInSport.person?.first_name }}
+        {{ playerInSport.person?.second_name | titlecase }} {{ playerInSport.person?.first_name | titlecase }}
       </button>
     }
   </tui-data-list>

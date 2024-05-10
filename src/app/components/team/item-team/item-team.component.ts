@@ -53,7 +53,7 @@ export class ItemTeamComponent {
   currentTournament$ = this.tournament.currentTournament$;
   currentTeamMainSponsor$ = this.sponsor.currentSponsor$;
   allSportPlayersWithPerson$ = this.player.allSportPlayersWithPerson$;
-  allAvailablePlayersInSport$ =
+  allAvailablePlayersInTeamTournament$ =
     this.playerInTeamTournament.allAvailablePlayersToAddInTeamTournament$;
   allPlayersInTeamTournamentFullData$ =
     this.playerInTeamTournament.allPlayersInTeamTournamentFullData$;
