@@ -1,15 +1,35 @@
-<tui-select
-  [formControl]="control"
-  style="padding-top: 10px;"
->
-  <tui-data-list *tuiDataList>
-    @for (playerInSport of playerList; track playerInSport.player.id) {
-      <button
-        tuiOption
-        [value]="playerInSport"
-      >
-        {{ playerInSport.person?.second_name | titlecase }} {{ playerInSport.person?.first_name | titlecase }}
-      </button>
-    }
-  </tui-data-list>
-</tui-select>
+@if (playerList.length > 0) {
+  <tui-select
+    [formControl]="control"
+    style="padding-top: 10px;"
+  >
+    <tui-data-list *tuiDataList>
+      @for (playerInSport of playerList; track playerInSport.player.id) {
+        <button
+          tuiOption
+          [value]="playerInSport"
+        >
+          {{ playerInSport.person?.second_name | titlecase }} {{ playerInSport.person?.first_name | titlecase }}
+        </button>
+      }
+    </tui-data-list>
+  </tui-select>
+} @else {
+  <tui-select
+    [formControl]="control"
+    style="padding-top: 10px;"
+  >
+    <tui-data-list *tuiDataList>
+      @for (playerInTournament of playerListFromTournament; track playerInTournament.playerInTeamTournament.player_id) {
+        <button
+          tuiOption
+          [value]="playerInTournament"
+          (click)="onSelect(playerInTournament.playerInTeamTournament.player_id!)"
+        >
+          {{ playerInTournament.playerInSport?.person?.second_name | titlecase }}
+          {{ playerInTournament.playerInSport?.person?.first_name | titlecase }}
+        </button>
+      }
+    </tui-data-list>
+  </tui-select>
+}

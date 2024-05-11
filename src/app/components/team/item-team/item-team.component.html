@@ -104,13 +104,13 @@
         @if (allPlayersInTeamTournamentFullData$ | async; as players) {
           @if (currentTournament$ | async; as tournament) {
             @if (allSportPlayersWithPerson$ | async; as playersInSport) {
-              @if (allAvailablePlayersInTeamTournament$| async; as availablePlayers) {
+              @if (allAvailableTournamentPlayersForTeamTournament$| async; as availablePlayers) {
                 <app-add-edit-player-to-team-tournament-table
                   [sportId]='sport.id!'
                   [teamId]="team.id!"
                   [tournamentId]="tournament.id!"
                   [playersInSport]="playersInSport"
-                  [availablePlayersInSport]="availablePlayers"
+                  [availablePlayersInTournament]="availablePlayers"
                   [players]="players"
                   [positions]="allSportPositions$ | async"
                 ></app-add-edit-player-to-team-tournament-table>

@@ -77,9 +77,9 @@ export class MatchWithFullDataService extends BaseApiService<IMatchWithFullData>
       id,
       'matches/all/data',
     ).pipe(
-      tap((matches) =>
-        console.log(`MATCHES from TOURNAMENT ID: ${id}`, matches),
-      ),
+      // tap((matches) =>
+      //   console.log(`MATCHES from TOURNAMENT ID: ${id}`, matches),
+      // ),
       map((data) => SortService.sort(data, '-date')),
     );
   }

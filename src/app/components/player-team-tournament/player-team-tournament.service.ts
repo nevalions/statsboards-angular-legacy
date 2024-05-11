@@ -19,11 +19,12 @@ export class PlayerTeamTournamentService extends BaseApiService<IPlayerInTeamTou
   findPlayersInTournamentByTournamentId(
     id: number,
   ): Observable<IPlayerInTeamTournament[]> {
-    return this.findByFirstKeyValue('tournaments', 'id', id, 'players').pipe(
-      tap((players) =>
-        console.log(`PLAYERS from TOURNAMENT ID: ${id}`, players),
-      ),
-    );
+    return this.findByFirstKeyValue('tournaments', 'id', id, 'players')
+      .pipe
+      // tap((players) =>
+      //   console.log(`PLAYERS from TOURNAMENT ID: ${id}`, players),
+      // ),
+      ();
   }
 
   findPlayersInTeamTournamentByTeamIdTournament(
@@ -38,8 +39,9 @@ export class PlayerTeamTournamentService extends BaseApiService<IPlayerInTeamTou
       'id',
       tournamentId,
       'players',
-    ).pipe(
-      tap((players) => console.log(`PLAYERS from TEAM ID: ${teamId}`, players)),
-    );
+    )
+      .pipe
+      // tap((players) => console.log(`PLAYERS from TEAM ID: ${teamId}`, players)),
+      ();
   }
 }

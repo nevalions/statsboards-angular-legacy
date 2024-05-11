@@ -27,7 +27,9 @@ export class TournamentService extends BaseApiService<ITournament> {
   fetchMainSponsorByTournamentId(id: number) {
     return this.http
       .get<ISponsor>(`${this.endpoint}/id/${id}/main_sponsor/`)
-      .pipe(tap((items) => console.log('SPONSORS', items)));
+      .pipe
+      // tap((items) => console.log('SPONSORS', items))
+      ();
   }
 
   fetchTournamentsBySportAndSeasonId(params: {
@@ -51,12 +53,12 @@ export class TournamentService extends BaseApiService<ITournament> {
       secondValue,
       optionalValue,
     ).pipe(
-      tap((items) =>
-        console.log(
-          `Items fetched by findByValueAndSecondId: ID ${secondValue}`,
-          items,
-        ),
-      ),
+      // tap((items) =>
+      //   console.log(
+      //     `Items fetched by findByValueAndSecondId: ID ${secondValue}`,
+      //     items,
+      //   ),
+      // ),
       map((data) => SortService.sort(data, 'title')),
     );
   }

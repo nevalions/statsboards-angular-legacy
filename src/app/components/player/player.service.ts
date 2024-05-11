@@ -16,8 +16,9 @@ export class PlayerService extends BaseApiService<IPlayer> {
   }
 
   findPlayersBySportId(id: number): Observable<IPlayer[]> {
-    return this.findByFirstKeyValue('sports', 'id', id, 'players').pipe(
-      tap((teams) => console.log(`PLAYERS from SPORT ID: ${id}`, teams)),
-    );
+    return this.findByFirstKeyValue('sports', 'id', id, 'players')
+      .pipe
+      // tap((teams) => console.log(`PLAYERS from SPORT ID: ${id}`, teams)),
+      ();
   }
 }

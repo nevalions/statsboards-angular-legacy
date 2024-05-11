@@ -74,7 +74,7 @@ export class BreadcrumbEffects {
             }
           }
 
-          console.log(breadcrumbs);
+          // console.log(breadcrumbs);
           return breadcrumbActions.breadcrumbsUpdated({ breadcrumbs });
         }),
       ),

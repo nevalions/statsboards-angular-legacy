@@ -1,9 +1,12 @@
-import { Component, Input } from '@angular/core';
-import { IPlayerInSport } from '../../../../type/player.type';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import {
+  IPlayerInSport,
+  IPlayerInTeamTournamentWithPersonWithSportWithPosition,
+} from '../../../../type/player.type';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { tuiItemsHandlersProvider, TuiSelectModule } from '@taiga-ui/kit';
 import { TuiDataListModule } from '@taiga-ui/core';
-import { stringifySurnameName } from '../../../../base/helpers';
+import { stringifyPerson } from '../../../../base/helpers';
 import { TitleCasePipe } from '@angular/common';
 
 @Component({
@@ -17,8 +20,7 @@ import { TitleCasePipe } from '@angular/common';
   ],
   providers: [
     tuiItemsHandlersProvider({
-      stringify: (item: IPlayerInSport) =>
-        stringifySurnameName(item.person!).toUpperCase(),
+      stringify: stringifyPerson,
     }),
   ],
   templateUrl: './select-player-to-team-tournament.component.html',
@@ -26,6 +28,17 @@ import { TitleCasePipe } from '@angular/common';
 })
 export class SelectPlayerToTeamTournamentComponent {
   @Input() playerList: IPlayerInSport[] = [];
+  @Input()
+  playerListFromTournament: IPlayerInTeamTournamentWithPersonWithSportWithPosition[] =
+    [];
   @Input() tournamentId!: number;
   @Input() control!: FormControl;
+
+  @Output() playerSelect = new EventEmitter<number>();
+
+  onSelect(playerId: number) {
+    if (this.control.value) {
+      this.playerSelect.emit(playerId);
+    }
+  }
 }

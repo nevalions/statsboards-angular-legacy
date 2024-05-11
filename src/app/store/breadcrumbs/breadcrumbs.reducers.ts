@@ -37,22 +37,22 @@ const breadcrumbFeature = createFeature({
         updatedBreadcrumbs = updatedBreadcrumbs.filter(
           (bc) => (bc.level || 1) <= newBreadcrumb.level!,
         );
-        console.log('After filtering', updatedBreadcrumbs);
+        // console.log('After filtering', updatedBreadcrumbs);
 
         // Find the index after filtering
         const index = updatedBreadcrumbs.findIndex(
           (bc) => bc.level === newBreadcrumb.level,
         );
-        console.log('Index', index);
+        // console.log('Index', index);
 
         if (index !== -1) {
           // Update the breadcrumb at the same level
           updatedBreadcrumbs[index] = newBreadcrumb;
-          console.log('After updating breadcrumb', updatedBreadcrumbs);
+          // console.log('After updating breadcrumb', updatedBreadcrumbs);
         } else {
           // If the breadcrumb doesn't exist in the state, just add it
           updatedBreadcrumbs.push(newBreadcrumb);
-          console.log('After adding new breadcrumb', updatedBreadcrumbs);
+          // console.log('After adding new breadcrumb', updatedBreadcrumbs);
         }
       });
 

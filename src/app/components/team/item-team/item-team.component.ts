@@ -58,10 +58,12 @@ export class ItemTeamComponent {
   currentTournament$ = this.tournament.currentTournament$;
   currentTeamMainSponsor$ = this.sponsor.currentSponsor$;
   allSportPlayersWithPerson$ = this.player.allSportPlayersWithPerson$;
-  allAvailablePlayersInTeamTournament$ =
-    this.playerInTeamTournament.allAvailablePlayersToAddInTeamTournament$;
-  allAvailablePlayersToAddInTournament$ =
-    this.playerInTeamTournament.allAvailablePlayersToAddInTournament$;
+  allAvailableSportPlayersInTeamTournament$ =
+    this.playerInTeamTournament.allAvailableSportPlayersToAddInTeamTournament$;
+  allAvailableTournamentPlayersForTeamTournament$ =
+    this.playerInTeamTournament.allAvailableTournamentPlayersForTeamTournament$;
+  // allAvailablePlayersToAddInTournament$ =
+  //   this.playerInTeamTournament.allAvailablePlayersToAddInTournament$;
   allPlayersInTeamTournamentFullData$ =
     this.playerInTeamTournament.allPlayersInTeamTournamentFullData$;
   allSportPositions$ = this.position.allSportPositions$;

@@ -36,7 +36,7 @@ export class TeamService extends BaseApiService<ITeam> {
   fetchTeamsBySportId(id: number): Observable<ITeam[]> {
     // console.log('fetchTeamsBySportId sportId: ', id);
     return this.findByFirstKeyValue('sports', 'id', id, 'teams').pipe(
-      tap((teams) => console.log(`TEAMS from SPORT ID: ${id}`, teams)),
+      // tap((teams) => console.log(`TEAMS from SPORT ID: ${id}`, teams)),
       map((data) => SortService.sort(data, 'title')),
     );
   }
@@ -60,12 +60,12 @@ export class TeamService extends BaseApiService<ITeam> {
       firstValue,
       optionalValue,
     ).pipe(
-      tap((items) =>
-        console.log(
-          `Items fetched by findByFirstKeyValue: ID ${firstValue}`,
-          items,
-        ),
-      ),
+      // tap((items) =>
+      //   console.log(
+      //     `Items fetched by findByFirstKeyValue: ID ${firstValue}`,
+      //     items,
+      //   ),
+      // ),
       map((data) => SortService.sort(data, 'title')),
     );
   }

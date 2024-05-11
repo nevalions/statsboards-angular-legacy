@@ -16,8 +16,9 @@ export class PositionService extends BaseApiService<IPosition> {
   }
 
   findPositionsBySportId(id: number): Observable<IPosition[]> {
-    return this.findByFirstKeyValue('sports', 'id', id, 'positions').pipe(
-      tap((teams) => console.log(`PLAYERS from SPORT ID: ${id}`, teams)),
-    );
+    return this.findByFirstKeyValue('sports', 'id', id, 'positions')
+      .pipe
+      // tap((teams) => console.log(`POSITIONS from SPORT ID: ${id}`, teams)),
+      ();
   }
 }

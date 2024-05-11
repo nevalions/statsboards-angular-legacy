@@ -1,13 +1,16 @@
 import { IPerson } from '../type/person.type';
 import { AnyObjectWithTitle } from '../type/base.type';
 import { ISport } from '../type/sport.type';
-import { IPlayerInSport } from '../type/player.type';
+import {
+  IPlayerInSport,
+  IPlayerInTeamTournamentWithPersonWithSportWithPosition,
+} from '../type/player.type';
 
 export function hasTitle(item: any): item is { title: string } {
   return item != null && typeof item === 'object' && 'title' in item;
 }
 
-export function toTitleCase(str: string | null | undefined) {
+export function toTitleCase(str: string) {
   if (str) {
     return str
       .toLowerCase()
@@ -42,6 +45,27 @@ export function stringifyTitleUpperCase(
   item: AnyObjectWithTitle | any,
 ): string {
   return `${item.title ?? ''}`.toUpperCase().trim();
+}
+
+export function stringifyPerson(
+  item: IPlayerInSport | IPlayerInTeamTournamentWithPersonWithSportWithPosition,
+): string {
+  if (
+    'playerInSport' in item &&
+    item.playerInSport &&
+    'person' in item.playerInSport
+  ) {
+    return toTitleCase(
+      `${item.playerInSport.person!.second_name} ${item.playerInSport.person!.first_name}`,
+    );
+  } else if ('person' in item) {
+    return toTitleCase(
+      `${item.person!.second_name} ${item.person!.first_name}`,
+    );
+  }
+
+  // Default case if neither type matches
+  return 'Unknown Item';
 }
 
 export function getTitleCase<T>(item: T, prop: keyof T): string {
