@@ -1,5 +1,7 @@
 import { IPerson } from '../type/person.type';
 import { AnyObjectWithTitle } from '../type/base.type';
+import { ISport } from '../type/sport.type';
+import { IPlayerInSport } from '../type/player.type';
 
 export function hasTitle(item: any): item is { title: string } {
   return item != null && typeof item === 'object' && 'title' in item;
@@ -23,6 +25,13 @@ export function stringifyNameSurname(item: IPerson): string {
 
 export function stringifySurnameName(item: IPerson): string {
   return `${toTitleCase(item.second_name) ?? ''} ${toTitleCase(item.first_name) ?? ''}`.trim();
+}
+
+export function stringifySportPlayerSurnameName(item: IPlayerInSport): string {
+  if (item.person) {
+    return `${toTitleCase(item.person.second_name) ?? ''} ${toTitleCase(item.person.first_name) ?? ''}`.trim();
+  }
+  return item.toString();
 }
 
 export function stringifyTitle(item: AnyObjectWithTitle | any): string {

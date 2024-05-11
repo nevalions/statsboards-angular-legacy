@@ -1,7 +1,11 @@
 import { Component, Input } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { IPlayerInSport } from '../../../../type/player.type';
-import { stringifySurnameName, toTitleCase } from '../../../../base/helpers';
+import {
+  stringifySportPlayerSurnameName,
+  stringifySurnameName,
+  toTitleCase,
+} from '../../../../base/helpers';
 import {
   TuiComboBoxModule,
   TuiDataListWrapperModule,
@@ -44,16 +48,18 @@ export class SearchPlayerInSportAutocompliteComponent {
 
   readonly matcherString = (player: IPlayerInSport, search: string): boolean =>
     player.person!.second_name.toLowerCase().startsWith(search.toLowerCase());
-
-  onSelected(player: IPlayerInSport): void {
-    if (player) {
-      this.form.get('player')!.setValue(player);
-    }
-  }
+  // player.player.id!.toString().startsWith(search.toLowerCase());
 
   // onSelected(player: IPlayerInSport): void {
-  //   this.control.setValue(player);
+  //   if (player) {
+  //     this.form.get('player')!.setValue(player);
+  //   }
   // }
 
-  protected readonly stringifySurnameName = stringifySurnameName;
+  onSelected(player: IPlayerInSport): void {
+    this.control.setValue(player);
+  }
+
+  protected readonly stringifySportPlayerSurnameName =
+    stringifySportPlayerSurnameName;
 }

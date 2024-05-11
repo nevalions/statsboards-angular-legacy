@@ -1,17 +1,17 @@
-<!--<div class="tui-form__row">-->
-<!--  <form [formGroup]="form">-->
-<!--    <tui-combo-box-->
-<!--      formControlName="player"-->
-<!--    >-->
-<!--      {{ 'search ' | uppercase }} {{ placeholder | uppercase }}-->
-<!--      @if (sportPlayers) {-->
-<!--        <tui-data-list-wrapper-->
-<!--          *tuiDataList-->
-<!--          [itemContent]="stringifySurnameName | tuiStringifyContent"-->
-<!--          [items]="sportPlayers | tuiFilterByInput: matcherString"-->
-<!--          (itemClick)="onSelected($event)"-->
-<!--        ></tui-data-list-wrapper>-->
-<!--      }-->
-<!--    </tui-combo-box>-->
-<!--  </form>-->
-<!--</div>-->
+<div class="tui-form__row">
+  <form [formGroup]="form">
+    <tui-combo-box
+      formControlName="player"
+    >
+      {{ 'search ' | uppercase }} {{ placeholder | uppercase }}
+      @if (sportPlayers) {
+        <tui-data-list-wrapper
+          *tuiDataList
+          [itemContent]="stringifySportPlayerSurnameName | tuiStringifyContent"
+          [items]="sportPlayers | tuiFilterByInput: matcherString"
+          (itemClick)="onSelected($event)"
+        ></tui-data-list-wrapper>
+      }
+    </tui-combo-box>
+  </form>
+</div>

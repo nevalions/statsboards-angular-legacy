@@ -10,22 +10,26 @@
 
     @if (availablePlayers) {
       <app-search-player-in-sport-autocomplite
-        [placeholder]="'person by last name'"
+        [placeholder]="'player by last name'"
         [sportPlayers]="availablePlayers"
         [control]="playerForm.controls['playerInSport']"
       ></app-search-player-in-sport-autocomplite>
     } @else {
       NO AVAILABLE PERSONS
     }
+    <div
+      style="display: grid; grid-template-columns: auto auto; grid-gap: 5px; justify-content: space-around"
+    >
 
-    <app-select-player-position
-      [positionList]="sportPositions"
-      [control]="playerForm.controls['position']"
-    ></app-select-player-position>
+      <app-select-player-position
+        [positionList]="sportPositions"
+        [control]="playerForm.controls['position']"
+      ></app-select-player-position>
 
-    <app-select-player-number
-      [control]="playerForm.controls['number']"
-    ></app-select-player-number>
+      <app-select-player-number
+        [control]="playerForm.controls['number']"
+      ></app-select-player-number>
+    </div>
 
     <p>
       <app-create-button-in-form

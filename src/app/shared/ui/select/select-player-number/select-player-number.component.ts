@@ -3,6 +3,7 @@ import { TuiDataListWrapperModule, TuiSelectModule } from '@taiga-ui/kit';
 import { WithNullOptionRetStringOnlyPipe } from '../../../../pipes/with-null-option-ret-string-only.pipe';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { TuiLetModule } from '@taiga-ui/cdk';
+import { UpperCasePipe } from '@angular/common';
 
 @Component({
   selector: 'app-select-player-number',
@@ -13,6 +14,7 @@ import { TuiLetModule } from '@taiga-ui/cdk';
     WithNullOptionRetStringOnlyPipe,
     ReactiveFormsModule,
     TuiLetModule,
+    UpperCasePipe,
   ],
   templateUrl: './select-player-number.component.html',
   styleUrl: './select-player-number.component.less',

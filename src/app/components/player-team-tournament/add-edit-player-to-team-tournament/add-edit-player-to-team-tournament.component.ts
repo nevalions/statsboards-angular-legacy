@@ -130,12 +130,16 @@ export class AddEditPlayerToTeamTournamentComponent
           player_id: formValue.playerInSport.player.id!,
           player_number: formValue.number,
           position_id: null,
-          team_id: this.teamId,
+          team_id: null,
           tournament_id: this.tournamentId,
         };
 
         if (formValue.position) {
           data.position_id = formValue.position.id;
+        }
+
+        if (this.teamId) {
+          data.team_id = this.teamId;
         }
 
         if (this.action === 'add') {

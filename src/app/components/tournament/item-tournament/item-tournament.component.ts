@@ -9,6 +9,8 @@ import { AsyncPipe, UpperCasePipe, TitleCasePipe } from '@angular/common';
 import {
   TuiAppearance,
   TuiButtonModule,
+  TuiDropdownModule,
+  TuiHostedDropdownModule,
   TuiLoaderModule,
 } from '@taiga-ui/core';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -46,6 +48,7 @@ import { Player } from '../../player/player';
 import { Position } from '../../position/postion';
 import { PlayerInTeamTournament } from '../../player-team-tournament/player-team-tournament';
 import { Person } from '../../person/person';
+import { AddEditPlayerToTeamTournamentComponent } from '../../player-team-tournament/add-edit-player-to-team-tournament/add-edit-player-to-team-tournament.component';
 
 @Component({
   selector: 'app-item-tournament',
@@ -75,6 +78,9 @@ import { Person } from '../../person/person';
     AddEditMatchComponent,
     TuiButtonModule,
     AddEditPlayerToTeamTournamentTableComponent,
+    AddEditPlayerToTeamTournamentComponent,
+    TuiHostedDropdownModule,
+    TuiDropdownModule,
   ],
   templateUrl: './item-tournament.component.html',
   styleUrl: './item-tournament.component.less',
@@ -123,6 +129,8 @@ export class ItemTournamentComponent {
     player.loadAllPlayersBySportId();
     position.loadAllPositionsBySportId();
   }
+
+  menuDropdownOpen = false;
 
   private route = inject(ActivatedRoute);
   private router = inject(Router);

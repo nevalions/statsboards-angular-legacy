@@ -12,6 +12,7 @@ import { AddEditPositionComponent } from '../../../../components/position/add-ed
 import { EditButtonComponent } from '../../buttons/edit-button/edit-button.component';
 import { TuiDataListModule, TuiSvgModule } from '@taiga-ui/core';
 import { AddButtonIconComponent } from '../../buttons/add-button-icon/add-button-icon.component';
+import { UpperCasePipe } from '@angular/common';
 
 @Component({
   selector: 'app-select-player-position',
@@ -27,6 +28,7 @@ import { AddButtonIconComponent } from '../../buttons/add-button-icon/add-button
     TuiDataListModule,
     TuiSvgModule,
     AddButtonIconComponent,
+    UpperCasePipe,
   ],
   providers: [
     tuiItemsHandlersProvider({

@@ -65,29 +65,29 @@
           [allSponsorLines]="allSponsorLines$ | async"
         ></app-add-edit-team>
 
-        @if (allAvailablePlayersToAddInTournament$ | async; as players) {
-          @if (sport$ | async; as sport) {
-            @if (tournament$ | async; as tournament) {
+        <!--        @if (allAvailablePlayersToAddInTournament$ | async; as players) {-->
+        <!--          @if (sport$ | async; as sport) {-->
+        <!--            @if (tournament$ | async; as tournament) {-->
 
 
-              <app-edit-button
-                [action]="'add'"
-                [item]="'Player'"
-                [dialogId]="'addPlayerDialog'"
-              ></app-edit-button>
+        <!--              <app-edit-button-->
+        <!--                [action]="'add'"-->
+        <!--                [item]="'Player'"-->
+        <!--                [dialogId]="'addPlayerDialog'"-->
+        <!--              ></app-edit-button>-->
 
-              <app-add-edit-player-to-team-tournament
-                [action]="'add'"
-                [dialogId]="'addPlayerDialog'"
-                [availablePlayers]="players"
-                [sportPositions]="allSportPositions$| async"
-                [sport_Id]="sport.id!"
-                [teamId]="team.id!"
-                [tournamentId]="tournament.id!"
-              ></app-add-edit-player-to-team-tournament>
-            }
-          }
-        }
+        <!--              <app-add-edit-player-to-team-tournament-->
+        <!--                [action]="'add'"-->
+        <!--                [dialogId]="'addPlayerDialog'"-->
+        <!--                [availablePlayers]="players"-->
+        <!--                [sportPositions]="allSportPositions$| async"-->
+        <!--                [sport_Id]="sport.id!"-->
+        <!--                [teamId]="team.id!"-->
+        <!--                [tournamentId]="tournament.id!"-->
+        <!--              ></app-add-edit-player-to-team-tournament>-->
+        <!--            }-->
+        <!--          }-->
+        <!--        }-->
 
 
         <app-delete-button

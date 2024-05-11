@@ -45,6 +45,27 @@
           titleMany='matches'
         ></app-body-list-title>
 
+        <!--        <tui-hosted-dropdown-->
+        <!--          #dropdown-->
+        <!--          [content]="content"-->
+        <!--          [(open)]="menuDropdownOpen"-->
+        <!--        >-->
+        <!--          <button-->
+        <!--            appearance="flat"-->
+        <!--            icon="tuiIconMenuLarge"-->
+        <!--            tuiIconButton-->
+        <!--            type="button"-->
+        <!--            [pseudoHover]="dropdown.open || true"-->
+        <!--          ></button>-->
+        <!--        </tui-hosted-dropdown>-->
+        <!--        <ng-template-->
+        <!--          #content-->
+        <!--          let-activeZone-->
+        <!--        >-->
+        <!--          <div-->
+        <!--            class="burger-menu-with-buttons"-->
+        <!--          >-->
+
         <app-edit-button
           [action]="'edit'"
           [item]="'Tournament'"
@@ -73,7 +94,31 @@
               [tournamentId]="tournament.id"
               [teams]="teams"
             ></app-add-edit-match>
+
+            @if (allAvailablePlayersToAddInTournament$ | async; as players) {
+              @if (sport$ | async; as sport) {
+                @if (tournament$ | async; as tournament) {
+
+
+                  <app-edit-button
+                    [action]="'add'"
+                    [item]="'Player'"
+                    [dialogId]="'addPlayerDialog'"
+                  ></app-edit-button>
+
+                  <app-add-edit-player-to-team-tournament
+                    [action]="'add'"
+                    [dialogId]="'addPlayerDialog'"
+                    [availablePlayers]="players"
+                    [sportPositions]="allSportPositions$| async"
+                    [sport_Id]="sport.id!"
+                    [tournamentId]="tournament.id!"
+                  ></app-add-edit-player-to-team-tournament>
+                }
+              }
+            }
           }
+
         } @else {
           <tui-loader></tui-loader>
         }
@@ -87,10 +132,14 @@
           [dialogId]="'deleteDialog'"
         ></app-delete-dialog>
 
+        <!--          </div>-->
+        <!--        </ng-template>-->
       </div>
+
     } @else {
       <tui-loader [inheritColor]="true"></tui-loader>
     }
+
     <div class="tournament with__aside">
       <div class="one_col_container">
         @if (matchesInTournament$ | async; as items) {
