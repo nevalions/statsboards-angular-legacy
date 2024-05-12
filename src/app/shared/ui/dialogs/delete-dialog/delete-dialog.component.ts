@@ -43,6 +43,7 @@ import { ivyTransformFactory } from '@angular/compiler-cli/src/ngtsc/transform';
 export class DeleteDialogComponent implements OnInit, OnDestroy {
   dialogService = inject(DialogService);
 
+  @Input() id: number | null = null;
   @Input() item: string = 'item';
   @Input() action: string = 'delete';
   @Input() dialogId: string = 'deleteDialog';

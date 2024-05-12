@@ -90,6 +90,18 @@ export class PlayerInTeamTournament {
     );
   }
 
+  addPlayerToTeam(playerId: number, teamId: number) {
+    this.store.dispatch(
+      playerInTeamTournamentActions.addPlayerToTeam({ playerId, teamId }),
+    );
+  }
+
+  removePlayerFromTeam(playerId: number) {
+    this.store.dispatch(
+      playerInTeamTournamentActions.removePlayerFromTeam({ playerId }),
+    );
+  }
+
   loadCurrentPlayerInTeamTournament() {
     this.store.dispatch(playerInTeamTournamentActions.getId());
   }

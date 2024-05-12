@@ -135,6 +135,27 @@ const playerInTeamTournamentFeature = createFeature({
       playerInTeamTournamentIsSubmitting: true,
     })),
     on(playerInTeamTournamentActions.updatedSuccessfully, (state, action) => {
+      // const playerExistsInTeamTournament =
+      //   state.allPlayersInTeamTournament.some(
+      //     (player) => player.id === action.updatedPlayerInTeamTournament.id,
+      //   );
+      //
+      // const updatedAllPlayersInTeamTournament = playerExistsInTeamTournament
+      //   ? state.allPlayersInTeamTournament.map((player) =>
+      //       player.id === action.updatedPlayerInTeamTournament.id
+      //         ? action.updatedPlayerInTeamTournament
+      //         : player,
+      //     )
+      //   : [
+      //       ...state.allPlayersInTeamTournament,
+      //       action.updatedPlayerInTeamTournament,
+      //     ];
+      //
+      // const sortedAllPlayersInTeamTournament = SortService.sort(
+      //   updatedAllPlayersInTeamTournament,
+      //   'playerInSport.person.second_name',
+      // );
+
       const newList = state.allPlayersInTeamTournament.map((item) =>
         item.id === action.updatedPlayerInTeamTournament.id
           ? action.updatedPlayerInTeamTournament
@@ -144,6 +165,7 @@ const playerInTeamTournamentFeature = createFeature({
         newList,
         'playerInSport.person.second_name',
       );
+
       const newSportList = state.allPlayersInTournament.map((item) =>
         item.id === action.updatedPlayerInTeamTournament.id
           ? action.updatedPlayerInTeamTournament
@@ -160,24 +182,6 @@ const playerInTeamTournamentFeature = createFeature({
         currentPlayerInTeamTournament: action.updatedPlayerInTeamTournament,
         allPlayersInTeamTournament: sortedList,
         allPlayersInTournament: sortedPlayerList,
-
-        //   SortService.sort(
-        //   state.allPlayersInTeamTournament.map((item) =>
-        //     item.id === action.updatedPlayerInTeamTournament.id
-        //       ? action.updatedPlayerInTeamTournament
-        //       : item,
-        //   ),
-        //   'playerInSport.person.second_name',
-        // ),
-
-        //   SortService.sort(
-        //   state.allPlayersInTournament.map((item) =>
-        //     item.id === action.updatedPlayerInTeamTournament.id
-        //       ? action.updatedPlayerInTeamTournament
-        //       : item,
-        //   ),
-        //   'playerInSport.person.second_name',
-        // ),
         errors: null,
       };
     }),
@@ -186,6 +190,121 @@ const playerInTeamTournamentFeature = createFeature({
       playerInTeamTournamentIsSubmitting: false,
       errors: action,
     })),
+
+    // update actions Add Player to team in tournament
+    on(playerInTeamTournamentActions.addPlayerToTeam, (state) => ({
+      ...state,
+      playerInTeamTournamentIsSubmitting: true,
+    })),
+    on(
+      // add and sort
+      playerInTeamTournamentActions.playerAddedToTeamSuccessfully,
+      (state, action) => {
+        const newList = [
+          ...state.allPlayersInTeamTournament,
+          action.updatedPlayerInTeamTournament,
+        ];
+        const sortedList = SortService.sort(
+          newList,
+          'playerInSport.person.second_name',
+        );
+        // const newSportList = [
+        //   ...state.allPlayersInTournament,
+        //   action.updatedPlayerInTeamTournament,
+        // ];
+        // const sortedPlayerList = SortService.sort(
+        //   newSportList,
+        //   'playerInSport.person.second_name',
+        // );
+
+        // const newList = state.allPlayersInTeamTournament.map((item) =>
+        //   item.id === action.updatedPlayerInTeamTournament.id
+        //     ? action.updatedPlayerInTeamTournament
+        //     : item,
+        // );
+        // const sortedList = SortService.sort(
+        //   newList,
+        //   'playerInSport.person.second_name',
+        // );
+        //
+
+        // update and sort
+        const newSportList = state.allPlayersInTournament.map((item) =>
+          item.id === action.updatedPlayerInTeamTournament.id
+            ? action.updatedPlayerInTeamTournament
+            : item,
+        );
+        const sortedPlayerList = SortService.sort(
+          newSportList,
+          'playerInSport.person.second_name',
+        );
+        return {
+          ...state,
+          playerInTeamTournamentIsSubmitting: false,
+          currentPlayerInTeamTournament: action.updatedPlayerInTeamTournament,
+          allPlayersInTeamTournament: sortedList,
+          allPlayersInTournament: sortedPlayerList,
+          errors: null,
+        };
+      },
+    ),
+    on(
+      playerInTeamTournamentActions.playerAddToTeamFailure,
+      (state, action) => ({
+        ...state,
+        playerInTeamTournamentIsSubmitting: false,
+        errors: action,
+      }),
+    ),
+
+    // update actions Remove Player from team in tournament
+    on(playerInTeamTournamentActions.removePlayerFromTeam, (state) => ({
+      ...state,
+      playerInTeamTournamentIsSubmitting: true,
+    })),
+    on(
+      playerInTeamTournamentActions.removePlayerFromTeamSuccessfully,
+      (state, action) => {
+        // delete and remove
+        const itemList = state.allPlayersInTeamTournament.filter(
+          (item: IPlayerInTeamTournament) =>
+            item.id !== action.updatedPlayerInTeamTournament.id,
+        );
+
+        // update and sort
+        const newSportList = state.allPlayersInTournament.map((item) =>
+          item.id === action.updatedPlayerInTeamTournament.id
+            ? action.updatedPlayerInTeamTournament
+            : item,
+        );
+        const sortedPlayerList = SortService.sort(
+          newSportList,
+          'playerInSport.person.second_name',
+        );
+
+        // const itemSportList = state.allPlayersInTournament.filter(
+        //   (item: IPlayerInTeamTournament) =>
+        //     item.id !== action.updatedPlayerInTeamTournament.id,
+        // );
+
+        return {
+          ...state,
+          playerInTeamTournamentIsSubmitting: false,
+          currentPlayerInTeamTournament: action.updatedPlayerInTeamTournament,
+          allPlayersInTeamTournament: itemList,
+          allPlayersInTournament: sortedPlayerList,
+          errors: null,
+        };
+      },
+    ),
+    on(
+      playerInTeamTournamentActions.removePlayerFromTeamFailure,
+      (state, action) => ({
+        ...state,
+        playerInTeamTournamentIsSubmitting: false,
+        errors: action,
+      }),
+    ),
 
     // get actions
     on(playerInTeamTournamentActions.get, (state) => ({

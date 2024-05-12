@@ -17,10 +17,16 @@ import { ButtonIconComponent } from '../button-icon/button-icon.component';
 export class ActionsButtonsComponent {
   @Input() id: number | null = null;
   @Input() index: number | null = null;
+  @Input() deleteOrUpdate: 'delete' | 'update' | 'deleteFromTeam' = 'delete';
 
   @Output() edit = new EventEmitter<void>();
   @Output() onSubmit = new EventEmitter<{
-    action: 'add' | 'edit';
+    action: 'add' | 'edit' | 'deleteFromTeam';
+    index: number;
+    id: number | null;
+  }>();
+  @Output() onDeleteUpdate = new EventEmitter<{
+    action: 'deleteFromTeam';
     index: number;
     id: number | null;
   }>();
@@ -37,15 +43,21 @@ export class ActionsButtonsComponent {
   //   // Handle edit...
   // }
 
-  submit(action: 'add' | 'edit') {
+  submit(action: 'add' | 'edit' | 'deleteFromTeam') {
     if (this.index !== null) {
       this.onSubmit.emit({ action, index: this.index, id: this.id });
     }
   }
 
+  // update(action: 'edit') {
+  //   if (this.index !== null) {
+  //     this.onDeleteUpdate.emit({ action, index: this.index, id: this.id });
+  //   }
+  // }
+
   delete() {
     if (this.id !== null) {
-      // console.log('action id', this.id);
+      console.log('action id', this.id);
       // this.onDelete.emit();
 
       this.onDelete.emit({ id: this.id });

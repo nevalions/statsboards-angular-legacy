@@ -90,10 +90,13 @@ export const selectAllPlayersInTournamentWithPersonsWithPositions =
             ),
         );
         if (playersInSport && playersInTeamTournament) {
-          return SortService.sort(
-            playersWithPersons,
-            'playerInSport.person.second_name',
-          );
+          const sorted: IPlayerInTeamTournamentWithPersonWithSportWithPosition[] =
+            SortService.sort(
+              playersWithPersons,
+              'playerInSport.person.second_name',
+            );
+          // console.log(sorted);
+          return sorted;
         } else {
           return [];
         }
@@ -204,12 +207,12 @@ export const selectAvailableSportPlayersForTeamTournament = createSelector(
 );
 
 export const selectAvailableTournamentPlayersForTeamTournament = createSelector(
-  selectAllSportPlayersWithPersons, // All players in the sport
+  selectAllPlayersInTournamentWithPersonsWithPositions, // All players in the sport
   selectAllPlayersInTournamentWithPersonsWithPositions, // All players in the current tournament
   selectCurrentTournamentId, // The current tournament ID
   (
-    allSportPlayers: IPlayerInSport[],
-    allTournamentPlayers: IPlayerInTeamTournamentWithPersonWithSportWithPosition[],
+    allTournamentPlayer: IPlayerInTeamTournamentWithPersonWithSportWithPosition[],
+    allTeamTournamentPlayers: IPlayerInTeamTournamentWithPersonWithSportWithPosition[],
     currentTournamentId: number | null | undefined,
   ) => {
     if (!currentTournamentId) {
@@ -217,19 +220,19 @@ export const selectAvailableTournamentPlayersForTeamTournament = createSelector(
     }
 
     const playerIdsInTeams = new Set<number>(
-      allTournamentPlayers
+      allTeamTournamentPlayers
         .filter(
           (player) =>
             player.playerInTeamTournament.team_id === null &&
             player.playerInTeamTournament.tournament_id === currentTournamentId,
         )
         .map((player) => {
-          console.log('player', player);
+          // console.log('player', player);
           return player.playerInTeamTournament.player_id!;
         }),
     );
 
-    return allTournamentPlayers.filter(
+    return allTournamentPlayer.filter(
       (sportPlayer) =>
         sportPlayer.playerInTeamTournament.player_id && // Player has an ID
         playerIdsInTeams.has(sportPlayer.playerInTeamTournament.player_id),

@@ -109,6 +109,56 @@ export class PlayerInTeamTournamentEffects {
     { functional: true },
   );
 
+  addPlayerInTeamEffect = createEffect(
+    () => {
+      return this.actions$.pipe(
+        ofType(playerInTeamTournamentActions.addPlayerToTeam),
+        switchMap(({ playerId, teamId }) => {
+          return this.playerInTeamTournamentService
+            .editItem(playerId, { team_id: teamId })
+            .pipe(
+              map((updatedPlayerInTeamTournament: IPlayerInTeamTournament) => {
+                return playerInTeamTournamentActions.playerAddedToTeamSuccessfully(
+                  {
+                    updatedPlayerInTeamTournament,
+                  },
+                );
+              }),
+            );
+        }),
+        catchError(() => {
+          return of(playerInTeamTournamentActions.playerAddToTeamFailure);
+        }),
+      );
+    },
+    { functional: true },
+  );
+
+  removePlayerFromTeamEffect = createEffect(
+    () => {
+      return this.actions$.pipe(
+        ofType(playerInTeamTournamentActions.removePlayerFromTeam),
+        switchMap(({ playerId }) => {
+          return this.playerInTeamTournamentService
+            .editItem(playerId, { team_id: null })
+            .pipe(
+              map((updatedPlayerInTeamTournament: IPlayerInTeamTournament) => {
+                return playerInTeamTournamentActions.removePlayerFromTeamSuccessfully(
+                  {
+                    updatedPlayerInTeamTournament,
+                  },
+                );
+              }),
+            );
+        }),
+        catchError(() => {
+          return of(playerInTeamTournamentActions.removePlayerFromTeamFailure);
+        }),
+      );
+    },
+    { functional: true },
+  );
+
   getAllPlayersInTeamTournamentEffect = createEffect(
     () => {
       return this.actions$.pipe(

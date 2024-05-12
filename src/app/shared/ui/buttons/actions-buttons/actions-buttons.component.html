@@ -32,15 +32,25 @@
       [buttonClass]="'button-update'"
       (click)="submit('edit')"
     ></app-button-icon>
-
-    <app-button-icon
-      [buttonAppear]="TuiAppearance.Accent"
-      [buttonShape]="'rounded'"
-      [buttonSize]="'m'"
-      [buttonIcon]="'tuiIconTrash'"
-      [buttonClass]="'button-remove'"
-      (click)="delete()"
-    ></app-button-icon>
+    @if (deleteOrUpdate == 'deleteFromTeam') {
+      <app-button-icon
+        [buttonAppear]="TuiAppearance.Accent"
+        [buttonShape]="'rounded'"
+        [buttonSize]="'m'"
+        [buttonIcon]="'tuiIconTrash'"
+        [buttonClass]="'button-remove'"
+        (click)="submit('deleteFromTeam')"
+      ></app-button-icon>
+    } @else if (deleteOrUpdate == 'delete') {
+      <app-button-icon
+        [buttonAppear]="TuiAppearance.Accent"
+        [buttonShape]="'rounded'"
+        [buttonSize]="'m'"
+        [buttonIcon]="'tuiIconTrash'"
+        [buttonClass]="'button-remove'"
+        (click)="delete()"
+      ></app-button-icon>
+    }
   </ng-template>
 } @else {
   <app-button-icon

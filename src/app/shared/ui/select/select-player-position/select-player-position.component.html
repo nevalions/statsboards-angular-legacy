@@ -1,7 +1,8 @@
 <tui-select
   [formControl]="control"
   style="padding-top: 10px;"
->{{ 'enter ' | uppercase }} {{ 'player position' | uppercase }}
+>
+  <!--  {{ 'enter ' | uppercase }} {{ 'player position' | uppercase }}-->
   <tui-data-list *tuiDataList>
     @for (position of positionList; track position.id) {
       <button
