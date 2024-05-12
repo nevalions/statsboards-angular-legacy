@@ -78,7 +78,7 @@ export class DeleteDialogComponent implements OnInit, OnDestroy, OnChanges {
   constructor() {}
 
   ngOnInit(): void {
-    console.log('Registering dialog event listener for:', this.dialogId);
+    // console.log('Registering dialog event listener for:', this.dialogId);
     this.initializeDialogSubscription();
   }
 
@@ -87,7 +87,7 @@ export class DeleteDialogComponent implements OnInit, OnDestroy, OnChanges {
       changes['dialogId'] &&
       changes['dialogId'].currentValue !== changes['dialogId'].previousValue
     ) {
-      console.log('Dialog ID changed:', this.dialogId);
+      // console.log('Dialog ID changed:', this.dialogId);
 
       // Notify service that we are resetting the dialog with this ID
       this.dialogService.resetDialog(this.dialogId);

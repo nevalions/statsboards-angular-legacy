@@ -176,6 +176,7 @@ export class AddEditPlayerToTeamTournamentTableComponent implements OnChanges {
 
     if (anyControlEnabled) {
       playerFormGroup.disable();
+      playerFormGroup.reset();
     } else {
       playerFormGroup.enable();
     }
