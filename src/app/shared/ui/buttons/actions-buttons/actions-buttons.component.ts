@@ -2,10 +2,13 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import {
   TuiAppearance,
   TuiButtonModule,
+  TuiDropdownModule,
   TuiHostedDropdownModule,
 } from '@taiga-ui/core';
 import { ButtonIconComponent } from '../button-icon/button-icon.component';
 import { DeleteDialogComponent } from '../../dialogs/delete-dialog/delete-dialog.component';
+import { TuiTabsModule } from '@taiga-ui/kit';
+import { TuiActiveZoneModule, TuiObscuredModule } from '@taiga-ui/cdk';
 
 @Component({
   selector: 'app-actions-buttons',
@@ -15,6 +18,10 @@ import { DeleteDialogComponent } from '../../dialogs/delete-dialog/delete-dialog
     TuiHostedDropdownModule,
     TuiButtonModule,
     DeleteDialogComponent,
+    TuiDropdownModule,
+    TuiTabsModule,
+    TuiActiveZoneModule,
+    TuiObscuredModule,
   ],
   templateUrl: './actions-buttons.component.html',
   styleUrl: './actions-buttons.component.less',
@@ -24,8 +31,10 @@ export class ActionsButtonsComponent {
   @Input() index: number | null = null;
   @Input() item: string = 'Player';
   @Input() deleteOrUpdate: 'delete' | 'update' | 'deleteFromTeam' = 'delete';
+  @Input() isEnabled: boolean = false;
+  @Input() isDataChanged: boolean = false;
 
-  @Output() edit = new EventEmitter<void>();
+  @Output() onEdit = new EventEmitter<{ index: number }>();
   @Output() onSubmit = new EventEmitter<{
     action: 'add' | 'edit' | 'deleteFromTeam';
     index: number;
@@ -44,31 +53,28 @@ export class ActionsButtonsComponent {
 
   dropdownOpen = false;
 
-  // Call these methods when the corresponding button is clicked
-  // edit(event: Event, index: number) {
-  //   // Handle edit...
-  // }
-
   submit(action: 'add' | 'edit' | 'deleteFromTeam') {
     if (this.index !== null) {
       this.onSubmit.emit({ action, index: this.index, id: this.id });
     }
   }
 
-  // update(action: 'edit') {
-  //   if (this.index !== null) {
-  //     this.onDeleteUpdate.emit({ action, index: this.index, id: this.id });
-  //   }
-  // }
+  edit() {
+    if (this.index !== null) {
+      this.onEdit.emit({ index: this.index });
+    }
+  }
+
   delete(id: number) {
-    if (this.id !== null) {
-      console.log('delete id', this.id);
+    if (id !== null) {
+      // console.log('delete id', id);
       this.onDelete.emit({ id });
       // this.onDeleteDialog.emit({ id: this.id });
     }
   }
 
-  deleteDialog() {
+  deleteDialog(event: MouseEvent): void {
+    event.stopPropagation();
     if (this.id !== null) {
       console.log('action id', this.id);
       // this.onDelete.emit();
@@ -82,4 +88,6 @@ export class ActionsButtonsComponent {
 
   // protected readonly getFormControl = getFormControl;
   protected readonly TuiAppearance = TuiAppearance;
+
+  open = false;
 }

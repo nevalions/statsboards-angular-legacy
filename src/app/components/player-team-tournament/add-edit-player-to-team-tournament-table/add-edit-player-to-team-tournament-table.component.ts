@@ -156,6 +156,60 @@ export class AddEditPlayerToTeamTournamentTableComponent implements OnChanges {
     playerFormGroup.patchValue({ [positionKey]: playerPosition });
   }
 
+  enableRowToEdit(playerIndex: number): void {
+    const playerFormGroup = (this.playerForm.get('players') as FormArray).at(
+      playerIndex,
+    );
+    if (!playerFormGroup) {
+      return; // Exit if playerFormGroup is not found
+    }
+
+    let positionKey = `position${playerIndex}`;
+    let numberKey = `number${playerIndex}`;
+
+    const positionInput = playerFormGroup.get(positionKey);
+    const numberInput = playerFormGroup.get(numberKey);
+
+    // Check if any of the controls is enabled
+    const anyControlEnabled =
+      (positionInput && positionInput.enabled) ||
+      (numberInput && numberInput.enabled);
+
+    if (anyControlEnabled) {
+      // If any control is enabled, disable the entire form group
+      playerFormGroup.disable();
+    } else {
+      // If none of the controls are enabled, enable the entire form group
+      playerFormGroup.enable();
+    }
+  }
+
+  isRowEnabled(playerIndex: number): boolean {
+    const playerFormGroup = (this.playerForm.get('players') as FormArray).at(
+      playerIndex,
+    );
+    let positionKey = `position${playerIndex}`;
+    let numberKey = `number${playerIndex}`;
+    if (playerFormGroup.get(positionKey)) {
+      return playerFormGroup.get(positionKey)!.enabled;
+    }
+    if (playerFormGroup.get(numberKey)) {
+      return playerFormGroup.get(numberKey)!.enabled;
+    }
+    return false;
+  }
+
+  isDataChanged(playerIndex: number): boolean {
+    const playerFormGroup = (this.playerForm.get('players') as FormArray).at(
+      playerIndex,
+    );
+    return playerFormGroup ? playerFormGroup.dirty : false;
+  }
+
+  disableAllRows() {
+    this.playerForm.disable();
+  }
+
   //
   // private initializeForm(): void {
   //   this.playerForm = new FormGroup({});
