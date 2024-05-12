@@ -295,7 +295,7 @@ export class AddEditPlayerToTeamTournamentTableComponent implements OnChanges {
         const data = {
           id: playerData.playerInTeamId,
           player_id: playerData.playerId,
-          position_id: playerData.position.id,
+          position_id: playerData.position?.id,
           player_number: playerData.number,
           team_id: playerData.team?.id ? playerData.team?.id : null,
         };
