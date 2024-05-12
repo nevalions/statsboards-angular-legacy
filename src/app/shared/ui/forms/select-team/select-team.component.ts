@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { AsyncPipe } from '@angular/common';
+import { AsyncPipe, TitleCasePipe, UpperCasePipe } from '@angular/common';
 import {
   ControlValueAccessor,
   FormControl,
@@ -10,11 +10,16 @@ import {
 import {
   TuiAvatarModule,
   TuiDataListWrapperModule,
+  tuiItemsHandlersProvider,
   TuiSelectModule,
 } from '@taiga-ui/kit';
 import { TuiLetModule } from '@taiga-ui/cdk';
 import { Observable, of } from 'rxjs';
 import { ITeam } from '../../../../type/team.type';
+import { AddButtonIconComponent } from '../../buttons/add-button-icon/add-button-icon.component';
+import { TuiDataListModule } from '@taiga-ui/core';
+import { IPosition } from '../../../../type/position.type';
+import { toTitleCase } from '../../../../base/helpers';
 
 @Component({
   selector: 'app-select-team',
@@ -27,25 +32,21 @@ import { ITeam } from '../../../../type/team.type';
     TuiDataListWrapperModule,
     TuiLetModule,
     TuiSelectModule,
+    AddButtonIconComponent,
+    TuiDataListModule,
+    UpperCasePipe,
+    TitleCasePipe,
+  ],
+  providers: [
+    tuiItemsHandlersProvider({
+      stringify: (item: ITeam) => toTitleCase(`${item.title}`),
+    }),
   ],
   templateUrl: './select-team.component.html',
   styleUrl: './select-team.component.less',
 })
 export class SelectTeamComponent {
-  @Input() teams$: Observable<ITeam[]> = of([]);
-  @Input() label: string = '';
-  @Input() value: string = '';
-  @Input() formGroup!: FormGroup<any>;
-
-  // Update parent form on value change
-  onChange = (value: ITeam | null) => {};
-
-  // Notify parent form on blur
-  onTouched = () => {};
-
-  writeValue(obj: any): void {}
-
-  registerOnChange(fn: any): void {}
-
-  registerOnTouched(fn: any): void {}
+  @Input() teamsList: ITeam[] | null = [];
+  @Input() sportId!: number;
+  @Input() control!: FormControl;
 }

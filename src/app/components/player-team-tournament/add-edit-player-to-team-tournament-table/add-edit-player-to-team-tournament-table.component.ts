@@ -28,6 +28,8 @@ import {
 } from '../../../base/formHelpers';
 import { ActionsButtonsComponent } from '../../../shared/ui/buttons/actions-buttons/actions-buttons.component';
 import { AddButtonOnFinalTrComponent } from '../../../shared/ui/buttons/add-button-on-final-tr/add-button-on-final-tr.component';
+import { SelectTeamComponent } from '../../../shared/ui/forms/select-team/select-team.component';
+import { ITeam } from '../../../type/team.type';
 
 @Component({
   selector: 'app-add-edit-player-to-team-tournament-table',
@@ -44,6 +46,7 @@ import { AddButtonOnFinalTrComponent } from '../../../shared/ui/buttons/add-butt
     DeleteDialogComponent,
     AddButtonOnFinalTrComponent,
     NgIf,
+    SelectTeamComponent,
   ],
   templateUrl: './add-edit-player-to-team-tournament-table.component.html',
   styleUrl: './add-edit-player-to-team-tournament-table.component.less',
@@ -52,6 +55,7 @@ export class AddEditPlayerToTeamTournamentTableComponent implements OnChanges {
   @Input() teamId: number | null = null;
   @Input() tournamentId!: number;
   @Input() sportId!: number;
+  @Input() teamsInTournament: ITeam[] | null = [];
   @Input() playersInSport: IPlayerInSport[] = [];
   @Input() availablePlayersInSport: IPlayerInSport[] = [];
   @Input()
@@ -95,7 +99,7 @@ export class AddEditPlayerToTeamTournamentTableComponent implements OnChanges {
 
       const controlNamePlayerInSport = `playerInSport${index}`;
 
-      const isPlayerSelected = player.playerInSport !== null;
+      // const isPlayerSelected = player.playerInSport !== null;
 
       return this.fb.group({
         [controlNamePlayerInTournamentId]: new FormControl(
@@ -123,7 +127,7 @@ export class AddEditPlayerToTeamTournamentTableComponent implements OnChanges {
             player.playerInTeamTournament.id === null
           ),
         }),
-        [controlNameTeam]: new FormControl(player.team?.title),
+        [controlNameTeam]: new FormControl(player.team),
         [controlNamePlayerInSport]: new FormControl(player.playerInSport),
       });
     });
@@ -144,6 +148,7 @@ export class AddEditPlayerToTeamTournamentTableComponent implements OnChanges {
     const playerNumber =
       selectedPlayer.playerInTeamTournament?.player_number || '';
     const playerPosition = selectedPlayer.position || '';
+    const playerTeam = selectedPlayer.team || null;
 
     // console.log('index', playerIndex);
     const playerFormGroup = (this.playerForm.get('players') as FormArray).at(
@@ -152,6 +157,7 @@ export class AddEditPlayerToTeamTournamentTableComponent implements OnChanges {
     // console.log('playerFormGroup', playerFormGroup);
     // console.log('PlayerPosition', playerPosition);
     let positionKey = `position${playerIndex}`;
+    let teamKey = `team${playerIndex}`;
 
     playerFormGroup.patchValue({ [positionKey]: playerPosition });
   }
@@ -176,7 +182,6 @@ export class AddEditPlayerToTeamTournamentTableComponent implements OnChanges {
 
     if (anyControlEnabled) {
       playerFormGroup.disable();
-      playerFormGroup.reset();
     } else {
       playerFormGroup.enable();
     }
@@ -281,17 +286,26 @@ export class AddEditPlayerToTeamTournamentTableComponent implements OnChanges {
             'position',
           ),
           number: getArrayFormDataByIndexAndKey<number>(array, index, 'number'),
+          team: getArrayFormDataByIndexAndKey<ITeam>(array, index, 'team'),
         };
         if (playerData.number == 'None') {
           playerData.number = '';
         }
 
-        this.playerInTeamTournament.updatePlayerInTeamTournament({
+        const data = {
           id: playerData.playerInTeamId,
           player_id: playerData.playerId,
           position_id: playerData.position.id,
           player_number: playerData.number,
-        });
+          team_id: playerData.team?.id ? playerData.team?.id : null,
+        };
+
+        if (this.teamId) {
+          data.team_id = this.teamId;
+        }
+
+        this.playerInTeamTournament.updatePlayerInTeamTournament(data);
+
         // console.log('Specific player data at index', index, ':', playerData);
       } else if (array && action === 'deleteFromTeam') {
         const playerData: { playerInTeamId: number } = {
@@ -317,6 +331,7 @@ export class AddEditPlayerToTeamTournamentTableComponent implements OnChanges {
             'position',
           ),
           number: getArrayFormDataByIndexAndKey<number>(array, index, 'number'),
+          team: getArrayFormDataByIndexAndKey<ITeam>(array, index, 'team'),
         };
 
         if (newPlayerData.p && 'playerInSport' in newPlayerData.p) {
@@ -329,13 +344,13 @@ export class AddEditPlayerToTeamTournamentTableComponent implements OnChanges {
             player_number: newPlayerData.number
               ? newPlayerData.number.toString()
               : null,
-            team_id: this.teamId ? this.teamId : null,
+            team_id: newPlayerData.team.id ? newPlayerData.team.id : null,
             tournament_id: this.tournamentId,
           };
 
-          if (this.teamId) {
-            playerInTeamData.team_id = this.teamId;
-          }
+          // if (this.teamId) {
+          //   playerInTeamData.team_id = this.teamId;
+          // }
 
           if (newPlayerData.position) {
             playerInTeamData.position_id = newPlayerData.position.id;
@@ -354,13 +369,13 @@ export class AddEditPlayerToTeamTournamentTableComponent implements OnChanges {
             player_number: newPlayerData.number
               ? newPlayerData.number.toString()
               : null,
-            team_id: this.teamId ? this.teamId : null,
+            team_id: newPlayerData.team.id ? newPlayerData.team.id : null,
             tournament_id: this.tournamentId,
           };
 
-          if (this.teamId) {
-            playerInSportData.team_id = this.teamId;
-          }
+          // if (this.teamId) {
+          //   playerInSportData.team_id = this.teamId;
+          // }
 
           if (newPlayerData.position) {
             playerInSportData.position_id = newPlayerData.position.id;

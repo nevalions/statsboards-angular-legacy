@@ -33,6 +33,8 @@ import { IPerson } from '../../../type/person.type';
 import { SelectPlayerPositionComponent } from '../../../shared/ui/select/select-player-position/select-player-position.component';
 import { SelectPlayerNumberComponent } from '../../../shared/ui/select/select-player-number/select-player-number.component';
 import { SearchPlayerInSportAutocompliteComponent } from '../../../shared/ui/search/search-player-in-sport-autocomplite/search-player-in-sport-autocomplite.component';
+import { SelectTeamComponent } from '../../../shared/ui/forms/select-team/select-team.component';
+import { ITeam } from '../../../type/team.type';
 
 @Component({
   selector: 'app-add-edit-player-to-team-tournament',
@@ -50,6 +52,7 @@ import { SearchPlayerInSportAutocompliteComponent } from '../../../shared/ui/sea
     SelectPlayerPositionComponent,
     SelectPlayerNumberComponent,
     SearchPlayerInSportAutocompliteComponent,
+    SelectTeamComponent,
   ],
   templateUrl: './add-edit-player-to-team-tournament.component.html',
   styleUrl: './add-edit-player-to-team-tournament.component.less',
@@ -67,6 +70,7 @@ export class AddEditPlayerToTeamTournamentComponent
   @Input() availablePlayers: IPlayerInSport[] = [];
   @Input() sportPositions: IPosition[] | null = [];
   @Input() sport_Id!: number;
+  @Input() tournamentTeams: ITeam[] = [];
   @Input() teamId: number | null = null;
   @Input() tournamentId!: number;
 
@@ -83,6 +87,7 @@ export class AddEditPlayerToTeamTournamentComponent
     playerInSport: new FormControl<IPlayerInSport | null>(null),
     position: new FormControl<IPosition | null>(null),
     number: new FormControl<string | null>(null),
+    team: new FormControl<ITeam | null>(null),
   });
 
   open: boolean = false;
@@ -117,6 +122,7 @@ export class AddEditPlayerToTeamTournamentComponent
         number: item.playerInTeamTournament.player_number
           ? item.playerInTeamTournament.player_number
           : null,
+        team: item.team ? item.team : null,
       });
     }
   }
@@ -138,11 +144,16 @@ export class AddEditPlayerToTeamTournamentComponent
           data.position_id = formValue.position.id;
         }
 
-        if (this.teamId) {
-          data.team_id = this.teamId;
+        if (formValue.team) {
+          data.team_id = formValue.team.id;
         }
 
+        // if (this.teamId) {
+        //   data.team_id = this.teamId;
+        // }
+
         if (this.action === 'add') {
+          console.log(data);
           this.player.createPlayerInTeamTournament(data);
           this.playerForm.reset();
         } else if (this.action === 'edit') {

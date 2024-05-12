@@ -5,7 +5,7 @@
 >
   <table
     tuiTable
-    [size]="'l'"
+    [size]="'s'"
     class="table-players"
     style="width: 100%;padding: 20px;"
   >
@@ -52,24 +52,39 @@
 
             <td tuiTd>
               @if (teamId) {
-                <app-select-player-number
-                  [control]="getFormControl(this.playerForm, i, 'number', 'players')"
-                ></app-select-player-number>
-              } @else {
-                @if (getFormDataByIndexAndKey(playerFormGroup, i, 'team'); as team) {
-                  {{ team | uppercase }}
+                @if (isRowEnabled(i)) {
+                  <app-select-player-number
+                    [control]="getFormControl(this.playerForm, i, 'number', 'players')"
+                  ></app-select-player-number>
+                } @else {
+                  {{ getFormDataByIndexAndKey(playerFormGroup, i, 'number') }}
                 }
+
+              } @else {
+                @if (isRowEnabled(i)) {
+                  <app-select-team
+                    [control]="getFormControl(this.playerForm, i, 'team', 'players')"
+                    [teamsList]="teamsInTournament"
+                  ></app-select-team>
+                } @else {
+                  {{ getFormDataByIndexAndKey(playerFormGroup, i, 'team')?.title | uppercase }}
+                }
+
               }
             </td>
             <td tuiTd>
               @if (sportId) {
                 @if (positions) {
-                  <app-select-player-position
-                    [positionList]="positions"
-                    [index]="i"
-                    [sportId]="sportId"
-                    [control]="getFormControl(this.playerForm, i, 'position', 'players')"
-                  ></app-select-player-position>
+                  @if (isRowEnabled(i)) {
+                    <app-select-player-position
+                      [positionList]="positions"
+                      [index]="i"
+                      [sportId]="sportId"
+                      [control]="getFormControl(this.playerForm, i, 'position', 'players')"
+                    ></app-select-player-position>
+                  } @else {
+                    {{ getFormDataByIndexAndKey(playerFormGroup, i, 'position')?.title | uppercase }}
+                  }
                 }
               }
             </td>
@@ -81,7 +96,7 @@
                     [id]="id"
                     [index]="i"
                     [deleteOrUpdate]="'deleteFromTeam'"
-                    [item]="getFormDataByIndexAndKey(playerFormGroup, i, 'fullName') + ' id' + id | uppercase"
+                    [item]="getFormDataByIndexAndKey(playerFormGroup, i, 'fullName') | uppercase"
                     [isEnabled]="isRowEnabled(i)"
                     [isDataChanged]="isDataChanged(i)"
                     (onEdit)="enableRowToEdit($event.index)"
@@ -91,12 +106,12 @@
                     (onDeleteDialog)="onDeleteButtonClick('deleteDialogPlayer'+$event.id!)"
                   ></app-actions-buttons>
                 } @else {
-                  <!--                  @if (getFormDataByIndexAndKey(playerFormGroup, i, 'fullName'); as name){-->
+
                   <app-actions-buttons
                     [id]="id"
                     [index]="i"
                     [deleteOrUpdate]="'delete'"
-                    [item]="getFormDataByIndexAndKey(playerFormGroup, i, 'fullName') + ' id' + id | uppercase"
+                    [item]="getFormDataByIndexAndKey(playerFormGroup, i, 'fullName') | uppercase"
                     [isEnabled]="isRowEnabled(i)"
                     [isDataChanged]="isDataChanged(i)"
                     (onEdit)="enableRowToEdit($event.index)"
@@ -105,16 +120,8 @@
                     (onCancel)="onCancelButtonClick()"
                     (onDeleteDialog)="onDeleteButtonClick('deleteDialogPlayer'+$event.id!)"
                   ></app-actions-buttons>
-                  <!--                }-->
+
                 }
-                <!--                {{ id }}-->
-
-                  <!--                <app-delete-dialog-->
-                  <!--                  [item]="playerFormGroup.get('fullName' + i)!.value"-->
-                  <!--                  (delete)="onDelete(id)"-->
-                  <!--                  [dialogId]="'deleteDialogPlayer'+id"-->
-                  <!--                ></app-delete-dialog>-->
-
               } @else {
                 <app-actions-buttons
                   [index]="i"

@@ -1,32 +1,17 @@
-@if (teams$ | async) {
-
-  <tui-select
-    *tuiLet="teams$ | async as items"
-    class="b-form"
-    style="padding-top: 10px; padding-bottom: 10px"
-  >
-    {{ label }}
-    <tui-data-list-wrapper
-      *tuiDataList
-      size="l"
-      [itemContent]="content"
-      [items]="items"
-    ></tui-data-list-wrapper>
-
-  </tui-select>
-
-  <ng-template
-    #content
-    let-data
-  >
-    <div class="template">
-      <tui-avatar
-        size="xs"
-        class="avatar"
-        [text]="data.title.toString()"
-      ></tui-avatar>
-      <div class="name">{{ data.title }}</div>
-    </div>
-  </ng-template>
-
-}
+<tui-select
+  [formControl]="control"
+  style="padding-top: 10px;"
+>
+  TEAM
+  <!--  {{ 'enter ' | uppercase }} {{ 'player position' | uppercase }}-->
+  <tui-data-list *tuiDataList>
+    @for (team of teamsList; track team.id) {
+      <button
+        tuiOption
+        [value]="team"
+      >
+        {{ team.title | titlecase }}
+      </button>
+    }
+  </tui-data-list>
+</tui-select>

@@ -98,8 +98,6 @@
             @if (allAvailablePlayersToAddInTournament$ | async; as players) {
               @if (sport$ | async; as sport) {
                 @if (tournament$ | async; as tournament) {
-
-
                   <app-edit-button
                     [action]="'add'"
                     [item]="'Player'"
@@ -113,6 +111,7 @@
                     [sportPositions]="allSportPositions$| async"
                     [sport_Id]="sport.id!"
                     [tournamentId]="tournament.id!"
+                    [tournamentTeams]="teams"
                   ></app-add-edit-player-to-team-tournament>
                 }
               }
@@ -181,6 +180,7 @@
                         [deleteOrUpdate]="'delete'"
                         [sportId]="sport.id!"
                         [tournamentId]="tournament.id!"
+                        [teamsInTournament]="teamsInTournament$|async"
                         [playersInSport]="playersInSports"
                         [players]="players"
                         [availablePlayersInSport]="availablePlayers"
