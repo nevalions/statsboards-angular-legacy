@@ -344,7 +344,7 @@ export class AddEditPlayerToTeamTournamentTableComponent implements OnChanges {
             player_number: newPlayerData.number
               ? newPlayerData.number.toString()
               : null,
-            team_id: newPlayerData.team.id ? newPlayerData.team.id : null,
+            team_id: newPlayerData.team?.id ? newPlayerData.team?.id : null,
             tournament_id: this.tournamentId,
           };
 
@@ -369,7 +369,7 @@ export class AddEditPlayerToTeamTournamentTableComponent implements OnChanges {
             player_number: newPlayerData.number
               ? newPlayerData.number.toString()
               : null,
-            team_id: newPlayerData.team.id ? newPlayerData.team.id : null,
+            team_id: newPlayerData.team?.id ? newPlayerData.team?.id : null,
             tournament_id: this.tournamentId,
           };
 
