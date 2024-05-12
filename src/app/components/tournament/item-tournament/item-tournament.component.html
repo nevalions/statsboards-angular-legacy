@@ -178,6 +178,7 @@
                   @if (allSportPlayersWithPerson$ | async; as playersInSports) {
                     @if (allAvailablePlayersToAddInTournament$ | async; as availablePlayers) {
                       <app-add-edit-player-to-team-tournament-table
+                        [deleteOrUpdate]="'delete'"
                         [sportId]="sport.id!"
                         [tournamentId]="tournament.id!"
                         [playersInSport]="playersInSports"

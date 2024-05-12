@@ -3,9 +3,11 @@ import {
   EventEmitter,
   inject,
   Input,
+  OnChanges,
   OnDestroy,
   OnInit,
   Output,
+  SimpleChanges,
 } from '@angular/core';
 import {
   FormControl,
@@ -40,7 +42,7 @@ import { ivyTransformFactory } from '@angular/compiler-cli/src/ngtsc/transform';
   templateUrl: './delete-dialog.component.html',
   styleUrl: './delete-dialog.component.less',
 })
-export class DeleteDialogComponent implements OnInit, OnDestroy {
+export class DeleteDialogComponent implements OnInit, OnDestroy, OnChanges {
   dialogService = inject(DialogService);
 
   @Input() id: number | null = null;
@@ -57,15 +59,45 @@ export class DeleteDialogComponent implements OnInit, OnDestroy {
 
   open: boolean = false;
 
-  constructor() {}
-
-  ngOnInit(): void {
-    // console.log('dialogId on delete', this.dialogId); // logging dialogId
+  private initializeDialogSubscription(): void {
+    this.unsubscribeDialogSubscription();
     this.dialogSubscription = this.dialogService
       .getDialogEvent(this.dialogId)
       .subscribe(() => {
         this.showDialog(true);
       });
+  }
+
+  private unsubscribeDialogSubscription(): void {
+    if (this.dialogSubscription) {
+      this.dialogSubscription.unsubscribe();
+    }
+    this.dialogSubscription = undefined;
+  }
+
+  constructor() {}
+
+  ngOnInit(): void {
+    console.log('Registering dialog event listener for:', this.dialogId);
+    this.initializeDialogSubscription();
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (
+      changes['dialogId'] &&
+      changes['dialogId'].currentValue !== changes['dialogId'].previousValue
+    ) {
+      console.log('Dialog ID changed:', this.dialogId);
+
+      // Notify service that we are resetting the dialog with this ID
+      this.dialogService.resetDialog(this.dialogId);
+
+      // Unsubscribe from the old subscription
+      this.unsubscribeDialogSubscription();
+
+      // Set up a new subscription for the new dialog ID
+      this.initializeDialogSubscription();
+    }
   }
 
   showDialog(open: boolean): void {
@@ -78,8 +110,6 @@ export class DeleteDialogComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    if (this.dialogSubscription) {
-      this.dialogSubscription.unsubscribe();
-    }
+    this.unsubscribeDialogSubscription();
   }
 }

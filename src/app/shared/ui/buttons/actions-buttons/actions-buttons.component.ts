@@ -1,22 +1,28 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { getFormControl } from '../../../../base/formHelpers';
 import {
   TuiAppearance,
   TuiButtonModule,
   TuiHostedDropdownModule,
 } from '@taiga-ui/core';
 import { ButtonIconComponent } from '../button-icon/button-icon.component';
+import { DeleteDialogComponent } from '../../dialogs/delete-dialog/delete-dialog.component';
 
 @Component({
   selector: 'app-actions-buttons',
   standalone: true,
-  imports: [ButtonIconComponent, TuiHostedDropdownModule, TuiButtonModule],
+  imports: [
+    ButtonIconComponent,
+    TuiHostedDropdownModule,
+    TuiButtonModule,
+    DeleteDialogComponent,
+  ],
   templateUrl: './actions-buttons.component.html',
   styleUrl: './actions-buttons.component.less',
 })
 export class ActionsButtonsComponent {
   @Input() id: number | null = null;
   @Input() index: number | null = null;
+  @Input() item: string = 'Player';
   @Input() deleteOrUpdate: 'delete' | 'update' | 'deleteFromTeam' = 'delete';
 
   @Output() edit = new EventEmitter<void>();
@@ -30,10 +36,10 @@ export class ActionsButtonsComponent {
     index: number;
     id: number | null;
   }>();
-  @Output() onDelete = new EventEmitter<{
+  @Output() onDeleteDialog = new EventEmitter<{
     id: number | null;
   }>();
-  // @Output() onDelete = new EventEmitter<void>();
+  @Output() onDelete = new EventEmitter<{ id: number | null }>();
   @Output() onCancel = new EventEmitter<void>();
 
   dropdownOpen = false;
@@ -54,13 +60,19 @@ export class ActionsButtonsComponent {
   //     this.onDeleteUpdate.emit({ action, index: this.index, id: this.id });
   //   }
   // }
+  delete(id: number) {
+    if (this.id !== null) {
+      console.log('delete id', this.id);
+      this.onDelete.emit({ id });
+      // this.onDeleteDialog.emit({ id: this.id });
+    }
+  }
 
-  delete() {
+  deleteDialog() {
     if (this.id !== null) {
       console.log('action id', this.id);
       // this.onDelete.emit();
-
-      this.onDelete.emit({ id: this.id });
+      this.onDeleteDialog.emit({ id: this.id });
     }
   }
 

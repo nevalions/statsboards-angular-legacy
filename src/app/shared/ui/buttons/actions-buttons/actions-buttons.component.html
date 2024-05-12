@@ -1,57 +1,70 @@
 @if (id) {
-  <tui-hosted-dropdown
-    #dropdown
-    [content]="content"
-    [(open)]="dropdownOpen"
-  >
-    <button
-      appearance="flat"
-      icon="tuiIconMoreVertical"
-      tuiIconButton
-      type="button"
-      [pseudoHover]="dropdown.open || null"
-    ></button>
-  </tui-hosted-dropdown>
-  <ng-template
-    #content
-    let-activeZone
-  >
+  <!--  <tui-hosted-dropdown-->
+  <!--    #dropdown-->
+  <!--    [content]="content"-->
+  <!--    [(open)]="dropdownOpen"-->
+  <!--  >-->
+  <!--    <button-->
+  <!--      appearance="flat"-->
+  <!--      icon="tuiIconMoreVertical"-->
+  <!--      tuiIconButton-->
+  <!--      type="button"-->
+  <!--      [pseudoHover]="dropdown.open || null"-->
+  <!--    ></button>-->
+  <!--  </tui-hosted-dropdown>-->
+  <!--  <ng-template-->
+  <!--    #content-->
+  <!--    let-activeZone-->
+  <!--  >-->
+  <app-button-icon
+    [buttonAppear]="TuiAppearance.Primary"
+    [buttonShape]="'rounded'"
+    [buttonSize]="'m'"
+    [buttonIcon]="'tuiIconEdit2'"
+    [buttonClass]="'button-edit'"
+  ></app-button-icon>
+
+  <app-button-icon
+    [buttonAppear]="'create'"
+    [buttonShape]="'rounded'"
+    [buttonSize]="'m'"
+    [buttonIcon]="'tuiIconSave'"
+    [buttonClass]="'button-update'"
+    (click)="submit('edit')"
+  ></app-button-icon>
+  @if (deleteOrUpdate == 'deleteFromTeam') {
     <app-button-icon
-      [buttonAppear]="TuiAppearance.Primary"
+      [buttonAppear]="TuiAppearance.Accent"
       [buttonShape]="'rounded'"
       [buttonSize]="'m'"
-      [buttonIcon]="'tuiIconEdit2'"
-      [buttonClass]="'button-edit'"
+      [buttonIcon]="'tuiIconTrash'"
+      [buttonClass]="'button-remove'"
+      (click)="deleteDialog()"
     ></app-button-icon>
 
+    <app-delete-dialog
+      [item]="item"
+      [dialogId]="'deleteDialogPlayer'+id"
+      (delete)="submit('deleteFromTeam')"
+    ></app-delete-dialog>
+  } @else if (deleteOrUpdate == 'delete') {
     <app-button-icon
-      [buttonAppear]="'create'"
+      [buttonAppear]="TuiAppearance.Accent"
       [buttonShape]="'rounded'"
       [buttonSize]="'m'"
-      [buttonIcon]="'tuiIconSave'"
-      [buttonClass]="'button-update'"
-      (click)="submit('edit')"
+      [buttonIcon]="'tuiIconTrash'"
+      [buttonClass]="'button-remove'"
+      (click)="deleteDialog()"
     ></app-button-icon>
-    @if (deleteOrUpdate == 'deleteFromTeam') {
-      <app-button-icon
-        [buttonAppear]="TuiAppearance.Accent"
-        [buttonShape]="'rounded'"
-        [buttonSize]="'m'"
-        [buttonIcon]="'tuiIconTrash'"
-        [buttonClass]="'button-remove'"
-        (click)="submit('deleteFromTeam')"
-      ></app-button-icon>
-    } @else if (deleteOrUpdate == 'delete') {
-      <app-button-icon
-        [buttonAppear]="TuiAppearance.Accent"
-        [buttonShape]="'rounded'"
-        [buttonSize]="'m'"
-        [buttonIcon]="'tuiIconTrash'"
-        [buttonClass]="'button-remove'"
-        (click)="delete()"
-      ></app-button-icon>
-    }
-  </ng-template>
+
+    <app-delete-dialog
+      [item]="item"
+      [dialogId]="'deleteDialogPlayer'+id"
+      (delete)="delete(id)"
+    ></app-delete-dialog>
+
+  }
+  <!--  </ng-template>-->
 } @else {
   <app-button-icon
     [buttonAppear]="'create'"

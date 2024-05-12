@@ -75,33 +75,40 @@
             </td>
             <td tuiTd>
               @if (playerFormGroup.get('playerInTeamId' + i)!.value; as id) {
+
                 @if (deleteOrUpdate == 'deleteFromTeam') {
                   <app-actions-buttons
                     [id]="id"
                     [index]="i"
                     [deleteOrUpdate]="'deleteFromTeam'"
+                    [item]="getFormDataByIndexAndKey(playerFormGroup, i, 'fullName') + ' id' + id | uppercase"
                     (onSubmit)="onSubmit($event.action, $event.index, $event.id)"
                     (onCancel)="onCancelButtonClick()"
                     (onDeleteUpdate)="onSubmit($event.action, $event.index, $event.id)"
+                    (onDeleteDialog)="onDeleteButtonClick('deleteDialogPlayer'+$event.id!)"
                   ></app-actions-buttons>
                 } @else {
+                  <!--                  @if (getFormDataByIndexAndKey(playerFormGroup, i, 'fullName'); as name){-->
                   <app-actions-buttons
                     [id]="id"
                     [index]="i"
                     [deleteOrUpdate]="'delete'"
+                    [item]="getFormDataByIndexAndKey(playerFormGroup, i, 'fullName') + ' id' + id | uppercase"
+                    (onDelete)="onDelete($event.id!)"
                     (onSubmit)="onSubmit($event.action, $event.index, $event.id)"
                     (onCancel)="onCancelButtonClick()"
-                    (onDelete)="onDelete($event.id!)"
+                    (onDeleteDialog)="onDeleteButtonClick('deleteDialogPlayer'+$event.id!)"
                   ></app-actions-buttons>
+                  <!--                }-->
                 }
                 <!--                {{ id }}-->
-                @if (players.length > 0) {
-                  <app-delete-dialog
-                    [item]="playerFormGroup.get('fullName' + i)!.value"
-                    (delete)="onDelete(id)"
-                    [dialogId]="'deleteDialogPlayer'+id"
-                  ></app-delete-dialog>
-                }
+
+                  <!--                <app-delete-dialog-->
+                  <!--                  [item]="playerFormGroup.get('fullName' + i)!.value"-->
+                  <!--                  (delete)="onDelete(id)"-->
+                  <!--                  [dialogId]="'deleteDialogPlayer'+id"-->
+                  <!--                ></app-delete-dialog>-->
+
               } @else {
                 <app-actions-buttons
                   [index]="i"
