@@ -170,16 +170,13 @@ export class AddEditPlayerToTeamTournamentTableComponent implements OnChanges {
     const positionInput = playerFormGroup.get(positionKey);
     const numberInput = playerFormGroup.get(numberKey);
 
-    // Check if any of the controls is enabled
     const anyControlEnabled =
       (positionInput && positionInput.enabled) ||
       (numberInput && numberInput.enabled);
 
     if (anyControlEnabled) {
-      // If any control is enabled, disable the entire form group
       playerFormGroup.disable();
     } else {
-      // If none of the controls are enabled, enable the entire form group
       playerFormGroup.enable();
     }
   }
