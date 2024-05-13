@@ -17,7 +17,6 @@ import {
   selectAvailableTournamentPlayersForTeamTournament,
 } from './store/selectors';
 import { selectAllPlayersInTournament } from './store/reducers';
-import { PlayerTeamTournamentService } from './player-team-tournament.service';
 
 @Injectable({
   providedIn: 'root',
@@ -44,13 +43,7 @@ export class PlayerInTeamTournament {
     IPlayerInTeamTournamentWithPersonWithSportWithPosition[]
   >;
 
-  // private playerInTeamTournamentService= inject(PlayerTeamTournamentService)
-
-  constructor(
-    private store: Store<AppState>,
-    private playerInTeamTournamentService: PlayerTeamTournamentService,
-    // private playerInTeamTournamentService: PlayerTeamTournamentService,
-  ) {
+  constructor(private store: Store<AppState>) {
     this.playerInTeamTournamentIsLoading$ = this.store.select(
       (state) => state.playerInTeamTournament.playerInTeamTournamentIsLoading,
     );
@@ -141,14 +134,5 @@ export class PlayerInTeamTournament {
     this.store.dispatch(
       playerInTeamTournamentActions.parsPlayersFromTeamEESL(),
     );
-    //   // const team = selectCurrentTeam;
-    //   // const tournament = selectCurrentTournament;
-    //   //
-    //   // if (team && tournament) {
-    //   //   this.playerInTeamTournamentService.parsPlayersFromTeamEESL(
-    //   //     team,
-    //   //     selectCurrentTournamentId,
-    //   //   );
-    //   // }
   }
 }

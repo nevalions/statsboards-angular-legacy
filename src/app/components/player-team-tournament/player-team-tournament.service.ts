@@ -1,12 +1,9 @@
 import { Injectable } from '@angular/core';
-
 import { BaseApiService } from '../../services/base.api.service';
 import { HttpClient } from '@angular/common/http';
 import { ErrorHandlingService } from '../../services/error.service';
-import { IPosition } from '../../type/position.type';
 import { Observable } from 'rxjs';
 import { IPlayerInTeamTournament } from '../../type/player.type';
-import { tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -57,11 +54,9 @@ export class PlayerTeamTournamentService extends BaseApiService<IPlayerInTeamTou
       'id',
       teamId,
       'players',
-    ).pipe(
-      tap((players) => console.log(`PLAYERS from TEAM ID: ${teamId}`, players)),
-    );
+    )
+      .pipe
+      // tap((players) => console.log(`PLAYERS from TEAM ID: ${teamId}`, players)),
+      ();
   }
 }
-
-// http://localhost:9000/api/pars_and_create/tournament/27/team/id/34/players
-// http://localhost:9000/api/players_team_tournament/pars_and_create/tournament/27/team/id/34/players

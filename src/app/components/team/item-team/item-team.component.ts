@@ -4,7 +4,11 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { AsyncPipe, NgOptimizedImage, UpperCasePipe } from '@angular/common';
-import { TuiButtonModule, TuiLoaderModule } from '@taiga-ui/core';
+import {
+  TuiAppearance,
+  TuiButtonModule,
+  TuiLoaderModule,
+} from '@taiga-ui/core';
 import { DeleteDialogComponent } from '../../../shared/ui/dialogs/delete-dialog/delete-dialog.component';
 import { Team } from '../team';
 import { ImageService } from '../../../services/image.service';
@@ -26,6 +30,7 @@ import { AddEditPlayerToTeamTournamentTableComponent } from '../../player-team-t
 import { Sport } from '../../sport/sport';
 import { AddEditPlayerToTeamTournamentComponent } from '../../player-team-tournament/add-edit-player-to-team-tournament/add-edit-player-to-team-tournament.component';
 import { CreateButtonShowDialogComponent } from '../../../shared/ui/buttons/create-button-show-dialog/create-button-show-dialog.component';
+import { ParseButtonComponent } from '../../../shared/ui/buttons/parse-button/parse-button.component';
 
 @Component({
   selector: 'app-item-team',
@@ -46,6 +51,7 @@ import { CreateButtonShowDialogComponent } from '../../../shared/ui/buttons/crea
     AddEditPlayerToTeamTournamentComponent,
     CreateButtonShowDialogComponent,
     TuiButtonModule,
+    ParseButtonComponent,
   ],
   templateUrl: './item-team.component.html',
   styleUrl: './item-team.component.less',
@@ -54,17 +60,12 @@ import { CreateButtonShowDialogComponent } from '../../../shared/ui/buttons/crea
 })
 export class ItemTeamComponent {
   sport$ = this.sport.currentSport$;
-  tournament$ = this.tournament.currentTournament$;
   currentTeam$ = this.team.team$;
   currentTournament$ = this.tournament.currentTournament$;
   currentTeamMainSponsor$ = this.sponsor.currentSponsor$;
   allSportPlayersWithPerson$ = this.player.allSportPlayersWithPerson$;
-  allAvailableSportPlayersInTeamTournament$ =
-    this.playerInTeamTournament.allAvailableSportPlayersToAddInTeamTournament$;
   allAvailableTournamentPlayersForTeamTournament$ =
     this.playerInTeamTournament.allAvailableTournamentPlayersForTeamTournament$;
-  // allAvailablePlayersToAddInTournament$ =
-  //   this.playerInTeamTournament.allAvailablePlayersToAddInTournament$;
   allPlayersInTeamTournamentFullData$ =
     this.playerInTeamTournament.allPlayersInTeamTournamentFullData$;
   allSportPositions$ = this.position.allSportPositions$;
@@ -114,4 +115,5 @@ export class ItemTeamComponent {
   }
 
   protected readonly url = urlWithProtocol;
+  protected readonly TuiAppearance = TuiAppearance;
 }

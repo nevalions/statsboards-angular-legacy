@@ -1,5 +1,4 @@
 import { createSelector } from '@ngrx/store';
-import { selectCurrentSportId } from '../../sport/store/reducers';
 
 import { selectCurrentTeam, selectCurrentTeamId } from './reducers';
 import {
@@ -8,16 +7,6 @@ import {
 } from '../../tournament/store/reducers';
 import { ITeam } from '../../../type/team.type';
 import { ITournament } from '../../../type/tournament.type';
-
-// export const selectTeamSportId = createSelector(
-//   selectCurrentTeamId,
-//   selectCurrentSportId,
-//
-//   (teamId: number | null | undefined, sportId: number | null | undefined) => ({
-//     teamId,
-//     sportId,
-//   }),
-// );
 
 export const selectTeamTournamentId = createSelector(
   selectCurrentTeamId,

@@ -1,0 +1,17 @@
+<tui-loader
+  class="loader"
+  [inheritColor]="true"
+  [overlay]="true"
+  [showLoader]="isLoading"
+>
+  <button
+    tuiButton
+    [appearance]="appear"
+    [class]="buttonClass"
+    [size]="buttonSize"
+    type="button"
+  >
+    {{ item | uppercase }}
+    <!--            {{ 'add players from eesl' | uppercase }}-->
+  </button>
+</tui-loader>
