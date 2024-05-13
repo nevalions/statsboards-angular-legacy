@@ -31,7 +31,10 @@ import {
 import { tournamentActions } from '../../tournament/store/actions';
 import { selectSportIdAndSeasonId } from '../../sport/store/selectors';
 import { ITournament } from '../../../type/tournament.type';
-import { selectTeamTournamentId } from '../../team/store/selectors';
+import {
+  selectCurrentTeamAndTournament,
+  selectTeamTournamentId,
+} from '../../team/store/selectors';
 
 @Injectable()
 export class PlayerInTeamTournamentEffects {
@@ -287,7 +290,9 @@ export class PlayerInTeamTournamentEffects {
                 ),
               ),
               catchError(() =>
-                of(tournamentActions.getTournamentsBySportAndSeasonFailure()),
+                of(
+                  playerInTeamTournamentActions.getAllPlayersInTeamTournamentByTeamIdAndTournamentIdFailure(),
+                ),
               ),
             ),
         ),
@@ -359,6 +364,44 @@ export class PlayerInTeamTournamentEffects {
       );
     },
     { dispatch: false },
+  );
+
+  parsPlayersInTeamFromEESLEffect = createEffect(
+    () => {
+      return this.actions$.pipe(
+        ofType(playerInTeamTournamentActions.parsPlayersFromTeamEESL),
+        switchMap(() => this.store.select(selectCurrentTeamAndTournament)),
+        filter(
+          ({ team, tournament }) =>
+            team !== null &&
+            team !== undefined &&
+            tournament !== null &&
+            tournament !== undefined,
+        ),
+        switchMap(({ team, tournament }) =>
+          this.playerInTeamTournamentService
+            .parsPlayersFromTeamEESL(
+              team!.team_eesl_id!,
+              tournament!.tournament_eesl_id!,
+            )
+            .pipe(
+              map((parseList: any[] | IPlayerInTeamTournament[]) =>
+                playerInTeamTournamentActions.parsedPlayerFromTeamEESLSuccessfully(
+                  {
+                    parseList,
+                  },
+                ),
+              ),
+              catchError(() =>
+                of(
+                  playerInTeamTournamentActions.parsedPlayerFromTeamEESLFailure(),
+                ),
+              ),
+            ),
+        ),
+      );
+    },
+    { functional: true },
   );
 
   constructor(

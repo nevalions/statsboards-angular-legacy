@@ -65,6 +65,24 @@
           [allSponsorLines]="allSponsorLines$ | async"
         ></app-add-edit-team>
 
+
+        <tui-loader
+          class="loader"
+          [inheritColor]="true"
+          [overlay]="true"
+          [showLoader]="(playerInTeamTournamentIsLoading$|async)!"
+        >
+          <button
+            tuiButton
+            [appearance]="'primary'"
+            [size]="'m'"
+            (click)="parsPlayerFromEESL()"
+          >
+            {{ 'add players from eesl' | uppercase }}
+          </button>
+        </tui-loader>
+
+
         <!--        @if (allAvailablePlayersToAddInTournament$ | async; as players) {-->
         <!--          @if (sport$ | async; as sport) {-->
         <!--            @if (tournament$ | async; as tournament) {-->

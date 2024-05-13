@@ -75,5 +75,11 @@ export const playerInTeamTournamentActions = createActionGroup({
       playerInTeamTournamentId: number;
     }>(),
     'Delete by id failure': emptyProps(),
+
+    ParsPlayersFromTeamEESL: emptyProps,
+    'Parsed player from team EESL successfully': props<{
+      parseList: any[] | IPlayerInTeamTournament[];
+    }>(),
+    'Parsed player from team EESL failure': emptyProps(),
   },
 });

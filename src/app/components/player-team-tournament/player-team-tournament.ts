@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { playerInTeamTournamentActions } from './store/actions';
 import { Observable } from 'rxjs';
@@ -17,11 +17,13 @@ import {
   selectAvailableTournamentPlayersForTeamTournament,
 } from './store/selectors';
 import { selectAllPlayersInTournament } from './store/reducers';
+import { PlayerTeamTournamentService } from './player-team-tournament.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class PlayerInTeamTournament {
+  playerInTeamTournamentIsLoading$: Observable<boolean>;
   currentPlayerInTeamTournament$: Observable<
     IPlayerInTeamTournament | null | undefined
   >;
@@ -42,7 +44,16 @@ export class PlayerInTeamTournament {
     IPlayerInTeamTournamentWithPersonWithSportWithPosition[]
   >;
 
-  constructor(private store: Store<AppState>) {
+  // private playerInTeamTournamentService= inject(PlayerTeamTournamentService)
+
+  constructor(
+    private store: Store<AppState>,
+    private playerInTeamTournamentService: PlayerTeamTournamentService,
+    // private playerInTeamTournamentService: PlayerTeamTournamentService,
+  ) {
+    this.playerInTeamTournamentIsLoading$ = this.store.select(
+      (state) => state.playerInTeamTournament.playerInTeamTournamentIsLoading,
+    );
     this.currentPlayerInTeamTournament$ = store.select(
       (state) => state.playerInTeamTournament.currentPlayerInTeamTournament,
     );
@@ -124,5 +135,20 @@ export class PlayerInTeamTournament {
 
   deletePlayerInTeamTournamentWithId(id: number) {
     this.store.dispatch(playerInTeamTournamentActions.deleteById({ id }));
+  }
+
+  parsPlayersFromEESL() {
+    this.store.dispatch(
+      playerInTeamTournamentActions.parsPlayersFromTeamEESL(),
+    );
+    //   // const team = selectCurrentTeam;
+    //   // const tournament = selectCurrentTournament;
+    //   //
+    //   // if (team && tournament) {
+    //   //   this.playerInTeamTournamentService.parsPlayersFromTeamEESL(
+    //   //     team,
+    //   //     selectCurrentTournamentId,
+    //   //   );
+    //   // }
   }
 }

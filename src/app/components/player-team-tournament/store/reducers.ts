@@ -10,6 +10,7 @@ export interface PlayerInTeamTournamentState {
   currentPlayerInTeamTournament: IPlayerInTeamTournament | undefined | null;
   allPlayersInTeamTournament: IPlayerInTeamTournament[];
   allPlayersInTournament: IPlayerInTeamTournament[];
+  parsedPlayersFromTeamEESL: any[] | IPlayerInTeamTournament[];
 }
 
 const initialState: PlayerInTeamTournamentState = {
@@ -19,6 +20,7 @@ const initialState: PlayerInTeamTournamentState = {
   allPlayersInTeamTournament: [],
   allPlayersInTournament: [],
   currentPlayerInTeamTournament: null,
+  parsedPlayersFromTeamEESL: [],
 };
 
 const playerInTeamTournamentFeature = createFeature({
@@ -402,6 +404,48 @@ const playerInTeamTournamentFeature = createFeature({
         errors: action,
       }),
     ),
+
+    //parsing
+    on(playerInTeamTournamentActions.parsPlayersFromTeamEESL, (state) => ({
+      ...state,
+      playerInTeamTournamentIsLoading: true,
+    })),
+    on(
+      playerInTeamTournamentActions.parsedPlayerFromTeamEESLSuccessfully,
+      (state, action) => {
+        // Prepare new players list
+        let updatedPlayerList: IPlayerInTeamTournament[] = [];
+
+        // Update existing players and gather new players
+        action.parseList.forEach((newPlayer) => {
+          let existingPlayer = state.allPlayersInTeamTournament.find(
+            (player) => player.id === newPlayer.id,
+          );
+
+          if (existingPlayer) {
+            // Update existing player
+            updatedPlayerList.push({ ...existingPlayer, ...newPlayer });
+          } else {
+            // Add new player
+            updatedPlayerList.push(newPlayer);
+          }
+        });
+
+        // Return updated state
+        return {
+          ...state,
+          allPlayersInTeamTournament: updatedPlayerList,
+          playerInTeamTournamentIsLoading: false,
+          parsedPlayersFromTeamEESL: action.parseList,
+        };
+      },
+    ),
+
+    on(playerInTeamTournamentActions.getItemFailure, (state, action) => ({
+      ...state,
+      playerInTeamTournamentIsLoading: false,
+      errors: action,
+    })),
   ),
 });
 
@@ -414,4 +458,5 @@ export const {
   selectCurrentPlayerInTeamTournament,
   selectAllPlayersInTeamTournament,
   selectAllPlayersInTournament,
+  selectParsedPlayersFromTeamEESL,
 } = playerInTeamTournamentFeature;

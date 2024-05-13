@@ -3,7 +3,7 @@ export interface ITournament {
   description: string;
   season_id: number;
   sport_id: number;
-  tournament_eesl_id?: number | string;
+  tournament_eesl_id?: number;
   tournament_logo_url?: string;
   tournament_logo_icon_url?: string;
   tournament_logo_web_url?: string;

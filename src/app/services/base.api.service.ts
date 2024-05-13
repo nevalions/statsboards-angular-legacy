@@ -325,6 +325,32 @@ export abstract class BaseApiService<T> {
         catchError(this.errorHandlingService.handleError),
       );
   }
+
+  parsByFirstItemKeyValueAndSecondItemSecondKeyValue(
+    firstItem: string,
+    firstKey: string,
+    firstValue: any,
+    secondItem: string,
+    secondKey: string,
+    secondValue: number,
+    optionalValue?: any,
+  ): Observable<T[]> {
+    return this.http
+      .put<
+        T[]
+      >(`${firstItem}/${firstKey}/${firstValue}/${secondItem}/${secondKey}/${secondValue}/${optionalValue}`, {})
+      .pipe(
+        tap((items) =>
+          console.log(
+            `Received Sport Year TOURNAMENTS /API/
+          ${firstItem}/${firstKey}/${firstValue}/${secondItem}/${secondKey}/${secondValue}/${optionalValue}
+          \ndata:`,
+            items,
+          ),
+        ),
+        catchError(this.errorHandlingService.handleError),
+      );
+  }
 }
 
 export abstract class BaseApiServiceEndpoint<T> {

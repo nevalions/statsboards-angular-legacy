@@ -4,7 +4,7 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { AsyncPipe, NgOptimizedImage, UpperCasePipe } from '@angular/common';
-import { TuiLoaderModule } from '@taiga-ui/core';
+import { TuiButtonModule, TuiLoaderModule } from '@taiga-ui/core';
 import { DeleteDialogComponent } from '../../../shared/ui/dialogs/delete-dialog/delete-dialog.component';
 import { Team } from '../team';
 import { ImageService } from '../../../services/image.service';
@@ -45,6 +45,7 @@ import { CreateButtonShowDialogComponent } from '../../../shared/ui/buttons/crea
     AddEditPlayerToTeamTournamentTableComponent,
     AddEditPlayerToTeamTournamentComponent,
     CreateButtonShowDialogComponent,
+    TuiButtonModule,
   ],
   templateUrl: './item-team.component.html',
   styleUrl: './item-team.component.less',
@@ -71,6 +72,9 @@ export class ItemTeamComponent {
   sponsorLine$ = this.sponsorLine.sponsorLineWithFullData$;
   allSponsors$ = this.sponsor.allSponsors$;
   allSponsorLines$ = this.sponsorLine.allSponsorLines$;
+
+  playerInTeamTournamentIsLoading$ =
+    this.playerInTeamTournament.playerInTeamTournamentIsLoading$;
 
   buttonTitle: string = 'Team';
 
@@ -103,6 +107,10 @@ export class ItemTeamComponent {
 
   onDelete() {
     this.team.deleteTeam();
+  }
+
+  parsPlayerFromEESL() {
+    this.playerInTeamTournament.parsPlayersFromEESL();
   }
 
   protected readonly url = urlWithProtocol;

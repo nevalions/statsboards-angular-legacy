@@ -5,8 +5,8 @@ import { HttpClient } from '@angular/common/http';
 import { ErrorHandlingService } from '../../services/error.service';
 import { IPosition } from '../../type/position.type';
 import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
 import { IPlayerInTeamTournament } from '../../type/player.type';
+import { tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -44,4 +44,24 @@ export class PlayerTeamTournamentService extends BaseApiService<IPlayerInTeamTou
       // tap((players) => console.log(`PLAYERS from TEAM ID: ${teamId}`, players)),
       ();
   }
+
+  parsPlayersFromTeamEESL(
+    teamId: number,
+    tournamentId: number,
+  ): Observable<IPlayerInTeamTournament[]> {
+    return this.parsByFirstItemKeyValueAndSecondItemSecondKeyValue(
+      'players_team_tournament/pars_and_create',
+      'tournament',
+      tournamentId,
+      'team',
+      'id',
+      teamId,
+      'players',
+    ).pipe(
+      tap((players) => console.log(`PLAYERS from TEAM ID: ${teamId}`, players)),
+    );
+  }
 }
+
+// http://localhost:9000/api/pars_and_create/tournament/27/team/id/34/players
+// http://localhost:9000/api/players_team_tournament/pars_and_create/tournament/27/team/id/34/players
