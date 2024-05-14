@@ -4,6 +4,7 @@ import { ITournament } from '../../type/tournament.type';
 import { AnyObjectWithTitle } from '../../type/base.type';
 import { IPerson } from '../../type/person.type';
 import { IPlayerInSport } from '../../type/player.type';
+import { IMatchWithFullData } from '../../type/match.type';
 
 export const searchActions = createActionGroup({
   source: 'search',
@@ -51,8 +52,17 @@ export const searchActions = createActionGroup({
     TeamInSportSearchFailure: emptyProps(),
 
     // Actions for tournament search
-    UpdateTournamentSearchTerm: props<{ term: string }>(),
+    UpdateTournamentSearchTerm: props<{ term: string | null }>(),
     TournamentSearchSuccess: props<{ tournaments: ITournament[] }>(),
     TournamentSearchFailure: emptyProps(),
+
+    // Actions for match search
+    UpdateMatchSearchTerm: props<{ term: string | null }>(),
+    MatchSearchSuccess: props<{ matches: IMatchWithFullData[] }>(),
+    MatchSearchFailure: emptyProps(),
+    // search by week
+    UpdateMatchSearchWeek: props<{ week: string | null }>(),
+    MatchSearchWeekSuccess: props<{ matches: IMatchWithFullData[] }>(),
+    MatchSearchWeekFailure: emptyProps(),
   },
 });

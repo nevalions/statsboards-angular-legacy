@@ -4,7 +4,11 @@ import {
   inject,
   ViewEncapsulation,
 } from '@angular/core';
-import { TuiElasticContainerModule, TuiInputNumberModule } from '@taiga-ui/kit';
+import {
+  TuiElasticContainerModule,
+  TuiInputCountModule,
+  TuiInputNumberModule,
+} from '@taiga-ui/kit';
 import { AsyncPipe, UpperCasePipe, TitleCasePipe } from '@angular/common';
 import {
   TuiAppearance,
@@ -12,6 +16,7 @@ import {
   TuiDropdownModule,
   TuiHostedDropdownModule,
   TuiLoaderModule,
+  TuiTextfieldControllerModule,
 } from '@taiga-ui/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IMatchWithFullData } from '../../../type/match.type';
@@ -49,6 +54,10 @@ import { Position } from '../../position/postion';
 import { PlayerInTeamTournament } from '../../player-team-tournament/player-team-tournament';
 import { Person } from '../../person/person';
 import { AddEditPlayerToTeamTournamentComponent } from '../../player-team-tournament/add-edit-player-to-team-tournament/add-edit-player-to-team-tournament.component';
+import { Search } from '../../../store/search/search';
+import { Pagination } from '../../../store/pagination/pagination';
+import { BaseSearchFormComponent } from '../../../shared/ui/search/base-search-form/base-search-form.component';
+import { BasePaginationComponent } from '../../../shared/ui/pagination/base-pagination/base-pagination.component';
 
 @Component({
   selector: 'app-item-tournament',
@@ -81,6 +90,10 @@ import { AddEditPlayerToTeamTournamentComponent } from '../../player-team-tourna
     AddEditPlayerToTeamTournamentComponent,
     TuiHostedDropdownModule,
     TuiDropdownModule,
+    BaseSearchFormComponent,
+    BasePaginationComponent,
+    TuiInputCountModule,
+    TuiTextfieldControllerModule,
   ],
   templateUrl: './item-tournament.component.html',
   styleUrl: './item-tournament.component.less',
@@ -105,6 +118,16 @@ export class ItemTournamentComponent {
     this.playerInTeamTournament.allAvailablePlayersToAddInTournament$;
   allSportPositions$ = this.position.allSportPositions$;
 
+  paginatedMatchInTournamentSearchResults$ =
+    this.pagination.paginatedMatchInTournamentSearchResults$;
+  totalMatchInTournamentSearchPages$ =
+    this.pagination.totalMatchInTournamentSearchPages$;
+  currentPage$ = this.pagination.currentPage$;
+  paginatedMatchCombinedSearchResults$ =
+    this.pagination.paginatedMatchCombinedSearchResults$;
+  totalMatchCombinedSearchPages$ =
+    this.pagination.totalMatchCombinedSearchPages$;
+
   constructor(
     private season: Season,
     private sport: Sport,
@@ -118,6 +141,8 @@ export class ItemTournamentComponent {
     private person: Person,
     private playerInTeamTournament: PlayerInTeamTournament,
     private player: Player,
+    private search: Search,
+    private pagination: Pagination,
   ) {
     sponsor.loadAllSponsors();
     sponsorLine.loadAllSponsorLines();
@@ -128,6 +153,10 @@ export class ItemTournamentComponent {
     person.loadAllPersons();
     player.loadAllPlayersBySportId();
     position.loadAllPositionsBySportId();
+
+    this.search.searchMatch(null);
+    this.search.searchMatchByWeek(null);
+    this.pagination.resetCurrentPage();
   }
 
   menuDropdownOpen = false;
@@ -135,34 +164,24 @@ export class ItemTournamentComponent {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
 
-  searchListService = inject(SearchListService);
-  paginationService = inject(PaginationService);
-
   readonly formWeek = new FormGroup({
     matchWeekSearch: new FormControl(1),
   });
 
   buttonTitle: string = 'Tournament';
 
-  islandTeamTitleProperty: keyof ITeam = 'title';
-
   navigateToTeamItem(item: ITeam): void {
     this.router.navigate(['team', item.id], { relativeTo: this.route });
   }
 
-  onSearch() {
-    this.formWeek
-      .get('matchWeekSearch')!
-      .valueChanges.pipe
-      // Unsubscribe when the component is destroyed.
-      // takeUntil(this.ngUnsubscribe),
-      ()
-      .subscribe((matchWeekSearch) => {
-        this.searchListService.updateFilteredData(
-          String(matchWeekSearch).toString(),
-          'match.week',
-        );
-      });
+  onSearch(searchTerm: string | null) {
+    this.search.searchMatch(searchTerm);
+    this.pagination.resetCurrentPage();
+  }
+
+  onSearchByWeek(searchTerm: string | null) {
+    this.search.searchMatchByWeek(searchTerm);
+    this.pagination.resetCurrentPage();
   }
 
   onDelete() {
@@ -173,16 +192,24 @@ export class ItemTournamentComponent {
     this.teamTournament.deleteTeamTournamentConnection(teamId, tournamentId);
   }
 
-  readonly stringify = (match: IMatchWithFullData): string =>
-    match?.match?.week?.toString();
+  setCurrentPage(page: number): void {
+    this.pagination.changePage(page);
+  }
+
+  changePageSize(size: number | 'All'): void {
+    this.pagination.changeItemsPerPage(size);
+  }
+
+  // readonly stringify = (match: IMatchWithFullData): string =>
+  //   match?.match?.week?.toString();
   // `${teams_data?.team_a?.title?.toString()} vs ${teams_data?.team_b?.title?.toString()}` ||
   // '';
 
-  readonly matcherM = (match: IMatchWithFullData, search: string): boolean =>
-    match?.match?.week
-      ?.toString()
-      .toLowerCase()
-      .includes(search.toLowerCase()) ?? false;
+  // readonly matcherM = (match: IMatchWithFullData, search: string): boolean =>
+  //   match?.match?.week
+  //     ?.toString()
+  //     .toLowerCase()
+  //     .includes(search.toLowerCase()) ?? false;
 
   protected readonly url = urlWithProtocol;
   protected readonly TuiAppearance = TuiAppearance;

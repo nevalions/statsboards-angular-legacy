@@ -4,6 +4,7 @@ import { ITeam } from '../../type/team.type';
 import { ITournament } from '../../type/tournament.type';
 import { IPerson } from '../../type/person.type';
 import { IPlayerInSport } from '../../type/player.type';
+import { IMatchWithFullData } from '../../type/match.type';
 
 export interface SearchState {
   listSearchResults: {
@@ -24,8 +25,14 @@ export interface SearchState {
   teamInSportSearchTerm: string | null;
   teamInSportSearchResults: ITeam[];
 
-  tournamentSearchTerm: string;
+  tournamentSearchTerm: string | null;
   tournamentSearchResults: ITournament[];
+
+  matchSearchTerm: string | null;
+  matchSearchResults: IMatchWithFullData[];
+
+  matchSearchWeek: string | null;
+  matchSearchWeekResults: IMatchWithFullData[];
 }
 
 const initialState: SearchState = {
@@ -45,6 +52,12 @@ const initialState: SearchState = {
 
   tournamentSearchTerm: '',
   tournamentSearchResults: [],
+
+  matchSearchTerm: '',
+  matchSearchResults: [],
+
+  matchSearchWeek: '',
+  matchSearchWeekResults: [],
 };
 
 export const searchFeature = createFeature({
@@ -129,6 +142,31 @@ export const searchFeature = createFeature({
     on(searchActions.tournamentSearchFailure, (state) => ({
       ...state,
     })),
+
+    // MATCHES
+    on(searchActions.updateMatchSearchTerm, (state, { term }) => ({
+      ...state,
+      matchSearchTerm: term,
+    })),
+    on(searchActions.matchSearchSuccess, (state, { matches }) => ({
+      ...state,
+      matchSearchResults: matches,
+    })),
+    on(searchActions.matchSearchFailure, (state) => ({
+      ...state,
+    })),
+    // by week
+    on(searchActions.updateMatchSearchWeek, (state, { week }) => ({
+      ...state,
+      matchSearchWeek: week,
+    })),
+    on(searchActions.matchSearchWeekSuccess, (state, { matches }) => ({
+      ...state,
+      matchSearchWeekResults: matches,
+    })),
+    on(searchActions.matchSearchFailure, (state) => ({
+      ...state,
+    })),
   ),
 });
 
@@ -150,4 +188,9 @@ export const {
 
   selectTournamentSearchTerm,
   selectTournamentSearchResults,
+
+  selectMatchSearchTerm,
+  selectMatchSearchResults,
+  selectMatchSearchWeek,
+  selectMatchSearchWeekResults,
 } = searchFeature;

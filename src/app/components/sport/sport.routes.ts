@@ -262,6 +262,8 @@ export const SPORT_ROUTES: Routes = [
                   ),
                   provideState(sponsorLineFeatureKey, sponsorLineReducer),
                   provideState(sponsorFeatureKey, sponsorReducer),
+                  provideState(searchFeatureKey, searchReducer),
+                  provideState(paginationFeatureKey, paginationReducer),
                   provideEffects(
                     SponsorLineEffects,
                     SponsorEffects,
@@ -275,6 +277,7 @@ export const SPORT_ROUTES: Routes = [
                     PlayerEffects,
                     PositionEffects,
                     PlayerInTeamTournamentEffects,
+                    SearchEffects,
                   ),
                 ],
                 data: {

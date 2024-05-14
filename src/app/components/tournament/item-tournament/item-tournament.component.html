@@ -146,28 +146,38 @@
             <form
               [formGroup]="formWeek"
             >
-              <tui-input-number
+              <tui-input-count
+                [tuiTextfieldCleaner]="true"
                 formControlName="matchWeekSearch"
-                (tuiValueChanges)="onSearch()"
+                (tuiValueChanges)="onSearchByWeek($event)"
               >
                 Search by WEEK
-              </tui-input-number>
+              </tui-input-count>
             </form>
 
-            <app-form-search-text
-              [data$]="matchesInTournament$"
-              [searchTitle]="'team'"
-              [parameter]="'teams_data.team_a.title + teams_data.team_b.title'"
-              [filter]="'includes'"
-            ></app-form-search-text>
+            <app-base-search-form
+              [placeholder]="'Team title'"
+              (search)="onSearch($event)"
+            ></app-base-search-form>
 
-            <app-pagination-with-items-per-page
-              [items$]="matchesInTournament$"
-            ></app-pagination-with-items-per-page>
+            @if (totalMatchCombinedSearchPages$ | async; as totalPages) {
+              @if (currentPage$ | async; as currentPage) {
+                <app-base-pagination
+                  [currentPage]="currentPage"
+                  [totalPages]="totalPages"
+                  (pageChange)="setCurrentPage($event)"
+                  (pageSizeChange)="changePageSize($event)"
+                ></app-base-pagination>
+              }
+            }
+
+            <!--            <app-pagination-with-items-per-page-->
+            <!--              [items$]="matchesInTournament$"-->
+            <!--            ></app-pagination-with-items-per-page>-->
           </div>
           <div class="list-of-items-with-data" style="padding: 20px">
             <app-list-of-matches
-              [data$]="matchesInTournament$"
+              [data$]="paginatedMatchCombinedSearchResults$"
             ></app-list-of-matches>
           </div>
           <div>

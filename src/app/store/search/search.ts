@@ -57,6 +57,15 @@ export class Search {
     this.store.dispatch(searchActions.updateTeamInSportSearchTerm({ term }));
   }
 
+  searchMatch(term: string | null) {
+    this.store.dispatch(searchActions.updateMatchSearchTerm({ term }));
+  }
+
+  searchMatchByWeek(week: string | null) {
+    // console.log('week', week);
+    this.store.dispatch(searchActions.updateMatchSearchWeek({ week }));
+  }
+
   getFilteredOrFullTeamsInSportList(): Observable<ITeam[]> {
     return combineLatest([
       this.teamInSportSearchTerm$.pipe(startWith('')),

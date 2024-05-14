@@ -12,7 +12,6 @@ import { BasePaginationComponent } from '../../../shared/ui/pagination/base-pagi
 import { BaseSearchFormComponent } from '../../../shared/ui/search/base-search-form/base-search-form.component';
 import { Search } from '../../../store/search/search';
 import { Pagination } from '../../../store/pagination/pagination';
-import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-all-persons',

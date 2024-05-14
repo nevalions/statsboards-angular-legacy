@@ -14,6 +14,9 @@ import {
   selectAllSportPlayersWithPersons,
 } from '../../components/player/store/selectors';
 import { IPerson } from '../../type/person.type';
+import { selectAllMatchesInTournament } from '../../components/match/store/reducers';
+import { IMatchWithFullData } from '../../type/match.type';
+import { selectAllMatchesWithFullDataInTournament } from '../../components/match-with-full-data/store/reducers';
 
 @Injectable()
 export class SearchEffects {
@@ -127,25 +130,108 @@ export class SearchEffects {
       ),
     { functional: true },
   );
+  //
+  // //TOURNAMENTS
+  // searchTournamentsEffect$ = createEffect(() =>
+  //   this.actions$.pipe(
+  //     ofType(searchActions.updateTournamentSearchTerm),
+  //     switchMap(({ term }) =>
+  //       // Pretend we're calling a selector to get all tournaments
+  //       this.store.pipe(select(selectAllTournaments)).pipe(
+  //         map((tournaments: ITournament[]) =>
+  //           searchActions.tournamentSearchSuccess({
+  //             tournaments: tournaments.filter((tournament) =>
+  //               tournament.title.toLowerCase().startsWith(term.toLowerCase()),
+  //             ),
+  //           }),
+  //         ),
+  //         catchError(() => of(searchActions.tournamentSearchFailure())),
+  //       ),
+  //     ),
+  //   ),
+  // );
 
-  searchTournaments$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(searchActions.updateTournamentSearchTerm),
-      switchMap(({ term }) =>
-        // Pretend we're calling a selector to get all tournaments
-        this.store.pipe(select(selectAllTournaments)).pipe(
-          map((tournaments: ITournament[]) =>
-            searchActions.tournamentSearchSuccess({
-              tournaments: tournaments.filter((tournament) =>
-                tournament.title.toLowerCase().startsWith(term.toLowerCase()),
-              ),
+  //MATCHES
+  searchMatchesEffect$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(searchActions.updateMatchSearchTerm),
+        switchMap((action) =>
+          combineLatest([
+            of(action.term),
+            this.store.pipe(select(selectAllMatchesWithFullDataInTournament)),
+          ]).pipe(
+            map(([searchTerm, matches]) => {
+              const results = searchTerm
+                ? matches.filter(
+                    (match: IMatchWithFullData) =>
+                      match.teams_data?.team_a.title
+                        .toLowerCase()
+                        .includes(searchTerm.toLowerCase()) ||
+                      match.teams_data?.team_b.title
+                        .toLowerCase()
+                        .includes(searchTerm.toLowerCase()),
+                  )
+                : matches;
+              return searchActions.matchSearchSuccess({ matches: results });
             }),
+            catchError(() => of(searchActions.matchSearchFailure())),
           ),
-          catchError(() => of(searchActions.tournamentSearchFailure())),
         ),
       ),
-    ),
+    { functional: true },
   );
+  searchMatchesByWeekEffect$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(searchActions.updateMatchSearchWeek),
+        switchMap((action) =>
+          combineLatest([
+            of(action.week),
+            this.store.pipe(select(selectAllMatchesWithFullDataInTournament)),
+          ]).pipe(
+            map(([searchTerm, matches]) => {
+              const results = searchTerm
+                ? matches.filter((match: IMatchWithFullData) =>
+                    match.match.week
+                      .toString()
+                      .toLowerCase()
+                      .startsWith(searchTerm.toString().toLowerCase()),
+                  )
+                : matches;
+              return searchActions.matchSearchWeekSuccess({ matches: results });
+            }),
+            catchError(() => of(searchActions.matchSearchWeekFailure())),
+          ),
+        ),
+      ),
+    { functional: true },
+  );
+
+  //   = createEffect(() =>
+  //   this.actions$.pipe(
+  //     ofType(searchActions.updateMatchSearchTerm),
+  //     switchMap(({ term }) =>
+  //       // Pretend we're calling a selector to get all tournaments
+  //       this.store.pipe(select(selectAllMatchesWithFullDataInTournament)).pipe(
+  //         map((matches: IMatchWithFullData[]) =>
+  //           searchActions.matchSearchSuccess({
+  //             matches: matches.filter(
+  //               (match: IMatchWithFullData) =>
+  //                 match.teams_data?.team_a.title
+  //                   .toLowerCase()
+  //                   .startsWith(term.toLowerCase()) ||
+  //                 match.teams_data?.team_b.title
+  //                   .toLowerCase()
+  //                   .startsWith(term.toLowerCase()),
+  //             ),
+  //           }),
+  //         ),
+  //         catchError(() => of(searchActions.matchSearchFailure())),
+  //       ),
+  //     ),
+  //   ),
+  // );
 
   constructor(
     private actions$: Actions,
