@@ -1,35 +1,35 @@
-<form
-  tuiTextfieldSize="m"
-  [formGroup]="playerForm"
-  [tuiTextfieldLabelOutside]="true"
->
-  <table
-    tuiTable
-    [size]="'s'"
-    class="table-players"
-    style="width: 100%;padding: 20px;"
+@if (players && players.length && playerForm && playersArray && playersArray.length) {
+  <form
+    tuiTextfieldSize="m"
+    [formGroup]="playerForm"
+    [tuiTextfieldLabelOutside]="true"
   >
-    <thead>
-    <tr>
-      <th tuiTh>Full Name</th>
-      @if (teamId) {
-        <th tuiTh>Number</th>
-      } @else {
-        <th tuiTh>Team</th>
-      }
-      <th tuiTh>Position</th>
-      <th tuiTh>Actions</th>
-    </tr>
-    </thead>
 
-    <tbody formArrayName="players">
-      @if (players) {
-        @for (playerFormGroup of playersArray.controls; let i = $index; track i) {
-          <tr [formGroupName]="i">
-            <td tuiTd>
+    <div class="table">
+      <div class="table-header-body">
+        <div class="table-header">Full Name</div>
+        @if (teamId) {
+          <div class="table-header">Number</div>
+        } @else {
+          <div class="table-header">Team</div>
+        }
+        <div class="table-header">Position</div>
+        <div class="table-header">Actions</div>
+      </div>
+
+
+      <div formArrayName="players" class="table-body">
+        @if (players && players.length) {
+          <div
+            *ngFor="let playerFormGroup of playersArray.controls; let i = index"
+            class="table-row"
+            [formGroupName]="i">
+
+
+            <div class="table-cell">
               @if (getFormDataByIndexAndKey(playerFormGroup, i, 'playerId')) {
                 @if (getFormDataByIndexAndKey(playerFormGroup, i, 'fullName'); as name) {
-                  {{ name | uppercase }}
+                  {{ name | titlecase }}
                 }
               } @else {
                 @if (availablePlayersInSport.length > 0) {
@@ -48,10 +48,10 @@
                 }
 
               }
-            </td>
+            </div>
 
-            <td tuiTd>
-              @if (teamId) {
+            @if (teamId) {
+              <div class="table-cell center">
                 @if (isRowEnabled(i)) {
                   <app-select-player-number
                     [control]="getFormControl(this.playerForm, i, 'number', 'players')"
@@ -59,20 +59,21 @@
                 } @else {
                   {{ getFormDataByIndexAndKey(playerFormGroup, i, 'number') }}
                 }
-
-              } @else {
+              </div>
+            } @else {
+              <div class="table-cell">
                 @if (isRowEnabled(i)) {
                   <app-select-team
                     [control]="getFormControl(this.playerForm, i, 'team', 'players')"
                     [teamsList]="teamsInTournament"
                   ></app-select-team>
                 } @else {
-                  {{ getFormDataByIndexAndKey(playerFormGroup, i, 'team')?.title | uppercase }}
+                  {{ getFormDataByIndexAndKey(playerFormGroup, i, 'team')?.title | titlecase }}
                 }
+              </div>
+            }
 
-              }
-            </td>
-            <td tuiTd>
+            <div class="table-cell">
               @if (sportId) {
                 @if (positions) {
                   @if (isRowEnabled(i)) {
@@ -87,8 +88,8 @@
                   }
                 }
               }
-            </td>
-            <td tuiTd>
+            </div>
+            <div class="table-cell">
               @if (playerFormGroup.get('playerInTeamId' + i)!.value; as id) {
 
                 @if (deleteOrUpdate == 'deleteFromTeam') {
@@ -123,36 +124,204 @@
 
                 }
               } @else {
+                {{ i }}
                 <app-actions-buttons
                   [index]="i"
                   (onSubmit)="onSubmit($event.action, $event.index, $event.id)"
                   (onCancel)="onCancelButtonClick()"
                 ></app-actions-buttons>
               }
-            </td>
-          </tr>
-        }
-        @if (!players.length || players[players.length - 1].playerInTeamTournament.id !== null) {
-          <tr>
-            <td class="table-cell" tuiTd [attr.colspan]="4">
+            </div>
+          </div>
+          <!--        </cdk-virtual-scroll-viewport>-->
+
+          @if (!players.length || players[players.length - 1].playerInTeamTournament.id !== null) {
+            <div class="table-row">
+              <div class="table-cell">
+                <app-add-button-on-final-tr
+                  [span]="4"
+                  (onAdd)="addNewPlayer()"
+                ></app-add-button-on-final-tr>
+              </div>
+            </div>
+          }
+          <!--                }-->
+        } @else {
+          <div class="table-row">
+            <div class="table-cell">
               <app-add-button-on-final-tr
                 [span]="4"
                 (onAdd)="addNewPlayer()"
               ></app-add-button-on-final-tr>
-            </td>
-          </tr>
+            </div>
+          </div>
         }
-      } @else {
-        <tr>
-          <td class="table-cell" tuiTd [attr.colspan]="4">
-            <app-add-button-on-final-tr
-              [span]="4"
-              (onAdd)="addNewPlayer()"
-            ></app-add-button-on-final-tr>
-          </td>
-        </tr>
-      }
-    </tbody>
-  </table>
-</form>
+
+
+      </div>
+
+    </div>
+
+  </form>
+}
+<!--<form-->
+<!--  tuiTextfieldSize="m"-->
+<!--  [formGroup]="playerForm"-->
+<!--  [tuiTextfieldLabelOutside]="true"-->
+<!--&gt;-->
+<!--  <table-->
+<!--    tuiTable-->
+<!--    [size]="'s'"-->
+<!--    class="table-players"-->
+<!--    style="width: 100%;padding: 20px;"-->
+<!--  >-->
+<!--    <thead>-->
+<!--    <tr tuiThGroup>-->
+<!--      <th tuiTh>Full Name</th>-->
+<!--      @if (teamId) {-->
+<!--        <th tuiTh>Number</th>-->
+<!--      } @else {-->
+<!--        <th-->
+<!--          tuiTh-->
+<!--        >Team-->
+<!--        </th>-->
+<!--      }-->
+<!--      <th tuiTh>Position</th>-->
+<!--      <th tuiTh>Actions</th>-->
+<!--    </tr>-->
+<!--    </thead>-->
+
+<!--    <tbody formArrayName="players">-->
+<!--      @if (players) {-->
+<!--        @for (playerFormGroup of playersArray.controls; let i = $index; track i) {-->
+<!--          <tr [formGroupName]="i">-->
+<!--            <td tuiTd>-->
+<!--              @if (getFormDataByIndexAndKey(playerFormGroup, i, 'playerId')) {-->
+<!--                @if (getFormDataByIndexAndKey(playerFormGroup, i, 'fullName'); as name) {-->
+<!--                  {{ name | uppercase }}-->
+<!--                }-->
+<!--              } @else {-->
+<!--                @if (availablePlayersInSport.length > 0) {-->
+<!--                  <app-select-player-to-team-tournament-->
+<!--                    [playerList]="availablePlayersInSport"-->
+<!--                    [tournamentId]="tournamentId"-->
+<!--                    [control]="getFormControl(this.playerForm, i, 'playerInSport', 'players')"-->
+<!--                  ></app-select-player-to-team-tournament>-->
+<!--                } @else {-->
+<!--                  <app-select-player-to-team-tournament-->
+<!--                    [playerListFromTournament]="availablePlayersInTournament"-->
+<!--                    [tournamentId]="tournamentId"-->
+<!--                    [control]="getFormControl(this.playerForm, i, 'playerInSport', 'players')"-->
+<!--                    (playerSelect)="onPlayerSelect($event, i)"-->
+<!--                  ></app-select-player-to-team-tournament>-->
+<!--                }-->
+
+<!--              }-->
+<!--            </td>-->
+
+<!--            <td tuiTd>-->
+<!--              @if (teamId) {-->
+<!--                @if (isRowEnabled(i)) {-->
+<!--                  <app-select-player-number-->
+<!--                    [control]="getFormControl(this.playerForm, i, 'number', 'players')"-->
+<!--                  ></app-select-player-number>-->
+<!--                } @else {-->
+<!--                  {{ getFormDataByIndexAndKey(playerFormGroup, i, 'number') }}-->
+<!--                }-->
+
+<!--              } @else {-->
+<!--                @if (isRowEnabled(i)) {-->
+<!--                  <app-select-team-->
+<!--                    [control]="getFormControl(this.playerForm, i, 'team', 'players')"-->
+<!--                    [teamsList]="teamsInTournament"-->
+<!--                  ></app-select-team>-->
+<!--                } @else {-->
+<!--                  {{ getFormDataByIndexAndKey(playerFormGroup, i, 'team')?.title | uppercase }}-->
+<!--                }-->
+
+<!--              }-->
+<!--            </td>-->
+<!--            <td tuiTd>-->
+<!--              @if (sportId) {-->
+<!--                @if (positions) {-->
+<!--                  @if (isRowEnabled(i)) {-->
+<!--                    <app-select-player-position-->
+<!--                      [positionList]="positions"-->
+<!--                      [index]="i"-->
+<!--                      [sportId]="sportId"-->
+<!--                      [control]="getFormControl(this.playerForm, i, 'position', 'players')"-->
+<!--                    ></app-select-player-position>-->
+<!--                  } @else {-->
+<!--                    {{ getFormDataByIndexAndKey(playerFormGroup, i, 'position')?.title | uppercase }}-->
+<!--                  }-->
+<!--                }-->
+<!--              }-->
+<!--            </td>-->
+<!--            <td tuiTd>-->
+<!--              @if (playerFormGroup.get('playerInTeamId' + i)!.value; as id) {-->
+
+<!--                @if (deleteOrUpdate == 'deleteFromTeam') {-->
+<!--                  <app-actions-buttons-->
+<!--                    [id]="id"-->
+<!--                    [index]="i"-->
+<!--                    [deleteOrUpdate]="'deleteFromTeam'"-->
+<!--                    [item]="getFormDataByIndexAndKey(playerFormGroup, i, 'fullName') | uppercase"-->
+<!--                    [isEnabled]="isRowEnabled(i)"-->
+<!--                    [isDataChanged]="isDataChanged(i)"-->
+<!--                    (onEdit)="enableRowToEdit($event.index)"-->
+<!--                    (onSubmit)="onSubmit($event.action, $event.index, $event.id)"-->
+<!--                    (onCancel)="onCancelButtonClick()"-->
+<!--                    (onDeleteUpdate)="onSubmit($event.action, $event.index, $event.id)"-->
+<!--                    (onDeleteDialog)="onDeleteButtonClick('deleteDialogPlayer'+$event.id!)"-->
+<!--                  ></app-actions-buttons>-->
+<!--                } @else {-->
+
+<!--                  <app-actions-buttons-->
+<!--                    [id]="id"-->
+<!--                    [index]="i"-->
+<!--                    [deleteOrUpdate]="'delete'"-->
+<!--                    [item]="getFormDataByIndexAndKey(playerFormGroup, i, 'fullName') | uppercase"-->
+<!--                    [isEnabled]="isRowEnabled(i)"-->
+<!--                    [isDataChanged]="isDataChanged(i)"-->
+<!--                    (onEdit)="enableRowToEdit($event.index)"-->
+<!--                    (onDelete)="onDelete($event.id!)"-->
+<!--                    (onSubmit)="onSubmit($event.action, $event.index, $event.id)"-->
+<!--                    (onCancel)="onCancelButtonClick()"-->
+<!--                    (onDeleteDialog)="onDeleteButtonClick('deleteDialogPlayer'+$event.id!)"-->
+<!--                  ></app-actions-buttons>-->
+
+<!--                }-->
+<!--              } @else {-->
+<!--                <app-actions-buttons-->
+<!--                  [index]="i"-->
+<!--                  (onSubmit)="onSubmit($event.action, $event.index, $event.id)"-->
+<!--                  (onCancel)="onCancelButtonClick()"-->
+<!--                ></app-actions-buttons>-->
+<!--              }-->
+<!--            </td>-->
+<!--          </tr>-->
+<!--        }-->
+<!--        @if (!players.length || players[players.length - 1].playerInTeamTournament.id !== null) {-->
+<!--          <tr>-->
+<!--            <td class="table-cell" tuiTd [attr.colspan]="4">-->
+<!--              <app-add-button-on-final-tr-->
+<!--                [span]="4"-->
+<!--                (onAdd)="addNewPlayer()"-->
+<!--              ></app-add-button-on-final-tr>-->
+<!--            </td>-->
+<!--          </tr>-->
+<!--        }-->
+<!--      } @else {-->
+<!--        <tr>-->
+<!--          <td class="table-cell" tuiTd [attr.colspan]="4">-->
+<!--            <app-add-button-on-final-tr-->
+<!--              [span]="4"-->
+<!--              (onAdd)="addNewPlayer()"-->
+<!--            ></app-add-button-on-final-tr>-->
+<!--          </td>-->
+<!--        </tr>-->
+<!--      }-->
+<!--    </tbody>-->
+<!--  </table>-->
+<!--</form>-->
 

@@ -17,7 +17,7 @@ import { TuiLetModule } from '@taiga-ui/cdk';
 import { Observable, of } from 'rxjs';
 import { ITeam } from '../../../../type/team.type';
 import { AddButtonIconComponent } from '../../buttons/add-button-icon/add-button-icon.component';
-import { TuiDataListModule } from '@taiga-ui/core';
+import { TuiDataListModule, TuiDropdownModule } from '@taiga-ui/core';
 import { IPosition } from '../../../../type/position.type';
 import { toTitleCase } from '../../../../base/helpers';
 
@@ -36,6 +36,7 @@ import { toTitleCase } from '../../../../base/helpers';
     TuiDataListModule,
     UpperCasePipe,
     TitleCasePipe,
+    TuiDropdownModule,
   ],
   providers: [
     tuiItemsHandlersProvider({
@@ -48,5 +49,5 @@ import { toTitleCase } from '../../../../base/helpers';
 export class SelectTeamComponent {
   @Input() teamsList: ITeam[] | null = [];
   @Input() sportId!: number;
-  @Input() control!: FormControl;
+  @Input() control: FormControl | null = null;
 }

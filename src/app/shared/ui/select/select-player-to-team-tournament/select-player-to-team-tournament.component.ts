@@ -5,7 +5,7 @@ import {
 } from '../../../../type/player.type';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { tuiItemsHandlersProvider, TuiSelectModule } from '@taiga-ui/kit';
-import { TuiDataListModule } from '@taiga-ui/core';
+import { TuiDataListModule, TuiDropdownModule } from '@taiga-ui/core';
 import { stringifyPerson } from '../../../../base/helpers';
 import { TitleCasePipe } from '@angular/common';
 
@@ -17,6 +17,7 @@ import { TitleCasePipe } from '@angular/common';
     TuiDataListModule,
     ReactiveFormsModule,
     TitleCasePipe,
+    TuiDropdownModule,
   ],
   providers: [
     tuiItemsHandlersProvider({
@@ -32,13 +33,15 @@ export class SelectPlayerToTeamTournamentComponent {
   playerListFromTournament: IPlayerInTeamTournamentWithPersonWithSportWithPosition[] =
     [];
   @Input() tournamentId!: number;
-  @Input() control!: FormControl;
+  @Input() control: FormControl | null = null;
 
   @Output() playerSelect = new EventEmitter<number>();
 
   onSelect(playerId: number) {
-    if (this.control.value) {
-      this.playerSelect.emit(playerId);
+    if (this.control) {
+      if (this.control.value) {
+        this.playerSelect.emit(playerId);
+      }
     }
   }
 }

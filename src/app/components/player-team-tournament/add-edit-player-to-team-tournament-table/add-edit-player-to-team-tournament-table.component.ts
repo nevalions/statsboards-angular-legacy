@@ -1,4 +1,12 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  OnChanges,
+  OnInit,
+  SimpleChanges,
+} from '@angular/core';
 import {
   FormArray,
   FormBuilder,
@@ -8,10 +16,10 @@ import {
 } from '@angular/forms';
 import { PlayerInTeamTournament } from '../player-team-tournament';
 import { DialogService } from '../../../services/dialog.service';
-import { NgIf, UpperCasePipe } from '@angular/common';
+import { NgForOf, NgIf, TitleCasePipe, UpperCasePipe } from '@angular/common';
 import { DeleteDialogComponent } from '../../../shared/ui/dialogs/delete-dialog/delete-dialog.component';
 import { TuiTextfieldControllerModule } from '@taiga-ui/core';
-import { TuiTableModule } from '@taiga-ui/addon-table';
+import { TuiComparator, TuiTableModule } from '@taiga-ui/addon-table';
 import {
   IPlayerInSport,
   IPlayerInTeamTournament,
@@ -30,6 +38,11 @@ import { ActionsButtonsComponent } from '../../../shared/ui/buttons/actions-butt
 import { AddButtonOnFinalTrComponent } from '../../../shared/ui/buttons/add-button-on-final-tr/add-button-on-final-tr.component';
 import { SelectTeamComponent } from '../../../shared/ui/forms/select-team/select-team.component';
 import { ITeam } from '../../../type/team.type';
+import {
+  CdkFixedSizeVirtualScroll,
+  CdkVirtualForOf,
+  CdkVirtualScrollViewport,
+} from '@angular/cdk/scrolling';
 
 @Component({
   selector: 'app-add-edit-player-to-team-tournament-table',
@@ -47,11 +60,19 @@ import { ITeam } from '../../../type/team.type';
     AddButtonOnFinalTrComponent,
     NgIf,
     SelectTeamComponent,
+    CdkVirtualScrollViewport,
+    CdkVirtualForOf,
+    CdkFixedSizeVirtualScroll,
+    NgForOf,
+    TitleCasePipe,
   ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './add-edit-player-to-team-tournament-table.component.html',
   styleUrl: './add-edit-player-to-team-tournament-table.component.less',
 })
-export class AddEditPlayerToTeamTournamentTableComponent implements OnChanges {
+export class AddEditPlayerToTeamTournamentTableComponent
+  implements OnChanges, OnInit
+{
   @Input() teamId: number | null = null;
   @Input() tournamentId!: number;
   @Input() sportId!: number;
@@ -73,69 +94,130 @@ export class AddEditPlayerToTeamTournamentTableComponent implements OnChanges {
     return this.playerForm.get('players') as FormArray;
   }
 
+  private populateFormArray(): void {
+    const playersFormArray = this.players.map((player, index) =>
+      this.createFormGroupForPlayer(player, index),
+    );
+    const formArray = this.fb.array(playersFormArray);
+    // console.log(formArray);
+    this.playerForm.setControl('players', formArray);
+  }
+
   constructor(
     private playerInTeamTournament: PlayerInTeamTournament,
     private dialogService: DialogService,
     private fb: FormBuilder,
   ) {
-    this.initializeForm();
+    this.playerForm = this.fb.group({
+      players: this.fb.array([]),
+    });
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['players']) {
-      this.initializeForm();
+  ngOnInit() {
+    if (this.players) {
+      this.populateFormArray();
     }
   }
 
-  private initializeForm(): void {
-    const playersFormArray = this.players.map((player, index) => {
-      const controlNamePlayerInTournamentId = `playerInTeamId${index}`;
-      const controlNamePlayerId = `playerId${index}`;
-      const controlNameSportId = `sportId${index}`;
-      const controlNameFullName = `fullName${index}`;
-      const controlNamePosition = `position${index}`;
-      const controlNameNumber = `number${index}`;
-      const controlNameTeam = `team${index}`;
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['players'] && this.players) {
+      this.populateFormArray();
+    }
+  }
 
-      const controlNamePlayerInSport = `playerInSport${index}`;
+  private createFormGroupForPlayer(
+    player: IPlayerInTeamTournamentWithPersonWithSportWithPosition,
+    index: number,
+  ): FormGroup {
+    const controlNamePlayerInTournamentId = `playerInTeamId${index}`;
+    const controlNamePlayerId = `playerId${index}`;
+    const controlNameSportId = `sportId${index}`;
+    const controlNameFullName = `fullName${index}`;
+    const controlNamePosition = `position${index}`;
+    const controlNameNumber = `number${index}`;
+    const controlNameTeam = `team${index}`;
+    const controlNamePlayerInSport = `playerInSport${index}`;
 
-      // const isPlayerSelected = player.playerInSport !== null;
-
-      return this.fb.group({
-        [controlNamePlayerInTournamentId]: new FormControl(
-          player.playerInTeamTournament.id,
+    return this.fb.group({
+      [controlNamePlayerInTournamentId]: new FormControl(
+        player.playerInTeamTournament.id,
+      ),
+      [controlNamePlayerId]: new FormControl(
+        player.playerInTeamTournament.player_id,
+      ),
+      [controlNameSportId]: new FormControl(this.sportId),
+      [controlNameFullName]: new FormControl(
+        `${player.playerInSport?.person?.first_name} ${player.playerInSport?.person?.second_name}` ||
+          '',
+      ),
+      [controlNamePosition]: new FormControl({
+        value: player.position,
+        disabled: !(
+          player.playerInSport === null &&
+          player.playerInTeamTournament.id === null
         ),
-        [controlNamePlayerId]: new FormControl(
-          player.playerInTeamTournament.player_id,
+      }),
+      [controlNameNumber]: new FormControl({
+        value: player.playerInTeamTournament.player_number,
+        disabled: !(
+          player.playerInSport === null &&
+          player.playerInTeamTournament.id === null
         ),
-        [controlNameSportId]: new FormControl(this.sportId),
-        [controlNameFullName]: new FormControl(
-          `${player.playerInSport?.person?.first_name} ${player.playerInSport?.person?.second_name}` ||
-            '',
-        ),
-        [controlNamePosition]: new FormControl({
-          value: player.position,
-          disabled: !(
-            player.playerInSport === null &&
-            player.playerInTeamTournament.id === null
-          ),
-        }),
-        [controlNameNumber]: new FormControl({
-          value: player.playerInTeamTournament.player_number,
-          disabled: !(
-            player.playerInSport === null &&
-            player.playerInTeamTournament.id === null
-          ),
-        }),
-        [controlNameTeam]: new FormControl(player.team),
-        [controlNamePlayerInSport]: new FormControl(player.playerInSport),
-      });
-    });
-
-    this.playerForm = this.fb.group({
-      players: this.fb.array(playersFormArray),
+      }),
+      [controlNameTeam]: new FormControl(player.team),
+      [controlNamePlayerInSport]: new FormControl(player.playerInSport),
     });
   }
+
+  // private initializeForm(): void {
+  //   const playersFormArray = this.players.map((player, index) => {
+  //     const controlNamePlayerInTournamentId = `playerInTeamId${index}`;
+  //     const controlNamePlayerId = `playerId${index}`;
+  //     const controlNameSportId = `sportId${index}`;
+  //     const controlNameFullName = `fullName${index}`;
+  //     const controlNamePosition = `position${index}`;
+  //     const controlNameNumber = `number${index}`;
+  //     const controlNameTeam = `team${index}`;
+  //
+  //     const controlNamePlayerInSport = `playerInSport${index}`;
+  //
+  //     // const isPlayerSelected = player.playerInSport !== null;
+  //
+  //     return this.fb.group({
+  //       [controlNamePlayerInTournamentId]: new FormControl(
+  //         player.playerInTeamTournament.id,
+  //       ),
+  //       [controlNamePlayerId]: new FormControl(
+  //         player.playerInTeamTournament.player_id,
+  //       ),
+  //       [controlNameSportId]: new FormControl(this.sportId),
+  //       [controlNameFullName]: new FormControl(
+  //         `${player.playerInSport?.person?.first_name} ${player.playerInSport?.person?.second_name}` ||
+  //           '',
+  //       ),
+  //       [controlNamePosition]: new FormControl({
+  //         value: player.position,
+  //         disabled: !(
+  //           player.playerInSport === null &&
+  //           player.playerInTeamTournament.id === null
+  //         ),
+  //       }),
+  //       [controlNameNumber]: new FormControl({
+  //         value: player.playerInTeamTournament.player_number,
+  //         disabled: !(
+  //           player.playerInSport === null &&
+  //           player.playerInTeamTournament.id === null
+  //         ),
+  //       }),
+  //       [controlNameTeam]: new FormControl(player.team),
+  //       [controlNamePlayerInSport]: new FormControl(player.playerInSport),
+  //     });
+  //   });
+  //
+  //   this.playerForm = this.fb.group({
+  //     players: this.fb.array(playersFormArray),
+  //   });
+  // }
 
   onPlayerSelect(selectedPlayerId: number, playerIndex: number) {
     // console.log('SELECT PLAYER');
@@ -348,9 +430,9 @@ export class AddEditPlayerToTeamTournamentTableComponent implements OnChanges {
             tournament_id: this.tournamentId,
           };
 
-          // if (this.teamId) {
-          //   playerInTeamData.team_id = this.teamId;
-          // }
+          if (this.teamId) {
+            playerInTeamData.team_id = this.teamId;
+          } //?
 
           if (newPlayerData.position) {
             playerInTeamData.position_id = newPlayerData.position.id;
@@ -358,7 +440,7 @@ export class AddEditPlayerToTeamTournamentTableComponent implements OnChanges {
 
           this.playerInTeamTournament.addPlayerToTeam(
             playerInTeamData.id!,
-            playerInTeamData.team_id!,
+            playerInTeamData,
           );
         } else if (newPlayerData.p && 'player' in newPlayerData.p) {
           const playerInSportData: IPlayerInTeamTournament = {
@@ -421,7 +503,8 @@ export class AddEditPlayerToTeamTournamentTableComponent implements OnChanges {
       ...this.players,
       playerWithData as IPlayerInTeamTournamentWithPersonWithSportWithPosition,
     ];
-    this.initializeForm();
+    this.populateFormArray();
+    // this.initializeForm();
     // console.log(this.isNewPosition());
   }
 
@@ -434,7 +517,8 @@ export class AddEditPlayerToTeamTournamentTableComponent implements OnChanges {
       const lastPlayer = this.players[this.players.length - 1];
       if (!lastPlayer.playerInTeamTournament.id) {
         this.players = this.players.slice(0, this.players.length - 1);
-        this.initializeForm();
+        this.populateFormArray();
+        // this.initializeForm();
       }
     }
   }

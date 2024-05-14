@@ -116,9 +116,9 @@ export class PlayerInTeamTournamentEffects {
     () => {
       return this.actions$.pipe(
         ofType(playerInTeamTournamentActions.addPlayerToTeam),
-        switchMap(({ playerId, teamId }) => {
+        switchMap(({ playerId, player }) => {
           return this.playerInTeamTournamentService
-            .editItem(playerId, { team_id: teamId })
+            .editItem(playerId, player)
             .pipe(
               map((updatedPlayerInTeamTournament: IPlayerInTeamTournament) => {
                 return playerInTeamTournamentActions.playerAddedToTeamSuccessfully(

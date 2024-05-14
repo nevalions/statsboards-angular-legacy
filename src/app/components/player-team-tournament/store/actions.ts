@@ -16,7 +16,10 @@ export const playerInTeamTournamentActions = createActionGroup({
     }>(),
     'Create failure': emptyProps(),
 
-    AddPlayerToTeam: props<{ playerId: number; teamId: number }>(),
+    AddPlayerToTeam: props<{
+      playerId: number;
+      player: IPlayerInTeamTournament;
+    }>(),
     'Player added to team successfully': props<{
       updatedPlayerInTeamTournament: IPlayerInTeamTournament;
     }>(),

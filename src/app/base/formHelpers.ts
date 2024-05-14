@@ -19,6 +19,8 @@ export function getFormControl(
     throw new Error(`Control ${actualControlKey} not found at index ${index}`);
   }
 
+  // logFormArrayControls(formGroup);
+  //
   // logFormGroupControls(formGroup, index);
 
   return control;

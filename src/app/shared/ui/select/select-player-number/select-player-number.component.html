@@ -1,23 +1,26 @@
-<tui-select
-  *tuiLet="numbers as items"
-  [formControl]="control"
-  style="padding-top: 10px;"
->
-  NUM.
-  <!--  {{ 'enter ' | uppercase }} {{ 'player number' | uppercase }}-->
-  <tui-data-list-wrapper
-    *tuiDataList
-    size="l"
-    [itemContent]="content"
-    [items]="items | withNullOptionRetStringOnly:true"
-  ></tui-data-list-wrapper>
-
-  <ng-template
-    #content
-    let-data
+@if (control) {
+  <tui-select
+    *tuiLet="numbers as items"
+    [formControl]="control"
+    [tuiDropdownLimitWidth]="'min'"
+    style="padding-top: 10px;"
   >
-    <div class="template">
-      <div class="name">{{ data }}</div>
-    </div>
-  </ng-template>
-</tui-select>
+    NUM.
+    <!--  {{ 'enter ' | uppercase }} {{ 'player number' | uppercase }}-->
+    <tui-data-list-wrapper
+      *tuiDataList
+      size="l"
+      [itemContent]="content"
+      [items]="items | withNullOptionRetStringOnly:true"
+    ></tui-data-list-wrapper>
+
+    <ng-template
+      #content
+      let-data
+    >
+      <div class="template">
+        <div class="name">{{ data }}</div>
+      </div>
+    </ng-template>
+  </tui-select>
+}

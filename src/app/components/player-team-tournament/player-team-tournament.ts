@@ -94,9 +94,9 @@ export class PlayerInTeamTournament {
     );
   }
 
-  addPlayerToTeam(playerId: number, teamId: number) {
+  addPlayerToTeam(playerId: number, player: IPlayerInTeamTournament) {
     this.store.dispatch(
-      playerInTeamTournamentActions.addPlayerToTeam({ playerId, teamId }),
+      playerInTeamTournamentActions.addPlayerToTeam({ playerId, player }),
     );
   }
 
