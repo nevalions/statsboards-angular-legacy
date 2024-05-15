@@ -8,6 +8,7 @@ import { tuiItemsHandlersProvider, TuiSelectModule } from '@taiga-ui/kit';
 import { TuiDataListModule, TuiDropdownModule } from '@taiga-ui/core';
 import { stringifyPerson } from '../../../../base/helpers';
 import { TitleCasePipe } from '@angular/common';
+import { TuiAutoFocusModule } from '@taiga-ui/cdk';
 
 @Component({
   selector: 'app-select-player-to-team-tournament',
@@ -18,6 +19,7 @@ import { TitleCasePipe } from '@angular/common';
     ReactiveFormsModule,
     TitleCasePipe,
     TuiDropdownModule,
+    TuiAutoFocusModule,
   ],
   providers: [
     tuiItemsHandlersProvider({

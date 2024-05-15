@@ -1,6 +1,6 @@
 .table, .table-header, .table-cell {
   box-sizing: border-box; /* includes padding and border in the element's total width and height */
-  background-color: #f2f2f2;
+  //background-color: #f2f2f2;
 }
 
 .table {
@@ -11,44 +11,88 @@
 
 .table-header-body,
 .table-row {
-  //border: 1px solid black;
   display: grid;
   justify-content: stretch;
   align-items: center;
-  grid-gap: 8px;
-  grid-template-columns: minmax(150px, 2fr) minmax(50px, 1fr) minmax(50px, 1fr) minmax(50px, 1fr);
+  grid-template-columns: minmax(250px, 2fr) minmax(150px, 1fr) minmax(100px, 1fr) minmax(130px, 1fr);
+
+  background-color: #f2f2f2;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin: 8px;
 }
 
 
 .table-header,
 .table-cell {
-  //border: 1px solid black;
   margin: 0;
-  padding: 8px;
+  padding: 16px;
   overflow: hidden; /* prevents content from spilling out */
   white-space: normal; /* keeps content on a single line */
   text-overflow: ellipsis; /* add ellipsis (...) at the end if content is too long */
 }
 
-.table-header {
-  background-color: #d0d0d0;
-  font-weight: bold;
-  border-top: 1px solid #ccc;
-  text-align: center;
-}
+//.table-header {
+//  background-color: #d0d0d0;
+//  font-weight: bold;
+//  border-top: 1px solid #ccc;
+//  text-align: center;
+//}
 
-.table-cell:nth-child(1) {
-  text-align: left;
-}
-
-.table-cell:nth-child(3) {
-  text-align: center;
-}
-
-.table-cell:nth-child(4) {
+.actions {
   text-align: right;
 }
 
 .center {
   text-align: center;
+}
+
+.first {
+  text-align: left;
+}
+
+.left {
+  text-align: left;
+}
+
+.final {
+  grid-template-columns: auto;
+  padding: 0;
+  background-color: transparent;
+  border-radius: 0;
+  box-shadow: none;
+  margin: 0;
+}
+
+@media screen and (max-width: 800px) {
+  .table-header-body,
+  .table-row {
+    grid-template-columns: minmax(150px, 2fr) minmax(100px, 1fr) minmax(100px, 1fr);
+    grid-template-rows: auto auto;
+  }
+
+
+  .actions {
+    grid-column: span 3;
+  }
+
+  .final {
+    grid-template-columns: auto;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .table-header-body,
+  .table-row {
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: auto auto;
+  }
+
+  .actions, .first {
+    grid-column: span 2;
+  }
+
+  .final {
+    grid-template-columns: auto;
+  }
 }

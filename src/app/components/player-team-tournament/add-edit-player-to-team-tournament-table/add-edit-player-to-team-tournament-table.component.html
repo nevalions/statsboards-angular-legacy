@@ -3,30 +3,31 @@
     tuiTextfieldSize="m"
     [formGroup]="playerForm"
     [tuiTextfieldLabelOutside]="true"
+    style="padding: 10px"
   >
 
     <div class="table">
-      <div class="table-header-body">
-        <div class="table-header">Full Name</div>
-        @if (teamId) {
-          <div class="table-header">Number</div>
-        } @else {
-          <div class="table-header">Team</div>
-        }
-        <div class="table-header">Position</div>
-        <div class="table-header">Actions</div>
-      </div>
+      <!--      <div class="table-header-body">-->
+      <!--        <div class="table-header">Full Name</div>-->
+      <!--        @if (teamId) {-->
+      <!--          <div class="table-header">Number</div>-->
+      <!--        } @else {-->
+      <!--          <div class="table-header">Team</div>-->
+      <!--        }-->
+      <!--        <div class="table-header">Position</div>-->
+      <!--        <div class="table-header">Actions</div>-->
+      <!--      </div>-->
 
+      @if (players && players.length) {
+        <div formArrayName="players" class="table-body">
 
-      <div formArrayName="players" class="table-body">
-        @if (players && players.length) {
           <div
             *ngFor="let playerFormGroup of playersArray.controls; let i = index"
             class="table-row"
             [formGroupName]="i">
 
 
-            <div class="table-cell">
+            <div class="table-cell first">
               @if (getFormDataByIndexAndKey(playerFormGroup, i, 'playerId')) {
                 @if (getFormDataByIndexAndKey(playerFormGroup, i, 'fullName'); as name) {
                   {{ name | titlecase }}
@@ -51,17 +52,17 @@
             </div>
 
             @if (teamId) {
-              <div class="table-cell center">
+              <div class="table-cell left">
                 @if (isRowEnabled(i)) {
                   <app-select-player-number
                     [control]="getFormControl(this.playerForm, i, 'number', 'players')"
                   ></app-select-player-number>
                 } @else {
-                  {{ getFormDataByIndexAndKey(playerFormGroup, i, 'number') }}
+                  #{{ getFormDataByIndexAndKey(playerFormGroup, i, 'number') }}
                 }
               </div>
             } @else {
-              <div class="table-cell">
+              <div class="table-cell left">
                 @if (isRowEnabled(i)) {
                   <app-select-team
                     [control]="getFormControl(this.playerForm, i, 'team', 'players')"
@@ -73,7 +74,7 @@
               </div>
             }
 
-            <div class="table-cell">
+            <div class="table-cell left">
               @if (sportId) {
                 @if (positions) {
                   @if (isRowEnabled(i)) {
@@ -89,7 +90,7 @@
                 }
               }
             </div>
-            <div class="table-cell">
+            <div class="table-cell actions">
               @if (playerFormGroup.get('playerInTeamId' + i)!.value; as id) {
 
                 @if (deleteOrUpdate == 'deleteFromTeam') {
@@ -124,7 +125,6 @@
 
                 }
               } @else {
-                {{ i }}
                 <app-actions-buttons
                   [index]="i"
                   (onSubmit)="onSubmit($event.action, $event.index, $event.id)"
@@ -133,32 +133,23 @@
               }
             </div>
           </div>
-          <!--        </cdk-virtual-scroll-viewport>-->
 
-          @if (!players.length || players[players.length - 1].playerInTeamTournament.id !== null) {
-            <div class="table-row">
-              <div class="table-cell">
-                <app-add-button-on-final-tr
-                  [span]="4"
-                  (onAdd)="addNewPlayer()"
-                ></app-add-button-on-final-tr>
-              </div>
-            </div>
-          }
-          <!--                }-->
-        } @else {
-          <div class="table-row">
-            <div class="table-cell">
-              <app-add-button-on-final-tr
-                [span]="4"
-                (onAdd)="addNewPlayer()"
-              ></app-add-button-on-final-tr>
-            </div>
+
+        </div>
+        @if (!players.length || players[players.length - 1].playerInTeamTournament.id !== null) {
+          <div class="table-row final">
+            <app-add-button-on-final-tr
+              (onAdd)="addNewPlayer()"
+            ></app-add-button-on-final-tr>
           </div>
         }
-
-
-      </div>
+      } @else {
+        <div class="table-row final">
+          <app-add-button-on-final-tr
+            (onAdd)="addNewPlayer()"
+          ></app-add-button-on-final-tr>
+        </div>
+      }
 
     </div>
 

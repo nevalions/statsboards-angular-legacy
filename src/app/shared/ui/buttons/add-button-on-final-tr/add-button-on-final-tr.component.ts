@@ -10,7 +10,6 @@ import { TuiTableModule } from '@taiga-ui/addon-table';
   styleUrl: './add-button-on-final-tr.component.less',
 })
 export class AddButtonOnFinalTrComponent {
-  @Input() span: number = 1;
   @Output() onAdd = new EventEmitter();
 
   add() {

@@ -291,10 +291,6 @@ export class AddEditPlayerToTeamTournamentTableComponent
     return playerFormGroup ? playerFormGroup.dirty : false;
   }
 
-  disableAllRows() {
-    this.playerForm.disable();
-  }
-
   //
   // private initializeForm(): void {
   //   this.playerForm = new FormGroup({});
@@ -484,13 +480,9 @@ export class AddEditPlayerToTeamTournamentTableComponent
       id: null,
       position_id: null,
       player_number: '0',
-      team_id: null,
+      team_id: this.teamId || null,
       tournament_id: this.tournamentId,
     };
-
-    if (this.teamId) {
-      newPlayer.team_id = this.teamId;
-    }
 
     const playerWithData: IPlayerInTeamTournamentWithPersonWithSportWithPosition =
       {
@@ -499,13 +491,9 @@ export class AddEditPlayerToTeamTournamentTableComponent
         position: null,
       };
 
-    this.players = [
-      ...this.players,
-      playerWithData as IPlayerInTeamTournamentWithPersonWithSportWithPosition,
-    ];
+    // Use spread operator to create a new array
+    this.players = [...this.players, playerWithData];
     this.populateFormArray();
-    // this.initializeForm();
-    // console.log(this.isNewPosition());
   }
 
   onDeleteButtonClick(dialogId: string) {

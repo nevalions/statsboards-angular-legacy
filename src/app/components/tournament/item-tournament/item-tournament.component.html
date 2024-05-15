@@ -45,27 +45,6 @@
           titleMany='matches'
         ></app-body-list-title>
 
-        <!--        <tui-hosted-dropdown-->
-        <!--          #dropdown-->
-        <!--          [content]="content"-->
-        <!--          [(open)]="menuDropdownOpen"-->
-        <!--        >-->
-        <!--          <button-->
-        <!--            appearance="flat"-->
-        <!--            icon="tuiIconMenuLarge"-->
-        <!--            tuiIconButton-->
-        <!--            type="button"-->
-        <!--            [pseudoHover]="dropdown.open || true"-->
-        <!--          ></button>-->
-        <!--        </tui-hosted-dropdown>-->
-        <!--        <ng-template-->
-        <!--          #content-->
-        <!--          let-activeZone-->
-        <!--        >-->
-        <!--          <div-->
-        <!--            class="burger-menu-with-buttons"-->
-        <!--          >-->
-
         <app-edit-button
           [action]="'edit'"
           [item]="'Tournament'"
@@ -131,8 +110,6 @@
           [dialogId]="'deleteDialog'"
         ></app-delete-dialog>
 
-        <!--          </div>-->
-        <!--        </ng-template>-->
       </div>
 
     } @else {
@@ -171,9 +148,6 @@
               }
             }
 
-            <!--            <app-pagination-with-items-per-page-->
-            <!--              [items$]="matchesInTournament$"-->
-            <!--            ></app-pagination-with-items-per-page>-->
           </div>
           <div class="list-of-items-with-data" style="padding: 20px">
             <app-list-of-matches
@@ -203,12 +177,6 @@
             } @else {
               <tui-loader></tui-loader>
             }
-
-
-            <!--            <app-list-of-matches-->
-            <!--              [data$]="paginationService.paginatedItems$"-->
-            <!--            >-->
-            <!--            </app-list-of-matches>-->
 
           </div>
         } @else {

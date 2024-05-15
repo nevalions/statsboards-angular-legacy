@@ -200,17 +200,6 @@ export class ItemTournamentComponent {
     this.pagination.changeItemsPerPage(size);
   }
 
-  // readonly stringify = (match: IMatchWithFullData): string =>
-  //   match?.match?.week?.toString();
-  // `${teams_data?.team_a?.title?.toString()} vs ${teams_data?.team_b?.title?.toString()}` ||
-  // '';
-
-  // readonly matcherM = (match: IMatchWithFullData, search: string): boolean =>
-  //   match?.match?.week
-  //     ?.toString()
-  //     .toLowerCase()
-  //     .includes(search.toLowerCase()) ?? false;
-
   protected readonly url = urlWithProtocol;
   protected readonly TuiAppearance = TuiAppearance;
 }

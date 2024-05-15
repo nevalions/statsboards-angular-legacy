@@ -40,7 +40,41 @@
     }
 
     <p class="content__title_description">{{ team.city }}</p>
+    <div class="one_row_container">
+      <app-edit-button
+        [action]="'edit'"
+        [item]="'Team'"
+        [dialogId]="'editTeamDialog'"
+      ></app-edit-button>
 
+
+      <app-parse-button
+        [isLoading]="(playerInTeamTournamentIsLoading$|async)!"
+        [appear]="TuiAppearance.Primary"
+        [buttonSize]="'m'"
+        [item]="'add players from eesl'"
+        (click)="parsPlayerFromEESL()"
+      ></app-parse-button>
+
+      <app-delete-button
+        [item]="buttonTitle"
+        [dialogId]="'deleteTeamDialog'"
+      ></app-delete-button>
+    </div>
+
+    <app-add-edit-team
+      [action]="'edit'"
+      [dialogId]="'editTeamDialog'"
+      [new_team]="team"
+      [allSponsors]="allSponsors$ | async"
+      [allSponsorLines]="allSponsorLines$ | async"
+    ></app-add-edit-team>
+
+    <app-delete-dialog
+      [item]="team.title"
+      (delete)="onDelete()"
+      [dialogId]="'deleteTeamDialog'"
+    ></app-delete-dialog>
   </div>
 
   <div class="tournament content__body">
@@ -50,38 +84,6 @@
         <app-body-list-title
           titleMany='players'
         ></app-body-list-title>
-
-        <app-edit-button
-          [action]="'edit'"
-          [item]="'Team'"
-          [dialogId]="'editTeamDialog'"
-        ></app-edit-button>
-
-        <app-add-edit-team
-          [action]="'edit'"
-          [dialogId]="'editTeamDialog'"
-          [new_team]="team"
-          [allSponsors]="allSponsors$ | async"
-          [allSponsorLines]="allSponsorLines$ | async"
-        ></app-add-edit-team>
-
-        <app-parse-button
-          [isLoading]="(playerInTeamTournamentIsLoading$|async)!"
-          [appear]="TuiAppearance.Primary"
-          [buttonSize]="'m'"
-          [item]="'add players from eesl'"
-          (click)="parsPlayerFromEESL()"
-        ></app-parse-button>
-
-        <app-delete-button
-          [item]="buttonTitle"
-          [dialogId]="'deleteTeamDialog'"
-        ></app-delete-button>
-        <app-delete-dialog
-          [item]="team.title"
-          (delete)="onDelete()"
-          [dialogId]="'deleteTeamDialog'"
-        ></app-delete-dialog>
       </div>
       @if (sport$ | async; as sport) {
         @if (allPlayersInTeamTournamentFullData$ | async; as players) {
