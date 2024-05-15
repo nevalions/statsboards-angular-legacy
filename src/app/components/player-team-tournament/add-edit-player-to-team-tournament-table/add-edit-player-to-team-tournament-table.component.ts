@@ -52,6 +52,7 @@ import {
 import { urlWithProtocol } from '../../../base/constants';
 import { ImageService } from '../../../services/image.service';
 import { TuiAvatarModule } from '@taiga-ui/kit';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-add-edit-player-to-team-tournament-table',
@@ -576,5 +577,5 @@ export class AddEditPlayerToTeamTournamentTableComponent
 
   protected readonly getFormControl = getFormControl;
   protected readonly getFormDataByIndexAndKey = getFormDataByIndexAndKey;
-  protected readonly url = urlWithProtocol;
+  backendUrl = environment.backendUrl;
 }
