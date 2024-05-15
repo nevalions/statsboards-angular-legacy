@@ -16,7 +16,13 @@ import {
 } from '@angular/forms';
 import { PlayerInTeamTournament } from '../player-team-tournament';
 import { DialogService } from '../../../services/dialog.service';
-import { NgForOf, NgIf, TitleCasePipe, UpperCasePipe } from '@angular/common';
+import {
+  DatePipe,
+  NgForOf,
+  NgIf,
+  TitleCasePipe,
+  UpperCasePipe,
+} from '@angular/common';
 import { DeleteDialogComponent } from '../../../shared/ui/dialogs/delete-dialog/delete-dialog.component';
 import { TuiExpandModule, TuiTextfieldControllerModule } from '@taiga-ui/core';
 import { TuiComparator, TuiTableModule } from '@taiga-ui/addon-table';
@@ -43,6 +49,9 @@ import {
   CdkVirtualForOf,
   CdkVirtualScrollViewport,
 } from '@angular/cdk/scrolling';
+import { urlWithProtocol } from '../../../base/constants';
+import { ImageService } from '../../../services/image.service';
+import { TuiAvatarModule } from '@taiga-ui/kit';
 
 @Component({
   selector: 'app-add-edit-player-to-team-tournament-table',
@@ -66,6 +75,8 @@ import {
     NgForOf,
     TitleCasePipe,
     TuiExpandModule,
+    DatePipe,
+    TuiAvatarModule,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './add-edit-player-to-team-tournament-table.component.html',
@@ -94,10 +105,13 @@ export class AddEditPlayerToTeamTournamentTableComponent
 
   toggle(id: string): void {
     // console.log(id);
-    if (this.expandedStates[id] === undefined) {
-      this.expandedStates[id] = true;
-    } else {
-      this.expandedStates[id] = !this.expandedStates[id];
+    if (id) {
+      let str = id.toString();
+      if (this.expandedStates[str] === undefined) {
+        this.expandedStates[str] = true;
+      } else {
+        this.expandedStates[str] = !this.expandedStates[str];
+      }
     }
   }
 
@@ -124,6 +138,7 @@ export class AddEditPlayerToTeamTournamentTableComponent
     private playerInTeamTournament: PlayerInTeamTournament,
     private dialogService: DialogService,
     private fb: FormBuilder,
+    private imageService: ImageService,
   ) {
     this.playerForm = this.fb.group({
       players: this.fb.array([]),
@@ -152,6 +167,8 @@ export class AddEditPlayerToTeamTournamentTableComponent
     const controlNameFullName = `fullName${index}`;
     const controlNamePosition = `position${index}`;
     const controlNameNumber = `number${index}`;
+    const controlDateOfBirth = `dob${index}`;
+    const controlPhotoUrl = `photoUrl${index}`;
     const controlNameTeam = `team${index}`;
     const controlNamePlayerInSport = `playerInSport${index}`;
 
@@ -181,6 +198,13 @@ export class AddEditPlayerToTeamTournamentTableComponent
           player.playerInTeamTournament.id === null
         ),
       }),
+      [controlDateOfBirth]: new FormControl(
+        `${player.playerInSport?.person?.person_dob}` || '',
+      ),
+      [controlPhotoUrl]: new FormControl(
+        `${player.playerInSport?.person?.person_photo_web_url}` || '',
+      ),
+
       [controlNameTeam]: new FormControl(player.team),
       [controlNamePlayerInSport]: new FormControl(player.playerInSport),
     });
@@ -532,6 +556,25 @@ export class AddEditPlayerToTeamTournamentTableComponent
     this.playerInTeamTournament.deletePlayerInTeamTournamentWithId(id);
   }
 
+  onImgError(event: Event) {
+    this.imageService.handleError(event);
+  }
+
+  calculateAge(dob: string): number {
+    if (!dob) {
+      return 0; // If the dob is falsy, return 0 as the default age.
+    }
+    const birthDate = new Date(dob);
+    const today = new Date();
+    let age = today.getFullYear() - birthDate.getFullYear();
+    const m = today.getMonth() - birthDate.getMonth();
+    if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+      age--;
+    }
+    return age;
+  }
+
   protected readonly getFormControl = getFormControl;
   protected readonly getFormDataByIndexAndKey = getFormDataByIndexAndKey;
+  protected readonly url = urlWithProtocol;
 }

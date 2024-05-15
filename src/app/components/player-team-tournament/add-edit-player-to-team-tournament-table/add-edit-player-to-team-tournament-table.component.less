@@ -1,20 +1,20 @@
 .table, .table-header, .table-cell {
-  box-sizing: border-box; /* includes padding and border in the element's total width and height */
+  box-sizing: border-box;
   //background-color: #f2f2f2;
 }
 
 .table {
   //border: 1px solid black;
   display: grid;
-  grid-template-columns: 1fr; /* This means one column taking the full width, you probably want multiple columns defined here instead */
+  grid-template-columns: 1fr;
 }
 
-.table-header-body,
 .table-row {
   display: grid;
   justify-content: stretch;
   align-items: center;
-  grid-template-columns: minmax(250px, 2fr) minmax(150px, 1fr) minmax(100px, 1fr) minmax(130px, 1fr);
+  grid-template-columns: minmax(250px, 2fr) minmax(150px, 1fr) minmax(100px, 1fr);
+  grid-template-rows: auto auto;
 
   background-color: #f2f2f2;
   border-radius: 5px;
@@ -32,15 +32,17 @@
   text-overflow: ellipsis; /* add ellipsis (...) at the end if content is too long */
 }
 
-//.table-header {
-//  background-color: #d0d0d0;
-//  font-weight: bold;
-//  border-top: 1px solid #ccc;
-//  text-align: center;
-//}
+.expand {
+  grid-column: span 3;
+}
 
 .actions {
-  text-align: right;
+  display: grid;
+  text-align: left;
+  justify-content: stretch;
+  grid-template-columns: auto;
+  grid-template-rows: auto;
+  //grid-column: span 3;
 }
 
 .center {
@@ -51,12 +53,18 @@
   text-align: left;
 }
 
+.first:hover {
+  background-color: #e0e0e0;
+  cursor: pointer;
+}
+
 .left {
   text-align: left;
 }
 
 .final {
   grid-template-columns: auto;
+  justify-content: stretch;
   padding: 0;
   background-color: transparent;
   border-radius: 0;
@@ -64,15 +72,26 @@
   margin: 0;
 }
 
+.player-short-profile {
+  display: grid;
+  grid-gap: 16px;
+  grid-template-columns: auto auto;
+  justify-content: flex-start;
+  align-items: start;
+}
+
+.player-photo-short-profile {
+  border-radius: 10px;
+  grid-row: span 2;
+}
+
 @media screen and (max-width: 800px) {
-  .table-header-body,
   .table-row {
     grid-template-columns: minmax(150px, 2fr) minmax(100px, 1fr) minmax(100px, 1fr);
     grid-template-rows: auto auto;
   }
 
-
-  .actions {
+  .expand, .first {
     grid-column: span 3;
   }
 
@@ -82,17 +101,27 @@
 }
 
 @media screen and (max-width: 500px) {
-  .table-header-body,
   .table-row {
-    grid-template-columns: auto auto;
-    grid-template-rows: auto auto;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto auto;
   }
 
-  .actions, .first {
+  .expand, .first {
     grid-column: span 2;
   }
 
   .final {
     grid-template-columns: auto;
+  }
+
+  .player-short-profile {
+    display: grid;
+    grid-template-columns: auto;
+    justify-content: stretch;
+    align-items: center;
+  }
+
+  .player-photo-short-profile {
+    grid-row: span 1;
   }
 }

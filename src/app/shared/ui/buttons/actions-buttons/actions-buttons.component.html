@@ -1,22 +1,24 @@
-@if (id) {
+<div
+  style="display: flex; flex-direction: row; flex-wrap: wrap;"
+> @if (id) {
   <!--  <tui-hosted-dropdown-->
-  <!--    #dropdown-->
-  <!--    [content]="content"-->
-  <!--    [(tuiDropdownOpen)]="true"-->
-  <!--    [(open)]="dropdownOpen"-->
-  <!--  >-->
-  <!--    <button-->
-  <!--      appearance="flat"-->
-  <!--      icon="tuiIconMoreVertical"-->
-  <!--      tuiIconButton-->
-  <!--      type="button"-->
-  <!--      [pseudoHover]="dropdown.open || null"-->
-  <!--    ></button>-->
-  <!--  </tui-hosted-dropdown>-->
-  <!--  <ng-template-->
-  <!--    #content-->
-  <!--    let-activeZone-->
-  <!--  >-->
+    <!--    #dropdown-->
+    <!--    [content]="content"-->
+    <!--    [(tuiDropdownOpen)]="true"-->
+    <!--    [(open)]="dropdownOpen"-->
+    <!--  >-->
+    <!--    <button-->
+    <!--      appearance="flat"-->
+    <!--      icon="tuiIconMoreVertical"-->
+    <!--      tuiIconButton-->
+    <!--      type="button"-->
+    <!--      [pseudoHover]="dropdown.open || null"-->
+    <!--    ></button>-->
+    <!--  </tui-hosted-dropdown>-->
+    <!--  <ng-template-->
+    <!--    #content-->
+    <!--    let-activeZone-->
+    <!--  >-->
 
   @if (isEnabled) {
     <app-button-icon
@@ -99,3 +101,4 @@
     (click)="cancel()"
   ></app-button-icon>
 }
+</div>
