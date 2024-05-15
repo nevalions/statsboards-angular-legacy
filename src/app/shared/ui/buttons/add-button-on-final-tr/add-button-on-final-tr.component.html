@@ -1,8 +1,13 @@
-<app-button-icon
-  [buttonAppear]="'create'"
-  [buttonShape]="'square'"
-  [buttonSize]="'m'"
-  [buttonIcon]="'tuiIconPlus'"
-  [buttonClass]="'add-new-button'"
+<app-create-button-in-form
+  [action]="action"
   (click)="add()"
-></app-button-icon>
+></app-create-button-in-form>
+
+<!--<app-button-icon-->
+<!--  [buttonAppear]="'create'"-->
+<!--  [buttonShape]="'square'"-->
+<!--  [buttonSize]="'m'"-->
+<!--  [buttonIcon]="'tuiIconPlus'"-->
+<!--  [buttonClass]="'add-new-button'"-->
+<!--  (click)="add()"-->
+<!--&gt;</app-button-icon>-->
