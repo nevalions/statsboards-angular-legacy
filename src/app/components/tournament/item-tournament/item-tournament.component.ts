@@ -92,8 +92,8 @@ import { BasePaginationComponent } from '../../../shared/ui/pagination/base-pagi
     TuiDropdownModule,
     BaseSearchFormComponent,
     BasePaginationComponent,
-    TuiInputCountModule,
     TuiTextfieldControllerModule,
+    TuiInputCountModule,
   ],
   templateUrl: './item-tournament.component.html',
   styleUrl: './item-tournament.component.less',
@@ -122,11 +122,18 @@ export class ItemTournamentComponent {
     this.pagination.paginatedMatchInTournamentSearchResults$;
   totalMatchInTournamentSearchPages$ =
     this.pagination.totalMatchInTournamentSearchPages$;
+
+  currentPlayersInTournamentPage$ =
+    this.pagination.currentPagePlayersInTeamTable$;
   currentPage$ = this.pagination.currentPage$;
+
   paginatedMatchCombinedSearchResults$ =
     this.pagination.paginatedMatchCombinedSearchResults$;
   totalMatchCombinedSearchPages$ =
     this.pagination.totalMatchCombinedSearchPages$;
+  paginatedTablePlayerInTeamTournament$ =
+    this.pagination.paginatedTablePlayerInTeamTournament$;
+  totalPlayersInTeamTournament$ = this.pagination.totalPlayersInTeamTournament$;
 
   constructor(
     private season: Season,
@@ -150,6 +157,7 @@ export class ItemTournamentComponent {
     team.loadAllTeamsInSport();
     matchWithFullData.loadAllMatchesInTournament();
     playerInTeamTournament.loadAllPlayersInTournament();
+    playerInTeamTournament.loadAllPlayersInTeamTournament();
     person.loadAllPersons();
     player.loadAllPlayersBySportId();
     position.loadAllPositionsBySportId();
@@ -157,6 +165,7 @@ export class ItemTournamentComponent {
     this.search.searchMatch(null);
     this.search.searchMatchByWeek(null);
     this.pagination.resetCurrentPage();
+    this.pagination.resetPlayerInTournamentCurrentPage();
   }
 
   menuDropdownOpen = false;
@@ -198,6 +207,14 @@ export class ItemTournamentComponent {
 
   changePageSize(size: number | 'All'): void {
     this.pagination.changeItemsPerPage(size);
+  }
+
+  setPlayerInTournamentCurrentPage(page: number): void {
+    this.pagination.changePlayerInTournamentPage(page);
+  }
+
+  changePlayerInTournamentPageSize(size: number | 'All'): void {
+    this.pagination.changePlayerInTournamentItemsPerPage(size);
   }
 
   protected readonly url = urlWithProtocol;

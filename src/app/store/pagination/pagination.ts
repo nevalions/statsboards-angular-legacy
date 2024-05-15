@@ -16,12 +16,18 @@ import {
   selectTotalPlayerInSportSearchPages,
   selectTotalTeamInSportSearchPages,
   selectPaginatedFilteredMatches,
+  selectTotalPlayersInTeamTournamentPages,
+  selectPaginatedPlayerInTeamTournamentResults,
 } from './pagination.selectors';
 import { ITeam } from '../../type/team.type';
 import { paginationActions } from './pagination.actions';
 import { IPerson } from '../../type/person.type';
-import { IPlayerInSport } from '../../type/player.type';
+import {
+  IPlayerInSport,
+  IPlayerInTeamTournamentWithPersonWithSportWithPosition,
+} from '../../type/player.type';
 import { IMatchWithFullData } from '../../type/match.type';
+import { selectAllPlayersInTeamTournamentWithPersonsWithPositions } from '../../components/player-team-tournament/store/selectors';
 
 @Injectable({
   providedIn: 'root',
@@ -29,12 +35,18 @@ import { IMatchWithFullData } from '../../type/match.type';
 export class Pagination {
   currentPage$: Observable<number>;
   itemsPerPage$: Observable<number | string>;
+  currentPagePlayersInTeamTable$: Observable<number>;
+  itemsPerPagePlayersInTeamTable$: Observable<number | string>;
 
   paginatedPersonSearchResults$: Observable<IPerson[]>;
   totalPersonSearchPages$: Observable<number>;
 
   paginatedPlayerInSportSearchResults$: Observable<IPlayerInSport[]>;
   totalPlayerInSportSearchPages$: Observable<number>;
+  paginatedTablePlayerInTeamTournament$: Observable<
+    IPlayerInTeamTournamentWithPersonWithSportWithPosition[]
+  >;
+  totalPlayersInTeamTournament$: Observable<number>;
 
   paginatedTeamInSportSearchResults$: Observable<ITeam[]>;
   totalTeamInSportSearchPages$: Observable<number>;
@@ -51,19 +63,33 @@ export class Pagination {
   constructor(private store: Store<AppState>) {
     this.currentPage$ = store.select((state) => state.pagination.currentPage);
     this.itemsPerPage$ = store.select((state) => state.pagination.itemsPerPage);
+    this.currentPagePlayersInTeamTable$ = store.select(
+      (state) => state.pagination.currentPagePlayersInTeamTable,
+    );
+    this.itemsPerPagePlayersInTeamTable$ = store.select(
+      (state) => state.pagination.itemsPerPagePlayersInTeamTable,
+    );
 
     this.paginatedPersonSearchResults$ = store.select(
       selectPaginatedPersonSearchResults,
     );
     this.totalPersonSearchPages$ = store.select(selectTotalPersonSearchPages);
 
+    //players
     this.paginatedPlayerInSportSearchResults$ = store.select(
       selectPaginatedPlayerInSportSearchResults,
     );
     this.totalPlayerInSportSearchPages$ = store.select(
       selectTotalPlayerInSportSearchPages,
     );
+    this.paginatedTablePlayerInTeamTournament$ = store.select(
+      selectPaginatedPlayerInTeamTournamentResults,
+    );
+    this.totalPlayersInTeamTournament$ = store.select(
+      selectTotalPlayersInTeamTournamentPages,
+    );
 
+    //team
     this.paginatedTeamInSportSearchResults$ = store.select(
       selectPaginatedTeamInSportSearchResults,
     );
@@ -106,5 +132,25 @@ export class Pagination {
 
   changeItemsPerPage(itemsPerPage: number | 'All') {
     this.store.dispatch(paginationActions.updateItemsPerPage({ itemsPerPage }));
+  }
+
+  resetPlayerInTournamentCurrentPage() {
+    this.store.dispatch(
+      paginationActions.updatePlayersInTeamTableCurrentPage({ currentPage: 1 }),
+    );
+  }
+
+  changePlayerInTournamentPage(page: number) {
+    this.store.dispatch(
+      paginationActions.updatePlayersInTeamTableCurrentPage({
+        currentPage: page,
+      }),
+    );
+  }
+
+  changePlayerInTournamentItemsPerPage(itemsPerPage: number | 'All') {
+    this.store.dispatch(
+      paginationActions.updatePlayersInTeamTablePerPage({ itemsPerPage }),
+    );
   }
 }

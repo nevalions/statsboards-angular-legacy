@@ -4,11 +4,16 @@ import { paginationActions } from './pagination.actions';
 export interface PaginationState {
   currentPage: number;
   itemsPerPage: number | 'All';
+
+  currentPagePlayersInTeamTable: number;
+  itemsPerPagePlayersInTeamTable: number | 'All';
 }
 
 export const initialPaginationState: PaginationState = {
   currentPage: 1,
-  itemsPerPage: 4,
+  itemsPerPage: 5,
+  currentPagePlayersInTeamTable: 1,
+  itemsPerPagePlayersInTeamTable: 10,
 };
 
 export const paginationFeature = createFeature({
@@ -23,6 +28,25 @@ export const paginationFeature = createFeature({
       ...state,
       itemsPerPage,
     })),
+
+    on(
+      paginationActions.updatePlayersInTeamTableCurrentPage,
+      (state, { currentPage }) => {
+        return {
+          ...state,
+          currentPagePlayersInTeamTable: currentPage,
+        };
+      },
+    ),
+    on(
+      paginationActions.updatePlayersInTeamTablePerPage,
+      (state, { itemsPerPage }) => {
+        return {
+          ...state,
+          itemsPerPagePlayersInTeamTable: itemsPerPage,
+        };
+      },
+    ),
   ),
 });
 
@@ -32,4 +56,6 @@ export const {
   selectPaginationState,
   selectCurrentPage,
   selectItemsPerPage,
+  selectCurrentPagePlayersInTeamTable,
+  selectItemsPerPagePlayersInTeamTable,
 } = paginationFeature;

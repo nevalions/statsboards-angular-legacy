@@ -2,14 +2,15 @@ import { createSelector } from '@ngrx/store';
 import { selectPaginationState } from './pagination.reducers';
 import {
   selectMatchSearchResults,
-  selectMatchSearchTerm,
-  selectMatchSearchWeek,
   selectMatchSearchWeekResults,
   selectPersonSearchResults,
   selectPlayerInSportSearchResults,
   selectTeamInSportSearchResults,
 } from '../search/search.reducers';
-import { IMatchWithFullData } from '../../type/match.type';
+import {
+  selectAllPlayersInTeamTournamentWithPersonsWithPositions,
+  selectAllPlayersInTournamentWithPersonsWithPositions,
+} from '../../components/player-team-tournament/store/selectors';
 
 function isNumber(value: any): value is number {
   return typeof value === 'number' && isFinite(value);
@@ -43,10 +44,16 @@ export const selectPersonSearchItems = createSelector(
   selectPersonSearchResults,
   (results) => results.length,
 );
+// players
 export const selectPlayerInSportSearchItems = createSelector(
   selectPlayerInSportSearchResults,
   (results) => results.length,
 );
+export const selectPlayersInTeamTournamentItems = createSelector(
+  selectAllPlayersInTournamentWithPersonsWithPositions,
+  (results) => results.length,
+);
+//team
 export const selectTeamInSportSearchItems = createSelector(
   selectTeamInSportSearchResults,
   (results) => results.length,
@@ -61,24 +68,34 @@ export const selectMatchInTournamentWeekSearchItems = createSelector(
 );
 
 // Total Pages Selectors
+//person
 export const selectTotalPersonSearchPages = createSelector(
   selectPersonSearchItems,
   selectPaginationState,
   (totalItems, pagination) =>
     getTotalPages(totalItems, pagination.itemsPerPage),
 );
+//player
 export const selectTotalPlayerInSportSearchPages = createSelector(
   selectPlayerInSportSearchItems,
   selectPaginationState,
   (totalItems, pagination) =>
     getTotalPages(totalItems, pagination.itemsPerPage),
 );
+export const selectTotalPlayersInTeamTournamentPages = createSelector(
+  selectPlayersInTeamTournamentItems,
+  selectPaginationState,
+  (totalItems, pagination) =>
+    getTotalPages(totalItems, pagination.itemsPerPagePlayersInTeamTable),
+);
+//team
 export const selectTotalTeamInSportSearchPages = createSelector(
   selectTeamInSportSearchItems,
   selectPaginationState,
   (totalItems, pagination) =>
     getTotalPages(totalItems, pagination.itemsPerPage),
 );
+//matches
 export const selectTotalMatchesInTournamentSearchPages = createSelector(
   selectMatchInTournamentSearchItems,
   selectPaginationState,
@@ -93,6 +110,7 @@ export const selectTotalMatchesInTournamentWeekSearchPages = createSelector(
 );
 
 // Paginated Results Selectors
+// person
 export const selectPaginatedPersonSearchResults = createSelector(
   selectPersonSearchResults,
   selectPaginationState,
@@ -103,6 +121,7 @@ export const selectPaginatedPersonSearchResults = createSelector(
       pagination.itemsPerPage,
     ),
 );
+//player
 export const selectPaginatedPlayerInSportSearchResults = createSelector(
   selectPlayerInSportSearchResults,
   selectPaginationState,
@@ -113,6 +132,17 @@ export const selectPaginatedPlayerInSportSearchResults = createSelector(
       pagination.itemsPerPage,
     ),
 );
+export const selectPaginatedPlayerInTeamTournamentResults = createSelector(
+  selectAllPlayersInTournamentWithPersonsWithPositions,
+  selectPaginationState,
+  (playerResults, pagination) =>
+    getPaginatedResults(
+      playerResults,
+      pagination.currentPagePlayersInTeamTable,
+      pagination.itemsPerPagePlayersInTeamTable,
+    ),
+);
+//team
 export const selectPaginatedTeamInSportSearchResults = createSelector(
   selectTeamInSportSearchResults,
   selectPaginationState,
@@ -188,12 +218,12 @@ export const selectSearchFilteredMatches = createSelector(
   selectPaginationState,
   (matchesByTeam, matchesByWeek, pagination) => {
     // Find matches that appear in both filtered results
-    console.log(matchesByTeam, matchesByWeek, pagination);
+    // console.log(matchesByTeam, matchesByWeek, pagination);
     const filteredMatches = matchesByTeam.filter((match) =>
       matchesByWeek.some((weekMatch) => weekMatch.id === match.id),
     );
 
-    console.log('combined', filteredMatches);
+    // console.log('combined', filteredMatches);
 
     return filteredMatches;
   },
