@@ -112,16 +112,16 @@ export class ItemTournamentComponent {
   matchesInTournament$ =
     this.matchWithFullData.matchesWithFullDataInTournament$;
   allSportPlayersWithPerson$ = this.player.allSportPlayersWithPerson$;
-  allPlayerInTournamentFullData$ =
-    this.playerInTeamTournament.allPlayerInTournamentFullData$;
+  // allPlayerInTournamentFullData$ =
+  //   this.playerInTeamTournament.allPlayerInTournamentFullData$;
   allAvailablePlayersToAddInTournament$ =
     this.playerInTeamTournament.allAvailablePlayersToAddInTournament$;
   allSportPositions$ = this.position.allSportPositions$;
 
-  paginatedMatchInTournamentSearchResults$ =
-    this.pagination.paginatedMatchInTournamentSearchResults$;
-  totalMatchInTournamentSearchPages$ =
-    this.pagination.totalMatchInTournamentSearchPages$;
+  // paginatedMatchInTournamentSearchResults$ =
+  //   this.pagination.paginatedMatchInTournamentSearchResults$;
+  // totalMatchInTournamentSearchPages$ =
+  //   this.pagination.totalMatchInTournamentSearchPages$;
 
   currentPlayersInTournamentPage$ =
     this.pagination.currentPagePlayersInTeamTable$;

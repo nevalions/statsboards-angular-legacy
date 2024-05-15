@@ -105,75 +105,7 @@
     <app-body-list-title
       titleMany='matches'
     ></app-body-list-title>
-    <!--    @if (this.tournament$ | async; as tournament) {-->
-    <!--      <div class="tournament content__body__title__flex">-->
-    <!--        <app-body-list-title-->
-    <!--          titleMany='matches'-->
-    <!--        ></app-body-list-title>-->
 
-    <!--        <app-edit-button-->
-    <!--          [action]="'edit'"-->
-    <!--          [item]="'Tournament'"-->
-    <!--          [dialogId]="'editTournamentDialog'"-->
-    <!--        ></app-edit-button>-->
-
-    <!--        <app-tournament-add-edit-form-->
-    <!--          [action]="'edit'"-->
-    <!--          [dialogId]="'editTournamentDialog'"-->
-    <!--          [new_tournament]="tournament"-->
-    <!--          [allSponsors]="allSponsors$ | async"-->
-    <!--          [allSponsorLines]="allSponsorLines$ | async"-->
-    <!--        ></app-tournament-add-edit-form>-->
-
-    <!--        @if (teamsInTournament$ | async; as teams) {-->
-
-    <!--          <app-create-button-show-dialog-->
-    <!--            [action]="'add'"-->
-    <!--            [item]="'Match'"-->
-    <!--            [dialogId]="'addDialog'"-->
-    <!--          ></app-create-button-show-dialog>-->
-    <!--          <app-add-edit-match-->
-    <!--            [action]="'add'"-->
-    <!--            [dialogId]="'addDialog'"-->
-    <!--            [tournamentId]="tournament.id!"-->
-    <!--            [teams]="teams"-->
-    <!--          ></app-add-edit-match>-->
-
-    <!--          @if (allAvailablePlayersToAddInTournament$ | async; as players) {-->
-    <!--            @if (sport$ | async; as sport) {-->
-    <!--              @if (tournament$ | async; as tournament) {-->
-    <!--                <app-edit-button-->
-    <!--                  [action]="'add'"-->
-    <!--                  [item]="'Player'"-->
-    <!--                  [dialogId]="'addPlayerDialog'"-->
-    <!--                ></app-edit-button>-->
-
-    <!--                <app-add-edit-player-to-team-tournament-->
-    <!--                  [action]="'add'"-->
-    <!--                  [dialogId]="'addPlayerDialog'"-->
-    <!--                  [availablePlayers]="players"-->
-    <!--                  [sportPositions]="allSportPositions$| async"-->
-    <!--                  [sport_Id]="sport.id!"-->
-    <!--                  [tournamentId]="tournament.id!"-->
-    <!--                  [tournamentTeams]="teams"-->
-    <!--                ></app-add-edit-player-to-team-tournament>-->
-    <!--              }-->
-    <!--            }-->
-    <!--          }-->
-    <!--        }-->
-    <!--        <app-delete-button-->
-    <!--          [item]="buttonTitle"-->
-    <!--          [dialogId]="'deleteDialog'"-->
-    <!--        ></app-delete-button>-->
-    <!--        <app-delete-dialog-->
-    <!--          [item]="buttonTitle"-->
-    <!--          (delete)="onDelete()"-->
-    <!--          [dialogId]="'deleteDialog'"-->
-    <!--        ></app-delete-dialog>-->
-
-    <!--      </div>-->
-
-    <!--    } -->
     <div class="tournament with__aside">
       <div class="one_col_container">
         @if (matchesInTournament$ | async; as items) {
