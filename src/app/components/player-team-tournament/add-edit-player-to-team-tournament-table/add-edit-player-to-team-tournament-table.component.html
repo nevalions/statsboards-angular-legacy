@@ -24,7 +24,9 @@
           <div
             *ngFor="let playerFormGroup of playersArray.controls; let i = index"
             class="table-row"
-            [formGroupName]="i">
+            [formGroupName]="i"
+            (click)="toggle(playerFormGroup.get('playerInTeamId' + i)!.value.toString())"
+          >
 
 
             <div class="table-cell first">
@@ -90,51 +92,51 @@
                 }
               }
             </div>
-            <div class="table-cell actions">
-              @if (playerFormGroup.get('playerInTeamId' + i)!.value; as id) {
+            @if (playerFormGroup.get('playerInTeamId' + i)!.value; as id) {
+              <tui-expand [expanded]="isExpanded(id)">
+                <ng-template tuiExpandContent>
+                  <div class="table-cell actions">
 
-                @if (deleteOrUpdate == 'deleteFromTeam') {
-                  <app-actions-buttons
-                    [id]="id"
-                    [index]="i"
-                    [deleteOrUpdate]="'deleteFromTeam'"
-                    [item]="getFormDataByIndexAndKey(playerFormGroup, i, 'fullName') | uppercase"
-                    [isEnabled]="isRowEnabled(i)"
-                    [isDataChanged]="isDataChanged(i)"
-                    (onEdit)="enableRowToEdit($event.index)"
-                    (onSubmit)="onSubmit($event.action, $event.index, $event.id)"
-                    (onCancel)="onCancelButtonClick()"
-                    (onDeleteUpdate)="onSubmit($event.action, $event.index, $event.id)"
-                    (onDeleteDialog)="onDeleteButtonClick('deleteDialogPlayer'+$event.id!)"
-                  ></app-actions-buttons>
-                } @else {
-
-                  <app-actions-buttons
-                    [id]="id"
-                    [index]="i"
-                    [deleteOrUpdate]="'delete'"
-                    [item]="getFormDataByIndexAndKey(playerFormGroup, i, 'fullName') | uppercase"
-                    [isEnabled]="isRowEnabled(i)"
-                    [isDataChanged]="isDataChanged(i)"
-                    (onEdit)="enableRowToEdit($event.index)"
-                    (onDelete)="onDelete($event.id!)"
-                    (onSubmit)="onSubmit($event.action, $event.index, $event.id)"
-                    (onCancel)="onCancelButtonClick()"
-                    (onDeleteDialog)="onDeleteButtonClick('deleteDialogPlayer'+$event.id!)"
-                  ></app-actions-buttons>
-
-                }
-              } @else {
-                <app-actions-buttons
-                  [index]="i"
-                  (onSubmit)="onSubmit($event.action, $event.index, $event.id)"
-                  (onCancel)="onCancelButtonClick()"
-                ></app-actions-buttons>
-              }
-            </div>
+                    @if (deleteOrUpdate == 'deleteFromTeam') {
+                      <app-actions-buttons
+                        [id]="id"
+                        [index]="i"
+                        [deleteOrUpdate]="'deleteFromTeam'"
+                        [item]="getFormDataByIndexAndKey(playerFormGroup, i, 'fullName') | uppercase"
+                        [isEnabled]="isRowEnabled(i)"
+                        [isDataChanged]="isDataChanged(i)"
+                        (onEdit)="enableRowToEdit($event.index)"
+                        (onSubmit)="onSubmit($event.action, $event.index, $event.id)"
+                        (onCancel)="onCancelButtonClick()"
+                        (onDeleteUpdate)="onSubmit($event.action, $event.index, $event.id)"
+                        (onDeleteDialog)="onDeleteButtonClick('deleteDialogPlayer'+$event.id!)"
+                      ></app-actions-buttons>
+                    } @else {
+                      <app-actions-buttons
+                        [id]="id"
+                        [index]="i"
+                        [deleteOrUpdate]="'delete'"
+                        [item]="getFormDataByIndexAndKey(playerFormGroup, i, 'fullName') | uppercase"
+                        [isEnabled]="isRowEnabled(i)"
+                        [isDataChanged]="isDataChanged(i)"
+                        (onEdit)="enableRowToEdit($event.index)"
+                        (onDelete)="onDelete($event.id!)"
+                        (onSubmit)="onSubmit($event.action, $event.index, $event.id)"
+                        (onCancel)="onCancelButtonClick()"
+                        (onDeleteDialog)="onDeleteButtonClick('deleteDialogPlayer'+$event.id!)"
+                      ></app-actions-buttons>
+                    }
+                  </div>
+                </ng-template>
+              </tui-expand>
+            } @else {
+              <app-actions-buttons
+                [index]="i"
+                (onSubmit)="onSubmit($event.action, $event.index, $event.id)"
+                (onCancel)="onCancelButtonClick()"
+              ></app-actions-buttons>
+            }
           </div>
-
-
         </div>
         @if (!players.length || players[players.length - 1].playerInTeamTournament.id !== null) {
           <div class="table-row final">

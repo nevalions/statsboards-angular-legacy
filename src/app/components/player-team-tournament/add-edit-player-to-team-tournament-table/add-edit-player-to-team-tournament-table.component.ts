@@ -18,7 +18,7 @@ import { PlayerInTeamTournament } from '../player-team-tournament';
 import { DialogService } from '../../../services/dialog.service';
 import { NgForOf, NgIf, TitleCasePipe, UpperCasePipe } from '@angular/common';
 import { DeleteDialogComponent } from '../../../shared/ui/dialogs/delete-dialog/delete-dialog.component';
-import { TuiTextfieldControllerModule } from '@taiga-ui/core';
+import { TuiExpandModule, TuiTextfieldControllerModule } from '@taiga-ui/core';
 import { TuiComparator, TuiTableModule } from '@taiga-ui/addon-table';
 import {
   IPlayerInSport,
@@ -65,6 +65,7 @@ import {
     CdkFixedSizeVirtualScroll,
     NgForOf,
     TitleCasePipe,
+    TuiExpandModule,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './add-edit-player-to-team-tournament-table.component.html',
@@ -89,6 +90,22 @@ export class AddEditPlayerToTeamTournamentTableComponent
 
   newPlayerCount = 0;
   playerForm!: FormGroup;
+  expandedStates: { [key: string]: boolean } = {};
+
+  toggle(id: string): void {
+    // console.log(id);
+    if (this.expandedStates[id] === undefined) {
+      this.expandedStates[id] = true;
+    } else {
+      this.expandedStates[id] = !this.expandedStates[id];
+    }
+  }
+
+  isExpanded(id: string): boolean {
+    // console.log(this.expandedStates);
+    // console.log(this.expandedStates[id]);
+    return this.expandedStates[id];
+  }
 
   get playersArray(): FormArray {
     return this.playerForm.get('players') as FormArray;
