@@ -58,6 +58,7 @@ import { Search } from '../../../store/search/search';
 import { Pagination } from '../../../store/pagination/pagination';
 import { BaseSearchFormComponent } from '../../../shared/ui/search/base-search-form/base-search-form.component';
 import { BasePaginationComponent } from '../../../shared/ui/pagination/base-pagination/base-pagination.component';
+import { AddEditTeamToTournamentTableComponent } from '../../team/add-edit-team-to-tournament-table/add-edit-team-to-tournament-table.component';
 
 @Component({
   selector: 'app-item-tournament',
@@ -94,6 +95,7 @@ import { BasePaginationComponent } from '../../../shared/ui/pagination/base-pagi
     BasePaginationComponent,
     TuiTextfieldControllerModule,
     TuiInputCountModule,
+    AddEditTeamToTournamentTableComponent,
   ],
   templateUrl: './item-tournament.component.html',
   styleUrl: './item-tournament.component.less',

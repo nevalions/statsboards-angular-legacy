@@ -148,6 +148,71 @@
 
           <div class="one_col_container">
             <app-body-list-title
+              titleMany="teams"
+            ></app-body-list-title>
+
+            @if (sport$ | async; as sport) {
+              @if (tournament$ | async; as tour) {
+                @if (teamsInTournament$ | async; as t) {
+                  @if (allSportTeams$ |async; as availableTeams) {
+                    <app-add-edit-team-to-tournament-table
+                      [tournamentId]="tour.id!"
+                      [teams]="t"
+                      [sportId]="sport.id!"
+                      [availableTeamInSport]="availableTeams"
+                    ></app-add-edit-team-to-tournament-table>
+                  }
+                }
+              }
+            }
+
+
+
+            <!--        <h4 style="text-align: center">TEAMS</h4>-->
+            <!--        @if (tournament$ | async; as tournament) {-->
+            <!--          @if (teamsInTournament$ | async; as teams) {-->
+            <!--            @for (team of teams; track team.id) {-->
+            <!--              <tui-elastic-container>-->
+            <!--                <div style="display: flex; justify-content: space-between; align-items: center">-->
+            <!--                  <button-->
+            <!--                    appearance="whiteblock"-->
+            <!--                    size="xl"-->
+            <!--                    tuiButton-->
+            <!--                    type="button"-->
+            <!--                    style="width: 80%"-->
+            <!--                    (click)="navigateToTeamItem(team)"-->
+            <!--                  > {{ team.title | titlecase }}-->
+            <!--                  </button>-->
+            <!--                              <app-delete-button-icon-->
+            <!--                                [dialogId]="'removeDialog' + team.id"-->
+            <!--                              ></app-delete-button-icon>-->
+            <!--                              <app-remove-dialog-->
+            <!--                                [item]="team.title | uppercase"-->
+            <!--                                [dialogId]="'removeDialog' + team.id"-->
+            <!--                                (delete)="onTeamRemoveFromTournament(team.id!, tournament.id!)"-->
+            <!--                              ></app-remove-dialog>-->
+            <!--                </div>-->
+            <!--              </tui-elastic-container>-->
+
+            <!--            }-->
+            <!--          } @else {-->
+            <!--            <tui-loader></tui-loader>-->
+            <!--          }-->
+            <!--          <app-create-button-show-dialog-->
+            <!--            [item]="'Team'"-->
+            <!--            [dialogId]="'addTeamToTournamentDialog' + tournament.id"-->
+            <!--          ></app-create-button-show-dialog>-->
+            <!--          <app-add-team-to-tournament-->
+            <!--            [tournamentId]="tournament.id!"-->
+            <!--            [dialogId]="'addTeamToTournamentDialog' + tournament.id"-->
+            <!--            [allSportTeams$]="allSportTeams$"-->
+            <!--            [teamsInTournament$]="teamsInTournament$"-->
+            <!--          ></app-add-team-to-tournament>-->
+            <!--        }-->
+          </div>
+
+          <div class="one_col_container">
+            <app-body-list-title
               titleMany='players'
             ></app-body-list-title>
 
@@ -197,49 +262,49 @@
       </div>
 
 
-      <aside>
-        <h4 style="text-align: center">TEAMS</h4>
-        @if (tournament$ | async; as tournament) {
-          @if (teamsInTournament$ | async; as teams) {
-            @for (team of teams; track team.id) {
-              <tui-elastic-container>
-                <div style="display: flex; justify-content: space-between; align-items: center">
-                  <button
-                    appearance="whiteblock"
-                    size="xl"
-                    tuiButton
-                    type="button"
-                    style="width: 80%"
-                    (click)="navigateToTeamItem(team)"
-                  > {{ team.title | titlecase }}
-                  </button>
-                  <app-delete-button-icon
-                    [dialogId]="'removeDialog' + team.id"
-                  ></app-delete-button-icon>
-                  <app-remove-dialog
-                    [item]="team.title | uppercase"
-                    [dialogId]="'removeDialog' + team.id"
-                    (delete)="onTeamRemoveFromTournament(team.id!, tournament.id!)"
-                  ></app-remove-dialog>
-                </div>
-              </tui-elastic-container>
+      <!--      <aside>-->
+      <!--        <h4 style="text-align: center">TEAMS</h4>-->
+      <!--        @if (tournament$ | async; as tournament) {-->
+      <!--          @if (teamsInTournament$ | async; as teams) {-->
+      <!--            @for (team of teams; track team.id) {-->
+      <!--              <tui-elastic-container>-->
+      <!--                <div style="display: flex; justify-content: space-between; align-items: center">-->
+      <!--                  <button-->
+      <!--                    appearance="whiteblock"-->
+      <!--                    size="xl"-->
+      <!--                    tuiButton-->
+      <!--                    type="button"-->
+      <!--                    style="width: 80%"-->
+      <!--                    (click)="navigateToTeamItem(team)"-->
+      <!--                  > {{ team.title | titlecase }}-->
+      <!--                  </button>-->
+      <!--                  <app-delete-button-icon-->
+      <!--                    [dialogId]="'removeDialog' + team.id"-->
+      <!--                  ></app-delete-button-icon>-->
+      <!--                  <app-remove-dialog-->
+      <!--                    [item]="team.title | uppercase"-->
+      <!--                    [dialogId]="'removeDialog' + team.id"-->
+      <!--                    (delete)="onTeamRemoveFromTournament(team.id!, tournament.id!)"-->
+      <!--                  ></app-remove-dialog>-->
+      <!--                </div>-->
+      <!--              </tui-elastic-container>-->
 
-            }
-          } @else {
-            <tui-loader></tui-loader>
-          }
-          <app-create-button-show-dialog
-            [item]="'Team'"
-            [dialogId]="'addTeamToTournamentDialog' + tournament.id"
-          ></app-create-button-show-dialog>
-          <app-add-team-to-tournament
-            [tournamentId]="tournament.id!"
-            [dialogId]="'addTeamToTournamentDialog' + tournament.id"
-            [allSportTeams$]="allSportTeams$"
-            [teamsInTournament$]="teamsInTournament$"
-          ></app-add-team-to-tournament>
-        }
-      </aside>
+      <!--            }-->
+      <!--          } @else {-->
+      <!--            <tui-loader></tui-loader>-->
+      <!--          }-->
+      <!--          <app-create-button-show-dialog-->
+      <!--            [item]="'Team'"-->
+      <!--            [dialogId]="'addTeamToTournamentDialog' + tournament.id"-->
+      <!--          ></app-create-button-show-dialog>-->
+      <!--          <app-add-team-to-tournament-->
+      <!--            [tournamentId]="tournament.id!"-->
+      <!--            [dialogId]="'addTeamToTournamentDialog' + tournament.id"-->
+      <!--            [allSportTeams$]="allSportTeams$"-->
+      <!--            [teamsInTournament$]="teamsInTournament$"-->
+      <!--          ></app-add-team-to-tournament>-->
+      <!--        }-->
+      <!--      </aside>-->
     </div>
 
   </div>

@@ -49,7 +49,6 @@ import {
   CdkVirtualForOf,
   CdkVirtualScrollViewport,
 } from '@angular/cdk/scrolling';
-import { urlWithProtocol } from '../../../base/constants';
 import { ImageService } from '../../../services/image.service';
 import { TuiAvatarModule } from '@taiga-ui/kit';
 import { environment } from '../../../../environments/environment';
