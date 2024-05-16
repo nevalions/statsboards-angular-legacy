@@ -11,6 +11,7 @@
         <button
           tuiOption
           [value]="team"
+          (click)="onSelect(team.id!)"
         >
           {{ team.title | titlecase }}
         </button>

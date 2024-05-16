@@ -13,7 +13,10 @@
             class="table-row"
             [formGroupName]="i"
           >
-            <div class="table-cell first">
+            <div
+              class="table-cell first"
+              (click)="navigateToTeamItem(getFormDataByIndexAndKey(teamFormGroup, i, 'teamId'))"
+            >
               @if (getFormDataByIndexAndKey(teamFormGroup, i, 'teamId')) {
                 @if (getFormDataByIndexAndKey(teamFormGroup, i, 'teamTitle'); as title) {
                   {{ title | titlecase }}
@@ -48,7 +51,7 @@
                 ></app-actions-buttons>
               }
             </div>
-            
+
           </div>
           @if (!teams.length || teams[teams.length - 1].id !== null) {
             <div class="table-row final">

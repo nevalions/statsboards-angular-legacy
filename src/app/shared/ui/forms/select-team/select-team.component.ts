@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { AsyncPipe, TitleCasePipe, UpperCasePipe } from '@angular/common';
 import {
   ControlValueAccessor,
@@ -50,4 +50,15 @@ export class SelectTeamComponent {
   @Input() teamsList: ITeam[] | null = [];
   @Input() sportId!: number;
   @Input() control: FormControl | null = null;
+
+  @Output() teamSelect = new EventEmitter<number>();
+
+  onSelect(teamId: number) {
+    console.log('teamId', teamId);
+    if (this.control) {
+      if (this.control.value) {
+        this.teamSelect.emit(teamId);
+      }
+    }
+  }
 }

@@ -268,10 +268,7 @@ export class AddEditPlayerToTeamTournamentTableComponent
     // console.log(selectedPlayer);
     if (!selectedPlayer) return;
 
-    const playerNumber =
-      selectedPlayer.playerInTeamTournament?.player_number || '';
     const playerPosition = selectedPlayer.position || '';
-    const playerTeam = selectedPlayer.team || null;
 
     // console.log('index', playerIndex);
     const playerFormGroup = (this.playerForm.get('players') as FormArray).at(
@@ -280,7 +277,6 @@ export class AddEditPlayerToTeamTournamentTableComponent
     // console.log('playerFormGroup', playerFormGroup);
     // console.log('PlayerPosition', playerPosition);
     let positionKey = `position${playerIndex}`;
-    let teamKey = `team${playerIndex}`;
 
     playerFormGroup.patchValue({ [positionKey]: playerPosition });
   }

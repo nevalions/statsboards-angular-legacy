@@ -1,4 +1,11 @@
-import { Component, Input, SimpleChanges } from '@angular/core';
+import {
+  Component,
+  inject,
+  Input,
+  OnChanges,
+  OnInit,
+  SimpleChanges,
+} from '@angular/core';
 import { ITeam, ITeamTournament } from '../../../type/team.type';
 import {
   FormArray,
@@ -13,6 +20,7 @@ import { ImageService } from '../../../services/image.service';
 import { Team } from '../team';
 import { TeamTournament } from '../../team-tournament/teamTournament';
 import {
+  getArrayFormDataByIndexAndKey,
   getFormControl,
   getFormDataByIndexAndKey,
 } from '../../../base/formHelpers';
@@ -23,6 +31,7 @@ import { SelectTeamComponent } from '../../../shared/ui/forms/select-team/select
 import { DeleteButtonIconComponent } from '../../../shared/ui/buttons/delete-button-icon/delete-button-icon.component';
 import { RemoveDialogComponent } from '../../../shared/ui/dialogs/remove-dialog/remove-dialog.component';
 import { ActionsButtonsComponent } from '../../../shared/ui/buttons/actions-buttons/actions-buttons.component';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-add-edit-team-to-tournament-table',
@@ -43,7 +52,9 @@ import { ActionsButtonsComponent } from '../../../shared/ui/buttons/actions-butt
   templateUrl: './add-edit-team-to-tournament-table.component.html',
   styleUrl: './add-edit-team-to-tournament-table.component.less',
 })
-export class AddEditTeamToTournamentTableComponent {
+export class AddEditTeamToTournamentTableComponent
+  implements OnInit, OnChanges
+{
   @Input() tournamentId!: number;
   @Input() sportId!: number;
   @Input() teams: ITeam[] = [];
@@ -104,45 +115,27 @@ export class AddEditTeamToTournamentTableComponent {
   onSubmit(
     action: 'add' | 'edit' | 'deleteFromTeam',
     index: number,
-    playerId: number | null,
-  ): void {}
+    parentId: number | null,
+  ): void {
+    // console.log('click');
+    // console.log(action, index);
+    if (this.teamForm.valid) {
+      const array = this.teamForm.get('teams') as FormArray;
 
-  enableRowToEdit(teamIndex: number): void {
-    const teamFormGroup = (this.teamForm.get('teams') as FormArray).at(
-      teamIndex,
-    );
-    if (!teamFormGroup) {
-      return;
+      // console.log(array);
+      if (array && action == 'add') {
+        const teamData = {
+          t: getArrayFormDataByIndexAndKey<ITeam>(array, index, 'teamInSport'),
+        };
+        console.log(teamData);
+        if (teamData && this.tournamentId) {
+          this.teamInTournament.createTeamTournamentsConnection({
+            team_id: teamData.t.id,
+            tournament_id: this.tournamentId,
+          });
+        }
+      }
     }
-    let teamTitleName = `teamTitle${teamIndex}`;
-
-    const titleInput = teamFormGroup.get(teamTitleName);
-    const anyControlEnabled = titleInput && titleInput.enabled;
-
-    if (anyControlEnabled) {
-      teamFormGroup.disable();
-    } else {
-      teamFormGroup.enable();
-    }
-  }
-
-  isRowEnabled(teamIndex: number): boolean {
-    const teamFormGroup = (this.teamForm.get('teams') as FormArray).at(
-      teamIndex,
-    );
-    let teamTitleName = `teamTitle${teamIndex}`;
-
-    if (teamFormGroup.get(teamTitleName)) {
-      return teamFormGroup.get(teamTitleName)!.enabled;
-    }
-    return false;
-  }
-
-  isDataChanged(teamIndex: number): boolean {
-    const teamFormGroup = (this.teamForm.get('teams') as FormArray).at(
-      teamIndex,
-    );
-    return teamFormGroup ? teamFormGroup.dirty : false;
   }
 
   addNewTeam(): void {
@@ -180,6 +173,15 @@ export class AddEditTeamToTournamentTableComponent {
 
   onDelete(id: number) {
     this.teamInTournament.deleteTeamTournamentConnection(id, this.tournamentId);
+  }
+
+  private route = inject(ActivatedRoute);
+  private router = inject(Router);
+
+  navigateToTeamItem(id: number): void {
+    if (id) {
+      this.router.navigate(['team', id], { relativeTo: this.route });
+    }
   }
 
   protected readonly getFormControl = getFormControl;

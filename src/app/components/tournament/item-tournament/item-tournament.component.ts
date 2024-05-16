@@ -106,6 +106,7 @@ export class ItemTournamentComponent {
   sport$ = this.sport.currentSport$;
   allSportTeams$ = this.team.teamsInSport$;
   teamsInTournament$ = this.team.teamsInTournament$;
+  availableTeamsToAddToTournament$ = this.team.availableTeamsToAddToTournament$;
   tournament$ = this.tournament.currentTournament$;
   currentTournamentMainSponsor$ = this.tournament.currentTournamentMainSponsor$;
   sponsorLine$ = this.sponsorLine.sponsorLineWithFullData$;
@@ -172,18 +173,11 @@ export class ItemTournamentComponent {
 
   menuDropdownOpen = false;
 
-  private route = inject(ActivatedRoute);
-  private router = inject(Router);
-
   readonly formWeek = new FormGroup({
     matchWeekSearch: new FormControl(1),
   });
 
   buttonTitle: string = 'Tournament';
-
-  navigateToTeamItem(item: ITeam): void {
-    this.router.navigate(['team', item.id], { relativeTo: this.route });
-  }
 
   onSearch(searchTerm: string | null) {
     this.search.searchMatch(searchTerm);

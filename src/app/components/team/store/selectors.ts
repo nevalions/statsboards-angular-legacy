@@ -1,6 +1,11 @@
 import { createSelector } from '@ngrx/store';
 
-import { selectCurrentTeam, selectCurrentTeamId } from './reducers';
+import {
+  selectAllTeamsInSport,
+  selectAllTeamsInTournament,
+  selectCurrentTeam,
+  selectCurrentTeamId,
+} from './reducers';
 import {
   selectCurrentTournament,
   selectCurrentTournamentId,
@@ -31,4 +36,21 @@ export const selectCurrentTeamAndTournament = createSelector(
     team,
     tournament,
   }),
+);
+
+export const selectAvailableTeamsToAddToTournament = createSelector(
+  selectAllTeamsInTournament,
+  selectAllTeamsInSport,
+  (teamsInTournament: ITeam[] | null, teamsInSport: ITeam[] | null) => {
+    if (!teamsInTournament?.length && teamsInSport?.length) {
+      return teamsInSport;
+    }
+    if (teamsInTournament?.length && teamsInSport?.length) {
+      const teamInTournamentIds = teamsInTournament.map((team) => team.id);
+      return teamsInSport.filter(
+        (team) => !teamInTournamentIds.includes(team.id),
+      );
+    }
+    return [];
+  },
 );

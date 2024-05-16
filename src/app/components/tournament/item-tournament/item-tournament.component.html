@@ -52,42 +52,42 @@
         [allSponsorLines]="allSponsorLines$ | async"
       ></app-tournament-add-edit-form>
 
-      @if (teamsInTournament$ | async; as teams) {
+      <!--      @if (teamsInTournament$ | async; as teams) {-->
 
-        <app-create-button-show-dialog
-          [action]="'add'"
-          [item]="'Match'"
-          [dialogId]="'addDialog'"
-        ></app-create-button-show-dialog>
-        <app-add-edit-match
-          [action]="'add'"
-          [dialogId]="'addDialog'"
-          [tournamentId]="tournament.id!"
-          [teams]="teams"
-        ></app-add-edit-match>
+        <!--        <app-create-button-show-dialog-->
+        <!--          [action]="'add'"-->
+        <!--          [item]="'Match'"-->
+        <!--          [dialogId]="'addDialog'"-->
+        <!--        ></app-create-button-show-dialog>-->
+        <!--        <app-add-edit-match-->
+        <!--          [action]="'add'"-->
+        <!--          [dialogId]="'addDialog'"-->
+        <!--          [tournamentId]="tournament.id!"-->
+        <!--          [teams]="teams"-->
+        <!--        ></app-add-edit-match>-->
 
-        @if (allAvailablePlayersToAddInTournament$ | async; as players) {
-          @if (sport$ | async; as sport) {
-            @if (tournament$ | async; as tournament) {
-              <app-edit-button
-                [action]="'add'"
-                [item]="'Player'"
-                [dialogId]="'addPlayerDialog'"
-              ></app-edit-button>
+        <!--        @if (allAvailablePlayersToAddInTournament$ | async; as players) {-->
+        <!--          @if (sport$ | async; as sport) {-->
+        <!--            @if (tournament$ | async; as tournament) {-->
+        <!--              <app-edit-button-->
+        <!--                [action]="'add'"-->
+        <!--                [item]="'Player'"-->
+        <!--                [dialogId]="'addPlayerDialog'"-->
+        <!--              ></app-edit-button>-->
 
-              <app-add-edit-player-to-team-tournament
-                [action]="'add'"
-                [dialogId]="'addPlayerDialog'"
-                [availablePlayers]="players"
-                [sportPositions]="allSportPositions$| async"
-                [sport_Id]="sport.id!"
-                [tournamentId]="tournament.id!"
-                [tournamentTeams]="teams"
-              ></app-add-edit-player-to-team-tournament>
-            }
-          }
-        }
-      }
+        <!--              <app-add-edit-player-to-team-tournament-->
+        <!--                [action]="'add'"-->
+        <!--                [dialogId]="'addPlayerDialog'"-->
+        <!--                [availablePlayers]="players"-->
+        <!--                [sportPositions]="allSportPositions$| async"-->
+        <!--                [sport_Id]="sport.id!"-->
+        <!--                [tournamentId]="tournament.id!"-->
+        <!--                [tournamentTeams]="teams"-->
+        <!--              ></app-add-edit-player-to-team-tournament>-->
+        <!--            }-->
+        <!--          }-->
+        <!--        }-->
+        <!--      }-->
       <app-delete-button
         [item]="buttonTitle"
         [dialogId]="'deleteDialog'"
@@ -102,50 +102,73 @@
 
 <div class="tournament content__body">
   <div class="one_col_container">
-    <app-body-list-title
-      titleMany='matches'
-    ></app-body-list-title>
-
-    <div class="tournament with__aside">
+    <div class="tournament">
       <div class="one_col_container">
-        @if (matchesInTournament$ | async; as items) {
-          <div class="filters flex__fullwidth_center">
-            <form
-              [formGroup]="formWeek"
-            >
-              <tui-input-count
-                [tuiTextfieldCleaner]="true"
-                formControlName="matchWeekSearch"
-                (tuiValueChanges)="onSearchByWeek($event)"
-              >
-                Search by WEEK
-              </tui-input-count>
-            </form>
 
-            <app-base-search-form
-              [placeholder]="'Team title'"
-              (search)="onSearch($event)"
-            ></app-base-search-form>
-          </div>
+        <div class="two_col_container_tournament">
           <div class="one_col_container">
-            @if (totalMatchCombinedSearchPages$ | async; as totalPages) {
-              @if (currentPage$ | async; as currentPage) {
-                <app-base-pagination
-                  [currentPage]="currentPage"
-                  [totalPages]="totalPages"
-                  [itemsPerPage]="6"
-                  (pageChange)="setCurrentPage($event)"
-                  (pageSizeChange)="changePageSize($event)"
-                ></app-base-pagination>
-              }
+            <app-body-list-title
+              titleMany='matches'
+            ></app-body-list-title>
+
+            @if (matchesInTournament$ | async; as items) {
+              <div class="one_col_container">
+                <form
+                  [formGroup]="formWeek"
+                  style="padding: 10px"
+                >
+                  <tui-input-count
+                    [tuiTextfieldCleaner]="true"
+                    formControlName="matchWeekSearch"
+                    (tuiValueChanges)="onSearchByWeek($event)"
+                  >
+                    Search by WEEK
+                  </tui-input-count>
+                </form>
+
+                <app-base-search-form
+                  [placeholder]="'Team'"
+                  (search)="onSearch($event)"
+                  style="padding: 10px"
+                ></app-base-search-form>
+              </div>
+              <div class="one_col_container">
+                @if (totalMatchCombinedSearchPages$ | async; as totalPages) {
+                  @if (currentPage$ | async; as currentPage) {
+                    <app-base-pagination
+                      [currentPage]="currentPage"
+                      [totalPages]="totalPages"
+                      [itemsPerPage]="6"
+                      (pageChange)="setCurrentPage($event)"
+                      (pageSizeChange)="changePageSize($event)"
+                    ></app-base-pagination>
+                  }
+                }
+              </div>
+              <div class="list-of-items-with-data">
+                <app-list-of-matches
+                  [data$]="paginatedMatchCombinedSearchResults$"
+                ></app-list-of-matches>
+                @if (this.tournament$ | async; as tournament) {
+                  @if (teamsInTournament$ | async; as teams) {
+                    <div class="one_col_container">
+                      <app-create-button-show-dialog
+                        [action]="'add'"
+                        [item]="'Match'"
+                        [dialogId]="'addDialog'"
+                      ></app-create-button-show-dialog>
+                    </div>
+                    <app-add-edit-match
+                      [action]="'add'"
+                      [dialogId]="'addDialog'"
+                      [tournamentId]="tournament.id!"
+                      [teams]="teams"
+                    ></app-add-edit-match>
+                  }
+                }
+              </div>
             }
           </div>
-          <div class="list-of-items-with-data" style="padding: 20px">
-            <app-list-of-matches
-              [data$]="paginatedMatchCombinedSearchResults$"
-            ></app-list-of-matches>
-          </div>
-
           <div class="one_col_container">
             <app-body-list-title
               titleMany="teams"
@@ -154,7 +177,7 @@
             @if (sport$ | async; as sport) {
               @if (tournament$ | async; as tour) {
                 @if (teamsInTournament$ | async; as t) {
-                  @if (allSportTeams$ |async; as availableTeams) {
+                  @if (availableTeamsToAddToTournament$ |async; as availableTeams) {
                     <app-add-edit-team-to-tournament-table
                       [tournamentId]="tour.id!"
                       [teams]="t"
@@ -165,100 +188,95 @@
                 }
               }
             }
-
-
-
-            <!--        <h4 style="text-align: center">TEAMS</h4>-->
-            <!--        @if (tournament$ | async; as tournament) {-->
-            <!--          @if (teamsInTournament$ | async; as teams) {-->
-            <!--            @for (team of teams; track team.id) {-->
-            <!--              <tui-elastic-container>-->
-            <!--                <div style="display: flex; justify-content: space-between; align-items: center">-->
-            <!--                  <button-->
-            <!--                    appearance="whiteblock"-->
-            <!--                    size="xl"-->
-            <!--                    tuiButton-->
-            <!--                    type="button"-->
-            <!--                    style="width: 80%"-->
-            <!--                    (click)="navigateToTeamItem(team)"-->
-            <!--                  > {{ team.title | titlecase }}-->
-            <!--                  </button>-->
-            <!--                              <app-delete-button-icon-->
-            <!--                                [dialogId]="'removeDialog' + team.id"-->
-            <!--                              ></app-delete-button-icon>-->
-            <!--                              <app-remove-dialog-->
-            <!--                                [item]="team.title | uppercase"-->
-            <!--                                [dialogId]="'removeDialog' + team.id"-->
-            <!--                                (delete)="onTeamRemoveFromTournament(team.id!, tournament.id!)"-->
-            <!--                              ></app-remove-dialog>-->
-            <!--                </div>-->
-            <!--              </tui-elastic-container>-->
-
-            <!--            }-->
-            <!--          } @else {-->
-            <!--            <tui-loader></tui-loader>-->
-            <!--          }-->
-            <!--          <app-create-button-show-dialog-->
-            <!--            [item]="'Team'"-->
-            <!--            [dialogId]="'addTeamToTournamentDialog' + tournament.id"-->
-            <!--          ></app-create-button-show-dialog>-->
-            <!--          <app-add-team-to-tournament-->
-            <!--            [tournamentId]="tournament.id!"-->
-            <!--            [dialogId]="'addTeamToTournamentDialog' + tournament.id"-->
-            <!--            [allSportTeams$]="allSportTeams$"-->
-            <!--            [teamsInTournament$]="teamsInTournament$"-->
-            <!--          ></app-add-team-to-tournament>-->
-            <!--        }-->
           </div>
+        </div>
 
-          <div class="one_col_container">
-            <app-body-list-title
-              titleMany='players'
-            ></app-body-list-title>
 
-            @if (sport$ | async; as sport) {
-              @if (tournament$ | async; as tournament) {
-                @if (paginatedTablePlayerInTeamTournament$ | async; as players) {
-                  <!--                @if (allPlayerInTournamentFullData$ | async; as players) {-->
-                  @if (allSportPlayersWithPerson$ | async; as playersInSports) {
-                    @if (allAvailablePlayersToAddInTournament$ | async; as availablePlayers) {
+        <!--        <h4 style="text-align: center">TEAMS</h4>-->
+        <!--        @if (tournament$ | async; as tournament) {-->
+        <!--          @if (teamsInTournament$ | async; as teams) {-->
+        <!--            @for (team of teams; track team.id) {-->
+        <!--              <tui-elastic-container>-->
+        <!--                <div style="display: flex; justify-content: space-between; align-items: center">-->
+        <!--                  <button-->
+        <!--                    appearance="whiteblock"-->
+        <!--                    size="xl"-->
+        <!--                    tuiButton-->
+        <!--                    type="button"-->
+        <!--                    style="width: 80%"-->
+        <!--                    (click)="navigateToTeamItem(team)"-->
+        <!--                  > {{ team.title | titlecase }}-->
+        <!--                  </button>-->
+        <!--                              <app-delete-button-icon-->
+        <!--                                [dialogId]="'removeDialog' + team.id"-->
+        <!--                              ></app-delete-button-icon>-->
+        <!--                              <app-remove-dialog-->
+        <!--                                [item]="team.title | uppercase"-->
+        <!--                                [dialogId]="'removeDialog' + team.id"-->
+        <!--                                (delete)="onTeamRemoveFromTournament(team.id!, tournament.id!)"-->
+        <!--                              ></app-remove-dialog>-->
+        <!--                </div>-->
+        <!--              </tui-elastic-container>-->
 
-                      <app-add-edit-player-to-team-tournament-table
-                        [deleteOrUpdate]="'delete'"
-                        [sportId]="sport.id!"
-                        [tournamentId]="tournament.id!"
-                        [teamsInTournament]="teamsInTournament$|async"
-                        [playersInSport]="playersInSports"
-                        [players]="players"
-                        [availablePlayersInSport]="availablePlayers"
-                        [positions]="allSportPositions$ | async"
-                      ></app-add-edit-player-to-team-tournament-table>
+        <!--            }-->
+        <!--          } @else {-->
+        <!--            <tui-loader></tui-loader>-->
+        <!--          }-->
+        <!--          <app-create-button-show-dialog-->
+        <!--            [item]="'Team'"-->
+        <!--            [dialogId]="'addTeamToTournamentDialog' + tournament.id"-->
+        <!--          ></app-create-button-show-dialog>-->
+        <!--          <app-add-team-to-tournament-->
+        <!--            [tournamentId]="tournament.id!"-->
+        <!--            [dialogId]="'addTeamToTournamentDialog' + tournament.id"-->
+        <!--            [allSportTeams$]="allSportTeams$"-->
+        <!--            [teamsInTournament$]="teamsInTournament$"-->
+        <!--          ></app-add-team-to-tournament>-->
+        <!--        }-->
 
-                    }
+
+        <div class="one_col_container">
+          <app-body-list-title
+            titleMany='players'
+          ></app-body-list-title>
+
+          @if (sport$ | async; as sport) {
+            @if (tournament$ | async; as tournament) {
+              @if (paginatedTablePlayerInTeamTournament$ | async; as players) {
+                @if (allSportPlayersWithPerson$ | async; as playersInSports) {
+                  @if (allAvailablePlayersToAddInTournament$ | async; as availablePlayers) {
+
+                    <app-add-edit-player-to-team-tournament-table
+                      [deleteOrUpdate]="'delete'"
+                      [sportId]="sport.id!"
+                      [tournamentId]="tournament.id!"
+                      [teamsInTournament]="teamsInTournament$|async"
+                      [playersInSport]="playersInSports"
+                      [players]="players"
+                      [availablePlayersInSport]="availablePlayers"
+                      [positions]="allSportPositions$ | async"
+                    ></app-add-edit-player-to-team-tournament-table>
+
                   }
                 }
               }
-            } @else {
-              <tui-loader></tui-loader>
             }
-
-            @if (totalPlayersInTeamTournament$ | async; as totalPages) {
-              @if (currentPlayersInTournamentPage$ | async; as currentPage) {
-                <app-base-pagination
-                  [currentPage]="currentPage"
-                  [totalPages]="totalPages"
-                  [itemsPerPage]="10"
-                  (pageChange)="setPlayerInTournamentCurrentPage($event)"
-                  (pageSizeChange)="changePlayerInTournamentPageSize($event)"
-                ></app-base-pagination>
-              }
+          }
+          @if (totalPlayersInTeamTournament$ | async; as totalPages) {
+            @if (currentPlayersInTournamentPage$ | async; as currentPage) {
+              <app-base-pagination
+                [currentPage]="currentPage"
+                [totalPages]="totalPages"
+                [itemsPerPage]="10"
+                (pageChange)="setPlayerInTournamentCurrentPage($event)"
+                (pageSizeChange)="changePlayerInTournamentPageSize($event)"
+              ></app-base-pagination>
             }
+          }
 
 
-          </div>
-        } @else {
-          <tui-loader [inheritColor]="true"></tui-loader>
-        }
+        </div>
+
       </div>
 
 
@@ -297,12 +315,12 @@
       <!--            [item]="'Team'"-->
       <!--            [dialogId]="'addTeamToTournamentDialog' + tournament.id"-->
       <!--          ></app-create-button-show-dialog>-->
-      <!--          <app-add-team-to-tournament-->
-      <!--            [tournamentId]="tournament.id!"-->
-      <!--            [dialogId]="'addTeamToTournamentDialog' + tournament.id"-->
-      <!--            [allSportTeams$]="allSportTeams$"-->
-      <!--            [teamsInTournament$]="teamsInTournament$"-->
-      <!--          ></app-add-team-to-tournament>-->
+      <!--                <app-add-team-to-tournament-->
+      <!--                  [tournamentId]="tournament.id!"-->
+      <!--                  [dialogId]="'addTeamToTournamentDialog' + tournament.id"-->
+      <!--                  [allSportTeams$]="allSportTeams$"-->
+      <!--                  [teamsInTournament$]="teamsInTournament$"-->
+      <!--                ></app-add-team-to-tournament>-->
       <!--        }-->
       <!--      </aside>-->
     </div>

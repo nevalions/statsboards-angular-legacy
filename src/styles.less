@@ -171,6 +171,14 @@ aside > * {
   align-items: flex-start;
 }
 
+.two_col_container_tournament {
+  display: grid;
+  grid-template-columns: 60% auto;
+  min-width: 100%;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
 .one_row_container {
   display: flex;
   flex-direction: row;
@@ -184,7 +192,6 @@ aside > * {
 
 .list-of-items-with-data * {
   margin-bottom: 15px;
-  // gap between objects in aside
 }
 
 .list-of-items-with-data {
@@ -276,9 +283,16 @@ aside > * {
   .main_container,
   .super_main_container {
     grid-template-columns: 100%;
-    justify-content: stretch; /* align horizontal */
-    align-items: center; /* align vertical */
+    justify-content: stretch;
+    align-items: center;
 
+  }
+
+}
+
+@media screen and (max-width: 700px) {
+  .two_col_container_tournament {
+    grid-template-columns: auto;
   }
 }
 

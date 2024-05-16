@@ -22,6 +22,7 @@ export function getFormControl(
   // logFormArrayControls(formGroup);
   //
   // logFormGroupControls(formGroup, index);
+  // console.log('control', control);
 
   return control;
 }
