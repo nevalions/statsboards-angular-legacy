@@ -54,7 +54,7 @@ export class SelectTeamComponent {
   @Output() teamSelect = new EventEmitter<number>();
 
   onSelect(teamId: number) {
-    console.log('teamId', teamId);
+    // console.log('teamId', teamId);
     if (this.control) {
       if (this.control.value) {
         this.teamSelect.emit(teamId);

@@ -16,8 +16,6 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 import { DialogService } from '../../../services/dialog.service';
-import { ImageService } from '../../../services/image.service';
-import { Team } from '../team';
 import { TeamTournament } from '../../team-tournament/teamTournament';
 import {
   getArrayFormDataByIndexAndKey,
@@ -26,7 +24,7 @@ import {
 } from '../../../base/formHelpers';
 import { TuiTextfieldControllerModule } from '@taiga-ui/core';
 import { AddButtonOnFinalTrComponent } from '../../../shared/ui/buttons/add-button-on-final-tr/add-button-on-final-tr.component';
-import { NgForOf, TitleCasePipe, UpperCasePipe } from '@angular/common';
+import { NgForOf, TitleCasePipe } from '@angular/common';
 import { SelectTeamComponent } from '../../../shared/ui/forms/select-team/select-team.component';
 import { DeleteButtonIconComponent } from '../../../shared/ui/buttons/delete-button-icon/delete-button-icon.component';
 import { RemoveDialogComponent } from '../../../shared/ui/dialogs/remove-dialog/remove-dialog.component';
@@ -37,17 +35,15 @@ import { ActivatedRoute, Router } from '@angular/router';
   selector: 'app-add-edit-team-to-tournament-table',
   standalone: true,
   imports: [
-    FormsModule,
     TuiTextfieldControllerModule,
     ReactiveFormsModule,
-    AddButtonOnFinalTrComponent,
     NgForOf,
     TitleCasePipe,
     SelectTeamComponent,
     DeleteButtonIconComponent,
     RemoveDialogComponent,
-    UpperCasePipe,
     ActionsButtonsComponent,
+    AddButtonOnFinalTrComponent,
   ],
   templateUrl: './add-edit-team-to-tournament-table.component.html',
   styleUrl: './add-edit-team-to-tournament-table.component.less',
@@ -78,11 +74,9 @@ export class AddEditTeamToTournamentTableComponent
   }
 
   constructor(
-    private team: Team,
     private teamInTournament: TeamTournament,
     private dialogService: DialogService,
     private fb: FormBuilder,
-    private imageService: ImageService,
   ) {
     this.teamForm = this.fb.group({
       teams: this.fb.array([]),
@@ -154,10 +148,6 @@ export class AddEditTeamToTournamentTableComponent
     // Use spread operator to create a new array
     this.teams = [...this.teams, newTeam];
     this.populateFormArray();
-  }
-
-  onDeleteButtonClick(dialogId: string) {
-    this.dialogService.showDialog(dialogId);
   }
 
   onCancelButtonClick() {

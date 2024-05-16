@@ -52,42 +52,6 @@
         [allSponsorLines]="allSponsorLines$ | async"
       ></app-tournament-add-edit-form>
 
-      <!--      @if (teamsInTournament$ | async; as teams) {-->
-
-        <!--        <app-create-button-show-dialog-->
-        <!--          [action]="'add'"-->
-        <!--          [item]="'Match'"-->
-        <!--          [dialogId]="'addDialog'"-->
-        <!--        ></app-create-button-show-dialog>-->
-        <!--        <app-add-edit-match-->
-        <!--          [action]="'add'"-->
-        <!--          [dialogId]="'addDialog'"-->
-        <!--          [tournamentId]="tournament.id!"-->
-        <!--          [teams]="teams"-->
-        <!--        ></app-add-edit-match>-->
-
-        <!--        @if (allAvailablePlayersToAddInTournament$ | async; as players) {-->
-        <!--          @if (sport$ | async; as sport) {-->
-        <!--            @if (tournament$ | async; as tournament) {-->
-        <!--              <app-edit-button-->
-        <!--                [action]="'add'"-->
-        <!--                [item]="'Player'"-->
-        <!--                [dialogId]="'addPlayerDialog'"-->
-        <!--              ></app-edit-button>-->
-
-        <!--              <app-add-edit-player-to-team-tournament-->
-        <!--                [action]="'add'"-->
-        <!--                [dialogId]="'addPlayerDialog'"-->
-        <!--                [availablePlayers]="players"-->
-        <!--                [sportPositions]="allSportPositions$| async"-->
-        <!--                [sport_Id]="sport.id!"-->
-        <!--                [tournamentId]="tournament.id!"-->
-        <!--                [tournamentTeams]="teams"-->
-        <!--              ></app-add-edit-player-to-team-tournament>-->
-        <!--            }-->
-        <!--          }-->
-        <!--        }-->
-        <!--      }-->
       <app-delete-button
         [item]="buttonTitle"
         [dialogId]="'deleteDialog'"
@@ -117,13 +81,13 @@
                   [formGroup]="formWeek"
                   style="padding: 10px"
                 >
-                  <tui-input-count
+                  <tui-input-number
                     [tuiTextfieldCleaner]="true"
                     formControlName="matchWeekSearch"
                     (tuiValueChanges)="onSearchByWeek($event)"
                   >
                     Search by WEEK
-                  </tui-input-count>
+                  </tui-input-number>
                 </form>
 
                 <app-base-search-form
@@ -190,51 +154,6 @@
             }
           </div>
         </div>
-
-
-        <!--        <h4 style="text-align: center">TEAMS</h4>-->
-        <!--        @if (tournament$ | async; as tournament) {-->
-        <!--          @if (teamsInTournament$ | async; as teams) {-->
-        <!--            @for (team of teams; track team.id) {-->
-        <!--              <tui-elastic-container>-->
-        <!--                <div style="display: flex; justify-content: space-between; align-items: center">-->
-        <!--                  <button-->
-        <!--                    appearance="whiteblock"-->
-        <!--                    size="xl"-->
-        <!--                    tuiButton-->
-        <!--                    type="button"-->
-        <!--                    style="width: 80%"-->
-        <!--                    (click)="navigateToTeamItem(team)"-->
-        <!--                  > {{ team.title | titlecase }}-->
-        <!--                  </button>-->
-        <!--                              <app-delete-button-icon-->
-        <!--                                [dialogId]="'removeDialog' + team.id"-->
-        <!--                              ></app-delete-button-icon>-->
-        <!--                              <app-remove-dialog-->
-        <!--                                [item]="team.title | uppercase"-->
-        <!--                                [dialogId]="'removeDialog' + team.id"-->
-        <!--                                (delete)="onTeamRemoveFromTournament(team.id!, tournament.id!)"-->
-        <!--                              ></app-remove-dialog>-->
-        <!--                </div>-->
-        <!--              </tui-elastic-container>-->
-
-        <!--            }-->
-        <!--          } @else {-->
-        <!--            <tui-loader></tui-loader>-->
-        <!--          }-->
-        <!--          <app-create-button-show-dialog-->
-        <!--            [item]="'Team'"-->
-        <!--            [dialogId]="'addTeamToTournamentDialog' + tournament.id"-->
-        <!--          ></app-create-button-show-dialog>-->
-        <!--          <app-add-team-to-tournament-->
-        <!--            [tournamentId]="tournament.id!"-->
-        <!--            [dialogId]="'addTeamToTournamentDialog' + tournament.id"-->
-        <!--            [allSportTeams$]="allSportTeams$"-->
-        <!--            [teamsInTournament$]="teamsInTournament$"-->
-        <!--          ></app-add-team-to-tournament>-->
-        <!--        }-->
-
-
         <div class="one_col_container">
           <app-body-list-title
             titleMany='players'
@@ -274,56 +193,8 @@
             }
           }
 
-
         </div>
-
       </div>
-
-
-      <!--      <aside>-->
-      <!--        <h4 style="text-align: center">TEAMS</h4>-->
-      <!--        @if (tournament$ | async; as tournament) {-->
-      <!--          @if (teamsInTournament$ | async; as teams) {-->
-      <!--            @for (team of teams; track team.id) {-->
-      <!--              <tui-elastic-container>-->
-      <!--                <div style="display: flex; justify-content: space-between; align-items: center">-->
-      <!--                  <button-->
-      <!--                    appearance="whiteblock"-->
-      <!--                    size="xl"-->
-      <!--                    tuiButton-->
-      <!--                    type="button"-->
-      <!--                    style="width: 80%"-->
-      <!--                    (click)="navigateToTeamItem(team)"-->
-      <!--                  > {{ team.title | titlecase }}-->
-      <!--                  </button>-->
-      <!--                  <app-delete-button-icon-->
-      <!--                    [dialogId]="'removeDialog' + team.id"-->
-      <!--                  ></app-delete-button-icon>-->
-      <!--                  <app-remove-dialog-->
-      <!--                    [item]="team.title | uppercase"-->
-      <!--                    [dialogId]="'removeDialog' + team.id"-->
-      <!--                    (delete)="onTeamRemoveFromTournament(team.id!, tournament.id!)"-->
-      <!--                  ></app-remove-dialog>-->
-      <!--                </div>-->
-      <!--              </tui-elastic-container>-->
-
-      <!--            }-->
-      <!--          } @else {-->
-      <!--            <tui-loader></tui-loader>-->
-      <!--          }-->
-      <!--          <app-create-button-show-dialog-->
-      <!--            [item]="'Team'"-->
-      <!--            [dialogId]="'addTeamToTournamentDialog' + tournament.id"-->
-      <!--          ></app-create-button-show-dialog>-->
-      <!--                <app-add-team-to-tournament-->
-      <!--                  [tournamentId]="tournament.id!"-->
-      <!--                  [dialogId]="'addTeamToTournamentDialog' + tournament.id"-->
-      <!--                  [allSportTeams$]="allSportTeams$"-->
-      <!--                  [teamsInTournament$]="teamsInTournament$"-->
-      <!--                ></app-add-team-to-tournament>-->
-      <!--        }-->
-      <!--      </aside>-->
     </div>
-
   </div>
 </div>

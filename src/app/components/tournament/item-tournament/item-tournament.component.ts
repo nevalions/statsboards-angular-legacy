@@ -8,6 +8,7 @@ import {
   TuiElasticContainerModule,
   TuiInputCountModule,
   TuiInputNumberModule,
+  tuiInputNumberOptionsProvider,
 } from '@taiga-ui/kit';
 import { AsyncPipe, UpperCasePipe, TitleCasePipe } from '@angular/common';
 import {
@@ -68,63 +69,52 @@ import { AddEditTeamToTournamentTableComponent } from '../../team/add-edit-team-
     UpperCasePipe,
     SponsorLineComponent,
     TuiLoaderModule,
-    BodyListTitleComponent,
     EditButtonComponent,
     TournamentAddEditFormComponent,
-    CreateButtonShowDialogComponent,
     DeleteButtonComponent,
     DeleteDialogComponent,
+    BodyListTitleComponent,
     ReactiveFormsModule,
     TuiInputNumberModule,
-    FormSearchTextComponent,
-    paginationWithItemsPerPage,
-    ListOfMatchesComponent,
-    TuiElasticContainerModule,
-    DeleteButtonIconComponent,
-    RemoveDialogComponent,
-    AddTeamToTournamentComponent,
-    TitleCasePipe,
-    TuiValueChangesModule,
-    AddEditMatchComponent,
-    TuiButtonModule,
-    AddEditPlayerToTeamTournamentTableComponent,
-    AddEditPlayerToTeamTournamentComponent,
-    TuiHostedDropdownModule,
-    TuiDropdownModule,
     BaseSearchFormComponent,
     BasePaginationComponent,
-    TuiTextfieldControllerModule,
-    TuiInputCountModule,
+    ListOfMatchesComponent,
+    CreateButtonShowDialogComponent,
+    AddEditMatchComponent,
     AddEditTeamToTournamentTableComponent,
+    AddEditPlayerToTeamTournamentTableComponent,
+    TuiTextfieldControllerModule,
+    TuiValueChangesModule,
   ],
   templateUrl: './item-tournament.component.html',
   styleUrl: './item-tournament.component.less',
+  providers: [
+    tuiInputNumberOptionsProvider({
+      decimal: 'never',
+      step: 1,
+    }),
+  ],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.Default,
 })
 export class ItemTournamentComponent {
   sport$ = this.sport.currentSport$;
-  allSportTeams$ = this.team.teamsInSport$;
+
   teamsInTournament$ = this.team.teamsInTournament$;
   availableTeamsToAddToTournament$ = this.team.availableTeamsToAddToTournament$;
   tournament$ = this.tournament.currentTournament$;
+
   currentTournamentMainSponsor$ = this.tournament.currentTournamentMainSponsor$;
   sponsorLine$ = this.sponsorLine.sponsorLineWithFullData$;
   allSponsors$ = this.sponsor.allSponsors$;
   allSponsorLines$ = this.sponsorLine.allSponsorLines$;
   matchesInTournament$ =
     this.matchWithFullData.matchesWithFullDataInTournament$;
+
   allSportPlayersWithPerson$ = this.player.allSportPlayersWithPerson$;
-  // allPlayerInTournamentFullData$ =
-  //   this.playerInTeamTournament.allPlayerInTournamentFullData$;
   allAvailablePlayersToAddInTournament$ =
     this.playerInTeamTournament.allAvailablePlayersToAddInTournament$;
   allSportPositions$ = this.position.allSportPositions$;
-
-  // paginatedMatchInTournamentSearchResults$ =
-  //   this.pagination.paginatedMatchInTournamentSearchResults$;
-  // totalMatchInTournamentSearchPages$ =
-  //   this.pagination.totalMatchInTournamentSearchPages$;
 
   currentPlayersInTournamentPage$ =
     this.pagination.currentPagePlayersInTeamTable$;
