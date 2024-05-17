@@ -21,6 +21,7 @@ import { SearchState } from './search/search.reducers';
 import { PaginationState } from './pagination/pagination.reducers';
 import { PositionState } from '../components/position/store/reducers';
 import { PlayerInTeamTournamentState } from '../components/player-team-tournament/store/reducers';
+import { PlayerInMatch } from '../components/player-match/player-match';
 
 export interface AppState {
   breadcrumb: BreadcrumbState;
@@ -32,6 +33,7 @@ export interface AppState {
   person: PersonState;
   player: PlayerState;
   playerInTeamTournament: PlayerInTeamTournamentState;
+  playerInMatch: PlayerInMatch;
   playclock: PlayclockState;
   position: PositionState;
   scoreboard: ScoreboardDataState;

@@ -30,3 +30,19 @@ export interface IPlayerInTeamTournamentWithPersonWithSportWithPosition {
   position?: IPosition | null;
   team?: ITeam | null;
 }
+
+export interface IPlayerInMatch {
+  id?: number | null;
+  player_match_eesl_id?: number | null;
+  player_team_tournament_id?: number | null;
+  match_position_id?: number | null;
+  match_id?: number | null;
+  match_number?: string | null;
+  team_id?: number | null;
+}
+
+export interface IPlayerInMatchFullData {
+  match_player: IPlayerInMatch;
+  team_tournament_player?: IPlayerInTeamTournament | null;
+  person?: IPerson | null;
+}
