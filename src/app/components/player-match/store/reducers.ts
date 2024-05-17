@@ -150,13 +150,13 @@ const playerInMatchFeature = createFeature({
       errors: action,
     })),
 
-    on(playerInMatchActions.getAll, (state) => ({
+    on(playerInMatchActions.getAllPlayersInMatch, (state) => ({
       ...state,
       playerInMatchIsLoading: true,
     })),
-    on(playerInMatchActions.getAllItemsSuccess, (state, action) => {
+    on(playerInMatchActions.getAllPlayersInMatchSuccess, (state, action) => {
       const sortedTournaments = SortService.sort(
-        action.playerInMatches,
+        action.playersInMatch,
         'match_number',
       );
       return {
@@ -165,7 +165,7 @@ const playerInMatchFeature = createFeature({
         allPlayersInMatch: sortedTournaments,
       };
     }),
-    on(playerInMatchActions.getAllItemsFailure, (state, action) => ({
+    on(playerInMatchActions.getAllPlayersInMatchFailure, (state, action) => ({
       ...state,
       playerInMatchIsLoading: false,
       errors: action,

@@ -45,4 +45,5 @@ export interface IPlayerInMatchFullData {
   match_player: IPlayerInMatch;
   team_tournament_player?: IPlayerInTeamTournament | null;
   person?: IPerson | null;
+  position?: IPosition | null;
 }

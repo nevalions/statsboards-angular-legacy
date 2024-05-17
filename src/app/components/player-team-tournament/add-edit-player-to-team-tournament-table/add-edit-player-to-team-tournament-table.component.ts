@@ -1,5 +1,4 @@
 import {
-  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
   Input,
@@ -25,7 +24,7 @@ import {
 } from '@angular/common';
 import { DeleteDialogComponent } from '../../../shared/ui/dialogs/delete-dialog/delete-dialog.component';
 import { TuiExpandModule, TuiTextfieldControllerModule } from '@taiga-ui/core';
-import { TuiComparator, TuiTableModule } from '@taiga-ui/addon-table';
+import { TuiTableModule } from '@taiga-ui/addon-table';
 import {
   IPlayerInSport,
   IPlayerInTeamTournament,

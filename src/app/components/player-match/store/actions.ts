@@ -28,12 +28,12 @@ export const playerInMatchActions = createActionGroup({
     }>(),
     'Get all items failure': emptyProps(),
 
-    // GetAllPlayerInMatchByTeamId: emptyProps(),
-    // 'Get all playersInMatch by team id success': props<{
-    //   playersInMatch: IPlayerInMatch[];
-    // }>(),
-    // 'Get all playersInMatch by team id and match id failure': emptyProps(),
-    //
+    GetAllPlayersInMatch: emptyProps(),
+    'Get all playersInMatch success': props<{
+      playersInMatch: IPlayerInMatch[];
+    }>(),
+    'Get all playersInMatch failure': emptyProps(),
+
     // GetAllPlayersInTournamentByTournamentId: emptyProps(),
     // 'Get all players in match by match id success': props<{
     //   playersInMatch: IPlayerInMatch[];

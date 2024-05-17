@@ -93,6 +93,11 @@ import {
   playerInTeamTournamentReducer,
 } from '../player-team-tournament/store/reducers';
 import { PlayerInTeamTournamentEffects } from '../player-team-tournament/store/effects';
+import {
+  playerInMatchFeatureKey,
+  playerInMatchReducer,
+} from '../player-match/store/reducers';
+import { PlayerInMatchEffects } from '../player-match/store/effects';
 
 export const SPORT_ROUTES: Routes = [
   {
@@ -328,6 +333,14 @@ export const SPORT_ROUTES: Routes = [
                   provideState(teamFeatureKey, teamReducer),
                   provideState(tournamentFeatureKey, tournamentReducer),
                   provideState(teamTournamentFeatureKey, teamTournamentReducer),
+                  provideState(personFeatureKey, personReducer),
+                  provideState(playerFeatureKey, playerReducer),
+                  provideState(positionFeatureKey, positionReducer),
+                  provideState(
+                    playerInTeamTournamentFeatureKey,
+                    playerInTeamTournamentReducer,
+                  ),
+                  provideState(playerInMatchFeatureKey, playerInMatchReducer),
                   provideState(matchFeatureKey, matchReducer),
                   provideState(
                     matchWithFullDataFeatureKey,
@@ -338,6 +351,11 @@ export const SPORT_ROUTES: Routes = [
                     TournamentEffects,
                     TeamEffects,
                     TeamTournamentEffects,
+                    PersonEffects,
+                    PlayerEffects,
+                    PositionEffects,
+                    PlayerInTeamTournamentEffects,
+                    PlayerInMatchEffects,
                     MatchEffects,
                     MatchWithFullDataEffects,
                   ),

@@ -76,10 +76,33 @@
                 </div>
               </div>
             </tui-island>
+            <div class="two_col_container_tournament">
+              <div class="one_col_container">
+                <app-body-list-title
+                  titleMany='home players'
+                ></app-body-list-title>
+
+                @if (sport$ | async; as sport) {
+                  @if (match$ | async; as match) {
+                    @if (allPlayersInMatch$ | async; as players) {
+                      @if (allPlayersInMatch$ | async; as availablePlayers) {
+                        <app-add-edit-player-match-table
+                          [deleteOrUpdate]="'delete'"
+                          [sportId]="sport.id!"
+                          [availablePlayersInTeamTournament]="availablePlayers"
+                          [positions]="allSportPositions$ | async"
+                        ></app-add-edit-player-match-table>
+
+                      }
+
+                    }
+                  }
+                }
+              </div>
+            </div>
+
           }
         }
-      } @else {
-        <tui-loader></tui-loader>
       }
     </div>
   </div>

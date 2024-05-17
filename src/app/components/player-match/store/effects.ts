@@ -10,9 +10,15 @@ import { playerInMatchActions } from './actions';
 import { selectCurrentPlayerInMatch } from './reducers';
 import { IPlayerInMatch } from '../../../type/player.type';
 import { PlayerMatchService } from '../player-match.service';
+import {
+  selectCurrentMatch,
+  selectCurrentMatchId,
+} from '../../match/store/reducers';
+import { IMatch } from '../../../type/match.type';
+import { selectSportIdAndSeasonId } from '../../sport/store/selectors';
 
 @Injectable()
-export class PlayerInMatchIdEffects {
+export class PlayerInMatchEffects {
   getPlayerInMatchIdFromRouteEffect = createEffect(
     () => {
       return this.actions$.pipe(
@@ -81,21 +87,46 @@ export class PlayerInMatchIdEffects {
     { functional: true },
   );
 
+  // getAllPlayersInMatchEffect = createEffect(
+  //   () => {
+  //     return this.actions$.pipe(
+  //       ofType(playerInMatchActions.getAll),
+  //       switchMap(() => {
+  //         return this.playerInMatchService.findAll().pipe(
+  //           map((playerInMatches: IPlayerInMatch[]) => {
+  //             return playerInMatchActions.getAllItemsSuccess({
+  //               playerInMatches,
+  //             });
+  //           }),
+  //           catchError(() => {
+  //             return of(playerInMatchActions.getAllItemsFailure());
+  //           }),
+  //         );
+  //       }),
+  //     );
+  //   },
+  //   { functional: true },
+  // );
+
   getAllPlayersInMatchEffect = createEffect(
     () => {
       return this.actions$.pipe(
-        ofType(playerInMatchActions.getAll),
-        switchMap(() => {
-          return this.playerInMatchService.findAll().pipe(
-            map((playerInMatches: IPlayerInMatch[]) => {
-              return playerInMatchActions.getAllItemsSuccess({
-                playerInMatches,
-              });
-            }),
-            catchError(() => {
-              return of(playerInMatchActions.getAllItemsFailure());
-            }),
-          );
+        ofType(playerInMatchActions.getAllPlayersInMatch),
+        switchMap(() => this.store.select(selectCurrentMatchId)),
+        filter((matchId) => matchId !== null && matchId !== undefined),
+        switchMap((matchId) => {
+          return this.playerInMatchService
+            .findPlayersInMatchByMatchId(matchId!)
+            .pipe(
+              map((playersInMatch: IPlayerInMatch[]) => {
+                return playerInMatchActions.getAllPlayersInMatchSuccess({
+                  playersInMatch,
+                });
+              }),
+              catchError(() => {
+                return of(playerInMatchActions.getAllPlayersInMatchFailure());
+              }),
+            );
         }),
       );
     },

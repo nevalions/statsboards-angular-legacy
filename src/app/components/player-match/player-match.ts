@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { IPlayerInMatch } from '../../type/player.type';
+import {
+  IPlayerInMatch,
+  IPlayerInTeamTournament,
+} from '../../type/player.type';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../store/appstate';
 import {
@@ -8,6 +11,8 @@ import {
   selectCurrentPlayerInMatch,
   selectPlayerInMatchIsLoading,
 } from './store/reducers';
+import { playerInMatchActions } from './store/actions';
+import { playerInTeamTournamentActions } from '../player-team-tournament/store/actions';
 
 @Injectable({
   providedIn: 'root',
@@ -23,5 +28,19 @@ export class PlayerInMatch {
     );
     this.currentPlayerInMatch$ = this.store.select(selectCurrentPlayerInMatch);
     this.allPlayersInMatch$ = this.store.select(selectAllPlayersInMatch);
+  }
+
+  createPlayerInMatch(playerInMatch: IPlayerInMatch) {
+    this.store.dispatch(
+      playerInMatchActions.create({ request: playerInMatch }),
+    );
+  }
+
+  loadAllPlayersInMatch() {
+    this.store.dispatch(playerInMatchActions.getAllPlayersInMatch());
+  }
+
+  deletePlayerInMatchWithId(id: number) {
+    this.store.dispatch(playerInMatchActions.deleteById({ id }));
   }
 }
