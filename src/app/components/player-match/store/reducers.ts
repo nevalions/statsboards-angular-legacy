@@ -11,8 +11,9 @@ export interface PlayerInMatchState {
   playerInMatchIsSubmitting: boolean;
   currentPlayerInMatchId: number | undefined | null;
   currentPlayerInMatch: IPlayerInMatch | undefined | null;
+  currentPlayerInMatchFullData: IPlayerInMatchFullData | undefined | null;
   allPlayersInMatch: IPlayerInMatch[];
-  // allPlayersInMatchFullData: IPlayerInMatchFullData[];
+  allPlayersInMatchFullData: IPlayerInMatchFullData[];
   // parsedPlayersFromTeamEESL: any[] | IPlayerInMatch[];
 }
 
@@ -21,8 +22,9 @@ const initialState: PlayerInMatchState = {
   playerInMatchIsSubmitting: false,
   currentPlayerInMatchId: null,
   allPlayersInMatch: [],
-  // allPlayersInMatchFullData: [],
+  allPlayersInMatchFullData: [],
   currentPlayerInMatch: null,
+  currentPlayerInMatchFullData: null,
   // parsedPlayersFromTeamEESL: [],
 };
 
@@ -170,6 +172,33 @@ const playerInMatchFeature = createFeature({
       playerInMatchIsLoading: false,
       errors: action,
     })),
+    // players with full data
+    on(playerInMatchActions.getAllPlayersWithFullDataInMatch, (state) => ({
+      ...state,
+      playerInMatchIsLoading: true,
+    })),
+    on(
+      playerInMatchActions.getAllPlayersWithFullDataInMatchSuccess,
+      (state, action) => {
+        const sortedTournaments = SortService.sort(
+          action.playersInMatch,
+          'match_player.match_number',
+        );
+        return {
+          ...state,
+          playerInMatchIsLoading: false,
+          allPlayersInMatchFullData: sortedTournaments,
+        };
+      },
+    ),
+    on(
+      playerInMatchActions.getAllPlayersWithFullDataInMatchFailure,
+      (state, action) => ({
+        ...state,
+        playerInMatchIsLoading: false,
+        errors: action,
+      }),
+    ),
   ),
 });
 
@@ -181,4 +210,6 @@ export const {
   selectCurrentPlayerInMatchId,
   selectCurrentPlayerInMatch,
   selectAllPlayersInMatch,
+  selectCurrentPlayerInMatchFullData,
+  selectAllPlayersInMatchFullData,
 } = playerInMatchFeature;

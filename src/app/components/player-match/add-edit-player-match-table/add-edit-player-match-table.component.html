@@ -26,11 +26,19 @@
             </div>
             <div
               class="table-cell left"
-              (click)="toggle(playerFormGroup.get('playerInTeamId' + i)!.value)"
+              (click)="toggle(playerFormGroup.get('playerInMatchId' + i)!.value)"
             >
               @if (getFormDataByIndexAndKey(playerFormGroup, i, 'playerId')) {
                 @if (getFormDataByIndexAndKey(playerFormGroup, i, 'fullName'); as name) {
                   {{ name | titlecase }}
+                }
+              } @else {
+                @if (availablePlayersInTeamTournament.length > 0) {
+                  <app-select-player-to-match
+                    [playerList]="availablePlayersInTeamTournament"
+                    [matchId]="match.id!"
+                    [control]="getFormControl(this.playerForm, i, 'number', 'playerInTeamTournament')"
+                  ></app-select-player-to-match>
                 }
               }
             </div>
@@ -51,7 +59,7 @@
                 }
               }
             </div>
-            @if (playerFormGroup.get('playerInTeamId' + i)!.value; as id) {
+            @if (playerFormGroup.get('playerInMatchId' + i)!.value; as id) {
               <tui-expand [expanded]="isExpanded(id)" class="expand">
                 <ng-template tuiExpandContent>
                   <div class="table-cell actions">

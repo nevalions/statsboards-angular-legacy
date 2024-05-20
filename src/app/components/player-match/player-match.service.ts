@@ -2,12 +2,14 @@ import { Injectable } from '@angular/core';
 import { BaseApiService } from '../../services/base.api.service';
 import { HttpClient } from '@angular/common/http';
 import { ErrorHandlingService } from '../../services/error.service';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import {
   IPlayer,
   IPlayerInMatch,
   IPlayerInMatchFullData,
 } from '../../type/player.type';
+import { tap } from 'rxjs/operators';
+import { SortService } from '../../services/sort.service';
 
 @Injectable({
   providedIn: 'root',
@@ -24,6 +26,20 @@ export class PlayerMatchService extends BaseApiService<IPlayerInMatch> {
       //   console.log(`PLAYERS from MATCH ID: ${id}`, players),
       // ),
       ();
+  }
+
+  findPlayersFullDataByMatchId(
+    id: number,
+  ): Observable<IPlayerInMatchFullData[]> {
+    return this.findByFirstKeyValue(
+      'matches',
+      'id',
+      id,
+      'players_fulldata',
+    ).pipe(
+      tap((matches) => console.log(`PLAYERS from MATCH ID: ${id}`, matches)),
+      map((data) => SortService.sort(data, 'match_player.match_number')),
+    );
   }
 
   findPlayerInMatchFullData(

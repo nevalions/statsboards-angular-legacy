@@ -27,6 +27,7 @@ import { Position } from '../../position/postion';
 import { BodyListTitleComponent } from '../../../shared/ui/body/body-title/body-list-title.component';
 import { AddEditPlayerMatchTableComponent } from '../../player-match/add-edit-player-match-table/add-edit-player-match-table.component';
 import { AddEditPlayerToTeamTournamentTableComponent } from '../../player-team-tournament/add-edit-player-to-team-tournament-table/add-edit-player-to-team-tournament-table.component';
+import { Player } from '../../player/player';
 
 @Component({
   selector: 'app-item-match',
@@ -56,7 +57,9 @@ export class ItemMatchComponent {
   allSportTeams$ = this.team.teamsInSport$;
   teamsInTournament$ = this.team.teamsInTournament$;
   tournament$ = this.tournament.currentTournament$;
-  allPlayersInMatch$ = this.playerInMatch.allPlayersInMatch$;
+  allPlayersInMatch$ = this.playerInMatch.allPlayersFullDataInMatch$;
+  allPlayerInTeamTournament$ =
+    this.playerInTeamTournament.allPlayersInTeamTournamentFullData$;
 
   allSportPositions$ = this.position.allSportPositions$;
   match$ = this.matchWithFullData.matchWithFullData$;
@@ -67,6 +70,7 @@ export class ItemMatchComponent {
     private tournament: Tournament,
     private team: Team,
     private person: Person,
+    private player: Player,
     private playerInTeamTournament: PlayerInTeamTournament,
     private playerInMatch: PlayerInMatch,
     private position: Position,
@@ -75,6 +79,10 @@ export class ItemMatchComponent {
     private route: ActivatedRoute,
     private router: Router,
   ) {
+    person.loadAllPersons();
+    player.loadAllPlayersBySportId();
+    playerInTeamTournament.loadCurrentPlayerInTeamTournament();
+    position.loadAllPositionsBySportId();
     playerInMatch.loadAllPlayersInMatch();
     team.loadAllTeamsInTournament();
   }

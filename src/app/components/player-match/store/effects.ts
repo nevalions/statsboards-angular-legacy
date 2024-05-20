@@ -8,7 +8,10 @@ import { routerNavigatedAction } from '@ngrx/router-store';
 import { getAllRouteParameters } from '../../../router/router.selector';
 import { playerInMatchActions } from './actions';
 import { selectCurrentPlayerInMatch } from './reducers';
-import { IPlayerInMatch } from '../../../type/player.type';
+import {
+  IPlayerInMatch,
+  IPlayerInMatchFullData,
+} from '../../../type/player.type';
 import { PlayerMatchService } from '../player-match.service';
 import {
   selectCurrentMatch,
@@ -125,6 +128,35 @@ export class PlayerInMatchEffects {
               }),
               catchError(() => {
                 return of(playerInMatchActions.getAllPlayersInMatchFailure());
+              }),
+            );
+        }),
+      );
+    },
+    { functional: true },
+  );
+
+  getAllPlayersFullDataInMatchEffect = createEffect(
+    () => {
+      return this.actions$.pipe(
+        ofType(playerInMatchActions.getAllPlayersWithFullDataInMatch),
+        switchMap(() => this.store.select(selectCurrentMatchId)),
+        filter((matchId) => matchId !== null && matchId !== undefined),
+        switchMap((matchId) => {
+          return this.playerInMatchService
+            .findPlayersFullDataByMatchId(matchId!)
+            .pipe(
+              map((playersInMatch: IPlayerInMatchFullData[]) => {
+                return playerInMatchActions.getAllPlayersWithFullDataInMatchSuccess(
+                  {
+                    playersInMatch,
+                  },
+                );
+              }),
+              catchError(() => {
+                return of(
+                  playerInMatchActions.getAllPlayersWithFullDataInMatchFailure(),
+                );
               }),
             );
         }),

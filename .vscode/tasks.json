@@ -37,6 +37,36 @@
           }
         }
       }
+    },
+    {
+      "label": "Backend Start StatsBoard",
+      "type": "shell",
+      "command": "cd ../statsboards-backend && source .././venv312/bin/activate && python src/runserver.py",
+      "isBackground": true,
+      "presentation": {
+        "reveal": "always",
+        "group": "statsboards",
+        "panel": "shared"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Frontend Start StatsBoard",
+      "type": "shell",
+      "command": "ng s",
+      "isBackground": true,
+      "presentation": {
+        "reveal": "always",
+        "group": "statsboards",
+        "panel": "shared"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Start StatsBoard Fullstack",
+      "dependsOn": ["Start StatsBoard Backend", "Start StatsBoard Frontend"],
+      "dependsOrder": "parallel",
+      "problemMatcher": []
     }
   ]
 }

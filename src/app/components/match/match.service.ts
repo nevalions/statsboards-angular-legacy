@@ -10,6 +10,7 @@ import { tap } from 'rxjs/operators';
 import { SortService } from '../../services/sort.service';
 import { TournamentService } from '../tournament/tournament.service';
 import { MatchWithFullDataService } from '../match-with-full-data/matchfulldata.service';
+import { IPlayerInMatchFullData } from '../../type/player.type';
 
 @Injectable({
   providedIn: 'root',
@@ -41,12 +42,21 @@ export class MatchService extends BaseApiService<IMatch> {
 
   fetchMatchesByTournamentId(id: number): Observable<IMatch[]> {
     return this.findByFirstKeyValue('tournaments', 'id', id, 'matches').pipe(
-      tap((matches) =>
-        console.log(`MATCHES from TOURNAMENT ID: ${id}`, matches),
-      ),
+      // tap((matches) =>
+      //   console.log(`MATCHES from TOURNAMENT ID: ${id}`, matches),
+      // ),
       map((data) => SortService.sort(data, '-date')),
     );
   }
+
+  //   findPlayersByMatchId(id: number): Observable<IPlayerInMatchFullData[]> {
+  //   return this.findByFirstKeyValue('tournaments', 'id', id, 'matches').pipe(
+  //     tap((matches) =>
+  //       console.log(`PLYAERS from MATCH ID: ${id}`, matches),
+  //     ),
+  //     map((data) => SortService.sort(data, '-date')),
+  //   );
+  // }
 
   editMatch(id: number | string, data: IMatch): Observable<IMatch> {
     return this.editItem(id, data).pipe(

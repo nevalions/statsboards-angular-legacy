@@ -1,0 +1,21 @@
+@if (control) {
+  @if (playerList.length > 0) {
+    <tui-select
+      [formControl]="control"
+      [tuiDropdownLimitWidth]="'min'"
+      style="padding-top: 10px;"
+    >
+      <tui-data-list *tuiDataList>
+        @for (playerInTeamTournament of playerList; track playerInTeamTournament.playerInTeamTournament.id) {
+          <button
+            tuiOption
+            [value]="playerInTeamTournament"
+          >
+            {{ playerInTeamTournament.playerInSport?.person?.second_name | titlecase }}
+            {{ playerInTeamTournament.playerInSport?.person?.first_name | titlecase }}
+          </button>
+        }
+      </tui-data-list>
+    </tui-select>
+  }
+}

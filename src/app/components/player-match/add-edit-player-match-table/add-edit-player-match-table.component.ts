@@ -42,7 +42,8 @@ import { SelectPlayerPositionComponent } from '../../../shared/ui/select/select-
 import { ActionsButtonsComponent } from '../../../shared/ui/buttons/actions-buttons/actions-buttons.component';
 import { TuiAvatarModule } from '@taiga-ui/kit';
 import { AddButtonOnFinalTrComponent } from '../../../shared/ui/buttons/add-button-on-final-tr/add-button-on-final-tr.component';
-import { IMatch } from '../../../type/match.type';
+import { IMatch, IMatchWithFullData } from '../../../type/match.type';
+import { SelectPlayerToMatchComponent } from '../../../shared/ui/select/select-player-to-match/select-player-to-match.component';
 
 @Component({
   selector: 'app-add-edit-player-match-table',
@@ -61,6 +62,7 @@ import { IMatch } from '../../../type/match.type';
     TuiAvatarModule,
     TuiExpandModule,
     AddButtonOnFinalTrComponent,
+    SelectPlayerToMatchComponent,
   ],
   templateUrl: './add-edit-player-match-table.component.html',
   styleUrl: './add-edit-player-match-table.component.less',
@@ -70,9 +72,11 @@ export class AddEditPlayerMatchTableComponent implements OnChanges, OnInit {
   @Input() sportId!: number;
   // @Input() matchId!: number;
   // @Input() teamId: number | null = null;
-  @Input() match!: IMatch;
+  @Input() match!: IMatchWithFullData;
   @Input() playersInTeamTournament: IPlayerInTeamTournament[] = [];
-  @Input() availablePlayersInTeamTournament: IPlayerInTeamTournament[] = [];
+  @Input()
+  availablePlayersInTeamTournament: IPlayerInTeamTournamentWithPersonWithSportWithPosition[] =
+    [];
   @Input() players: IPlayerInMatchFullData[] = [];
   @Input() positions: IPosition[] | null = [];
   @Input() deleteOrUpdate: 'delete' | 'update' | 'deleteFromTeam' = 'delete';
@@ -156,7 +160,7 @@ export class AddEditPlayerMatchTableComponent implements OnChanges, OnInit {
       // [controlNamePlayerId]: new FormControl(
       //   player..player_id,
       // ),
-      [controlNameTeamId]: new FormControl(this.match.team_a_id),
+      [controlNameTeamId]: new FormControl(this.match.match.team_a_id),
       [controlNameFullName]: new FormControl(
         `${player.person?.first_name} ${player.person?.second_name}` || '',
       ),
@@ -271,22 +275,22 @@ export class AddEditPlayerMatchTableComponent implements OnChanges, OnInit {
     };
 
     if (this.side === 'home') {
-      newPlayer.team_id = this.match.team_a_id;
+      newPlayer.team_id = this.match.match.team_a_id;
     }
 
     if (this.side === 'away') {
-      newPlayer.team_id = this.match.team_b_id;
+      newPlayer.team_id = this.match.match.team_b_id;
     }
 
-    // const playerWithData: IPlayerInTeamTournamentWithPersonWithSportWithPosition =
-    //   {
-    //     playerInSport: null,
-    //     playerInTeamTournament: newPlayer,
-    //     position: null,
-    //   };
-    //
-    // // Use spread operator to create a new array
-    // this.players = [...this.players, playerWithData];
+    const playerWithData: IPlayerInMatchFullData = {
+      match_player: newPlayer,
+      team_tournament_player: null,
+      person: null,
+      position: null,
+    };
+
+    // Use spread operator to create a new array
+    this.players = [...this.players, playerWithData];
     this.populateFormArray();
   }
 

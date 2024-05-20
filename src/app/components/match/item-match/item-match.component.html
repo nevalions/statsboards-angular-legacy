@@ -85,10 +85,11 @@
                 @if (sport$ | async; as sport) {
                   @if (match$ | async; as match) {
                     @if (allPlayersInMatch$ | async; as players) {
-                      @if (allPlayersInMatch$ | async; as availablePlayers) {
+                      @if (allPlayerInTeamTournament$ | async; as availablePlayers) {
                         <app-add-edit-player-match-table
                           [deleteOrUpdate]="'delete'"
                           [sportId]="sport.id!"
+                          [match]="match"
                           [availablePlayersInTeamTournament]="availablePlayers"
                           [positions]="allSportPositions$ | async"
                         ></app-add-edit-player-match-table>
