@@ -1,4 +1,36 @@
 @if (match && side) {
+  <p>
+    @if (homeFootballOffense.length) {
+      Offense Players {{ homeFootballOffense.length }}
+    }
+    @if (awayFootballOffense.length) {
+      Offense Players {{ awayFootballOffense.length }}
+    }
+  </p>
+  <p>
+    @if (homeFootballStartOffense.length) {
+      Start Offense Players {{ homeFootballStartOffense.length }}
+    }
+    @if (awayFootballStartOffense.length) {
+      Start Offense Players {{ awayFootballStartOffense.length }}
+    }
+  </p>
+  <p>
+    @if (homeFootballDefense.length) {
+      Defense Players {{ homeFootballDefense.length }}
+    }
+    @if (awayFootballDefense.length) {
+      Defense Players {{ awayFootballDefense.length }}
+    }
+  </p>
+  <p>
+    @if (homeFootballStartDefense.length) {
+      Start Defense Players {{ homeFootballStartDefense.length }}
+    }
+    @if (awayFootballStartDefense.length) {
+      Start Defense Players {{ awayFootballStartDefense.length }}
+    }
+  </p>
   <form
     tuiTextfieldSize="m"
     [formGroup]="playerForm"
@@ -25,11 +57,12 @@
               "
               class="table-row-match-roster"
               [formGroupName]="i"
+              [style.background-color]="
+                getFormDataByIndexAndKey(playerFormGroup, i, 'isStart')
+                  ? '#98DFAF'
+                  : null
+              "
             >
-              <!-- @if (
-                getFormDataByIndexAndKey(playerFormGroup, i, "playerId");
-                as id
-              ) { -->
               <div class="table-cell-match-roster first">
                 @if (isRowEnabled(i)) {
                   <app-select-player-number
@@ -46,20 +79,6 @@
                   #{{ getFormDataByIndexAndKey(playerFormGroup, i, "number") }}
                 }
               </div>
-              <!-- } @else {
-                <div class="table-cell first">
-                  <app-select-player-number
-                    [control]="
-                      getFormControl(
-                        this.playerForm,
-                        i,
-                        'number',
-                        arrayName + side
-                      )
-                    "
-                  ></app-select-player-number>
-                </div>
-              } -->
               <div
                 class="table-cell-match-roster name"
                 (click)="toggle(playerFormGroup.get('playerId' + i)!.value)"
@@ -92,8 +111,6 @@
                   }
                 }
               </div>
-
-              <!-- @if (getFormDataByIndexAndKey(playerFormGroup, i, "playerId")) { -->
               <div class="table-cell-match-roster left">
                 @if (sportId) {
                   <!-- {{ sportId }} -->
@@ -122,27 +139,29 @@
                   }
                 }
               </div>
-              <!-- } @else {
-                <div class="table-cell-match-roster left">
-                  @if (sportId) {
-                    @if (positions) {
-                      <app-select-player-position
-                        [positionList]="positions"
-                        [index]="i"
-                        [sportId]="sportId"
-                        [control]="
-                          getFormControl(
-                            this.playerForm,
-                            i,
-                            'position',
-                            arrayName + side
-                          )
-                        "
-                      ></app-select-player-position>
-                    }
-                  }
-                </div>
-              } -->
+              <div class="table-cell-match-roster right">
+                @if (isRowEnabled(i)) {
+                  <tui-checkbox-labeled
+                    [formControl]="
+                      getFormControl(
+                        this.playerForm,
+                        i,
+                        'isStart',
+                        arrayName + side
+                      ) || false
+                    "
+                    size="l"
+                    >is Start?</tui-checkbox-labeled
+                  >
+                }
+                <!-- @else {
+                  start
+                  {{
+                    getFormDataByIndexAndKey(playerFormGroup, i, "isStart") ||
+                      false
+                  }}
+                } -->
+              </div>
               @if (playerFormGroup.get("playerInMatchId" + i)!.value; as id) {
                 <tui-expand [expanded]="isExpanded(id)" class="expand">
                   <ng-template tuiExpandContent>
@@ -160,14 +179,6 @@
                             [avatarUrl]="backendUrl + photoUrl"
                             (error)="onImgError($event)"
                           ></tui-avatar>
-
-                          <!--                        <img-->
-                          <!--                          src="{{url}}{{photoUrl}}"-->
-                          <!--                          height="100px"-->
-                          <!--                          alt="Photo"-->
-                          <!--                          (error)="onImgError($event)"-->
-                          <!--                          class="player-photo-short-profile"-->
-                          <!--                        >-->
                         }
                         @if (playerFormGroup.get("dob" + i)!.value; as dob) {
                           <span>{{ dob | date }}</span>

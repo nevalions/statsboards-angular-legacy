@@ -59,16 +59,20 @@ export class ItemMatchComponent {
   tournament$ = this.tournament.currentTournament$;
   teamsInTournament$ = this.team.teamsInTournament$;
   allPlayersInMatch$ = this.playerInMatch.allPlayersFullDataInMatch$;
-  // allHomePlayersInTeam$ =
-  // this.playerInTeamTournament.allHomePlayersInTeamTournamentWithPerson$;
   availableMatchHomePlayers$ =
     this.playerInTeamTournament.availableMatchHomePlayers$;
   availableMatchAwayPlayers$ =
     this.playerInTeamTournament.availableMatchAwayPlayers$;
-  // allAwayPlayersInTeam$ =
-  //   this.playerInTeamTournament.allAwayPlayersInTeamTournamentWithPerson$;
   homeRoster$ = this.playerInMatch.homeRoster$;
   awayRoster$ = this.playerInMatch.awayRoster$;
+  homeFootballOffense$ = this.playerInMatch.homeFootballOffense$;
+  awayFootballOffense$ = this.playerInMatch.awayFootballOffense$;
+  homeFootballDefense$ = this.playerInMatch.homeFootballDefense$;
+  awayFootballDefense$ = this.playerInMatch.awayFootballDefense$;
+  homeFootballStartOffense$ = this.playerInMatch.homeFootballStartOffense$;
+  awayFootballStartOffense$ = this.playerInMatch.awayFootballStartOffense$;
+  homeFootballStartDefense$ = this.playerInMatch.homeFootballStartDefense$;
+  awayFootballStartDefense$ = this.playerInMatch.awayFootballStartDefense$;
 
   allSportPositions$ = this.position.allSportPositions$;
 

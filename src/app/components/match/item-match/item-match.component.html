@@ -102,6 +102,18 @@
                           [side]="'home'"
                           [availablePlayersInTeamTournament]="availablePlayers"
                           [positions]="allSportPositions$ | async"
+                          [homeFootballOffense]="
+                            (homeFootballOffense$ | async) || []
+                          "
+                          [homeFootballDefense]="
+                            (homeFootballDefense$ | async) || []
+                          "
+                          [homeFootballStartOffense]="
+                            (homeFootballStartOffense$ | async) || []
+                          "
+                          [homeFootballStartDefense]="
+                            (homeFootballStartDefense$ | async) || []
+                          "
                         ></app-add-edit-player-match-table>
                       }
                     }
@@ -128,6 +140,18 @@
                           [side]="'away'"
                           [availablePlayersInTeamTournament]="availablePlayers"
                           [positions]="allSportPositions$ | async"
+                          [awayFootballOffense]="
+                            (awayFootballOffense$ | async) || []
+                          "
+                          [awayFootballDefense]="
+                            (awayFootballDefense$ | async) || []
+                          "
+                          [awayFootballStartOffense]="
+                            (awayFootballStartOffense$ | async) || []
+                          "
+                          [awayFootballStartDefense]="
+                            (awayFootballStartDefense$ | async) || []
+                          "
                         ></app-add-edit-player-match-table>
                       }
                     }

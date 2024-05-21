@@ -21,7 +21,7 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 import { TuiExpandModule, TuiTextfieldControllerModule } from '@taiga-ui/core';
-import { TuiAvatarModule } from '@taiga-ui/kit';
+import { TuiAvatarModule, TuiCheckboxLabeledModule } from '@taiga-ui/kit';
 import { environment } from '../../../../environments/environment';
 import {
   getArrayFormDataByIndexAndKey,
@@ -49,6 +49,7 @@ import { PlayerInMatch } from '../player-match';
   selector: 'app-add-edit-player-match-table',
   standalone: true,
   imports: [
+    TuiCheckboxLabeledModule,
     FormsModule,
     TuiTextfieldControllerModule,
     ReactiveFormsModule,
@@ -77,6 +78,14 @@ export class AddEditPlayerMatchTableComponent implements OnChanges, OnInit {
   @Input() players: IPlayerInMatchFullData[] = [];
   @Input() positions: IPosition[] | null = [];
   @Input() deleteOrUpdate: 'delete' | 'update' | 'deleteFromTeam' = 'delete';
+  @Input() homeFootballOffense: IPlayerInMatchFullData[] = [];
+  @Input() awayFootballOffense: IPlayerInMatchFullData[] = [];
+  @Input() homeFootballDefense: IPlayerInMatchFullData[] = [];
+  @Input() awayFootballDefense: IPlayerInMatchFullData[] = [];
+  @Input() homeFootballStartOffense: IPlayerInMatchFullData[] = [];
+  @Input() awayFootballStartOffense: IPlayerInMatchFullData[] = [];
+  @Input() homeFootballStartDefense: IPlayerInMatchFullData[] = [];
+  @Input() awayFootballStartDefense: IPlayerInMatchFullData[] = [];
 
   newHomePlayerCount = 0;
   newAwayPlayerCount = 0;
@@ -171,6 +180,7 @@ export class AddEditPlayerMatchTableComponent implements OnChanges, OnInit {
     const controlNameFullName = `fullName${index}`;
     const controlNamePosition = `position${index}`;
     const controlNameNumber = `number${index}`;
+    const controlNameStart = `isStart${index}`;
     const controlDateOfBirth = `dob${index}`;
     const controlPhotoUrl = `photoUrl${index}`;
     const controlNamePlayerInTeamTournament = `playerInTeamTournament${index}`;
@@ -188,6 +198,10 @@ export class AddEditPlayerMatchTableComponent implements OnChanges, OnInit {
       }),
       [controlNameNumber]: new FormControl({
         value: player.match_player.match_number,
+        disabled: !(player.player_team_tournament === null),
+      }),
+      [controlNameStart]: new FormControl({
+        value: player.match_player.is_start,
         disabled: !(player.player_team_tournament === null),
       }),
       [controlDateOfBirth]: new FormControl(
@@ -239,15 +253,18 @@ export class AddEditPlayerMatchTableComponent implements OnChanges, OnInit {
     let nameKey = `fullName${playerIndex}`;
     let positionKey = `position${playerIndex}`;
     let numberKey = `number${playerIndex}`;
+    let isStartKey = `isStart${playerIndex}`;
 
     const nameInput = playerFormGroup.get(nameKey);
     const positionInput = playerFormGroup.get(positionKey);
     const numberInput = playerFormGroup.get(numberKey);
+    const isStartInput = playerFormGroup.get(isStartKey);
 
     const anyControlEnabled =
       (positionInput && positionInput.enabled) ||
       (numberInput && numberInput.enabled) ||
-      (nameInput && nameInput.enabled);
+      (nameInput && nameInput.enabled) ||
+      (isStartInput && isStartInput.enabled);
 
     if (anyControlEnabled) {
       playerFormGroup.disable();
@@ -263,6 +280,8 @@ export class AddEditPlayerMatchTableComponent implements OnChanges, OnInit {
     let positionKey = `position${playerIndex}`;
     let numberKey = `number${playerIndex}`;
     let nameKey = `fullName${playerIndex}`;
+    let isStartKey = `isStart${playerIndex}`;
+
     if (playerFormGroup.get(positionKey)) {
       return playerFormGroup.get(positionKey)!.enabled;
     }
@@ -271,6 +290,9 @@ export class AddEditPlayerMatchTableComponent implements OnChanges, OnInit {
     }
     if (playerFormGroup.get(nameKey)) {
       return playerFormGroup.get(nameKey)!.enabled;
+    }
+    if (playerFormGroup.get(isStartKey)) {
+      return playerFormGroup.get(isStartKey)!.enabled;
     }
     return false;
   }
@@ -310,6 +332,11 @@ export class AddEditPlayerMatchTableComponent implements OnChanges, OnInit {
             index,
             'position',
           ),
+          isStart: getArrayFormDataByIndexAndKey<IPosition>(
+            array,
+            index,
+            'isStart',
+          ),
         };
         console.log('new', newPlayerInMatch);
         if (newPlayerInMatch) {
@@ -320,6 +347,7 @@ export class AddEditPlayerMatchTableComponent implements OnChanges, OnInit {
             match_number: null,
             team_id: null,
             match_id: this.match.id!,
+            is_start: null,
           };
 
           if (newPlayerInMatch.p) {
@@ -338,6 +366,9 @@ export class AddEditPlayerMatchTableComponent implements OnChanges, OnInit {
           }
           if (newPlayerInMatch.position) {
             playerInMatchData.match_position_id = newPlayerInMatch.position.id;
+          }
+          if (newPlayerInMatch.isStart) {
+            playerInMatchData.is_start = newPlayerInMatch.isStart;
           }
 
           this.playerInMatch.createPlayerInMatch(playerInMatchData);
@@ -360,6 +391,7 @@ export class AddEditPlayerMatchTableComponent implements OnChanges, OnInit {
       match_number: '0',
       team_id: null,
       match_id: this.match.id,
+      is_start: null,
     };
 
     if (this.side === 'home') {

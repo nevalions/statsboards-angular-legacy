@@ -11,6 +11,37 @@ import {
 } from '../../player-team-tournament/store/reducers';
 import { selectAllPlayersInMatchFullData } from './reducers';
 
+export const offensePositions = [
+  'qb',
+  't',
+  'ot',
+  'oc',
+  'c',
+  'og',
+  'g',
+  'rb',
+  'fb',
+  'hb',
+  'wr',
+  'k',
+  'te',
+];
+
+export const defensePositions = [
+  'nt',
+  'dt',
+  'de',
+  'ng',
+  'lb',
+  'olb',
+  'mlb',
+  'db',
+  'cb',
+  'ss',
+  'fs',
+  'p',
+];
+
 export const selectHomeTeamRoster = createSelector(
   selectAllPlayersInMatchFullData,
   selectCurrentMatchWithFullData,
@@ -87,5 +118,119 @@ export const selectAvailableAwayPlayers = createSelector(
       return SortService.sort(availablePlayersInTeam, 'person.second_name');
     }
     return [];
+  },
+);
+
+export const selectHomeFootballOffense = createSelector(
+  selectHomeTeamRoster,
+  (homePlayers: IPlayerInMatchFullData[]) => {
+    if (!homePlayers) {
+      return [];
+    }
+    const offensePlayers = homePlayers.filter((player) => {
+      if (player.position) {
+        return offensePositions.includes(player.position.title!.toLowerCase());
+      }
+      return [];
+    });
+    return offensePlayers;
+  },
+);
+
+export const selectAwayFootballOffense = createSelector(
+  selectAwayTeamRoster,
+  (awayPlayers: IPlayerInMatchFullData[]) => {
+    if (!awayPlayers) {
+      return [];
+    }
+    const offensePlayers = awayPlayers.filter((player) => {
+      if (player.position) {
+        return offensePositions.includes(player.position.title!.toLowerCase());
+      }
+      return [];
+    });
+    return offensePlayers;
+  },
+);
+
+export const selectHomeFootballDefense = createSelector(
+  selectHomeTeamRoster,
+  (homePlayers: IPlayerInMatchFullData[]) => {
+    if (!homePlayers) {
+      return [];
+    }
+    const defensePlayers = homePlayers.filter((player) => {
+      if (player.position) {
+        return defensePositions.includes(player.position.title!.toLowerCase());
+      }
+      return [];
+    });
+    return defensePlayers;
+  },
+);
+
+export const selectAwayFootballDefense = createSelector(
+  selectAwayTeamRoster,
+  (awayPlayers: IPlayerInMatchFullData[]) => {
+    if (!awayPlayers) {
+      return [];
+    }
+    const defensePlayers = awayPlayers.filter((player) => {
+      if (player.position) {
+        return defensePositions.includes(player.position.title!.toLowerCase());
+      }
+      return [];
+    });
+    return defensePlayers;
+  },
+);
+
+export const selectAwayFootballStartDefense = createSelector(
+  selectAwayFootballDefense,
+  (awayRoster: IPlayerInMatchFullData[]) => {
+    if (!awayRoster) {
+      return [];
+    }
+    const startPlayers = awayRoster.filter(
+      (player) => player.match_player.is_start,
+    );
+    return startPlayers;
+  },
+);
+export const selectHomeFootballStartDefense = createSelector(
+  selectHomeFootballDefense,
+  (homeRoster: IPlayerInMatchFullData[]) => {
+    if (!homeRoster) {
+      return [];
+    }
+    const startPlayers = homeRoster.filter(
+      (player) => player.match_player.is_start,
+    );
+    return startPlayers;
+  },
+);
+
+export const selectAwayFootballStartOffense = createSelector(
+  selectAwayFootballOffense,
+  (awayRoster: IPlayerInMatchFullData[]) => {
+    if (!awayRoster) {
+      return [];
+    }
+    const startPlayers = awayRoster.filter(
+      (player) => player.match_player.is_start,
+    );
+    return startPlayers;
+  },
+);
+export const selectHomeFootballStartOffense = createSelector(
+  selectHomeFootballOffense,
+  (homeRoster: IPlayerInMatchFullData[]) => {
+    if (!homeRoster) {
+      return [];
+    }
+    const startPlayers = homeRoster.filter(
+      (player) => player.match_player.is_start,
+    );
+    return startPlayers;
   },
 );

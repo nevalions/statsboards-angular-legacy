@@ -45,6 +45,7 @@ export interface IPlayerInMatch {
   match_id?: number | null;
   match_number?: string | null;
   team_id?: number | null;
+  is_start?: boolean | null;
 }
 
 export interface IPlayerInMatchFullData {
