@@ -9,7 +9,7 @@
     <!-- @for (p of players; track $index) {
       {{ p }}
     } -->
-    @if (players && players.length) {
+    @if (players) {
       <div class="table">
         @if (players.length) {
           <div [formArrayName]="arrayName + side" class="table-body">

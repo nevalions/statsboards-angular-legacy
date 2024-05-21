@@ -167,15 +167,11 @@ export class AddEditPlayerMatchTableComponent implements OnChanges, OnInit {
       ),
       [controlNamePosition]: new FormControl({
         value: player.position,
-        disabled:
-          player.match_player === null &&
-          player.player_team_tournament?.id === null,
+        disabled: !(player.player_team_tournament === null),
       }),
       [controlNameNumber]: new FormControl({
         value: player.match_player.match_number,
-        disabled:
-          player.match_player === null &&
-          player.player_team_tournament?.id === null,
+        disabled: !(player.player_team_tournament === null),
       }),
       [controlDateOfBirth]: new FormControl(
         `${player.person?.person_dob}` || '',

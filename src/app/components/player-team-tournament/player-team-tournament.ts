@@ -8,6 +8,10 @@ import {
   IPlayerInTeamTournamentFullData,
   IPlayerInTeamTournamentWithPersonWithSportWithPosition,
 } from '../../type/player.type';
+import {
+  selectAvailableAwayPlayers,
+  selectAvailableHomePlayers,
+} from '../player-match/store/selectors';
 import { playerInTeamTournamentActions } from './store/actions';
 import {
   selectAllAwayPlayersInTeamTournamentWithPerson,
@@ -22,10 +26,6 @@ import {
   selectAvailableTournamentPlayersForTeamTournament,
   selectCurrentPlayerInTeamTournamentWithPersonWithSportWithPosition,
 } from './store/selectors';
-import {
-  selectAvailableAwayPlayers,
-  selectAvailableHomePlayers,
-} from '../player-match/store/selectors';
 
 @Injectable({
   providedIn: 'root',
