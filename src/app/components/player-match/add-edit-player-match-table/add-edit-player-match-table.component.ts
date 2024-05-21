@@ -23,6 +23,7 @@ import { TuiExpandModule, TuiTextfieldControllerModule } from '@taiga-ui/core';
 import { TuiAvatarModule } from '@taiga-ui/kit';
 import { environment } from '../../../../environments/environment';
 import {
+  getArrayFormDataByIndexAndKey,
   getFormControl,
   getFormDataByIndexAndKey,
 } from '../../../base/formHelpers';
@@ -107,8 +108,9 @@ export class AddEditPlayerMatchTableComponent implements OnChanges, OnInit {
     const playersFormArray = this.players.map((player, index) =>
       this.createFormGroupForPlayer(player, index),
     );
+    console.log('players from array', playersFormArray);
     const formArray = this.fb.array(playersFormArray);
-    // console.log(formArray);
+    console.log(formArray);
     this.playerForm.setControl(this.arrayName + this.side, formArray);
   }
 
@@ -120,12 +122,17 @@ export class AddEditPlayerMatchTableComponent implements OnChanges, OnInit {
     private imageService: ImageService,
   ) {
     // this.fullArrayName = this.arrayName + this.side;
-    this.playerForm = this.fb.group({
-      players: this.fb.array([]),
-    });
+    // this.playerForm = this.fb.group({
+    //   players: this.fb.array([]),
+    // });
   }
 
   ngOnInit() {
+    const fullArrayName = this.arrayName + this.side;
+    this.playerForm = this.fb.group({
+      [fullArrayName]: this.fb.array([]),
+    });
+    console.log('form', this.playerForm);
     if (this.players) {
       this.populateFormArray();
     }
@@ -160,11 +167,15 @@ export class AddEditPlayerMatchTableComponent implements OnChanges, OnInit {
       ),
       [controlNamePosition]: new FormControl({
         value: player.position,
-        disabled: !(player.match_player === null),
+        disabled:
+          player.match_player === null &&
+          player.player_team_tournament?.id === null,
       }),
       [controlNameNumber]: new FormControl({
         value: player.match_player.match_number,
-        disabled: true,
+        disabled:
+          player.match_player === null &&
+          player.player_team_tournament?.id === null,
       }),
       [controlDateOfBirth]: new FormControl(
         `${player.person?.person_dob}` || '',
@@ -179,33 +190,36 @@ export class AddEditPlayerMatchTableComponent implements OnChanges, OnInit {
     });
   }
 
-  //   onPlayerSelect(selectedPlayerId: number, playerIndex: number) {
-  //   // console.log('SELECT PLAYER');
-  //   const selectedPlayer = this.availablePlayersInTournament.find(
-  //     (player) => player.playerInTeamTournament.player_id! === selectedPlayerId,
-  //   );
-  //   // console.log(selectedPlayer);
-  //   if (!selectedPlayer) return;
-  //
-  //   const playerPosition = selectedPlayer.position || '';
-  //
-  //   // console.log('index', playerIndex);
-  //   const playerFormGroup = (this.playerForm.get('players') as FormArray).at(
-  //     playerIndex,
-  //   );
-  //   // console.log('playerFormGroup', playerFormGroup);
-  //   // console.log('PlayerPosition', playerPosition);
-  //   let positionKey = `position${playerIndex}`;
-  //
-  //   playerFormGroup.patchValue({ [positionKey]: playerPosition });
-  // }
+  onPlayerSelect(selectedPlayerId: number, playerIndex: number) {
+    const selectedPlayer = this.availablePlayersInTeamTournament.find(
+      (player) => player.player_team_tournament!.id! === selectedPlayerId,
+    );
+    // console.log(selectedPlayer);
+    if (!selectedPlayer) return;
+
+    const playerPosition = selectedPlayer.position || '';
+    const playerNumber =
+      selectedPlayer.player_team_tournament?.player_number || '0';
+
+    const playerFormGroup = (
+      this.playerForm.get(this.arrayName + this.side) as FormArray
+    ).at(playerIndex);
+
+    let positionKey = `position${playerIndex}`;
+    let numberKey = `number${playerIndex}`;
+
+    playerFormGroup.patchValue({
+      [positionKey]: playerPosition,
+      [numberKey]: playerNumber,
+    });
+  }
 
   enableRowToEdit(playerIndex: number): void {
     const playerFormGroup = (
       this.playerForm.get(this.arrayName + this.side) as FormArray
     ).at(playerIndex);
     if (!playerFormGroup) {
-      return; // Exit if playerFormGroup is not found
+      return;
     }
 
     let positionKey = `position${playerIndex}`;
@@ -251,7 +265,67 @@ export class AddEditPlayerMatchTableComponent implements OnChanges, OnInit {
     action: 'add' | 'edit' | 'deleteFromTeam',
     index: number,
     playerId: number | null,
-  ): void {}
+  ): void {
+    if (this.playerForm.valid) {
+      const array = this.playerForm.get(
+        this.arrayName + this.side,
+      ) as FormArray;
+
+      console.log(array, index, action);
+      if (array && action == 'add') {
+        const newPlayerInMatch = {
+          p: getArrayFormDataByIndexAndKey<IPlayerInTeamTournamentFullData>(
+            array,
+            index,
+            'playerInTeamTournament',
+          ),
+          match_number: getArrayFormDataByIndexAndKey<string>(
+            array,
+            index,
+            'number',
+          ),
+          position: getArrayFormDataByIndexAndKey<IPosition>(
+            array,
+            index,
+            'position',
+          ),
+        };
+        console.log('new', newPlayerInMatch);
+        if (newPlayerInMatch) {
+          const playerInMatchData: IPlayerInMatch = {
+            player_team_tournament_id: null,
+            player_match_eesl_id: null,
+            match_position_id: null,
+            match_number: null,
+            team_id: null,
+            match_id: this.match.id!,
+          };
+
+          if (newPlayerInMatch.p) {
+            playerInMatchData.player_team_tournament_id =
+              newPlayerInMatch.p.player_team_tournament.id;
+          }
+          if (this.side === 'home') {
+            playerInMatchData.team_id = this.match.match.team_a_id;
+          } else if (this.side === 'away') {
+            playerInMatchData.team_id = this.match.match.team_b_id;
+          } else {
+            console.error('no team');
+          }
+          if (newPlayerInMatch.match_number) {
+            playerInMatchData.match_number = newPlayerInMatch.match_number;
+          }
+          if (newPlayerInMatch.position) {
+            playerInMatchData.match_position_id = newPlayerInMatch.position.id;
+          }
+
+          this.playerInMatch.createPlayerInMatch(playerInMatchData);
+        }
+      } else {
+        console.error('Error Match Player');
+      }
+    }
+  }
 
   addNewPlayer(): void {
     const lastPlayer = this.players[this.players.length - 1];

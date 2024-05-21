@@ -428,26 +428,23 @@ const playerInTeamTournamentFeature = createFeature({
     on(
       playerInTeamTournamentActions.getAllPlayersInTeamTournamentForMatchSuccess,
       (state, action) => {
-        const sortedPlayerInTeamTournaments = SortService.sort(
-          action.playersInTeamTournamentWithPerson,
+        const sortedHomePlayerInTeamTournaments = SortService.sort(
+          action.availablePlayers.home,
+          'person.second_name',
+        );
+        const sortedAwayPlayerInTeamTournaments = SortService.sort(
+          action.availablePlayers.away,
           'person.second_name',
         );
 
-        if (action.side === 'home') {
-          return {
-            ...state,
-            playerInTeamTournamentIsLoading: false,
-            allHomePlayersInTeamTournamentWithPerson:
-              sortedPlayerInTeamTournaments,
-          };
-        } else {
-          return {
-            ...state,
-            playerInTeamTournamentIsLoading: false,
-            allAwayPlayersInTeamTournamentWithPerson:
-              sortedPlayerInTeamTournaments,
-          };
-        }
+        return {
+          ...state,
+          playerInTeamTournamentIsLoading: false,
+          allHomePlayersInTeamTournamentWithPerson:
+            sortedHomePlayerInTeamTournaments,
+          allAwayPlayersInTeamTournamentWithPerson:
+            sortedAwayPlayerInTeamTournaments,
+        };
       },
     ),
     on(

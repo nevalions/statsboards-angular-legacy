@@ -81,7 +81,7 @@
                 </div>
               </div>
             </tui-island>
-            <div class="two_col_container_tournament">
+            <div class="two_col_container_match">
               <div class="one_col_container">
                 <app-body-list-title
                   titleMany="home players"
@@ -89,9 +89,39 @@
 
                 @if (sport$ | async; as sport) {
                   @if (match$ | async; as match) {
-                    @if (allPlayersInMatch$ | async; as players) {
-                      @if (allAwayPlayersInTeam$ | async; as availablePlayers) {
+                    @if (homeRoster$ | async; as players) {
+                      @if (
+                        availableMatchHomePlayers$ | async;
+                        as availablePlayers
+                      ) {
                         <app-add-edit-player-match-table
+                          [players]="players"
+                          [deleteOrUpdate]="'delete'"
+                          [sportId]="sport.id!"
+                          [match]="match"
+                          [side]="'home'"
+                          [availablePlayersInTeamTournament]="availablePlayers"
+                          [positions]="allSportPositions$ | async"
+                        ></app-add-edit-player-match-table>
+                      }
+                    }
+                  }
+                }
+              </div>
+              <div class="one_col_container">
+                <app-body-list-title
+                  titleMany="away players"
+                ></app-body-list-title>
+
+                @if (sport$ | async; as sport) {
+                  @if (match$ | async; as match) {
+                    @if (awayRoster$ | async; as players) {
+                      @if (
+                        availableMatchAwayPlayers$ | async;
+                        as availablePlayers
+                      ) {
+                        <app-add-edit-player-match-table
+                          [players]="players"
                           [deleteOrUpdate]="'delete'"
                           [sportId]="sport.id!"
                           [match]="match"

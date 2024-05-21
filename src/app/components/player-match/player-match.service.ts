@@ -1,15 +1,11 @@
-import { Injectable } from '@angular/core';
-import { BaseApiService } from '../../services/base.api.service';
 import { HttpClient } from '@angular/common/http';
-import { ErrorHandlingService } from '../../services/error.service';
+import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
-import {
-  IPlayer,
-  IPlayerInMatch,
-  IPlayerInMatchFullData,
-} from '../../type/player.type';
 import { tap } from 'rxjs/operators';
+import { BaseApiService } from '../../services/base.api.service';
+import { ErrorHandlingService } from '../../services/error.service';
 import { SortService } from '../../services/sort.service';
+import { IPlayerInMatch, IPlayerInMatchFullData } from '../../type/player.type';
 
 @Injectable({
   providedIn: 'root',
@@ -22,9 +18,7 @@ export class PlayerMatchService extends BaseApiService<IPlayerInMatch> {
   findPlayersInMatchByMatchId(id: number): Observable<IPlayerInMatch[]> {
     return this.findByFirstKeyValue('matches', 'id', id, 'players')
       .pipe
-      // tap((players) =>
-      //   console.log(`PLAYERS from MATCH ID: ${id}`, players),
-      // ),
+      // tap((players) => console.log(`PLAYERS from MATCH ID: ${id}`, players)),
       ();
   }
 
@@ -37,7 +31,9 @@ export class PlayerMatchService extends BaseApiService<IPlayerInMatch> {
       id,
       'players_fulldata',
     ).pipe(
-      tap((matches) => console.log(`PLAYERS from MATCH ID: ${id}`, matches)),
+      tap((matches) =>
+        console.log(`PLAYERS fulldata from MATCH ID: ${id}`, matches),
+      ),
       map((data) => SortService.sort(data, 'match_player.match_number')),
     );
   }

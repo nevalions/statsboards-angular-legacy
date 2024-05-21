@@ -5,8 +5,8 @@ import { routerNavigatedAction } from '@ngrx/router-store';
 import { Store } from '@ngrx/store';
 import {
   catchError,
+  combineLatest,
   filter,
-  forkJoin,
   map,
   of,
   switchMap,
@@ -304,7 +304,6 @@ export class PlayerInTeamTournamentEffects {
         switchMap((action) =>
           this.store.select(selectCurrentMatch).pipe(
             switchMap((currentMatch) => {
-              // Ensure currentMatch is valid before proceeding
               if (
                 currentMatch &&
                 currentMatch.team_a_id &&
@@ -321,13 +320,15 @@ export class PlayerInTeamTournamentEffects {
                     currentMatch.team_b_id,
                     currentMatch.tournament_id,
                   );
-                return forkJoin({ home: home$, away: away$ }).pipe(
-                  map((results) =>
+
+                return combineLatest([home$, away$]).pipe(
+                  map(([homePlayers, awayPlayers]) =>
                     playerInTeamTournamentActions.getAllPlayersInTeamTournamentForMatchSuccess(
                       {
-                        side: action.side,
-                        playersInTeamTournamentWithPerson:
-                          action.side === 'home' ? results.home : results.away,
+                        availablePlayers: {
+                          home: homePlayers,
+                          away: awayPlayers,
+                        },
                       },
                     ),
                   ),
@@ -338,8 +339,6 @@ export class PlayerInTeamTournamentEffects {
                   ),
                 );
               } else {
-                // console.log('nonononononono');
-                // If there is no valid currentMatch, dispatch a failure or handle accordingly
                 return of(
                   playerInTeamTournamentActions.getAllPlayersInTeamTournamentForMatchFailure(),
                 );
@@ -351,6 +350,62 @@ export class PlayerInTeamTournamentEffects {
     },
     { functional: true },
   );
+
+  // // effect to home and team players add selector, action and effect
+  // getPlayersForMatchWithPersonEffect = createEffect(
+  //   () => {
+  //     return this.actions$.pipe(
+  //       ofType(
+  //         playerInTeamTournamentActions.getAllPlayersInTeamTournamentsForMatch,
+  //       ),
+  //       switchMap((action) =>
+  //         this.store.select(selectCurrentMatch).pipe(
+  //           switchMap((currentMatch) => {
+  //             if (
+  //               currentMatch &&
+  //               currentMatch.team_a_id &&
+  //               currentMatch.team_b_id &&
+  //               currentMatch.tournament_id
+  //             ) {
+  //               const home$ =
+  //                 this.playerFullDataService.findPlayersInTeamTournamentByTeamIdTournamentWithPerson(
+  //                   currentMatch.team_a_id,
+  //                   currentMatch.tournament_id,
+  //                 );
+  //               const away$ =
+  //                 this.playerFullDataService.findPlayersInTeamTournamentByTeamIdTournamentWithPerson(
+  //                   currentMatch.team_b_id,
+  //                   currentMatch.tournament_id,
+  //                 );
+
+  //               return combineLatest([home$, away$]).pipe(
+  //                 map(([homePlayers, awayPlayers]) =>
+  //                   playerInTeamTournamentActions.getAllPlayersInTeamTournamentForMatchSuccess(
+  //                     {
+  //                       side: action.side,
+  //                       playersInTeamTournamentWithPerson:
+  //                         action.side === 'home' ? homePlayers : awayPlayers,
+  //                     },
+  //                   ),
+  //                 ),
+  //                 catchError(() =>
+  //                   of(
+  //                     playerInTeamTournamentActions.getAllPlayersInTeamTournamentForMatchFailure(),
+  //                   ),
+  //                 ),
+  //               );
+  //             } else {
+  //               return of(
+  //                 playerInTeamTournamentActions.getAllPlayersInTeamTournamentForMatchFailure(),
+  //               );
+  //             }
+  //           }),
+  //         ),
+  //       ),
+  //     );
+  //   },
+  //   { functional: true },
+  // );
 
   getPlayersInTeamTournamentWithPersonEffect = createEffect(
     () => {

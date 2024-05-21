@@ -54,12 +54,21 @@ export const playerInTeamTournamentActions = createActionGroup({
     'Get all playersInTeamTournament by team id and tournament id failure':
       emptyProps(),
 
-    GetAllPlayersInTeamTournamentsForMatch: props<{ side: 'home' | 'away' }>(),
+    GetAllPlayersInTeamTournamentsForMatch: emptyProps(),
     'Get all playersInTeamTournament for match success': props<{
-      side: 'home' | 'away';
-      playersInTeamTournamentWithPerson: IPlayerInTeamTournamentFullData[];
+      availablePlayers: {
+        home: IPlayerInTeamTournamentFullData[];
+        away: IPlayerInTeamTournamentFullData[];
+      };
     }>(),
     'Get all playersInTeamTournament for match failure': emptyProps(),
+
+    // GetAllPlayersInTeamTournamentsForMatch: props<{ side: 'home' | 'away' }>(),
+    // 'Get all playersInTeamTournament for match success': props<{
+    //   side: 'home' | 'away';
+    //   playersInTeamTournamentWithPerson: IPlayerInTeamTournamentFullData[];
+    // }>(),
+    // 'Get all playersInTeamTournament for match failure': emptyProps(),
 
     GetAllPlayerInTeamTournamentsWithPersonProps: props<{
       teamId: number;

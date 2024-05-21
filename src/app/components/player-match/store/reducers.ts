@@ -1,10 +1,10 @@
 import { createFeature, createReducer, on } from '@ngrx/store';
 import { SortService } from '../../../services/sort.service';
-import { playerInMatchActions } from './actions';
 import {
   IPlayerInMatch,
   IPlayerInMatchFullData,
 } from '../../../type/player.type';
+import { playerInMatchActions } from './actions';
 
 export interface PlayerInMatchState {
   playerInMatchIsLoading: boolean;
@@ -64,6 +64,7 @@ const playerInMatchFeature = createFeature({
         playerInMatchIsSubmitting: false,
         currentPlayerInMatch: action.currentPlayerInMatch,
         allPlayersInMatch: sortedList,
+        // allPlayersInMatchFullData: sortedList,
       };
     }),
     on(playerInMatchActions.createFailure, (state, action) => ({

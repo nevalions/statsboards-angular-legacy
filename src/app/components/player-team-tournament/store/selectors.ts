@@ -1,24 +1,24 @@
+import { createSelector } from '@ngrx/store';
+import { SortService } from '../../../services/sort.service';
 import {
   IPlayerInSport,
   IPlayerInTeamTournament,
   IPlayerInTeamTournamentWithPersonWithSportWithPosition,
 } from '../../../type/player.type';
 import { IPosition } from '../../../type/position.type';
-import { createSelector } from '@ngrx/store';
+import { ITeam } from '../../../type/team.type';
+import { selectAllSportPlayersWithPersons } from '../../player/store/selectors';
 import {
   selectAllPositions,
   selectAllSportPositions,
 } from '../../position/store/reducers';
+import { selectAllTeamsInTournament } from '../../team/store/reducers';
+import { selectCurrentTournamentId } from '../../tournament/store/reducers';
 import {
   selectAllPlayersInTeamTournament,
   selectAllPlayersInTournament,
   selectCurrentPlayerInTeamTournamentId,
 } from './reducers';
-import { SortService } from '../../../services/sort.service';
-import { selectAllSportPlayersWithPersons } from '../../player/store/selectors';
-import { selectCurrentTournamentId } from '../../tournament/store/reducers';
-import { selectAllTeamsInTournament } from '../../team/store/reducers';
-import { ITeam } from '../../../type/team.type';
 
 function combinePlayerWithPersonWithPositionWithTeam(
   playersInSport: IPlayerInSport[],

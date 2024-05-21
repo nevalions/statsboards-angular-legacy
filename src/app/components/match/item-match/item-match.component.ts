@@ -59,10 +59,16 @@ export class ItemMatchComponent {
   tournament$ = this.tournament.currentTournament$;
   teamsInTournament$ = this.team.teamsInTournament$;
   allPlayersInMatch$ = this.playerInMatch.allPlayersFullDataInMatch$;
-  allHomePlayersInTeam$ =
-    this.playerInTeamTournament.allHomePlayersInTeamTournamentWithPerson$;
-  allAwayPlayersInTeam$ =
-    this.playerInTeamTournament.allAwayPlayersInTeamTournamentWithPerson$;
+  // allHomePlayersInTeam$ =
+  // this.playerInTeamTournament.allHomePlayersInTeamTournamentWithPerson$;
+  availableMatchHomePlayers$ =
+    this.playerInTeamTournament.availableMatchHomePlayers$;
+  availableMatchAwayPlayers$ =
+    this.playerInTeamTournament.availableMatchAwayPlayers$;
+  // allAwayPlayersInTeam$ =
+  //   this.playerInTeamTournament.allAwayPlayersInTeamTournamentWithPerson$;
+  homeRoster$ = this.playerInMatch.homeRoster$;
+  awayRoster$ = this.playerInMatch.awayRoster$;
 
   allSportPositions$ = this.position.allSportPositions$;
 
@@ -83,12 +89,9 @@ export class ItemMatchComponent {
   ) {
     match.loadCurrentMatch();
     tournament.loadCurrentTournament();
-    // person.loadAllPersons();
-    // player.loadAllPlayersBySportId();
-    playerInTeamTournament.loadAllPlayersForMatch('home');
-    playerInTeamTournament.loadAllPlayersForMatch('away');
+    playerInTeamTournament.loadAllPlayersForMatch();
     position.loadAllPositionsBySportId();
-    playerInMatch.loadAllPlayersInMatch();
+    playerInMatch.loadAllPlayersFullDataInMatch();
     team.loadAllTeamsInTournament();
   }
 

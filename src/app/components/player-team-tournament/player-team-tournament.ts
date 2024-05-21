@@ -22,6 +22,10 @@ import {
   selectAvailableTournamentPlayersForTeamTournament,
   selectCurrentPlayerInTeamTournamentWithPersonWithSportWithPosition,
 } from './store/selectors';
+import {
+  selectAvailableAwayPlayers,
+  selectAvailableHomePlayers,
+} from '../player-match/store/selectors';
 
 @Injectable({
   providedIn: 'root',
@@ -55,6 +59,9 @@ export class PlayerInTeamTournament {
   allAvailableTournamentPlayersForTeamTournament$: Observable<
     IPlayerInTeamTournamentWithPersonWithSportWithPosition[]
   >;
+
+  availableMatchHomePlayers$: Observable<IPlayerInTeamTournamentFullData[]>;
+  availableMatchAwayPlayers$: Observable<IPlayerInTeamTournamentFullData[]>;
 
   constructor(private store: Store<AppState>) {
     this.playerInTeamTournamentIsLoading$ = this.store.select(
@@ -93,6 +100,8 @@ export class PlayerInTeamTournament {
     this.allAvailableTournamentPlayersForTeamTournament$ = store.select(
       selectAvailableTournamentPlayersForTeamTournament,
     );
+    this.availableMatchHomePlayers$ = store.select(selectAvailableHomePlayers);
+    this.availableMatchAwayPlayers$ = store.select(selectAvailableAwayPlayers);
   }
 
   createPlayerInTeamTournament(
@@ -144,11 +153,9 @@ export class PlayerInTeamTournament {
     );
   }
 
-  loadAllPlayersForMatch(side: 'home' | 'away') {
+  loadAllPlayersForMatch() {
     this.store.dispatch(
-      playerInTeamTournamentActions.getAllPlayersInTeamTournamentsForMatch({
-        side,
-      }),
+      playerInTeamTournamentActions.getAllPlayersInTeamTournamentsForMatch(),
     );
   }
 

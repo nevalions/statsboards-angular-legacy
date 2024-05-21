@@ -53,3 +53,8 @@ export interface IPlayerInMatchFullData {
   person?: IPerson | null;
   position?: IPosition | null;
 }
+
+export interface IRoster {
+  home: IPlayerInMatchFullData[];
+  away: IPlayerInMatchFullData[];
+}

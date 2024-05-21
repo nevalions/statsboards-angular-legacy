@@ -1,19 +1,16 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import {
-  IPlayerInMatch,
-  IPlayerInMatchFullData,
-  IPlayerInTeamTournament,
-} from '../../type/player.type';
 import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
 import { AppState } from '../../store/appstate';
+import { IPlayerInMatch, IPlayerInMatchFullData } from '../../type/player.type';
+import { playerInMatchActions } from './store/actions';
 import {
   selectAllPlayersInMatch,
   selectAllPlayersInMatchFullData,
   selectCurrentPlayerInMatch,
   selectPlayerInMatchIsLoading,
 } from './store/reducers';
-import { playerInMatchActions } from './store/actions';
+import { selectAwayTeamRoster, selectHomeTeamRoster } from './store/selectors';
 
 @Injectable({
   providedIn: 'root',
@@ -23,6 +20,8 @@ export class PlayerInMatch {
   currentPlayerInMatch$: Observable<IPlayerInMatch | null | undefined>;
   allPlayersInMatch$: Observable<IPlayerInMatch[]>;
   allPlayersFullDataInMatch$: Observable<IPlayerInMatchFullData[]>;
+  homeRoster$: Observable<IPlayerInMatchFullData[]>;
+  awayRoster$: Observable<IPlayerInMatchFullData[]>;
 
   constructor(private store: Store<AppState>) {
     this.playerInMatchIsLoading$ = this.store.select(
@@ -33,6 +32,9 @@ export class PlayerInMatch {
     this.allPlayersFullDataInMatch$ = this.store.select(
       selectAllPlayersInMatchFullData,
     );
+
+    this.homeRoster$ = this.store.select(selectHomeTeamRoster);
+    this.awayRoster$ = this.store.select(selectAwayTeamRoster);
   }
 
   createPlayerInMatch(playerInMatch: IPlayerInMatch) {

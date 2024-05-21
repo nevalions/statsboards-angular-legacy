@@ -1,7 +1,6 @@
-@import '@taiga-ui/core/styles/taiga-ui-local.less';
-@import '@taiga-ui/styles/taiga-ui-global';
+@import "@taiga-ui/core/styles/taiga-ui-local.less";
+@import "@taiga-ui/styles/taiga-ui-global";
 @import "fonts.css";
-
 
 router-outlet {
   display: none;
@@ -30,7 +29,6 @@ body {
 .super_main_container {
   display: grid;
   background-color: var(--tui-base-06);
-
 }
 
 .main_container {
@@ -91,7 +89,6 @@ aside > * {
   justify-content: stretch;
   //background-color: aqua;
 }
-
 
 .content {
   //height: 100%;
@@ -179,6 +176,14 @@ aside > * {
   align-items: flex-start;
 }
 
+.two_col_container_match {
+  display: grid;
+  grid-template-columns: 50% 50%;
+  min-width: 100%;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
 .one_row_container {
   display: flex;
   flex-direction: row;
@@ -221,9 +226,8 @@ aside > * {
   .fullwidth_center();
 }
 
-
 // This goes into global, non-encapsulated styles
-[tuiWrapper][data-appearance='create'] {
+[tuiWrapper][data-appearance="create"] {
   background: var(--tui-positive-night-hover);
   color: #fff;
 
@@ -241,7 +245,7 @@ aside > * {
 }
 
 // This goes into global, non-encapsulated styles
-[tuiWrapper][data-appearance='submit-admin'] {
+[tuiWrapper][data-appearance="submit-admin"] {
   background: #b6d0c0;
   color: #282828;
 
@@ -259,7 +263,7 @@ aside > * {
 }
 
 // This goes into global, non-encapsulated styles
-[tuiWrapper][data-appearance='down-admin'] {
+[tuiWrapper][data-appearance="down-admin"] {
   background: #e7e7e7;
   color: #282828;
 
@@ -285,9 +289,7 @@ aside > * {
     grid-template-columns: 100%;
     justify-content: stretch;
     align-items: center;
-
   }
-
 }
 
 @media screen and (max-width: 700px) {
@@ -295,7 +297,6 @@ aside > * {
     grid-template-columns: auto;
   }
 }
-
 
 .add-new-button {
   padding: 10px;
