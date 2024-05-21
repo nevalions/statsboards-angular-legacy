@@ -1,24 +1,18 @@
 import { Injectable } from '@angular/core';
-import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { catchError, filter, map, of, switchMap, withLatestFrom } from 'rxjs';
-import { tap } from 'rxjs/operators';
 import { Router } from '@angular/router';
-import { Store } from '@ngrx/store';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { routerNavigatedAction } from '@ngrx/router-store';
+import { Store } from '@ngrx/store';
+import { catchError, filter, map, of, switchMap, withLatestFrom } from 'rxjs';
 import { getAllRouteParameters } from '../../../router/router.selector';
-import { playerInMatchActions } from './actions';
-import { selectCurrentPlayerInMatch } from './reducers';
 import {
   IPlayerInMatch,
   IPlayerInMatchFullData,
 } from '../../../type/player.type';
+import { selectCurrentMatchId } from '../../match/store/reducers';
 import { PlayerMatchService } from '../player-match.service';
-import {
-  selectCurrentMatch,
-  selectCurrentMatchId,
-} from '../../match/store/reducers';
-import { IMatch } from '../../../type/match.type';
-import { selectSportIdAndSeasonId } from '../../sport/store/selectors';
+import { playerInMatchActions } from './actions';
+import { selectCurrentPlayerInMatch } from './reducers';
 
 @Injectable()
 export class PlayerInMatchEffects {
@@ -62,6 +56,29 @@ export class PlayerInMatchEffects {
             }),
           );
         }),
+      );
+    },
+    { functional: true },
+  );
+
+  getPlayerInMatchFullDataOnCreateSuccessEffect = createEffect(
+    () => {
+      return this.actions$.pipe(
+        ofType(playerInMatchActions.createdSuccessfully),
+        switchMap(({ currentPlayerInMatch }) =>
+          this.playerInMatchService
+            .findCurrentPlayerInMatchFullData(currentPlayerInMatch.id!)
+            .pipe(
+              map((playerInMatchFullData: IPlayerInMatchFullData) =>
+                playerInMatchActions.getPlayerInMatchFullDataSuccess({
+                  playerInMatchFullData,
+                }),
+              ),
+              catchError(() =>
+                of(playerInMatchActions.getPlayerInMatchFullDataFailure()),
+              ),
+            ),
+        ),
       );
     },
     { functional: true },

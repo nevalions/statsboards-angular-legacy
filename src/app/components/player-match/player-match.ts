@@ -54,6 +54,8 @@ export class PlayerInMatch {
   }
 
   deletePlayerInMatchWithId(id: number) {
+    console.log('delete', id);
+
     this.store.dispatch(playerInMatchActions.deleteById({ id }));
   }
 }

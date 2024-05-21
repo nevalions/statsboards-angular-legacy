@@ -19,11 +19,19 @@ export const playerInMatchActions = createActionGroup({
     }>(),
     'Create failure': emptyProps(),
 
+    // get playerInMatch
     Get: props<{ id: number }>(),
     'Get item success': props<{
       playerInMatch: IPlayerInMatch;
     }>(),
     'Get item failure': emptyProps(),
+
+    //get playerInMatch full data
+    GetPlayerInMatchFullData: props<{ id: number }>(),
+    'Get playerInMatch full data success': props<{
+      playerInMatchFullData: IPlayerInMatchFullData;
+    }>(),
+    'Get playerInMatch full data failure': emptyProps(),
 
     GetAll: emptyProps(),
     'Get all items success': props<{

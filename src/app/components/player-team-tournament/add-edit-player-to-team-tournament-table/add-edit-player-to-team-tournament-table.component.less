@@ -1,4 +1,6 @@
-.table, .table-header, .table-cell {
+.table,
+.table-header,
+.table-cell {
   box-sizing: border-box;
   //background-color: #f2f2f2;
 }
@@ -13,7 +15,10 @@
   display: grid;
   justify-content: stretch;
   align-items: center;
-  grid-template-columns: minmax(250px, 2fr) minmax(150px, 1fr) minmax(100px, 1fr);
+  grid-template-columns: minmax(250px, 2fr) minmax(150px, 1fr) minmax(
+      100px,
+      1fr
+    );
   grid-template-rows: auto auto;
 
   background-color: #f2f2f2;
@@ -21,7 +26,6 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   margin: 8px;
 }
-
 
 .table-header,
 .table-cell {
@@ -87,11 +91,15 @@
 
 @media screen and (max-width: 800px) {
   .table-row {
-    grid-template-columns: minmax(150px, 2fr) minmax(100px, 1fr) minmax(100px, 1fr);
+    grid-template-columns: minmax(150px, 2fr) minmax(100px, 1fr) minmax(
+        100px,
+        1fr
+      );
     grid-template-rows: auto auto;
   }
 
-  .expand, .first {
+  .expand,
+  .first {
     grid-column: span 3;
   }
 
@@ -106,7 +114,8 @@
     grid-template-rows: auto auto auto;
   }
 
-  .expand, .first {
+  .expand,
+  .first {
     grid-column: span 2;
   }
 

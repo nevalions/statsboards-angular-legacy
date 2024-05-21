@@ -5,6 +5,7 @@ import {
   UpperCasePipe,
 } from '@angular/common';
 import {
+  ChangeDetectionStrategy,
   Component,
   Input,
   OnChanges,
@@ -63,6 +64,7 @@ import { PlayerInMatch } from '../player-match';
     AddButtonOnFinalTrComponent,
     SelectPlayerToMatchComponent,
   ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './add-edit-player-match-table.component.html',
   styleUrl: './add-edit-player-match-table.component.less',
 })
@@ -76,14 +78,14 @@ export class AddEditPlayerMatchTableComponent implements OnChanges, OnInit {
   @Input() positions: IPosition[] | null = [];
   @Input() deleteOrUpdate: 'delete' | 'update' | 'deleteFromTeam' = 'delete';
 
-  newPlayerCount = 0;
+  newHomePlayerCount = 0;
+  newAwayPlayerCount = 0;
   playerForm!: FormGroup;
   arrayName = 'players';
   expandedStates: { [key: string]: boolean } = {};
-  // fullArrayName: string;
 
   toggle(id: string): void {
-    // console.log(id);
+    console.log(id);
     if (id) {
       let str = id.toString();
       if (this.expandedStates[str] === undefined) {
@@ -100,18 +102,26 @@ export class AddEditPlayerMatchTableComponent implements OnChanges, OnInit {
     return this.expandedStates[id];
   }
 
-  get playersArray(): FormArray {
-    return this.playerForm.get(this.arrayName + this.side) as FormArray;
+  get playersArray(): FormArray | null | undefined {
+    if (this.side && this.arrayName) {
+      return this.playerForm.get(this.arrayName + this.side) as FormArray;
+    }
+    return null;
   }
 
   private populateFormArray(): void {
     const playersFormArray = this.players.map((player, index) =>
       this.createFormGroupForPlayer(player, index),
     );
-    console.log('players from array', playersFormArray);
+    // console.log('players from array', playersFormArray);
     const formArray = this.fb.array(playersFormArray);
-    console.log(formArray);
-    this.playerForm.setControl(this.arrayName + this.side, formArray);
+    // console.log(formArray);
+    if (this.arrayName && this.side) {
+      if (this.players.length) {
+        // console.log(this.arrayName, this.side);
+        this.playerForm.setControl(this.arrayName + this.side, formArray);
+      }
+    }
   }
 
   constructor(
@@ -121,26 +131,33 @@ export class AddEditPlayerMatchTableComponent implements OnChanges, OnInit {
     private fb: FormBuilder,
     private imageService: ImageService,
   ) {
-    // this.fullArrayName = this.arrayName + this.side;
-    // this.playerForm = this.fb.group({
-    //   players: this.fb.array([]),
-    // });
+    // if (this.side && this.arrayName) {
+    //   const fullArrayName = this.arrayName + this.side;
+    //   this.playerForm = this.fb.group({
+    //     [fullArrayName]: this.fb.array([]),
+    //   });
+    //   if (this.players) {
+    //     this.populateFormArray();
+    //   }
+    // }
   }
 
   ngOnInit() {
-    const fullArrayName = this.arrayName + this.side;
-    this.playerForm = this.fb.group({
-      [fullArrayName]: this.fb.array([]),
-    });
-    console.log('form', this.playerForm);
-    if (this.players) {
+    if (this.side && this.players) {
+      const fullArrayName = this.arrayName + this.side;
+      this.playerForm = this.fb.group({
+        [fullArrayName]: this.fb.array([]),
+      });
+      console.log('form', this.playerForm);
       this.populateFormArray();
     }
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes[this.arrayName + this.side] && this.players) {
-      this.populateFormArray();
+    if (changes[this.arrayName + this.side] || this.players) {
+      if (this.players.length) {
+        this.populateFormArray();
+      }
     }
   }
 
@@ -215,18 +232,22 @@ export class AddEditPlayerMatchTableComponent implements OnChanges, OnInit {
       this.playerForm.get(this.arrayName + this.side) as FormArray
     ).at(playerIndex);
     if (!playerFormGroup) {
+      console.log('playerFormGroup is null');
       return;
     }
 
+    let nameKey = `fullName${playerIndex}`;
     let positionKey = `position${playerIndex}`;
     let numberKey = `number${playerIndex}`;
 
+    const nameInput = playerFormGroup.get(nameKey);
     const positionInput = playerFormGroup.get(positionKey);
     const numberInput = playerFormGroup.get(numberKey);
 
     const anyControlEnabled =
       (positionInput && positionInput.enabled) ||
-      (numberInput && numberInput.enabled);
+      (numberInput && numberInput.enabled) ||
+      (nameInput && nameInput.enabled);
 
     if (anyControlEnabled) {
       playerFormGroup.disable();
@@ -241,11 +262,15 @@ export class AddEditPlayerMatchTableComponent implements OnChanges, OnInit {
     ).at(playerIndex);
     let positionKey = `position${playerIndex}`;
     let numberKey = `number${playerIndex}`;
+    let nameKey = `fullName${playerIndex}`;
     if (playerFormGroup.get(positionKey)) {
       return playerFormGroup.get(positionKey)!.enabled;
     }
     if (playerFormGroup.get(numberKey)) {
       return playerFormGroup.get(numberKey)!.enabled;
+    }
+    if (playerFormGroup.get(nameKey)) {
+      return playerFormGroup.get(nameKey)!.enabled;
     }
     return false;
   }
@@ -328,7 +353,6 @@ export class AddEditPlayerMatchTableComponent implements OnChanges, OnInit {
     if (lastPlayer && lastPlayer.match_player.id === null) {
       return;
     }
-    this.newPlayerCount++;
 
     const newPlayer: Partial<IPlayerInMatch> = {
       id: null,
@@ -339,10 +363,14 @@ export class AddEditPlayerMatchTableComponent implements OnChanges, OnInit {
     };
 
     if (this.side === 'home') {
+      this.newHomePlayerCount++;
+      console.log(this.newHomePlayerCount);
       newPlayer.team_id = this.match.match.team_a_id;
     }
 
     if (this.side === 'away') {
+      this.newAwayPlayerCount++;
+      console.log(this.newAwayPlayerCount);
       newPlayer.team_id = this.match.match.team_b_id;
     }
 

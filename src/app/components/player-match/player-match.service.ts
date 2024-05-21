@@ -22,6 +22,17 @@ export class PlayerMatchService extends BaseApiService<IPlayerInMatch> {
       ();
   }
 
+  findCurrentPlayerInMatchFullData(
+    id: number,
+  ): Observable<IPlayerInMatchFullData> {
+    return this.findByFirstKeyValue('players_match', 'id', id, 'full_data')
+      .pipe
+      // tap((players) => console.log(`PLAYERS from MATCH ID: ${id}`, players)),
+      ();
+  }
+
+  ///players_match/id/1/full_data/
+
   findPlayersFullDataByMatchId(
     id: number,
   ): Observable<IPlayerInMatchFullData[]> {

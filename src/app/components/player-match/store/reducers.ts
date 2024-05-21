@@ -102,6 +102,9 @@ const playerInMatchFeature = createFeature({
       allPlayersInMatch: (state.allPlayersInMatch || []).filter(
         (item) => item.id !== action.playerInMatchId,
       ),
+      allPlayersInMatchFullData: (state.allPlayersInMatchFullData || []).filter(
+        (item) => item.match_player.id !== action.playerInMatchId,
+      ),
       errors: null,
     })),
     on(playerInMatchActions.deleteByIdFailure, (state, action) => ({
@@ -153,6 +156,31 @@ const playerInMatchFeature = createFeature({
       errors: action,
     })),
 
+    //get player in match full data action
+    on(playerInMatchActions.getPlayerInMatchFullData, (state) => ({
+      ...state,
+      playerInMatchIsLoading: true,
+    })),
+    on(
+      playerInMatchActions.getPlayerInMatchFullDataSuccess,
+      (state, action) => ({
+        ...state,
+        playerInMatchIsLoading: false,
+        currentPlayerInMatch: action.playerInMatchFullData.match_player,
+        currentPlayerInMatchFullData: action.playerInMatchFullData,
+        allPlayersInMatchFullData: SortService.sort(
+          [...state.allPlayersInMatchFullData, action.playerInMatchFullData],
+          'match_player.match_number',
+        ),
+      }),
+    ),
+    on(playerInMatchActions.getItemFailure, (state, action) => ({
+      ...state,
+      playerInMatchIsLoading: false,
+      errors: action,
+    })),
+
+    // get all actions
     on(playerInMatchActions.getAllPlayersInMatch, (state) => ({
       ...state,
       playerInMatchIsLoading: true,
@@ -173,7 +201,7 @@ const playerInMatchFeature = createFeature({
       playerInMatchIsLoading: false,
       errors: action,
     })),
-    // players with full data
+    // get all players with full data
     on(playerInMatchActions.getAllPlayersWithFullDataInMatch, (state) => ({
       ...state,
       playerInMatchIsLoading: true,
