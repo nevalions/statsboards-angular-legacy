@@ -1,6 +1,5 @@
-import { IPerson } from '../type/person.type';
 import { AnyObjectWithTitle } from '../type/base.type';
-import { ISport } from '../type/sport.type';
+import { IPerson } from '../type/person.type';
 import {
   IPlayerInSport,
   IPlayerInTeamTournamentWithPersonWithSportWithPosition,

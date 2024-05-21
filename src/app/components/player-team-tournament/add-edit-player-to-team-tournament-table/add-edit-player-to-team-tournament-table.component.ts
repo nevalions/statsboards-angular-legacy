@@ -1,4 +1,16 @@
 import {
+  CdkFixedSizeVirtualScroll,
+  CdkVirtualForOf,
+  CdkVirtualScrollViewport,
+} from '@angular/cdk/scrolling';
+import {
+  DatePipe,
+  NgForOf,
+  NgIf,
+  TitleCasePipe,
+  UpperCasePipe,
+} from '@angular/common';
+import {
   ChangeDetectionStrategy,
   Component,
   Input,
@@ -13,44 +25,32 @@ import {
   FormGroup,
   ReactiveFormsModule,
 } from '@angular/forms';
-import { PlayerInTeamTournament } from '../player-team-tournament';
-import { DialogService } from '../../../services/dialog.service';
-import {
-  DatePipe,
-  NgForOf,
-  NgIf,
-  TitleCasePipe,
-  UpperCasePipe,
-} from '@angular/common';
-import { DeleteDialogComponent } from '../../../shared/ui/dialogs/delete-dialog/delete-dialog.component';
-import { TuiExpandModule, TuiTextfieldControllerModule } from '@taiga-ui/core';
 import { TuiTableModule } from '@taiga-ui/addon-table';
+import { TuiExpandModule, TuiTextfieldControllerModule } from '@taiga-ui/core';
+import { TuiAvatarModule } from '@taiga-ui/kit';
+import { environment } from '../../../../environments/environment';
+import {
+  getArrayFormDataByIndexAndKey,
+  getFormControl,
+  getFormDataByIndexAndKey,
+} from '../../../base/formHelpers';
+import { DialogService } from '../../../services/dialog.service';
+import { ImageService } from '../../../services/image.service';
+import { ActionsButtonsComponent } from '../../../shared/ui/buttons/actions-buttons/actions-buttons.component';
+import { AddButtonOnFinalTrComponent } from '../../../shared/ui/buttons/add-button-on-final-tr/add-button-on-final-tr.component';
+import { DeleteDialogComponent } from '../../../shared/ui/dialogs/delete-dialog/delete-dialog.component';
+import { SelectTeamComponent } from '../../../shared/ui/forms/select-team/select-team.component';
+import { SelectPlayerNumberComponent } from '../../../shared/ui/select/select-player-number/select-player-number.component';
+import { SelectPlayerPositionComponent } from '../../../shared/ui/select/select-player-position/select-player-position.component';
+import { SelectPlayerToTeamTournamentComponent } from '../../../shared/ui/select/select-player-to-team-tournament/select-player-to-team-tournament.component';
 import {
   IPlayerInSport,
   IPlayerInTeamTournament,
   IPlayerInTeamTournamentWithPersonWithSportWithPosition,
 } from '../../../type/player.type';
 import { IPosition } from '../../../type/position.type';
-import { SelectPlayerNumberComponent } from '../../../shared/ui/select/select-player-number/select-player-number.component';
-import { SelectPlayerPositionComponent } from '../../../shared/ui/select/select-player-position/select-player-position.component';
-import { SelectPlayerToTeamTournamentComponent } from '../../../shared/ui/select/select-player-to-team-tournament/select-player-to-team-tournament.component';
-import {
-  getArrayFormDataByIndexAndKey,
-  getFormControl,
-  getFormDataByIndexAndKey,
-} from '../../../base/formHelpers';
-import { ActionsButtonsComponent } from '../../../shared/ui/buttons/actions-buttons/actions-buttons.component';
-import { AddButtonOnFinalTrComponent } from '../../../shared/ui/buttons/add-button-on-final-tr/add-button-on-final-tr.component';
-import { SelectTeamComponent } from '../../../shared/ui/forms/select-team/select-team.component';
 import { ITeam } from '../../../type/team.type';
-import {
-  CdkFixedSizeVirtualScroll,
-  CdkVirtualForOf,
-  CdkVirtualScrollViewport,
-} from '@angular/cdk/scrolling';
-import { ImageService } from '../../../services/image.service';
-import { TuiAvatarModule } from '@taiga-ui/kit';
-import { environment } from '../../../../environments/environment';
+import { PlayerInTeamTournament } from '../player-team-tournament';
 
 @Component({
   selector: 'app-add-edit-player-to-team-tournament-table',

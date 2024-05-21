@@ -4,25 +4,30 @@
   [tuiTextfieldLabelOutside]="true"
   style="padding: 10px"
 >
-  @if (players && players.length && playerForm && playersArray && playersArray.length) {
-
+  @if (
+    players &&
+    players.length &&
+    playerForm &&
+    playersArray &&
+    playersArray.length
+  ) {
     <div class="table">
       @if (players && players.length) {
         <div formArrayName="players" class="table-body">
-
           <div
             *ngFor="let playerFormGroup of playersArray.controls; let i = index"
             class="table-row"
             [formGroupName]="i"
           >
-
-
             <div
               class="table-cell first"
               (click)="toggle(playerFormGroup.get('playerInTeamId' + i)!.value)"
             >
-              @if (getFormDataByIndexAndKey(playerFormGroup, i, 'playerId')) {
-                @if (getFormDataByIndexAndKey(playerFormGroup, i, 'fullName'); as name) {
+              @if (getFormDataByIndexAndKey(playerFormGroup, i, "playerId")) {
+                @if (
+                  getFormDataByIndexAndKey(playerFormGroup, i, "fullName");
+                  as name
+                ) {
                   {{ name | titlecase }}
                 }
               } @else {
@@ -30,17 +35,30 @@
                   <app-select-player-to-team-tournament
                     [playerList]="availablePlayersInSport"
                     [tournamentId]="tournamentId"
-                    [control]="getFormControl(this.playerForm, i, 'playerInSport', 'players')"
+                    [control]="
+                      getFormControl(
+                        this.playerForm,
+                        i,
+                        'playerInSport',
+                        'players'
+                      )
+                    "
                   ></app-select-player-to-team-tournament>
                 } @else {
                   <app-select-player-to-team-tournament
                     [playerListFromTournament]="availablePlayersInTournament"
                     [tournamentId]="tournamentId"
-                    [control]="getFormControl(this.playerForm, i, 'playerInSport', 'players')"
+                    [control]="
+                      getFormControl(
+                        this.playerForm,
+                        i,
+                        'playerInSport',
+                        'players'
+                      )
+                    "
                     (playerSelect)="onPlayerSelect($event, i)"
                   ></app-select-player-to-team-tournament>
                 }
-
               }
             </div>
 
@@ -48,21 +66,28 @@
               <div class="table-cell left">
                 @if (isRowEnabled(i)) {
                   <app-select-player-number
-                    [control]="getFormControl(this.playerForm, i, 'number', 'players')"
+                    [control]="
+                      getFormControl(this.playerForm, i, 'number', 'players')
+                    "
                   ></app-select-player-number>
                 } @else {
-                  #{{ getFormDataByIndexAndKey(playerFormGroup, i, 'number') }}
+                  #{{ getFormDataByIndexAndKey(playerFormGroup, i, "number") }}
                 }
               </div>
             } @else {
               <div class="table-cell left">
                 @if (isRowEnabled(i)) {
                   <app-select-team
-                    [control]="getFormControl(this.playerForm, i, 'team', 'players')"
+                    [control]="
+                      getFormControl(this.playerForm, i, 'team', 'players')
+                    "
                     [teamsList]="teamsInTournament"
                   ></app-select-team>
                 } @else {
-                  {{ getFormDataByIndexAndKey(playerFormGroup, i, 'team')?.title | titlecase }}
+                  {{
+                    getFormDataByIndexAndKey(playerFormGroup, i, "team")?.title
+                      | titlecase
+                  }}
                 }
               </div>
             }
@@ -75,20 +100,33 @@
                       [positionList]="positions"
                       [index]="i"
                       [sportId]="sportId"
-                      [control]="getFormControl(this.playerForm, i, 'position', 'players')"
+                      [control]="
+                        getFormControl(
+                          this.playerForm,
+                          i,
+                          'position',
+                          'players'
+                        )
+                      "
                     ></app-select-player-position>
                   } @else {
-                    {{ getFormDataByIndexAndKey(playerFormGroup, i, 'position')?.title | uppercase }}
+                    {{
+                      getFormDataByIndexAndKey(playerFormGroup, i, "position")
+                        ?.title | uppercase
+                    }}
                   }
                 }
               }
             </div>
-            @if (playerFormGroup.get('playerInTeamId' + i)!.value; as id) {
+            @if (playerFormGroup.get("playerInTeamId" + i)!.value; as id) {
               <tui-expand [expanded]="isExpanded(id)" class="expand">
                 <ng-template tuiExpandContent>
                   <div class="table-cell actions">
                     <div class="player-short-profile">
-                      @if (playerFormGroup.get('photoUrl' + i)!.value; as photoUrl) {
+                      @if (
+                        playerFormGroup.get("photoUrl" + i)!.value;
+                        as photoUrl
+                      ) {
                         <tui-avatar
                           size="xl"
                           text="uploaded logo"
@@ -99,44 +137,70 @@
                         ></tui-avatar>
 
                         <!--                        <img-->
-                          <!--                          src="{{url}}{{photoUrl}}"-->
-                          <!--                          height="100px"-->
-                          <!--                          alt="Photo"-->
-                          <!--                          (error)="onImgError($event)"-->
-                          <!--                          class="player-photo-short-profile"-->
-                          <!--                        >-->
+                        <!--                          src="{{url}}{{photoUrl}}"-->
+                        <!--                          height="100px"-->
+                        <!--                          alt="Photo"-->
+                        <!--                          (error)="onImgError($event)"-->
+                        <!--                          class="player-photo-short-profile"-->
+                        <!--                        >-->
                       }
-                      @if (playerFormGroup.get('dob' + i)!.value; as dob) {
+                      @if (playerFormGroup.get("dob" + i)!.value; as dob) {
                         <span>{{ dob | date }}</span>
                         <span>Age: {{ calculateAge(dob) }} years</span>
                       }
-                      @if (deleteOrUpdate == 'deleteFromTeam') {
+                      @if (deleteOrUpdate == "deleteFromTeam") {
                         <app-actions-buttons
                           [id]="id"
                           [index]="i"
                           [deleteOrUpdate]="'deleteFromTeam'"
-                          [item]="getFormDataByIndexAndKey(playerFormGroup, i, 'fullName') | uppercase"
+                          [item]="
+                            getFormDataByIndexAndKey(
+                              playerFormGroup,
+                              i,
+                              'fullName'
+                            ) | uppercase
+                          "
                           [isEnabled]="isRowEnabled(i)"
                           [isDataChanged]="isDataChanged(i)"
                           (onEdit)="enableRowToEdit($event.index)"
-                          (onSubmit)="onSubmit($event.action, $event.index, $event.id)"
+                          (onSubmit)="
+                            onSubmit($event.action, $event.index, $event.id)
+                          "
                           (onCancel)="onCancelButtonClick()"
-                          (onDeleteUpdate)="onSubmit($event.action, $event.index, $event.id)"
-                          (onDeleteDialog)="onDeleteButtonClick('deleteDialogPlayer'+$event.id!)"
+                          (onDeleteUpdate)="
+                            onSubmit($event.action, $event.index, $event.id)
+                          "
+                          (onDeleteDialog)="
+                            onDeleteButtonClick(
+                              'deleteDialogPlayer' + $event.id!
+                            )
+                          "
                         ></app-actions-buttons>
                       } @else {
                         <app-actions-buttons
                           [id]="id"
                           [index]="i"
                           [deleteOrUpdate]="'delete'"
-                          [item]="getFormDataByIndexAndKey(playerFormGroup, i, 'fullName') | uppercase"
+                          [item]="
+                            getFormDataByIndexAndKey(
+                              playerFormGroup,
+                              i,
+                              'fullName'
+                            ) | uppercase
+                          "
                           [isEnabled]="isRowEnabled(i)"
                           [isDataChanged]="isDataChanged(i)"
                           (onEdit)="enableRowToEdit($event.index)"
                           (onDelete)="onDelete($event.id!)"
-                          (onSubmit)="onSubmit($event.action, $event.index, $event.id)"
+                          (onSubmit)="
+                            onSubmit($event.action, $event.index, $event.id)
+                          "
                           (onCancel)="onCancelButtonClick()"
-                          (onDeleteDialog)="onDeleteButtonClick('deleteDialogPlayer'+$event.id!)"
+                          (onDeleteDialog)="
+                            onDeleteButtonClick(
+                              'deleteDialogPlayer' + $event.id!
+                            )
+                          "
                         ></app-actions-buttons>
                       }
                     </div>
@@ -152,7 +216,10 @@
             }
           </div>
         </div>
-        @if (!players.length || players[players.length - 1].playerInTeamTournament.id !== null) {
+        @if (
+          !players.length ||
+          players[players.length - 1].playerInTeamTournament.id !== null
+        ) {
           <div class="table-row final">
             <app-add-button-on-final-tr
               [action]="'add player'"

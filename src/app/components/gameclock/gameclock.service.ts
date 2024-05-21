@@ -1,11 +1,11 @@
-import { Injectable } from '@angular/core';
-import { BaseApiService } from '../../services/base.api.service';
 import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { ErrorHandlingService } from '../../services/error.service';
-import { IPlayclock } from '../../type/playclock.type';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
+import { BaseApiService } from '../../services/base.api.service';
+import { ErrorHandlingService } from '../../services/error.service';
+import { IPlayclock } from '../../type/playclock.type';
 
 @Injectable({
   providedIn: 'root',

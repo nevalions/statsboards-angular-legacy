@@ -4,7 +4,7 @@ let apiUrl = 'localhost:9000';
 export const environment = {
   production: false,
   currentYear: new Date().getFullYear(),
-  currentSeasonId: 6,
+  currentSeasonId: 1,
   url: 'localhost',
   port: ':9000',
   angular_port: ':4200',

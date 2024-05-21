@@ -3,13 +3,13 @@ import { Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 import { AppState } from '../../store/appstate';
 
+import { IGameclock } from '../../type/gameclock.type';
+import { gameclockActions } from './store/actions';
 import {
   selectCurrentGameclock,
   selectGameclockIsSubmitting,
   selectGameclockLoading,
 } from './store/reducers';
-import { IGameclock } from '../../type/gameclock.type';
-import { gameclockActions } from './store/actions';
 
 @Injectable({
   providedIn: 'root',

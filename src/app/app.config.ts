@@ -1,39 +1,38 @@
-import { provideAnimations } from '@angular/platform-browser/animations';
-import { TuiRootModule } from '@taiga-ui/core';
 import {
   ApplicationConfig,
   importProvidersFrom,
   isDevMode,
 } from '@angular/core';
+import { provideAnimations } from '@angular/platform-browser/animations';
 import {
   provideRouter,
   withComponentInputBinding,
   withRouterConfig,
 } from '@angular/router';
+import { TuiRootModule } from '@taiga-ui/core';
 
-import { routes } from './app.routes';
 import {
   provideHttpClient,
   withFetch,
   withInterceptors,
 } from '@angular/common/http';
-import { AuthInterceptor } from './interceptors/auth.interceptor';
-import { tuiInputNumberOptionsProvider } from '@taiga-ui/kit';
-import { provideState, provideStore } from '@ngrx/store';
-import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { provideEffects } from '@ngrx/effects';
 import { provideRouterStore, routerReducer } from '@ngrx/router-store';
+import { provideState, provideStore } from '@ngrx/store';
+import { provideStoreDevtools } from '@ngrx/store-devtools';
+import { routes } from './app.routes';
+import { SportEffects } from './components/sport/store/effects';
 import {
   sportFeatureKey,
   sportReducer,
 } from './components/sport/store/reducers';
-import { SportEffects } from './components/sport/store/effects';
+import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { ROUTER_FEATURE_KEY } from './router/router.selector';
+import { BreadcrumbEffects } from './store/breadcrumbs/breadcrumbs.effects';
 import {
   breadcrumbFeatureKey,
   breadcrumbReducer,
 } from './store/breadcrumbs/breadcrumbs.reducers';
-import { BreadcrumbEffects } from './store/breadcrumbs/breadcrumbs.effects';
 import { uiFeatureKey, uiReducer } from './store/ui/ui.reducers';
 
 export const appConfig: ApplicationConfig = {
