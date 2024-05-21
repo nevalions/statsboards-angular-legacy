@@ -1,33 +1,33 @@
-import { Component } from '@angular/core';
-import { IMatch } from '../../../type/match.type';
-import { ActivatedRoute, Router } from '@angular/router';
 import { AsyncPipe, DatePipe, NgIf, TitleCasePipe } from '@angular/common';
+import { Component } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import {
   TuiAppearance,
   TuiButtonModule,
   TuiLoaderModule,
 } from '@taiga-ui/core';
 import { TuiIslandModule } from '@taiga-ui/kit';
-import { DeleteDialogComponent } from '../../../shared/ui/dialogs/delete-dialog/delete-dialog.component';
+import { environment } from '../../../../environments/environment';
+import { BodyListTitleComponent } from '../../../shared/ui/body/body-title/body-list-title.component';
+import { CreateButtonShowDialogComponent } from '../../../shared/ui/buttons/create-button-show-dialog/create-button-show-dialog.component';
 import { DeleteButtonComponent } from '../../../shared/ui/buttons/delete-button/delete-button.component';
 import { EditButtonComponent } from '../../../shared/ui/buttons/edit-button/edit-button.component';
-import { CreateButtonShowDialogComponent } from '../../../shared/ui/buttons/create-button-show-dialog/create-button-show-dialog.component';
-import { AddEditMatchComponent } from '../add-edit-match/add-edit-match.component';
+import { DeleteDialogComponent } from '../../../shared/ui/dialogs/delete-dialog/delete-dialog.component';
+import { IMatch } from '../../../type/match.type';
+import { MatchWithFullData } from '../../match-with-full-data/matchWithFullData';
+import { Person } from '../../person/person';
+import { AddEditPlayerMatchTableComponent } from '../../player-match/add-edit-player-match-table/add-edit-player-match-table.component';
+import { PlayerInMatch } from '../../player-match/player-match';
+import { AddEditPlayerToTeamTournamentTableComponent } from '../../player-team-tournament/add-edit-player-to-team-tournament-table/add-edit-player-to-team-tournament-table.component';
+import { PlayerInTeamTournament } from '../../player-team-tournament/player-team-tournament';
+import { Player } from '../../player/player';
+import { Position } from '../../position/postion';
 import { Season } from '../../season/season';
 import { Sport } from '../../sport/sport';
-import { Tournament } from '../../tournament/tournament';
 import { Team } from '../../team/team';
-import { MatchWithFullData } from '../../match-with-full-data/matchWithFullData';
+import { Tournament } from '../../tournament/tournament';
+import { AddEditMatchComponent } from '../add-edit-match/add-edit-match.component';
 import { Match } from '../match';
-import { environment } from '../../../../environments/environment';
-import { Person } from '../../person/person';
-import { PlayerInTeamTournament } from '../../player-team-tournament/player-team-tournament';
-import { PlayerInMatch } from '../../player-match/player-match';
-import { Position } from '../../position/postion';
-import { BodyListTitleComponent } from '../../../shared/ui/body/body-title/body-list-title.component';
-import { AddEditPlayerMatchTableComponent } from '../../player-match/add-edit-player-match-table/add-edit-player-match-table.component';
-import { AddEditPlayerToTeamTournamentTableComponent } from '../../player-team-tournament/add-edit-player-to-team-tournament-table/add-edit-player-to-team-tournament-table.component';
-import { Player } from '../../player/player';
 
 @Component({
   selector: 'app-item-match',
@@ -55,14 +55,16 @@ import { Player } from '../../player/player';
 export class ItemMatchComponent {
   sport$ = this.sport.currentSport$;
   allSportTeams$ = this.team.teamsInSport$;
-  teamsInTournament$ = this.team.teamsInTournament$;
+  match$ = this.matchWithFullData.matchWithFullData$;
   tournament$ = this.tournament.currentTournament$;
+  teamsInTournament$ = this.team.teamsInTournament$;
   allPlayersInMatch$ = this.playerInMatch.allPlayersFullDataInMatch$;
-  allPlayerInTeamTournament$ =
-    this.playerInTeamTournament.allPlayersInTeamTournamentFullData$;
+  allHomePlayersInTeam$ =
+    this.playerInTeamTournament.allHomePlayersInTeamTournamentWithPerson$;
+  allAwayPlayersInTeam$ =
+    this.playerInTeamTournament.allAwayPlayersInTeamTournamentWithPerson$;
 
   allSportPositions$ = this.position.allSportPositions$;
-  match$ = this.matchWithFullData.matchWithFullData$;
 
   constructor(
     private season: Season,
@@ -79,9 +81,12 @@ export class ItemMatchComponent {
     private route: ActivatedRoute,
     private router: Router,
   ) {
-    person.loadAllPersons();
-    player.loadAllPlayersBySportId();
-    playerInTeamTournament.loadCurrentPlayerInTeamTournament();
+    match.loadCurrentMatch();
+    tournament.loadCurrentTournament();
+    // person.loadAllPersons();
+    // player.loadAllPlayersBySportId();
+    playerInTeamTournament.loadAllPlayersForMatch('home');
+    playerInTeamTournament.loadAllPlayersForMatch('away');
     position.loadAllPositionsBySportId();
     playerInMatch.loadAllPlayersInMatch();
     team.loadAllTeamsInTournament();

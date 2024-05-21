@@ -1,40 +1,33 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { routerNavigatedAction } from '@ngrx/router-store';
+import { Store } from '@ngrx/store';
 import {
   catchError,
-  combineLatest,
   filter,
+  forkJoin,
   map,
   of,
   switchMap,
-  take,
   withLatestFrom,
 } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { Router } from '@angular/router';
-import { Store } from '@ngrx/store';
-import { routerNavigatedAction } from '@ngrx/router-store';
 import { getAllRouteParameters } from '../../../router/router.selector';
-import { playerInTeamTournamentActions } from './actions';
 import {
-  selectCurrentPlayerInTeamTournament,
-  selectCurrentPlayerInTeamTournamentId,
-} from './reducers';
-import { selectCurrentSportId } from '../../sport/store/reducers';
-import { IPlayerInTeamTournament } from '../../../type/player.type';
-import { PlayerTeamTournamentService } from '../player-team-tournament.service';
-import { selectCurrentTeamId } from '../../team/store/reducers';
-import {
-  selectCurrentTournament,
-  selectCurrentTournamentId,
-} from '../../tournament/store/reducers';
-import { tournamentActions } from '../../tournament/store/actions';
-import { selectSportIdAndSeasonId } from '../../sport/store/selectors';
-import { ITournament } from '../../../type/tournament.type';
+  IPlayerInTeamTournament,
+  IPlayerInTeamTournamentFullData,
+} from '../../../type/player.type';
+import { selectCurrentMatch } from '../../match/store/reducers';
 import {
   selectCurrentTeamAndTournament,
   selectTeamTournamentId,
 } from '../../team/store/selectors';
+import { selectCurrentTournamentId } from '../../tournament/store/reducers';
+import { PlayerFullDataService } from '../player-full-data.service';
+import { PlayerTeamTournamentService } from '../player-team-tournament.service';
+import { playerInTeamTournamentActions } from './actions';
+import { selectCurrentPlayerInTeamTournament } from './reducers';
 
 @Injectable()
 export class PlayerInTeamTournamentEffects {
@@ -301,6 +294,99 @@ export class PlayerInTeamTournamentEffects {
     { functional: true },
   );
 
+  // effect to home and team players add selector, action and effect
+  getPlayersForMatchWithPersonEffect = createEffect(
+    () => {
+      return this.actions$.pipe(
+        ofType(
+          playerInTeamTournamentActions.getAllPlayersInTeamTournamentsForMatch,
+        ),
+        switchMap((action) =>
+          this.store.select(selectCurrentMatch).pipe(
+            switchMap((currentMatch) => {
+              // Ensure currentMatch is valid before proceeding
+              if (
+                currentMatch &&
+                currentMatch.team_a_id &&
+                currentMatch.team_b_id &&
+                currentMatch.tournament_id
+              ) {
+                const home$ =
+                  this.playerFullDataService.findPlayersInTeamTournamentByTeamIdTournamentWithPerson(
+                    currentMatch.team_a_id,
+                    currentMatch.tournament_id,
+                  );
+                const away$ =
+                  this.playerFullDataService.findPlayersInTeamTournamentByTeamIdTournamentWithPerson(
+                    currentMatch.team_b_id,
+                    currentMatch.tournament_id,
+                  );
+                return forkJoin({ home: home$, away: away$ }).pipe(
+                  map((results) =>
+                    playerInTeamTournamentActions.getAllPlayersInTeamTournamentForMatchSuccess(
+                      {
+                        side: action.side,
+                        playersInTeamTournamentWithPerson:
+                          action.side === 'home' ? results.home : results.away,
+                      },
+                    ),
+                  ),
+                  catchError(() =>
+                    of(
+                      playerInTeamTournamentActions.getAllPlayersInTeamTournamentForMatchFailure(),
+                    ),
+                  ),
+                );
+              } else {
+                // console.log('nonononononono');
+                // If there is no valid currentMatch, dispatch a failure or handle accordingly
+                return of(
+                  playerInTeamTournamentActions.getAllPlayersInTeamTournamentForMatchFailure(),
+                );
+              }
+            }),
+          ),
+        ),
+      );
+    },
+    { functional: true },
+  );
+
+  getPlayersInTeamTournamentWithPersonEffect = createEffect(
+    () => {
+      return this.actions$.pipe(
+        ofType(
+          playerInTeamTournamentActions.getAllPlayerInTeamTournamentsWithPersonProps,
+        ),
+        switchMap(({ teamId, tournamentId }) =>
+          this.playerFullDataService
+            .findPlayersInTeamTournamentByTeamIdTournamentWithPerson(
+              teamId!,
+              tournamentId!,
+            )
+            .pipe(
+              map(
+                (
+                  playersInTeamTournamentWithPerson: IPlayerInTeamTournamentFullData[],
+                ) =>
+                  playerInTeamTournamentActions.getAllPlayersInTeamTournamentWithPersonPropsSuccess(
+                    {
+                      playersInTeamTournamentWithPerson,
+                    },
+                  ),
+              ),
+              catchError(() =>
+                of(
+                  playerInTeamTournamentActions.getAllPlayersInTeamTournamentWithPersonPropsFailure(),
+                ),
+              ),
+            ),
+        ),
+      );
+    },
+    { functional: true },
+  );
+
   deletePlayerInTeamTournamentEffect = createEffect(
     () => {
       return this.actions$.pipe(
@@ -408,6 +494,7 @@ export class PlayerInTeamTournamentEffects {
     private router: Router,
     private actions$: Actions,
     private playerInTeamTournamentService: PlayerTeamTournamentService,
+    private playerFullDataService: PlayerFullDataService,
     private store: Store,
   ) {}
 }

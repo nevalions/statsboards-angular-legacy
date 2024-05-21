@@ -1,17 +1,16 @@
 import {
+  DatePipe,
+  NgForOf,
+  TitleCasePipe,
+  UpperCasePipe,
+} from '@angular/common';
+import {
   Component,
   Input,
   OnChanges,
   OnInit,
   SimpleChanges,
 } from '@angular/core';
-import {
-  IPlayerInMatch,
-  IPlayerInMatchFullData,
-  IPlayerInTeamTournament,
-  IPlayerInTeamTournamentWithPersonWithSportWithPosition,
-} from '../../../type/player.type';
-import { IPosition } from '../../../type/position.type';
 import {
   FormArray,
   FormBuilder,
@@ -20,30 +19,29 @@ import {
   FormsModule,
   ReactiveFormsModule,
 } from '@angular/forms';
-import { PlayerInTeamTournament } from '../../player-team-tournament/player-team-tournament';
-import { DialogService } from '../../../services/dialog.service';
-import { ImageService } from '../../../services/image.service';
-import { PlayerInMatch } from '../player-match';
+import { TuiExpandModule, TuiTextfieldControllerModule } from '@taiga-ui/core';
+import { TuiAvatarModule } from '@taiga-ui/kit';
+import { environment } from '../../../../environments/environment';
 import {
-  getArrayFormDataByIndexAndKey,
   getFormControl,
   getFormDataByIndexAndKey,
 } from '../../../base/formHelpers';
-import { environment } from '../../../../environments/environment';
-import { TuiExpandModule, TuiTextfieldControllerModule } from '@taiga-ui/core';
-import {
-  DatePipe,
-  NgForOf,
-  TitleCasePipe,
-  UpperCasePipe,
-} from '@angular/common';
+import { DialogService } from '../../../services/dialog.service';
+import { ImageService } from '../../../services/image.service';
+import { ActionsButtonsComponent } from '../../../shared/ui/buttons/actions-buttons/actions-buttons.component';
+import { AddButtonOnFinalTrComponent } from '../../../shared/ui/buttons/add-button-on-final-tr/add-button-on-final-tr.component';
 import { SelectPlayerNumberComponent } from '../../../shared/ui/select/select-player-number/select-player-number.component';
 import { SelectPlayerPositionComponent } from '../../../shared/ui/select/select-player-position/select-player-position.component';
-import { ActionsButtonsComponent } from '../../../shared/ui/buttons/actions-buttons/actions-buttons.component';
-import { TuiAvatarModule } from '@taiga-ui/kit';
-import { AddButtonOnFinalTrComponent } from '../../../shared/ui/buttons/add-button-on-final-tr/add-button-on-final-tr.component';
-import { IMatch, IMatchWithFullData } from '../../../type/match.type';
 import { SelectPlayerToMatchComponent } from '../../../shared/ui/select/select-player-to-match/select-player-to-match.component';
+import { IMatchWithFullData } from '../../../type/match.type';
+import {
+  IPlayerInMatch,
+  IPlayerInMatchFullData,
+  IPlayerInTeamTournamentFullData,
+} from '../../../type/player.type';
+import { IPosition } from '../../../type/position.type';
+import { PlayerInTeamTournament } from '../../player-team-tournament/player-team-tournament';
+import { PlayerInMatch } from '../player-match';
 
 @Component({
   selector: 'app-add-edit-player-match-table',
@@ -68,15 +66,11 @@ import { SelectPlayerToMatchComponent } from '../../../shared/ui/select/select-p
   styleUrl: './add-edit-player-match-table.component.less',
 })
 export class AddEditPlayerMatchTableComponent implements OnChanges, OnInit {
-  @Input() side: 'home' | 'away' = 'home';
+  @Input() side!: 'home' | 'away';
   @Input() sportId!: number;
-  // @Input() matchId!: number;
-  // @Input() teamId: number | null = null;
   @Input() match!: IMatchWithFullData;
-  @Input() playersInTeamTournament: IPlayerInTeamTournament[] = [];
   @Input()
-  availablePlayersInTeamTournament: IPlayerInTeamTournamentWithPersonWithSportWithPosition[] =
-    [];
+  availablePlayersInTeamTournament: IPlayerInTeamTournamentFullData[] = [];
   @Input() players: IPlayerInMatchFullData[] = [];
   @Input() positions: IPosition[] | null = [];
   @Input() deleteOrUpdate: 'delete' | 'update' | 'deleteFromTeam' = 'delete';
@@ -85,6 +79,7 @@ export class AddEditPlayerMatchTableComponent implements OnChanges, OnInit {
   playerForm!: FormGroup;
   arrayName = 'players';
   expandedStates: { [key: string]: boolean } = {};
+  // fullArrayName: string;
 
   toggle(id: string): void {
     // console.log(id);
@@ -124,6 +119,7 @@ export class AddEditPlayerMatchTableComponent implements OnChanges, OnInit {
     private fb: FormBuilder,
     private imageService: ImageService,
   ) {
+    // this.fullArrayName = this.arrayName + this.side;
     this.playerForm = this.fb.group({
       players: this.fb.array([]),
     });
@@ -146,7 +142,7 @@ export class AddEditPlayerMatchTableComponent implements OnChanges, OnInit {
     index: number,
   ): FormGroup {
     const controlNamePlayerInMatchId = `playerInMatchId${index}`;
-    // const controlNamePlayerId = `playerId${index}`;
+    const controlNamePlayerId = `playerId${index}`;
     const controlNameTeamId = `teamId${index}`;
     const controlNameFullName = `fullName${index}`;
     const controlNamePosition = `position${index}`;
@@ -157,9 +153,7 @@ export class AddEditPlayerMatchTableComponent implements OnChanges, OnInit {
 
     return this.fb.group({
       [controlNamePlayerInMatchId]: new FormControl(player.match_player.id),
-      // [controlNamePlayerId]: new FormControl(
-      //   player..player_id,
-      // ),
+      [controlNamePlayerId]: new FormControl(player.match_player.id),
       [controlNameTeamId]: new FormControl(this.match.match.team_a_id),
       [controlNameFullName]: new FormControl(
         `${player.person?.first_name} ${player.person?.second_name}` || '',
@@ -180,7 +174,7 @@ export class AddEditPlayerMatchTableComponent implements OnChanges, OnInit {
       ),
 
       [controlNamePlayerInTeamTournament]: new FormControl(
-        player.team_tournament_player,
+        player.player_team_tournament,
       ),
     });
   }
@@ -284,7 +278,7 @@ export class AddEditPlayerMatchTableComponent implements OnChanges, OnInit {
 
     const playerWithData: IPlayerInMatchFullData = {
       match_player: newPlayer,
-      team_tournament_player: null,
+      player_team_tournament: null,
       person: null,
       position: null,
     };

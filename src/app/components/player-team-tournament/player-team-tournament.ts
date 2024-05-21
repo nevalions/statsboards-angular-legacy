@@ -1,22 +1,27 @@
-import { inject, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { playerInTeamTournamentActions } from './store/actions';
 import { Observable } from 'rxjs';
 import { AppState } from '../../store/appstate';
 import {
   IPlayerInSport,
   IPlayerInTeamTournament,
+  IPlayerInTeamTournamentFullData,
   IPlayerInTeamTournamentWithPersonWithSportWithPosition,
 } from '../../type/player.type';
+import { playerInTeamTournamentActions } from './store/actions';
+import {
+  selectAllAwayPlayersInTeamTournamentWithPerson,
+  selectAllHomePlayersInTeamTournamentWithPerson,
+  selectAllPlayersInTournament,
+} from './store/reducers';
 import {
   selectAllPlayersInTeamTournamentWithPersonsWithPositions,
   selectAllPlayersInTournamentWithPersonsWithPositions,
-  selectAvailableSportPlayersForTeamTournament,
   selectAvailablePlayersForTournament,
-  selectCurrentPlayerInTeamTournamentWithPersonWithSportWithPosition,
+  selectAvailableSportPlayersForTeamTournament,
   selectAvailableTournamentPlayersForTeamTournament,
+  selectCurrentPlayerInTeamTournamentWithPersonWithSportWithPosition,
 } from './store/selectors';
-import { selectAllPlayersInTournament } from './store/reducers';
 
 @Injectable({
   providedIn: 'root',
@@ -37,6 +42,14 @@ export class PlayerInTeamTournament {
   allPlayersInTeamTournamentFullData$: Observable<
     IPlayerInTeamTournamentWithPersonWithSportWithPosition[]
   >;
+
+  allHomePlayersInTeamTournamentWithPerson$: Observable<
+    IPlayerInTeamTournamentFullData[]
+  >;
+  allAwayPlayersInTeamTournamentWithPerson$: Observable<
+    IPlayerInTeamTournamentFullData[]
+  >;
+
   allAvailablePlayersToAddInTournament$: Observable<IPlayerInSport[]>;
   allAvailableSportPlayersToAddInTeamTournament$: Observable<IPlayerInSport[]>;
   allAvailableTournamentPlayersForTeamTournament$: Observable<
@@ -62,6 +75,13 @@ export class PlayerInTeamTournament {
     );
     this.allPlayersInTeamTournamentFullData$ = store.select(
       selectAllPlayersInTeamTournamentWithPersonsWithPositions,
+    );
+
+    this.allHomePlayersInTeamTournamentWithPerson$ = store.select(
+      selectAllHomePlayersInTeamTournamentWithPerson,
+    );
+    this.allAwayPlayersInTeamTournamentWithPerson$ = store.select(
+      selectAllAwayPlayersInTeamTournamentWithPerson,
     );
 
     this.allAvailableSportPlayersToAddInTeamTournament$ = store.select(
@@ -113,6 +133,22 @@ export class PlayerInTeamTournament {
   loadAllPlayersInTeamTournament() {
     this.store.dispatch(
       playerInTeamTournamentActions.getAllPlayerInTeamTournamentsByTeamIdTournamentId(),
+    );
+  }
+
+  loadAllPlayersInTeamTournamentProps(teamId: number, tournamentId: number) {
+    this.store.dispatch(
+      playerInTeamTournamentActions.getAllPlayerInTeamTournamentsWithPersonProps(
+        { teamId, tournamentId },
+      ),
+    );
+  }
+
+  loadAllPlayersForMatch(side: 'home' | 'away') {
+    this.store.dispatch(
+      playerInTeamTournamentActions.getAllPlayersInTeamTournamentsForMatch({
+        side,
+      }),
     );
   }
 

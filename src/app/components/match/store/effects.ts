@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import {
   catchError,
@@ -10,31 +11,26 @@ import {
   withLatestFrom,
 } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { Router } from '@angular/router';
 
 import { Store } from '@ngrx/store';
 import { selectCurrentTournamentId } from '../../tournament/store/reducers';
 
-import { getRouterSelectors, routerNavigatedAction } from '@ngrx/router-store';
-import { matchActions } from './actions';
+import { routerNavigatedAction } from '@ngrx/router-store';
 import {
-  getDefaultFullData,
   IMatch,
   IMatchWithFullData,
+  getDefaultFullData,
 } from '../../../type/match.type';
 import { MatchService } from '../match.service';
+import { matchActions } from './actions';
 
-import { selectMatchTournamentSportSeasonId } from './selectors';
 import { matchWithFullDataActions } from '../../match-with-full-data/store/actions';
+import { selectMatchTournamentSportSeasonId } from './selectors';
 
-import { selectAllTeamsInTournament } from '../../team/store/reducers';
-import { selectCurrentMatchWithFullData } from '../../match-with-full-data/store/reducers';
-import { IMatchData } from '../../../type/matchdata.type';
-import { matchDataActions } from './match-data/actions';
-import { MatchDataService } from '../matchData.service';
 import { getAllRouteParameters } from '../../../router/router.selector';
-import { sportActions } from '../../sport/store/actions';
 import { ITournament } from '../../../type/tournament.type';
+import { selectCurrentMatchWithFullData } from '../../match-with-full-data/store/reducers';
+import { selectAllTeamsInTournament } from '../../team/store/reducers';
 import { tournamentActions } from '../../tournament/store/actions';
 import { TournamentService } from '../../tournament/tournament.service';
 
@@ -76,12 +72,13 @@ export class MatchEffects {
     () => {
       return this.actions$.pipe(
         ofType(matchActions.getMatchIdSuccessfully),
-        // tap((action) =>
-        //   console.log(`Fetching data for match ID: ${action.matchId}`),
-        // ), // Log the matchId here
+        tap((action) =>
+          console.log(`Fetching data for match ID: ${action.matchId}`),
+        ), // Log the matchId here
         switchMap(({ matchId }) => {
           return this.matchService.findById(matchId).pipe(
             map((match: IMatch) => {
+              console.log('bbbbbb', match);
               return matchActions.getItemSuccess({
                 match,
               });

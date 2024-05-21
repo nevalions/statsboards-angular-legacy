@@ -1,7 +1,11 @@
 import { createFeature, createReducer, on } from '@ngrx/store';
 import { SortService } from '../../../services/sort.service';
+import {
+  IPlayerInTeamTournament,
+  IPlayerInTeamTournamentFullData,
+  IPlayerInTeamTournamentWithPersonWithSportWithPosition,
+} from '../../../type/player.type';
 import { playerInTeamTournamentActions } from './actions';
-import { IPlayerInTeamTournament } from '../../../type/player.type';
 
 export interface PlayerInTeamTournamentState {
   playerInTeamTournamentIsLoading: boolean;
@@ -9,6 +13,9 @@ export interface PlayerInTeamTournamentState {
   currentPlayerInTeamTournamentId: number | undefined | null;
   currentPlayerInTeamTournament: IPlayerInTeamTournament | undefined | null;
   allPlayersInTeamTournament: IPlayerInTeamTournament[];
+  allPlayersInTeamTournamentWithPerson: IPlayerInTeamTournamentWithPersonWithSportWithPosition[];
+  allHomePlayersInTeamTournamentWithPerson: IPlayerInTeamTournamentFullData[];
+  allAwayPlayersInTeamTournamentWithPerson: IPlayerInTeamTournamentFullData[];
   allPlayersInTournament: IPlayerInTeamTournament[];
   parsedPlayersFromTeamEESL: any[] | IPlayerInTeamTournament[];
 }
@@ -18,6 +25,9 @@ const initialState: PlayerInTeamTournamentState = {
   playerInTeamTournamentIsSubmitting: false,
   currentPlayerInTeamTournamentId: null,
   allPlayersInTeamTournament: [],
+  allPlayersInTeamTournamentWithPerson: [],
+  allHomePlayersInTeamTournamentWithPerson: [],
+  allAwayPlayersInTeamTournamentWithPerson: [],
   allPlayersInTournament: [],
   currentPlayerInTeamTournament: null,
   parsedPlayersFromTeamEESL: [],
@@ -345,6 +355,7 @@ const playerInTeamTournamentFeature = createFeature({
       errors: action,
     })),
 
+    // get all with ids from route
     on(
       playerInTeamTournamentActions.getAllPlayerInTeamTournamentsByTeamIdTournamentId,
       (state) => ({
@@ -368,6 +379,79 @@ const playerInTeamTournamentFeature = createFeature({
     ),
     on(
       playerInTeamTournamentActions.getAllPlayersInTeamTournamentByTeamIdAndTournamentIdFailure,
+      (state, action) => ({
+        ...state,
+        playerInTeamTournamentIsLoading: false,
+        errors: action,
+      }),
+    ),
+
+    // get all from props
+    on(
+      playerInTeamTournamentActions.getAllPlayerInTeamTournamentsWithPersonProps,
+      (state) => ({
+        ...state,
+        playerInTeamTournamentIsLoading: true,
+      }),
+    ),
+    on(
+      playerInTeamTournamentActions.getAllPlayersInTeamTournamentWithPersonPropsSuccess,
+      (state, action) => {
+        const sortedPlayerInTeamTournaments = SortService.sort(
+          action.playersInTeamTournamentWithPerson,
+          'playerInSport.person.second_name',
+        );
+        return {
+          ...state,
+          playerInTeamTournamentIsLoading: false,
+          allPlayersInTeamTournamentWithPerson: sortedPlayerInTeamTournaments,
+        };
+      },
+    ),
+    on(
+      playerInTeamTournamentActions.getAllPlayersInTeamTournamentWithPersonPropsFailure,
+      (state, action) => ({
+        ...state,
+        playerInTeamTournamentIsLoading: false,
+        errors: action,
+      }),
+    ),
+
+    // get all home away
+    on(
+      playerInTeamTournamentActions.getAllPlayersInTeamTournamentsForMatch,
+      (state) => ({
+        ...state,
+        playerInTeamTournamentIsLoading: true,
+      }),
+    ),
+    on(
+      playerInTeamTournamentActions.getAllPlayersInTeamTournamentForMatchSuccess,
+      (state, action) => {
+        const sortedPlayerInTeamTournaments = SortService.sort(
+          action.playersInTeamTournamentWithPerson,
+          'person.second_name',
+        );
+
+        if (action.side === 'home') {
+          return {
+            ...state,
+            playerInTeamTournamentIsLoading: false,
+            allHomePlayersInTeamTournamentWithPerson:
+              sortedPlayerInTeamTournaments,
+          };
+        } else {
+          return {
+            ...state,
+            playerInTeamTournamentIsLoading: false,
+            allAwayPlayersInTeamTournamentWithPerson:
+              sortedPlayerInTeamTournaments,
+          };
+        }
+      },
+    ),
+    on(
+      playerInTeamTournamentActions.getAllPlayersInTeamTournamentWithPersonPropsFailure,
       (state, action) => ({
         ...state,
         playerInTeamTournamentIsLoading: false,
@@ -457,6 +541,9 @@ export const {
   selectCurrentPlayerInTeamTournamentId,
   selectCurrentPlayerInTeamTournament,
   selectAllPlayersInTeamTournament,
+  selectAllPlayersInTeamTournamentWithPerson,
+  selectAllHomePlayersInTeamTournamentWithPerson,
+  selectAllAwayPlayersInTeamTournamentWithPerson,
   selectAllPlayersInTournament,
   selectParsedPlayersFromTeamEESL,
 } = playerInTeamTournamentFeature;

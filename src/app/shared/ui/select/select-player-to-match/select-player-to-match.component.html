@@ -1,18 +1,27 @@
 @if (control) {
   @if (playerList.length > 0) {
+    @for (p of playerList; track $index) {}
+    <!-- players
+    {{ playerList }} -->
     <tui-select
       [formControl]="control"
       [tuiDropdownLimitWidth]="'min'"
-      style="padding-top: 10px;"
+      style="padding-top: 10px"
     >
       <tui-data-list *tuiDataList>
-        @for (playerInTeamTournament of playerList; track playerInTeamTournament.playerInTeamTournament.id) {
+        @for (
+          playerInTeamTournament of playerList;
+          track playerInTeamTournament.player_team_tournament?.id
+        ) {
           <button
             tuiOption
             [value]="playerInTeamTournament"
+            (click)="
+              onSelect(playerInTeamTournament.player_team_tournament?.id!)
+            "
           >
-            {{ playerInTeamTournament.playerInSport?.person?.second_name | titlecase }}
-            {{ playerInTeamTournament.playerInSport?.person?.first_name | titlecase }}
+            {{ playerInTeamTournament.person?.second_name | titlecase }}
+            {{ playerInTeamTournament.person?.first_name | titlecase }}
           </button>
         }
       </tui-data-list>

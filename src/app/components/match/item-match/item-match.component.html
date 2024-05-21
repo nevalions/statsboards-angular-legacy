@@ -4,10 +4,7 @@
       @if (tournament$ | async; as tournament) {
         @if (match$ | async; as matchWithFullData) {
           @if (teamsInTournament$ | async; as teamsInTournament) {
-            <tui-island
-              size="l"
-              textAlign="center"
-            >
+            <tui-island size="l" textAlign="center">
               <div class="tui-island__content">
                 <!--          <figure class="tui-island__figure">-->
                 <!--            <div class="some-figure">WEEK {{ match.match?.week }}</div>-->
@@ -15,13 +12,18 @@
                 <div>
                   <h3 class="tui-island__title content__body__title__center">
                     {{ matchWithFullData.teams_data!.team_a.title | titlecase }}
-                    vs {{ matchWithFullData.teams_data!.team_b.title | titlecase }}
+                    vs
+                    {{ matchWithFullData.teams_data!.team_b.title | titlecase }}
                   </h3>
                   <h4 class="tui-island__title content__body__title__center">
-                    {{ matchWithFullData.match_data!.score_team_a }} : {{ matchWithFullData.match_data!.score_team_b }}
+                    {{ matchWithFullData.match_data!.score_team_a }} :
+                    {{ matchWithFullData.match_data!.score_team_b }}
                   </h4>
                   <p class="tui-island__paragraph">
-                    {{ matchWithFullData.match.match_date | date:"dd MMM yyyy, HH:mm" }}
+                    {{
+                      matchWithFullData.match.match_date
+                        | date: "dd MMM yyyy, HH:mm"
+                    }}
                   </p>
 
                   <app-edit-button
@@ -57,7 +59,11 @@
                     tuiButton
                     type="button"
                     class="tui-island__footer-button"
-                    (click)="navigateToWebSocketScoreboardDisplay(matchWithFullData.match_id!)"
+                    (click)="
+                      navigateToWebSocketScoreboardDisplay(
+                        matchWithFullData.match_id!
+                      )
+                    "
                   >
                     SCOREBOARD VIEW
                   </button>
@@ -72,36 +78,33 @@
                     (delete)="onDelete()"
                     [dialogId]="'deleteDialog'"
                   ></app-delete-dialog>
-
                 </div>
               </div>
             </tui-island>
             <div class="two_col_container_tournament">
               <div class="one_col_container">
                 <app-body-list-title
-                  titleMany='home players'
+                  titleMany="home players"
                 ></app-body-list-title>
 
                 @if (sport$ | async; as sport) {
                   @if (match$ | async; as match) {
                     @if (allPlayersInMatch$ | async; as players) {
-                      @if (allPlayerInTeamTournament$ | async; as availablePlayers) {
+                      @if (allAwayPlayersInTeam$ | async; as availablePlayers) {
                         <app-add-edit-player-match-table
                           [deleteOrUpdate]="'delete'"
                           [sportId]="sport.id!"
                           [match]="match"
+                          [side]="'away'"
                           [availablePlayersInTeamTournament]="availablePlayers"
                           [positions]="allSportPositions$ | async"
                         ></app-add-edit-player-match-table>
-
                       }
-
                     }
                   }
                 }
               </div>
             </div>
-
           }
         }
       }

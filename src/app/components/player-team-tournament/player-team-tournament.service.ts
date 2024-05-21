@@ -1,8 +1,8 @@
-import { Injectable } from '@angular/core';
-import { BaseApiService } from '../../services/base.api.service';
 import { HttpClient } from '@angular/common/http';
-import { ErrorHandlingService } from '../../services/error.service';
+import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { BaseApiService } from '../../services/base.api.service';
+import { ErrorHandlingService } from '../../services/error.service';
 import { IPlayerInTeamTournament } from '../../type/player.type';
 
 @Injectable({

@@ -1,5 +1,8 @@
 import { createActionGroup, emptyProps, props } from '@ngrx/store';
-import { IPlayerInTeamTournament } from '../../../type/player.type';
+import {
+  IPlayerInTeamTournament,
+  IPlayerInTeamTournamentFullData,
+} from '../../../type/player.type';
 
 export const playerInTeamTournamentActions = createActionGroup({
   source: 'playerInTeamTournament',
@@ -50,6 +53,22 @@ export const playerInTeamTournamentActions = createActionGroup({
       }>(),
     'Get all playersInTeamTournament by team id and tournament id failure':
       emptyProps(),
+
+    GetAllPlayersInTeamTournamentsForMatch: props<{ side: 'home' | 'away' }>(),
+    'Get all playersInTeamTournament for match success': props<{
+      side: 'home' | 'away';
+      playersInTeamTournamentWithPerson: IPlayerInTeamTournamentFullData[];
+    }>(),
+    'Get all playersInTeamTournament for match failure': emptyProps(),
+
+    GetAllPlayerInTeamTournamentsWithPersonProps: props<{
+      teamId: number;
+      tournamentId: number;
+    }>(),
+    'Get all playersInTeamTournament with person props success': props<{
+      playersInTeamTournamentWithPerson: IPlayerInTeamTournamentFullData[];
+    }>(),
+    'Get all playersInTeamTournament with person props failure': emptyProps(),
 
     GetAllPlayersInTournamentByTournamentId: emptyProps(),
     'Get all players in tournament by tournament id success': props<{

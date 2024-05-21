@@ -13,15 +13,18 @@ export function getFormControl(
 ): FormControl {
   const formGroup = form.get(arrayKey) as FormArray;
   const actualControlKey = `${controlKey}${index}`;
+  // console.log('attributes', form, index, controlKey, arrayKey);
+  // console.log('forms', formGroup, actualControlKey);
   const control = formGroup.at(index).get(actualControlKey) as FormControl;
+
+  // logFormArrayControls(formGroup);
+  //
+  // logFormGroupControls(formGroup, index);
 
   if (!control) {
     throw new Error(`Control ${actualControlKey} not found at index ${index}`);
   }
 
-  // logFormArrayControls(formGroup);
-  //
-  // logFormGroupControls(formGroup, index);
   // console.log('control', control);
 
   return control;
