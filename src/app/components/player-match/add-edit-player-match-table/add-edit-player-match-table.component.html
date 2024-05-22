@@ -1,36 +1,49 @@
 @if (match && side) {
   <p>
-    @if (homeFootballOffense.length) {
+    @if (homeFootballOffense.length > 0) {
       Offense Players {{ homeFootballOffense.length }}
     }
-    @if (awayFootballOffense.length) {
+    @if (awayFootballOffense.length > 0) {
       Offense Players {{ awayFootballOffense.length }}
     }
   </p>
-  <p>
-    @if (homeFootballStartOffense.length) {
-      Start Offense Players {{ homeFootballStartOffense.length }}
+  @if (homeFootballStartOffense; as roster) {
+    @if (roster.length > 0) {
+      <p [style.color]="roster.length !== 11 ? 'red' : ''">
+        Start Offense Players {{ roster.length }}
+      </p>
     }
-    @if (awayFootballStartOffense.length) {
-      Start Offense Players {{ awayFootballStartOffense.length }}
+  }
+
+  @if (awayFootballStartOffense; as roster) {
+    @if (roster.length > 0) {
+      <p [style.color]="roster.length !== 11 ? 'red' : ''">
+        Start Offense Players {{ roster.length }}
+      </p>
     }
-  </p>
-  <p>
-    @if (homeFootballDefense.length) {
-      Defense Players {{ homeFootballDefense.length }}
+  }
+
+  @if (homeFootballDefense.length > 0) {
+    Defense Players {{ homeFootballDefense.length }}
+  }
+  @if (awayFootballDefense.length > 0) {
+    Defense Players {{ awayFootballDefense.length }}
+  }
+  @if (homeFootballStartDefense; as roster) {
+    @if (roster.length > 0) {
+      <p [style.color]="roster.length !== 11 ? 'red' : ''">
+        Start Defense Players {{ roster.length }}
+      </p>
     }
-    @if (awayFootballDefense.length) {
-      Defense Players {{ awayFootballDefense.length }}
+  }
+  @if (awayFootballStartDefense; as roster) {
+    @if (roster.length > 0) {
+      <p [style.color]="roster.length !== 11 ? 'red' : ''">
+        Start Defense Players {{ roster.length }}
+      </p>
     }
-  </p>
-  <p>
-    @if (homeFootballStartDefense.length) {
-      Start Defense Players {{ homeFootballStartDefense.length }}
-    }
-    @if (awayFootballStartDefense.length) {
-      Start Defense Players {{ awayFootballStartDefense.length }}
-    }
-  </p>
+  }
+
   <form
     tuiTextfieldSize="m"
     [formGroup]="playerForm"

@@ -1,4 +1,14 @@
 import { createSelector } from '@ngrx/store';
+import {
+  defensePositions,
+  defensiveBacks,
+  defensiveLB,
+  defensiveLine,
+  offensePositions,
+  offensiveBackfield,
+  offensiveLine,
+  offensiveReceivers,
+} from '../../../base/footballHelpers';
 import { SortService } from '../../../services/sort.service';
 import {
   IPlayerInMatchFullData,
@@ -10,37 +20,6 @@ import {
   selectAllHomePlayersInTeamTournamentWithPerson,
 } from '../../player-team-tournament/store/reducers';
 import { selectAllPlayersInMatchFullData } from './reducers';
-
-export const offensePositions = [
-  'qb',
-  't',
-  'ot',
-  'oc',
-  'c',
-  'og',
-  'g',
-  'rb',
-  'fb',
-  'hb',
-  'wr',
-  'k',
-  'te',
-];
-
-export const defensePositions = [
-  'nt',
-  'dt',
-  'de',
-  'ng',
-  'lb',
-  'olb',
-  'mlb',
-  'db',
-  'cb',
-  'ss',
-  'fs',
-  'p',
-];
 
 export const selectHomeTeamRoster = createSelector(
   selectAllPlayersInMatchFullData,
@@ -185,6 +164,7 @@ export const selectAwayFootballDefense = createSelector(
   },
 );
 
+// start defense
 export const selectAwayFootballStartDefense = createSelector(
   selectAwayFootballDefense,
   (awayRoster: IPlayerInMatchFullData[]) => {
@@ -210,6 +190,7 @@ export const selectHomeFootballStartDefense = createSelector(
   },
 );
 
+// start offense
 export const selectAwayFootballStartOffense = createSelector(
   selectAwayFootballOffense,
   (awayRoster: IPlayerInMatchFullData[]) => {
@@ -232,5 +213,176 @@ export const selectHomeFootballStartOffense = createSelector(
       (player) => player.match_player.is_start,
     );
     return startPlayers;
+  },
+);
+
+// football positions
+// defense
+// DL
+export const selectAwayFootballStartDL = createSelector(
+  selectAwayFootballStartDefense,
+  (roster: IPlayerInMatchFullData[]) => {
+    if (!roster) {
+      return [];
+    }
+
+    return roster.filter((player) => {
+      const positionTitle = player.position?.title?.toLowerCase() ?? '';
+      return defensiveLine.includes(positionTitle);
+    });
+  },
+);
+export const selectHomeFootballStartDL = createSelector(
+  selectHomeFootballStartDefense,
+  (roster: IPlayerInMatchFullData[]) => {
+    if (!roster) {
+      return [];
+    }
+
+    return roster.filter((player) => {
+      const positionTitle = player.position?.title?.toLowerCase() ?? '';
+      return defensiveLine.includes(positionTitle);
+    });
+  },
+);
+
+// LB
+export const selectAwayFootballStartLB = createSelector(
+  selectAwayFootballStartDefense,
+  (roster: IPlayerInMatchFullData[]) => {
+    if (!roster) {
+      return [];
+    }
+
+    return roster.filter((player) => {
+      const positionTitle = player.position?.title?.toLowerCase() ?? '';
+      return defensiveLB.includes(positionTitle);
+    });
+  },
+);
+export const selectHomeFootballStartLB = createSelector(
+  selectHomeFootballStartDefense,
+  (roster: IPlayerInMatchFullData[]) => {
+    if (!roster) {
+      return [];
+    }
+
+    return roster.filter((player) => {
+      const positionTitle = player.position?.title?.toLowerCase() ?? '';
+      return defensiveLB.includes(positionTitle);
+    });
+  },
+);
+
+// DB
+export const selectAwayFootballStartDB = createSelector(
+  selectAwayFootballStartDefense,
+  (roster: IPlayerInMatchFullData[]) => {
+    if (!roster) {
+      return [];
+    }
+
+    return roster.filter((player) => {
+      const positionTitle = player.position?.title?.toLowerCase() ?? '';
+      return defensiveBacks.includes(positionTitle);
+    });
+  },
+);
+export const selectHomeFootballStartDB = createSelector(
+  selectHomeFootballStartDefense,
+  (roster: IPlayerInMatchFullData[]) => {
+    if (!roster) {
+      return [];
+    }
+
+    return roster.filter((player) => {
+      const positionTitle = player.position?.title?.toLowerCase() ?? '';
+      return defensiveBacks.includes(positionTitle);
+    });
+  },
+);
+
+// offense
+// OL
+export const selectAwayFootballStartOL = createSelector(
+  selectAwayFootballStartOffense,
+  (roster: IPlayerInMatchFullData[]) => {
+    if (!roster) {
+      return [];
+    }
+
+    return roster.filter((player) => {
+      const positionTitle = player.position?.title?.toLowerCase() ?? '';
+      return offensiveLine.includes(positionTitle);
+    });
+  },
+);
+export const selectHomeFootballStartOL = createSelector(
+  selectAwayFootballStartOffense,
+  (roster: IPlayerInMatchFullData[]) => {
+    if (!roster) {
+      return [];
+    }
+
+    return roster.filter((player) => {
+      const positionTitle = player.position?.title?.toLowerCase() ?? '';
+      return offensiveLine.includes(positionTitle);
+    });
+  },
+);
+
+// Backfield
+export const selectAwayFootballStartBackfield = createSelector(
+  selectAwayFootballStartOffense,
+  (roster: IPlayerInMatchFullData[]) => {
+    if (!roster) {
+      return [];
+    }
+
+    return roster.filter((player) => {
+      const positionTitle = player.position?.title?.toLowerCase() ?? '';
+      return offensiveBackfield.includes(positionTitle);
+    });
+  },
+);
+export const selectHomeFootballStartBackfield = createSelector(
+  selectAwayFootballStartOffense,
+  (roster: IPlayerInMatchFullData[]) => {
+    if (!roster) {
+      return [];
+    }
+
+    return roster.filter((player) => {
+      const positionTitle = player.position?.title?.toLowerCase() ?? '';
+      return offensiveBackfield.includes(positionTitle);
+    });
+  },
+);
+
+// WR
+export const selectAwayFootballStartWR = createSelector(
+  selectAwayFootballStartOffense,
+  (roster: IPlayerInMatchFullData[]) => {
+    if (!roster) {
+      return [];
+    }
+
+    return roster.filter((player) => {
+      const positionTitle = player.position?.title?.toLowerCase() ?? '';
+      return offensiveReceivers.includes(positionTitle);
+    });
+  },
+);
+export const selectHomeFootballStartWR = createSelector(
+  selectHomeFootballStartOffense,
+  (roster: IPlayerInMatchFullData[]) => {
+    if (!roster) {
+      return [];
+    }
+
+    return roster.filter((player) => {
+      const positionTitle = player.position?.title?.toLowerCase() ?? '';
+      return offensiveReceivers.includes(positionTitle);
+    });
   },
 );

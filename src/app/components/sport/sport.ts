@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { sportActions } from './store/actions';
 import { Observable } from 'rxjs';
-import { ISport } from '../../type/sport.type';
 import { AppState } from '../../store/appstate';
+import { ISport } from '../../type/sport.type';
+import { sportActions } from './store/actions';
 
 @Injectable({
   providedIn: 'root',
@@ -19,6 +19,10 @@ export class Sport {
 
   loadCurrentSport() {
     this.store.dispatch(sportActions.getId());
+  }
+
+  loadSportByMatch() {
+    this.store.dispatch(sportActions.getSportByMatch());
   }
 
   loadAllSports() {

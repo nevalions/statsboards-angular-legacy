@@ -1,70 +1,85 @@
 import { Routes } from '@angular/router';
-import { PageNotFoundComponent } from './pagenotfound/page-not-found.component';
-import { HomeComponent } from './components/home/home.component';
-import { SeasonComponent } from './components/season/season.component';
-import { TournamentComponent } from './components/tournament/tournament.component';
-import { provideState } from '@ngrx/store';
 import { provideEffects } from '@ngrx/effects';
-import {
-  matchFeatureKey,
-  matchReducer,
-} from './components/match/store/reducers';
-import { MatchEffects } from './components/match/store/effects';
-import {
-  webSocketFeatureKey,
-  webSocketReducer,
-} from './store/websocket/websocket.reducers';
-import { WebSocketEffects } from './store/websocket/websocket.effects';
-import { MatchScoreboardDisplayComponent } from './components/match-scoreboard-display/match-scoreboard-display.component';
-import { SportComponent } from './components/sport/sport.component';
-import { LayoutComponent } from './components/layout/layout.component';
-import {
-  playclockFeatureKey,
-  playclockReducer,
-} from './components/playclock/store/reducers';
-import { PlayclockEffects } from './components/playclock/store/effects';
-import {
-  gameclockFeatureKey,
-  gameclockReducer,
-} from './components/gameclock/store/reducers';
-import { GameclockEffects } from './components/gameclock/store/effects';
-import {
-  sponsorFeatureKey,
-  sponsorReducer,
-} from './components/adv/sponsor/store/reducers';
-import { SponsorEffects } from './components/adv/sponsor/store/effects';
-import { SponsorComponent } from './components/adv/sponsor/sponsor.component';
-import { ItemSponsorComponent } from './components/adv/sponsor/item-sponsor/item-sponsor.component';
+import { provideState } from '@ngrx/store';
+import { ItemSponsorLineComponent } from './components/adv/sponsor-line/item-sponsor-line/item-sponsor-line.component';
+import { SponsorLineComponent } from './components/adv/sponsor-line/sponsor-line.component';
+import { SponsorLineEffects } from './components/adv/sponsor-line/store/effects';
 import {
   sponsorLineFeatureKey,
   sponsorLineReducer,
 } from './components/adv/sponsor-line/store/reducers';
-import { SponsorLineComponent } from './components/adv/sponsor-line/sponsor-line.component';
-import { SponsorLineEffects } from './components/adv/sponsor-line/store/effects';
-import { ItemSponsorLineComponent } from './components/adv/sponsor-line/item-sponsor-line/item-sponsor-line.component';
-import { sponsorSponsorLineConnectionFeatureKey } from './components/adv/sponsor-sponsor-line-connection/store/reducers';
 import { SponsorSponsorLineConnectionService } from './components/adv/sponsor-sponsor-line-connection.service';
+import { sponsorSponsorLineConnectionFeatureKey } from './components/adv/sponsor-sponsor-line-connection/store/reducers';
+import { ItemSponsorComponent } from './components/adv/sponsor/item-sponsor/item-sponsor.component';
+import { SponsorComponent } from './components/adv/sponsor/sponsor.component';
+import { SponsorEffects } from './components/adv/sponsor/store/effects';
 import {
-  tournamentFeatureKey,
-  tournamentReducer,
-} from './components/tournament/store/reducers';
-import { TournamentEffects } from './components/tournament/store/effects';
+  sponsorFeatureKey,
+  sponsorReducer,
+} from './components/adv/sponsor/store/reducers';
+import { GameclockEffects } from './components/gameclock/store/effects';
+import {
+  gameclockFeatureKey,
+  gameclockReducer,
+} from './components/gameclock/store/reducers';
+import { HomeComponent } from './components/home/home.component';
+import { LayoutComponent } from './components/layout/layout.component';
+import { MatchScoreboardDisplayComponent } from './components/match-scoreboard-display/match-scoreboard-display.component';
+import { MatchWithFullDataEffects } from './components/match-with-full-data/store/effects';
+import {
+  matchWithFullDataFeatureKey,
+  matchWithFullDataReducer,
+} from './components/match-with-full-data/store/reducers';
+import { MatchEffects } from './components/match/store/effects';
+import {
+  matchFeatureKey,
+  matchReducer,
+} from './components/match/store/reducers';
 import { AllPersonsComponent } from './components/person/all-persons/all-persons.component';
+import { ItemPersonComponent } from './components/person/item-person/item-person.component';
+import { PersonEffects } from './components/person/store/effects';
 import {
   personFeatureKey,
   personReducer,
 } from './components/person/store/reducers';
-import { PersonEffects } from './components/person/store/effects';
-import { ItemPersonComponent } from './components/person/item-person/item-person.component';
+import { PlayclockEffects } from './components/playclock/store/effects';
 import {
-  searchFeatureKey,
-  searchReducer,
-} from './store/search/search.reducers';
+  playclockFeatureKey,
+  playclockReducer,
+} from './components/playclock/store/reducers';
+import { PlayerInMatchEffects } from './components/player-match/store/effects';
+import {
+  playerInMatchFeatureKey,
+  playerInMatchReducer,
+} from './components/player-match/store/reducers';
+import { PositionEffects } from './components/position/store/effects';
+import {
+  positionFeatureKey,
+  positionReducer,
+} from './components/position/store/reducers';
+import { SeasonComponent } from './components/season/season.component';
+import { SportComponent } from './components/sport/sport.component';
+import { TournamentEffects } from './components/tournament/store/effects';
+import {
+  tournamentFeatureKey,
+  tournamentReducer,
+} from './components/tournament/store/reducers';
+import { TournamentComponent } from './components/tournament/tournament.component';
+import { PageNotFoundComponent } from './pagenotfound/page-not-found.component';
 import {
   paginationFeatureKey,
   paginationReducer,
 } from './store/pagination/pagination.reducers';
 import { SearchEffects } from './store/search/search.effects';
+import {
+  searchFeatureKey,
+  searchReducer,
+} from './store/search/search.reducers';
+import { WebSocketEffects } from './store/websocket/websocket.effects';
+import {
+  webSocketFeatureKey,
+  webSocketReducer,
+} from './store/websocket/websocket.reducers';
 
 export const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'index' },
@@ -76,17 +91,23 @@ export const routes: Routes = [
       provideState(playclockFeatureKey, playclockReducer),
       provideState(gameclockFeatureKey, gameclockReducer),
       provideState(matchFeatureKey, matchReducer),
+      provideState(matchWithFullDataFeatureKey, matchWithFullDataReducer),
       provideState(tournamentFeatureKey, tournamentReducer),
       provideState(sponsorFeatureKey, sponsorReducer),
       provideState(sponsorLineFeatureKey, sponsorLineReducer),
+      provideState(positionFeatureKey, positionReducer),
+      provideState(playerInMatchFeatureKey, playerInMatchReducer),
       provideEffects(
         MatchEffects,
+        MatchWithFullDataEffects,
         PlayclockEffects,
         GameclockEffects,
         WebSocketEffects,
         SponsorEffects,
         SponsorLineEffects,
         TournamentEffects,
+        PositionEffects,
+        PlayerInMatchEffects,
       ),
     ],
     data: {

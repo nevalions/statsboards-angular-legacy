@@ -16,6 +16,10 @@ export const sportActions = createActionGroup({
     'Get item success': props<{ sport: ISport }>(),
     'Get item failure': emptyProps(),
 
+    GetSportByMatch: emptyProps(),
+    'Get sport by match success': props<{ sport: ISport }>(),
+    'Get sport by match failure': emptyProps(),
+
     GetAll: emptyProps(),
     'Get all items success': props<{ sports: ISport[] }>(),
     'Get all items failure': emptyProps(),

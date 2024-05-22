@@ -1,14 +1,10 @@
-import { Injectable } from '@angular/core';
-import { ISport } from '../../type/sport.type';
-import { BaseApiService } from '../../services/base.api.service';
 import { HttpClient } from '@angular/common/http';
-import { map, Observable, Subject } from 'rxjs';
+import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
+import { BaseApiService } from '../../services/base.api.service';
 import { ErrorHandlingService } from '../../services/error.service';
-import { ITeam } from '../../type/team.type';
-import { IPlayer } from '../../type/player.type';
-import { SortService } from '../../services/sort.service';
-import { tap } from 'rxjs/operators';
+import { ISport } from '../../type/sport.type';
 
 @Injectable({
   providedIn: 'root',
@@ -20,6 +16,15 @@ export class SportService extends BaseApiService<ISport> {
     errorHandlingService: ErrorHandlingService,
   ) {
     super('sports', http, errorHandlingService);
+  }
+
+  findSportByMatchIdFullData(matchId: number): Observable<ISport> {
+    return this.findByFirstKeyValue('matches', 'id', matchId, 'sport')
+      .pipe
+      // tap((players) =>
+      //   console.log(`PLAYERS from MATCH ID: ${id}`, players),
+      // ),
+      ();
   }
 }
 

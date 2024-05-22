@@ -1,12 +1,11 @@
+import { createFeature, createReducer, on } from '@ngrx/store';
+import { SortService } from '../../../services/sort.service';
+import { ISport } from '../../../type/sport.type';
 import {
   crudStoreInterface,
   getDefaultCrudStore,
 } from '../../../type/store.intarface';
-import { createFeature, createReducer, on } from '@ngrx/store';
-import { SortService } from '../../../services/sort.service';
-import { ISport } from '../../../type/sport.type';
 import { sportActions } from './actions';
-import { selectRouteParam } from '../../../router/router.selector';
 
 export interface SportState extends crudStoreInterface {
   currentSportId: number | undefined | null;
@@ -108,9 +107,26 @@ const sportFeature = createFeature({
     on(sportActions.getItemSuccess, (state, action) => ({
       ...state,
       isLoading: false,
+      currentSportId: action.sport.id,
       currentSport: action.sport,
     })),
     on(sportActions.getItemFailure, (state, action) => ({
+      ...state,
+      isLoading: false,
+      errors: action,
+    })),
+    //get by match
+    on(sportActions.getSportByMatch, (state) => ({
+      ...state,
+      isLoading: true,
+    })),
+    on(sportActions.getSportByMatchSuccess, (state, action) => ({
+      ...state,
+      isLoading: false,
+      currentSportId: action.sport.id,
+      currentSport: action.sport,
+    })),
+    on(sportActions.getSportByMatchFailure, (state, action) => ({
       ...state,
       isLoading: false,
       errors: action,

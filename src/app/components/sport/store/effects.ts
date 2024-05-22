@@ -1,22 +1,15 @@
 import { Injectable } from '@angular/core';
-import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
-import {
-  catchError,
-  filter,
-  map,
-  mergeMap,
-  of,
-  switchMap,
-  withLatestFrom,
-} from 'rxjs';
-import { tap } from 'rxjs/operators';
 import { Router } from '@angular/router';
-import { SportService } from '../sport.service';
-import { ISport } from '../../../type/sport.type';
-import { sportActions } from './actions';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { routerNavigatedAction } from '@ngrx/router-store';
 import { Store } from '@ngrx/store';
-import { getRouterSelectors, routerNavigatedAction } from '@ngrx/router-store';
+import { catchError, filter, map, of, switchMap } from 'rxjs';
+import { tap } from 'rxjs/operators';
 import { getAllRouteParameters } from '../../../router/router.selector';
+import { ISport } from '../../../type/sport.type';
+import { selectCurrentMatchId } from '../../match/store/reducers';
+import { SportService } from '../sport.service';
+import { sportActions } from './actions';
 
 @Injectable()
 export class SportEffects {
@@ -128,6 +121,25 @@ export class SportEffects {
           this.sportService.findById(id).pipe(
             map((sport: ISport) => sportActions.getItemSuccess({ sport })),
             catchError(() => of(sportActions.getItemFailure())),
+          ),
+        ),
+      );
+    },
+    { functional: true },
+  );
+
+  getSportByMatchEffect = createEffect(
+    () => {
+      return this.actions$.pipe(
+        ofType(sportActions.getSportByMatch),
+        switchMap(() => this.store.select(selectCurrentMatchId)),
+        filter((matchId) => matchId !== null && matchId !== undefined),
+        switchMap((matchId) =>
+          this.sportService.findSportByMatchIdFullData(matchId!).pipe(
+            map((sport: ISport) =>
+              sportActions.getSportByMatchSuccess({ sport }),
+            ),
+            catchError(() => of(sportActions.getSportByMatchFailure())),
           ),
         ),
       );

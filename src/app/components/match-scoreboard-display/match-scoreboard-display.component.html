@@ -2,7 +2,82 @@
   @if (playclock$ | async; as playclock) {
     @if (gameclock$ | async; as gameclock) {
       <div class="main-container-fullhd">
-        <div class="fullhd-separator"></div>
+        <!-- sport
+        @if (sport$ | async; as sport) {
+          {{ sport.title }}
+        } -->
+        <!-- @if (positions$ | async; as pos) { -->
+        <!-- pos -->
+        <!-- {{ pos }} -->
+        <!-- } -->
+        @if (showHomeOffenseStart) {
+          @if (homeFootballStartOffense$) {
+            <!-- offstart -->
+            <div
+              style="
+                display: grid;
+                grid-template-columns: 920px;
+                grid-template-rows: auto auto auto;
+                justify-content: space-evenly;
+                align-items: start;
+                color: black;
+                padding: 20px;
+                margin: 20px;
+                border-radius: 20px;
+                background-color: rgb(158, 190, 158);
+              "
+              class="start-roster"
+            >
+              @if (homeStartOL$ | async; as players) {
+                @for (
+                  player of players;
+                  let i = $index;
+                  track player.match_player.id
+                ) {
+                  <div class="start-roster-card ol">
+                    {{ player.match_player.match_number }}
+                    {{ player.person?.first_name }}
+                    {{ player.person?.second_name }}
+                    {{ player.position?.title }}
+                  </div>
+                }
+              }
+              @if (homeStartBacks$ | async; as ols) {
+                @for (
+                  player of ols;
+                  let i = $index;
+                  track player.match_player.id
+                ) {
+                  <div class="start-roster-card back">
+                    {{ player.match_player.match_number }}
+                    {{ player.person?.first_name }}
+                    {{ player.person?.second_name }}
+                    {{ player.position?.title }}
+                  </div>
+                }
+              }
+              @if (homeStartWR$ | async; as ols) {
+                @for (
+                  player of ols;
+                  let i = $index;
+                  track player.match_player.id
+                ) {
+                  <div class="start-roster-card wr">
+                    {{ player.match_player.match_number }}
+                    {{ player.person?.first_name }}
+                    {{ player.person?.second_name }}
+                    {{ player.position?.title }}
+                  </div>
+                }
+              }
+            </div>
+          } @else {
+            <div class="fullhd-separator"></div>
+          }
+        } @else {
+          <div class="fullhd-separator"></div>
+        }
+
         <app-scoreboard-display-flat
           [scoreboardDisplayClass]="'fullhd-scoreboard'"
           [tournament]="tournament$ | async"

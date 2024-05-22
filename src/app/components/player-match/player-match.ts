@@ -13,12 +13,23 @@ import {
 import {
   selectAwayFootballDefense,
   selectAwayFootballOffense,
+  selectAwayFootballStartBackfield,
+  selectAwayFootballStartDB,
+  selectAwayFootballStartDL,
   selectAwayFootballStartDefense,
+  selectAwayFootballStartLB,
+  selectAwayFootballStartOL,
   selectAwayFootballStartOffense,
+  selectAwayFootballStartWR,
   selectAwayTeamRoster,
   selectHomeFootballDefense,
   selectHomeFootballOffense,
+  selectHomeFootballStartBackfield,
+  selectHomeFootballStartDB,
+  selectHomeFootballStartDL,
   selectHomeFootballStartDefense,
+  selectHomeFootballStartLB,
+  selectHomeFootballStartOL,
   selectHomeFootballStartOffense,
   selectHomeTeamRoster,
 } from './store/selectors';
@@ -31,16 +42,33 @@ export class PlayerInMatch {
   currentPlayerInMatch$: Observable<IPlayerInMatch | null | undefined>;
   allPlayersInMatch$: Observable<IPlayerInMatch[]>;
   allPlayersFullDataInMatch$: Observable<IPlayerInMatchFullData[]>;
+  //rosters
   homeRoster$: Observable<IPlayerInMatchFullData[]>;
   awayRoster$: Observable<IPlayerInMatchFullData[]>;
   homeFootballOffense$: Observable<IPlayerInMatchFullData[]>;
   awayFootballOffense$: Observable<IPlayerInMatchFullData[]>;
   homeFootballDefense$: Observable<IPlayerInMatchFullData[]>;
   awayFootballDefense$: Observable<IPlayerInMatchFullData[]>;
+  //starts
   homeFootballStartOffense$: Observable<IPlayerInMatchFullData[]>;
   awayFootballStartOffense$: Observable<IPlayerInMatchFullData[]>;
   homeFootballStartDefense$: Observable<IPlayerInMatchFullData[]>;
   awayFootballStartDefense$: Observable<IPlayerInMatchFullData[]>;
+  //positions
+  //offense
+  homeFootballStartOL$: Observable<IPlayerInMatchFullData[]>;
+  awayFootballStartOL$: Observable<IPlayerInMatchFullData[]>;
+  homeFootballStartBacks$: Observable<IPlayerInMatchFullData[]>;
+  awayFootballStartBacks$: Observable<IPlayerInMatchFullData[]>;
+  homeFootballStartWR$: Observable<IPlayerInMatchFullData[]>;
+  awayFootballStartWR$: Observable<IPlayerInMatchFullData[]>;
+  //defense
+  homeFootballStartDL$: Observable<IPlayerInMatchFullData[]>;
+  awayFootballStartDL$: Observable<IPlayerInMatchFullData[]>;
+  homeFootballStartLB$: Observable<IPlayerInMatchFullData[]>;
+  awayFootballStartLB$: Observable<IPlayerInMatchFullData[]>;
+  homeFootballStartDB$: Observable<IPlayerInMatchFullData[]>;
+  awayFootballStartDB$: Observable<IPlayerInMatchFullData[]>;
 
   constructor(private store: Store<AppState>) {
     this.playerInMatchIsLoading$ = this.store.select(
@@ -57,6 +85,7 @@ export class PlayerInMatch {
     this.awayFootballOffense$ = this.store.select(selectAwayFootballOffense);
     this.homeFootballDefense$ = this.store.select(selectHomeFootballDefense);
     this.awayFootballDefense$ = this.store.select(selectAwayFootballDefense);
+    // start
     this.homeFootballStartOffense$ = this.store.select(
       selectHomeFootballStartOffense,
     );
@@ -69,6 +98,25 @@ export class PlayerInMatch {
     this.awayFootballStartDefense$ = this.store.select(
       selectAwayFootballStartDefense,
     );
+    // start positions
+    // offense
+    this.homeFootballStartOL$ = this.store.select(selectHomeFootballStartOL);
+    this.awayFootballStartOL$ = this.store.select(selectAwayFootballStartOL);
+    this.homeFootballStartBacks$ = this.store.select(
+      selectHomeFootballStartBackfield,
+    );
+    this.awayFootballStartBacks$ = this.store.select(
+      selectAwayFootballStartBackfield,
+    );
+    this.homeFootballStartWR$ = this.store.select(selectHomeFootballStartOL);
+    this.awayFootballStartWR$ = this.store.select(selectAwayFootballStartWR);
+    // defense
+    this.homeFootballStartDL$ = this.store.select(selectHomeFootballStartDL);
+    this.awayFootballStartDL$ = this.store.select(selectAwayFootballStartDL);
+    this.homeFootballStartLB$ = this.store.select(selectHomeFootballStartLB);
+    this.awayFootballStartLB$ = this.store.select(selectAwayFootballStartLB);
+    this.homeFootballStartDB$ = this.store.select(selectHomeFootballStartDB);
+    this.awayFootballStartDB$ = this.store.select(selectAwayFootballStartDB);
   }
 
   createPlayerInMatch(playerInMatch: IPlayerInMatch) {
