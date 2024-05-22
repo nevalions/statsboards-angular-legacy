@@ -41,6 +41,8 @@
                     [action]="'edit'"
                     [dialogId]="'editDialog'"
                     (editEvent)="onMatchEdit($event)"
+                    [allSponsors]="allSponsors$ | async"
+                    [allSponsorLines]="allSponsorLines$ | async"
                   ></app-add-edit-match>
 
                   <button

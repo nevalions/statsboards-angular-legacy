@@ -1,13 +1,11 @@
 <!--MAIN SPONSORS DATA-->
 @if (data) {
   <div
-    *ngIf="sponsorsFormsVisible$ | async" xmlns="http://www.w3.org/1999/html"
+    *ngIf="sponsorsFormsVisible$ | async"
+    xmlns="http://www.w3.org/1999/html"
     class="main-sponsors-settings"
   >
-    <form
-      class="sponsors-logo-form"
-      [formGroup]="mainSponsorForm"
-    >
+    <form class="sponsors-logo-form" [formGroup]="mainSponsorForm">
       <div class="logo-scale-size">
         <tui-input-slider
           formControlName="scaleTournamentLogo"
@@ -15,7 +13,7 @@
           [min]="min"
           [quantum]="quantum"
           [steps]="steps"
-        >Select Tournament Logo Size
+          >Select Tournament Logo Size
         </tui-input-slider>
         <app-admin-submit-button
           (click)="scaleLogo('tournament', data!.scoreboard_data!)"
@@ -28,14 +26,13 @@
           [min]="min"
           [quantum]="quantum"
           [steps]="steps"
-        >Select Main Sponsor Size
+          >Select Main Sponsor Size
         </tui-input-slider>
         <app-admin-submit-button
           (click)="scaleLogo('mainSponsor', data.scoreboard_data!)"
         ></app-admin-submit-button>
       </div>
     </form>
-
 
     <div id="main-sponsors-settings-btns" class="main-sponsors-settings-btns">
       <app-admin-down-button
@@ -55,11 +52,18 @@
         [distance]="'Sponsor Line Field'"
         (click)="toggleSponsorLineVisibility(data.scoreboard_data!)"
       ></app-admin-down-button>
+
+      <app-admin-down-button
+        [down]="data.scoreboard_data?.is_match_sponsor_line ? 'Hide' : 'Show'"
+        [distance]="'Match Sponsor Line Field'"
+        (click)="toggleMatchSponsorLineVisibility(data.scoreboard_data!)"
+      ></app-admin-down-button>
     </div>
   </div>
   <app-toggle-visible-button
     [isVisible$]="sponsorsFormsVisible$"
     [formName]="'sponsorsForms'"
-    [buttonText]="'Main Sponsors Forms'">
+    [buttonText]="'Main Sponsors Forms'"
+  >
   </app-toggle-visible-button>
 }

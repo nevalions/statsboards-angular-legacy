@@ -5,10 +5,10 @@
     </h3>
     <p style="text-align: center">
       <img
-        src="{{url}}{{tournament.tournament_logo_web_url}}"
+        src="{{ url }}{{ tournament.tournament_logo_web_url }}"
         width="200px"
-        alt="{{tournament.title | uppercase}} Logo"
-      >
+        alt="{{ tournament.title | uppercase }} Logo"
+      />
     </p>
 
     @if (currentTournamentMainSponsor$ | async; as sponsor) {
@@ -16,17 +16,15 @@
       <!--      <p style="text-align: center">{{ sponsor.title }}</p>-->
       <p style="text-align: center">
         <img
-          src="{{url}}{{sponsor.logo_url}}"
+          src="{{ url }}{{ sponsor.logo_url }}"
           width="200px"
-          alt="{{sponsor.title | uppercase}} Logo"
-        >
+          alt="{{ sponsor.title | uppercase }} Logo"
+        />
       </p>
     }
     @if (sponsorLine$ | async; as sponsorLine) {
       <div class="tournament_sponsor_line">
-        <app-sponsor-line
-          [sponsorLine]="sponsorLine"
-        ></app-sponsor-line>
+        <app-sponsor-line [sponsorLine]="sponsorLine"></app-sponsor-line>
       </div>
     }
     <p class="content__title_description">{{ tournament.description }}</p>
@@ -61,26 +59,21 @@
         (delete)="onDelete()"
         [dialogId]="'deleteDialog'"
       ></app-delete-dialog>
-    } </div>
+    }
+  </div>
 </div>
 
 <div class="tournament content__body">
   <div class="one_col_container">
     <div class="tournament">
       <div class="one_col_container">
-
         <div class="two_col_container_tournament">
           <div class="one_col_container">
-            <app-body-list-title
-              titleMany='matches'
-            ></app-body-list-title>
+            <app-body-list-title titleMany="matches"></app-body-list-title>
 
             @if (matchesInTournament$ | async; as items) {
               <div class="one_col_container">
-                <form
-                  [formGroup]="formWeek"
-                  style="padding: 10px"
-                >
+                <form [formGroup]="formWeek" style="padding: 10px">
                   <tui-input-number
                     [tuiTextfieldCleaner]="true"
                     formControlName="matchWeekSearch"
@@ -127,6 +120,8 @@
                       [dialogId]="'addDialog'"
                       [tournamentId]="tournament.id!"
                       [teams]="teams"
+                      [allSponsors]="allSponsors$ | async"
+                      [allSponsorLines]="allSponsorLines$ | async"
                     ></app-add-edit-match>
                   }
                 }
@@ -134,14 +129,15 @@
             }
           </div>
           <div class="one_col_container">
-            <app-body-list-title
-              titleMany="teams"
-            ></app-body-list-title>
+            <app-body-list-title titleMany="teams"></app-body-list-title>
 
             @if (sport$ | async; as sport) {
               @if (tournament$ | async; as tour) {
                 @if (teamsInTournament$ | async; as t) {
-                  @if (availableTeamsToAddToTournament$ |async; as availableTeams) {
+                  @if (
+                    availableTeamsToAddToTournament$ | async;
+                    as availableTeams
+                  ) {
                     <app-add-edit-team-to-tournament-table
                       [tournamentId]="tour.id!"
                       [teams]="t"
@@ -155,27 +151,26 @@
           </div>
         </div>
         <div class="one_col_container">
-          <app-body-list-title
-            titleMany='players'
-          ></app-body-list-title>
+          <app-body-list-title titleMany="players"></app-body-list-title>
 
           @if (sport$ | async; as sport) {
             @if (tournament$ | async; as tournament) {
               @if (paginatedTablePlayerInTeamTournament$ | async; as players) {
                 @if (allSportPlayersWithPerson$ | async; as playersInSports) {
-                  @if (allAvailablePlayersToAddInTournament$ | async; as availablePlayers) {
-
+                  @if (
+                    allAvailablePlayersToAddInTournament$ | async;
+                    as availablePlayers
+                  ) {
                     <app-add-edit-player-to-team-tournament-table
                       [deleteOrUpdate]="'delete'"
                       [sportId]="sport.id!"
                       [tournamentId]="tournament.id!"
-                      [teamsInTournament]="teamsInTournament$|async"
+                      [teamsInTournament]="teamsInTournament$ | async"
                       [playersInSport]="playersInSports"
                       [players]="players"
                       [availablePlayersInSport]="availablePlayers"
                       [positions]="allSportPositions$ | async"
                     ></app-add-edit-player-to-team-tournament-table>
-
                   }
                 }
               }
@@ -192,7 +187,6 @@
               ></app-base-pagination>
             }
           }
-
         </div>
       </div>
     </div>

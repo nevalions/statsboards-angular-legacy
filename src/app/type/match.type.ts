@@ -1,5 +1,5 @@
-import { ITeam } from './team.type';
 import { IMatchData, IScoreboard } from './matchdata.type';
+import { ITeam } from './team.type';
 
 export interface IMatch {
   id?: number | null;
@@ -9,6 +9,8 @@ export interface IMatch {
   team_a_id: number;
   team_b_id: number;
   tournament_id: number;
+  main_sponsor_id: number | null;
+  sponsor_line_id: number | null;
 }
 
 export interface IMatchTeamsData {
@@ -47,6 +49,8 @@ export function getDefaultFullData(): IMatchWithFullData {
       team_a_id: 0,
       team_b_id: 0,
       tournament_id: 0,
+      main_sponsor_id: null,
+      sponsor_line_id: null,
     },
     teams_data: {
       team_a: {

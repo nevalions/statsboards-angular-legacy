@@ -14,6 +14,8 @@ import { DeleteButtonComponent } from '../../../shared/ui/buttons/delete-button/
 import { EditButtonComponent } from '../../../shared/ui/buttons/edit-button/edit-button.component';
 import { DeleteDialogComponent } from '../../../shared/ui/dialogs/delete-dialog/delete-dialog.component';
 import { IMatch } from '../../../type/match.type';
+import { SponsorLine } from '../../adv/sponsor-line/sponsorLine';
+import { Sponsor } from '../../adv/sponsor/sponsor';
 import { MatchWithFullData } from '../../match-with-full-data/matchWithFullData';
 import { Person } from '../../person/person';
 import { AddEditPlayerMatchTableComponent } from '../../player-match/add-edit-player-match-table/add-edit-player-match-table.component';
@@ -54,7 +56,10 @@ import { Match } from '../match';
 })
 export class ItemMatchComponent {
   sport$ = this.sport.currentSport$;
+  allSponsors$ = this.sponsor.allSponsors$;
+  allSponsorLines$ = this.sponsorLine.allSponsorLines$;
   allSportTeams$ = this.team.teamsInSport$;
+  // matchSponsorLine$ = this.sponsorLine.matchSponsorLine$;
   match$ = this.matchWithFullData.matchWithFullData$;
   tournament$ = this.tournament.currentTournament$;
   teamsInTournament$ = this.team.teamsInTournament$;
@@ -79,6 +84,8 @@ export class ItemMatchComponent {
   constructor(
     private season: Season,
     private sport: Sport,
+    private sponsor: Sponsor,
+    private sponsorLine: SponsorLine,
     private tournament: Tournament,
     private team: Team,
     private person: Person,
@@ -91,6 +98,9 @@ export class ItemMatchComponent {
     private route: ActivatedRoute,
     private router: Router,
   ) {
+    sponsor.loadAllSponsors();
+    sponsorLine.loadAllSponsorLines();
+    sponsorLine.loadMatchSponsorLineWithFullData();
     match.loadCurrentMatch();
     tournament.loadCurrentTournament();
     playerInTeamTournament.loadAllPlayersForMatch();

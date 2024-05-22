@@ -1,103 +1,103 @@
 import { Routes } from '@angular/router';
-import { SportComponent } from './sport.component';
-import { ItemSportComponent } from './item-sport/item-sport.component';
-import { WithTeamsComponent } from './item-sport/with-teams/with-teams.component';
-import { ItemSportWithSeasonComponent } from './item-sport/item-sport-with-season/item-sport-with-season.component';
+import { provideEffects } from '@ngrx/effects';
 import { provideState } from '@ngrx/store';
+import { SeasonEffects } from '../season/store/effects';
+import { seasonFeatureKey, seasonReducer } from '../season/store/reducers';
+import { ItemTournamentComponent } from '../tournament/item-tournament/item-tournament.component';
+import { TournamentEffects } from '../tournament/store/effects';
 import {
   tournamentFeatureKey,
   tournamentReducer,
 } from '../tournament/store/reducers';
-import { provideEffects } from '@ngrx/effects';
-import { TournamentEffects } from '../tournament/store/effects';
-import { SeasonEffects } from '../season/store/effects';
-import { seasonFeatureKey, seasonReducer } from '../season/store/reducers';
-import { ItemTournamentComponent } from '../tournament/item-tournament/item-tournament.component';
+import { ItemSportWithSeasonComponent } from './item-sport/item-sport-with-season/item-sport-with-season.component';
+import { ItemSportComponent } from './item-sport/item-sport.component';
+import { WithTeamsComponent } from './item-sport/with-teams/with-teams.component';
+import { SportComponent } from './sport.component';
 
-import { teamFeatureKey, teamReducer } from '../team/store/reducers';
-import { TeamEffects } from '../team/store/effects';
-import { TeamTournamentEffects } from '../team-tournament/store/effects';
 import {
-  teamTournamentFeatureKey,
-  teamTournamentReducer,
-} from '../team-tournament/store/reducers';
-import { matchFeatureKey, matchReducer } from '../match/store/reducers';
+  paginationFeatureKey,
+  paginationReducer,
+} from '../../store/pagination/pagination.reducers';
+import { SearchEffects } from '../../store/search/search.effects';
 import {
-  matchWithFullDataFeatureKey,
-  matchWithFullDataReducer,
-} from '../match-with-full-data/store/reducers';
-import { MatchEffects } from '../match/store/effects';
-import { MatchWithFullDataEffects } from '../match-with-full-data/store/effects';
-import { ItemTeamComponent } from '../team/item-team/item-team.component';
-import { ItemMatchComponent } from '../match/item-match/item-match.component';
-import { MatchScoreboardAdminComponent } from '../match-scoreboard-admin/match-scoreboard-admin.component';
+  searchFeatureKey,
+  searchReducer,
+} from '../../store/search/search.reducers';
+import { WebSocketEffects } from '../../store/websocket/websocket.effects';
 import {
   webSocketFeatureKey,
   webSocketReducer,
 } from '../../store/websocket/websocket.reducers';
-import {
-  matchDataFeatureKey,
-  matchDataReducer,
-} from '../match/store/match-data/reducers';
-import {
-  scoreboardDataFeatureKey,
-  scoreboardDataReducer,
-} from '../scoreboard-data/store/reducers';
-import { MatchDataEffects } from '../match/store/match-data/effects';
-import { ScoreboardDataEffects } from '../scoreboard-data/store/effects';
-import { WebSocketEffects } from '../../store/websocket/websocket.effects';
-import {
-  playclockFeatureKey,
-  playclockReducer,
-} from '../playclock/store/reducers';
-import { PlayclockEffects } from '../playclock/store/effects';
-import {
-  gameclockFeatureKey,
-  gameclockReducer,
-} from '../gameclock/store/reducers';
-import { GameclockEffects } from '../gameclock/store/effects';
-import {
-  sponsorFeatureKey,
-  sponsorReducer,
-} from '../adv/sponsor/store/reducers';
+import { SponsorLineEffects } from '../adv/sponsor-line/store/effects';
 import {
   sponsorLineFeatureKey,
   sponsorLineReducer,
 } from '../adv/sponsor-line/store/reducers';
 import { SponsorEffects } from '../adv/sponsor/store/effects';
-import { SponsorLineEffects } from '../adv/sponsor-line/store/effects';
-import { WithPlayersComponent } from './item-sport/with-players/with-players.component';
-import { personFeatureKey, personReducer } from '../person/store/reducers';
-import { playerFeatureKey, playerReducer } from '../player/store/reducers';
+import {
+  sponsorFeatureKey,
+  sponsorReducer,
+} from '../adv/sponsor/store/reducers';
+import { GameclockEffects } from '../gameclock/store/effects';
+import {
+  gameclockFeatureKey,
+  gameclockReducer,
+} from '../gameclock/store/reducers';
+import { MatchScoreboardAdminComponent } from '../match-scoreboard-admin/match-scoreboard-admin.component';
+import { MatchWithFullDataEffects } from '../match-with-full-data/store/effects';
+import {
+  matchWithFullDataFeatureKey,
+  matchWithFullDataReducer,
+} from '../match-with-full-data/store/reducers';
+import { ItemMatchComponent } from '../match/item-match/item-match.component';
+import { MatchEffects } from '../match/store/effects';
+import { MatchDataEffects } from '../match/store/match-data/effects';
+import {
+  matchDataFeatureKey,
+  matchDataReducer,
+} from '../match/store/match-data/reducers';
+import { matchFeatureKey, matchReducer } from '../match/store/reducers';
 import { PersonEffects } from '../person/store/effects';
-import { PlayerEffects } from '../player/store/effects';
-import { ItemPlayerComponent } from '../player/item-player/item-player.component';
+import { personFeatureKey, personReducer } from '../person/store/reducers';
+import { PlayclockEffects } from '../playclock/store/effects';
 import {
-  searchFeatureKey,
-  searchReducer,
-} from '../../store/search/search.reducers';
-import { SearchEffects } from '../../store/search/search.effects';
-import {
-  paginationFeatureKey,
-  paginationReducer,
-} from '../../store/pagination/pagination.reducers';
-import { WithPositionsComponent } from './item-sport/with-positions/with-positions.component';
-import { ItemPositionComponent } from '../position/item-position/item-position.component';
-import {
-  positionFeatureKey,
-  positionReducer,
-} from '../position/store/reducers';
-import { PositionEffects } from '../position/store/effects';
-import {
-  playerInTeamTournamentFeatureKey,
-  playerInTeamTournamentReducer,
-} from '../player-team-tournament/store/reducers';
-import { PlayerInTeamTournamentEffects } from '../player-team-tournament/store/effects';
+  playclockFeatureKey,
+  playclockReducer,
+} from '../playclock/store/reducers';
+import { PlayerInMatchEffects } from '../player-match/store/effects';
 import {
   playerInMatchFeatureKey,
   playerInMatchReducer,
 } from '../player-match/store/reducers';
-import { PlayerInMatchEffects } from '../player-match/store/effects';
+import { PlayerInTeamTournamentEffects } from '../player-team-tournament/store/effects';
+import {
+  playerInTeamTournamentFeatureKey,
+  playerInTeamTournamentReducer,
+} from '../player-team-tournament/store/reducers';
+import { ItemPlayerComponent } from '../player/item-player/item-player.component';
+import { PlayerEffects } from '../player/store/effects';
+import { playerFeatureKey, playerReducer } from '../player/store/reducers';
+import { ItemPositionComponent } from '../position/item-position/item-position.component';
+import { PositionEffects } from '../position/store/effects';
+import {
+  positionFeatureKey,
+  positionReducer,
+} from '../position/store/reducers';
+import { ScoreboardDataEffects } from '../scoreboard-data/store/effects';
+import {
+  scoreboardDataFeatureKey,
+  scoreboardDataReducer,
+} from '../scoreboard-data/store/reducers';
+import { TeamTournamentEffects } from '../team-tournament/store/effects';
+import {
+  teamTournamentFeatureKey,
+  teamTournamentReducer,
+} from '../team-tournament/store/reducers';
+import { ItemTeamComponent } from '../team/item-team/item-team.component';
+import { TeamEffects } from '../team/store/effects';
+import { teamFeatureKey, teamReducer } from '../team/store/reducers';
+import { WithPlayersComponent } from './item-sport/with-players/with-players.component';
+import { WithPositionsComponent } from './item-sport/with-positions/with-positions.component';
 
 export const SPORT_ROUTES: Routes = [
   {
@@ -346,6 +346,8 @@ export const SPORT_ROUTES: Routes = [
                     matchWithFullDataFeatureKey,
                     matchWithFullDataReducer,
                   ),
+                  provideState(sponsorFeatureKey, sponsorReducer),
+                  provideState(sponsorLineFeatureKey, sponsorLineReducer),
                   provideEffects(
                     SeasonEffects,
                     TournamentEffects,
@@ -358,6 +360,8 @@ export const SPORT_ROUTES: Routes = [
                     PlayerInMatchEffects,
                     MatchEffects,
                     MatchWithFullDataEffects,
+                    SponsorEffects,
+                    SponsorLineEffects,
                   ),
                 ],
                 data: {

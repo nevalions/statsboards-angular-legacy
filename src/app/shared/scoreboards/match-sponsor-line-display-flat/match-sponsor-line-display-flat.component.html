@@ -1,0 +1,7 @@
+<!-- <p style="color: black">ASDAFSDAFSDF ASDAFSDF</p> -->
+
+@if (matchSponsorLine$ | async; as sponsorLine) {
+  <div class="sponsor_line_animation">
+    <app-sponsor-line [sponsorLine]="sponsorLine"></app-sponsor-line>
+  </div>
+}

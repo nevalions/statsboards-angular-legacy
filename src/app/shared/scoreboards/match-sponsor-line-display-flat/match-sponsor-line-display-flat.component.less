@@ -1,0 +1,30 @@
+.sponsor_line_animation {
+  margin-top: 5px;
+  transform-origin: top;
+  animation: shrinkInOut 60s infinite;
+}
+
+@keyframes shrinkInOut {
+  0% {
+    transform: scaleY(0);
+  }
+  /* Fast transition to fully visible */
+  1% {
+    /* About 0.6 seconds for transition */
+    transform: scaleY(1);
+  }
+  /* Stays fully visible for 9 seconds */
+  16% {
+    /* 16% of 60 seconds = 9.6 seconds */
+    transform: scaleY(1);
+  }
+  /* Fast transition to invisible */
+  17% {
+    /* About 0.6 seconds for transition */
+    transform: scaleY(0);
+  }
+  /* Stays invisible for the rest of the time (about 51 seconds) */
+  100% {
+    transform: scaleY(0);
+  }
+}

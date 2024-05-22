@@ -11,6 +11,7 @@ import { sponsorLineActions } from './store/actions';
 export class SponsorLine {
   sponsorLine$: Observable<ISponsorLine | null | undefined>;
   sponsorLineWithFullData$: Observable<ISponsorLineFullData | null | undefined>;
+  matchSponsorLine$: Observable<ISponsorLineFullData | null | undefined>;
   allSponsorLines$: Observable<ISponsorLine[]>;
 
   constructor(private store: Store<AppState>) {
@@ -23,6 +24,9 @@ export class SponsorLine {
     this.sponsorLineWithFullData$ = store.select(
       (state) => state.sponsorLine.currentSponsorLineWithFullData,
     );
+    this.matchSponsorLine$ = store.select(
+      (state) => state.sponsorLine.currentMatchSponsorLineWithFullData,
+    );
   }
 
   loadCurrentSponsorLine() {
@@ -33,6 +37,10 @@ export class SponsorLine {
     this.store.dispatch(
       sponsorLineActions.getFullDataSponsorLine({ sponsorLineId }),
     );
+  }
+
+  loadMatchSponsorLineWithFullData() {
+    this.store.dispatch(sponsorLineActions.getFullDataMatchSponsorLine());
   }
 
   loadAllSponsorLines() {

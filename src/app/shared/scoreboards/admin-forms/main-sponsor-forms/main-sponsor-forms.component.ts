@@ -98,6 +98,15 @@ export class MainSponsorFormsComponent implements OnChanges {
     this.scoreboardData.updateScoreboardData(updatedScoreboardData);
   }
 
+  toggleMatchSponsorLineVisibility(scoreboardData: IScoreboard) {
+    if (!scoreboardData) return;
+    const updatedScoreboardData = {
+      ...scoreboardData,
+      is_match_sponsor_line: !scoreboardData.is_match_sponsor_line,
+    };
+    this.scoreboardData.updateScoreboardData(updatedScoreboardData);
+  }
+
   scaleLogo(logo: 'tournament' | 'mainSponsor', scoreboardData: IScoreboard) {
     if (!scoreboardData) return;
 

@@ -1,17 +1,12 @@
 <ng-template
   let-observer
-  [tuiDialogOptions]="{label: action.toUpperCase() + ' MATCH', size: 'm'}"
+  [tuiDialogOptions]="{ label: action.toUpperCase() + ' MATCH', size: 'm' }"
   [(tuiDialog)]="open"
 >
-  <form
-    [formGroup]="matchForm"
-    (ngSubmit)="onSubmit(); observer.complete()"
-  >
+  <form [formGroup]="matchForm" (ngSubmit)="onSubmit(); observer.complete()">
     <!--    <p></p>-->
     <div class="tui-form__row">
-      <tui-input-date-time
-        formControlName="match_date"
-      >
+      <tui-input-date-time formControlName="match_date">
         Match Date
         <span class="tui-required"></span>
       </tui-input-date-time>
@@ -22,11 +17,7 @@
     </div>
 
     <div class="tui-form__row">
-      <tui-input-number
-        formControlName="week"
-      >
-        Match Week
-      </tui-input-number>
+      <tui-input-number formControlName="week"> Match Week </tui-input-number>
       <tui-error
         formControlName="week"
         [error]="[] | tuiFieldError | async"
@@ -34,10 +25,14 @@
     </div>
 
     @if (teams) {
-      <div class="tui-form__row"
-           style="display: grid;
-           grid-template-columns: auto auto;
-           justify-content: stretch; grid-gap: 10px"
+      <div
+        class="tui-form__row"
+        style="
+          display: grid;
+          grid-template-columns: auto auto;
+          justify-content: stretch;
+          grid-gap: 10px;
+        "
       >
         <app-select-from-list
           [itemsList]="teams"
@@ -56,14 +51,11 @@
           [avatarProperty]="'team_logo_icon_url'"
           [stringifyFn]="stringifyTitle"
         ></app-select-from-list>
-
       </div>
     }
 
     <div class="tui-form__row">
-      <tui-input-number
-        formControlName="match_eesl_id"
-      >
+      <tui-input-number formControlName="match_eesl_id">
         Match EESL ID
       </tui-input-number>
       <tui-error
@@ -71,6 +63,28 @@
         [error]="[] | tuiFieldError | async"
       ></tui-error>
     </div>
+
+    @if (allSponsors) {
+      <app-select-from-list
+        [itemsList]="allSponsors"
+        [title]="'Match Sponsor'"
+        [formField]="matchForm.controls['matchMainSponsor']"
+        [avatarProperty]="'logo_url'"
+        [stringifyFn]="stringifyTitle"
+        [nullable]="true"
+      ></app-select-from-list>
+    }
+
+    @if (allSponsorLines) {
+      <app-select-from-list
+        [itemsList]="allSponsorLines"
+        [title]="'Match Sponsor Line'"
+        [formField]="matchForm.controls['matchSponsorLine']"
+        [stringifyFn]="stringifyTitle"
+        [nullable]="true"
+      ></app-select-from-list>
+    }
+
     <div class="tui-form__row">
       <p>
         <app-create-button-in-form

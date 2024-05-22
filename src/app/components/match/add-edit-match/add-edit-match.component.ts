@@ -1,22 +1,15 @@
+import { AsyncPipe, TitleCasePipe } from '@angular/common';
 import {
   Component,
   EventEmitter,
-  inject,
   Input,
   OnChanges,
   OnDestroy,
   OnInit,
   Output,
   SimpleChanges,
+  inject,
 } from '@angular/core';
-import {
-  TuiButtonModule,
-  TuiDialogModule,
-  TuiErrorModule,
-  TuiLoaderModule,
-  TuiTextfieldControllerModule,
-} from '@taiga-ui/core';
-import { AsyncPipe, TitleCasePipe } from '@angular/common';
 import {
   FormControl,
   FormGroup,
@@ -26,6 +19,13 @@ import {
 } from '@angular/forms';
 import { TuiDay, TuiLetModule, TuiTime } from '@taiga-ui/cdk';
 import {
+  TuiButtonModule,
+  TuiDialogModule,
+  TuiErrorModule,
+  TuiLoaderModule,
+  TuiTextfieldControllerModule,
+} from '@taiga-ui/core';
+import {
   TuiAvatarModule,
   TuiDataListWrapperModule,
   TuiFieldErrorPipeModule,
@@ -33,24 +33,25 @@ import {
   TuiInputDateTimeModule,
   TuiInputModule,
   TuiInputNumberModule,
-  tuiItemsHandlersProvider,
   TuiSelectModule,
   TuiTextareaModule,
+  tuiItemsHandlersProvider,
 } from '@taiga-ui/kit';
 
 import { IMatch, IMatchWithFullData } from '../../../type/match.type';
 
 import { Subscription } from 'rxjs';
-import { ITeam } from '../../../type/team.type';
 import { DateTimeService } from '../../../services/date-time.service';
-import { SelectTeamComponent } from '../../../shared/ui/forms/select-team/select-team.component';
-import { CreateButtonInFormComponent } from '../../../shared/ui/buttons/create-button-in-form/create-button-in-form.component';
-import { CancelButtonInFormComponent } from '../../../shared/ui/buttons/cancel-button-in-form/cancel-button-in-form.component';
 import { DialogService } from '../../../services/dialog.service';
+import { CancelButtonInFormComponent } from '../../../shared/ui/buttons/cancel-button-in-form/cancel-button-in-form.component';
+import { CreateButtonInFormComponent } from '../../../shared/ui/buttons/create-button-in-form/create-button-in-form.component';
+import { SelectTeamComponent } from '../../../shared/ui/forms/select-team/select-team.component';
+import { ITeam } from '../../../type/team.type';
 
-import { Match } from '../match';
-import { SelectFromListComponent } from '../../../shared/ui/select/select-from-list/select-from-list.component';
 import { stringifyTitle } from '../../../base/helpers';
+import { SelectFromListComponent } from '../../../shared/ui/select/select-from-list/select-from-list.component';
+import { ISponsor, ISponsorLine } from '../../../type/sponsor.type';
+import { Match } from '../match';
 
 @Component({
   selector: 'app-add-edit-match',
@@ -100,6 +101,8 @@ export class AddEditMatchComponent implements OnInit, OnChanges, OnDestroy {
   @Input() matchWithFullData: IMatchWithFullData = {} as IMatchWithFullData;
   @Input() tournamentId!: number;
   @Input() teams: ITeam[] = [];
+  @Input() allSponsors: ISponsor[] | null = [];
+  @Input() allSponsorLines: ISponsorLine[] | null = [];
 
   @Output() addEvent = new EventEmitter<any>();
   @Output() editEvent = new EventEmitter<any>();
@@ -121,6 +124,8 @@ export class AddEditMatchComponent implements OnInit, OnChanges, OnDestroy {
     team_a: new FormControl<ITeam | null>(null, [Validators.required]),
     team_b: new FormControl<ITeam | null>(null, [Validators.required]),
     match_eesl_id: new FormControl<number | undefined>(undefined),
+    matchMainSponsor: new FormControl<ISponsor | null>(null),
+    matchSponsorLine: new FormControl<ISponsorLine | null>(null),
   });
 
   open: boolean = false;
@@ -134,8 +139,12 @@ export class AddEditMatchComponent implements OnInit, OnChanges, OnDestroy {
       changes['matchWithFullData'] &&
       this.action === 'edit' &&
       this.matchWithFullData &&
+      this.allSponsors &&
+      this.allSponsorLines &&
       this.teams.length > 0
     ) {
+      const item: IMatchWithFullData = this.matchWithFullData;
+
       const { match } = this.matchWithFullData;
       const team_a: ITeam | undefined = this.teams.find(
         (team) => team.id === match.team_a_id,
@@ -143,6 +152,16 @@ export class AddEditMatchComponent implements OnInit, OnChanges, OnDestroy {
       const team_b: ITeam | undefined = this.teams.find(
         (team) => team.id === match.team_b_id,
       );
+
+      const matchSponsor: ISponsor | undefined = this.allSponsors.find(
+        (sponsor: ISponsor) => sponsor.id === item.match.main_sponsor_id,
+      );
+
+      const matchSponsorLine: ISponsorLine | undefined =
+        this.allSponsorLines.find(
+          (sponsorLine: ISponsorLine) =>
+            sponsorLine.id === item.match.sponsor_line_id,
+        );
 
       if (team_a && team_b) {
         this.matchForm.setValue({
@@ -154,6 +173,8 @@ export class AddEditMatchComponent implements OnInit, OnChanges, OnDestroy {
           team_a: team_a,
           team_b: team_b,
           match_eesl_id: match.match_eesl_id,
+          matchMainSponsor: matchSponsor || null,
+          matchSponsorLine: matchSponsorLine || null,
         });
       }
     }
@@ -204,15 +225,17 @@ export class AddEditMatchComponent implements OnInit, OnChanges, OnDestroy {
             team_b_id: team_b_id,
             tournament_id: this.tournamentId,
             match_eesl_id: formValue.match_eesl_id!,
+            main_sponsor_id: formValue.matchMainSponsor?.id ?? null,
+            sponsor_line_id: formValue.matchSponsorLine?.id ?? null,
           };
 
           if (this.action === 'add') {
-            // console.log(data);
+            console.log('ADDDDD', data);
             this.match.createMatch(data);
             this.matchForm.reset();
           } else if (this.action === 'edit') {
             console.log(this.action);
-            // console.log(data);
+            console.log('EDITTTTTTT', data);
             this.match.updateMatch(data);
           }
         }

@@ -1,10 +1,10 @@
 import { createFeature, createReducer, on } from '@ngrx/store';
 import { SortService } from '../../../../services/sort.service';
-import { sponsorLineActions } from './actions';
 import {
   ISponsorLine,
   ISponsorLineFullData,
 } from '../../../../type/sponsor.type';
+import { sponsorLineActions } from './actions';
 
 export interface SponsorLineState {
   sponsorLineIsLoading: boolean;
@@ -12,6 +12,7 @@ export interface SponsorLineState {
   currentSponsorLineId: number | undefined | null;
   currentSponsorLine: ISponsorLine | undefined | null;
   currentSponsorLineWithFullData: ISponsorLineFullData | undefined | null;
+  currentMatchSponsorLineWithFullData: ISponsorLineFullData | undefined | null;
   allSponsorLines: ISponsorLine[];
   errors: any | undefined | null;
 }
@@ -23,6 +24,7 @@ const initialState: SponsorLineState = {
   allSponsorLines: [],
   currentSponsorLine: null,
   currentSponsorLineWithFullData: null,
+  currentMatchSponsorLineWithFullData: null,
   errors: null,
 };
 
@@ -141,6 +143,29 @@ const sponsorLineFeature = createFeature({
       sponsorLineIsLoading: false,
       errors: action,
     })),
+
+    //Match Sponsor Line
+    on(sponsorLineActions.getFullDataMatchSponsorLine, (state) => ({
+      ...state,
+      sponsorLineIsLoading: true,
+    })),
+    on(
+      sponsorLineActions.getFullDataMatchSponsorLineSuccess,
+      (state, action) => ({
+        ...state,
+        sponsorLineIsLoading: false,
+        currentMatchSponsorLineWithFullData:
+          action.currentMatchSponsorLineWithFullData,
+      }),
+    ),
+    on(
+      sponsorLineActions.getFullDataMatchSponsorLineFailure,
+      (state, action) => ({
+        ...state,
+        sponsorLineIsLoading: false,
+        errors: action,
+      }),
+    ),
 
     on(sponsorLineActions.getAll, (state) => ({
       ...state,

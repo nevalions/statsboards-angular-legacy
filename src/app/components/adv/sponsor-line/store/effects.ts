@@ -1,14 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import {
-  catchError,
-  filter,
-  map,
-  mergeMap,
-  of,
-  switchMap,
-  withLatestFrom,
-} from 'rxjs';
+import { catchError, filter, map, of, switchMap } from 'rxjs';
 
 import { Router } from '@angular/router';
 
@@ -16,18 +8,14 @@ import { Store } from '@ngrx/store';
 
 import { routerNavigatedAction } from '@ngrx/router-store';
 import { getAllRouteParameters } from '../../../../router/router.selector';
-import { sponsorLineActions } from './actions';
 import {
   ISponsorLine,
   ISponsorLineFullData,
 } from '../../../../type/sponsor.type';
+import { selectCurrentMatchId } from '../../../match/store/reducers';
 import { SponsorLineService } from '../../sponsor-line.service';
 import { SponsorSponsorLineConnectionService } from '../../sponsor-sponsor-line-connection.service';
-import {
-  selectCurrentTournament,
-  selectCurrentTournamentSponsorLineId,
-} from '../../../tournament/store/reducers';
-import { ITournament } from '../../../../type/tournament.type';
+import { sponsorLineActions } from './actions';
 
 @Injectable()
 export class SponsorLineEffects {
@@ -171,6 +159,38 @@ export class SponsorLineEffects {
               }),
               catchError(() => {
                 return of(sponsorLineActions.getFullDataSponsorLineFailure());
+              }),
+            );
+        }),
+      );
+    },
+    { functional: true },
+  );
+
+  getMatchSponsorLineWithFullDataEffect = createEffect(
+    () => {
+      return this.actions$.pipe(
+        ofType(sponsorLineActions.getFullDataMatchSponsorLine),
+        switchMap(() => this.store.select(selectCurrentMatchId)),
+        filter(
+          (matchId): matchId is number =>
+            matchId !== null && matchId !== undefined,
+        ),
+        switchMap((matchId) => {
+          return this.sponsorSponsorLineConnectionService
+            .findMatchSponsorMatchFullData(matchId)
+            .pipe(
+              map(
+                (currentMatchSponsorLineWithFullData: ISponsorLineFullData) => {
+                  return sponsorLineActions.getFullDataMatchSponsorLineSuccess({
+                    currentMatchSponsorLineWithFullData,
+                  });
+                },
+              ),
+              catchError(() => {
+                return of(
+                  sponsorLineActions.getFullDataMatchSponsorLineFailure(),
+                );
               }),
             );
         }),

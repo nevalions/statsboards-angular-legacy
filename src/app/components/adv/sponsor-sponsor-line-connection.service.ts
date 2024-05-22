@@ -1,17 +1,14 @@
-import { Injectable } from '@angular/core';
-import { BaseApiService } from '../../services/base.api.service';
 import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Observable, map } from 'rxjs';
+import { tap } from 'rxjs/operators';
+import { BaseApiService } from '../../services/base.api.service';
 import { ErrorHandlingService } from '../../services/error.service';
+import { SortService } from '../../services/sort.service';
 import {
-  ISponsor,
-  ISponsorLine,
   ISponsorLineConnection,
   ISponsorLineFullData,
 } from '../../type/sponsor.type';
-import { map, Observable } from 'rxjs';
-import { ITeam } from '../../type/team.type';
-import { tap } from 'rxjs/operators';
-import { SortService } from '../../services/sort.service';
 
 @Injectable({
   providedIn: 'root',
@@ -35,5 +32,16 @@ export class SponsorSponsorLineConnectionService extends BaseApiService<ISponsor
           return data;
         }),
       );
+  }
+
+  findMatchSponsorMatchFullData(
+    matchId: number,
+  ): Observable<ISponsorLineFullData> {
+    return this.findByFirstKeyValue(
+      'matches',
+      'id',
+      matchId,
+      'sponsor_line',
+    ).pipe();
   }
 }

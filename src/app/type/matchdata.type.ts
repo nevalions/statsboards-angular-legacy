@@ -22,6 +22,7 @@ export interface IScoreboard {
   is_tournament_logo?: boolean;
   is_main_sponsor?: boolean;
   is_sponsor_line?: boolean;
+  is_match_sponsor_line?: boolean;
 
   team_a_game_color?: string;
   team_b_game_color?: string;

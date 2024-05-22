@@ -2,9 +2,7 @@ import { createActionGroup, emptyProps, props } from '@ngrx/store';
 import {
   ISponsorLine,
   ISponsorLineFullData,
-  ISponsorWithPosition,
 } from '../../../../type/sponsor.type';
-import { ITournament } from '../../../../type/tournament.type';
 
 export const sponsorLineActions = createActionGroup({
   source: 'sponsorLine',
@@ -32,6 +30,12 @@ export const sponsorLineActions = createActionGroup({
       currentSponsorLineWithFullData: ISponsorLineFullData;
     }>(),
     'Get full data sponsor line failure': emptyProps(),
+
+    GetFullDataMatchSponsorLine: emptyProps(),
+    'Get full data match sponsor line success': props<{
+      currentMatchSponsorLineWithFullData: ISponsorLineFullData;
+    }>(),
+    'Get full data match sponsor line failure': emptyProps(),
 
     // GetFullDataSponsorLineWithTournament: props<{
     //   sponsorLineTournament: ITournament;

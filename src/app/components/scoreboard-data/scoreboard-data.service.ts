@@ -1,18 +1,12 @@
-import { inject, Injectable } from '@angular/core';
-import { BaseApiService } from '../../services/base.api.service';
 import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { ErrorHandlingService } from '../../services/error.service';
-import {
-  getDefaultFullData,
-  IMatch,
-  IMatchWithFullData,
-} from '../../type/match.type';
-import { BehaviorSubject, map, Observable, of, Subject } from 'rxjs';
-import { TournamentService } from '../tournament/tournament.service';
+import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { SortService } from '../../services/sort.service';
-import { IMatchData, IScoreboard } from '../../type/matchdata.type';
+import { BaseApiService } from '../../services/base.api.service';
+import { ErrorHandlingService } from '../../services/error.service';
+import {} from '../../type/match.type';
+import { IScoreboard } from '../../type/matchdata.type';
 
 @Injectable({
   providedIn: 'root',
