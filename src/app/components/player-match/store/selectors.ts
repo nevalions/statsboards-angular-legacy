@@ -318,7 +318,7 @@ export const selectAwayFootballStartOL = createSelector(
   },
 );
 export const selectHomeFootballStartOL = createSelector(
-  selectAwayFootballStartOffense,
+  selectHomeFootballStartOffense,
   (roster: IPlayerInMatchFullData[]) => {
     if (!roster) {
       return [];
@@ -346,7 +346,7 @@ export const selectAwayFootballStartBackfield = createSelector(
   },
 );
 export const selectHomeFootballStartBackfield = createSelector(
-  selectAwayFootballStartOffense,
+  selectHomeFootballStartOffense,
   (roster: IPlayerInMatchFullData[]) => {
     if (!roster) {
       return [];

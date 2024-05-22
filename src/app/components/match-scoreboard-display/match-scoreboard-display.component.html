@@ -16,7 +16,7 @@
             <div
               style="
                 display: grid;
-                grid-template-columns: 920px;
+                grid-template-columns: 1420px;
                 grid-template-rows: auto auto auto;
                 justify-content: space-evenly;
                 align-items: start;
@@ -24,50 +24,50 @@
                 padding: 20px;
                 margin: 20px;
                 border-radius: 20px;
-                background-color: rgb(158, 190, 158);
+                background-color: rgba(158, 190, 158, 0.8);
               "
               class="start-roster"
             >
-              @if (homeStartOL$ | async; as players) {
+              <div
+                style="
+                  display: flex;
+                  flex-direction: row;
+                  align-items: center;
+                  justify-content: space-evenly;
+                "
+              >
+                @if (homeStartOL$ | async; as players) {
+                  @for (
+                    player of players;
+                    let i = $index;
+                    track player.match_player.id
+                  ) {
+                    <app-player-card-roster
+                      [player]="player"
+                    ></app-player-card-roster>
+                  }
+                }
+              </div>
+              @if (homeStartBacks$ | async; as players) {
                 @for (
                   player of players;
                   let i = $index;
                   track player.match_player.id
                 ) {
-                  <div class="start-roster-card ol">
-                    {{ player.match_player.match_number }}
-                    {{ player.person?.first_name }}
-                    {{ player.person?.second_name }}
-                    {{ player.position?.title }}
-                  </div>
+                  <app-player-card-roster
+                    [player]="player"
+                  ></app-player-card-roster>
                 }
               }
-              @if (homeStartBacks$ | async; as ols) {
+              @if (homeStartWR$ | async; as players) {
                 @for (
-                  player of ols;
+                  player of players;
                   let i = $index;
                   track player.match_player.id
                 ) {
-                  <div class="start-roster-card back">
-                    {{ player.match_player.match_number }}
-                    {{ player.person?.first_name }}
-                    {{ player.person?.second_name }}
-                    {{ player.position?.title }}
-                  </div>
-                }
-              }
-              @if (homeStartWR$ | async; as ols) {
-                @for (
-                  player of ols;
-                  let i = $index;
-                  track player.match_player.id
-                ) {
-                  <div class="start-roster-card wr">
-                    {{ player.match_player.match_number }}
-                    {{ player.person?.first_name }}
-                    {{ player.person?.second_name }}
-                    {{ player.position?.title }}
-                  </div>
+                  <app-player-card-roster
+                    [player]="player"
+                  ></app-player-card-roster>
                 }
               }
             </div>

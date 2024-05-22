@@ -31,6 +31,7 @@ import {
   selectHomeFootballStartLB,
   selectHomeFootballStartOL,
   selectHomeFootballStartOffense,
+  selectHomeFootballStartWR,
   selectHomeTeamRoster,
 } from './store/selectors';
 
@@ -108,7 +109,7 @@ export class PlayerInMatch {
     this.awayFootballStartBacks$ = this.store.select(
       selectAwayFootballStartBackfield,
     );
-    this.homeFootballStartWR$ = this.store.select(selectHomeFootballStartOL);
+    this.homeFootballStartWR$ = this.store.select(selectHomeFootballStartWR);
     this.awayFootballStartWR$ = this.store.select(selectAwayFootballStartWR);
     // defense
     this.homeFootballStartDL$ = this.store.select(selectHomeFootballStartDL);

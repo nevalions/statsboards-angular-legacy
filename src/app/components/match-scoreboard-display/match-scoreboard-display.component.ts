@@ -16,6 +16,7 @@ import { PlayerInMatch } from '../player-match/player-match';
 import { Position } from '../position/postion';
 import { Sport } from '../sport/sport';
 import { Tournament } from '../tournament/tournament';
+import { PlayerCardRosterComponent } from '../../shared/scoreboards/player-card-roster/player-card-roster.component';
 
 @Component({
   selector: 'app-match-scoreboard-display',
@@ -29,6 +30,7 @@ import { Tournament } from '../tournament/tournament';
     ScoreboardDisplayFlatComponent,
     SponsorDisplayFlatComponent,
     MatchSponsorLineDisplayFlatComponent,
+    PlayerCardRosterComponent,
   ],
 })
 export class MatchScoreboardDisplayComponent implements OnDestroy {

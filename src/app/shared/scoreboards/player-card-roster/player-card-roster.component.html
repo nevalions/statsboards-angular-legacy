@@ -1,0 +1,15 @@
+@if (player) {
+  <div class="start-roster-card">
+    {{ player.match_player.match_number }}
+    {{ player.person?.first_name }} {{ player.person?.second_name }}
+    <tui-avatar
+      size="xl"
+      text="uploaded logo"
+      class="player-photo-short-profile"
+      [rounded]="false"
+      [avatarUrl]="backendUrl + player.person?.person_photo_web_url"
+      (error)="onImgError($event)"
+    ></tui-avatar>
+    {{ player.position?.title }}
+  </div>
+}
