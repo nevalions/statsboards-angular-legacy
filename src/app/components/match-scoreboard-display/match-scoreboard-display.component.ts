@@ -2,6 +2,7 @@ import { AsyncPipe, NgForOf, NgIf } from '@angular/common';
 import { Component, OnDestroy } from '@angular/core';
 import { Observable } from 'rxjs';
 import { MatchSponsorLineDisplayFlatComponent } from '../../shared/scoreboards/match-sponsor-line-display-flat/match-sponsor-line-display-flat.component';
+import { PlayerCardRosterComponent } from '../../shared/scoreboards/player-card-roster/player-card-roster.component';
 import { ScoreboardDisplayFlatComponent } from '../../shared/scoreboards/scoreboard-display-flat/scoreboard-display-flat.component';
 import { SponsorDisplayFlatComponent } from '../../shared/scoreboards/sponsor-display-flat/sponsor-display-flat.component';
 import { Websocket } from '../../store/websocket/websocket';
@@ -16,7 +17,6 @@ import { PlayerInMatch } from '../player-match/player-match';
 import { Position } from '../position/postion';
 import { Sport } from '../sport/sport';
 import { Tournament } from '../tournament/tournament';
-import { PlayerCardRosterComponent } from '../../shared/scoreboards/player-card-roster/player-card-roster.component';
 
 @Component({
   selector: 'app-match-scoreboard-display',
@@ -45,10 +45,10 @@ export class MatchScoreboardDisplayComponent implements OnDestroy {
   data$: Observable<IMatchFullDataWithScoreboard> = this.Websocket.data$;
   playclock$: Observable<IPlayclock> = this.Websocket.playclock$;
   gameclock$: Observable<IGameclock> = this.Websocket.gameclock$;
-  showHomeOffenseStart: boolean = true;
-  showHomeDefenseStart: boolean = true;
-  showAwayOffenseStart: boolean = true;
-  showAwayDefenseStart: boolean = true;
+  showHomeOffenseStart: boolean = false;
+  showHomeDefenseStart: boolean = false;
+  showAwayOffenseStart: boolean = false;
+  showAwayDefenseStart: boolean = false;
   //offense start
   homeFootballStartOffense$ = this.playerInMatch.homeFootballStartOffense$;
   homeStartOL$ = this.playerInMatch.homeFootballStartOL$;
