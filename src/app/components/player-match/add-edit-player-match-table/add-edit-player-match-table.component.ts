@@ -314,8 +314,19 @@ export class AddEditPlayerMatchTableComponent implements OnChanges, OnInit {
         this.arrayName + this.side,
       ) as FormArray;
 
-      console.log(array, index, action);
-      if (array && action == 'add') {
+      // console.log(array, index, action);
+      if (array && playerId && action == 'edit') {
+        const playerData = {
+          playerInMatchId: getArrayFormDataByIndexAndKey<number>(
+            array,
+            index,
+            'playerInMatchId',
+          ),
+        };
+        const data = {
+          id: playerData.playerInMatchId,
+        };
+      } else if (array && action == 'add') {
         const newPlayerInMatch = {
           p: getArrayFormDataByIndexAndKey<IPlayerInTeamTournamentFullData>(
             array,
