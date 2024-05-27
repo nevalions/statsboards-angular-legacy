@@ -79,6 +79,9 @@ export const playerInMatchActions = createActionGroup({
     }>(),
     'Delete by id failure': emptyProps(),
 
+    SetSelectedPlayerId: props<{ id: number }>(),
+    'Set selected player id failure': emptyProps(),
+
     // ParsPlayersFromMatchTeamEESL: emptyProps,
     // 'Parsed player from match EESL successfully': props<{
     //   parseList: any[] | IPlayerInMatch[];

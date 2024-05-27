@@ -1,3 +1,4 @@
+import { TitleCasePipe, UpperCasePipe } from '@angular/common';
 import {
   Component,
   EventEmitter,
@@ -16,14 +17,12 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 import { TuiButtonModule, TuiDialogModule } from '@taiga-ui/core';
-import { TitleCasePipe, UpperCasePipe } from '@angular/common';
 
 import { TuiCheckboxLabeledModule } from '@taiga-ui/kit';
-import { DialogService } from '../../../../services/dialog.service';
 import { Subscription } from 'rxjs';
-import { DeleteButtonInFormComponent } from '../../buttons/delete-button-in-form/delete-button-in-form.component';
+import { DialogService } from '../../../../services/dialog.service';
 import { CancelButtonInFormComponent } from '../../buttons/cancel-button-in-form/cancel-button-in-form.component';
-import { ivyTransformFactory } from '@angular/compiler-cli/src/ngtsc/transform';
+import { DeleteButtonInFormComponent } from '../../buttons/delete-button-in-form/delete-button-in-form.component';
 
 @Component({
   selector: 'app-delete-dialog',

@@ -9,6 +9,7 @@ import { playerInMatchActions } from './actions';
 export interface PlayerInMatchState {
   playerInMatchIsLoading: boolean;
   playerInMatchIsSubmitting: boolean;
+  selectedPlayerInMatchId: number | undefined | null;
   currentPlayerInMatchId: number | undefined | null;
   currentPlayerInMatch: IPlayerInMatch | undefined | null;
   currentPlayerInMatchFullData: IPlayerInMatchFullData | undefined | null;
@@ -21,6 +22,7 @@ const initialState: PlayerInMatchState = {
   playerInMatchIsLoading: false,
   playerInMatchIsSubmitting: false,
   currentPlayerInMatchId: null,
+  selectedPlayerInMatchId: null,
   allPlayersInMatch: [],
   allPlayersInMatchFullData: [],
   currentPlayerInMatch: null,
@@ -247,6 +249,20 @@ const playerInMatchFeature = createFeature({
         errors: action,
       }),
     ),
+    //set selected player id
+    on(playerInMatchActions.setSelectedPlayerId, (state, action) => {
+      return {
+        ...state,
+        selectedPlayerInMatchId: action.id,
+      };
+    }),
+    on(playerInMatchActions.setSelectedPlayerIdFailure, (state, action) => {
+      return {
+        ...state,
+        selectedPlayerInMatchId: null,
+        errors: action,
+      };
+    }),
   ),
 });
 
@@ -255,6 +271,7 @@ export const {
   reducer: playerInMatchReducer,
   selectPlayerInMatchIsLoading,
   selectPlayerInMatchIsSubmitting,
+  selectSelectedPlayerInMatchId,
   selectCurrentPlayerInMatchId,
   selectCurrentPlayerInMatch,
   selectAllPlayersInMatch,

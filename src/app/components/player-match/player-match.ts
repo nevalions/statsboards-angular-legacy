@@ -43,6 +43,7 @@ export class PlayerInMatch {
   currentPlayerInMatch$: Observable<IPlayerInMatch | null | undefined>;
   allPlayersInMatch$: Observable<IPlayerInMatch[]>;
   allPlayersFullDataInMatch$: Observable<IPlayerInMatchFullData[]>;
+  // selectedPlayerInMatchId$: Observable<number | null | undefined>;
   //rosters
   homeRoster$: Observable<IPlayerInMatchFullData[]>;
   awayRoster$: Observable<IPlayerInMatchFullData[]>;
@@ -80,6 +81,11 @@ export class PlayerInMatch {
     this.allPlayersFullDataInMatch$ = this.store.select(
       selectAllPlayersInMatchFullData,
     );
+    // this.selectedPlayerInMatchId$ = this.store.select(
+    //   selectSelectedPlayerInMatchId,
+    // );
+
+    // rosters
     this.homeRoster$ = this.store.select(selectHomeTeamRoster);
     this.awayRoster$ = this.store.select(selectAwayTeamRoster);
     this.homeFootballOffense$ = this.store.select(selectHomeFootballOffense);
@@ -147,7 +153,12 @@ export class PlayerInMatch {
 
   deletePlayerInMatchWithId(id: number) {
     console.log('delete', id);
-
     this.store.dispatch(playerInMatchActions.deleteById({ id }));
+  }
+
+  onPlayerSelect(playerId: number): void {
+    this.store.dispatch(
+      playerInMatchActions.setSelectedPlayerId({ id: playerId }),
+    );
   }
 }

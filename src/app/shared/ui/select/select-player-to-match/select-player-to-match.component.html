@@ -26,5 +26,15 @@
         }
       </tui-data-list>
     </tui-select>
+  } @else {
+    <tui-select
+      [formControl]="control"
+      [tuiDropdownLimitWidth]="'min'"
+      style="padding-top: 10px"
+    >
+      <tui-data-list *tuiDataList>
+        <button tuiOption>NO PLAYERS IN SEASON TEAM ROSTER</button>
+      </tui-data-list>
+    </tui-select>
   }
 }

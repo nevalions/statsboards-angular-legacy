@@ -115,8 +115,6 @@ export class AddEditPlayerToTeamTournamentTableComponent
   }
 
   isExpanded(id: string): boolean {
-    // console.log(this.expandedStates);
-    // console.log(this.expandedStates[id]);
     return this.expandedStates[id];
   }
 

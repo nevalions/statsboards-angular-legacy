@@ -107,28 +107,28 @@ export class PlayerInMatchEffects {
     { functional: true },
   );
 
-  getPlayerInMatchFullDataOnUpdateSuccessEffect = createEffect(
-    () => {
-      return this.actions$.pipe(
-        ofType(playerInMatchActions.updatedSuccessfully),
-        switchMap(({ updatedPlayerInMatch }) =>
-          this.playerInMatchService
-            .findCurrentPlayerInMatchFullData(updatedPlayerInMatch.id!)
-            .pipe(
-              map((playerInMatchFullData: IPlayerInMatchFullData) =>
-                playerInMatchActions.getPlayerInMatchFullDataSuccess({
-                  playerInMatchFullData,
-                }),
-              ),
-              catchError(() =>
-                of(playerInMatchActions.getPlayerInMatchFullDataFailure()),
-              ),
-            ),
-        ),
-      );
-    },
-    { functional: true },
-  );
+  // getPlayerInMatchFullDataOnUpdateSuccessEffect = createEffect(
+  //   () => {
+  //     return this.actions$.pipe(
+  //       ofType(playerInMatchActions.updatedSuccessfully),
+  //       switchMap(({ updatedPlayerInMatch }) =>
+  //         this.playerInMatchService
+  //           .findCurrentPlayerInMatchFullData(updatedPlayerInMatch.id!)
+  //           .pipe(
+  //             map((playerInMatchFullData: IPlayerInMatchFullData) =>
+  //               playerInMatchActions.getPlayerInMatchFullDataSuccess({
+  //                 playerInMatchFullData,
+  //               }),
+  //             ),
+  //             catchError(() =>
+  //               of(playerInMatchActions.getPlayerInMatchFullDataFailure()),
+  //             ),
+  //           ),
+  //       ),
+  //     );
+  //   },
+  //   { functional: true },
+  // );
 
   // getAllPlayersInMatchEffect = createEffect(
   //   () => {

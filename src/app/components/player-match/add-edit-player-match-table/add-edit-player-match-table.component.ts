@@ -1,5 +1,6 @@
 import {
   DatePipe,
+  KeyValuePipe,
   NgForOf,
   NgIf,
   TitleCasePipe,
@@ -48,7 +49,6 @@ import {
   IPlayerInTeamTournamentFullData,
 } from '../../../type/player.type';
 import { IPosition } from '../../../type/position.type';
-import { PlayerInTeamTournament } from '../../player-team-tournament/player-team-tournament';
 import { PlayerInMatch } from '../player-match';
 
 @Component({
@@ -58,6 +58,7 @@ import { PlayerInMatch } from '../player-match';
   templateUrl: './add-edit-player-match-table.component.html',
   styleUrl: './add-edit-player-match-table.component.less',
   imports: [
+    KeyValuePipe,
     TuiCheckboxLabeledModule,
     FormsModule,
     TuiTextfieldControllerModule,
@@ -143,7 +144,6 @@ export class AddEditPlayerMatchTableComponent implements OnChanges, OnInit {
   }
 
   constructor(
-    private playerInTeamTournament: PlayerInTeamTournament,
     private playerInMatch: PlayerInMatch,
     private dialogService: DialogService,
     private fb: FormBuilder,
@@ -166,7 +166,7 @@ export class AddEditPlayerMatchTableComponent implements OnChanges, OnInit {
       this.playerForm = this.fb.group({
         [fullArrayName]: this.fb.array([]),
       });
-      console.log('form', this.playerForm);
+      // console.log('form', this.playerForm);
       this.populateFormArray();
     }
   }
@@ -174,6 +174,7 @@ export class AddEditPlayerMatchTableComponent implements OnChanges, OnInit {
   ngOnChanges(changes: SimpleChanges): void {
     if (changes[this.arrayName + this.side] || this.players) {
       if (this.players.length) {
+        console.log('CHANGED');
         this.populateFormArray();
       }
     }
@@ -192,10 +193,12 @@ export class AddEditPlayerMatchTableComponent implements OnChanges, OnInit {
     const controlNameStart = `isStart${index}`;
     const controlDateOfBirth = `dob${index}`;
     const controlPhotoUrl = `photoUrl${index}`;
-    const controlNamePlayerInTeamTournament = `playerInTeamTournament${index}`;
+    const controlNamePlayerInMatch = `playerInMatch${index}`;
+    // const controlNamePlayerInTeamTournament = `playerInTeamTournament${index}`;
 
     return this.fb.group({
       [controlNamePlayerInMatchId]: new FormControl(player.match_player.id),
+
       [controlNamePlayerId]: new FormControl(
         player.match_player.player_team_tournament_id,
       ),
@@ -207,24 +210,29 @@ export class AddEditPlayerMatchTableComponent implements OnChanges, OnInit {
       ),
       [controlNamePosition]: new FormControl({
         value: player.position,
-        disabled: !(player.player_team_tournament === null),
+        disabled: !(player.match_player.id === null),
       }),
       [controlNameNumber]: new FormControl({
         value: player.match_player.match_number,
-        disabled: !(player.player_team_tournament === null),
+        disabled: !(player.match_player.id === null),
       }),
       [controlNameStart]: new FormControl({
         value: player.match_player.is_start,
-        disabled: !(player.player_team_tournament === null),
+        disabled: !(player.match_player.id === null),
       }),
       [controlDateOfBirth]: new FormControl(player.person?.person_dob || null),
       [controlPhotoUrl]: new FormControl(
         `${player.person?.person_photo_web_url}` || '',
       ),
 
-      [controlNamePlayerInTeamTournament]: new FormControl(
-        player.player_team_tournament,
-      ),
+      [controlNamePlayerInMatch]: new FormControl({
+        value: player,
+        disabled: !(player.match_player.id === null),
+      }),
+
+      // [controlNamePlayerInTeamTournament]: new FormControl(
+      //   player.player_team_tournament,
+      // ),
     });
   }
 
@@ -246,13 +254,30 @@ export class AddEditPlayerMatchTableComponent implements OnChanges, OnInit {
     let positionKey = `position${playerIndex}`;
     let numberKey = `number${playerIndex}`;
 
-    playerFormGroup.patchValue({
-      [positionKey]: playerPosition,
-      [numberKey]: playerNumber,
-    });
+    // playerFormGroup.patchValue({
+    //   [positionKey]: playerPosition,
+    //   [numberKey]: playerNumber,
+    // });
+
+    let patchObject: { [key: string]: any } = {};
+
+    if (!playerFormGroup.get(positionKey)?.value) {
+      patchObject[positionKey] = playerPosition;
+    }
+
+    if (
+      !playerFormGroup.get(numberKey)?.value ||
+      playerFormGroup.get(numberKey)?.value == '0'
+    ) {
+      patchObject[numberKey] = playerNumber;
+    }
+
+    if (Object.keys(patchObject).length > 0) {
+      playerFormGroup.patchValue(patchObject);
+    }
   }
 
-  enableRowToEdit(playerIndex: number): void {
+  enableRowToEdit(playerIndex: number, playerId: number | null): void {
     const playerFormGroup = (
       this.playerForm.get(this.arrayName + this.side) as FormArray
     ).at(playerIndex);
@@ -261,27 +286,34 @@ export class AddEditPlayerMatchTableComponent implements OnChanges, OnInit {
       return;
     }
 
-    let nameKey = `fullName${playerIndex}`;
+    let playerInMatchKey = `playerInMatch${playerIndex}`;
     let positionKey = `position${playerIndex}`;
     let numberKey = `number${playerIndex}`;
     let isStartKey = `isStart${playerIndex}`;
 
-    const nameInput = playerFormGroup.get(nameKey);
     const positionInput = playerFormGroup.get(positionKey);
     const numberInput = playerFormGroup.get(numberKey);
-    const isStartInput = playerFormGroup.get(isStartKey);
+    // const playerInMatchInput = playerFormGroup.get(playerInMatchKey);
+    // const isStartInput = playerFormGroup.get(isStartKey);
 
-    // console.log(nameInput, positionInput, numberInput, isStartInput);
+    // console.log(playerInMatchInput, positionInput, numberInput, isStartInput);
 
     const anyControlEnabled =
       (positionInput && positionInput.enabled) ||
-      (numberInput && numberInput.enabled) ||
-      (nameInput && nameInput.enabled) ||
-      (isStartInput && isStartInput.enabled);
+      (numberInput && numberInput.enabled);
+    // (playerInMatchInput && playerInMatchInput.enabled) ||
+    // (isStartInput && isStartInput.enabled);
+
+    // console.log(anyControlEnabled);
 
     if (anyControlEnabled) {
+      console.log('disabled');
       playerFormGroup.disable();
     } else {
+      // if (playerId) {
+      //   console.log('selected on button enable', playerId);
+      //   this.playerInMatch.onPlayerSelect(playerId);
+      // }
       playerFormGroup.enable();
     }
   }
@@ -290,10 +322,11 @@ export class AddEditPlayerMatchTableComponent implements OnChanges, OnInit {
     const playerFormGroup = (
       this.playerForm.get(this.arrayName + this.side) as FormArray
     ).at(playerIndex);
+
     let positionKey = `position${playerIndex}`;
     let numberKey = `number${playerIndex}`;
-    let nameKey = `fullName${playerIndex}`;
-    let isStartKey = `isStart${playerIndex}`;
+    // let playerInMatchKey = `playerInMatch${playerIndex}`;
+    // let isStartKey = `isStart${playerIndex}`;
 
     if (playerFormGroup.get(positionKey)) {
       return playerFormGroup.get(positionKey)!.enabled;
@@ -301,12 +334,12 @@ export class AddEditPlayerMatchTableComponent implements OnChanges, OnInit {
     if (playerFormGroup.get(numberKey)) {
       return playerFormGroup.get(numberKey)!.enabled;
     }
-    if (playerFormGroup.get(nameKey)) {
-      return playerFormGroup.get(nameKey)!.enabled;
-    }
-    if (playerFormGroup.get(isStartKey)) {
-      return playerFormGroup.get(isStartKey)!.enabled;
-    }
+    // if (playerFormGroup.get(playerInMatchKey)) {
+    //   return playerFormGroup.get(playerInMatchKey)!.enabled;
+    // }
+    // if (playerFormGroup.get(isStartKey)) {
+    //   return playerFormGroup.get(isStartKey)!.enabled;
+    // }
     return false;
   }
 
@@ -335,12 +368,17 @@ export class AddEditPlayerMatchTableComponent implements OnChanges, OnInit {
             index,
             'playerInMatchId',
           ),
-          playerInTeamTournament:
-            getArrayFormDataByIndexAndKey<IPlayerInTeamTournamentFullData>(
-              array,
-              index,
-              'playerInTeamTournament',
-            ),
+          playerInMatch: getArrayFormDataByIndexAndKey<IPlayerInMatchFullData>(
+            array,
+            index,
+            'playerInMatch',
+          ),
+          // playerInTeamTournament:
+          //   getArrayFormDataByIndexAndKey<IPlayerInTeamTournamentFullData>(
+          //     array,
+          //     index,
+          //     'playerInTeamTournament',
+          //   ),
           teamId: getArrayFormDataByIndexAndKey<number>(array, index, 'teamId'),
           position: getArrayFormDataByIndexAndKey<IPosition>(
             array,
@@ -365,9 +403,11 @@ export class AddEditPlayerMatchTableComponent implements OnChanges, OnInit {
           is_start: false,
         };
 
-        if (playerData.playerInTeamTournament.player_team_tournament) {
+        // console.log(playerData.playerInMatch);
+
+        if (playerData.playerInMatch.player_team_tournament) {
           data.player_team_tournament_id =
-            playerData.playerInTeamTournament.player_team_tournament.id;
+            playerData.playerInMatch.player_team_tournament.id;
         }
         if (playerData.position) {
           data.match_position_id = playerData.position.id;
@@ -387,11 +427,11 @@ export class AddEditPlayerMatchTableComponent implements OnChanges, OnInit {
         this.playerInMatch.updatePlayerInMatch(data);
       } else if (array && action == 'add') {
         const newPlayerInMatch = {
-          p: getArrayFormDataByIndexAndKey<IPlayerInTeamTournamentFullData>(
+          p: getArrayFormDataByIndexAndKey<IPlayerInMatchFullData>(
             array,
             index,
-            'playerInTeamTournament',
-          ),
+            'playerInMatch',
+          ), //playerINMATCH
           match_number: getArrayFormDataByIndexAndKey<string>(
             array,
             index,
@@ -420,7 +460,7 @@ export class AddEditPlayerMatchTableComponent implements OnChanges, OnInit {
             is_start: null,
           };
 
-          if (newPlayerInMatch.p) {
+          if (newPlayerInMatch.p.player_team_tournament) {
             playerInMatchData.player_team_tournament_id =
               newPlayerInMatch.p.player_team_tournament.id;
           }
@@ -483,7 +523,6 @@ export class AddEditPlayerMatchTableComponent implements OnChanges, OnInit {
       position: null,
     };
 
-    // Use spread operator to create a new array
     this.players = [...this.players, playerWithData];
     this.populateFormArray();
   }

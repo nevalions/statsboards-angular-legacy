@@ -98,6 +98,7 @@
               </div>
               <div class="table-cell-match-roster name">
                 @if (isRowEnabled(i)) {
+                  <!-- enabled -->
                   @if (
                     getFormDataByIndexAndKey(
                       playerFormGroup,
@@ -106,7 +107,7 @@
                     );
                     as playerInMatchId
                   ) {
-                    {{ playerInMatchId }}
+                    <!-- player in match id {{ playerInMatchId }} -->
                     <app-select-player-to-match
                       [playerList]="availablePlayersInTeamTournament"
                       [matchId]="match.id!"
@@ -114,35 +115,37 @@
                         getFormControl(
                           this.playerForm,
                           i,
-                          'playerInTeamTournament',
+                          'playerInMatch',
                           arrayName + side
                         )
                       "
                       (playerSelect)="onPlayerSelect($event, i)"
                     ></app-select-player-to-match>
                   } @else {
-                    @if (
+                    <!-- @if (
                       availablePlayersInTeamTournament &&
                       availablePlayersInTeamTournament.length > 0
-                    ) {
-                      <app-select-player-to-match
-                        [playerList]="availablePlayersInTeamTournament"
-                        [matchId]="match.id!"
-                        [control]="
-                          getFormControl(
-                            this.playerForm,
-                            i,
-                            'playerInTeamTournament',
-                            arrayName + side
-                          )
-                        "
-                        (playerSelect)="onPlayerSelect($event, i)"
-                      ></app-select-player-to-match>
-                    } @else {
+                    ) { -->
+                    <app-select-player-to-match
+                      [playerList]="availablePlayersInTeamTournament"
+                      [matchId]="match.id!"
+                      [control]="
+                        getFormControl(
+                          this.playerForm,
+                          i,
+                          'playerInMatch',
+                          arrayName + side
+                        )
+                      "
+                      (playerSelect)="onPlayerSelect($event, i)"
+                    ></app-select-player-to-match>
+                    <!-- }  -->
+                    <!-- @else {
                       NO PLAYERS IN SEASON TEAM ROSTER
-                    }
+                    } -->
                   }
                 } @else {
+                  <!-- disabled -->
                   @if (
                     getFormDataByIndexAndKey(playerFormGroup, i, "fullName");
                     as name
@@ -339,11 +342,16 @@
                             getFormDataByIndexAndKey(
                               playerFormGroup,
                               i,
-                              "playerInTeamTournament"
-                            )
+                              "playerInMatch"
+                            );
+                            as playerInMatch
                           ) {
+                            <!-- {{ playerInMatch.player_team_tournament.id }} -->
                             <app-actions-buttons
                               [id]="id"
+                              [subId]="
+                                playerInMatch?.player_team_tournament?.id
+                              "
                               [index]="i"
                               [deleteOrUpdate]="'delete'"
                               [item]="
@@ -355,7 +363,9 @@
                               "
                               [isEnabled]="isRowEnabled(i)"
                               [isDataChanged]="isDataChanged(i)"
-                              (onEdit)="enableRowToEdit($event.index)"
+                              (onEdit)="
+                                enableRowToEdit($event.index, $event.subId)
+                              "
                               (onDelete)="onDelete($event.id!)"
                               (onSubmit)="
                                 onSubmit($event.action, $event.index, $event.id)
@@ -368,6 +378,7 @@
                               "
                             ></app-actions-buttons>
                           } @else {
+                            else
                             <app-actions-buttons
                               [id]="id"
                               [index]="i"
@@ -375,7 +386,9 @@
                               [item]="'player'"
                               [isEnabled]="isRowEnabled(i)"
                               [isDataChanged]="isDataChanged(i)"
-                              (onEdit)="enableRowToEdit($event.index)"
+                              (onEdit)="
+                                enableRowToEdit($event.index, $event.subId)
+                              "
                               (onDelete)="onDelete($event.id!)"
                               (onSubmit)="
                                 onSubmit('edit', $event.index, $event.id)

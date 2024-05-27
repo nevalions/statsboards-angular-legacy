@@ -19,7 +19,10 @@ import {
   selectAllAwayPlayersInTeamTournamentWithPerson,
   selectAllHomePlayersInTeamTournamentWithPerson,
 } from '../../player-team-tournament/store/reducers';
-import { selectAllPlayersInMatchFullData } from './reducers';
+import {
+  selectAllPlayersInMatchFullData,
+  selectSelectedPlayerInMatchId,
+} from './reducers';
 
 export const selectHomeTeamRoster = createSelector(
   selectAllPlayersInMatchFullData,
@@ -53,25 +56,44 @@ export const selectAwayTeamRoster = createSelector(
 export const selectAvailableHomePlayers = createSelector(
   selectAllHomePlayersInTeamTournamentWithPerson,
   selectHomeTeamRoster,
+  selectSelectedPlayerInMatchId,
   (
     teamPlayers: IPlayerInTeamTournamentFullData[],
     matchPlayers: IPlayerInMatchFullData[],
+    selectedPlayerId: number | null | undefined,
   ) => {
     if (!matchPlayers) {
-      return teamPlayers;
+      return SortService.sort(teamPlayers, 'person.second_name');
     }
+
+    console.log('selectedPlayerId', selectedPlayerId);
+
     const matchPlayersIds = matchPlayers.map(
       (matchPlayer) => matchPlayer.match_player.player_team_tournament_id,
     );
 
-    if (teamPlayers && matchPlayers) {
-      const availablePlayersInTeam = teamPlayers.filter(
-        (players) =>
-          !matchPlayersIds.includes(players.player_team_tournament?.id),
+    let availablePlayersInTeam = teamPlayers.filter(
+      (player) =>
+        !matchPlayersIds.includes(player.player_team_tournament?.id) ||
+        player.player_team_tournament?.id === selectedPlayerId,
+    );
+
+    if (
+      selectedPlayerId &&
+      !availablePlayersInTeam.some(
+        (player) => player.player_team_tournament?.id === selectedPlayerId,
+      )
+    ) {
+      const selectedPlayer = teamPlayers.find(
+        (player) => player.player_team_tournament?.id === selectedPlayerId,
       );
-      return SortService.sort(availablePlayersInTeam, 'person.second_name');
+      if (selectedPlayer) {
+        console.log('pushed player');
+        availablePlayersInTeam.push(selectedPlayer);
+      }
     }
-    return [];
+
+    return SortService.sort(availablePlayersInTeam, 'person.second_name');
   },
 );
 

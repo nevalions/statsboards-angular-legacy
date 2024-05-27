@@ -37,7 +37,7 @@ export class SelectPlayerToMatchComponent {
   onSelect(playerId: number) {
     if (this.control) {
       if (this.control.value) {
-        console.log(playerId);
+        // console.log(playerId);
         this.playerSelect.emit(playerId);
       }
     }

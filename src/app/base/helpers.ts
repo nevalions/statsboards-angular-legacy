@@ -58,8 +58,11 @@ export function stringifyPerson(
       `${item.playerInSport.person!.second_name} ${item.playerInSport.person!.first_name}`,
     );
   } else if ('person' in item) {
+    if (!item.person) {
+      return '';
+    }
     return toTitleCase(
-      `${item.person!.second_name} ${item.person!.first_name}`,
+      `${item.person?.second_name} ${item.person?.first_name}`,
     );
   }
 

@@ -1,14 +1,14 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { TuiActiveZoneModule, TuiObscuredModule } from '@taiga-ui/cdk';
 import {
   TuiAppearance,
   TuiButtonModule,
   TuiDropdownModule,
   TuiHostedDropdownModule,
 } from '@taiga-ui/core';
-import { ButtonIconComponent } from '../button-icon/button-icon.component';
-import { DeleteDialogComponent } from '../../dialogs/delete-dialog/delete-dialog.component';
 import { TuiTabsModule } from '@taiga-ui/kit';
-import { TuiActiveZoneModule, TuiObscuredModule } from '@taiga-ui/cdk';
+import { DeleteDialogComponent } from '../../dialogs/delete-dialog/delete-dialog.component';
+import { ButtonIconComponent } from '../button-icon/button-icon.component';
 
 @Component({
   selector: 'app-actions-buttons',
@@ -28,13 +28,17 @@ import { TuiActiveZoneModule, TuiObscuredModule } from '@taiga-ui/cdk';
 })
 export class ActionsButtonsComponent {
   @Input() id: number | null = null;
+  @Input() subId: number | null = null;
   @Input() index: number | null = null;
   @Input() item: string = 'Player';
   @Input() deleteOrUpdate: 'delete' | 'update' | 'deleteFromTeam' = 'delete';
   @Input() isEnabled: boolean = false;
   @Input() isDataChanged: boolean = false;
 
-  @Output() onEdit = new EventEmitter<{ index: number }>();
+  @Output() onEdit = new EventEmitter<{
+    index: number;
+    subId: number | null;
+  }>();
   @Output() onSubmit = new EventEmitter<{
     action: 'add' | 'edit' | 'deleteFromTeam';
     index: number;
@@ -61,7 +65,7 @@ export class ActionsButtonsComponent {
 
   edit() {
     if (this.index !== null) {
-      this.onEdit.emit({ index: this.index });
+      this.onEdit.emit({ index: this.index, subId: this.subId });
     }
   }
 
@@ -88,6 +92,5 @@ export class ActionsButtonsComponent {
 
   // protected readonly getFormControl = getFormControl;
   protected readonly TuiAppearance = TuiAppearance;
-
   open = false;
 }
