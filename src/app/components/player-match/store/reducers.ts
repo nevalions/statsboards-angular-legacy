@@ -33,6 +33,7 @@ const playerInMatchFeature = createFeature({
   reducer: createReducer(
     initialState,
 
+    // getId from route
     on(playerInMatchActions.getId, (state) => ({
       ...state,
       playerInMatchIsLoading: true,
@@ -126,11 +127,29 @@ const playerInMatchFeature = createFeature({
       );
       const sortedList = SortService.sort(newList, 'match_number');
 
+      const newFullDataList = state.allPlayersInMatchFullData.map((item) => {
+        if (item.match_player.id === action.updatedPlayerInMatch.id) {
+          return {
+            ...item,
+            match_player: action.updatedPlayerInMatch,
+          };
+        } else {
+          return item;
+        }
+      });
+
+      // console.log('new full data list', newFullDataList);
+      const sortedFullDataList = SortService.sort(
+        newFullDataList,
+        'match_number',
+      );
+
       return {
         ...state,
         playerInMatchIsSubmitting: false,
         currentPlayerInMatch: action.updatedPlayerInMatch,
         allPlayersInMatch: sortedList,
+        allPlayersInMatchFullData: sortedFullDataList,
         errors: null,
       };
     }),

@@ -126,6 +126,15 @@ export class PlayerInMatch {
     );
   }
 
+  updatePlayerInMatch(playerInMatch: IPlayerInMatch) {
+    this.store.dispatch(
+      playerInMatchActions.update({
+        id: playerInMatch.id!,
+        newPlayerInMatchData: playerInMatch,
+      }),
+    );
+  }
+
   loadAllPlayersInMatch() {
     this.store.dispatch(playerInMatchActions.getAllPlayersInMatch());
   }

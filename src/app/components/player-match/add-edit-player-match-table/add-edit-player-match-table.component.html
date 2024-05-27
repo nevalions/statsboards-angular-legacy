@@ -68,7 +68,11 @@
                 let playerFormGroup of playersArray.controls;
                 let i = index
               "
-              class="table-row-match-roster"
+              [class]="
+                isRowEnabled(i)
+                  ? 'table-row-match-roster-edit'
+                  : 'table-row-match-roster'
+              "
               [formGroupName]="i"
               [style.background-color]="
                 getFormDataByIndexAndKey(playerFormGroup, i, 'isStart')
@@ -92,18 +96,82 @@
                   {{ getFormDataByIndexAndKey(playerFormGroup, i, "number") }}
                 }
               </div>
-              <div
-                class="table-cell-match-roster name"
-                (click)="toggle(playerFormGroup.get('playerId' + i)!.value)"
-              >
-                @if (getFormDataByIndexAndKey(playerFormGroup, i, "playerId")) {
+              <div class="table-cell-match-roster name">
+                @if (isRowEnabled(i)) {
+                  @if (
+                    getFormDataByIndexAndKey(
+                      playerFormGroup,
+                      i,
+                      "playerInMatchId"
+                    );
+                    as playerInMatchId
+                  ) {
+                    {{ playerInMatchId }}
+                    <app-select-player-to-match
+                      [playerList]="availablePlayersInTeamTournament"
+                      [matchId]="match.id!"
+                      [control]="
+                        getFormControl(
+                          this.playerForm,
+                          i,
+                          'playerInTeamTournament',
+                          arrayName + side
+                        )
+                      "
+                      (playerSelect)="onPlayerSelect($event, i)"
+                    ></app-select-player-to-match>
+                  } @else {
+                    @if (
+                      availablePlayersInTeamTournament &&
+                      availablePlayersInTeamTournament.length > 0
+                    ) {
+                      <app-select-player-to-match
+                        [playerList]="availablePlayersInTeamTournament"
+                        [matchId]="match.id!"
+                        [control]="
+                          getFormControl(
+                            this.playerForm,
+                            i,
+                            'playerInTeamTournament',
+                            arrayName + side
+                          )
+                        "
+                        (playerSelect)="onPlayerSelect($event, i)"
+                      ></app-select-player-to-match>
+                    } @else {
+                      NO PLAYERS IN SEASON TEAM ROSTER
+                    }
+                  }
+                } @else {
                   @if (
                     getFormDataByIndexAndKey(playerFormGroup, i, "fullName");
                     as name
                   ) {
                     {{ name | titlecase }}
                   }
-                } @else {
+                }
+                <!-- <app-select-player-to-match
+                      [playerList]="availablePlayersInTeamTournament"
+                      [matchId]="match.id!"
+                      [control]="
+                        getFormControl(
+                          this.playerForm,
+                          i,
+                          'playerInTeamTournament',
+                          arrayName + side
+                        )
+                      "
+                      (playerSelect)="onPlayerSelect($event, i)"
+                    ></app-select-player-to-match>
+                  } @else {
+                    @if (
+                      getFormDataByIndexAndKey(playerFormGroup, i, "fullName");
+                      as name
+                    ) {
+                      {{ name | titlecase }}
+                    }
+                  } -->
+                <!-- } @else {
                   @if (
                     availablePlayersInTeamTournament &&
                     availablePlayersInTeamTournament.length > 0
@@ -121,8 +189,53 @@
                       "
                       (playerSelect)="onPlayerSelect($event, i)"
                     ></app-select-player-to-match>
+                  } @else {
+                    NO PLAYERS IN SEASON TEAM ROSTER
                   }
-                }
+                } -->
+
+                <!-- @if (
+                      getFormDataByIndexAndKey(playerFormGroup, i, "fullName");
+                      as name
+                    ) {
+                      {{ name | titlecase }}
+                    } @else {
+                      <app-select-player-to-match
+                        [playerList]="availablePlayersInTeamTournament"
+                        [matchId]="match.id!"
+                        [control]="
+                          getFormControl(
+                            this.playerForm,
+                            i,
+                            'playerInTeamTournament',
+                            arrayName + side
+                          )
+                        "
+                        (playerSelect)="onPlayerSelect($event, i)"
+                      ></app-select-player-to-match>
+                    }
+                  } @else {
+                    @if (
+                      availablePlayersInTeamTournament &&
+                      availablePlayersInTeamTournament.length > 0
+                    ) {
+                      <app-select-player-to-match
+                        [playerList]="availablePlayersInTeamTournament"
+                        [matchId]="match.id!"
+                        [control]="
+                          getFormControl(
+                            this.playerForm,
+                            i,
+                            'playerInTeamTournament',
+                            arrayName + side
+                          )
+                        "
+                        (playerSelect)="onPlayerSelect($event, i)"
+                      ></app-select-player-to-match>
+                    } @else {
+                      NO PLAYERS IN SEASON TEAM ROSTER
+                    }
+                  } -->
               </div>
               <div class="table-cell-match-roster left">
                 @if (sportId) {
@@ -152,7 +265,27 @@
                   }
                 }
               </div>
-              <div class="table-cell-match-roster right span-3">
+              @if (playerFormGroup.get("playerInMatchId" + i)!.value; as id) {
+                <div
+                  class="table-cell-match-roster toggle"
+                  (click)="toggle(id)"
+                >
+                  <app-button-icon
+                    [buttonAppear]="tuiAppFlat"
+                    [buttonIcon]="
+                      isExpanded(id) ? 'tuiIconClose' : 'tuiIconMoreHorizontal'
+                    "
+                    [buttonSize]="'m'"
+                  ></app-button-icon>
+                </div>
+              }
+              <div
+                [class]="
+                  isRowEnabled(i)
+                    ? 'table-cell-match-roster'
+                    : 'table-cell-match-roster right span-2'
+                "
+              >
                 @if (isRowEnabled(i)) {
                   <tui-checkbox-labeled
                     [formControl]="
@@ -188,7 +321,11 @@
                           <tui-avatar
                             size="xl"
                             text="uploaded logo"
-                            class="player-photo-short-profile"
+                            [class]="
+                              isRowEnabled(i)
+                                ? 'player-photo-short-profile span-row-3'
+                                : 'player-photo-short-profile span-row-3'
+                            "
                             [rounded]="false"
                             [avatarUrl]="backendUrl + photoUrl"
                             (error)="onImgError($event)"
@@ -196,34 +333,61 @@
                         }
                         @if (playerFormGroup.get("dob" + i)!.value; as dob) {
                           <span>{{ dob | date }}</span>
-                          <!--                        <span>Age: {{ calculateAge(dob) }} years</span>-->
                         }
                         @if (deleteOrUpdate == "delete") {
-                          <app-actions-buttons
-                            [id]="id"
-                            [index]="i"
-                            [deleteOrUpdate]="'delete'"
-                            [item]="
-                              getFormDataByIndexAndKey(
-                                playerFormGroup,
-                                i,
-                                'fullName'
-                              ) | uppercase
-                            "
-                            [isEnabled]="isRowEnabled(i)"
-                            [isDataChanged]="isDataChanged(i)"
-                            (onEdit)="enableRowToEdit($event.index)"
-                            (onDelete)="onDelete($event.id!)"
-                            (onSubmit)="
-                              onSubmit($event.action, $event.index, $event.id)
-                            "
-                            (onCancel)="onCancelButtonClick()"
-                            (onDeleteDialog)="
-                              onDeleteButtonClick(
-                                'deleteDialogPlayer' + $event.id!
-                              )
-                            "
-                          ></app-actions-buttons>
+                          @if (
+                            getFormDataByIndexAndKey(
+                              playerFormGroup,
+                              i,
+                              "playerInTeamTournament"
+                            )
+                          ) {
+                            <app-actions-buttons
+                              [id]="id"
+                              [index]="i"
+                              [deleteOrUpdate]="'delete'"
+                              [item]="
+                                getFormDataByIndexAndKey(
+                                  playerFormGroup,
+                                  i,
+                                  'fullName'
+                                ) | uppercase
+                              "
+                              [isEnabled]="isRowEnabled(i)"
+                              [isDataChanged]="isDataChanged(i)"
+                              (onEdit)="enableRowToEdit($event.index)"
+                              (onDelete)="onDelete($event.id!)"
+                              (onSubmit)="
+                                onSubmit($event.action, $event.index, $event.id)
+                              "
+                              (onCancel)="onCancelButtonClick()"
+                              (onDeleteDialog)="
+                                onDeleteButtonClick(
+                                  'deleteDialogPlayer' + $event.id!
+                                )
+                              "
+                            ></app-actions-buttons>
+                          } @else {
+                            <app-actions-buttons
+                              [id]="id"
+                              [index]="i"
+                              [deleteOrUpdate]="'delete'"
+                              [item]="'player'"
+                              [isEnabled]="isRowEnabled(i)"
+                              [isDataChanged]="isDataChanged(i)"
+                              (onEdit)="enableRowToEdit($event.index)"
+                              (onDelete)="onDelete($event.id!)"
+                              (onSubmit)="
+                                onSubmit('edit', $event.index, $event.id)
+                              "
+                              (onCancel)="onCancelButtonClick()"
+                              (onDeleteDialog)="
+                                onDeleteButtonClick(
+                                  'deleteDialogPlayer' + $event.id!
+                                )
+                              "
+                            ></app-actions-buttons>
+                          }
                         }
                       </div>
                     </div>

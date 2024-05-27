@@ -25,6 +25,23 @@
   margin: 8px;
 }
 
+.table-row-match-roster-edit {
+  // border: 1px solid black;
+  display: flex;
+  flex-direction: column;
+  // justify-content: stretch;
+  align-items: stretch;
+  // width: 100%;
+  background-color: #f2f2f2;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  // margin: 8px;
+}
+
+// .table-row-match-roster-edit > * {
+//   flex: 1;
+// }
+
 .table-cell-match-roster {
   margin: 0;
   padding: 16px;
@@ -37,8 +54,16 @@
   grid-column: span 3;
 }
 
-.span-3 {
+.span-2 {
   grid-column: span 2;
+}
+
+.span-3 {
+  grid-column: span 3;
+}
+
+.span-row-3 {
+  grid-row: span 3;
 }
 
 .actions {
@@ -62,8 +87,12 @@
   text-align: left;
 }
 
-.name:hover {
-  background-color: #e0e0e0;
+.toggle {
+  padding: 0;
+}
+
+.toggle:hover {
+  // background-color: #e0e0e0;
   cursor: pointer;
 }
 
@@ -95,7 +124,7 @@
 
 .player-photo-short-profile {
   border-radius: 10px;
-  grid-row: span 3;
+  // grid-row: span 3;
 }
 
 // @media screen and (max-width: 800px) {

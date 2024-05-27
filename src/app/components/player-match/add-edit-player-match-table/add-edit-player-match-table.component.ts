@@ -1,6 +1,7 @@
 import {
   DatePipe,
   NgForOf,
+  NgIf,
   TitleCasePipe,
   UpperCasePipe,
 } from '@angular/common';
@@ -20,7 +21,11 @@ import {
   FormsModule,
   ReactiveFormsModule,
 } from '@angular/forms';
-import { TuiExpandModule, TuiTextfieldControllerModule } from '@taiga-ui/core';
+import {
+  TuiAppearance,
+  TuiExpandModule,
+  TuiTextfieldControllerModule,
+} from '@taiga-ui/core';
 import { TuiAvatarModule, TuiCheckboxLabeledModule } from '@taiga-ui/kit';
 import { environment } from '../../../../environments/environment';
 import {
@@ -32,6 +37,7 @@ import { DialogService } from '../../../services/dialog.service';
 import { ImageService } from '../../../services/image.service';
 import { ActionsButtonsComponent } from '../../../shared/ui/buttons/actions-buttons/actions-buttons.component';
 import { AddButtonOnFinalTrComponent } from '../../../shared/ui/buttons/add-button-on-final-tr/add-button-on-final-tr.component';
+import { ButtonIconComponent } from '../../../shared/ui/buttons/button-icon/button-icon.component';
 import { SelectPlayerNumberComponent } from '../../../shared/ui/select/select-player-number/select-player-number.component';
 import { SelectPlayerPositionComponent } from '../../../shared/ui/select/select-player-position/select-player-position.component';
 import { SelectPlayerToMatchComponent } from '../../../shared/ui/select/select-player-to-match/select-player-to-match.component';
@@ -48,11 +54,15 @@ import { PlayerInMatch } from '../player-match';
 @Component({
   selector: 'app-add-edit-player-match-table',
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  templateUrl: './add-edit-player-match-table.component.html',
+  styleUrl: './add-edit-player-match-table.component.less',
   imports: [
     TuiCheckboxLabeledModule,
     FormsModule,
     TuiTextfieldControllerModule,
     ReactiveFormsModule,
+    NgIf,
     NgForOf,
     TitleCasePipe,
     SelectPlayerNumberComponent,
@@ -64,10 +74,8 @@ import { PlayerInMatch } from '../player-match';
     TuiExpandModule,
     AddButtonOnFinalTrComponent,
     SelectPlayerToMatchComponent,
+    ButtonIconComponent,
   ],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  templateUrl: './add-edit-player-match-table.component.html',
-  styleUrl: './add-edit-player-match-table.component.less',
 })
 export class AddEditPlayerMatchTableComponent implements OnChanges, OnInit {
   @Input() side!: 'home' | 'away';
@@ -102,6 +110,7 @@ export class AddEditPlayerMatchTableComponent implements OnChanges, OnInit {
       } else {
         this.expandedStates[str] = !this.expandedStates[str];
       }
+      // console.log(this.expandedStates);
     }
   }
 
@@ -187,10 +196,14 @@ export class AddEditPlayerMatchTableComponent implements OnChanges, OnInit {
 
     return this.fb.group({
       [controlNamePlayerInMatchId]: new FormControl(player.match_player.id),
-      [controlNamePlayerId]: new FormControl(player.match_player.id),
+      [controlNamePlayerId]: new FormControl(
+        player.match_player.player_team_tournament_id,
+      ),
       [controlNameTeamId]: new FormControl(this.match.match.team_a_id),
       [controlNameFullName]: new FormControl(
-        `${player.person?.first_name} ${player.person?.second_name}` || '',
+        player.person?.first_name || player.person?.second_name
+          ? `${player.person?.first_name} ${player.person?.second_name}`.trim()
+          : null,
       ),
       [controlNamePosition]: new FormControl({
         value: player.position,
@@ -204,9 +217,7 @@ export class AddEditPlayerMatchTableComponent implements OnChanges, OnInit {
         value: player.match_player.is_start,
         disabled: !(player.player_team_tournament === null),
       }),
-      [controlDateOfBirth]: new FormControl(
-        `${player.person?.person_dob}` || '',
-      ),
+      [controlDateOfBirth]: new FormControl(player.person?.person_dob || null),
       [controlPhotoUrl]: new FormControl(
         `${player.person?.person_photo_web_url}` || '',
       ),
@@ -259,6 +270,8 @@ export class AddEditPlayerMatchTableComponent implements OnChanges, OnInit {
     const positionInput = playerFormGroup.get(positionKey);
     const numberInput = playerFormGroup.get(numberKey);
     const isStartInput = playerFormGroup.get(isStartKey);
+
+    // console.log(nameInput, positionInput, numberInput, isStartInput);
 
     const anyControlEnabled =
       (positionInput && positionInput.enabled) ||
@@ -315,17 +328,63 @@ export class AddEditPlayerMatchTableComponent implements OnChanges, OnInit {
       ) as FormArray;
 
       // console.log(array, index, action);
-      if (array && playerId && action == 'edit') {
+      if (array && playerId && this.match && action == 'edit') {
         const playerData = {
           playerInMatchId: getArrayFormDataByIndexAndKey<number>(
             array,
             index,
             'playerInMatchId',
           ),
+          playerInTeamTournament:
+            getArrayFormDataByIndexAndKey<IPlayerInTeamTournamentFullData>(
+              array,
+              index,
+              'playerInTeamTournament',
+            ),
+          teamId: getArrayFormDataByIndexAndKey<number>(array, index, 'teamId'),
+          position: getArrayFormDataByIndexAndKey<IPosition>(
+            array,
+            index,
+            'position',
+          ),
+          number: getArrayFormDataByIndexAndKey<number>(array, index, 'number'),
+          isStart: getArrayFormDataByIndexAndKey<boolean>(
+            array,
+            index,
+            'isStart',
+          ),
         };
-        const data = {
+        const data: IPlayerInMatch = {
           id: playerData.playerInMatchId,
+          player_match_eesl_id: null,
+          player_team_tournament_id: null,
+          match_position_id: null,
+          // match_id: this.match.id,
+          match_number: null,
+          // team_id: null,
+          is_start: false,
         };
+
+        if (playerData.playerInTeamTournament.player_team_tournament) {
+          data.player_team_tournament_id =
+            playerData.playerInTeamTournament.player_team_tournament.id;
+        }
+        if (playerData.position) {
+          data.match_position_id = playerData.position.id;
+        }
+        if (playerData.number) {
+          data.match_number = playerData.number;
+        }
+        if (playerData.isStart) {
+          data.is_start = playerData.isStart;
+        }
+        // if (playerData.teamId) {
+        //   data.team_id = playerData.teamId;
+        // }
+
+        console.log('update player in match data', data);
+
+        this.playerInMatch.updatePlayerInMatch(data);
       } else if (array && action == 'add') {
         const newPlayerInMatch = {
           p: getArrayFormDataByIndexAndKey<IPlayerInTeamTournamentFullData>(
@@ -452,6 +511,7 @@ export class AddEditPlayerMatchTableComponent implements OnChanges, OnInit {
     }
   }
 
+  protected readonly tuiAppFlat = TuiAppearance.Flat;
   protected readonly getFormControl = getFormControl;
   protected readonly getFormDataByIndexAndKey = getFormDataByIndexAndKey;
   backendUrl = environment.backendUrl;
