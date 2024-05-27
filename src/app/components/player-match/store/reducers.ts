@@ -129,29 +129,29 @@ const playerInMatchFeature = createFeature({
       );
       const sortedList = SortService.sort(newList, 'match_number');
 
-      const newFullDataList = state.allPlayersInMatchFullData.map((item) => {
-        if (item.match_player.id === action.updatedPlayerInMatch.id) {
-          return {
-            ...item,
-            match_player: action.updatedPlayerInMatch,
-          };
-        } else {
-          return item;
-        }
-      });
+      // const newFullDataList = state.allPlayersInMatchFullData.map((item) => {
+      //   if (item.match_player.id === action.updatedPlayerInMatch.id) {
+      //     return {
+      //       ...item,
+      //       match_player: action.updatedPlayerInMatch,
+      //     };
+      //   } else {
+      //     return item;
+      //   }
+      // });
 
       // console.log('new full data list', newFullDataList);
-      const sortedFullDataList = SortService.sort(
-        newFullDataList,
-        'match_number',
-      );
+      // const sortedFullDataList = SortService.sort(
+      //   newFullDataList,
+      //   'match_number',
+      // );
 
       return {
         ...state,
         playerInMatchIsSubmitting: false,
         currentPlayerInMatch: action.updatedPlayerInMatch,
         allPlayersInMatch: sortedList,
-        allPlayersInMatchFullData: sortedFullDataList,
+        // allPlayersInMatchFullData: sortedFullDataList,
         errors: null,
       };
     }),
@@ -184,16 +184,39 @@ const playerInMatchFeature = createFeature({
     })),
     on(
       playerInMatchActions.getPlayerInMatchFullDataSuccess,
-      (state, action) => ({
-        ...state,
-        playerInMatchIsLoading: false,
-        currentPlayerInMatch: action.playerInMatchFullData.match_player,
-        currentPlayerInMatchFullData: action.playerInMatchFullData,
-        allPlayersInMatchFullData: SortService.sort(
-          [...state.allPlayersInMatchFullData, action.playerInMatchFullData],
-          'match_player.match_number',
-        ),
-      }),
+      (state, action) => {
+        // Assume each player's unique identifier is located at player.id
+        const index = state.allPlayersInMatchFullData.findIndex(
+          (player) =>
+            player.match_player.id ===
+            action.playerInMatchFullData.match_player.id,
+        );
+
+        let updatedAllPlayersInMatchFullData = [
+          ...state.allPlayersInMatchFullData,
+        ];
+
+        if (index !== -1) {
+          // Player exists, so update the existing record
+          updatedAllPlayersInMatchFullData[index] =
+            action.playerInMatchFullData;
+        } else {
+          // Player doesn't exist, so add the new record
+          updatedAllPlayersInMatchFullData.push(action.playerInMatchFullData);
+        }
+
+        // Continue with the updated list as before
+        return {
+          ...state,
+          playerInMatchIsLoading: false,
+          currentPlayerInMatch: action.playerInMatchFullData.match_player,
+          currentPlayerInMatchFullData: action.playerInMatchFullData,
+          allPlayersInMatchFullData: SortService.sort(
+            updatedAllPlayersInMatchFullData,
+            'match_player.match_number',
+          ),
+        };
+      },
     ),
     on(playerInMatchActions.getItemFailure, (state, action) => ({
       ...state,
