@@ -1,3 +1,4 @@
+import { UpperCasePipe } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { TuiAvatarModule } from '@taiga-ui/kit';
 import { environment } from '../../../../environments/environment';
@@ -7,7 +8,7 @@ import { IPlayerInMatchFullData } from '../../../type/player.type';
 @Component({
   selector: 'app-player-card-roster',
   standalone: true,
-  imports: [TuiAvatarModule],
+  imports: [TuiAvatarModule, UpperCasePipe],
   templateUrl: './player-card-roster.component.html',
   styleUrl: './player-card-roster.component.less',
 })
