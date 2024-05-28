@@ -1,13 +1,14 @@
 :host .start-offense-roster-display {
   display: grid;
-  grid-gap: 10px;
+  grid-gap: 30px;
   grid-template-columns: 1420px;
   grid-template-rows: 100px auto auto auto;
   justify-content: space-evenly;
   align-items: start;
-  color: black;
+  color: #393939;
+  // color: black;
   padding: 20px;
-  margin: 20px;
+  // margin: 20px;
   border-radius: 20px;
   background-color: rgba(158, 190, 158, 0.8);
 }
@@ -17,12 +18,11 @@
   display: flex; /* Use flex to layout children */
   align-items: center; /* Vertically center items */
   padding: 10px 0; /* Add some top and bottom padding for breathing room */
-  font-size: 1.5rem; /* Adjust font size for visibility */
+  font-size: 4rem; /* Adjust font size for visibility */
   border-bottom: 2px solid #ccc; /* A bottom border to separate from content */
 }
 
 .team-logo {
-  /* If you have an image for the logo, you might want to include styles like the following: */
   height: 75px; /* Example height; adjust as necessary */
   margin-right: 40px; /* Add some spacing between the logo and the text */
   background-size: cover; /* Cover the div size with your image */
@@ -30,6 +30,5 @@
 }
 
 .team-offense {
-  flex-grow: 1; /* Allow the text to take up the available space */
-  font-weight: bold; /* Optional: making the text bold */
+  flex-grow: 1;
 }

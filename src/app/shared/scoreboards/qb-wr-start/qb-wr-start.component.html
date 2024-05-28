@@ -1,27 +1,51 @@
 <div class="start-roster-line">
-  <div class="startWR" *ngIf="selectedQbWr['wr']">
+  <div class="startWR" *ngIf="selectedQbWr['wrOne']">
     <app-player-card-roster
-      [player]="selectedQbWr['wr']"
+      [player]="selectedQbWr['wrOne']"
     ></app-player-card-roster>
   </div>
-  <div class="startSlot" *ngIf="selectedQbWr['slot']">
+  <div
+    class="startWR"
+    style="width: 270px"
+    *ngIf="!selectedQbWr['wrOne']"
+  ></div>
+  <div class="startSlot" *ngIf="selectedQbWr['slotOne']">
     <app-player-card-roster
-      [player]="selectedQbWr['slot']"
+      [player]="selectedQbWr['slotOne']"
     ></app-player-card-roster>
   </div>
-  <div class="startQB" *ngIf="selectedQbWr['qb']">
+  <div
+    class="startSlot"
+    style="width: 270px"
+    *ngIf="!selectedQbWr['slotOne']"
+  ></div>
+
+  <div class="startQB-center">
+    <div class="startQB" *ngIf="selectedQbWr['qb']">
+      <app-player-card-roster
+        [player]="selectedQbWr['qb']"
+      ></app-player-card-roster>
+    </div>
+  </div>
+
+  <div class="startSlot" *ngIf="selectedQbWr['slotTwo']">
     <app-player-card-roster
-      [player]="selectedQbWr['qb']"
+      [player]="selectedQbWr['slotTwo']"
     ></app-player-card-roster>
   </div>
-  <div class="startSlot" *ngIf="selectedQbWr['slot']">
+  <div
+    class="startSlot"
+    style="width: 270px"
+    *ngIf="!selectedQbWr['slotTwo']"
+  ></div>
+  <div class="startWR" *ngIf="selectedQbWr['wrTwo']">
     <app-player-card-roster
-      [player]="selectedQbWr['slot']"
+      [player]="selectedQbWr['wrTwo']"
     ></app-player-card-roster>
   </div>
-  <div class="startWR" *ngIf="selectedQbWr['wr']">
-    <app-player-card-roster
-      [player]="selectedQbWr['wr']"
-    ></app-player-card-roster>
-  </div>
+  <div
+    class="startWR"
+    style="width: 270px"
+    *ngIf="!selectedQbWr['wrTwo']"
+  ></div>
 </div>

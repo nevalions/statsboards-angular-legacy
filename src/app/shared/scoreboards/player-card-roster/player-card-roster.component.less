@@ -2,10 +2,11 @@
 .start-roster-card {
   font-family: "Noto Sans Black", monospace;
   display: grid;
+  width: 240px;
   grid-template-columns: max-content 1fr; /* Photo width and remaining space */
   grid-template-rows: auto 1fr auto; /* Rows for photo, name, and position */
-  gap: 1rem; /* Spacing between items */
-  padding: 1rem; /* Padding around the card content */
+  grid-gap: 20px; /* Spacing between items */
+  padding: 0.75rem; /* Padding around the card content */
   border: 1px solid #ccc; /* Border for the card */
   border-radius: 8px; /* Rounded corners */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Box shadow for elevation effect */
@@ -26,7 +27,7 @@
   position: absolute;
   bottom: 5px; /* Adjust as needed to overlay on top of the photo */
   right: 5px; /* Adjust as needed to place the number */
-  font-size: 1.75rem; /* Large font size for the number */
+  font-size: 1.8rem; /* Large font size for the number */
   color: white;
   background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
   padding: 0.5rem;
@@ -37,7 +38,7 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  font-size: 1.3rem; /* Larger font size for the name */
+  font-size: 1.05rem; /* Larger font size for the name */
   letter-spacing: 0.05em;
   font-weight: bold; /* Make the name bold */
   color: #3b3b3b; /* Deep color for the text */

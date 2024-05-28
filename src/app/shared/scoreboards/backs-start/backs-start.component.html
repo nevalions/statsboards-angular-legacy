@@ -1,0 +1,17 @@
+<div class="start-roster-line">
+  <div class="startRB" *ngIf="selectedRB['rbOne']">
+    <app-player-card-roster
+      [player]="selectedRB['rbOne']"
+    ></app-player-card-roster>
+  </div>
+  <div class="startRB" *ngIf="selectedRB['rbTwo']">
+    <app-player-card-roster
+      [player]="selectedRB['rbTwo']"
+    ></app-player-card-roster>
+  </div>
+  <div class="startRB" *ngIf="selectedRB['rbThree']">
+    <app-player-card-roster
+      [player]="selectedRB['rbThree']"
+    ></app-player-card-roster>
+  </div>
+</div>

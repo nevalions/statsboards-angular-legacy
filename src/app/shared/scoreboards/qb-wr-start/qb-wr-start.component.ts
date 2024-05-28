@@ -22,8 +22,10 @@ export class QbWrStartComponent implements OnInit, OnChanges {
   public selectedQbWr: { [key: string]: IPlayerInMatchFullData | null } = {};
   public positions = {
     qb: ['qb'],
-    wr: ['wr'],
-    slot: ['slot', 'te', 'wr'],
+    wrOne: ['wr'],
+    wrTwo: ['wr'],
+    slotOne: ['slot', 'te', 'wr'],
+    slotTwo: ['slot', 'te', 'wr'],
   };
 
   ngOnInit() {

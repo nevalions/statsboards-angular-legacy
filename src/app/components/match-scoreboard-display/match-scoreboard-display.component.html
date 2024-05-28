@@ -2,6 +2,14 @@
   @if (playclock$ | async; as playclock) {
     @if (gameclock$ | async; as gameclock) {
       <div class="main-container-fullhd">
+        @if (
+          !showAwayDefenseStart &&
+          !showHomeDefenseStart &&
+          !showHomeOffenseStart &&
+          !showAwayOffenseStart
+        ) {
+          <div class="fullhd-separator"></div>
+        }
         @if (showHomeOffenseStart) {
           @if (homeFootballStartOffense$ | async; as players) {
             <app-football-offense-start-display
@@ -11,8 +19,16 @@
           } @else {
             <div class="fullhd-separator"></div>
           }
-        } @else {
-          <div class="fullhd-separator"></div>
+        }
+        @if (showAwayOffenseStart) {
+          @if (awayFootballStartOffense$ | async; as players) {
+            <app-football-offense-start-display
+              [team]="awayTeam$ | async"
+              [players]="players"
+            ></app-football-offense-start-display>
+          } @else {
+            <div class="fullhd-separator"></div>
+          }
         }
         <app-scoreboard-display-flat
           [scoreboardDisplayClass]="'fullhd-scoreboard'"

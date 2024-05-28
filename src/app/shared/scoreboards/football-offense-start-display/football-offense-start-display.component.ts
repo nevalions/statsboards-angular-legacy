@@ -5,6 +5,7 @@ import { environment } from '../../../../environments/environment';
 import { ImageService } from '../../../services/image.service';
 import { IPlayerInMatchFullData } from '../../../type/player.type';
 import { ITeam } from '../../../type/team.type';
+import { BacksStartComponent } from '../backs-start/backs-start.component';
 import { OlineStartComponent } from '../oline-start/oline-start.component';
 import { QbWrStartComponent } from '../qb-wr-start/qb-wr-start.component';
 
@@ -16,6 +17,7 @@ import { QbWrStartComponent } from '../qb-wr-start/qb-wr-start.component';
     UpperCasePipe,
     OlineStartComponent,
     QbWrStartComponent,
+    BacksStartComponent,
   ],
   templateUrl: './football-offense-start-display.component.html',
   styleUrl: './football-offense-start-display.component.less',

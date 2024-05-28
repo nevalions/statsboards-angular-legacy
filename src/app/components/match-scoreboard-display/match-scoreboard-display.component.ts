@@ -57,6 +57,7 @@ export class MatchScoreboardDisplayComponent implements OnDestroy {
   homeStartOL$ = this.playerInMatch.homeFootballStartOL$;
   homeStartBacks$ = this.playerInMatch.homeFootballStartBacks$;
   homeStartWR$ = this.playerInMatch.homeFootballStartWR$;
+  awayFootballStartOffense$ = this.playerInMatch.awayFootballStartOffense$;
   awayStartOL$ = this.playerInMatch.awayFootballStartOL$;
   awayStartBacks$ = this.playerInMatch.awayFootballStartBacks$;
   awayStartWR$ = this.playerInMatch.awayFootballStartWR$;

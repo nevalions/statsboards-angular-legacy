@@ -59,9 +59,13 @@ export function selectPlayersForPositions(
       }) || null;
 
     if (player) {
+      console.log(
+        `Selecting player ${player.match_player.id} for ${positionKey}`,
+      );
       selectedPositions[positionKey] = player;
       if (player.match_player && player.match_player.id) {
         excludedPlayerIds.add(player.match_player.id.toString());
+        console.log(`Excluded IDs now: ${Array.from(excludedPlayerIds)}`);
       }
     } else {
       selectedPositions[positionKey] = null;

@@ -9,10 +9,11 @@
         [avatarUrl]="backendUrl + team.team_logo_web_url"
         (error)="onImgError($event)"
       ></tui-avatar>
-      <div class="team-offense">{{ team.title | uppercase }} offense</div>
+      <div class="team-offense">{{ team.title | uppercase }} OFFENSE</div>
     }
   </div>
 
   <app-oline-start [startOL]="players"></app-oline-start>
   <app-qb-wr-start [startQbWr]="players"></app-qb-wr-start>
+  <app-backs-start [startRB]="players"></app-backs-start>
 </div>
