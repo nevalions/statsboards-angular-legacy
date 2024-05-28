@@ -42,9 +42,9 @@ export class TeamService extends BaseApiService<ITeam> {
 
   fetchTeamsByMatchId(
     id: number,
-  ): Observable<{ homeTeam: ITeam; awayTeam: ITeam }> {
+  ): Observable<{ home_team: ITeam; away_team: ITeam }> {
     // console.log('fetchTeamsBySportId sportId: ', id);
-    return this.findByFirstKeyValue('matches', 'id', id, 'teams')
+    return this.findByFirstKeyValue('matches', 'id', id, 'home_away_teams')
       .pipe
       // tap((teams) => console.log(`TEAMS from SPORT ID: ${id}`, teams)),
       ();

@@ -22,7 +22,7 @@ import { QbWrStartComponent } from '../qb-wr-start/qb-wr-start.component';
 })
 export class FootballOffenseStartDisplayComponent {
   @Input() players: IPlayerInMatchFullData[] = [];
-  @Input() team: ITeam | null = null;
+  @Input() team?: ITeam | null = null;
 
   constructor(private imageService: ImageService) {}
 

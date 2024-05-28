@@ -5,6 +5,7 @@
         @if (showHomeOffenseStart) {
           @if (homeFootballStartOffense$ | async; as players) {
             <app-football-offense-start-display
+              [team]="homeTeam$ | async"
               [players]="players"
             ></app-football-offense-start-display>
           } @else {

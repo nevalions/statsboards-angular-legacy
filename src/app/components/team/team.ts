@@ -11,12 +11,16 @@ import { selectAvailableTeamsToAddToTournament } from './store/selectors';
 })
 export class Team {
   team$: Observable<ITeam | null | undefined>;
+  homeTeam$: Observable<ITeam | null | undefined>;
+  awayTeam$: Observable<ITeam | null | undefined>;
   teamsInSport$: Observable<ITeam[]>;
   teamsInTournament$: Observable<ITeam[]>;
   availableTeamsToAddToTournament$: Observable<ITeam[]>;
 
   constructor(private store: Store<AppState>) {
     this.team$ = store.select((state) => state.team.currentTeam);
+    this.homeTeam$ = store.select((state) => state.team.homeTeam);
+    this.awayTeam$ = store.select((state) => state.team.awayTeam);
     this.teamsInSport$ = store.select((state) => state.team.allTeamsInSport);
     this.teamsInTournament$ = store.select(
       (state) => state.team.allTeamsInTournament,
@@ -42,8 +46,8 @@ export class Team {
     this.store.dispatch(teamActions.create({ request: team }));
   }
 
-  loadMatchTeams(matchId: number) {
-    this.store.dispatch(teamActions.getMatchTeams(matchId));
+  loadMatchTeams() {
+    this.store.dispatch(teamActions.getMatchTeams());
   }
 
   updateTeam(team: ITeam) {

@@ -58,7 +58,10 @@ import {
   positionReducer,
 } from './components/position/store/reducers';
 import { SeasonComponent } from './components/season/season.component';
+import { seasonFeatureKey } from './components/season/store/reducers';
 import { SportComponent } from './components/sport/sport.component';
+import { TeamEffects } from './components/team/store/effects';
+import { teamFeatureKey, teamReducer } from './components/team/store/reducers';
 import { TournamentEffects } from './components/tournament/store/effects';
 import {
   tournamentFeatureKey,
@@ -87,7 +90,9 @@ export const routes: Routes = [
     path: 'scoreboard/match/:match_id/hd',
     component: MatchScoreboardDisplayComponent,
     providers: [
+      provideState(seasonFeatureKey, searchReducer),
       provideState(webSocketFeatureKey, webSocketReducer),
+      provideState(teamFeatureKey, teamReducer),
       provideState(playclockFeatureKey, playclockReducer),
       provideState(gameclockFeatureKey, gameclockReducer),
       provideState(matchFeatureKey, matchReducer),
@@ -98,7 +103,9 @@ export const routes: Routes = [
       provideState(positionFeatureKey, positionReducer),
       provideState(playerInMatchFeatureKey, playerInMatchReducer),
       provideEffects(
+        SearchEffects,
         MatchEffects,
+        TeamEffects,
         MatchWithFullDataEffects,
         PlayclockEffects,
         GameclockEffects,

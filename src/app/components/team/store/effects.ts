@@ -123,11 +123,14 @@ export class TeamEffects {
             matchId !== null && matchId !== undefined,
         ),
         switchMap((matchId: number) =>
-          this.teamService.fetchTeamsBySportId(matchId).pipe(
-            map((teams: ITeam[]) =>
-              teamActions.getTeamsBySportIDSuccess({ teams }),
+          this.teamService.fetchTeamsByMatchId(matchId).pipe(
+            map(({ home_team: homeTeam, away_team: awayTeam }) =>
+              teamActions.getMatchTeamsSuccess({
+                homeTeam: homeTeam,
+                awayTeam: awayTeam,
+              }),
             ),
-            catchError(() => of(teamActions.getTeamsBySportIDFailure())),
+            catchError(() => of(teamActions.getMatchTeamsFailure())),
           ),
         ),
       );

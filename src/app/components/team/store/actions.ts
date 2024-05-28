@@ -28,7 +28,7 @@ export const teamActions = createActionGroup({
     'Get teams by tournament ID success': props<{ teams: ITeam[] }>(),
     'Get teams by tournament ID failure': emptyProps(),
 
-    getMatchTeams: props<{ id: number }>(),
+    getMatchTeams: emptyProps(),
     'Get match teams success': props<{ homeTeam: ITeam; awayTeam: ITeam }>(),
     'Get match teams failure': emptyProps(),
 

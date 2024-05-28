@@ -16,8 +16,8 @@ import { Match } from '../match/match';
 import { PlayerInMatch } from '../player-match/player-match';
 import { Position } from '../position/postion';
 import { Sport } from '../sport/sport';
-import { Tournament } from '../tournament/tournament';
 import { Team } from '../team/team';
+import { Tournament } from '../tournament/tournament';
 
 @Component({
   selector: 'app-match-scoreboard-display',
@@ -40,6 +40,7 @@ export class MatchScoreboardDisplayComponent implements OnDestroy {
   sport$ = this.sport.currentSport$;
   positions$ = this.position.allSportPositions$;
   homeTeam$ = this.team.homeTeam$;
+  awayTeam$ = this.team.awayTeam$;
   tournament$: Observable<ITournament | null | undefined> =
     this.match.matchTournament$;
   mainTournamentSponsor$: Observable<ISponsor | null | undefined> =
