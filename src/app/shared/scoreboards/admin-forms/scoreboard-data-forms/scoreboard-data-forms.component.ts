@@ -1,21 +1,15 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { AsyncPipe, NgIf } from '@angular/common';
-import { ToggleVisibleButtonComponent } from '../../../ui/buttons/toggle-visible-button/toggle-visible-button.component';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { TuiInputModule } from '@taiga-ui/kit';
 import { Observable } from 'rxjs';
-import { IMatchFullDataWithScoreboard } from '../../../../type/match.type';
-import { MatchData } from '../../../../components/match/matchdata';
-import { IScoreboard } from '../../../../type/matchdata.type';
 import { ScoreboardData } from '../../../../components/scoreboard-data/scoreboard-data';
-import {
-  FormControl,
-  FormGroup,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
-import { DownDistanceFormsComponent } from '../down-distance-forms/down-distance-forms.component';
+import { IMatchFullDataWithScoreboard } from '../../../../type/match.type';
+import { IScoreboard } from '../../../../type/matchdata.type';
 import { AdminDownButtonComponent } from '../../../ui/buttons/admin-down-button/admin-down-button.component';
 import { AdminSubmitButtonComponent } from '../../../ui/buttons/admin-submit-button/admin-submit-button.component';
-import { TuiInputModule } from '@taiga-ui/kit';
+import { ToggleVisibleButtonComponent } from '../../../ui/buttons/toggle-visible-button/toggle-visible-button.component';
+import { DownDistanceFormsComponent } from '../down-distance-forms/down-distance-forms.component';
 
 @Component({
   selector: 'app-scoreboard-data-forms',

@@ -5,12 +5,12 @@
         @if (
           !showAwayDefenseStart &&
           !showHomeDefenseStart &&
-          !showHomeOffenseStart &&
+          !data.scoreboard_data?.is_team_a_start_offense &&
           !showAwayOffenseStart
         ) {
           <div class="fullhd-separator"></div>
         }
-        @if (showHomeOffenseStart) {
+        @if (data.scoreboard_data?.is_team_a_start_offense || false) {
           @if (homeFootballStartOffense$ | async; as players) {
             <app-football-offense-start-display
               [side]="'offense'"

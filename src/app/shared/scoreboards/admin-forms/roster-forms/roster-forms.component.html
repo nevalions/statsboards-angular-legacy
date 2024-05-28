@@ -1,0 +1,21 @@
+@if (data) {
+  <div
+    *ngIf="rosterFormsVisible$ | async"
+    xmlns="http://www.w3.org/1999/html"
+    class="roster-forms"
+  >
+    <div class="roster-forms-btns">
+      <app-admin-down-button
+        [down]="data.scoreboard_data?.is_team_a_start_offense ? 'Hide' : 'Show'"
+        [distance]="'HOME OFFENSE'"
+        (click)="toggleShowHomeOffenseRosterVisibility(data.scoreboard_data!)"
+      ></app-admin-down-button>
+    </div>
+  </div>
+  <app-toggle-visible-button
+    [isVisible$]="rosterFormsVisible$"
+    [formName]="'rostersForms'"
+    [buttonText]="'Rosters Forms'"
+  >
+  </app-toggle-visible-button>
+}

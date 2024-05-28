@@ -48,8 +48,8 @@ export class MatchScoreboardDisplayComponent implements OnDestroy {
   data$: Observable<IMatchFullDataWithScoreboard> = this.Websocket.data$;
   playclock$: Observable<IPlayclock> = this.Websocket.playclock$;
   gameclock$: Observable<IGameclock> = this.Websocket.gameclock$;
-  showHomeOffenseStart: boolean = false;
-  showHomeDefenseStart: boolean = true;
+  // showHomeOffenseStart: Observable<boolean> = this.Websocket.showHomeRoster$;
+  showHomeDefenseStart: boolean = false;
   showAwayOffenseStart: boolean = false;
   showAwayDefenseStart: boolean = false;
   //offense start

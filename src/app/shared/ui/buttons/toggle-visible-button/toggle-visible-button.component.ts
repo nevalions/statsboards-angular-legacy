@@ -1,8 +1,8 @@
-import { Component, Input } from '@angular/core';
 import { AsyncPipe } from '@angular/common';
-import { Ui } from '../../../../store/ui/ui';
-import { Observable, of } from 'rxjs';
+import { Component, Input } from '@angular/core';
 import { TuiButtonModule } from '@taiga-ui/core';
+import { Observable, of } from 'rxjs';
+import { Ui } from '../../../../store/ui/ui';
 
 @Component({
   selector: 'app-toggle-visible-button',
@@ -19,6 +19,7 @@ export class ToggleVisibleButtonComponent {
   constructor(private ui: Ui) {}
 
   toggleItemVisibility(formName: string) {
+    console.log('toggleItemVisibility', formName);
     this.ui.toggleFormVisibility(formName);
   }
 }

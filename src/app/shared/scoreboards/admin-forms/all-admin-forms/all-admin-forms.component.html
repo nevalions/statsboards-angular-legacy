@@ -8,36 +8,45 @@
       size="m"
       type="button"
       (click)="toggleAllFormsVisibility()"
-      [icon]="(showHideAllButtonVisible$ | async) ? 'tuiIconEyeOff' : 'tuiIconEye'"
+      [icon]="
+        (showHideAllButtonVisible$ | async) ? 'tuiIconEyeOff' : 'tuiIconEye'
+      "
     >
-      {{ (showHideAllButtonVisible$ | async) ? 'Hide' : 'Show' }} All
+      {{ (showHideAllButtonVisible$ | async) ? "Hide" : "Show" }} All
     </button>
-
   </div>
 
   <app-down-distance-forms
     [data]="data"
     [downAndDistanceFormVisible$]="downAndDistanceFormVisible$"
-    [disabled]="(isMatchDataLoading$ | async)! || (isMatchDataSubmitting$ | async)!"
+    [disabled]="
+      (isMatchDataLoading$ | async)! || (isMatchDataSubmitting$ | async)!
+    "
   ></app-down-distance-forms>
 
   <app-score-forms
     [data]="data"
     [scoreInputsVisible$]="scoreInputsVisible$"
     [scoreButtonsVisible$]="scoreButtonsVisible$"
-    [disabled]="(isMatchDataLoading$ | async)! || (isMatchDataSubmitting$ | async)!"
+    [disabled]="
+      (isMatchDataLoading$ | async)! || (isMatchDataSubmitting$ | async)!
+    "
   ></app-score-forms>
 
   <app-qtr-forms
     [data]="data"
     [qtrFormsVisible$]="qtrFormVisible$"
-    [disabled]="(isMatchDataLoading$ | async)! || (isMatchDataSubmitting$ | async)!"
+    [disabled]="
+      (isMatchDataLoading$ | async)! || (isMatchDataSubmitting$ | async)!
+    "
   ></app-qtr-forms>
 
   <app-timeout-forms
     [data]="data"
     [timeoutBtnsVisible$]="timeoutBtnsVisible$"
-    [disabled]="(isMatchDataLoading$ | async)! || (isMatchDataSubmitting$ | async)!"
+    [disabled]="
+      (isMatchDataLoading$ | async)! || (isMatchDataSubmitting$ | async)!
+    "
   ></app-timeout-forms>
 
   <app-time-forms
@@ -45,25 +54,40 @@
     [playclock]="playclock"
     [gameclock]="gameclock"
     [timeFormsVisible$]="timeFormsVisible$"
-    [disabled]="(isMatchDataLoading$ | async)! || (isMatchDataSubmitting$ | async)!"
+    [disabled]="
+      (isMatchDataLoading$ | async)! || (isMatchDataSubmitting$ | async)!
+    "
   ></app-time-forms>
 
   <app-change-teams-forms
     [data]="data"
     [changeTeamsFormsVisible$]="changeTeamsFormsVisible$"
-    [disabled]="(isMatchDataLoading$ | async)! || (isMatchDataSubmitting$ | async)!"
+    [disabled]="
+      (isMatchDataLoading$ | async)! || (isMatchDataSubmitting$ | async)!
+    "
   ></app-change-teams-forms>
 
   <app-scoreboard-data-forms
     [data]="data"
     [changeScoreBoardFormsVisible$]="changeScoreBoardFormsVisible$"
-    [disabled]="(isMatchDataLoading$ | async)! || (isMatchDataSubmitting$ | async)!"
+    [disabled]="
+      (isMatchDataLoading$ | async)! || (isMatchDataSubmitting$ | async)!
+    "
   ></app-scoreboard-data-forms>
 
   <app-main-sponsor-forms
     [data]="data"
     [sponsorsFormsVisible$]="sponsorsFormsVisible$"
-    [disabled]="(isMatchDataLoading$ | async)! || (isMatchDataSubmitting$ | async)!"
+    [disabled]="
+      (isMatchDataLoading$ | async)! || (isMatchDataSubmitting$ | async)!
+    "
   ></app-main-sponsor-forms>
 
+  <app-roster-forms
+    [data]="data"
+    [rosterFormsVisible$]="rostersFormsVisible$"
+    [disabled]="
+      (isMatchDataLoading$ | async)! || (isMatchDataSubmitting$ | async)!
+    "
+  ></app-roster-forms>
 </div>

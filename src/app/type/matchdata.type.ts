@@ -24,6 +24,11 @@ export interface IScoreboard {
   is_sponsor_line?: boolean;
   is_match_sponsor_line?: boolean;
 
+  is_team_a_start_offense?: boolean;
+  is_team_b_start_offense?: boolean;
+  is_team_a_start_defense?: boolean;
+  is_team_b_start_defense?: boolean;
+
   team_a_game_color?: string;
   team_b_game_color?: string;
   team_a_game_title?: string;

@@ -1,25 +1,24 @@
-import { Component, Input, ViewEncapsulation } from '@angular/core';
 import { AsyncPipe, NgIf } from '@angular/common';
-import { IMatchData, IScoreboard } from '../../../../type/matchdata.type';
-import { IMatchFullDataWithScoreboard } from '../../../../type/match.type';
-import { MatchData } from '../../../../components/match/matchdata';
-import { ScoreboardData } from '../../../../components/scoreboard-data/scoreboard-data';
-import { ScoreFormsComponent } from '../score-forms/score-forms.component';
-import { map, Observable } from 'rxjs';
-import { Ui } from '../../../../store/ui/ui';
-import { ToggleVisibleButtonComponent } from '../../../ui/buttons/toggle-visible-button/toggle-visible-button.component';
-import { QtrFormsComponent } from '../qtr-forms/qtr-forms.component';
-import { DownDistanceFormsComponent } from '../down-distance-forms/down-distance-forms.component';
-import { TimeoutFormsComponent } from '../timeout-forms/timeout-forms.component';
-import { TimeFormsComponent } from '../time-forms/time-forms.component';
-import { ChangeTeamsFormsComponent } from '../change-teams-forms/change-teams-forms.component';
-import { ScoreboardDataFormsComponent } from '../scoreboard-data-forms/scoreboard-data-forms.component';
+import { Component, Input, ViewEncapsulation } from '@angular/core';
+import { TuiDropdownHostModule } from '@taiga-ui/cdk';
 import { TuiButtonModule } from '@taiga-ui/core';
-import { tuiArrayToggle, TuiDropdownHostModule } from '@taiga-ui/cdk';
-import { TUI_ARROW, TuiArrowModule } from '@taiga-ui/kit';
-import { IPlayclock } from '../../../../type/playclock.type';
+import { TuiArrowModule } from '@taiga-ui/kit';
+import { Observable, map } from 'rxjs';
+import { MatchData } from '../../../../components/match/matchdata';
+import { Ui } from '../../../../store/ui/ui';
 import { IGameclock } from '../../../../type/gameclock.type';
+import { IMatchFullDataWithScoreboard } from '../../../../type/match.type';
+import { IPlayclock } from '../../../../type/playclock.type';
+import { ToggleVisibleButtonComponent } from '../../../ui/buttons/toggle-visible-button/toggle-visible-button.component';
+import { ChangeTeamsFormsComponent } from '../change-teams-forms/change-teams-forms.component';
+import { DownDistanceFormsComponent } from '../down-distance-forms/down-distance-forms.component';
 import { MainSponsorFormsComponent } from '../main-sponsor-forms/main-sponsor-forms.component';
+import { QtrFormsComponent } from '../qtr-forms/qtr-forms.component';
+import { RosterFormsComponent } from '../roster-forms/roster-forms.component';
+import { ScoreFormsComponent } from '../score-forms/score-forms.component';
+import { ScoreboardDataFormsComponent } from '../scoreboard-data-forms/scoreboard-data-forms.component';
+import { TimeFormsComponent } from '../time-forms/time-forms.component';
+import { TimeoutFormsComponent } from '../timeout-forms/timeout-forms.component';
 
 @Component({
   selector: 'app-all-admin-forms',
@@ -35,6 +34,7 @@ import { MainSponsorFormsComponent } from '../main-sponsor-forms/main-sponsor-fo
     TimeFormsComponent,
     ChangeTeamsFormsComponent,
     ScoreboardDataFormsComponent,
+    RosterFormsComponent,
     TuiButtonModule,
     TuiArrowModule,
     TuiDropdownHostModule,
@@ -62,6 +62,7 @@ export class AllAdminFormsComponent {
   changeTeamsFormsVisible$: Observable<boolean>;
   changeScoreBoardFormsVisible$: Observable<boolean>;
   sponsorsFormsVisible$: Observable<boolean>;
+  rostersFormsVisible$: Observable<boolean>;
 
   constructor(
     private matchData: MatchData,
@@ -96,6 +97,9 @@ export class AllAdminFormsComponent {
     );
     this.sponsorsFormsVisible$ = this.ui.formVisibility$.pipe(
       map((formVisibility) => formVisibility['sponsorsForms']),
+    );
+    this.rostersFormsVisible$ = this.ui.formVisibility$.pipe(
+      map((formVisibility) => formVisibility['rostersForms']),
     );
   }
 
