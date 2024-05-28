@@ -42,6 +42,10 @@ export class Team {
     this.store.dispatch(teamActions.create({ request: team }));
   }
 
+  loadMatchTeams(matchId: number) {
+    this.store.dispatch(teamActions.getMatchTeams(matchId));
+  }
+
   updateTeam(team: ITeam) {
     this.store.dispatch(
       teamActions.update({

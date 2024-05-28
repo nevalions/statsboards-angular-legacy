@@ -1,13 +1,15 @@
 import { createFeature, createReducer, on } from '@ngrx/store';
 import { SortService } from '../../../services/sort.service';
-import { teamActions } from './actions';
 import { ITeam } from '../../../type/team.type';
+import { teamActions } from './actions';
 
 export interface TeamState {
   isTeamSubmitting: boolean;
   isTeamLoading: boolean;
   currentTeamId: number | undefined | null;
   currentTeam: ITeam | undefined | null;
+  homeTeam: ITeam | undefined | null;
+  awayTeam: ITeam | undefined | null;
   allTeams: ITeam[];
   allTeamsInSport: ITeam[];
   allTeamsInTournament: ITeam[];
@@ -22,6 +24,8 @@ const initialState: TeamState = {
   allTeamsInSport: [],
   allTeamsInTournament: [],
   currentTeam: null,
+  homeTeam: null,
+  awayTeam: null,
   errors: null,
 };
 
@@ -187,6 +191,24 @@ const teamFeature = createFeature({
       errors: action,
     })),
 
+    on(teamActions.getMatchTeams, (state) => ({
+      ...state,
+      isTeamLoading: true,
+    })),
+    on(teamActions.getMatchTeamsSuccess, (state, action) => {
+      return {
+        ...state,
+        isTeamLoading: false,
+        homeTeam: action.homeTeam,
+        awayTeam: action.awayTeam,
+      };
+    }),
+    on(teamActions.getMatchTeamsFailure, (state, action) => ({
+      ...state,
+      isTeamLoading: false,
+      errors: action,
+    })),
+
     on(teamActions.addTeamToTournament, (state, { team_id }) => {
       const teamToAdd = state.allTeamsInSport.find(
         (team) => team.id === team_id,
@@ -224,4 +246,6 @@ export const {
   selectAllTeams,
   selectAllTeamsInSport,
   selectAllTeamsInTournament,
+  selectHomeTeam,
+  selectAwayTeam,
 } = teamFeature;

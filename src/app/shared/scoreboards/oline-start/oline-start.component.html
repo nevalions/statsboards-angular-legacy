@@ -1,0 +1,25 @@
+<div class="start-roster-line">
+  <div class="startLT" *ngIf="selectedOL['lt']">
+    <app-player-card-roster
+      [player]="selectedOL['lt']"
+    ></app-player-card-roster>
+  </div>
+  <div class="startLG" *ngIf="selectedOL['lg']">
+    <app-player-card-roster
+      [player]="selectedOL['lg']"
+    ></app-player-card-roster>
+  </div>
+  <div class="startOC" *ngIf="selectedOL['c']">
+    <app-player-card-roster [player]="selectedOL['c']"></app-player-card-roster>
+  </div>
+  <div class="startRG" *ngIf="selectedOL['rg']">
+    <app-player-card-roster
+      [player]="selectedOL['rg']"
+    ></app-player-card-roster>
+  </div>
+  <div class="startRT" *ngIf="selectedOL['rt']">
+    <app-player-card-roster
+      [player]="selectedOL['rt']"
+    ></app-player-card-roster>
+  </div>
+</div>

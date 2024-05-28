@@ -1,0 +1,27 @@
+<div class="start-roster-line">
+  <div class="startWR" *ngIf="selectedQbWr['wr']">
+    <app-player-card-roster
+      [player]="selectedQbWr['wr']"
+    ></app-player-card-roster>
+  </div>
+  <div class="startSlot" *ngIf="selectedQbWr['slot']">
+    <app-player-card-roster
+      [player]="selectedQbWr['slot']"
+    ></app-player-card-roster>
+  </div>
+  <div class="startQB" *ngIf="selectedQbWr['qb']">
+    <app-player-card-roster
+      [player]="selectedQbWr['qb']"
+    ></app-player-card-roster>
+  </div>
+  <div class="startSlot" *ngIf="selectedQbWr['slot']">
+    <app-player-card-roster
+      [player]="selectedQbWr['slot']"
+    ></app-player-card-roster>
+  </div>
+  <div class="startWR" *ngIf="selectedQbWr['wr']">
+    <app-player-card-roster
+      [player]="selectedQbWr['wr']"
+    ></app-player-card-roster>
+  </div>
+</div>

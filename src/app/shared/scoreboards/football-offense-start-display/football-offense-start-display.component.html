@@ -1,0 +1,18 @@
+<div class="start-offense-roster-display">
+  <div class="start-offense-roster-display-header">
+    @if (team) {
+      <tui-avatar
+        size="xl"
+        [text]="team.title"
+        class="team-logo"
+        [rounded]="false"
+        [avatarUrl]="backendUrl + team.team_logo_web_url"
+        (error)="onImgError($event)"
+      ></tui-avatar>
+      <div class="team-offense">{{ team.title | uppercase }} offense</div>
+    }
+  </div>
+
+  <app-oline-start [startOL]="players"></app-oline-start>
+  <app-qb-wr-start [startQbWr]="players"></app-qb-wr-start>
+</div>

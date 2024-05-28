@@ -1,8 +1,8 @@
 import { AsyncPipe, NgForOf, NgIf } from '@angular/common';
 import { Component, OnDestroy } from '@angular/core';
 import { Observable } from 'rxjs';
+import { FootballOffenseStartDisplayComponent } from '../../shared/scoreboards/football-offense-start-display/football-offense-start-display.component';
 import { MatchSponsorLineDisplayFlatComponent } from '../../shared/scoreboards/match-sponsor-line-display-flat/match-sponsor-line-display-flat.component';
-import { PlayerCardRosterComponent } from '../../shared/scoreboards/player-card-roster/player-card-roster.component';
 import { ScoreboardDisplayFlatComponent } from '../../shared/scoreboards/scoreboard-display-flat/scoreboard-display-flat.component';
 import { SponsorDisplayFlatComponent } from '../../shared/scoreboards/sponsor-display-flat/sponsor-display-flat.component';
 import { Websocket } from '../../store/websocket/websocket';
@@ -17,6 +17,7 @@ import { PlayerInMatch } from '../player-match/player-match';
 import { Position } from '../position/postion';
 import { Sport } from '../sport/sport';
 import { Tournament } from '../tournament/tournament';
+import { Team } from '../team/team';
 
 @Component({
   selector: 'app-match-scoreboard-display',
@@ -30,7 +31,7 @@ import { Tournament } from '../tournament/tournament';
     ScoreboardDisplayFlatComponent,
     SponsorDisplayFlatComponent,
     MatchSponsorLineDisplayFlatComponent,
-    PlayerCardRosterComponent,
+    FootballOffenseStartDisplayComponent,
   ],
 })
 export class MatchScoreboardDisplayComponent implements OnDestroy {
@@ -38,6 +39,7 @@ export class MatchScoreboardDisplayComponent implements OnDestroy {
   // error$: Observable<any> = this.Websocket.error$;
   sport$ = this.sport.currentSport$;
   positions$ = this.position.allSportPositions$;
+  homeTeam$ = this.team.homeTeam$;
   tournament$: Observable<ITournament | null | undefined> =
     this.match.matchTournament$;
   mainTournamentSponsor$: Observable<ISponsor | null | undefined> =
@@ -73,7 +75,9 @@ export class MatchScoreboardDisplayComponent implements OnDestroy {
     private tournament: Tournament,
     private position: Position,
     private playerInMatch: PlayerInMatch,
+    private team: Team,
   ) {
+    team.loadMatchTeams();
     sport.loadSportByMatch();
     match.loadCurrentMatch();
     matchWithFullData.loadCurrentMatch();

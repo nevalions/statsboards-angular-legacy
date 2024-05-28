@@ -1,13 +1,12 @@
-import { inject, Injectable } from '@angular/core';
-import { BaseApiService } from '../../services/base.api.service';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, map, Observable, Subject } from 'rxjs';
+import { Injectable } from '@angular/core';
 import { Params, Router } from '@angular/router';
-import { ErrorHandlingService } from '../../services/error.service';
-import { ITeam, ITeamTournament } from '../../type/team.type';
+import { BehaviorSubject, Observable, map } from 'rxjs';
 import { tap } from 'rxjs/operators';
+import { BaseApiService } from '../../services/base.api.service';
+import { ErrorHandlingService } from '../../services/error.service';
 import { SortService } from '../../services/sort.service';
-import { TournamentService } from '../tournament/tournament.service';
+import { ITeam } from '../../type/team.type';
 
 @Injectable({
   providedIn: 'root',
@@ -39,6 +38,16 @@ export class TeamService extends BaseApiService<ITeam> {
       // tap((teams) => console.log(`TEAMS from SPORT ID: ${id}`, teams)),
       map((data) => SortService.sort(data, 'title')),
     );
+  }
+
+  fetchTeamsByMatchId(
+    id: number,
+  ): Observable<{ homeTeam: ITeam; awayTeam: ITeam }> {
+    // console.log('fetchTeamsBySportId sportId: ', id);
+    return this.findByFirstKeyValue('matches', 'id', id, 'teams')
+      .pipe
+      // tap((teams) => console.log(`TEAMS from SPORT ID: ${id}`, teams)),
+      ();
   }
 
   // fetchTeamsByTournamentId(id: number): Observable<ITeam[]> {

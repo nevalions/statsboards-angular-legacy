@@ -2,82 +2,17 @@
   @if (playclock$ | async; as playclock) {
     @if (gameclock$ | async; as gameclock) {
       <div class="main-container-fullhd">
-        <!-- sport
-        @if (sport$ | async; as sport) {
-          {{ sport.title }}
-        } -->
-        <!-- @if (positions$ | async; as pos) { -->
-        <!-- pos -->
-        <!-- {{ pos }} -->
-        <!-- } -->
         @if (showHomeOffenseStart) {
-          @if (homeFootballStartOffense$) {
-            <!-- offstart -->
-            <div
-              style="
-                display: grid;
-                grid-template-columns: 1420px;
-                grid-template-rows: auto auto auto;
-                justify-content: space-evenly;
-                align-items: start;
-                color: black;
-                padding: 20px;
-                margin: 20px;
-                border-radius: 20px;
-                background-color: rgba(158, 190, 158, 0.8);
-              "
-              class="start-roster"
-            >
-              <div
-                style="
-                  display: flex;
-                  flex-direction: row;
-                  align-items: center;
-                  justify-content: space-evenly;
-                "
-              >
-                @if (homeStartOL$ | async; as players) {
-                  @for (
-                    player of players;
-                    let i = $index;
-                    track player.match_player.id
-                  ) {
-                    <app-player-card-roster
-                      [player]="player"
-                    ></app-player-card-roster>
-                  }
-                }
-              </div>
-              @if (homeStartBacks$ | async; as players) {
-                @for (
-                  player of players;
-                  let i = $index;
-                  track player.match_player.id
-                ) {
-                  <app-player-card-roster
-                    [player]="player"
-                  ></app-player-card-roster>
-                }
-              }
-              @if (homeStartWR$ | async; as players) {
-                @for (
-                  player of players;
-                  let i = $index;
-                  track player.match_player.id
-                ) {
-                  <app-player-card-roster
-                    [player]="player"
-                  ></app-player-card-roster>
-                }
-              }
-            </div>
+          @if (homeFootballStartOffense$ | async; as players) {
+            <app-football-offense-start-display
+              [players]="players"
+            ></app-football-offense-start-display>
           } @else {
             <div class="fullhd-separator"></div>
           }
         } @else {
           <div class="fullhd-separator"></div>
         }
-
         <app-scoreboard-display-flat
           [scoreboardDisplayClass]="'fullhd-scoreboard'"
           [tournament]="tournament$ | async"

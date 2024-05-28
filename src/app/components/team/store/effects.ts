@@ -1,18 +1,19 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { routerNavigatedAction } from '@ngrx/router-store';
+import { Store } from '@ngrx/store';
 import { catchError, filter, map, of, switchMap, withLatestFrom } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { Router } from '@angular/router';
+import { getAllRouteParameters } from '../../../router/router.selector';
+import { ITeam } from '../../../type/team.type';
+import { selectCurrentMatchId } from '../../match/store/reducers';
+import { selectCurrentSportId } from '../../sport/store/reducers';
+import { TeamTournamentService } from '../../team-tournament/team-tournament.service';
+import { selectCurrentTournamentId } from '../../tournament/store/reducers';
 import { TeamService } from '../team.service';
 import { teamActions } from './actions';
-import { ITeam } from '../../../type/team.type';
-import { TeamTournamentService } from '../../team-tournament/team-tournament.service';
-import { Store } from '@ngrx/store';
-import { selectCurrentTournamentId } from '../../tournament/store/reducers';
-import { selectCurrentSportId } from '../../sport/store/reducers';
-import { routerNavigatedAction } from '@ngrx/router-store';
-import { getAllRouteParameters } from '../../../router/router.selector';
-import { selectCurrentTeam, selectCurrentTeamId } from './reducers';
+import { selectCurrentTeam } from './reducers';
 
 @Injectable()
 export class TeamEffects {
@@ -101,6 +102,28 @@ export class TeamEffects {
         ),
         switchMap((sportId: number) =>
           this.teamService.fetchTeamsBySportId(sportId).pipe(
+            map((teams: ITeam[]) =>
+              teamActions.getTeamsBySportIDSuccess({ teams }),
+            ),
+            catchError(() => of(teamActions.getTeamsBySportIDFailure())),
+          ),
+        ),
+      );
+    },
+    { functional: true },
+  );
+
+  getTeamsByMatchIdEffect = createEffect(
+    () => {
+      return this.actions$.pipe(
+        ofType(teamActions.getMatchTeams),
+        switchMap(() => this.store.select(selectCurrentMatchId)),
+        filter(
+          (matchId): matchId is number =>
+            matchId !== null && matchId !== undefined,
+        ),
+        switchMap((matchId: number) =>
+          this.teamService.fetchTeamsBySportId(matchId).pipe(
             map((teams: ITeam[]) =>
               teamActions.getTeamsBySportIDSuccess({ teams }),
             ),
