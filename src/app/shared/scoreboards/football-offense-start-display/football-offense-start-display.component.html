@@ -1,19 +1,40 @@
-<div class="start-offense-roster-display">
-  <div class="start-offense-roster-display-header">
-    @if (team) {
-      <tui-avatar
-        size="xl"
-        [text]="team.title"
-        class="team-logo"
-        [rounded]="false"
-        [avatarUrl]="backendUrl + team.team_logo_web_url"
-        (error)="onImgError($event)"
-      ></tui-avatar>
-      <div class="team-offense">{{ team.title | uppercase }} OFFENSE</div>
-    }
-  </div>
+@if (side === "offense") {
+  <div class="start-offense-roster-display">
+    <div class="start-offense-roster-display-header">
+      @if (team) {
+        <tui-avatar
+          size="xl"
+          [text]="team.title"
+          class="team-logo"
+          [rounded]="false"
+          [avatarUrl]="backendUrl + team.team_logo_web_url"
+          (error)="onImgError($event)"
+        ></tui-avatar>
+        <div class="team-offense">{{ team.title | uppercase }} OFFENSE</div>
+      }
+    </div>
 
-  <app-oline-start [startOL]="players"></app-oline-start>
-  <app-qb-wr-start [startQbWr]="players"></app-qb-wr-start>
-  <app-backs-start [startRB]="players"></app-backs-start>
-</div>
+    <app-oline-start [startOL]="players"></app-oline-start>
+    <app-qb-wr-start [startQbWr]="players"></app-qb-wr-start>
+    <app-backs-start [startRB]="players"></app-backs-start>
+  </div>
+} @else if (side === "defense") {
+  <div class="start-offense-roster-display">
+    <div class="start-offense-roster-display-header">
+      @if (team) {
+        <tui-avatar
+          size="xl"
+          [text]="team.title"
+          class="team-logo"
+          [rounded]="false"
+          [avatarUrl]="backendUrl + team.team_logo_web_url"
+          (error)="onImgError($event)"
+        ></tui-avatar>
+        <div class="team-offense">{{ team.title | uppercase }} DEFENSE</div>
+      }
+    </div>
+    <app-dline-starts [startDL]="players"></app-dline-starts>
+    <app-lb-starts [startLB]="players"></app-lb-starts>
+    <app-db-starts [startDB]="players"></app-db-starts>
+  </div>
+}

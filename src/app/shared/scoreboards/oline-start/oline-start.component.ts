@@ -37,7 +37,7 @@ export class OlineStartComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges) {
     if (changes['startOL'] && changes['startOL'].currentValue) {
       this.selectedOL = selectPlayersForPositions(this.startOL, this.positions);
-      console.log('Selected OL Players from ngOnChanges:', this.selectedOL);
+      // console.log('Selected OL Players from ngOnChanges:', this.selectedOL);
     }
   }
 }

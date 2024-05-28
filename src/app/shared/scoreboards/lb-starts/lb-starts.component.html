@@ -1,0 +1,18 @@
+<div class="start-roster-line">
+  <div class="startW" *ngIf="selectedLB['s']">
+    <app-player-card-roster [player]="selectedLB['s']"></app-player-card-roster>
+  </div>
+  <div class="startMLB" *ngIf="selectedLB['mlb']">
+    <app-player-card-roster
+      [player]="selectedLB['mlb']"
+    ></app-player-card-roster>
+  </div>
+  <div class="startMLBTwo" *ngIf="selectedLB['mlbTwo']">
+    <app-player-card-roster
+      [player]="selectedLB['mlbTwo']"
+    ></app-player-card-roster>
+  </div>
+  <div class="startW" *ngIf="selectedLB['w']">
+    <app-player-card-roster [player]="selectedLB['w']"></app-player-card-roster>
+  </div>
+</div>

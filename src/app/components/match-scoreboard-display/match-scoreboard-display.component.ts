@@ -48,8 +48,8 @@ export class MatchScoreboardDisplayComponent implements OnDestroy {
   data$: Observable<IMatchFullDataWithScoreboard> = this.Websocket.data$;
   playclock$: Observable<IPlayclock> = this.Websocket.playclock$;
   gameclock$: Observable<IGameclock> = this.Websocket.gameclock$;
-  showHomeOffenseStart: boolean = true;
-  showHomeDefenseStart: boolean = false;
+  showHomeOffenseStart: boolean = false;
+  showHomeDefenseStart: boolean = true;
   showAwayOffenseStart: boolean = false;
   showAwayDefenseStart: boolean = false;
   //offense start
@@ -62,6 +62,8 @@ export class MatchScoreboardDisplayComponent implements OnDestroy {
   awayStartBacks$ = this.playerInMatch.awayFootballStartBacks$;
   awayStartWR$ = this.playerInMatch.awayFootballStartWR$;
   //defense start
+  homeFootballStartDefense$ = this.playerInMatch.homeFootballStartDefense$;
+  awayFootballStartDefense$ = this.playerInMatch.awayFootballStartDefense$;
   homeStartDL$ = this.playerInMatch.homeFootballStartDL$;
   homeStartLB$ = this.playerInMatch.homeFootballStartLB$;
   homeStartDB$ = this.playerInMatch.homeFootballStartDB$;

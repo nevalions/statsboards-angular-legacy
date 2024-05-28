@@ -8,6 +8,9 @@ import { ITeam } from '../../../type/team.type';
 import { BacksStartComponent } from '../backs-start/backs-start.component';
 import { OlineStartComponent } from '../oline-start/oline-start.component';
 import { QbWrStartComponent } from '../qb-wr-start/qb-wr-start.component';
+import { DlineStartsComponent } from '../dline-starts/dline-starts.component';
+import { LbStartsComponent } from '../lb-starts/lb-starts.component';
+import { DbStartsComponent } from '../db-starts/db-starts.component';
 
 @Component({
   selector: 'app-football-offense-start-display',
@@ -18,11 +21,15 @@ import { QbWrStartComponent } from '../qb-wr-start/qb-wr-start.component';
     OlineStartComponent,
     QbWrStartComponent,
     BacksStartComponent,
+    DlineStartsComponent,
+    LbStartsComponent,
+    DbStartsComponent,
   ],
   templateUrl: './football-offense-start-display.component.html',
   styleUrl: './football-offense-start-display.component.less',
 })
 export class FootballOffenseStartDisplayComponent {
+  @Input() side: 'offense' | 'defense' = 'offense';
   @Input() players: IPlayerInMatchFullData[] = [];
   @Input() team?: ITeam | null = null;
 

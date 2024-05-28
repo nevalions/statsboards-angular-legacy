@@ -13,6 +13,7 @@
         @if (showHomeOffenseStart) {
           @if (homeFootballStartOffense$ | async; as players) {
             <app-football-offense-start-display
+              [side]="'offense'"
               [team]="homeTeam$ | async"
               [players]="players"
             ></app-football-offense-start-display>
@@ -23,6 +24,29 @@
         @if (showAwayOffenseStart) {
           @if (awayFootballStartOffense$ | async; as players) {
             <app-football-offense-start-display
+              [side]="'offense'"
+              [team]="awayTeam$ | async"
+              [players]="players"
+            ></app-football-offense-start-display>
+          } @else {
+            <div class="fullhd-separator"></div>
+          }
+        }
+        @if (showHomeDefenseStart) {
+          @if (homeFootballStartDefense$ | async; as players) {
+            <app-football-offense-start-display
+              [side]="'defense'"
+              [team]="homeTeam$ | async"
+              [players]="players"
+            ></app-football-offense-start-display>
+          } @else {
+            <div class="fullhd-separator"></div>
+          }
+        }
+        @if (showAwayDefenseStart) {
+          @if (awayFootballStartDefense$ | async; as players) {
+            <app-football-offense-start-display
+              [side]="'defense'"
               [team]="awayTeam$ | async"
               [players]="players"
             ></app-football-offense-start-display>
