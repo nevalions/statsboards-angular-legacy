@@ -9,7 +9,10 @@ import {
   IPlayerInMatch,
   IPlayerInMatchFullData,
 } from '../../../type/player.type';
-import { selectCurrentMatchId } from '../../match/store/reducers';
+import {
+  selectCurrentMatch,
+  selectCurrentMatchId,
+} from '../../match/store/reducers';
 import { PlayerMatchService } from '../player-match.service';
 import { playerInMatchActions } from './actions';
 import { selectCurrentPlayerInMatch } from './reducers';
@@ -305,39 +308,30 @@ export class PlayerInMatchEffects {
   //   { dispatch: false },
   // );
 
-  // parsPlayersInTeamFromEESLEffect = createEffect(
-  //   () => {
-  //     return this.actions$.pipe(
-  //       ofType(playerInMatchActions.parsPlayersFromTeamEESL),
-  //       switchMap(() => this.store.select(selectCurrentTeamAndTournament)),
-  //       filter(
-  //         ({ team, tournament }) =>
-  //           team !== null &&
-  //           team !== undefined &&
-  //           tournament !== null &&
-  //           tournament !== undefined,
-  //       ),
-  //       switchMap(({ team, tournament }) =>
-  //         this.playerInMatchService
-  //           .parsPlayersFromTeamEESL(
-  //             team!.team_eesl_id!,
-  //             tournament!.tournament_eesl_id!,
-  //           )
-  //           .pipe(
-  //             map((parseList: any[] | IPlayerInMatch[]) =>
-  //               playerInMatchActions.parsedPlayerFromTeamEESLSuccessfully({
-  //                 parseList,
-  //               }),
-  //             ),
-  //             catchError(() =>
-  //               of(playerInMatchActions.parsedPlayerFromTeamEESLFailure()),
-  //             ),
-  //           ),
-  //       ),
-  //     );
-  //   },
-  //   { functional: true },
-  // );
+  parsPlayersInMatchFromEESLEffect = createEffect(
+    () => {
+      return this.actions$.pipe(
+        ofType(playerInMatchActions.parsPlayersFromMatchEESL),
+        switchMap(() => this.store.select(selectCurrentMatch)),
+        filter((match) => match !== null && match !== undefined),
+        switchMap((match) =>
+          this.playerInMatchService
+            .parsPlayersFromMatchEESL(match!.match_eesl_id!)
+            .pipe(
+              map((parseList: any[] | IPlayerInMatchFullData[]) =>
+                playerInMatchActions.parsedPlayerFromMatchEESLSuccessfully({
+                  parseList,
+                }),
+              ),
+              catchError(() =>
+                of(playerInMatchActions.parsedPlayerFromMatchEESLFailure()),
+              ),
+            ),
+        ),
+      );
+    },
+    { functional: true },
+  );
 
   constructor(
     private router: Router,

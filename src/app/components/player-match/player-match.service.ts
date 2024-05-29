@@ -84,21 +84,17 @@ export class PlayerMatchService extends BaseApiService<IPlayerInMatch> {
   //     ();
   // }
   //
-  // parsPlayersFromTeamEESL(
-  //   teamId: number,
-  //   tournamentId: number,
-  // ): Observable<IPlayerInMatch[]> {
-  //   return this.parsByFirstItemKeyValueAndSecondItemSecondKeyValue(
-  //     'players_match/pars_and_create',
-  //     'tournament',
-  //     tournamentId,
-  //     'team',
-  //     'id',
-  //     teamId,
-  //     'players',
-  //   )
-  //     .pipe
-  //     // tap((players) => console.log(`PLAYERS from TEAM ID: ${teamId}`, players)),
-  //     ();
-  // }
+  parsPlayersFromMatchEESL(
+    matchEESLId: number,
+  ): Observable<IPlayerInMatchFullData[]> {
+    return this.parsByFirstKeyValue(
+      'players_match/pars_and_create',
+      'match',
+      matchEESLId,
+    ).pipe(
+      tap((players) =>
+        console.log(`PLAYERS from MATCH EESL ID: ${matchEESLId}`, players),
+      ),
+    );
+  }
 }

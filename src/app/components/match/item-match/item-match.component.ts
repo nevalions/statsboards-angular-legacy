@@ -30,6 +30,7 @@ import { Team } from '../../team/team';
 import { Tournament } from '../../tournament/tournament';
 import { AddEditMatchComponent } from '../add-edit-match/add-edit-match.component';
 import { Match } from '../match';
+import { ParseButtonComponent } from '../../../shared/ui/buttons/parse-button/parse-button.component';
 
 @Component({
   selector: 'app-item-match',
@@ -50,6 +51,7 @@ import { Match } from '../match';
     BodyListTitleComponent,
     AddEditPlayerMatchTableComponent,
     AddEditPlayerToTeamTournamentTableComponent,
+    ParseButtonComponent,
   ],
   templateUrl: './item-match.component.html',
   styleUrl: './item-match.component.less',
@@ -80,6 +82,8 @@ export class ItemMatchComponent {
   awayFootballStartDefense$ = this.playerInMatch.awayFootballStartDefense$;
 
   allSportPositions$ = this.position.allSportPositions$;
+
+  playerInMatchIsLoading$ = this.playerInMatch.playerInMatchIsLoading$;
 
   constructor(
     private season: Season,
@@ -136,6 +140,10 @@ export class ItemMatchComponent {
 
   onDelete() {
     this.match.deleteMatch();
+  }
+
+  parsPlayerFromEESL() {
+    this.playerInMatch.parsPlayersFromEESL();
   }
 
   protected readonly TuiAppearance = TuiAppearance;

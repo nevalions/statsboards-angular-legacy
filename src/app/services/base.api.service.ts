@@ -326,6 +326,31 @@ export abstract class BaseApiService<T> {
       );
   }
 
+  parsByFirstKeyValue(
+    firstItem: string,
+    firstKey: string,
+    firstValue: any,
+    optionalValue?: any | undefined,
+  ): Observable<any> {
+    let finalEndpoint = `${firstItem}/${firstKey}/${firstValue}`;
+
+    if (optionalValue !== null && optionalValue !== undefined) {
+      finalEndpoint += `/${optionalValue}`;
+    }
+
+    return this.http.get<any>(finalEndpoint).pipe(
+      // tap((items) =>
+      //   console.log(
+      //     `Received /API/${firstItem}/${firstKey}/${firstValue}` +
+      //       (optionalValue ? `/${optionalValue}` : '') +
+      //       `\n data:`,
+      //     items,
+      //   ),
+      // ),
+      catchError(this.errorHandlingService.handleError),
+    );
+  }
+
   parsByFirstItemKeyValueAndSecondItemSecondKeyValue(
     firstItem: string,
     firstKey: string,
@@ -340,14 +365,14 @@ export abstract class BaseApiService<T> {
         T[]
       >(`${firstItem}/${firstKey}/${firstValue}/${secondItem}/${secondKey}/${secondValue}/${optionalValue}`, {})
       .pipe(
-        tap((items) =>
-          console.log(
-            `Received Sport Year TOURNAMENTS /API/
-          ${firstItem}/${firstKey}/${firstValue}/${secondItem}/${secondKey}/${secondValue}/${optionalValue}
-          \ndata:`,
-            items,
-          ),
-        ),
+        // tap((items) =>
+        //   console.log(
+        //     `Received Sport Year TOURNAMENTS /API/
+        //   ${firstItem}/${firstKey}/${firstValue}/${secondItem}/${secondKey}/${secondValue}/${optionalValue}
+        //   \ndata:`,
+        //     items,
+        //   ),
+        // ),
         catchError(this.errorHandlingService.handleError),
       );
   }

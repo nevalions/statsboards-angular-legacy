@@ -103,7 +103,7 @@ export class AddEditPlayerMatchTableComponent implements OnChanges, OnInit {
   expandedStates: { [key: string]: boolean } = {};
 
   toggle(id: string): void {
-    console.log(id);
+    // console.log(id);
     if (id) {
       let str = id.toString();
       if (this.expandedStates[str] === undefined) {

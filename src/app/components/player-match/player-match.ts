@@ -34,6 +34,7 @@ import {
   selectHomeFootballStartWR,
   selectHomeTeamRoster,
 } from './store/selectors';
+import { playerInTeamTournamentActions } from '../player-team-tournament/store/actions';
 
 @Injectable({
   providedIn: 'root',
@@ -160,5 +161,9 @@ export class PlayerInMatch {
     this.store.dispatch(
       playerInMatchActions.setSelectedPlayerId({ id: playerId }),
     );
+  }
+
+  parsPlayersFromEESL() {
+    this.store.dispatch(playerInMatchActions.parsPlayersFromMatchEESL());
   }
 }

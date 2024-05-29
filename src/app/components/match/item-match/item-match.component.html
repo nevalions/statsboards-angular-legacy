@@ -92,10 +92,8 @@
                 @if (sport$ | async; as sport) {
                   @if (match$ | async; as match) {
                     @if (homeRoster$ | async; as players) {
-                      @if (
-                        availableMatchHomePlayers$ | async;
-                        as availablePlayers
-                      ) {
+                      @if (availableMatchHomePlayers$ | async;
+                        as availablePlayers) {
                         <app-add-edit-player-match-table
                           [players]="players"
                           [deleteOrUpdate]="'delete'"
@@ -117,6 +115,13 @@
                             (homeFootballStartDefense$ | async) || []
                           "
                         ></app-add-edit-player-match-table>
+                        <app-parse-button
+                          [isLoading]="(playerInMatchIsLoading$|async)!"
+                          [appear]="TuiAppearance.Primary"
+                          [buttonSize]="'m'"
+                          [item]="'add players from eesl'"
+                          (click)="parsPlayerFromEESL()"
+                        ></app-parse-button>
                       }
                     }
                   }
@@ -130,10 +135,8 @@
                 @if (sport$ | async; as sport) {
                   @if (match$ | async; as match) {
                     @if (awayRoster$ | async; as players) {
-                      @if (
-                        availableMatchAwayPlayers$ | async;
-                        as availablePlayers
-                      ) {
+                      @if (availableMatchAwayPlayers$ | async;
+                        as availablePlayers) {
                         <app-add-edit-player-match-table
                           [players]="players"
                           [deleteOrUpdate]="'delete'"
@@ -155,6 +158,14 @@
                             (awayFootballStartDefense$ | async) || []
                           "
                         ></app-add-edit-player-match-table>
+
+                        <app-parse-button
+                          [isLoading]="(playerInMatchIsLoading$|async)!"
+                          [appear]="TuiAppearance.Primary"
+                          [buttonSize]="'m'"
+                          [item]="'add players from eesl'"
+                          (click)="parsPlayerFromEESL()"
+                        ></app-parse-button>
                       }
                     }
                   }

@@ -82,10 +82,10 @@ export const playerInMatchActions = createActionGroup({
     SetSelectedPlayerId: props<{ id: number }>(),
     'Set selected player id failure': emptyProps(),
 
-    // ParsPlayersFromMatchTeamEESL: emptyProps,
-    // 'Parsed player from match EESL successfully': props<{
-    //   parseList: any[] | IPlayerInMatch[];
-    // }>(),
-    // 'Parsed player from match EESL failure': emptyProps(),
+    ParsPlayersFromMatchEESL: emptyProps,
+    'Parsed player from match EESL successfully': props<{
+      parseList: any[] | IPlayerInMatchFullData[];
+    }>(),
+    'Parsed player from match EESL failure': emptyProps(),
   },
 });

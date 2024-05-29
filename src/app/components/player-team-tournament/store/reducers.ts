@@ -494,25 +494,18 @@ const playerInTeamTournamentFeature = createFeature({
     on(
       playerInTeamTournamentActions.parsedPlayerFromTeamEESLSuccessfully,
       (state, action) => {
-        // Prepare new players list
         let updatedPlayerList: IPlayerInTeamTournament[] = [];
-
-        // Update existing players and gather new players
         action.parseList.forEach((newPlayer) => {
           let existingPlayer = state.allPlayersInTeamTournament.find(
             (player) => player.id === newPlayer.id,
           );
 
           if (existingPlayer) {
-            // Update existing player
             updatedPlayerList.push({ ...existingPlayer, ...newPlayer });
           } else {
-            // Add new player
             updatedPlayerList.push(newPlayer);
           }
         });
-
-        // Return updated state
         return {
           ...state,
           allPlayersInTeamTournament: updatedPlayerList,

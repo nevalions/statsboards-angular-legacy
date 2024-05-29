@@ -32,7 +32,7 @@ export const selectHomeTeamRoster = createSelector(
       const homeRoster = players.filter(
         (player) => player.match_player.team_id === match.match.team_a_id,
       );
-      console.log('homeRoster', homeRoster);
+      // console.log('homeRoster', homeRoster);
       return SortService.sort(homeRoster, 'match_player.match_number');
     }
     return [];
@@ -66,7 +66,7 @@ export const selectAvailableHomePlayers = createSelector(
       return SortService.sort(teamPlayers, 'person.second_name');
     }
 
-    console.log('selectedPlayerId', selectedPlayerId);
+    // console.log('selectedPlayerId', selectedPlayerId);
 
     const matchPlayersIds = matchPlayers.map(
       (matchPlayer) => matchPlayer.match_player.player_team_tournament_id,
@@ -88,7 +88,7 @@ export const selectAvailableHomePlayers = createSelector(
         (player) => player.player_team_tournament?.id === selectedPlayerId,
       );
       if (selectedPlayer) {
-        console.log('pushed player');
+        // console.log('pushed player');
         availablePlayersInTeam.push(selectedPlayer);
       }
     }

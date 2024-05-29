@@ -3,8 +3,10 @@ import { SortService } from '../../../services/sort.service';
 import {
   IPlayerInMatch,
   IPlayerInMatchFullData,
+  IPlayerInTeamTournament,
 } from '../../../type/player.type';
 import { playerInMatchActions } from './actions';
+import { playerInTeamTournamentActions } from '../../player-team-tournament/store/actions';
 
 export interface PlayerInMatchState {
   playerInMatchIsLoading: boolean;
@@ -15,7 +17,7 @@ export interface PlayerInMatchState {
   currentPlayerInMatchFullData: IPlayerInMatchFullData | undefined | null;
   allPlayersInMatch: IPlayerInMatch[];
   allPlayersInMatchFullData: IPlayerInMatchFullData[];
-  // parsedPlayersFromTeamEESL: any[] | IPlayerInMatch[];
+  parsedPlayersFromMatchEESL: any[] | IPlayerInMatchFullData[];
 }
 
 const initialState: PlayerInMatchState = {
@@ -27,7 +29,7 @@ const initialState: PlayerInMatchState = {
   allPlayersInMatchFullData: [],
   currentPlayerInMatch: null,
   currentPlayerInMatchFullData: null,
-  // parsedPlayersFromTeamEESL: [],
+  parsedPlayersFromMatchEESL: [],
 };
 
 const playerInMatchFeature = createFeature({
@@ -286,6 +288,41 @@ const playerInMatchFeature = createFeature({
         errors: action,
       };
     }),
+
+    //pars match
+    on(playerInMatchActions.parsPlayersFromMatchEESL, (state) => ({
+      ...state,
+      playerInMatchIsLoading: true,
+    })),
+    on(
+      playerInMatchActions.parsedPlayerFromMatchEESLSuccessfully,
+      (state, action) => {
+        let updatedPlayerList: IPlayerInMatchFullData[] = [];
+        action.parseList.forEach((newPlayer) => {
+          let existingPlayer = state.allPlayersInMatch.find(
+            (player) => player.id === newPlayer.id,
+          );
+
+          if (existingPlayer) {
+            updatedPlayerList.push({ ...existingPlayer, ...newPlayer });
+          } else {
+            updatedPlayerList.push(newPlayer);
+          }
+        });
+        return {
+          ...state,
+          allPlayersInMatchFullData: updatedPlayerList,
+          playerInMatchIsLoading: false,
+          parsedPlayersFromTeamEESL: action.parseList,
+        };
+      },
+    ),
+
+    on(playerInMatchActions.getItemFailure, (state, action) => ({
+      ...state,
+      playerInMatchIsLoading: false,
+      errors: action,
+    })),
   ),
 });
 
@@ -300,4 +337,5 @@ export const {
   selectAllPlayersInMatch,
   selectCurrentPlayerInMatchFullData,
   selectAllPlayersInMatchFullData,
+  selectParsedPlayersFromMatchEESL,
 } = playerInMatchFeature;
