@@ -48,6 +48,9 @@ export class RosterFormsComponent implements OnChanges {
       ...scoreboardData,
 
       is_team_a_start_offense: !scoreboardData.is_team_a_start_offense,
+      is_team_b_start_offense: false,
+      is_team_a_start_defense: false,
+      is_team_b_start_defense: false,
     };
     this.scoreboardData.updateScoreboardData(updatedScoreboardData);
   }
@@ -58,6 +61,9 @@ export class RosterFormsComponent implements OnChanges {
       ...scoreboardData,
 
       is_team_b_start_offense: !scoreboardData.is_team_b_start_offense,
+      is_team_a_start_offense: false,
+      is_team_a_start_defense: false,
+      is_team_b_start_defense: false,
     };
     this.scoreboardData.updateScoreboardData(updatedScoreboardData);
   }
@@ -68,6 +74,9 @@ export class RosterFormsComponent implements OnChanges {
       ...scoreboardData,
 
       is_team_a_start_defense: !scoreboardData.is_team_a_start_defense,
+      is_team_b_start_offense: false,
+      is_team_a_start_offense: false,
+      is_team_b_start_defense: false,
     };
     this.scoreboardData.updateScoreboardData(updatedScoreboardData);
   }
@@ -78,6 +87,9 @@ export class RosterFormsComponent implements OnChanges {
       ...scoreboardData,
 
       is_team_b_start_defense: !scoreboardData.is_team_b_start_defense,
+      is_team_b_start_offense: false,
+      is_team_a_start_offense: false,
+      is_team_a_start_defense: false,
     };
     this.scoreboardData.updateScoreboardData(updatedScoreboardData);
   }
