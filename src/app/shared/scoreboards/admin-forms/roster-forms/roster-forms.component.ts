@@ -41,12 +41,43 @@ export class RosterFormsComponent implements OnChanges {
     if (changes['disabled']) {
     }
   }
+
   toggleShowHomeOffenseRosterVisibility(scoreboardData: IScoreboard) {
     if (!scoreboardData) return;
     const updatedScoreboardData = {
       ...scoreboardData,
 
       is_team_a_start_offense: !scoreboardData.is_team_a_start_offense,
+    };
+    this.scoreboardData.updateScoreboardData(updatedScoreboardData);
+  }
+
+  toggleShowAwayOffenseRosterVisibility(scoreboardData: IScoreboard) {
+    if (!scoreboardData) return;
+    const updatedScoreboardData = {
+      ...scoreboardData,
+
+      is_team_b_start_offense: !scoreboardData.is_team_b_start_offense,
+    };
+    this.scoreboardData.updateScoreboardData(updatedScoreboardData);
+  }
+
+  toggleShowHomeDefenseRosterVisibility(scoreboardData: IScoreboard) {
+    if (!scoreboardData) return;
+    const updatedScoreboardData = {
+      ...scoreboardData,
+
+      is_team_a_start_defense: !scoreboardData.is_team_a_start_defense,
+    };
+    this.scoreboardData.updateScoreboardData(updatedScoreboardData);
+  }
+
+  toggleShowAwayDefenseRosterVisibility(scoreboardData: IScoreboard) {
+    if (!scoreboardData) return;
+    const updatedScoreboardData = {
+      ...scoreboardData,
+
+      is_team_b_start_defense: !scoreboardData.is_team_b_start_defense,
     };
     this.scoreboardData.updateScoreboardData(updatedScoreboardData);
   }

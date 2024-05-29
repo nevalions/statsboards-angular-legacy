@@ -11,6 +11,30 @@
         (click)="toggleShowHomeOffenseRosterVisibility(data.scoreboard_data!)"
       ></app-admin-down-button>
     </div>
+
+    <div class="roster-forms-btns">
+      <app-admin-down-button
+        [down]="data.scoreboard_data?.is_team_b_start_offense ? 'Hide' : 'Show'"
+        [distance]="'AWAY OFFENSE'"
+        (click)="toggleShowAwayOffenseRosterVisibility(data.scoreboard_data!)"
+      ></app-admin-down-button>
+    </div>
+
+    <div class="roster-forms-btns">
+      <app-admin-down-button
+        [down]="data.scoreboard_data?.is_team_a_start_defense ? 'Hide' : 'Show'"
+        [distance]="'HOME DEFENSE'"
+        (click)="toggleShowHomeDefenseRosterVisibility(data.scoreboard_data!)"
+      ></app-admin-down-button>
+    </div>
+
+    <div class="roster-forms-btns">
+      <app-admin-down-button
+        [down]="data.scoreboard_data?.is_team_b_start_defense ? 'Hide' : 'Show'"
+        [distance]="'AWAY DEFENSE'"
+        (click)="toggleShowAwayDefenseRosterVisibility(data.scoreboard_data!)"
+      ></app-admin-down-button>
+    </div>
   </div>
   <app-toggle-visible-button
     [isVisible$]="rosterFormsVisible$"

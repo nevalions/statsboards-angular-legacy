@@ -55,3 +55,16 @@ export const RevealHideAnimation = trigger('visibilityChange', [
   transition('invisible => visible', animate('200ms ease-in')),
   transition('visible => invisible', animate('200ms ease-out')),
 ]);
+
+export const dissolveAnimation = trigger('dissolve', [
+  transition(':enter', [
+    // Equivalent to 'void => *'
+    style({ opacity: 0 }),
+    animate('0.5s ease-in', style({ opacity: 1 })),
+  ]),
+  transition(':leave', [
+    // Equivalent to '* => void'
+    style({ opacity: 1 }), //
+    animate('0.5s ease-out', style({ opacity: 0 })),
+  ]),
+]);

@@ -1,7 +1,7 @@
 import { AsyncPipe, NgForOf, NgIf } from '@angular/common';
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnChanges, OnDestroy, SimpleChanges } from '@angular/core';
 import { Observable } from 'rxjs';
-import { FootballOffenseStartDisplayComponent } from '../../shared/scoreboards/football-offense-start-display/football-offense-start-display.component';
+import { FootballStartRosterDisplayComponent } from '../../shared/scoreboards/football-start-roster-display/football-start-roster-display';
 import { MatchSponsorLineDisplayFlatComponent } from '../../shared/scoreboards/match-sponsor-line-display-flat/match-sponsor-line-display-flat.component';
 import { ScoreboardDisplayFlatComponent } from '../../shared/scoreboards/scoreboard-display-flat/scoreboard-display-flat.component';
 import { SponsorDisplayFlatComponent } from '../../shared/scoreboards/sponsor-display-flat/sponsor-display-flat.component';
@@ -18,6 +18,11 @@ import { Position } from '../position/postion';
 import { Sport } from '../sport/sport';
 import { Team } from '../team/team';
 import { Tournament } from '../tournament/tournament';
+import {
+  dissolveAnimation,
+  RevealHideAnimation,
+  ScoreChangeAnimation,
+} from '../../shared/animations/scoreboard-animations';
 
 @Component({
   selector: 'app-match-scoreboard-display',
@@ -31,14 +36,15 @@ import { Tournament } from '../tournament/tournament';
     ScoreboardDisplayFlatComponent,
     SponsorDisplayFlatComponent,
     MatchSponsorLineDisplayFlatComponent,
-    FootballOffenseStartDisplayComponent,
+    FootballStartRosterDisplayComponent,
   ],
+  animations: [RevealHideAnimation, dissolveAnimation],
 })
-export class MatchScoreboardDisplayComponent implements OnDestroy {
+export class MatchScoreboardDisplayComponent implements OnChanges, OnDestroy {
   // loading$: Observable<boolean> = this.Websocket.loading$;
   // error$: Observable<any> = this.Websocket.error$;
   sport$ = this.sport.currentSport$;
-  positions$ = this.position.allSportPositions$;
+  // positions$ = this.position.allSportPositions$;
   homeTeam$ = this.team.homeTeam$;
   awayTeam$ = this.team.awayTeam$;
   tournament$: Observable<ITournament | null | undefined> =
@@ -54,22 +60,27 @@ export class MatchScoreboardDisplayComponent implements OnDestroy {
   showAwayDefenseStart: boolean = false;
   //offense start
   homeFootballStartOffense$ = this.playerInMatch.homeFootballStartOffense$;
-  homeStartOL$ = this.playerInMatch.homeFootballStartOL$;
-  homeStartBacks$ = this.playerInMatch.homeFootballStartBacks$;
-  homeStartWR$ = this.playerInMatch.homeFootballStartWR$;
+  // homeStartOL$ = this.playerInMatch.homeFootballStartOL$;
+  // homeStartBacks$ = this.playerInMatch.homeFootballStartBacks$;
+  // homeStartWR$ = this.playerInMatch.homeFootballStartWR$;
   awayFootballStartOffense$ = this.playerInMatch.awayFootballStartOffense$;
-  awayStartOL$ = this.playerInMatch.awayFootballStartOL$;
-  awayStartBacks$ = this.playerInMatch.awayFootballStartBacks$;
-  awayStartWR$ = this.playerInMatch.awayFootballStartWR$;
+  // awayStartOL$ = this.playerInMatch.awayFootballStartOL$;
+  // awayStartBacks$ = this.playerInMatch.awayFootballStartBacks$;
+  // awayStartWR$ = this.playerInMatch.awayFootballStartWR$;
   //defense start
   homeFootballStartDefense$ = this.playerInMatch.homeFootballStartDefense$;
   awayFootballStartDefense$ = this.playerInMatch.awayFootballStartDefense$;
-  homeStartDL$ = this.playerInMatch.homeFootballStartDL$;
-  homeStartLB$ = this.playerInMatch.homeFootballStartLB$;
-  homeStartDB$ = this.playerInMatch.homeFootballStartDB$;
-  awayStartDL$ = this.playerInMatch.awayFootballStartDL$;
-  awayStartLB$ = this.playerInMatch.awayFootballStartLB$;
-  awayStartDB$ = this.playerInMatch.awayFootballStartDB$;
+  // homeStartDL$ = this.playerInMatch.homeFootballStartDL$;
+  // homeStartLB$ = this.playerInMatch.homeFootballStartLB$;
+  // homeStartDB$ = this.playerInMatch.homeFootballStartDB$;
+  // awayStartDL$ = this.playerInMatch.awayFootballStartDL$;
+  // awayStartLB$ = this.playerInMatch.awayFootballStartLB$;
+  // awayStartDB$ = this.playerInMatch.awayFootballStartDB$;
+
+  homeOffenseRosterVisibility = 'invisible';
+  awayOffenseRosterVisibility = 'invisible';
+  homeDefenseRosterVisibility = 'invisible';
+  awayDefenseRosterVisibility = 'invisible';
 
   constructor(
     private Websocket: Websocket,
@@ -87,6 +98,29 @@ export class MatchScoreboardDisplayComponent implements OnDestroy {
     matchWithFullData.loadCurrentMatch();
     position.loadAllPositionsBySportId();
     playerInMatch.loadAllPlayersFullDataInMatch();
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['data']) {
+      const currData: IMatchFullDataWithScoreboard =
+        changes['data'].currentValue;
+      this.homeOffenseRosterVisibility = currData.scoreboard_data
+        ?.is_team_a_start_offense
+        ? 'visible'
+        : 'invisible';
+      this.awayOffenseRosterVisibility = currData.scoreboard_data
+        ?.is_team_b_start_offense
+        ? 'visible'
+        : 'invisible';
+      this.homeDefenseRosterVisibility = currData.scoreboard_data
+        ?.is_team_a_start_defense
+        ? 'visible'
+        : 'invisible';
+      this.awayDefenseRosterVisibility = currData.scoreboard_data
+        ?.is_team_b_start_defense
+        ? 'visible'
+        : 'invisible';
+    }
   }
 
   // ngOnInit() {

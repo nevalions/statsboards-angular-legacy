@@ -2,69 +2,68 @@
   @if (playclock$ | async; as playclock) {
     @if (gameclock$ | async; as gameclock) {
       <div class="main-container-fullhd">
-        @if (
-          !showAwayDefenseStart &&
-          !showHomeDefenseStart &&
-          !data.scoreboard_data?.is_team_a_start_offense &&
-          !showAwayOffenseStart
-        ) {
-          <div class="fullhd-separator"></div>
-        }
+
         @if (data.scoreboard_data?.is_team_a_start_offense || false) {
           @if (homeFootballStartOffense$ | async; as players) {
-            <app-football-offense-start-display
-              [side]="'offense'"
-              [team]="homeTeam$ | async"
-              [players]="players"
-            ></app-football-offense-start-display>
-          } @else {
-            <div class="fullhd-separator"></div>
+            <div [@dissolve]="homeOffenseRosterVisibility ? 'visible' : 'invisible'" class="roster-area">
+              <app-football-start-roster-display
+                [side]="'offense'"
+                [team]="homeTeam$ | async"
+                [players]="players"
+              ></app-football-start-roster-display>
+            </div>
           }
         }
-        @if (showAwayOffenseStart) {
+        @if (data.scoreboard_data?.is_team_b_start_offense || false) {
           @if (awayFootballStartOffense$ | async; as players) {
-            <app-football-offense-start-display
-              [side]="'offense'"
-              [team]="awayTeam$ | async"
-              [players]="players"
-            ></app-football-offense-start-display>
-          } @else {
-            <div class="fullhd-separator"></div>
+            <div [@dissolve]="awayOffenseRosterVisibility ? 'visible' : 'invisible'" class="roster-area">
+              <app-football-start-roster-display
+                [side]="'offense'"
+                [team]="awayTeam$ | async"
+                [players]="players"
+              ></app-football-start-roster-display>
+            </div>
           }
         }
-        @if (showHomeDefenseStart) {
+        @if (data.scoreboard_data?.is_team_a_start_defense || false) {
           @if (homeFootballStartDefense$ | async; as players) {
-            <app-football-offense-start-display
-              [side]="'defense'"
-              [team]="homeTeam$ | async"
-              [players]="players"
-            ></app-football-offense-start-display>
-          } @else {
-            <div class="fullhd-separator"></div>
+            <div [@dissolve]="homeDefenseRosterVisibility ? 'visible' : 'invisible'" class="roster-area">
+              <app-football-start-roster-display
+                [side]="'defense'"
+                [team]="homeTeam$ | async"
+                [players]="players"
+              ></app-football-start-roster-display>
+            </div>
           }
         }
-        @if (showAwayDefenseStart) {
+        @if (data.scoreboard_data?.is_team_b_start_defense || false) {
           @if (awayFootballStartDefense$ | async; as players) {
-            <app-football-offense-start-display
-              [side]="'defense'"
-              [team]="awayTeam$ | async"
-              [players]="players"
-            ></app-football-offense-start-display>
-          } @else {
-            <div class="fullhd-separator"></div>
+            <div [@dissolve]="awayDefenseRosterVisibility ? 'visible' : 'invisible'" class="roster-area">
+              <app-football-start-roster-display
+                [side]="'defense'"
+                [team]="awayTeam$ | async"
+                [players]="players"
+              ></app-football-start-roster-display>
+            </div>
           }
         }
-        <app-scoreboard-display-flat
-          [scoreboardDisplayClass]="'fullhd-scoreboard'"
-          [tournament]="tournament$ | async"
-          [tournamentSponsor]="mainTournamentSponsor$ | async"
-          [data]="data"
-          [playClock]="playclock.playclock!"
-          [gameClock]="gameclock.gameclock!"
-        ></app-scoreboard-display-flat>
-        <app-sponsor-display-flat
-          *ngIf="data.scoreboard_data?.is_sponsor_line || false"
-        ></app-sponsor-display-flat>
+        <div class="lower-area" style="color: #232323"></div>
+
+        <div class="scoreboard-area">
+          <app-scoreboard-display-flat
+            [scoreboardDisplayClass]="'fullhd-scoreboard'"
+            [tournament]="tournament$ | async"
+            [tournamentSponsor]="mainTournamentSponsor$ | async"
+            [data]="data"
+            [playClock]="playclock.playclock!"
+            [gameClock]="gameclock.gameclock!"
+          ></app-scoreboard-display-flat>
+        </div>
+        <div class="sponsorLine-area">
+          <app-sponsor-display-flat
+            *ngIf="data.scoreboard_data?.is_sponsor_line || false"
+          ></app-sponsor-display-flat>
+        </div>
         <app-match-sponsor-line-display-flat
           *ngIf="data.scoreboard_data?.is_match_sponsor_line || false"
         ></app-match-sponsor-line-display-flat>

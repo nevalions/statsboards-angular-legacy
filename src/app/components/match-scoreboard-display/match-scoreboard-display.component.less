@@ -1,10 +1,41 @@
 .main-container-fullhd {
-  //border: 5px solid #000000;
-  margin: 0;
-
   display: grid;
-  grid-template-columns: 1920px;
-  grid-template-rows: 820px auto auto;
-  align-items: stretch;
+  grid-template-columns: 1900px;
+  grid-template-rows: auto auto auto auto;
+  grid-template-areas:
+   "roster"
+   "lower"
+   "scoreboard"
+   "sponsorLine";
+  height: 1060px;
+  align-items: start;
   justify-items: center;
+  margin: 0;
 }
+
+.roster-area {
+  grid-area: roster;
+  position: sticky;
+  top: 50px;
+}
+
+.lower-area {
+  grid-area: lower;
+  position: sticky;
+  top: 780px;
+}
+
+.scoreboard-area {
+  grid-area: scoreboard;
+  position: sticky;
+  top: 860px;
+  z-index: 10;
+}
+
+.sponsorLine-area {
+  grid-area: sponsorLine;
+  position: sticky;
+  top: 950px;
+}
+
+

@@ -13,7 +13,7 @@ import { LbStartsComponent } from '../lb-starts/lb-starts.component';
 import { DbStartsComponent } from '../db-starts/db-starts.component';
 
 @Component({
-  selector: 'app-football-offense-start-display',
+  selector: 'app-football-start-roster-display',
   standalone: true,
   imports: [
     TuiAvatarModule,
@@ -25,10 +25,10 @@ import { DbStartsComponent } from '../db-starts/db-starts.component';
     LbStartsComponent,
     DbStartsComponent,
   ],
-  templateUrl: './football-offense-start-display.component.html',
-  styleUrl: './football-offense-start-display.component.less',
+  templateUrl: './football-start-roster-display.html',
+  styleUrl: './football-start-roster-display.less',
 })
-export class FootballOffenseStartDisplayComponent {
+export class FootballStartRosterDisplayComponent {
   @Input() side: 'offense' | 'defense' = 'offense';
   @Input() players: IPlayerInMatchFullData[] = [];
   @Input() team?: ITeam | null = null;
