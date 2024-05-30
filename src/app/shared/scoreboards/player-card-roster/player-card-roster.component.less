@@ -3,19 +3,19 @@
   font-family: "Noto Sans Black", monospace;
   display: grid;
   width: 240px;
-  grid-template-columns: max-content 1fr; /* Photo width and remaining space */
-  grid-template-rows: auto 1fr auto; /* Rows for photo, name, and position */
-  grid-gap: 20px; /* Spacing between items */
-  padding: 0.75rem; /* Padding around the card content */
-  border: 1px solid #ccc; /* Border for the card */
-  border-radius: 8px; /* Rounded corners */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Box shadow for elevation effect */
+  grid-template-columns: max-content 1fr;
+  grid-template-rows: auto 1fr auto;
+  grid-gap: 10px;
+  padding: 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 /* Photo and Number Overlay */
 .start-roster-card-photo {
   position: relative;
-  grid-row: 1 / span 2; /* Photo spans two rows */
+  grid-row: 1 / span 2;
 }
 
 .start-roster-card-avatar {
@@ -25,40 +25,42 @@
 
 .start-roster-card-number {
   position: absolute;
-  bottom: 5px; /* Adjust as needed to overlay on top of the photo */
-  right: 5px; /* Adjust as needed to place the number */
-  font-size: 1.8rem; /* Large font size for the number */
+  bottom: -10px;
+  right: -10px;
+  font-size: 1.8rem;
   color: white;
-  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+  background-color: rgba(0, 0, 0, 0.5);
   padding: 0.5rem;
-  border-radius: 10%; /* Round background */
+  border-radius: 10%;
 }
 
 .start-roster-card-name {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  font-size: 1.05rem; /* Larger font size for the name */
+  font-size: 1.0rem;
   letter-spacing: 0.05em;
-  font-weight: bold; /* Make the name bold */
-  color: #3b3b3b; /* Deep color for the text */
-  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2); /* Subtle text shadow for depth */
-  margin-bottom: 0.5rem; /* Space between name and position */
-  grid-column: 2; /* Stay in the second column next to the photo */
+  font-weight: bold;
+  color: #3b3b3b;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+  margin-bottom: 0.5rem;
+  grid-column: 2;
 }
 
 /* Position Style */
 .start-roster-card-position {
-  font-size: 1.5rem; /* Slightly larger than the name */
-  font-weight: bold; /* Make position bold, as it's a key piece of information */
-  color: #444; /* Slightly lighter color than the name for contrast */
-  text-transform: uppercase; /* UPPERCASE for the position */
-  letter-spacing: 0.05rem; /* Spacing out the letters for style */
-  background-color: #f8f8f8; /* Light background to make it pop out */
-  padding: 0.25rem 0.5rem;
-  border-radius: 4px; /* Rounded corners for the background */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Adding depth with shadow */
+  position: relative;
+  font-size: 1.6rem;
+  font-weight: bold;
+  color: #444;
+  text-transform: uppercase;
+  letter-spacing: 0.05rem;
+  background-color: #f8f8f8;
+  padding: 0.5rem 0.5rem;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   justify-self: end;
-  align-self: end; /* Align to the bottom */
-  grid-column-start: 2; /* Ensure it starts from the second column */
+  align-self: end;
+  grid-column-start: 2;
+  top: 10px;
 }
