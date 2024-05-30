@@ -6,7 +6,7 @@
         size="xl"
         class="player-match-avatar"
         [rounded]="false"
-        [avatarUrl]="backendUrl + player.person?.person_photo_web_url"
+        [avatarUrl]="backendUrl + player.person?.person_photo_icon_url"
         (error)="onImgError($event)"
       ></tui-avatar>
       <span class="player-match-number">
