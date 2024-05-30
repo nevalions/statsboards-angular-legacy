@@ -1,0 +1,66 @@
+/* Player Roster Card Grid Styles */
+.start-roster-card {
+  font-family: "Noto Sans Black", monospace;
+  display: grid;
+  width: 240px;
+  grid-template-columns: max-content 1fr;
+  grid-template-rows: auto 1fr auto;
+  grid-gap: 10px;
+  padding: 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Photo and Number Overlay */
+.start-roster-card-photo {
+  position: relative;
+  grid-row: 1 / span 2;
+}
+
+.start-roster-card-avatar {
+  width: 100px;
+  height: 100px;
+}
+
+.start-roster-card-number {
+  position: absolute;
+  bottom: -10px;
+  right: -10px;
+  font-size: 1.8rem;
+  color: white;
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 0.5rem;
+  border-radius: 10%;
+}
+
+.start-roster-card-name {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  font-size: 1.0rem;
+  letter-spacing: 0.05em;
+  font-weight: bold;
+  color: #3b3b3b;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+  margin-bottom: 0.5rem;
+  grid-column: 2;
+}
+
+/* Position Style */
+.start-roster-card-position {
+  position: relative;
+  font-size: 1.6rem;
+  font-weight: bold;
+  color: #444;
+  text-transform: uppercase;
+  letter-spacing: 0.05rem;
+  background-color: #f8f8f8;
+  padding: 0.5rem 0.5rem;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  justify-self: end;
+  align-self: end;
+  grid-column-start: 2;
+  top: 10px;
+}

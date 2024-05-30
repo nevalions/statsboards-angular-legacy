@@ -1,0 +1,27 @@
+text
+
+@if (player$ | async; as player) {
+  <!-- Player Roster Card -->
+  <div class="start-roster-card">
+    <div class="start-roster-card-photo">
+      <tui-avatar
+        size="xl"
+        [text]="player.person?.first_name + ' ' + player.person?.second_name"
+        class="player-roster-card-avatar"
+        [rounded]="false"
+        [avatarUrl]="backendUrl + player.person?.person_photo_web_url"
+        (error)="onImgError($event)"
+      ></tui-avatar>
+      <span class="start-roster-card-number">
+        {{ player.match_player.match_number }}
+      </span>
+    </div>
+    <div class="start-roster-card-name">
+      <span>{{ player.person?.first_name | uppercase }}</span>
+      <span>{{ player.person?.second_name | uppercase }}</span>
+    </div>
+    <div class="start-roster-card-position">
+      {{ player.position?.title }}
+    </div>
+  </div>
+}

@@ -1,9 +1,11 @@
 import { AnyObjectWithTitle } from '../type/base.type';
 import { IPerson } from '../type/person.type';
 import {
+  IPlayerInMatchFullData,
   IPlayerInSport,
   IPlayerInTeamTournamentWithPersonWithSportWithPosition,
 } from '../type/player.type';
+import { IMatchWithFullData } from '../type/match.type';
 
 export function hasTitle(item: any): item is { title: string } {
   return item != null && typeof item === 'object' && 'title' in item;
@@ -65,8 +67,15 @@ export function stringifyPerson(
       `${item.person?.second_name} ${item.person?.first_name}`,
     );
   }
+  return 'Unknown Item';
+}
 
-  // Default case if neither type matches
+export function stringifyMatchPlayer(item: IPlayerInMatchFullData): string {
+  if ('match_player' in item && item.match_player && 'person' in item) {
+    return toTitleCase(
+      `${item.match_player.match_number} ${item.person!.second_name} ${item.person!.first_name}`,
+    );
+  }
   return 'Unknown Item';
 }
 

@@ -1,0 +1,38 @@
+@if (matchPlayers; as players) {
+  @if (players.length > 0) {
+    @for (p of players; track $index) {
+    }
+    <tui-select
+      [tuiDropdownLimitWidth]="'min'"
+      style="padding-top: 10px"
+      [formControl]="control"
+    >
+      <tui-data-list *tuiDataList>
+        @for (playerInMatch of players;
+          track playerInMatch.match_player?.id) {
+          <button
+            tuiOption
+            [value]="playerInMatch"
+            (click)="
+              onSelect(playerInMatch)
+            "
+          >
+            <b>{{ playerInMatch.match_player.match_number }}</b> &nbsp;
+            {{ playerInMatch.person?.second_name | titlecase }}
+            {{ playerInMatch.person?.first_name | titlecase }}
+          </button>
+        }
+      </tui-data-list>
+    </tui-select>
+  } @else {
+    <tui-select
+      [formControl]="control"
+      [tuiDropdownLimitWidth]="'min'"
+      style="padding-top: 10px"
+    >
+      <tui-data-list *tuiDataList>
+        <button tuiOption>NO PLAYERS IN TEAM ROSTER</button>
+      </tui-data-list>
+    </tui-select>
+  }
+}

@@ -23,6 +23,7 @@ import {
   RevealHideAnimation,
   ScoreChangeAnimation,
 } from '../../shared/animations/scoreboard-animations';
+import { PlayerMatchLowerDisplayFlatComponent } from '../../shared/scoreboards/player-match-lower-display-flat/player-match-lower-display-flat.component';
 
 @Component({
   selector: 'app-match-scoreboard-display',
@@ -37,6 +38,7 @@ import {
     SponsorDisplayFlatComponent,
     MatchSponsorLineDisplayFlatComponent,
     FootballStartRosterDisplayComponent,
+    PlayerMatchLowerDisplayFlatComponent,
   ],
   animations: [RevealHideAnimation, dissolveAnimation],
 })
@@ -77,10 +79,16 @@ export class MatchScoreboardDisplayComponent implements OnChanges, OnDestroy {
   // awayStartLB$ = this.playerInMatch.awayFootballStartLB$;
   // awayStartDB$ = this.playerInMatch.awayFootballStartDB$;
 
+  // selectedPlayerInMatchLower$ =
+  //   this.playerInMatch.selectSelectedPlayerInMatchLower$;
+
   homeOffenseRosterVisibility = 'invisible';
   awayOffenseRosterVisibility = 'invisible';
   homeDefenseRosterVisibility = 'invisible';
   awayDefenseRosterVisibility = 'invisible';
+
+  homePlayerLowerVisibility = 'invisible';
+  awayPlayerLowerVisibility = 'invisible';
 
   constructor(
     private Websocket: Websocket,

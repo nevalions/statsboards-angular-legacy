@@ -29,6 +29,8 @@ export interface IScoreboard {
   is_team_a_start_defense?: boolean;
   is_team_b_start_defense?: boolean;
 
+  is_match_player_lower?: boolean;
+
   team_a_game_color?: string;
   team_b_game_color?: string;
   team_a_game_title?: string;

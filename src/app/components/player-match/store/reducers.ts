@@ -3,15 +3,14 @@ import { SortService } from '../../../services/sort.service';
 import {
   IPlayerInMatch,
   IPlayerInMatchFullData,
-  IPlayerInTeamTournament,
 } from '../../../type/player.type';
 import { playerInMatchActions } from './actions';
-import { playerInTeamTournamentActions } from '../../player-team-tournament/store/actions';
 
 export interface PlayerInMatchState {
   playerInMatchIsLoading: boolean;
   playerInMatchIsSubmitting: boolean;
   selectedPlayerInMatchId: number | undefined | null;
+  selectedPlayerInMatchLower: IPlayerInMatchFullData | undefined | null;
   currentPlayerInMatchId: number | undefined | null;
   currentPlayerInMatch: IPlayerInMatch | undefined | null;
   currentPlayerInMatchFullData: IPlayerInMatchFullData | undefined | null;
@@ -25,6 +24,7 @@ const initialState: PlayerInMatchState = {
   playerInMatchIsSubmitting: false,
   currentPlayerInMatchId: null,
   selectedPlayerInMatchId: null,
+  selectedPlayerInMatchLower: null,
   allPlayersInMatch: [],
   allPlayersInMatchFullData: [],
   currentPlayerInMatch: null,
@@ -288,6 +288,21 @@ const playerInMatchFeature = createFeature({
         errors: action,
       };
     }),
+    //set selected player lower id
+    on(playerInMatchActions.setSelectedPlayerLower, (state, action) => {
+      console.log(action.player);
+      return {
+        ...state,
+        selectedPlayerInMatchLower: action.player,
+      };
+    }),
+    on(playerInMatchActions.setSelectedPlayerLowerFailure, (state, action) => {
+      return {
+        ...state,
+        selectedPlayerInMatchLower: null,
+        errors: action,
+      };
+    }),
 
     //pars match
     on(playerInMatchActions.parsPlayersFromMatchEESL, (state) => ({
@@ -337,5 +352,6 @@ export const {
   selectAllPlayersInMatch,
   selectCurrentPlayerInMatchFullData,
   selectAllPlayersInMatchFullData,
+  selectSelectedPlayerInMatchLower,
   selectParsedPlayersFromMatchEESL,
 } = playerInMatchFeature;

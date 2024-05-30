@@ -9,6 +9,7 @@ import {
   selectAllPlayersInMatchFullData,
   selectCurrentPlayerInMatch,
   selectPlayerInMatchIsLoading,
+  selectSelectedPlayerInMatchLower,
 } from './store/reducers';
 import {
   selectAwayFootballDefense,
@@ -73,6 +74,10 @@ export class PlayerInMatch {
   homeFootballStartDB$: Observable<IPlayerInMatchFullData[]>;
   awayFootballStartDB$: Observable<IPlayerInMatchFullData[]>;
 
+  selectSelectedPlayerInMatchLower$: Observable<
+    IPlayerInMatchFullData | null | undefined
+  >;
+
   constructor(private store: Store<AppState>) {
     this.playerInMatchIsLoading$ = this.store.select(
       selectPlayerInMatchIsLoading,
@@ -125,6 +130,11 @@ export class PlayerInMatch {
     this.awayFootballStartLB$ = this.store.select(selectAwayFootballStartLB);
     this.homeFootballStartDB$ = this.store.select(selectHomeFootballStartDB);
     this.awayFootballStartDB$ = this.store.select(selectAwayFootballStartDB);
+
+    // lower
+    this.selectSelectedPlayerInMatchLower$ = this.store.select(
+      selectSelectedPlayerInMatchLower,
+    );
   }
 
   createPlayerInMatch(playerInMatch: IPlayerInMatch) {
@@ -160,6 +170,12 @@ export class PlayerInMatch {
   onPlayerSelect(playerId: number): void {
     this.store.dispatch(
       playerInMatchActions.setSelectedPlayerId({ id: playerId }),
+    );
+  }
+
+  onPlayerLowerSelect(player: IPlayerInMatchFullData): void {
+    this.store.dispatch(
+      playerInMatchActions.setSelectedPlayerLower({ player }),
     );
   }
 

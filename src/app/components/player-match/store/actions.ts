@@ -82,6 +82,9 @@ export const playerInMatchActions = createActionGroup({
     SetSelectedPlayerId: props<{ id: number }>(),
     'Set selected player id failure': emptyProps(),
 
+    SetSelectedPlayerLower: props<{ player: IPlayerInMatchFullData }>(),
+    'Set selected player lower failure': emptyProps(),
+
     ParsPlayersFromMatchEESL: emptyProps,
     'Parsed player from match EESL successfully': props<{
       parseList: any[] | IPlayerInMatchFullData[];
