@@ -1,15 +1,15 @@
 <div class="tournament content__title">
   @if (this.tournament$ | async; as tournament) {
-    <h3 class="tui-text_h3">
-      {{ tournament.title | uppercase }}
-    </h3>
-    <p style="text-align: center">
+    <div class="title-header-with-logo">
       <img
         src="{{ url }}{{ tournament.tournament_logo_web_url }}"
         width="200px"
         alt="{{ tournament.title | uppercase }} Logo"
       />
-    </p>
+      <h3 class="tui-text_h6">
+        {{ tournament.title | uppercase }}
+      </h3>
+    </div>
 
     @if (currentTournamentMainSponsor$ | async; as sponsor) {
       <p style="text-align: center">Main Sponsor</p>
@@ -134,10 +134,8 @@
             @if (sport$ | async; as sport) {
               @if (tournament$ | async; as tour) {
                 @if (teamsInTournament$ | async; as t) {
-                  @if (
-                    availableTeamsToAddToTournament$ | async;
-                    as availableTeams
-                  ) {
+                  @if (availableTeamsToAddToTournament$ | async;
+                    as availableTeams) {
                     <app-add-edit-team-to-tournament-table
                       [tournamentId]="tour.id!"
                       [teams]="t"
@@ -157,10 +155,8 @@
             @if (tournament$ | async; as tournament) {
               @if (paginatedTablePlayerInTeamTournament$ | async; as players) {
                 @if (allSportPlayersWithPerson$ | async; as playersInSports) {
-                  @if (
-                    allAvailablePlayersToAddInTournament$ | async;
-                    as availablePlayers
-                  ) {
+                  @if (allAvailablePlayersToAddInTournament$ | async;
+                    as availablePlayers) {
                     <app-add-edit-player-to-team-tournament-table
                       [deleteOrUpdate]="'delete'"
                       [sportId]="sport.id!"

@@ -174,7 +174,7 @@ export class AddEditPlayerMatchTableComponent implements OnChanges, OnInit {
   ngOnChanges(changes: SimpleChanges): void {
     if (changes[this.arrayName + this.side] || this.players) {
       if (this.players.length) {
-        console.log('CHANGED');
+        // console.log('CHANGED');
         this.populateFormArray();
       }
     }

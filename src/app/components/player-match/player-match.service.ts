@@ -42,9 +42,9 @@ export class PlayerMatchService extends BaseApiService<IPlayerInMatch> {
       id,
       'players_fulldata',
     ).pipe(
-      tap((matches) =>
-        console.log(`PLAYERS fulldata from MATCH ID: ${id}`, matches),
-      ),
+      // tap((matches) =>
+      //   console.log(`PLAYERS fulldata from MATCH ID: ${id}`, matches),
+      // ),
       map((data) => SortService.sort(data, 'match_player.match_number')),
     );
   }
@@ -91,10 +91,11 @@ export class PlayerMatchService extends BaseApiService<IPlayerInMatch> {
       'players_match/pars_and_create',
       'match',
       matchEESLId,
-    ).pipe(
-      tap((players) =>
-        console.log(`PLAYERS from MATCH EESL ID: ${matchEESLId}`, players),
-      ),
-    );
+    )
+      .pipe
+      // tap((players) =>
+      //   console.log(`PLAYERS from MATCH EESL ID: ${matchEESLId}`, players),
+      // ),
+      ();
   }
 }

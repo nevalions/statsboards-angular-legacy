@@ -44,11 +44,6 @@ export class MatchEffects {
           let params = getAllRouteParameters(payload.routerState);
           let matchId = params.get('match_id');
 
-          if (matchId) {
-            // Log only if matchId exists
-            // console.log(`Route navigated with match_id: ${matchId}`);
-          }
-
           return of(matchId).pipe(
             filter((id: string | undefined): id is string => !!id),
             // tap((id) => console.log(`Loading Match ID: ${id}`)),
@@ -72,19 +67,19 @@ export class MatchEffects {
     () => {
       return this.actions$.pipe(
         ofType(matchActions.getMatchIdSuccessfully),
-        tap((action) =>
-          console.log(`Fetching data for match ID: ${action.matchId}`),
-        ), // Log the matchId here
+        // tap((action) =>
+        //   console.log(`Fetching data for match ID: ${action.matchId}`),
+        // ), // Log the matchId here
         switchMap(({ matchId }) => {
           return this.matchService.findById(matchId).pipe(
             map((match: IMatch) => {
-              console.log('bbbbbb', match);
+              // console.log('bbbbbb', match);
               return matchActions.getItemSuccess({
                 match,
               });
             }),
             catchError(() => {
-              console.error(`Failed to fetch data for match ID: ${matchId}`);
+              // console.error(`Failed to fetch data for match ID: ${matchId}`);
               return of(matchActions.getItemFailure());
             }),
           );

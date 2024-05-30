@@ -25,10 +25,11 @@ export class PlayerFullDataService extends BaseApiService<IPlayerInTeamTournamen
       'id',
       tournamentId,
       'players_with_persons',
-    ).pipe(
-      tap((players) =>
-        console.log(`PLAYERS FOR MATCH from TEAM ID: ${teamId}`, players),
-      ),
-    );
+    )
+      .pipe
+      // tap((players) =>
+      //   console.log(`PLAYERS FOR MATCH from TEAM ID: ${teamId}`, players),
+      // ),
+      ();
   }
 }

@@ -1,45 +1,46 @@
 @if (currentTeam$ | async; as team) {
   <div class="tournament content__title">
-
-    <h3 class="tui-text_h3">
-      {{ team.title | uppercase }}
-    </h3>
-    <p>
-      <!--    <p [style.background-color]="team.team_color">-->
-      <!--      url: {{ staticUrl }}<br>-->
-      <!--      port: {{ staticPort }}<br>-->
-      <!--      team url: {{ team.team_logo_url }}<br>-->
-      <!--      url without port: {{ url }}<br>-->
-      <!--      full url with port: {{ urlWithPort }}<br>-->
-
+    <div class="title-header-with-logo">
       <img
         src="{{url}}{{team.team_logo_web_url}}"
         width="100px"
         height="100px"
         alt="{{team.title | uppercase}} Logo"
         (error)="onImgError($event)"
-      ></p>
+      >
+      <h3 class="tui-text_h3">
+        {{ team.title | uppercase }}
+      </h3>
+      <!--    <p [style.background-color]="team.team_color">-->
+      <!--      url: {{ staticUrl }}<br>-->
+      <!--      port: {{ staticPort }}<br>-->
+      <!--      team url: {{ team.team_logo_url }}<br>-->
+      <!--      url without port: {{ url }}<br>-->
+      <!--      full url with port: {{ urlWithPort }}<br>-->
+    </div>
+
 
     @if (currentTeamMainSponsor$ | async; as sponsor) {
-      <p style="text-align: center">Main Sponsor</p>
-      <!--      <p style="text-align: center">{{ sponsor.title }}</p>-->
-      <p style="text-align: center">
-        <img
-          src="{{url}}{{sponsor.logo_url}}"
-          width="200px"
-          alt="{{sponsor.title | uppercase}} Logo"
-        >
-      </p>
+      <div class="main-sponsor">
+        <p style="text-align: center">Main Sponsor</p>
+        <!--      <p style="text-align: center">{{ sponsor.title }}</p>-->
+        <p style="text-align: center">
+          <img
+            src="{{url}}{{sponsor.logo_url}}"
+            width="200px"
+            alt="{{sponsor.title | uppercase}} Logo"
+          >
+        </p>
+      </div>
     }
     @if (sponsorLine$ | async; as sponsorLine) {
-      <div class="tournament_sponsor_line">
+      <div class="team_sponsor_line">
         <app-sponsor-line
           [sponsorLine]="sponsorLine"
         ></app-sponsor-line>
       </div>
     }
-
-    <p class="content__title_description">{{ team.city }}</p>
+    
     <div class="one_row_container">
       <app-edit-button
         [action]="'edit'"

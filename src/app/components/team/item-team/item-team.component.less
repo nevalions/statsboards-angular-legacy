@@ -1,0 +1,22 @@
+.team_sponsor_line {
+  box-sizing: border-box;
+  margin-top: 5px;
+  display: grid;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: nowrap;
+  background-color: #ffffff;
+  //width: 100vw;
+  width: calc(100vw - (100vw - 100%)); /* May help remove horizontal scroll caused by vertical scrollbar */
+}
+
+.team_sponsor_line app-sponsor-line {
+  display: grid; /* or display: flex; */
+  justify-content: center; /* This centers the content */
+  align-items: center; /* This aligns items vertically in the center */
+}
+
+app-sponsor-line img {
+  max-width: 100%; /* Ensures image does not overflow its container */
+  height: auto; /* Maintains aspect ratio */
+}

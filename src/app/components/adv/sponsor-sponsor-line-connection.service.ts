@@ -26,7 +26,7 @@ export class SponsorSponsorLineConnectionService extends BaseApiService<ISponsor
         `sponsor_in_sponsor_line/sponsor_line/id/${id}/sponsors`,
       )
       .pipe(
-        tap((data) => console.log(`SPONSORS from LINE ID: ${id}`, data)),
+        // tap((data) => console.log(`SPONSORS from LINE ID: ${id}`, data)),
         map((data: ISponsorLineFullData) => {
           data.sponsors = SortService.sort(data.sponsors, 'position');
           return data;
