@@ -77,10 +77,11 @@
           <app-sponsor-display-flat
             *ngIf="data.scoreboard_data?.is_sponsor_line || false"
           ></app-sponsor-display-flat>
+
+          <app-match-sponsor-line-display-flat
+            *ngIf="data.scoreboard_data?.is_match_sponsor_line || false"
+          ></app-match-sponsor-line-display-flat>
         </div>
-        <app-match-sponsor-line-display-flat
-          *ngIf="data.scoreboard_data?.is_match_sponsor_line || false"
-        ></app-match-sponsor-line-display-flat>
       </div>
     }
   }
