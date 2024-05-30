@@ -22,6 +22,7 @@ import { PlayerInMatch } from '../../../components/player-match/player-match';
 export class PlayerMatchLowerDisplayFlatComponent implements OnInit, OnChanges {
   player$ = this.playerInMatch.selectSelectedPlayerInMatchLower$;
   @Input() playerId: number | null | undefined = null;
+  @Input() teamColor: string | null | undefined = '#3b3b3b';
 
   constructor(
     private playerInMatch: PlayerInMatch,

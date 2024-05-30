@@ -1,8 +1,8 @@
 /* Player Roster Card Grid Styles */
-.start-roster-card {
+.player-match {
   font-family: "Noto Sans Black", monospace;
   display: grid;
-  width: 240px;
+  width: 400px;
   grid-template-columns: max-content 1fr;
   grid-template-rows: auto 1fr auto;
   grid-gap: 10px;
@@ -13,19 +13,19 @@
 }
 
 /* Photo and Number Overlay */
-.start-roster-card-photo {
+.player-match-photo {
   position: relative;
   grid-row: 1 / span 2;
 }
 
-.start-roster-card-avatar {
+.player-match-avatar {
   width: 100px;
   height: 100px;
 }
 
-.start-roster-card-number {
+.player-match-number {
   position: absolute;
-  bottom: -10px;
+  bottom: 0px;
   right: -10px;
   font-size: 1.8rem;
   color: white;
@@ -34,21 +34,30 @@
   border-radius: 10%;
 }
 
-.start-roster-card-name {
+.player-match-name {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  font-size: 1.0rem;
-  letter-spacing: 0.05em;
+  font-size: 1.6rem;
+  letter-spacing: 0.06em;
+  //line-height: 1.6;
   font-weight: bold;
-  color: #3b3b3b;
+  color: #ffffff;
   text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
-  margin-bottom: 0.5rem;
+  //margin-bottom: 0.5rem;
+  padding-left: 20px;
   grid-column: 2;
+  grid-row: 2;
+}
+
+.player-match-name span {
+  margin-bottom: 0.25rem;
+  padding-bottom: 0;
+  //padding-top: 10px;
 }
 
 /* Position Style */
-.start-roster-card-position {
+.player-match-position {
   position: relative;
   font-size: 1.6rem;
   font-weight: bold;
@@ -62,5 +71,5 @@
   justify-self: end;
   align-self: end;
   grid-column-start: 2;
-  top: 10px;
+  top: 0;
 }
