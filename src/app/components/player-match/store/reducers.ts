@@ -303,6 +303,29 @@ const playerInMatchFeature = createFeature({
         errors: action,
       };
     }),
+    // get selected player lower by id
+    on(playerInMatchActions.getSelectedPlayerLowerById, (state) => ({
+      ...state,
+      selectedPlayerInMatchLower: null,
+      playerInMatchIsLoading: true,
+    })),
+    on(
+      playerInMatchActions.getSelectedPlayerLowerByIdSuccessfully,
+      (state, action) => ({
+        ...state,
+        playerInMatchIsLoading: false,
+        selectedPlayerInMatchLower: action.player,
+      }),
+    ),
+    on(
+      playerInMatchActions.getSelectedPlayerLowerByIdFailure,
+      (state, action) => ({
+        ...state,
+        selectedPlayerInMatchLower: null,
+        playerInMatchIsLoading: false,
+        errors: action,
+      }),
+    ),
 
     //pars match
     on(playerInMatchActions.parsPlayersFromMatchEESL, (state) => ({

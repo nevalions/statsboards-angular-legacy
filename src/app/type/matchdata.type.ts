@@ -30,6 +30,7 @@ export interface IScoreboard {
   is_team_b_start_defense?: boolean;
 
   is_match_player_lower?: boolean;
+  player_match_lower_id?: number | null;
 
   team_a_game_color?: string;
   team_b_game_color?: string;
@@ -56,20 +57,3 @@ export interface IScoreboard {
 
   match_id: number;
 }
-
-// export function DefaultMatchData(match_id: number): IMatchData {
-//   return {
-//     id: 83, // Or any default ID value
-//     match_id: match_id, // It's better to set match_id manually as it seems to be a required field
-//     score_team_a: 0,
-//     score_team_b: 0,
-//     timeout_team_a: '',
-//     timeout_team_b: '',
-//     game_status: '',
-//     field_length: 0,
-//     ball_on: 0,
-//     distance: '',
-//     qtr: '',
-//     down: '',
-//   };
-// }

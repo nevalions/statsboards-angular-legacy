@@ -37,4 +37,15 @@ export class ScoreboardData {
       }),
     );
   }
+
+  updateScoreboardDataKeyValue(id: number, data: any) {
+    // console.log(matchData, matchData.id);
+    // console.log(newScoreboardData);
+    this.store.dispatch(
+      scoreboardDataActions.updateScoreBoardDataByKeyValue({
+        id: id,
+        data: data,
+      }),
+    );
+  }
 }

@@ -1,4 +1,10 @@
-import { Component, Input } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnChanges,
+  OnInit,
+  SimpleChanges,
+} from '@angular/core';
 import { IPlayerInMatchFullData } from '../../../type/player.type';
 import { ImageService } from '../../../services/image.service';
 import { environment } from '../../../../environments/environment';
@@ -13,15 +19,30 @@ import { PlayerInMatch } from '../../../components/player-match/player-match';
   templateUrl: './player-match-lower-display-flat.component.html',
   styleUrl: './player-match-lower-display-flat.component.less',
 })
-export class PlayerMatchLowerDisplayFlatComponent {
-  // @Input() player: IPlayerInMatchFullData | undefined | null = null;
-
+export class PlayerMatchLowerDisplayFlatComponent implements OnInit, OnChanges {
   player$ = this.playerInMatch.selectSelectedPlayerInMatchLower$;
+  @Input() playerId: number | null | undefined = null;
 
   constructor(
     private playerInMatch: PlayerInMatch,
     private imageService: ImageService,
   ) {}
+
+  ngOnInit() {
+    if (this.playerId) {
+      // console.log('oninitplayer', this.playerId);
+      this.playerInMatch.getPlayerLowerSelect(this.playerId);
+    }
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['playerId']) {
+      // console.log('onchangesplayer', this.playerId);
+      if (this.playerId) {
+        this.playerInMatch.getPlayerLowerSelect(this.playerId);
+      }
+    }
+  }
 
   onImgError(event: Event) {
     this.imageService.handleError(event);

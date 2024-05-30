@@ -45,6 +45,18 @@ export class ScoreboardDataService extends BaseApiService<IScoreboard> {
     );
   }
 
+  editScoreboardDataKeyValue(
+    id: number | string,
+    data: any,
+  ): Observable<IScoreboard> {
+    // console.log(data);
+    return this.editItemKeyValue(id, data).pipe(
+      tap((data) => {
+        // console.log(data);
+      }),
+    );
+  }
+
   //
   // fetchMatchWithDataById(id: number): Observable<IMatchWithFullData> {
   //   return this.findByFirstKeyValue(

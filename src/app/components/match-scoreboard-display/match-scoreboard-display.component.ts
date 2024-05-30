@@ -129,6 +129,9 @@ export class MatchScoreboardDisplayComponent implements OnChanges, OnDestroy {
         ? 'visible'
         : 'invisible';
     }
+    // if (changes['data.scoreboard_data.player_match_lower_id']) {
+    //   this.playerInMatch.getPlayerLowerSelect(this.data.scoreboard_data.player_match_lower_id)
+    // }
   }
 
   // ngOnInit() {

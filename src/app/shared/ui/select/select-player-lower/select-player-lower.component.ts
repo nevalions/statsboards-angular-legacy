@@ -10,6 +10,7 @@ import {
 } from '../../../../base/helpers';
 import { PlayerInMatch } from '../../../../components/player-match/player-match';
 import { Observable, of } from 'rxjs';
+import { ScoreboardData } from '../../../../components/scoreboard-data/scoreboard-data';
 
 @Component({
   selector: 'app-select-player-lower',
@@ -32,22 +33,20 @@ import { Observable, of } from 'rxjs';
 })
 export class SelectPlayerLowerComponent {
   @Input() matchPlayers: IPlayerInMatchFullData[] = [];
+  @Input() scoreboardId: number | undefined | null = null;
   @Input() control: FormControl = new FormControl();
 
-  // @Output() playerSelect = new EventEmitter<IPlayerInMatchFullData>();
-
-  constructor(private playerInMatch: PlayerInMatch) {}
+  constructor(
+    private playerInMatch: PlayerInMatch,
+    private scoreboardData: ScoreboardData,
+  ) {}
 
   onSelect(player: IPlayerInMatchFullData) {
     this.playerInMatch.onPlayerLowerSelect(player);
+    if (this.scoreboardId && player.match_player.id) {
+      this.scoreboardData.updateScoreboardDataKeyValue(this.scoreboardId, {
+        player_match_lower_id: player.match_player.id,
+      });
+    }
   }
-
-  //   if (this.control) {
-  //     if (this.control.value) {
-  //       console.log(player);
-  //       this.playerInMatch.onPlayerLowerSelect(player);
-  //       // this.playerSelect.emit(player);
-  //     }
-  //   }
-  // }
 }

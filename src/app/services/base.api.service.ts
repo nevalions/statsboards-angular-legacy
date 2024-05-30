@@ -153,6 +153,25 @@ export abstract class BaseApiService<T> {
     );
   }
 
+  editItemKeyValue(id: number | string, postData: any): Observable<T> {
+    // console.log(postData);
+    return this.http.put<T>(`${this.endpoint}/${id}/`, postData).pipe(
+      tap((items: T) => {
+        console.log(
+          `PUT /API/${this.endpoint.toUpperCase()}/${id} \ndata:`,
+          items,
+        );
+      }),
+      map((response) => {
+        console.log('Server response:', response);
+        return response;
+      }),
+      catchError((error) => {
+        return this.errorHandlingService.handleError(error);
+      }),
+    );
+  }
+
   deleteItem(id: number): Observable<T> {
     return this.http.delete<T>(`${this.endpoint}/id/${id}`).pipe(
       tap(() => {

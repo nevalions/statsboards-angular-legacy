@@ -35,6 +35,33 @@ export class ScoreboardDataEffects {
     { functional: true },
   );
 
+  updateScoreboardDataByKeyValueEffect = createEffect(
+    () => {
+      return this.actions$.pipe(
+        ofType(scoreboardDataActions.updateScoreBoardDataByKeyValue),
+        switchMap(({ id, data }) => {
+          return this.scoreboardDataService
+            .editScoreboardDataKeyValue(id, data)
+            .pipe(
+              map((updatedScoreboardData: IScoreboard) => {
+                return scoreboardDataActions.updateScoreboardDataByKeyValueSuccessfully(
+                  {
+                    updatedScoreboardData,
+                  },
+                );
+              }),
+              catchError(() => {
+                return of(
+                  scoreboardDataActions.updateScoreboardDataByKeyValueFailure(),
+                );
+              }),
+            );
+        }),
+      );
+    },
+    { functional: true },
+  );
+
   getScoreboardDataByIdEffect = createEffect(
     () => {
       return this.actions$.pipe(

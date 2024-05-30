@@ -42,6 +42,28 @@ const scoreboardDataFeature = createFeature({
       scoreboardDataIsSubmitting: false,
       errors: action,
     })),
+    // update action by key value actions
+    on(scoreboardDataActions.updateScoreBoardDataByKeyValue, (state) => ({
+      ...state,
+      scoreboardDataIsSubmitting: true,
+    })),
+    on(
+      scoreboardDataActions.updateScoreboardDataByKeyValueSuccessfully,
+      (state, action) => ({
+        ...state,
+        scoreboardDataIsSubmitting: false,
+        currentScoreboardData: action.updatedScoreboardData,
+        errors: null,
+      }),
+    ),
+    on(
+      scoreboardDataActions.updateScoreboardDataByKeyValueFailure,
+      (state, action) => ({
+        ...state,
+        scoreboardDataIsSubmitting: false,
+        errors: action,
+      }),
+    ),
 
     // get actions
     on(scoreboardDataActions.get, (state) => ({

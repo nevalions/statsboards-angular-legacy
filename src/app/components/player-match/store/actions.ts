@@ -82,6 +82,12 @@ export const playerInMatchActions = createActionGroup({
     SetSelectedPlayerId: props<{ id: number }>(),
     'Set selected player id failure': emptyProps(),
 
+    GetSelectedPlayerLowerById: props<{ playerInMatchId: number }>(),
+    'Get selected player lower by Id successfully': props<{
+      player: IPlayerInMatchFullData;
+    }>(),
+    'Get selected player lower by Id failure': emptyProps(),
+
     SetSelectedPlayerLower: props<{ player: IPlayerInMatchFullData }>(),
     'Set selected player lower failure': emptyProps(),
 

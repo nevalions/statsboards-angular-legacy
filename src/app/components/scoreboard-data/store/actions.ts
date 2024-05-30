@@ -28,5 +28,14 @@ export const scoreboardDataActions = createActionGroup({
       updatedScoreboardData: IScoreboard;
     }>(),
     'Update failure': emptyProps(),
+
+    UpdateScoreBoardDataByKeyValue: props<{
+      id: number;
+      data: any;
+    }>(),
+    'Update scoreboardData by key value successfully': props<{
+      updatedScoreboardData: IScoreboard;
+    }>(),
+    'Update scoreboardData by key value failure': emptyProps(),
   },
 });

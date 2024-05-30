@@ -49,14 +49,12 @@
         }
 
         <div class="lower-area" style="color: #232323">
-          <!--          trext-->
-          <!--          @if (selectedPlayerInMatchLower$ | async; as player) {-->
-          <!--            ttt-->
-          <!--            {{ player.person?.first_name }}-->
-          <app-player-match-lower-display-flat
+          @if (data.scoreboard_data?.is_match_player_lower || false) {
+            <app-player-match-lower-display-flat
+              [playerId]="data.scoreboard_data?.player_match_lower_id"
+            ></app-player-match-lower-display-flat>
+          }
 
-          ></app-player-match-lower-display-flat>
-          <!--          }-->
         </div>
 
         <div class="scoreboard-area">

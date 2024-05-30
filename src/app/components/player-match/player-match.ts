@@ -179,6 +179,12 @@ export class PlayerInMatch {
     );
   }
 
+  getPlayerLowerSelect(playerInMatchId: number): void {
+    this.store.dispatch(
+      playerInMatchActions.getSelectedPlayerLowerById({ playerInMatchId }),
+    );
+  }
+
   parsPlayersFromEESL() {
     this.store.dispatch(playerInMatchActions.parsPlayersFromMatchEESL());
   }

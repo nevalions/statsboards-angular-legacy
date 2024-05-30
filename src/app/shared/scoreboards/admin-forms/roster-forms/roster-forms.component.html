@@ -46,12 +46,14 @@
 
     <div class="team-players-select">
       <app-select-player-lower
+        [scoreboardId]="data.scoreboard_data?.id"
         [matchPlayers]="(homePlayersInMatch$ | async) || []"
       ></app-select-player-lower>
     </div>
 
     <div class="team-players-select">
       <app-select-player-lower
+        [scoreboardId]="data.scoreboard_data?.id"
         [matchPlayers]="(awayPlayersInMatch$ | async) || []"
       ></app-select-player-lower>
     </div>

@@ -87,6 +87,29 @@ export class PlayerInMatchEffects {
     { functional: true },
   );
 
+  getSelectedPlayerLowerByIdEffect = createEffect(
+    () => {
+      return this.actions$.pipe(
+        ofType(playerInMatchActions.getSelectedPlayerLowerById),
+        switchMap(({ playerInMatchId }) =>
+          this.playerInMatchService
+            .findCurrentPlayerInMatchFullData(playerInMatchId)
+            .pipe(
+              map((player: IPlayerInMatchFullData) =>
+                playerInMatchActions.getSelectedPlayerLowerByIdSuccessfully({
+                  player,
+                }),
+              ),
+              catchError(() =>
+                of(playerInMatchActions.getSelectedPlayerLowerByIdFailure()),
+              ),
+            ),
+        ),
+      );
+    },
+    { functional: true },
+  );
+
   updatePlayerInMatchEffect = createEffect(
     () => {
       return this.actions$.pipe(
