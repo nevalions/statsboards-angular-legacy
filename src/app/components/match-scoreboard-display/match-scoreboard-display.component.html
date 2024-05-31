@@ -46,22 +46,7 @@
               ></app-football-start-roster-display>
             </div>
           }
-          <!--          @if (awayDefenseRosterVisibility === 'invisible') {-->
-            <!--            <div class="roster-area"></div>-->
-            <!--          }-->
         }
-
-        <div class="lower-area" style="color: #232323">
-          @if (data.scoreboard_data?.is_match_player_lower || false) {
-            <div class="lower-home">
-              <app-player-match-lower-display-flat
-                [teamColor]="data.scoreboard_data?.team_a_game_color"
-                [playerId]="data.scoreboard_data?.player_match_lower_id"
-              ></app-player-match-lower-display-flat>
-            </div>
-          }
-
-        </div>
 
         <div class="scoreboard-area">
           <app-scoreboard-display-flat
@@ -71,6 +56,7 @@
             [data]="data"
             [playClock]="playclock.playclock!"
             [gameClock]="gameclock.gameclock!"
+            [playerLowerId]="data.scoreboard_data?.player_match_lower_id"
           ></app-scoreboard-display-flat>
         </div>
         <div class="sponsorLine-area">

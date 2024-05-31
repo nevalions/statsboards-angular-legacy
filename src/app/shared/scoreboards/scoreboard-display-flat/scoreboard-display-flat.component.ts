@@ -8,25 +8,33 @@ import {
   OnChanges,
   SimpleChanges,
 } from '@angular/core';
-import { NgIf, UpperCasePipe } from '@angular/common';
+import { AsyncPipe, NgIf, UpperCasePipe } from '@angular/common';
 import { IMatchFullDataWithScoreboard } from '../../../type/match.type';
 import { ImageService } from '../../../services/image.service';
 import { urlWithProtocol } from '../../../base/constants';
 import {
+  dissolveAnimation,
   RevealHideAnimation,
   ScoreChangeAnimation,
 } from '../../animations/scoreboard-animations';
 import { ISponsor } from '../../../type/sponsor.type';
 import { ITournament } from '../../../type/tournament.type';
+import { PlayerMatchLowerDisplayFlatComponent } from '../player-match-lower-display-flat/player-match-lower-display-flat.component';
+import { PlayerInMatch } from '../../../components/player-match/player-match';
 
 @Component({
   selector: 'app-scoreboard-display-flat',
   standalone: true,
-  imports: [NgIf, UpperCasePipe],
+  imports: [
+    NgIf,
+    UpperCasePipe,
+    PlayerMatchLowerDisplayFlatComponent,
+    AsyncPipe,
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './scoreboard-display-flat.component.html',
   styleUrl: './scoreboard-display-flat.component.less',
-  animations: [ScoreChangeAnimation, RevealHideAnimation],
+  animations: [ScoreChangeAnimation, RevealHideAnimation, dissolveAnimation],
 })
 export class ScoreboardDisplayFlatComponent
   implements AfterViewInit, OnChanges
@@ -37,6 +45,9 @@ export class ScoreboardDisplayFlatComponent
   @Input() gameClock: number = 0;
   @Input() playClock: number | null = null;
   @Input() scoreboardDisplayClass: string = 'fullhd-scoreboard';
+  @Input() playerLowerId: number | undefined | null = null;
+
+  player$ = this.playerInMatch.selectSelectedPlayerInMatchLower$;
 
   goal = 'touchdown';
   scoreAState = 'unchanged';
@@ -48,10 +59,14 @@ export class ScoreboardDisplayFlatComponent
   teamAVisibility = 'invisible';
   teamBVisibility = 'invisible';
 
+  playerLowerVisibility = 'invisible';
+  // awayPlayerLowerVisibility = 'invisible';
+
   teamAFontSize: string = '26px';
   teamBFontSize: string = '26px';
 
   constructor(
+    private playerInMatch: PlayerInMatch,
     private elRef: ElementRef,
     private cd: ChangeDetectorRef,
     private imageService: ImageService,
@@ -63,11 +78,28 @@ export class ScoreboardDisplayFlatComponent
   }
 
   ngOnChanges(changes: SimpleChanges) {
+    if (changes['playerLowerId']) {
+      // console.log('change id');
+      if (
+        this.data &&
+        this.data.scoreboard_data &&
+        this.data.scoreboard_data.player_match_lower_id
+      ) {
+        this.playerInMatch.getPlayerLowerSelect(
+          this.data.scoreboard_data.player_match_lower_id,
+        );
+      }
+    }
     if (changes['data']) {
       const prevData: IMatchFullDataWithScoreboard =
         changes['data'].previousValue;
       const currData: IMatchFullDataWithScoreboard =
         changes['data'].currentValue;
+
+      this.playerLowerVisibility = currData.scoreboard_data
+        ?.is_match_player_lower
+        ? 'visible'
+        : 'invisible';
 
       if (
         prevData &&

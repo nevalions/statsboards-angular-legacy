@@ -24,6 +24,18 @@
         <div
           class="team_a-detail"
           [style]="{'background-color': data.scoreboard_data?.team_a_game_color}">
+          <div class="lower-area-team">
+            @if (player$ | async; as player) {
+              @if (player.player_team_tournament?.team_id === data.match.team_a_id) {
+                @if (data.scoreboard_data?.is_match_player_lower || false) {
+                  <app-player-match-lower-display-flat
+                    [@dissolve]="playerLowerVisibility ? 'visible' : 'invisible'"
+                    [teamColor]="data.scoreboard_data?.team_a_game_color"
+                  ></app-player-match-lower-display-flat>
+                }
+              }
+            }
+          </div>
           <div class="team-block">
             <div class="team_a-name">
               <span
@@ -60,7 +72,6 @@
             </div>
 
           </div>
-
           <div class="team_a-logo">
             <img
               src="{{urlWithProtocol}}{{
@@ -78,12 +89,25 @@
               [@scoreChange]="scoreAState">{{ data.match_data?.score_team_a }}
             </span>
           </div>
-
         </div>
         <div
           class="team_b-detail"
           [style]="{'background-color': data.scoreboard_data?.team_b_game_color}"
         >
+          <div class="lower-area-team">
+            @if (player$ | async; as player) {
+              @if (player.player_team_tournament?.team_id === data.match.team_b_id) {
+                @if (data.scoreboard_data?.is_match_player_lower || false) {
+
+                  <app-player-match-lower-display-flat
+                    [@dissolve]="playerLowerVisibility ? 'visible' : 'invisible'"
+                    [teamColor]="data.scoreboard_data?.team_b_game_color"
+                  ></app-player-match-lower-display-flat>
+
+                }
+              }
+            }
+          </div>
           <div class="team-block">
             <div class="team_b-name">
               <span
@@ -139,7 +163,6 @@
               [@scoreChange]="scoreBState"
             >{{ data.match_data?.score_team_b }}</span>
           </div>
-
         </div>
       </div>
 

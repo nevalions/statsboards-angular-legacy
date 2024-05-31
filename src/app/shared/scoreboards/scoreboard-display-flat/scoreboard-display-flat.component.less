@@ -76,7 +76,6 @@
 
 .teams-container {
   display: grid;
-
   border: 1px solid #bababa;
   grid-template-columns: auto auto;
 }
@@ -105,15 +104,24 @@
 
 .team_a-detail,
 .team_b-detail {
+  position: relative;
   display: grid;
   grid-column-gap: 5px;
   grid-template-columns: auto auto auto;
-  align-items: center;
+  grid-template-rows: auto auto;
+  align-items: start;
   justify-content: center;
   height: 70px;
   font-size: 16px;
-  overflow: hidden;
+  //overflow: hidden;
   padding-left: 10px;
+}
+
+.lower-area-team {
+  position: absolute;
+  grid-column: span 3;
+  right: 15px;
+  bottom: 75px;
 }
 
 .team_a-detail {
@@ -127,6 +135,7 @@
 :host {
   .team_a-name,
   .team_b-name {
+    padding-top: 10px;
     width: 250px;
     display: grid;
     justify-content: end;

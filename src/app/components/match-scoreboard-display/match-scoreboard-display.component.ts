@@ -21,7 +21,6 @@ import { Tournament } from '../tournament/tournament';
 import {
   dissolveAnimation,
   RevealHideAnimation,
-  ScoreChangeAnimation,
 } from '../../shared/animations/scoreboard-animations';
 import { PlayerMatchLowerDisplayFlatComponent } from '../../shared/scoreboards/player-match-lower-display-flat/player-match-lower-display-flat.component';
 
@@ -87,8 +86,8 @@ export class MatchScoreboardDisplayComponent implements OnChanges, OnDestroy {
   homeDefenseRosterVisibility = 'invisible';
   awayDefenseRosterVisibility = 'invisible';
 
-  homePlayerLowerVisibility = 'invisible';
-  awayPlayerLowerVisibility = 'invisible';
+  // homePlayerLowerVisibility = 'invisible';
+  // awayPlayerLowerVisibility = 'invisible';
 
   constructor(
     private Websocket: Websocket,
@@ -129,14 +128,7 @@ export class MatchScoreboardDisplayComponent implements OnChanges, OnDestroy {
         ? 'visible'
         : 'invisible';
     }
-    // if (changes['data.scoreboard_data.player_match_lower_id']) {
-    //   this.playerInMatch.getPlayerLowerSelect(this.data.scoreboard_data.player_match_lower_id)
-    // }
   }
-
-  // ngOnInit() {
-  //   // this.Websocket.connect();
-  // }
 
   ngOnDestroy() {
     this.Websocket.disconnect();
