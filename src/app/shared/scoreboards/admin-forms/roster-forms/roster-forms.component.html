@@ -58,8 +58,7 @@
         </div>
       } @else {
         <app-admin-down-button
-          [down]="data.scoreboard_data?.is_match_player_lower ? 'HIDE' : 'SHOW'"
-          [distance]="'PLAYER LOWER'"
+          [distance]="'SELECT PLAYER LOWER'"
           (click)="toggleShowMatchPlayerLowerVisibility(data.scoreboard_data!)"
         ></app-admin-down-button>
       }
