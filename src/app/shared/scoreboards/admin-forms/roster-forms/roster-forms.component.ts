@@ -1,4 +1,4 @@
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe, NgIf, UpperCasePipe } from '@angular/common';
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { TuiInputModule } from '@taiga-ui/kit';
@@ -29,6 +29,7 @@ import { PlayerInMatch } from '../../../../components/player-match/player-match'
     ReactiveFormsModule,
     SelectPlayerToMatchComponent,
     SelectPlayerLowerComponent,
+    UpperCasePipe,
   ],
   templateUrl: './roster-forms.component.html',
   styleUrl: './roster-forms.component.less',
@@ -39,6 +40,7 @@ export class RosterFormsComponent implements OnChanges {
   @Input() players: IPlayerInMatchFullData[] = [];
   @Input() isMatchDataSubmitting$?: Observable<boolean>;
   @Input() disabled: boolean = false;
+  playerMatchSelected$ = this.playerInMatch.selectSelectedPlayerInMatchLower$;
 
   homePlayersInMatch$: Observable<IPlayerInMatchFullData[]> =
     this.playerInMatch.homeRoster$;

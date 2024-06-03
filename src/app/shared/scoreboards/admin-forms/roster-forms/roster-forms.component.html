@@ -36,16 +36,38 @@
       ></app-admin-down-button>
     </div>
 
-    <div class="roster-forms-btns">
-      <app-admin-down-button
-        [down]="data.scoreboard_data?.is_match_player_lower ? 'Hide' : 'Show'"
-        [distance]="'PLAYER LOWER'"
-        (click)="toggleShowMatchPlayerLowerVisibility(data.scoreboard_data!)"
-      ></app-admin-down-button>
+    <div
+      class="lower-btn-show"
+      [style.grid-template-columns]="this.data?.scoreboard_data?.is_match_player_lower ? '20% 80%' : '1fr'"
+    >
+      @if (playerMatchSelected$ | async; as player) {
+        @if (data.scoreboard_data?.is_match_player_lower) {
+          <div
+            class="on-air"
+            style="padding: 10px; display: grid; justify-content: center; border-radius: 10px"
+            [class]="{'blinking': data.scoreboard_data?.is_match_player_lower}"
+          >ON AIR
+          </div>
+        }
+        <div>
+          <app-admin-down-button
+            [down]="data.scoreboard_data?.is_match_player_lower ? 'HIDE' : 'SHOW'"
+            [distance]="player.person?.first_name + ' '+ player.person?.second_name + ' lower' | uppercase"
+            (click)="toggleShowMatchPlayerLowerVisibility(data.scoreboard_data!)"
+          ></app-admin-down-button>
+        </div>
+      } @else {
+        <app-admin-down-button
+          [down]="data.scoreboard_data?.is_match_player_lower ? 'HIDE' : 'SHOW'"
+          [distance]="'PLAYER LOWER'"
+          (click)="toggleShowMatchPlayerLowerVisibility(data.scoreboard_data!)"
+        ></app-admin-down-button>
+      }
     </div>
 
     <div class="team-players-select">
       <app-select-player-lower
+        [selectedPlayer]="playerMatchSelected$ | async"
         [scoreboardId]="data.scoreboard_data?.id"
         [matchPlayers]="(homePlayersInMatch$ | async) || []"
       ></app-select-player-lower>
@@ -53,6 +75,7 @@
 
     <div class="team-players-select">
       <app-select-player-lower
+        [selectedPlayer]="playerMatchSelected$ | async"
         [scoreboardId]="data.scoreboard_data?.id"
         [matchPlayers]="(awayPlayersInMatch$ | async) || []"
       ></app-select-player-lower>
