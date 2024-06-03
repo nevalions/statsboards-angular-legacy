@@ -38,7 +38,7 @@
 
     <div
       class="lower-btn-show"
-      [style.grid-template-columns]="this.data?.scoreboard_data?.is_match_player_lower ? '20% 80%' : '1fr'"
+      [style.grid-template-columns]="data.scoreboard_data?.is_match_player_lower ? '20% 80%' : '1fr'"
     >
       @if (playerMatchSelected$ | async; as player) {
         @if (data.scoreboard_data?.is_match_player_lower) {
