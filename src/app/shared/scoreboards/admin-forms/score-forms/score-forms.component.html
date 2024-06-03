@@ -1,6 +1,14 @@
 <!--SCORE INPUTS-->
 @if (data) {
   <div class="admin-row-container">
+    <app-toggle-visible-button
+      [isVisible$]="scoreInputsVisible$"
+      [formName]="'scoreInputs'"
+      [buttonText]="'Score Inputs'">
+    </app-toggle-visible-button>
+  </div>
+
+  <div class="admin-row-container">
     <div
       class="score-forms"
       *ngIf="scoreInputsVisible$ | async"
@@ -48,11 +56,12 @@
 
   <div class="admin-row-container">
     <app-toggle-visible-button
-      [isVisible$]="scoreInputsVisible$"
-      [formName]="'scoreInputs'"
-      [buttonText]="'Score Inputs'">
+      [isVisible$]="scoreButtonsVisible$"
+      [formName]="'scoreButtons'"
+      [buttonText]="'Score Buttons'">
     </app-toggle-visible-button>
   </div>
+
 
   <div class="admin-row-container">
     <!--SCORE BTNS-->
@@ -115,12 +124,12 @@
     </div>
   </div>
 
-  <div class="admin-row-container">
-    <app-toggle-visible-button
-      [isVisible$]="scoreButtonsVisible$"
-      [formName]="'scoreButtons'"
-      [buttonText]="'Score Buttons'">
-    </app-toggle-visible-button>
-  </div>
+  <!--  <div class="admin-row-container">-->
+    <!--    <app-toggle-visible-button-->
+    <!--      [isVisible$]="scoreButtonsVisible$"-->
+    <!--      [formName]="'scoreButtons'"-->
+    <!--      [buttonText]="'Score Buttons'">-->
+    <!--    </app-toggle-visible-button>-->
+    <!--  </div>-->
 
 }

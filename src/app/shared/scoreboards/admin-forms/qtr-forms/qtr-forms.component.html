@@ -1,4 +1,9 @@
 <!--QTR-->
+<app-toggle-visible-button
+  [isVisible$]="qtrFormsVisible$"
+  [formName]="'qtrForm'"
+  [buttonText]="'Qtr Selector'">
+</app-toggle-visible-button>
 <div
   class="quarter"
   *ngIf="qtrFormsVisible$ | async"
@@ -27,16 +32,6 @@
   </form>
 
   <form class="goal-btns">
-    <!--    <button-->
-    <!--      class="flag-goal-btn"-->
-    <!--      appearance="secondary-destructive"-->
-    <!--      tuiButton-->
-    <!--      size="m"-->
-    <!--      type="button"-->
-    <!--      [disabled]="disabled"-->
-    <!--      (click)="toggleFlag(data?.scoreboard_data!)"-->
-    <!--    >FLAG-->
-    <!--    </button>-->
     <button
       class="goal-btn"
       appearance="down-admin"
@@ -60,8 +55,4 @@
   </form>
 
 </div>
-<app-toggle-visible-button
-  [isVisible$]="qtrFormsVisible$"
-  [formName]="'qtrForm'"
-  [buttonText]="'Qtr Selector'">
-</app-toggle-visible-button>
+

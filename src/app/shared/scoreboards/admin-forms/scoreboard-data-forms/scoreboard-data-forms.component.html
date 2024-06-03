@@ -1,7 +1,12 @@
 <!--SCOREBOARD DATA-->
 @if (data) {
+  <app-toggle-visible-button
+    [isVisible$]="changeScoreBoardFormsVisible$"
+    [formName]="'changeScoreBoardForms'"
+    [buttonText]="'ScoreBoard Forms'">
+  </app-toggle-visible-button>
   <div
-    *ngIf="changeScoreBoardFormsVisible$ | async" xmlns="http://www.w3.org/1999/html"
+    *ngIf="changeScoreBoardFormsVisible$ | async"
     class="scoreboard-settings"
   >
     <div id="scoreboard-settings-btns" class="scoreboard-settings-btns">
@@ -64,9 +69,5 @@
       </form>
     </div>
   </div>
-  <app-toggle-visible-button
-    [isVisible$]="changeScoreBoardFormsVisible$"
-    [formName]="'changeScoreBoardForms'"
-    [buttonText]="'ScoreBoard Forms'">
-  </app-toggle-visible-button>
+
 }

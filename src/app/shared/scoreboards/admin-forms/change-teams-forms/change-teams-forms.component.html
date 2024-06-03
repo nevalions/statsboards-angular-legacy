@@ -1,4 +1,9 @@
 <!--CHANGE TEAMS DATA-->
+<app-toggle-visible-button
+  [isVisible$]="changeTeamsFormsVisible$"
+  [formName]="'changeTeamsForms'"
+  [buttonText]="'Teams Forms'">
+</app-toggle-visible-button>
 <div
   *ngIf="changeTeamsFormsVisible$ | async"
   class="change-team-info"
@@ -215,8 +220,4 @@
     </div>
   </form>
 </div>
-<app-toggle-visible-button
-  [isVisible$]="changeTeamsFormsVisible$"
-  [formName]="'changeTeamsForms'"
-  [buttonText]="'Teams Forms'">
-</app-toggle-visible-button>
+

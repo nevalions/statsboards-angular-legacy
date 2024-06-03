@@ -1,8 +1,13 @@
 <!--MAIN SPONSORS DATA-->
 @if (data) {
+  <app-toggle-visible-button
+    [isVisible$]="sponsorsFormsVisible$"
+    [formName]="'sponsorsForms'"
+    [buttonText]="'Main Sponsors Forms'"
+  >
+  </app-toggle-visible-button>
   <div
     *ngIf="sponsorsFormsVisible$ | async"
-    xmlns="http://www.w3.org/1999/html"
     class="main-sponsors-settings"
   >
     <form class="sponsors-logo-form" [formGroup]="mainSponsorForm">
@@ -13,7 +18,7 @@
           [min]="min"
           [quantum]="quantum"
           [steps]="steps"
-          >Select Tournament Logo Size
+        >Select Tournament Logo Size
         </tui-input-slider>
         <app-admin-submit-button
           (click)="scaleLogo('tournament', data!.scoreboard_data!)"
@@ -26,7 +31,7 @@
           [min]="min"
           [quantum]="quantum"
           [steps]="steps"
-          >Select Main Sponsor Size
+        >Select Main Sponsor Size
         </tui-input-slider>
         <app-admin-submit-button
           (click)="scaleLogo('mainSponsor', data.scoreboard_data!)"
@@ -60,10 +65,5 @@
       ></app-admin-down-button>
     </div>
   </div>
-  <app-toggle-visible-button
-    [isVisible$]="sponsorsFormsVisible$"
-    [formName]="'sponsorsForms'"
-    [buttonText]="'Main Sponsors Forms'"
-  >
-  </app-toggle-visible-button>
+
 }

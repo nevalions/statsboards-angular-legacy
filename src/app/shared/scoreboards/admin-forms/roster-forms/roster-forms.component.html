@@ -1,7 +1,12 @@
 @if (data) {
+  <app-toggle-visible-button
+    [isVisible$]="rosterFormsVisible$"
+    [formName]="'rostersForms'"
+    [buttonText]="'Rosters Forms'"
+  >
+  </app-toggle-visible-button>
   <div
     *ngIf="rosterFormsVisible$ | async"
-    xmlns="http://www.w3.org/1999/html"
     class="roster-forms"
   >
     <div class="roster-forms-btns">
@@ -59,7 +64,6 @@
       } @else {
         <app-admin-down-button
           [distance]="'SELECT PLAYER LOWER'"
-          (click)="toggleShowMatchPlayerLowerVisibility(data.scoreboard_data!)"
         ></app-admin-down-button>
       }
     </div>
@@ -81,10 +85,4 @@
     </div>
 
   </div>
-  <app-toggle-visible-button
-    [isVisible$]="rosterFormsVisible$"
-    [formName]="'rostersForms'"
-    [buttonText]="'Rosters Forms'"
-  >
-  </app-toggle-visible-button>
 }

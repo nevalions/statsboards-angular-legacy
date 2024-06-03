@@ -1,6 +1,11 @@
 <!--TIME-->
 @if (gameclock) {
   @if (playclock) {
+    <app-toggle-visible-button
+      [isVisible$]="timeFormsVisible$"
+      [formName]="'timeForms'"
+      [buttonText]="'Time Forms'">
+    </app-toggle-visible-button>
     <div
       *ngIf="timeFormsVisible$ | async"
       id="timers-form"
@@ -90,10 +95,6 @@
       </form>
     </div>
 
-    <app-toggle-visible-button
-      [isVisible$]="timeFormsVisible$"
-      [formName]="'timeForms'"
-      [buttonText]="'Time Forms'">
-    </app-toggle-visible-button>
+
   }
 }

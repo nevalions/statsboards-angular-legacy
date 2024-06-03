@@ -1,5 +1,10 @@
 <!--TO-->
 @if (data) {
+  <app-toggle-visible-button
+    [isVisible$]="timeoutBtnsVisible$"
+    [formName]="'timeoutBtns'"
+    [buttonText]="'Timeouts buttons'">
+  </app-toggle-visible-button>
   <div
     *ngIf="timeoutBtnsVisible$ | async"
     class="timeouts-btns"
@@ -70,9 +75,5 @@
       ></app-admin-timeout-button>
     </div>
   </div>
-  <app-toggle-visible-button
-    [isVisible$]="timeoutBtnsVisible$"
-    [formName]="'timeoutBtns'"
-    [buttonText]="'Timeouts buttons'">
-  </app-toggle-visible-button>
+
 }

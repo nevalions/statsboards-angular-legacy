@@ -1,4 +1,9 @@
 <!--DOWN&DISTANCE-->
+<app-toggle-visible-button
+  [isVisible$]="downAndDistanceFormVisible$"
+  [formName]="'downAndDistanceForm'"
+  [buttonText]="'Down Distance Forms'">
+</app-toggle-visible-button>
 <div
   *ngIf="downAndDistanceFormVisible$ | async"
   id="down-and-distance"
@@ -13,12 +18,6 @@
       style="width: 100%;"
     >Down & Distance
     </tui-input>
-
-    <!--    <app-admin-submit-button-->
-    <!--      style="width: 100%"-->
-    <!--      (click)="updateDownAndDistance(data?.match_data!)"-->
-    <!--      [disabled]="disabled"-->
-    <!--    ></app-admin-submit-button>-->
   </form>
 
 
@@ -131,8 +130,8 @@
     </div>
   </div>
 </div>
-<app-toggle-visible-button
-  [isVisible$]="downAndDistanceFormVisible$"
-  [formName]="'downAndDistanceForm'"
-  [buttonText]="'Down Distance Forms'">
-</app-toggle-visible-button>
+<!--<app-toggle-visible-button-->
+<!--  [isVisible$]="downAndDistanceFormVisible$"-->
+<!--  [formName]="'downAndDistanceForm'"-->
+<!--  [buttonText]="'Down Distance Forms'">-->
+<!--</app-toggle-visible-button>-->
