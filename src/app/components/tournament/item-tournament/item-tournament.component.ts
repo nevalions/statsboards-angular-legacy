@@ -1,4 +1,9 @@
-import { AsyncPipe, UpperCasePipe } from '@angular/common';
+import {
+  AsyncPipe,
+  DecimalPipe,
+  TitleCasePipe,
+  UpperCasePipe,
+} from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -43,6 +48,7 @@ import { AddEditTeamToTournamentTableComponent } from '../../team/add-edit-team-
 import { Team } from '../../team/team';
 import { Tournament } from '../tournament';
 import { TournamentAddEditFormComponent } from '../tournament-add-edit-form/tournament-add-edit-form.component';
+import { calculateAgeStats } from '../../../base/helpers';
 
 @Component({
   selector: 'app-item-tournament',
@@ -68,6 +74,8 @@ import { TournamentAddEditFormComponent } from '../tournament-add-edit-form/tour
     AddEditPlayerToTeamTournamentTableComponent,
     TuiTextfieldControllerModule,
     TuiValueChangesModule,
+    DecimalPipe,
+    TitleCasePipe,
   ],
   templateUrl: './item-tournament.component.html',
   styleUrl: './item-tournament.component.less',
@@ -188,4 +196,5 @@ export class ItemTournamentComponent {
 
   protected readonly url = urlWithProtocol;
   protected readonly TuiAppearance = TuiAppearance;
+  protected readonly calculateAgeStats = calculateAgeStats;
 }
