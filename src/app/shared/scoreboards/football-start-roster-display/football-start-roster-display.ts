@@ -11,6 +11,7 @@ import { QbWrStartComponent } from '../qb-wr-start/qb-wr-start.component';
 import { DlineStartsComponent } from '../dline-starts/dline-starts.component';
 import { LbStartsComponent } from '../lb-starts/lb-starts.component';
 import { DbStartsComponent } from '../db-starts/db-starts.component';
+import { hexToRgba } from '../../../base/helpers';
 
 @Component({
   selector: 'app-football-start-roster-display',
@@ -32,6 +33,7 @@ export class FootballStartRosterDisplayComponent {
   @Input() side: 'offense' | 'defense' = 'offense';
   @Input() players: IPlayerInMatchFullData[] = [];
   @Input() team?: ITeam | null = null;
+  @Input() scoreboardTeamColor: string = '9EBE9ECC';
 
   constructor(private imageService: ImageService) {}
 
@@ -40,4 +42,5 @@ export class FootballStartRosterDisplayComponent {
   }
 
   backendUrl = environment.backendUrl;
+  protected readonly hexToRgba = hexToRgba;
 }

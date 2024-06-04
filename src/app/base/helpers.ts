@@ -5,7 +5,6 @@ import {
   IPlayerInSport,
   IPlayerInTeamTournamentWithPersonWithSportWithPosition,
 } from '../type/player.type';
-import { IMatchWithFullData } from '../type/match.type';
 
 export function hasTitle(item: any): item is { title: string } {
   return item != null && typeof item === 'object' && 'title' in item;
@@ -82,4 +81,34 @@ export function stringifyMatchPlayer(item: IPlayerInMatchFullData): string {
 export function getTitleCase<T>(item: T, prop: keyof T): string {
   const val = item[prop];
   return typeof val === 'string' ? val : '';
+}
+
+export function hexToRgba(hex: string, a: number = 1): string {
+  // Remove the hash at the start if it's there
+  hex = hex.replace(/^#/, '');
+
+  // Parse the hex string
+  let r: number, g: number, b: number;
+
+  if (hex.length === 3) {
+    // For #RGB, double each character (e.g., #ABC -> #AABBCC)
+    r = parseInt(hex.charAt(0) + hex.charAt(0), 16);
+    g = parseInt(hex.charAt(1) + hex.charAt(1), 16);
+    b = parseInt(hex.charAt(2) + hex.charAt(2), 16);
+  } else if (hex.length === 6) {
+    // For #RRGGBB
+    r = parseInt(hex.substring(0, 2), 16);
+    g = parseInt(hex.substring(2, 4), 16);
+    b = parseInt(hex.substring(4, 6), 16);
+  } else if (hex.length === 8) {
+    // For #RRGGBBAA
+    r = parseInt(hex.substring(0, 2), 16);
+    g = parseInt(hex.substring(2, 4), 16);
+    b = parseInt(hex.substring(4, 6), 16);
+    a = parseInt(hex.substring(6, 8), 16) / 255;
+  } else {
+    throw new Error('Invalid hex color: ' + hex);
+  }
+
+  return `rgba(${r}, ${g}, ${b}, ${a})`;
 }

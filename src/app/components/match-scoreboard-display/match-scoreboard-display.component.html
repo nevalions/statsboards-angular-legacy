@@ -7,6 +7,7 @@
           @if (homeFootballStartOffense$ | async; as players) {
             <div [@dissolve]="homeOffenseRosterVisibility ? 'visible' : 'invisible'" class="roster-area">
               <app-football-start-roster-display
+                [scoreboardTeamColor]="data.scoreboard_data?.team_a_game_color! || '9EBE9ECC'"
                 [side]="'offense'"
                 [team]="homeTeam$ | async"
                 [players]="players"
@@ -18,6 +19,7 @@
           @if (awayFootballStartOffense$ | async; as players) {
             <div [@dissolve]="awayOffenseRosterVisibility ? 'visible' : 'invisible'" class="roster-area">
               <app-football-start-roster-display
+                [scoreboardTeamColor]="data.scoreboard_data?.team_b_game_color! || '9EBE9ECC'"
                 [side]="'offense'"
                 [team]="awayTeam$ | async"
                 [players]="players"
@@ -29,6 +31,7 @@
           @if (homeFootballStartDefense$ | async; as players) {
             <div [@dissolve]="homeDefenseRosterVisibility ? 'visible' : 'invisible'" class="roster-area">
               <app-football-start-roster-display
+                [scoreboardTeamColor]="data.scoreboard_data?.team_a_game_color! || '9EBE9ECC'"
                 [side]="'defense'"
                 [team]="homeTeam$ | async"
                 [players]="players"
@@ -40,6 +43,7 @@
           @if (awayFootballStartDefense$ | async; as players) {
             <div [@dissolve]="awayDefenseRosterVisibility ? 'visible' : 'invisible'" class="roster-area">
               <app-football-start-roster-display
+                [scoreboardTeamColor]="data.scoreboard_data?.team_b_game_color! || '9EBE9ECC'"
                 [side]="'defense'"
                 [team]="awayTeam$ | async"
                 [players]="players"
