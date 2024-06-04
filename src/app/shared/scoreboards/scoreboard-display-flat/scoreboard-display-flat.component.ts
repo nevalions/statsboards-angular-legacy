@@ -21,6 +21,7 @@ import { ISponsor } from '../../../type/sponsor.type';
 import { ITournament } from '../../../type/tournament.type';
 import { PlayerMatchLowerDisplayFlatComponent } from '../player-match-lower-display-flat/player-match-lower-display-flat.component';
 import { PlayerInMatch } from '../../../components/player-match/player-match';
+import { hexToRgba } from '../../../base/helpers';
 
 @Component({
   selector: 'app-scoreboard-display-flat',
@@ -190,4 +191,5 @@ export class ScoreboardDisplayFlatComponent
   }
 
   protected readonly urlWithProtocol = urlWithProtocol;
+  protected readonly hexToRgba = hexToRgba;
 }

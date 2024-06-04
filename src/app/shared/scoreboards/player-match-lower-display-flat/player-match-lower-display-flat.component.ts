@@ -4,6 +4,7 @@ import { environment } from '../../../../environments/environment';
 import { TuiAvatarModule } from '@taiga-ui/kit';
 import { AsyncPipe, UpperCasePipe } from '@angular/common';
 import { PlayerInMatch } from '../../../components/player-match/player-match';
+import { hexToRgba } from '../../../base/helpers';
 
 @Component({
   selector: 'app-player-match-lower-display-flat',
@@ -14,7 +15,7 @@ import { PlayerInMatch } from '../../../components/player-match/player-match';
 })
 export class PlayerMatchLowerDisplayFlatComponent {
   player$ = this.playerInMatch.selectSelectedPlayerInMatchLower$;
-  @Input() teamColor: string | null | undefined = '#3b3b3b';
+  @Input() teamColor: string = '#3b3b3b';
 
   constructor(
     private playerInMatch: PlayerInMatch,
@@ -26,4 +27,5 @@ export class PlayerMatchLowerDisplayFlatComponent {
   }
 
   backendUrl = environment.backendUrl;
+  protected readonly hexToRgba = hexToRgba;
 }

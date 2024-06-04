@@ -23,14 +23,14 @@
       <div class="teams-container">
         <div
           class="team_a-detail"
-          [style]="{'background-color': data.scoreboard_data?.team_a_game_color}">
+          [style.background-color]="hexToRgba(data.scoreboard_data?.team_a_game_color!, 0.8)">
           <div class="lower-area-team">
             @if (player$ | async; as player) {
               @if (player.player_team_tournament?.team_id === data.match.team_a_id) {
                 @if (data.scoreboard_data?.is_match_player_lower || false) {
                   <app-player-match-lower-display-flat
                     [@dissolve]="playerLowerVisibility ? 'visible' : 'invisible'"
-                    [teamColor]="data.scoreboard_data?.team_a_game_color"
+                    [teamColor]="data.scoreboard_data?.team_a_game_color!"
                   ></app-player-match-lower-display-flat>
                 }
               }
@@ -92,8 +92,7 @@
         </div>
         <div
           class="team_b-detail"
-          [style]="{'background-color': data.scoreboard_data?.team_b_game_color}"
-        >
+          [style.background-color]="hexToRgba(data.scoreboard_data?.team_b_game_color!, 0.8)">
           <div class="lower-area-team">
             @if (player$ | async; as player) {
               @if (player.player_team_tournament?.team_id === data.match.team_b_id) {
@@ -101,7 +100,7 @@
 
                   <app-player-match-lower-display-flat
                     [@dissolve]="playerLowerVisibility ? 'visible' : 'invisible'"
-                    [teamColor]="data.scoreboard_data?.team_b_game_color"
+                    [teamColor]="data.scoreboard_data?.team_b_game_color!"
                   ></app-player-match-lower-display-flat>
 
                 }

@@ -1,5 +1,5 @@
 @if (player$ | async; as player) {
-  <div class="player-match" [style.background-color]="teamColor">
+  <div class="player-match" [style.background-color]="hexToRgba(teamColor, 0.8)">
     <div class="player-match-photo">
       <tui-avatar
         size="xl"
