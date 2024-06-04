@@ -40,7 +40,7 @@
         ></app-sponsor-line>
       </div>
     }
-    
+
     <div class="one_row_container">
       <app-edit-button
         [action]="'edit'"
@@ -91,6 +91,8 @@
           @if (currentTournament$ | async; as tournament) {
             @if (allSportPlayersWithPerson$ | async; as playersInSport) {
               @if (allAvailableTournamentPlayersForTeamTournament$| async; as availablePlayers) {
+                <div>Total roster: {{ players.length }}</div>
+                <div>Average age: {{ averageAge(players) | number:'1.0-0' }}</div>
                 <app-add-edit-player-to-team-tournament-table
                   [sportId]='sport.id!'
                   [teamId]="team.id!"

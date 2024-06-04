@@ -84,10 +84,8 @@ export function getTitleCase<T>(item: T, prop: keyof T): string {
 }
 
 export function hexToRgba(hex: string, a: number = 1): string {
-  // Remove the hash at the start if it's there
   hex = hex.replace(/^#/, '');
 
-  // Parse the hex string
   let r: number, g: number, b: number;
 
   if (hex.length === 3) {
@@ -111,4 +109,31 @@ export function hexToRgba(hex: string, a: number = 1): string {
   }
 
   return `rgba(${r}, ${g}, ${b}, ${a})`;
+}
+
+export function averageAge(
+  players: IPlayerInTeamTournamentWithPersonWithSportWithPosition[],
+): number | null {
+  const currentYear = new Date().getFullYear();
+
+  const validAges = players
+    .map((p) => p.playerInSport?.person?.person_dob)
+    .filter((dob): dob is Date => dob !== null)
+    .map((dob) => {
+      const dateOfBirth = new Date(dob); // Convert to Date object
+      console.log(
+        `Date of Birth: ${dob}, Converted: ${dateOfBirth}, Valid: ${!isNaN(dateOfBirth.getTime())}`,
+      ); // Log for debugging
+      return currentYear - dateOfBirth.getFullYear();
+    })
+    .filter((age) => !isNaN(age)); // Filter out invalid ages, resulting from invalid DOB strings
+
+  console.log(`Valid Ages: ${validAges}`); // To see the filtered and mapped ages
+
+  if (validAges.length === 0) {
+    return null;
+  }
+
+  const sum = validAges.reduce((acc, age) => acc + age, 0);
+  return sum / validAges.length;
 }

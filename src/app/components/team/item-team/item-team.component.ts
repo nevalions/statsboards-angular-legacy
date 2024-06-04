@@ -3,7 +3,12 @@ import {
   Component,
   ViewEncapsulation,
 } from '@angular/core';
-import { AsyncPipe, NgOptimizedImage, UpperCasePipe } from '@angular/common';
+import {
+  AsyncPipe,
+  DecimalPipe,
+  NgOptimizedImage,
+  UpperCasePipe,
+} from '@angular/common';
 import {
   TuiAppearance,
   TuiButtonModule,
@@ -31,6 +36,7 @@ import { Sport } from '../../sport/sport';
 import { AddEditPlayerToTeamTournamentComponent } from '../../player-team-tournament/add-edit-player-to-team-tournament/add-edit-player-to-team-tournament.component';
 import { CreateButtonShowDialogComponent } from '../../../shared/ui/buttons/create-button-show-dialog/create-button-show-dialog.component';
 import { ParseButtonComponent } from '../../../shared/ui/buttons/parse-button/parse-button.component';
+import { averageAge } from '../../../base/helpers';
 
 @Component({
   selector: 'app-item-team',
@@ -52,6 +58,7 @@ import { ParseButtonComponent } from '../../../shared/ui/buttons/parse-button/pa
     CreateButtonShowDialogComponent,
     TuiButtonModule,
     ParseButtonComponent,
+    DecimalPipe,
   ],
   templateUrl: './item-team.component.html',
   styleUrl: './item-team.component.less',
@@ -116,4 +123,5 @@ export class ItemTeamComponent {
 
   protected readonly url = urlWithProtocol;
   protected readonly TuiAppearance = TuiAppearance;
+  protected readonly averageAge = averageAge;
 }
