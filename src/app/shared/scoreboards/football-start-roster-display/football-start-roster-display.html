@@ -19,7 +19,7 @@
     <app-backs-start [startRB]="players"></app-backs-start>
   </div>
 } @else if (side === "defense") {
-  <div class="start-offense-roster-display">
+  <div class="start-offense-roster-display" [style.background-color]="hexToRgba(scoreboardTeamColor, 0.3)">
     <div class="start-offense-roster-display-header">
       @if (team) {
         <tui-avatar
