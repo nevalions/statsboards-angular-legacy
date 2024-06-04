@@ -91,8 +91,28 @@
           @if (currentTournament$ | async; as tournament) {
             @if (allSportPlayersWithPerson$ | async; as playersInSport) {
               @if (allAvailableTournamentPlayersForTeamTournament$| async; as availablePlayers) {
-                <div>Total roster: {{ players.length }}</div>
-                <div>Average age: {{ averageAge(players) | number:'1.0-0' }}</div>
+                <span class="age-stats">
+                  Average age:
+                  {{ calculateAgeStats(players)?.average | number:'1.0-0' }}
+                </span>
+                <span class="age-stats">
+                  Min age:
+                  {{ calculateAgeStats(players)?.min?.years | number:'1.0-0' }} years
+                  {{ calculateAgeStats(players)?.min?.days | number:'1.0-0' }} days
+                  <b>{{ calculateAgeStats(players)?.minPlayer?.first_name | titlecase }}&nbsp;</b>
+                  <b>{{ calculateAgeStats(players)?.minPlayer?.second_name | titlecase }}</b>
+                </span>
+                <span class="age-stats">
+                  Max age:
+                  {{ calculateAgeStats(players)?.max?.years | number:'1.0-0' }} years
+                  {{ calculateAgeStats(players)?.max?.days | number:'1.0-0' }} days
+                  <b>{{ calculateAgeStats(players)?.maxPlayer?.first_name | titlecase }}&nbsp;</b>
+                  <b>{{ calculateAgeStats(players)?.maxPlayer?.second_name | titlecase }}</b>
+                </span>
+                <span class="age-stats">
+                  Median age:
+                  {{ calculateAgeStats(players)?.median | number:'1.0-0' }}
+                </span>
                 <app-add-edit-player-to-team-tournament-table
                   [sportId]='sport.id!'
                   [teamId]="team.id!"

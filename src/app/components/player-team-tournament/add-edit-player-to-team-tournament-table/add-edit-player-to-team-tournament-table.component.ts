@@ -5,6 +5,7 @@ import {
 } from '@angular/cdk/scrolling';
 import {
   DatePipe,
+  DecimalPipe,
   NgForOf,
   NgIf,
   TitleCasePipe,
@@ -51,6 +52,7 @@ import {
 import { IPosition } from '../../../type/position.type';
 import { ITeam } from '../../../type/team.type';
 import { PlayerInTeamTournament } from '../player-team-tournament';
+import { calculateAge } from '../../../base/helpers';
 
 @Component({
   selector: 'app-add-edit-player-to-team-tournament-table',
@@ -76,6 +78,7 @@ import { PlayerInTeamTournament } from '../player-team-tournament';
     TuiExpandModule,
     DatePipe,
     TuiAvatarModule,
+    DecimalPipe,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './add-edit-player-to-team-tournament-table.component.html',
@@ -553,21 +556,8 @@ export class AddEditPlayerToTeamTournamentTableComponent
     this.imageService.handleError(event);
   }
 
-  calculateAge(dob: string): number {
-    if (!dob) {
-      return 0; // If the dob is falsy, return 0 as the default age.
-    }
-    const birthDate = new Date(dob);
-    const today = new Date();
-    let age = today.getFullYear() - birthDate.getFullYear();
-    const m = today.getMonth() - birthDate.getMonth();
-    if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
-      age--;
-    }
-    return age;
-  }
-
   protected readonly getFormControl = getFormControl;
   protected readonly getFormDataByIndexAndKey = getFormDataByIndexAndKey;
   backendUrl = environment.backendUrl;
+  protected readonly calculateAge = calculateAge;
 }

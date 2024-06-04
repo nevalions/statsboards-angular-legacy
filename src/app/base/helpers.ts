@@ -1,5 +1,5 @@
 import { AnyObjectWithTitle } from '../type/base.type';
-import { IPerson } from '../type/person.type';
+import { AgeStats, IPerson } from '../type/person.type';
 import {
   IPlayerInMatchFullData,
   IPlayerInSport,
@@ -41,11 +41,11 @@ export function stringifyTitle(item: AnyObjectWithTitle | any): string {
   return `${toTitleCase(item.title) ?? ''}`.trim();
 }
 
-export function stringifyTitleUpperCase(
-  item: AnyObjectWithTitle | any,
-): string {
-  return `${item.title ?? ''}`.toUpperCase().trim();
-}
+// export function stringifyTitleUpperCase(
+//   item: AnyObjectWithTitle | any,
+// ): string {
+//   return `${item.title ?? ''}`.toUpperCase().trim();
+// }
 
 export function stringifyPerson(
   item: IPlayerInSport | IPlayerInTeamTournamentWithPersonWithSportWithPosition,
@@ -111,29 +111,130 @@ export function hexToRgba(hex: string, a: number = 1): string {
   return `rgba(${r}, ${g}, ${b}, ${a})`;
 }
 
-export function averageAge(
+export function calculateAge(dob: Date): number {
+  if (!dob) {
+    return 0;
+  }
+  const birthDate = new Date(dob);
+  if (isNaN(birthDate.getTime())) {
+    throw new Error('Invalid date of birth');
+  }
+  const today = new Date();
+  let age = today.getFullYear() - birthDate.getFullYear();
+  const monthDifference = today.getMonth() - birthDate.getMonth();
+  if (
+    monthDifference < 0 ||
+    (monthDifference === 0 && today.getDate() < birthDate.getDate())
+  ) {
+    age--;
+  }
+  return age;
+}
+
+function calculateFullAge(dob: Date): { years: number; days: number } {
+  if (!dob) {
+    return { years: 0, days: 0 };
+  }
+
+  const birthDate = new Date(dob);
+  const today = new Date();
+  if (isNaN(birthDate.getTime())) {
+    throw new Error('Invalid date of birth');
+  }
+
+  let years = today.getFullYear() - birthDate.getFullYear();
+  const m = today.getMonth() - birthDate.getMonth();
+
+  if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+    years--;
+  }
+
+  const lastBirthday = new Date(
+    today.getFullYear(),
+    birthDate.getMonth(),
+    birthDate.getDate(),
+  );
+  if (lastBirthday > today) {
+    lastBirthday.setFullYear(today.getFullYear() - 1);
+  }
+  const days = Math.floor(
+    (today.getTime() - lastBirthday.getTime()) / (24 * 60 * 60 * 1000),
+  );
+
+  return { years, days };
+}
+
+export function calculateMedian(ages: number[]): number {
+  const sortedAges = [...ages].sort((a, b) => a - b);
+  const mid = Math.floor(sortedAges.length / 2);
+
+  return sortedAges.length % 2 !== 0
+    ? sortedAges[mid]
+    : (sortedAges[mid - 1] + sortedAges[mid]) / 2;
+}
+
+// export function averageAge(
+//   players: IPlayerInTeamTournamentWithPersonWithSportWithPosition[],
+// ): number | null {
+//   const ages = players
+//     .map((p) => p.playerInSport?.person?.person_dob)
+//     .filter((dob): dob is Date => dob !== null)
+//     .map((dob) => calculateAge(dob));
+//
+//   if (ages.length === 0) {
+//     return null;
+//   }
+//
+//   const sum = ages.reduce((acc, age) => acc + age, 0);
+//   return sum / ages.length; // Returns the average age
+// }
+
+export function calculateAgeStats(
   players: IPlayerInTeamTournamentWithPersonWithSportWithPosition[],
-): number | null {
-  const currentYear = new Date().getFullYear();
+): AgeStats | null {
+  const playersWithFullAges = players
+    .map((p) => ({
+      ...p.playerInSport?.person,
+      fullAge: p.playerInSport?.person?.person_dob
+        ? calculateFullAge(p.playerInSport.person.person_dob)
+        : null,
+    }))
+    .filter((player) => player.fullAge !== null);
 
-  const validAges = players
-    .map((p) => p.playerInSport?.person?.person_dob)
-    .filter((dob): dob is Date => dob !== null)
-    .map((dob) => {
-      const dateOfBirth = new Date(dob); // Convert to Date object
-      console.log(
-        `Date of Birth: ${dob}, Converted: ${dateOfBirth}, Valid: ${!isNaN(dateOfBirth.getTime())}`,
-      ); // Log for debugging
-      return currentYear - dateOfBirth.getFullYear();
-    })
-    .filter((age) => !isNaN(age)); // Filter out invalid ages, resulting from invalid DOB strings
-
-  console.log(`Valid Ages: ${validAges}`); // To see the filtered and mapped ages
-
-  if (validAges.length === 0) {
+  if (playersWithFullAges.length === 0) {
     return null;
   }
 
-  const sum = validAges.reduce((acc, age) => acc + age, 0);
-  return sum / validAges.length;
+  const average =
+    playersWithFullAges.reduce(
+      (acc, player) => acc + (player.fullAge?.years ?? 0),
+      0,
+    ) / playersWithFullAges.length;
+  const sortedAges = playersWithFullAges
+    .map((p) => p.fullAge!.years)
+    .sort((a, b) => a - b);
+  const median = calculateMedian(sortedAges);
+
+  const minPlayer = playersWithFullAges.reduce((prev, current) =>
+    prev.fullAge!.years * 365 + prev.fullAge!.days <
+    current.fullAge!.years * 365 + current.fullAge!.days
+      ? prev
+      : current,
+  );
+
+  const maxPlayer = playersWithFullAges.reduce((prev, current) =>
+    prev.fullAge!.years * 365 + prev.fullAge!.days >
+    current.fullAge!.years * 365 + current.fullAge!.days
+      ? prev
+      : current,
+  );
+
+  return {
+    average,
+    min: minPlayer.fullAge!,
+    max: maxPlayer.fullAge!,
+    median,
+    minPlayer,
+    maxPlayer,
+  };
 }

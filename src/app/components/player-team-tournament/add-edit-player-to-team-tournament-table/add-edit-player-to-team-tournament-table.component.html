@@ -4,13 +4,11 @@
   [tuiTextfieldLabelOutside]="true"
   style="padding: 10px"
 >
-  @if (
-    players &&
-    players.length &&
-    playerForm &&
-    playersArray &&
-    playersArray.length
-  ) {
+  @if (players &&
+  players.length &&
+  playerForm &&
+  playersArray &&
+  playersArray.length) {
     <div class="table">
       @if (players && players.length) {
         <div formArrayName="players" class="table-body">
@@ -24,10 +22,8 @@
               (click)="toggle(playerFormGroup.get('playerInTeamId' + i)!.value)"
             >
               @if (getFormDataByIndexAndKey(playerFormGroup, i, "playerId")) {
-                @if (
-                  getFormDataByIndexAndKey(playerFormGroup, i, "fullName");
-                  as name
-                ) {
+                @if (getFormDataByIndexAndKey(playerFormGroup, i, "fullName");
+                  as name) {
                   {{ name | titlecase }}
                 }
               } @else {
@@ -123,10 +119,8 @@
                 <ng-template tuiExpandContent>
                   <div class="table-cell actions">
                     <div class="player-short-profile">
-                      @if (
-                        playerFormGroup.get("photoUrl" + i)!.value;
-                        as photoUrl
-                      ) {
+                      @if (playerFormGroup.get("photoUrl" + i)!.value;
+                        as photoUrl) {
                         <tui-avatar
                           size="xl"
                           text="uploaded logo"
@@ -137,16 +131,16 @@
                         ></tui-avatar>
 
                         <!--                        <img-->
-                        <!--                          src="{{url}}{{photoUrl}}"-->
-                        <!--                          height="100px"-->
-                        <!--                          alt="Photo"-->
-                        <!--                          (error)="onImgError($event)"-->
-                        <!--                          class="player-photo-short-profile"-->
-                        <!--                        >-->
+                          <!--                          src="{{url}}{{photoUrl}}"-->
+                          <!--                          height="100px"-->
+                          <!--                          alt="Photo"-->
+                          <!--                          (error)="onImgError($event)"-->
+                          <!--                          class="player-photo-short-profile"-->
+                          <!--                        >-->
                       }
                       @if (playerFormGroup.get("dob" + i)!.value; as dob) {
                         <span>{{ dob | date }}</span>
-                        <span>Age: {{ calculateAge(dob) }} years</span>
+                        <span>Age: {{ calculateAge(dob) | number:'1.0-0' }} years</span>
                       }
                       @if (deleteOrUpdate == "deleteFromTeam") {
                         <app-actions-buttons
@@ -216,10 +210,8 @@
             }
           </div>
         </div>
-        @if (
-          !players.length ||
-          players[players.length - 1].playerInTeamTournament.id !== null
-        ) {
+        @if (!players.length ||
+        players[players.length - 1].playerInTeamTournament.id !== null) {
           <div class="table-row final">
             <app-add-button-on-final-tr
               [action]="'add player'"

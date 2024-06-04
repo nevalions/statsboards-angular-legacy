@@ -7,6 +7,7 @@ import {
   AsyncPipe,
   DecimalPipe,
   NgOptimizedImage,
+  TitleCasePipe,
   UpperCasePipe,
 } from '@angular/common';
 import {
@@ -14,29 +15,30 @@ import {
   TuiButtonModule,
   TuiLoaderModule,
 } from '@taiga-ui/core';
-import { DeleteDialogComponent } from '../../../shared/ui/dialogs/delete-dialog/delete-dialog.component';
 import { Team } from '../team';
 import { ImageService } from '../../../services/image.service';
 import { urlWithProtocol } from '../../../base/constants';
-import { BodyListTitleComponent } from '../../../shared/ui/body/body-title/body-list-title.component';
-import { EditButtonComponent } from '../../../shared/ui/buttons/edit-button/edit-button.component';
-import { AddEditTeamComponent } from '../add-edit-team/add-edit-team.component';
-import { TournamentAddEditFormComponent } from '../../tournament/tournament-add-edit-form/tournament-add-edit-form.component';
 import { Sponsor } from '../../adv/sponsor/sponsor';
 import { SponsorLine } from '../../adv/sponsor-line/sponsorLine';
-import { DeleteButtonComponent } from '../../../shared/ui/buttons/delete-button/delete-button.component';
-import { SponsorLineComponent } from '../../../shared/scoreboards/sponsor-line/sponsor-line.component';
 import { Person } from '../../person/person';
 import { Tournament } from '../../tournament/tournament';
 import { Player } from '../../player/player';
 import { PlayerInTeamTournament } from '../../player-team-tournament/player-team-tournament';
 import { Position } from '../../position/postion';
-import { AddEditPlayerToTeamTournamentTableComponent } from '../../player-team-tournament/add-edit-player-to-team-tournament-table/add-edit-player-to-team-tournament-table.component';
 import { Sport } from '../../sport/sport';
+import { DeleteDialogComponent } from '../../../shared/ui/dialogs/delete-dialog/delete-dialog.component';
+import { EditButtonComponent } from '../../../shared/ui/buttons/edit-button/edit-button.component';
+import { BodyListTitleComponent } from '../../../shared/ui/body/body-title/body-list-title.component';
+import { AddEditTeamComponent } from '../add-edit-team/add-edit-team.component';
+import { TournamentAddEditFormComponent } from '../../tournament/tournament-add-edit-form/tournament-add-edit-form.component';
+import { DeleteButtonComponent } from '../../../shared/ui/buttons/delete-button/delete-button.component';
+import { AddEditPlayerToTeamTournamentTableComponent } from '../../player-team-tournament/add-edit-player-to-team-tournament-table/add-edit-player-to-team-tournament-table.component';
 import { AddEditPlayerToTeamTournamentComponent } from '../../player-team-tournament/add-edit-player-to-team-tournament/add-edit-player-to-team-tournament.component';
 import { CreateButtonShowDialogComponent } from '../../../shared/ui/buttons/create-button-show-dialog/create-button-show-dialog.component';
 import { ParseButtonComponent } from '../../../shared/ui/buttons/parse-button/parse-button.component';
-import { averageAge } from '../../../base/helpers';
+import { AgeStats } from '../../../type/person.type';
+import { SponsorLineComponent } from '../../../shared/scoreboards/sponsor-line/sponsor-line.component';
+import { calculateAgeStats } from '../../../base/helpers';
 
 @Component({
   selector: 'app-item-team',
@@ -59,6 +61,8 @@ import { averageAge } from '../../../base/helpers';
     TuiButtonModule,
     ParseButtonComponent,
     DecimalPipe,
+    SponsorLineComponent,
+    TitleCasePipe,
   ],
   templateUrl: './item-team.component.html',
   styleUrl: './item-team.component.less',
@@ -85,6 +89,8 @@ export class ItemTeamComponent {
     this.playerInTeamTournament.playerInTeamTournamentIsLoading$;
 
   buttonTitle: string = 'Team';
+
+  ageStats: AgeStats | null = null;
 
   constructor(
     private sport: Sport,
@@ -123,5 +129,5 @@ export class ItemTeamComponent {
 
   protected readonly url = urlWithProtocol;
   protected readonly TuiAppearance = TuiAppearance;
-  protected readonly averageAge = averageAge;
+  protected readonly calculateAgeStats = calculateAgeStats;
 }
