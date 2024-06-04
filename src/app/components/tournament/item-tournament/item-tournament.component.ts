@@ -107,6 +107,8 @@ export class ItemTournamentComponent {
     this.playerInTeamTournament.allAvailablePlayersToAddInTournament$;
   allSportPositions$ = this.position.allSportPositions$;
 
+  allPlayersInTournament$ =
+    this.playerInTeamTournament.allPlayerInTournamentFullData$;
   currentPlayersInTournamentPage$ =
     this.pagination.currentPagePlayersInTeamTable$;
   currentPage$ = this.pagination.currentPage$;
