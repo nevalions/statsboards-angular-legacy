@@ -10,7 +10,9 @@
           [avatarUrl]="backendUrl + team.team_logo_web_url"
           (error)="onImgError($event)"
         ></tui-avatar>
-        <div class="team-offense">{{ team.title | uppercase }} OFFENSE</div>
+        <!--        <div class="team-offense">{{ team.title | uppercase }} OFFENSE</div>-->
+        <div class="team-offense">{{ team.title | uppercase }} НАПАДЕНИЕ</div>
+
       }
     </div>
 
@@ -30,7 +32,9 @@
           [avatarUrl]="backendUrl + team.team_logo_web_url"
           (error)="onImgError($event)"
         ></tui-avatar>
-        <div class="team-offense">{{ team.title | uppercase }} DEFENSE</div>
+        <!--        <div class="team-offense">{{ team.title | uppercase }} DEFENSE</div>-->
+        <div class="team-offense">{{ team.title | uppercase }} ЗАЩИТА</div>
+
       }
     </div>
     <app-dline-starts [startDL]="players"></app-dline-starts>

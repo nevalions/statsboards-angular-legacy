@@ -5,12 +5,7 @@ import { IMatchFullDataWithScoreboard } from '../../../../type/match.type';
 import { MatchData } from '../../../../components/match/matchdata';
 import { IMatchData, IScoreboard } from '../../../../type/matchdata.type';
 import { ToggleVisibleButtonComponent } from '../../../ui/buttons/toggle-visible-button/toggle-visible-button.component';
-import {
-  FormControl,
-  FormGroup,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { AdminSubmitButtonComponent } from '../../../ui/buttons/admin-submit-button/admin-submit-button.component';
 import { TuiDataListWrapperModule, TuiSelectModule } from '@taiga-ui/kit';
 import { TuiButtonModule } from '@taiga-ui/core';
@@ -40,7 +35,8 @@ export class QtrFormsComponent implements OnChanges {
   qtrForm: FormGroup;
   isGoalForm: FormGroup;
 
-  items: string[] = ['1st', '2nd', 'HT', '3rd', '4th', 'Final', 'OT'];
+  // items: string[] = ['1st', '2nd', 'HT', '3rd', '4th', 'Final', 'OT'];
+  items: string[] = ['1', '2', '', '3', '4', '', 'ОТ'];
 
   constructor(
     private matchData: MatchData,

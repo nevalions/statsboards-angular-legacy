@@ -173,22 +173,6 @@ export function calculateMedian(ages: number[]): number {
     : (sortedAges[mid - 1] + sortedAges[mid]) / 2;
 }
 
-// export function averageAge(
-//   players: IPlayerInTeamTournamentWithPersonWithSportWithPosition[],
-// ): number | null {
-//   const ages = players
-//     .map((p) => p.playerInSport?.person?.person_dob)
-//     .filter((dob): dob is Date => dob !== null)
-//     .map((dob) => calculateAge(dob));
-//
-//   if (ages.length === 0) {
-//     return null;
-//   }
-//
-//   const sum = ages.reduce((acc, age) => acc + age, 0);
-//   return sum / ages.length; // Returns the average age
-// }
-
 export function calculateAgeStats(
   players: IPlayerInTeamTournamentWithPersonWithSportWithPosition[],
 ): AgeStats | null {

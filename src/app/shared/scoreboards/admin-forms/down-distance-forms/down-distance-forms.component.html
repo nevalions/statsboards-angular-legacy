@@ -25,27 +25,50 @@
     <div class="down-selector">
       <app-admin-down-button
         #btnFirstDown
-        [down]="'1st'"
+        [down]="'1ый'"
         (click)="downValue = btnFirstDown.down; updateFormValue()"
       ></app-admin-down-button>
 
       <app-admin-down-button
         #btnSecondDown
-        [down]="'2nd'"
+        [down]="'2ой'"
         (click)="downValue = btnSecondDown.down; updateFormValue()"
       ></app-admin-down-button>
 
       <app-admin-down-button
         #btnThirdDown
-        [down]="'3rd'"
+        [down]="'3ий'"
         (click)="downValue = btnThirdDown.down; updateFormValue()"
       ></app-admin-down-button>
 
       <app-admin-down-button
         #btnFourthDown
-        [down]="'4th'"
+        [down]="'4ый'"
         (click)="downValue = btnFourthDown.down; updateFormValue()"
       ></app-admin-down-button>
+      <!--      <app-admin-down-button-->
+      <!--        #btnFirstDown-->
+      <!--        [down]="'1st'"-->
+      <!--        (click)="downValue = btnFirstDown.down; updateFormValue()"-->
+      <!--      ></app-admin-down-button>-->
+
+      <!--      <app-admin-down-button-->
+      <!--        #btnSecondDown-->
+      <!--        [down]="'2nd'"-->
+      <!--        (click)="downValue = btnSecondDown.down; updateFormValue()"-->
+      <!--      ></app-admin-down-button>-->
+
+      <!--      <app-admin-down-button-->
+      <!--        #btnThirdDown-->
+      <!--        [down]="'3rd'"-->
+      <!--        (click)="downValue = btnThirdDown.down; updateFormValue()"-->
+      <!--      ></app-admin-down-button>-->
+
+      <!--      <app-admin-down-button-->
+      <!--        #btnFourthDown-->
+      <!--        [down]="'4th'"-->
+      <!--        (click)="downValue = btnFourthDown.down; updateFormValue()"-->
+      <!--      ></app-admin-down-button>-->
     </div>
     <form
       [formGroup]="distanceForm"
@@ -72,7 +95,7 @@
     <div class="down-dist-selector-game">
       <app-admin-down-button
         #btnFirstAndTen
-        [down]="'1st'"
+        [down]="'1ый'"
         [distance]="' & 10'"
         (click)="downValue = btnFirstAndTen.down; distanceValue= btnFirstAndTen.distance;  updateFormValue()"
       ></app-admin-down-button>
@@ -80,9 +103,22 @@
       <app-admin-down-button
         #btnFirstAndGoal
         [down]="''"
-        [distance]="' & Goal'"
+        [distance]="' & Гол'"
         (click)="distanceValue = btnFirstAndGoal.distance;  updateFormValue()"
       ></app-admin-down-button>
+      <!--      <app-admin-down-button-->
+      <!--        #btnFirstAndTen-->
+      <!--        [down]="'1st'"-->
+      <!--        [distance]="' & 10'"-->
+      <!--        (click)="downValue = btnFirstAndTen.down; distanceValue= btnFirstAndTen.distance;  updateFormValue()"-->
+      <!--      ></app-admin-down-button>-->
+
+      <!--      <app-admin-down-button-->
+      <!--        #btnFirstAndGoal-->
+      <!--        [down]="''"-->
+      <!--        [distance]="' & Goal'"-->
+      <!--        (click)="distanceValue = btnFirstAndGoal.distance;  updateFormValue()"-->
+      <!--      ></app-admin-down-button>-->
 
     </div>
     <div class="flag-button-game">
@@ -102,31 +138,58 @@
       <app-admin-down-button
         #btnOnePT
         [down]="''"
-        [distance]="'1PT'"
+        [distance]="'1 ОЧКО'"
         (click)="downValue = btnOnePT.down; distanceValue= btnOnePT.distance;  updateFormValue()"
       ></app-admin-down-button>
 
       <app-admin-down-button
         #btnTwoPT
         [down]="''"
-        [distance]="'2PT'"
+        [distance]="'2 ОЧКА'"
         (click)="downValue = btnTwoPT.down; distanceValue= btnTwoPT.distance;  updateFormValue()"
       ></app-admin-down-button>
+      <!--      <app-admin-down-button-->
+      <!--        #btnOnePT-->
+      <!--        [down]="''"-->
+      <!--        [distance]="'1PT'"-->
+      <!--        (click)="downValue = btnOnePT.down; distanceValue= btnOnePT.distance;  updateFormValue()"-->
+      <!--      ></app-admin-down-button>-->
+
+      <!--      <app-admin-down-button-->
+      <!--        #btnTwoPT-->
+      <!--        [down]="''"-->
+      <!--        [distance]="'2PT'"-->
+      <!--        (click)="downValue = btnTwoPT.down; distanceValue= btnTwoPT.distance;  updateFormValue()"-->
+      <!--      ></app-admin-down-button>-->
     </div>
     <div class="down-dist-selector-kick">
+      <!--      <app-admin-down-button-->
+      <!--        #btnFG-->
+      <!--        [down]="''"-->
+      <!--        [distance]="'FG'"-->
+      <!--        (click)="downValue = btnFG.down; distanceValue= btnFG.distance;  updateFormValue()"-->
+      <!--      ></app-admin-down-button>-->
+
       <app-admin-down-button
         #btnFG
         [down]="''"
-        [distance]="'FG'"
+        [distance]="'ФГ'"
         (click)="downValue = btnFG.down; distanceValue= btnFG.distance;  updateFormValue()"
       ></app-admin-down-button>
 
       <app-admin-down-button
         #btnKickOff
         [down]="''"
-        [distance]="'KickOff'"
+        [distance]="'Нач.Уд.'"
         (click)="downValue = btnKickOff.down; distanceValue= btnKickOff.distance;  updateFormValue()"
       ></app-admin-down-button>
+
+      <!--      <app-admin-down-button-->
+      <!--        #btnKickOff-->
+      <!--        [down]="''"-->
+      <!--        [distance]="'KickOff'"-->
+      <!--        (click)="downValue = btnKickOff.down; distanceValue= btnKickOff.distance;  updateFormValue()"-->
+      <!--      ></app-admin-down-button>-->
     </div>
   </div>
 </div>

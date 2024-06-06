@@ -50,7 +50,8 @@ export class ScoreboardDisplayFlatComponent
 
   player$ = this.playerInMatch.selectSelectedPlayerInMatchLower$;
 
-  goal = 'touchdown';
+  // goal = 'touchdown';
+  goal = 'ТАЧДАУН';
   scoreAState = 'unchanged';
   scoreBState = 'unchanged';
   downDistanceState = 'unchanged';

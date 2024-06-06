@@ -45,8 +45,34 @@ export class DownDistanceFormsComponent implements OnChanges {
   distanceForm: FormGroup;
   isFlagForm: FormGroup;
 
-  downValue: string = '1st';
+  downValue: string = '1ый';
   distanceValue: string = ' & 10';
+
+  // items: string[] = [
+  //   '1',
+  //   '2',
+  //   '3',
+  //   '4',
+  //   '5',
+  //   '6',
+  //   '7',
+  //   '8',
+  //   '9',
+  //   '10',
+  //   '11',
+  //   '12',
+  //   '13',
+  //   '14',
+  //   '15',
+  //   '16',
+  //   '17',
+  //   '18',
+  //   '19',
+  //   '20',
+  //   '20+',
+  //   'inch',
+  //   'Goal',
+  // ];
 
   items: string[] = [
     '1',
@@ -70,8 +96,8 @@ export class DownDistanceFormsComponent implements OnChanges {
     '19',
     '20',
     '20+',
-    'inch',
-    'Goal',
+    'дюйм',
+    'Гол',
   ];
 
   constructor(
@@ -175,7 +201,8 @@ export class DownDistanceFormsComponent implements OnChanges {
     let distance = '';
 
     // Check if downAndDistance is one of the single-value options
-    const singleValueOptions = ['1PT', '2PT', 'FG', 'KickOff'];
+    // const singleValueOptions = ['1PT', '2PT', 'FG', 'KickOff'];
+    const singleValueOptions = ['1 ОЧКО', '2 ОЧКА', 'ФГ', 'Нач.Уд.'];
     if (singleValueOptions.includes(downAndDistance)) {
       distance = downAndDistance;
     } else {
