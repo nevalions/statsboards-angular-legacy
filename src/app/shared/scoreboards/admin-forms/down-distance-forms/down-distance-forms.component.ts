@@ -45,7 +45,7 @@ export class DownDistanceFormsComponent implements OnChanges {
   distanceForm: FormGroup;
   isFlagForm: FormGroup;
 
-  downValue: string = '1ый';
+  downValue: string = '1-й';
   distanceValue: string = ' & 10';
 
   // items: string[] = [
