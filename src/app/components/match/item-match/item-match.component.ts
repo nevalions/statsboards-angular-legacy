@@ -31,6 +31,7 @@ import { Tournament } from '../../tournament/tournament';
 import { AddEditMatchComponent } from '../add-edit-match/add-edit-match.component';
 import { Match } from '../match';
 import { ParseButtonComponent } from '../../../shared/ui/buttons/parse-button/parse-button.component';
+import { QrComponent } from '../../../shared/ui/qr/qr.component';
 
 @Component({
   selector: 'app-item-match',
@@ -52,11 +53,13 @@ import { ParseButtonComponent } from '../../../shared/ui/buttons/parse-button/pa
     AddEditPlayerMatchTableComponent,
     AddEditPlayerToTeamTournamentTableComponent,
     ParseButtonComponent,
+    QrComponent,
   ],
   templateUrl: './item-match.component.html',
   styleUrl: './item-match.component.less',
 })
 export class ItemMatchComponent {
+  season$ = this.season.season$;
   sport$ = this.sport.currentSport$;
   allSponsors$ = this.sponsor.allSponsors$;
   allSponsorLines$ = this.sponsorLine.allSponsorLines$;
@@ -111,6 +114,19 @@ export class ItemMatchComponent {
     position.loadAllPositionsBySportId();
     playerInMatch.loadAllPlayersFullDataInMatch();
     team.loadAllTeamsInTournament();
+  }
+
+  qrMatchUrl(
+    sport_id: number,
+    season_id: number,
+    tournament_id: number,
+    match_id: number,
+  ): string {
+    if (sport_id && season_id && match_id && tournament_id) {
+      return `https://${environment.url}${environment.angular_port}/sport/${sport_id}/season/${season_id}/tournament/${tournament_id}/match/${match_id}`;
+    } else {
+      return `https://${environment.url}${environment.angular_port}`;
+    }
   }
 
   buttonTitle: string = 'Match';

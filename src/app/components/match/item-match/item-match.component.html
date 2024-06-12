@@ -83,11 +83,15 @@
                 </div>
               </div>
             </tui-island>
-            <!--            <div class="one_col_container">-->
-              <!--              <app-qr-->
-              <!--                [url]="'test'"-->
-              <!--              ></app-qr>-->
-              <!--            </div>-->
+            @if (sport$ | async; as sport) {
+              @if (match$ | async; as match) {
+                @if (season$ | async; as season) {
+                  <div class="one_col_container flex__fullwidth_center" style="padding: 20px">
+                    <app-qr [url]="qrMatchUrl(sport.id!, season.id!, match.match.tournament_id, match.id!)"></app-qr>
+                  </div>
+                }
+              }
+            }
             <div class="two_col_container_match">
               <div class="one_col_container">
                 <app-body-list-title
