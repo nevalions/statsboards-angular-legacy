@@ -5,11 +5,7 @@ import { IMatchFullDataWithScoreboard } from '../../../../type/match.type';
 import { MatchData } from '../../../../components/match/matchdata';
 import { AsyncPipe, NgIf } from '@angular/common';
 import { ToggleVisibleButtonComponent } from '../../../ui/buttons/toggle-visible-button/toggle-visible-button.component';
-import {
-  TuiLabelModule,
-  TuiPrimitiveTextfieldModule,
-  TuiTextfieldControllerModule,
-} from '@taiga-ui/core';
+import { TuiLabelModule, TuiTextfieldControllerModule } from '@taiga-ui/core';
 import { AdminTimeoutButtonComponent } from '../../../ui/buttons/admin-timeout-button/admin-timeout-button.component';
 
 @Component({

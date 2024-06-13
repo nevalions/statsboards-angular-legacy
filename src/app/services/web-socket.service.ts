@@ -1,15 +1,6 @@
 import { Injectable } from '@angular/core';
-import {
-  catchError,
-  fromEvent,
-  merge,
-  Observable,
-  of,
-  share,
-  throwError,
-} from 'rxjs';
-import { map, takeUntil, tap } from 'rxjs/operators';
-import { Subject } from 'rxjs';
+import { fromEvent, Observable, Subject } from 'rxjs';
+import { map, takeUntil } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
@@ -85,28 +76,6 @@ export class WebSocketService {
     });
   }
 
-  // public connect(matchId: number): Observable<any> {
-  //   if (!this.socket || this.socket.readyState !== WebSocket.OPEN) {
-  //     console.log('Attempting to connect');
-  //     this.socket = new WebSocket(
-  //       `ws://${environment.url}:${environment.port}/api/matches/ws/id/${matchId}/${this.clientId}/`,
-  //     );
-  //     console.log(
-  //       'WebSocket readyState after creation:',
-  //       this.socket.readyState,
-  //     );
-  //   }
-  //
-  //   return fromEvent<MessageEvent>(this.socket, 'message').pipe(
-  //     map((event: MessageEvent) => {
-  //       console.log('Connection message event', event);
-  //       const data = JSON.parse(event.data);
-  //       console.log('Connection WebSocket data:', data);
-  //       return data;
-  //     }),
-  //   );
-  // }
-
   public messages(): Observable<any> {
     if (!this.socket) {
       console.log('Connection not established');
@@ -131,19 +100,6 @@ export class WebSocketService {
       }),
     );
   }
-
-  // public onReceiveMessage(event: MessageEvent) {
-  //   console.log('Received WebSocket message: ', event.data);
-  //   let message = JSON.parse(event.data);
-  //
-  //   if ('playclock' in message) {
-  //     return { type: 'playclock-update', data: message.playclock };
-  //   } else if ('gameclock' in message) {
-  //     return { type: 'gameclock-update', data: message.gameclock };
-  //   } else {
-  //     return { type: 'message-update', data: message };
-  //   }
-  // }
 
   public sendMessage(message: any): void {
     if (this.socket) {
@@ -175,15 +131,12 @@ export class WebSocketService {
     this.closing$.next();
 
     if (this.socket) {
-      // Log the readyState of the WebSocket before closing
       console.log(
         'WebSocket readyState before closing:',
         this.socket.readyState,
       );
-
       this.socket.close();
 
-      // Log the readyState of the WebSocket immediately after closing
       console.log(
         'WebSocket readyState after closing:',
         this.socket.readyState,

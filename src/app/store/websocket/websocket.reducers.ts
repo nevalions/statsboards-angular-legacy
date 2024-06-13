@@ -25,7 +25,7 @@ const initialState: WebSocketState = {
   error: null,
   event: null,
   loading: false,
-  connectionState: WebSocketStateEnum.DISCONNECTED, // Use the enum here
+  connectionState: WebSocketStateEnum.DISCONNECTED,
 };
 
 const webSocketFeature = createFeature({

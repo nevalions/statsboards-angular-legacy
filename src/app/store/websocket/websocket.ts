@@ -4,11 +4,7 @@ import { Store } from '@ngrx/store';
 import { AppState } from '../appstate';
 import {
   selectConnectionState,
-  selectData,
-  selectError,
-  selectGameclock,
-  selectLoading,
-  selectPlayclock,
+  WebSocketStateEnum,
 } from './websocket.reducers';
 import { webSocketActions } from './websocket.actions';
 
@@ -20,18 +16,17 @@ export class Websocket {
   data$: Observable<any>;
   playclock$: Observable<any>;
   gameclock$: Observable<any>;
+  websocketState$: Observable<WebSocketStateEnum>;
 
   // error$: Observable<any>;
 
   constructor(private store: Store<AppState>) {
-    // this.loading$ = this.store.select(selectLoading);
     this.data$ = this.store.select((state) => state.webSocket.data);
     this.playclock$ = this.store.select((state) => state.webSocket.playclock);
     this.gameclock$ = this.store.select((state) => state.webSocket.gameclock);
-    // this.data$ = this.store.select(selectData);
-    // this.playclock$ = this.store.select(selectPlayclock);
-    // this.gameclock$ = this.store.select(selectGameclock);
-    // this.error$ = this.store.select(selectError);
+    this.websocketState$ = this.store.select(
+      (state) => state.webSocket.connectionState,
+    );
   }
 
   connect() {

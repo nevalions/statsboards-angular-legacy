@@ -1,7 +1,6 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { catchError, finalize, map, Observable, of, Subject } from 'rxjs';
 import { IMatchFullDataWithScoreboard } from '../../../../type/match.type';
-import { MatchData } from '../../../../components/match/matchdata';
 import { AsyncPipe, NgIf } from '@angular/common';
 import { ToggleVisibleButtonComponent } from '../../../ui/buttons/toggle-visible-button/toggle-visible-button.component';
 import {
@@ -26,7 +25,6 @@ import { switchMap } from 'rxjs/operators';
 import { ScoreboardData } from '../../../../components/scoreboard-data/scoreboard-data';
 import { IScoreboard } from '../../../../type/matchdata.type';
 import { TuiValueChangesModule } from '@taiga-ui/cdk';
-import { UploadResizeImageResponse } from '../../../../type/base.type';
 
 @Component({
   selector: 'app-change-teams-forms',
@@ -64,7 +62,7 @@ export class ChangeTeamsFormsComponent implements OnChanges {
 
   constructor(
     private scoreboardData: ScoreboardData,
-    private matchData: MatchData,
+    // private matchData: MatchData,
     private imageService: ImageService,
   ) {
     this.teamDataForm = this.initForm();
@@ -268,7 +266,7 @@ export class ChangeTeamsFormsComponent implements OnChanges {
     };
 
     const currentControlKey = controlKeys[team];
-    console.log(currentControlKey, useItem);
+    // console.log(currentControlKey, useItem);
     const updatedScoreboardData = {
       ...scoreboardData,
       [currentControlKey]: useItem,

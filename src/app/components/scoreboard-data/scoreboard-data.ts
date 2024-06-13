@@ -1,8 +1,8 @@
-import { Injectable, OnInit } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { AppState } from '../../store/appstate';
-import { IMatchData, IScoreboard } from '../../type/matchdata.type';
+import { IScoreboard } from '../../type/matchdata.type';
 import {
   selectCurrentScoreboardData,
   selectScoreboardDataIsSubmitting,
@@ -21,10 +21,6 @@ export class ScoreboardData {
     this.scoreboardDataIsSubmitting$ = this.store.select(
       selectScoreboardDataIsSubmitting,
     );
-  }
-
-  loadCurrentScoreboardDataByMatchId() {
-    this.store.dispatch(scoreboardDataActions.getScoreboardDataByMatchId());
   }
 
   updateScoreboardData(newScoreboardData: IScoreboard) {
@@ -48,4 +44,8 @@ export class ScoreboardData {
       }),
     );
   }
+
+  // loadCurrentScoreboardDataByMatchId() {
+  //   this.store.dispatch(scoreboardDataActions.getScoreboardDataByMatchId());
+  // }
 }

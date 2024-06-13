@@ -57,7 +57,10 @@
               class="team_a-thisgame"
             >
               <div class="team-timeout">
-                <span class="timeout-text">{{ data.match_data?.timeout_team_a }}</span>
+                @for (box of data.match_data?.timeout_team_a; track $index) {
+                  <div class="box" [class]="{'black-box': box === '○', 'white-box': box === '●'}"></div>
+                }
+                <!--                <span class="timeout-text">{{ data.match_data?.timeout_team_a }}</span>-->
               </div>
             </div>
 
@@ -128,7 +131,10 @@
               class="team_b-thisgame"
             >
               <div class="team-timeout">
-                <span class="timeout-text">{{ data.match_data?.timeout_team_b }}</span>
+                @for (box of data.match_data?.timeout_team_b; track $index) {
+                  <div class="box" [class]="{'black-box': box === '○', 'white-box': box === '●'}"></div>
+                }
+                <!--                <span class="timeout-text">{{ data.match_data?.timeout_team_b }}</span>-->
               </div>
             </div>
 
