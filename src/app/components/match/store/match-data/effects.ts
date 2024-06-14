@@ -2,23 +2,19 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import {
   catchError,
-  concatMap,
   exhaustMap,
-  filter,
   map,
   of,
   switchMap,
   withLatestFrom,
 } from 'rxjs';
 import { Router } from '@angular/router';
-
 import { Store } from '@ngrx/store';
 import { matchDataActions } from './actions';
 import { MatchDataService } from '../../matchData.service';
 import { IMatchData } from '../../../../type/matchdata.type';
 import { matchActions } from '../actions';
-import { selectCurrentMatch, selectCurrentMatchId } from '../reducers';
-import { selectMatchAndMatchDataLoaded } from './selectors';
+import { selectCurrentMatchId } from '../reducers';
 import { selectCurrentMatchDataId } from './reducers';
 
 @Injectable()
@@ -36,6 +32,27 @@ export class MatchDataEffects {
             }),
             catchError(() => {
               return of(matchDataActions.updateFailure());
+            }),
+          );
+        }),
+      );
+    },
+    { functional: true },
+  );
+
+  updateMatchDataByKeyValueEffect = createEffect(
+    () => {
+      return this.actions$.pipe(
+        ofType(matchDataActions.updateMatchDataByKeyValue),
+        switchMap(({ id, data }) => {
+          return this.matchDataService.editMatchDataKeyValue(id, data).pipe(
+            map((updatedMatchData: IMatchData) => {
+              return matchDataActions.updateMatchDataByKeyValueSuccessfully({
+                updatedMatchData,
+              });
+            }),
+            catchError(() => {
+              return of(matchDataActions.updateMatchDataByKeyValueFailure());
             }),
           );
         }),

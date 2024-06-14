@@ -1,8 +1,4 @@
 import { createFeature, createReducer, on } from '@ngrx/store';
-import {
-  crudStoreInterface,
-  getDefaultCrudStore,
-} from '../../../../type/store.intarface';
 
 import { IMatchData } from '../../../../type/matchdata.type';
 import { matchDataActions } from './actions';
@@ -40,6 +36,25 @@ const matchDataFeature = createFeature({
       errors: null,
     })),
     on(matchDataActions.updateFailure, (state, action) => ({
+      ...state,
+      matchDataIsSubmitting: false,
+      errors: action,
+    })),
+    // update action by key value actions
+    on(matchDataActions.updateMatchDataByKeyValue, (state) => ({
+      ...state,
+      matchDataIsSubmitting: true,
+    })),
+    on(
+      matchDataActions.updateMatchDataByKeyValueSuccessfully,
+      (state, action) => ({
+        ...state,
+        matchDataIsSubmitting: false,
+        currentMatchData: action.updatedMatchData,
+        errors: null,
+      }),
+    ),
+    on(matchDataActions.updateMatchDataByKeyValueFailure, (state, action) => ({
       ...state,
       matchDataIsSubmitting: false,
       errors: action,

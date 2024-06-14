@@ -24,7 +24,6 @@ export class ScoreboardData {
   }
 
   updateScoreboardData(newScoreboardData: IScoreboard) {
-    // console.log(matchData, matchData.id);
     // console.log(newScoreboardData);
     this.store.dispatch(
       scoreboardDataActions.update({
@@ -35,8 +34,6 @@ export class ScoreboardData {
   }
 
   updateScoreboardDataKeyValue(id: number, data: any) {
-    // console.log(matchData, matchData.id);
-    // console.log(newScoreboardData);
     this.store.dispatch(
       scoreboardDataActions.updateScoreBoardDataByKeyValue({
         id: id,

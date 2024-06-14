@@ -4,8 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { ErrorHandlingService } from '../../services/error.service';
 import { IMatchData } from '../../type/matchdata.type';
-import { IMatch } from '../../type/match.type';
-import { map, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
 @Injectable({
@@ -35,6 +34,18 @@ export class MatchDataService extends BaseApiService<IMatchData> {
 
   editMatchData(id: number | string, data: IMatchData): Observable<IMatchData> {
     return this.editItem(id, data).pipe(
+      tap((data) => {
+        // console.log(data);
+      }),
+    );
+  }
+
+  editMatchDataKeyValue(
+    id: number | string,
+    data: any,
+  ): Observable<IMatchData> {
+    // console.log(data);
+    return this.editItemKeyValue(id, data).pipe(
       tap((data) => {
         // console.log(data);
       }),

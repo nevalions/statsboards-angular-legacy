@@ -73,38 +73,50 @@ export class MainSponsorFormsComponent implements OnChanges {
 
   toggleMainSponsorVisibility(scoreboardData: IScoreboard) {
     if (!scoreboardData) return;
-    const updatedScoreboardData = {
-      ...scoreboardData,
+    // const updatedScoreboardData = {
+    //   ...scoreboardData,
+    //   is_main_sponsor: !scoreboardData.is_main_sponsor,
+    // };
+    // this.scoreboardData.updateScoreboardData(updatedScoreboardData);
+    this.scoreboardData.updateScoreboardDataKeyValue(scoreboardData.id!, {
       is_main_sponsor: !scoreboardData.is_main_sponsor,
-    };
-    this.scoreboardData.updateScoreboardData(updatedScoreboardData);
+    });
   }
 
   toggleTournamentLogoVisibility(scoreboardData: IScoreboard) {
     if (!scoreboardData) return;
-    const updatedScoreboardData = {
-      ...scoreboardData,
+    // const updatedScoreboardData = {
+    //   ...scoreboardData,
+    //   is_tournament_logo: !scoreboardData.is_tournament_logo,
+    // };
+    // this.scoreboardData.updateScoreboardData(updatedScoreboardData);
+    this.scoreboardData.updateScoreboardDataKeyValue(scoreboardData.id!, {
       is_tournament_logo: !scoreboardData.is_tournament_logo,
-    };
-    this.scoreboardData.updateScoreboardData(updatedScoreboardData);
+    });
   }
 
   toggleSponsorLineVisibility(scoreboardData: IScoreboard) {
     if (!scoreboardData) return;
-    const updatedScoreboardData = {
-      ...scoreboardData,
+    // const updatedScoreboardData = {
+    //   ...scoreboardData,
+    //   is_sponsor_line: !scoreboardData.is_sponsor_line,
+    // };
+    // this.scoreboardData.updateScoreboardData(updatedScoreboardData);
+    this.scoreboardData.updateScoreboardDataKeyValue(scoreboardData.id!, {
       is_sponsor_line: !scoreboardData.is_sponsor_line,
-    };
-    this.scoreboardData.updateScoreboardData(updatedScoreboardData);
+    });
   }
 
   toggleMatchSponsorLineVisibility(scoreboardData: IScoreboard) {
     if (!scoreboardData) return;
-    const updatedScoreboardData = {
-      ...scoreboardData,
+    // const updatedScoreboardData = {
+    //   ...scoreboardData,
+    //   is_match_sponsor_line: !scoreboardData.is_match_sponsor_line,
+    // };
+    // this.scoreboardData.updateScoreboardData(updatedScoreboardData);
+    this.scoreboardData.updateScoreboardDataKeyValue(scoreboardData.id!, {
       is_match_sponsor_line: !scoreboardData.is_match_sponsor_line,
-    };
-    this.scoreboardData.updateScoreboardData(updatedScoreboardData);
+    });
   }
 
   scaleLogo(logo: 'tournament' | 'mainSponsor', scoreboardData: IScoreboard) {
@@ -121,20 +133,26 @@ export class MainSponsorFormsComponent implements OnChanges {
 
       if (numberScaleTournamentLogo && logo === 'tournament') {
         const scaleLogoKey = 'scale_tournament_logo';
-        const updatedScoreboardData = {
-          ...scoreboardData,
+        this.scoreboardData.updateScoreboardDataKeyValue(scoreboardData.id!, {
           [scaleLogoKey]: scaleTournamentLogo,
-        };
-
-        this.scoreboardData.updateScoreboardData(updatedScoreboardData);
+        });
+        // const updatedScoreboardData = {
+        //   ...scoreboardData,
+        //   [scaleLogoKey]: scaleTournamentLogo,
+        // };
+        //
+        // this.scoreboardData.updateScoreboardData(updatedScoreboardData);
       } else {
         const scaleLogoKey = 'scale_main_sponsor';
-        const updatedScoreboardData = {
-          ...scoreboardData,
+        this.scoreboardData.updateScoreboardDataKeyValue(scoreboardData.id!, {
           [scaleLogoKey]: scaleMainSponsorLogo,
-        };
+        });
+        // const updatedScoreboardData = {
+        //   ...scoreboardData,
+        //   [scaleLogoKey]: scaleMainSponsorLogo,
+        // };
 
-        this.scoreboardData.updateScoreboardData(updatedScoreboardData);
+        // this.scoreboardData.updateScoreboardData(updatedScoreboardData);
       }
     }
   }

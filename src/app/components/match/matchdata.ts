@@ -1,10 +1,7 @@
-import { Injectable, OnInit } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 import { AppState } from '../../store/appstate';
-import { IMatch } from '../../type/match.type';
-import { matchActions } from './store/actions';
-import { selectCurrentMatchWithTeams } from './store/selectors';
 import { IMatchData } from '../../type/matchdata.type';
 import { matchDataActions } from './store/match-data/actions';
 import {
@@ -39,31 +36,14 @@ export class MatchData {
       matchDataActions.update({ id: matchData.id!, newMatchData: matchData }),
     );
   }
+
+  updateMatchDataKeyValue(id: number, data: any) {
+    console.log(id, data);
+    this.store.dispatch(
+      matchDataActions.updateMatchDataByKeyValue({
+        id: id,
+        data: data,
+      }),
+    );
+  }
 }
-
-//   startGameClock() {
-//     this.store.dispatch(matchDataActions.startGameClock());
-//   }
-//
-//   pauseGameClock() {
-//     this.store.dispatch(matchDataActions.pauseGameClock());
-//   }
-//
-//   resetGameClock(seconds: number) {
-//     this.store.dispatch(matchDataActions.resetGameClock({ seconds: seconds }));
-//   }
-//
-//   startPlayClock(seconds: number) {
-//     this.store.dispatch(matchDataActions.startPlayClock({ seconds: seconds }));
-//   }
-//
-//   resetPlayClock() {
-//     this.store.dispatch(matchDataActions.resetPlayClock());
-//   }
-// }
-
-// loadCurrentMatchByMatchId(matchId: number) {
-//   this.store.dispatch(
-//     matchDataActions.getMatchDataByMatchId({ matchId: matchId }),
-//   );
-// }

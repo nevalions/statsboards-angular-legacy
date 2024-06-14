@@ -43,5 +43,14 @@ export const matchDataActions = createActionGroup({
     Update: props<{ id: number; newMatchData: IMatchData }>(),
     'Updated successfully': props<{ updatedMatchData: IMatchData }>(),
     'Update failure': emptyProps(),
+
+    UpdateMatchDataByKeyValue: props<{
+      id: number;
+      data: any;
+    }>(),
+    'Update MatchData by key value successfully': props<{
+      updatedMatchData: IMatchData;
+    }>(),
+    'Update MatchData by key value failure': emptyProps(),
   },
 });

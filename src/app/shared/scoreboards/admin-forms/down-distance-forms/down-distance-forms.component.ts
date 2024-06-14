@@ -170,17 +170,23 @@ export class DownDistanceFormsComponent implements OnChanges {
       const isFlagged = formValue.isFlag;
       // console.log('FLAGED', isFlagged);
       if (isFlagged === true || isFlagged === false) {
-        const updatedScoreboardData = {
-          ...scoreboardData,
+        // const updatedScoreboardData = {
+        //   ...scoreboardData,
+        //   is_flag: !isFlagged,
+        // };
+        this.scoreboardData.updateScoreboardDataKeyValue(scoreboardData.id!, {
           is_flag: !isFlagged,
-        };
-        this.scoreboardData.updateScoreboardData(updatedScoreboardData);
+        });
+        // this.scoreboardData.updateScoreboardData(updatedScoreboardData);
       } else {
-        const updatedScoreboardData = {
-          ...scoreboardData,
+        // const updatedScoreboardData = {
+        //   ...scoreboardData,
+        //   is_flag: false,
+        // };
+        this.scoreboardData.updateScoreboardDataKeyValue(scoreboardData.id!, {
           is_flag: false,
-        };
-        this.scoreboardData.updateScoreboardData(updatedScoreboardData);
+        });
+        // this.scoreboardData.updateScoreboardData(updatedScoreboardData);
       }
     }
   }
@@ -213,12 +219,16 @@ export class DownDistanceFormsComponent implements OnChanges {
         distance = distance.slice(3);
       }
     }
-    const updatedMatchData = {
-      ...matchData,
-      down: down,
-      distance: distance || '',
-    };
+    // const updatedMatchData = {
+    //   ...matchData,
+    //   down: down,
+    //   distance: distance || '',
+    // };
 
-    this.matchData.updateMatchData(updatedMatchData);
+    // this.matchData.updateMatchData(updatedMatchData);
+    this.matchData.updateMatchDataKeyValue(matchData.id!, {
+      down: down,
+      distance: distance,
+    });
   }
 }
