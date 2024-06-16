@@ -97,7 +97,8 @@ export class QtrFormsComponent implements OnChanges {
         // };
         // this.scoreboardData.updateScoreboardData(updatedScoreboardData);
         this.scoreboardData.updateScoreboardDataKeyValue(scoreboardData.id!, {
-          is_goal_team_a: !isTouchdownTeamA,
+          is_goal_team_a: !this.data?.scoreboard_data?.is_goal_team_a,
+          // is_goal_team_a: !isTouchdownTeamA,
         });
       } else {
         // const updatedScoreboardData = {
@@ -106,7 +107,7 @@ export class QtrFormsComponent implements OnChanges {
         // };
         // this.scoreboardData.updateScoreboardData(updatedScoreboardData);
         this.scoreboardData.updateScoreboardDataKeyValue(scoreboardData.id!, {
-          is_goal_team_a: true,
+          is_goal_team_a: false,
         });
       }
     }
@@ -127,7 +128,8 @@ export class QtrFormsComponent implements OnChanges {
         // };
         // this.scoreboardData.updateScoreboardData(updatedScoreboardData);
         this.scoreboardData.updateScoreboardDataKeyValue(scoreboardData.id!, {
-          is_goal_team_b: !isTouchdownTeamB,
+          // is_goal_team_b: !isTouchdownTeamB,
+          is_goal_team_b: !this.data?.scoreboard_data?.is_goal_team_b,
         });
       } else {
         // const updatedScoreboardData = {
@@ -136,7 +138,7 @@ export class QtrFormsComponent implements OnChanges {
         // };
         // this.scoreboardData.updateScoreboardData(updatedScoreboardData);
         this.scoreboardData.updateScoreboardDataKeyValue(scoreboardData.id!, {
-          is_goal_team_b: true,
+          is_goal_team_b: false,
         });
       }
     }
