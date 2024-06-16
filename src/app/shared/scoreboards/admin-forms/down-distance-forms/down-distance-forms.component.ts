@@ -175,7 +175,8 @@ export class DownDistanceFormsComponent implements OnChanges {
         //   is_flag: !isFlagged,
         // };
         this.scoreboardData.updateScoreboardDataKeyValue(scoreboardData.id!, {
-          is_flag: !isFlagged,
+          // is_flag: !isFlagged,
+          is_flag: !this.data?.scoreboard_data?.is_flag,
         });
         // this.scoreboardData.updateScoreboardData(updatedScoreboardData);
       } else {
