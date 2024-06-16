@@ -35,8 +35,11 @@ export class TimeoutFormsComponent {
 
       if (inputValue) {
         const timeoutKey = team === 'a' ? 'timeout_team_a' : 'timeout_team_b';
-        const updatedMatchData = { ...matchData, [timeoutKey]: inputValue };
-        this.matchData.updateMatchData(updatedMatchData);
+        // const updatedMatchData = { ...matchData, [timeoutKey]: inputValue };
+        // this.matchData.updateMatchData(updatedMatchData);
+        this.matchData.updateMatchDataKeyValue(matchData.id!, {
+          [timeoutKey]: inputValue,
+        });
       }
     };
   }

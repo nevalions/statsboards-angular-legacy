@@ -65,38 +65,50 @@ export class ScoreboardDataFormsComponent implements OnChanges {
 
   toggleQuarterVisibility(scoreboardData: IScoreboard) {
     if (!scoreboardData) return;
-    const updatedScoreboardData = {
-      ...scoreboardData,
+    // const updatedScoreboardData = {
+    //   ...scoreboardData,
+    //   is_qtr: !scoreboardData.is_qtr,
+    // };
+    // this.scoreboardData.updateScoreboardData(updatedScoreboardData);
+    this.scoreboardData.updateScoreboardDataKeyValue(scoreboardData.id!, {
       is_qtr: !scoreboardData.is_qtr,
-    };
-    this.scoreboardData.updateScoreboardData(updatedScoreboardData);
+    });
   }
 
   togglePlayClockVisibility(scoreboardData: IScoreboard) {
     if (!scoreboardData) return;
-    const updatedScoreboardData = {
-      ...scoreboardData,
+    // const updatedScoreboardData = {
+    //   ...scoreboardData,
+    //   is_playclock: !scoreboardData.is_playclock,
+    // };
+    // this.scoreboardData.updateScoreboardData(updatedScoreboardData);
+    this.scoreboardData.updateScoreboardDataKeyValue(scoreboardData.id!, {
       is_playclock: !scoreboardData.is_playclock,
-    };
-    this.scoreboardData.updateScoreboardData(updatedScoreboardData);
+    });
   }
 
   toggleGameClockVisibility(scoreboardData: IScoreboard) {
     if (!scoreboardData) return;
-    const updatedScoreboardData = {
-      ...scoreboardData,
+    // const updatedScoreboardData = {
+    //   ...scoreboardData,
+    //   is_time: !scoreboardData.is_time,
+    // };
+    // this.scoreboardData.updateScoreboardData(updatedScoreboardData);
+    this.scoreboardData.updateScoreboardDataKeyValue(scoreboardData.id!, {
       is_time: !scoreboardData.is_time,
-    };
-    this.scoreboardData.updateScoreboardData(updatedScoreboardData);
+    });
   }
 
   toggleDownAndDistanceVisibility(scoreboardData: IScoreboard) {
     if (!scoreboardData) return;
-    const updatedScoreboardData = {
-      ...scoreboardData,
+    // const updatedScoreboardData = {
+    //   ...scoreboardData,
+    //   is_downdistance: !scoreboardData.is_downdistance,
+    // };
+    // this.scoreboardData.updateScoreboardData(updatedScoreboardData);
+    this.scoreboardData.updateScoreboardDataKeyValue(scoreboardData.id!, {
       is_downdistance: !scoreboardData.is_downdistance,
-    };
-    this.scoreboardData.updateScoreboardData(updatedScoreboardData);
+    });
   }
 
   updateTeamColor(team: 'a' | 'b', scoreboardData: IScoreboard) {
@@ -111,23 +123,29 @@ export class ScoreboardDataFormsComponent implements OnChanges {
       if (colorTeamA && team === 'a') {
         // console.log(inputValue);
         const colorKey = 'team_a_game_color';
-        const updatedScoreboardData = {
-          ...scoreboardData,
-          [colorKey]: colorTeamA,
-        };
+        // const updatedScoreboardData = {
+        //   ...scoreboardData,
+        //   [colorKey]: colorTeamA,
+        // };
         // console.log(updatedScoreboardData);
-        this.scoreboardData.updateScoreboardData(updatedScoreboardData);
+        // this.scoreboardData.updateScoreboardData(updatedScoreboardData);
+        this.scoreboardData.updateScoreboardDataKeyValue(scoreboardData.id!, {
+          [colorKey]: colorTeamA,
+        });
       }
 
       if (colorTeamB && team === 'b') {
         // console.log(inputValue);
         const colorKey = 'team_b_game_color';
-        const updatedScoreboardData = {
-          ...scoreboardData,
-          [colorKey]: colorTeamB,
-        };
+        // const updatedScoreboardData = {
+        //   ...scoreboardData,
+        //   [colorKey]: colorTeamB,
+        // };
         // console.log(updatedScoreboardData);
-        this.scoreboardData.updateScoreboardData(updatedScoreboardData);
+        // this.scoreboardData.updateScoreboardData(updatedScoreboardData);
+        this.scoreboardData.updateScoreboardDataKeyValue(scoreboardData.id!, {
+          [colorKey]: colorTeamB,
+        });
       }
     }
   }

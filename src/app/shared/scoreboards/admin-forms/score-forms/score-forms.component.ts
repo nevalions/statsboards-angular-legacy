@@ -106,13 +106,19 @@ export class ScoreFormsComponent implements OnChanges {
       const scoreB = Number(formValue.scoreTeamB);
 
       if (scoreA >= 0 && team == 'a') {
-        const updatedMatchData = { ...matchData, score_team_a: scoreA };
-        this.matchData.updateMatchData(updatedMatchData);
+        // const updatedMatchData = { ...matchData, score_team_a: scoreA };
+        // this.matchData.updateMatchData(updatedMatchData);
+        this.matchData.updateMatchDataKeyValue(matchData.id!, {
+          score_team_a: scoreA,
+        });
       }
 
       if (scoreB >= 0 && team == 'b') {
-        const updatedMatchData = { ...matchData, score_team_b: scoreB };
-        this.matchData.updateMatchData(updatedMatchData);
+        // const updatedMatchData = { ...matchData, score_team_b: scoreB };
+        // this.matchData.updateMatchData(updatedMatchData);
+        this.matchData.updateMatchDataKeyValue(matchData.id!, {
+          score_team_b: scoreB,
+        });
       }
     }
   }

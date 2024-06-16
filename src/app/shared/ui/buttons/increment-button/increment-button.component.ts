@@ -28,8 +28,11 @@ export class IncrementButtonComponent {
     let currentScore = matchData[currentScoreKey];
     if (currentScore != null) {
       currentScore = Math.max(0, currentScore + amount);
-      const newMatchData = { ...matchData, [currentScoreKey]: currentScore };
-      this.matchData.updateMatchData(newMatchData);
+      // const newMatchData = { ...matchData, [currentScoreKey]: currentScore };
+      // this.matchData.updateMatchData(newMatchData);
+      this.matchData.updateMatchDataKeyValue(matchData.id!, {
+        [currentScoreKey]: currentScore,
+      });
     }
   }
 }

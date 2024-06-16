@@ -91,17 +91,23 @@ export class QtrFormsComponent implements OnChanges {
 
       // console.log('TD', !isTouchdownTeamA);
       if (isTouchdownTeamA === true || isTouchdownTeamA === false) {
-        const updatedScoreboardData = {
-          ...scoreboardData,
+        // const updatedScoreboardData = {
+        //   ...scoreboardData,
+        //   is_goal_team_a: !isTouchdownTeamA,
+        // };
+        // this.scoreboardData.updateScoreboardData(updatedScoreboardData);
+        this.scoreboardData.updateScoreboardDataKeyValue(scoreboardData.id!, {
           is_goal_team_a: !isTouchdownTeamA,
-        };
-        this.scoreboardData.updateScoreboardData(updatedScoreboardData);
+        });
       } else {
-        const updatedScoreboardData = {
-          ...scoreboardData,
+        // const updatedScoreboardData = {
+        //   ...scoreboardData,
+        //   is_goal_team_a: true,
+        // };
+        // this.scoreboardData.updateScoreboardData(updatedScoreboardData);
+        this.scoreboardData.updateScoreboardDataKeyValue(scoreboardData.id!, {
           is_goal_team_a: true,
-        };
-        this.scoreboardData.updateScoreboardData(updatedScoreboardData);
+        });
       }
     }
   }
@@ -115,17 +121,23 @@ export class QtrFormsComponent implements OnChanges {
 
       console.log('TD', !isTouchdownTeamB);
       if (isTouchdownTeamB === true || isTouchdownTeamB === false) {
-        const updatedScoreboardData = {
-          ...scoreboardData,
+        // const updatedScoreboardData = {
+        //   ...scoreboardData,
+        //   is_goal_team_b: !isTouchdownTeamB,
+        // };
+        // this.scoreboardData.updateScoreboardData(updatedScoreboardData);
+        this.scoreboardData.updateScoreboardDataKeyValue(scoreboardData.id!, {
           is_goal_team_b: !isTouchdownTeamB,
-        };
-        this.scoreboardData.updateScoreboardData(updatedScoreboardData);
+        });
       } else {
-        const updatedScoreboardData = {
-          ...scoreboardData,
+        // const updatedScoreboardData = {
+        //   ...scoreboardData,
+        //   is_goal_team_b: true,
+        // };
+        // this.scoreboardData.updateScoreboardData(updatedScoreboardData);
+        this.scoreboardData.updateScoreboardDataKeyValue(scoreboardData.id!, {
           is_goal_team_b: true,
-        };
-        this.scoreboardData.updateScoreboardData(updatedScoreboardData);
+        });
       }
     }
   }
@@ -137,8 +149,11 @@ export class QtrFormsComponent implements OnChanges {
       const formValue = this.qtrForm.getRawValue();
       const qtr = formValue.qtrSelect;
       if (qtr) {
-        const updatedMatchData = { ...matchData, qtr: qtr };
-        this.matchData.updateMatchData(updatedMatchData);
+        // const updatedMatchData = { ...matchData, qtr: qtr };
+        // this.matchData.updateMatchData(updatedMatchData);
+        this.matchData.updateMatchDataKeyValue(matchData.id!, {
+          qtr: qtr,
+        });
       }
     }
   }

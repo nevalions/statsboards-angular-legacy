@@ -120,37 +120,6 @@ export class ChangeTeamsFormsComponent implements OnChanges {
     return of(null);
   }
 
-  // loadTeamLogo(
-  //   file: File,
-  //   loadingFiles$: Subject<TuiFileLike | null>,
-  //   controlName: string,
-  // ): Observable<TuiFileLike | null> {
-  //   loadingFiles$.next(file);
-  //
-  //   if (this.data && file && file.name) {
-  //     return this.imageService
-  //       .uploadImage(file, `matches/id/${this.data.match_id}/upload_team_logo`)
-  //       .pipe(
-  //         map((response: any) => {
-  //           // console.log(response);
-  //           // console.log(response.logoUrl);
-  //           this.teamDataForm.controls[controlName].setValue(response.logoUrl);
-  //
-  //           return file;
-  //         }),
-  //         catchError((error) => {
-  //           console.error('Error while uploading logo:', error);
-  //           return of(null);
-  //         }),
-  //         finalize(() => {
-  //           loadingFiles$.next(null);
-  //         }),
-  //       );
-  //   }
-  //
-  //   return of(null);
-  // }
-
   readonly loadedTeamALogo$ = this.createLoadedLogo$(
     this.teamALogoForm,
     (file: File) =>
@@ -267,11 +236,14 @@ export class ChangeTeamsFormsComponent implements OnChanges {
 
     const currentControlKey = controlKeys[team];
     // console.log(currentControlKey, useItem);
-    const updatedScoreboardData = {
-      ...scoreboardData,
+    // const updatedScoreboardData = {
+    //   ...scoreboardData,
+    //   [currentControlKey]: useItem,
+    // };
+    // this.scoreboardData.updateScoreboardData(updatedScoreboardData);
+    this.scoreboardData.updateScoreboardDataKeyValue(scoreboardData.id!, {
       [currentControlKey]: useItem,
-    };
-    this.scoreboardData.updateScoreboardData(updatedScoreboardData);
+    });
   }
 
   scaleLogo(team: 'a' | 'b', scoreboardData: IScoreboard) {
@@ -284,24 +256,30 @@ export class ChangeTeamsFormsComponent implements OnChanges {
       const numberScaleLogoA = Number(scaleLogoA);
       const numberScaleLogoB = Number(scaleLogoB);
 
-      console.log(numberScaleLogoA, numberScaleLogoB);
+      // console.log(numberScaleLogoA, numberScaleLogoB);
 
       if (numberScaleLogoA && team === 'a') {
         const scaleLogoKey = 'scale_logo_a';
-        const updatedScoreboardData = {
-          ...scoreboardData,
+        // const updatedScoreboardData = {
+        //   ...scoreboardData,
+        //   [scaleLogoKey]: scaleLogoA,
+        // };
+        //
+        // this.scoreboardData.updateScoreboardData(updatedScoreboardData);
+        this.scoreboardData.updateScoreboardDataKeyValue(scoreboardData.id!, {
           [scaleLogoKey]: scaleLogoA,
-        };
-
-        this.scoreboardData.updateScoreboardData(updatedScoreboardData);
+        });
       } else {
         const scaleLogoKey = 'scale_logo_b';
-        const updatedScoreboardData = {
-          ...scoreboardData,
+        // const updatedScoreboardData = {
+        //   ...scoreboardData,
+        //   [scaleLogoKey]: scaleLogoB,
+        // };
+        //
+        // this.scoreboardData.updateScoreboardData(updatedScoreboardData);
+        this.scoreboardData.updateScoreboardDataKeyValue(scoreboardData.id!, {
           [scaleLogoKey]: scaleLogoB,
-        };
-
-        this.scoreboardData.updateScoreboardData(updatedScoreboardData);
+        });
       }
     }
   }
@@ -321,23 +299,29 @@ export class ChangeTeamsFormsComponent implements OnChanges {
       if (teamALogo && team === 'a') {
         // console.log('teamALogo', teamALogo);
         const logoKey = 'team_a_game_logo';
-        const updatedScoreboardData = {
-          ...scoreboardData,
+        // const updatedScoreboardData = {
+        //   ...scoreboardData,
+        //   [logoKey]: teamALogo,
+        // };
+        // // console.log(updatedScoreboardData);
+        // this.scoreboardData.updateScoreboardData(updatedScoreboardData);
+        this.scoreboardData.updateScoreboardDataKeyValue(scoreboardData.id!, {
           [logoKey]: teamALogo,
-        };
-        // console.log(updatedScoreboardData);
-        this.scoreboardData.updateScoreboardData(updatedScoreboardData);
+        });
       }
 
       if (teamBLogo && team === 'b') {
         // console.log('valid b');
 
         const logoKey = 'team_b_game_logo';
-        const updatedScoreboardData = {
-          ...scoreboardData,
+        // const updatedScoreboardData = {
+        //   ...scoreboardData,
+        //   [logoKey]: teamBLogo,
+        // };
+        // this.scoreboardData.updateScoreboardData(updatedScoreboardData);
+        this.scoreboardData.updateScoreboardDataKeyValue(scoreboardData.id!, {
           [logoKey]: teamBLogo,
-        };
-        this.scoreboardData.updateScoreboardData(updatedScoreboardData);
+        });
       }
     }
   }
@@ -352,20 +336,26 @@ export class ChangeTeamsFormsComponent implements OnChanges {
 
       if (teamATitle && team === 'a') {
         const titleKey = 'team_a_game_title';
-        const updatedScoreboardData = {
-          ...scoreboardData,
+        // const updatedScoreboardData = {
+        //   ...scoreboardData,
+        //   [titleKey]: teamATitle,
+        // };
+        // this.scoreboardData.updateScoreboardData(updatedScoreboardData);
+        this.scoreboardData.updateScoreboardDataKeyValue(scoreboardData.id!, {
           [titleKey]: teamATitle,
-        };
-        this.scoreboardData.updateScoreboardData(updatedScoreboardData);
+        });
       }
 
       if (teamBTitle && team === 'b') {
         const titleKey = 'team_b_game_title';
-        const updatedScoreboardData = {
-          ...scoreboardData,
+        // const updatedScoreboardData = {
+        //   ...scoreboardData,
+        //   [titleKey]: teamBTitle,
+        // };
+        // this.scoreboardData.updateScoreboardData(updatedScoreboardData);
+        this.scoreboardData.updateScoreboardDataKeyValue(scoreboardData.id!, {
           [titleKey]: teamBTitle,
-        };
-        this.scoreboardData.updateScoreboardData(updatedScoreboardData);
+        });
       }
     }
   }

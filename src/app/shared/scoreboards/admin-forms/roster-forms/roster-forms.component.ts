@@ -63,58 +63,85 @@ export class RosterFormsComponent implements OnChanges {
 
   toggleShowHomeOffenseRosterVisibility(scoreboardData: IScoreboard) {
     if (!scoreboardData) return;
-    const updatedScoreboardData = {
-      ...scoreboardData,
+    // const updatedScoreboardData = {
+    //   ...scoreboardData,
+    //   is_team_a_start_offense: !scoreboardData.is_team_a_start_offense,
+    //   is_team_b_start_offense: false,
+    //   is_team_a_start_defense: false,
+    //   is_team_b_start_defense: false,
+    // };
+    // this.scoreboardData.updateScoreboardData(updatedScoreboardData);
+    this.scoreboardData.updateScoreboardDataKeyValue(scoreboardData.id!, {
       is_team_a_start_offense: !scoreboardData.is_team_a_start_offense,
       is_team_b_start_offense: false,
       is_team_a_start_defense: false,
       is_team_b_start_defense: false,
-    };
-    this.scoreboardData.updateScoreboardData(updatedScoreboardData);
+    });
   }
 
   toggleShowAwayOffenseRosterVisibility(scoreboardData: IScoreboard) {
     if (!scoreboardData) return;
-    const updatedScoreboardData = {
-      ...scoreboardData,
+    // const updatedScoreboardData = {
+    //   ...scoreboardData,
+    //   is_team_b_start_offense: !scoreboardData.is_team_b_start_offense,
+    //   is_team_a_start_offense: false,
+    //   is_team_a_start_defense: false,
+    //   is_team_b_start_defense: false,
+    // };
+    // this.scoreboardData.updateScoreboardData(updatedScoreboardData);
+    this.scoreboardData.updateScoreboardDataKeyValue(scoreboardData.id!, {
       is_team_b_start_offense: !scoreboardData.is_team_b_start_offense,
       is_team_a_start_offense: false,
       is_team_a_start_defense: false,
       is_team_b_start_defense: false,
-    };
-    this.scoreboardData.updateScoreboardData(updatedScoreboardData);
+    });
   }
 
   toggleShowHomeDefenseRosterVisibility(scoreboardData: IScoreboard) {
     if (!scoreboardData) return;
-    const updatedScoreboardData = {
-      ...scoreboardData,
+    // const updatedScoreboardData = {
+    //   ...scoreboardData,
+    //   is_team_a_start_defense: !scoreboardData.is_team_a_start_defense,
+    //   is_team_b_start_offense: false,
+    //   is_team_a_start_offense: false,
+    //   is_team_b_start_defense: false,
+    // };
+    // this.scoreboardData.updateScoreboardData(updatedScoreboardData);
+    this.scoreboardData.updateScoreboardDataKeyValue(scoreboardData.id!, {
       is_team_a_start_defense: !scoreboardData.is_team_a_start_defense,
       is_team_b_start_offense: false,
       is_team_a_start_offense: false,
       is_team_b_start_defense: false,
-    };
-    this.scoreboardData.updateScoreboardData(updatedScoreboardData);
+    });
   }
 
   toggleShowAwayDefenseRosterVisibility(scoreboardData: IScoreboard) {
     if (!scoreboardData) return;
-    const updatedScoreboardData = {
-      ...scoreboardData,
+    // const updatedScoreboardData = {
+    //   ...scoreboardData,
+    //   is_team_b_start_defense: !scoreboardData.is_team_b_start_defense,
+    //   is_team_b_start_offense: false,
+    //   is_team_a_start_offense: false,
+    //   is_team_a_start_defense: false,
+    // };
+    // this.scoreboardData.updateScoreboardData(updatedScoreboardData);
+    this.scoreboardData.updateScoreboardDataKeyValue(scoreboardData.id!, {
       is_team_b_start_defense: !scoreboardData.is_team_b_start_defense,
       is_team_b_start_offense: false,
       is_team_a_start_offense: false,
       is_team_a_start_defense: false,
-    };
-    this.scoreboardData.updateScoreboardData(updatedScoreboardData);
+    });
   }
 
   toggleShowMatchPlayerLowerVisibility(scoreboardData: IScoreboard) {
     if (!scoreboardData) return;
-    const updatedScoreboardData = {
-      ...scoreboardData,
+    // const updatedScoreboardData = {
+    //   ...scoreboardData,
+    //   is_match_player_lower: !scoreboardData.is_match_player_lower,
+    // };
+    // this.scoreboardData.updateScoreboardData(updatedScoreboardData);
+    this.scoreboardData.updateScoreboardDataKeyValue(scoreboardData.id!, {
       is_match_player_lower: !scoreboardData.is_match_player_lower,
-    };
-    this.scoreboardData.updateScoreboardData(updatedScoreboardData);
+    });
   }
 }
