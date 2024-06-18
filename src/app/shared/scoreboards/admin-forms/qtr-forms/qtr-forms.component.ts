@@ -10,6 +10,7 @@ import { AdminSubmitButtonComponent } from '../../../ui/buttons/admin-submit-but
 import { TuiDataListWrapperModule, TuiSelectModule } from '@taiga-ui/kit';
 import { TuiButtonModule } from '@taiga-ui/core';
 import { ScoreboardData } from '../../../../components/scoreboard-data/scoreboard-data';
+import { Websocket } from '../../../../store/websocket/websocket';
 
 @Component({
   selector: 'app-qtr-forms',
@@ -41,6 +42,7 @@ export class QtrFormsComponent implements OnChanges {
   constructor(
     private matchData: MatchData,
     private scoreboardData: ScoreboardData,
+    private websocket: Websocket,
   ) {
     this.qtrForm = this.initQtrForm();
     this.isGoalForm = this.initGoalForm();
@@ -88,8 +90,9 @@ export class QtrFormsComponent implements OnChanges {
     if (this.isGoalForm.valid) {
       const formValue = this.isGoalForm.getRawValue();
       const isTouchdownTeamA = formValue.isTouchdownTeamA;
+      this.websocket.checkConnection();
 
-      console.log('TD', !isTouchdownTeamA);
+      // console.log('TD', !isTouchdownTeamA);
       if (isTouchdownTeamA === true || isTouchdownTeamA === false) {
         // const updatedScoreboardData = {
         //   ...scoreboardData,
@@ -119,8 +122,9 @@ export class QtrFormsComponent implements OnChanges {
     if (this.isGoalForm.valid) {
       const formValue = this.isGoalForm.getRawValue();
       const isTouchdownTeamB = formValue.isTouchdownTeamB;
+      this.websocket.checkConnection();
 
-      console.log('TD', !isTouchdownTeamB);
+      // console.log('TD', !isTouchdownTeamB);
       if (isTouchdownTeamB === true || isTouchdownTeamB === false) {
         // const updatedScoreboardData = {
         //   ...scoreboardData,
@@ -150,6 +154,7 @@ export class QtrFormsComponent implements OnChanges {
     if (this.qtrForm.valid) {
       const formValue = this.qtrForm.getRawValue();
       const qtr = formValue.qtrSelect;
+      this.websocket.checkConnection();
       if (qtr) {
         // const updatedMatchData = { ...matchData, qtr: qtr };
         // this.matchData.updateMatchData(updatedMatchData);

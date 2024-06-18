@@ -5,6 +5,7 @@ import { MatchData } from '../../../../components/match/matchdata';
 import { IMatchFullDataWithScoreboard } from '../../../../type/match.type';
 import { AddSignPipe } from '../../../../pipes/add-sign.pipe';
 import { TeamNamePipe } from '../../../../pipes/team-name.pipe';
+import { Websocket } from '../../../../store/websocket/websocket';
 
 @Component({
   selector: 'app-increment-button',
@@ -19,10 +20,14 @@ export class IncrementButtonComponent {
   @Input() disabled: boolean = false;
   @Input() data!: IMatchFullDataWithScoreboard;
 
-  constructor(private matchData: MatchData) {}
+  constructor(
+    private matchData: MatchData,
+    private websocket: Websocket,
+  ) {}
 
   adjustScore(team: 'a' | 'b', amount: number, matchData: IMatchData) {
     if (!matchData) return;
+    this.websocket.checkConnection();
 
     const currentScoreKey = team === 'a' ? 'score_team_a' : 'score_team_b';
     let currentScore = matchData[currentScoreKey];

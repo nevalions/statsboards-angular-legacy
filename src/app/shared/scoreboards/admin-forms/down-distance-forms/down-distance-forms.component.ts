@@ -166,6 +166,7 @@ export class DownDistanceFormsComponent implements OnChanges {
 
   toggleFlag(scoreboardData: IScoreboard) {
     if (!scoreboardData) return;
+    this.websocket.checkConnection();
 
     if (this.isFlagForm.valid) {
       const formValue = this.isFlagForm.getRawValue();
@@ -176,7 +177,6 @@ export class DownDistanceFormsComponent implements OnChanges {
         //   ...scoreboardData,
         //   is_flag: !isFlagged,
         // };
-        this.websocket.checkConnection();
 
         this.scoreboardData.updateScoreboardDataKeyValue(scoreboardData.id!, {
           // is_flag: !isFlagged,
@@ -231,6 +231,7 @@ export class DownDistanceFormsComponent implements OnChanges {
     // };
 
     // this.matchData.updateMatchData(updatedMatchData);
+    this.websocket.checkConnection();
     this.matchData.updateMatchDataKeyValue(matchData.id!, {
       down: down,
       distance: distance,

@@ -28,6 +28,7 @@ import { Playclock } from '../../../../components/playclock/playclock';
 import { IPlayclock } from '../../../../type/playclock.type';
 import { IGameclock } from '../../../../type/gameclock.type';
 import { Gameclock } from '../../../../components/gameclock/gameclock';
+import { Websocket } from '../../../../store/websocket/websocket';
 
 @Component({
   selector: 'app-time-forms',
@@ -68,6 +69,7 @@ export class TimeFormsComponent implements OnChanges {
   constructor(
     private playclockData: Playclock,
     private gameclockData: Gameclock,
+    private websocket: Websocket,
   ) {
     this.gameClockForm = this.initGameClockForm();
     this.playClockForm = this.initPlayClockForm();
@@ -137,20 +139,23 @@ export class TimeFormsComponent implements OnChanges {
   }
 
   startGameClock() {
+    this.websocket.checkConnection();
     this.gameclockData.startGameClock();
   }
 
   pauseGameClock() {
+    this.websocket.checkConnection();
     this.gameclockData.pauseGameClock();
   }
 
   saveNewGameClock(gameclock: IGameclock) {
-    console.log(gameclock);
+    // console.log(gameclock);
     if (!gameclock) return;
+    this.websocket.checkConnection();
 
     if (this.gameClockForm.valid) {
       const formValue = this.gameClockForm.getRawValue();
-      console.log(formValue);
+      // console.log(formValue);
 
       const minutes = Number(formValue.gameTimeMinutes);
       const seconds = Number(formValue.gameTimeSeconds);
@@ -163,14 +168,17 @@ export class TimeFormsComponent implements OnChanges {
   }
 
   resetGameClock() {
+    this.websocket.checkConnection();
     this.gameclockData.resetGameClock(720);
   }
 
   startPlayClock(sec: number) {
+    this.websocket.checkConnection();
     this.playclockData.startPlayClock(sec);
   }
 
   resetPlayClock() {
+    this.websocket.checkConnection();
     this.playclockData.resetPlayClock();
   }
 }

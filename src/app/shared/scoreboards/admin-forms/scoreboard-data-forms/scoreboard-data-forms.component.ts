@@ -10,6 +10,7 @@ import { AdminDownButtonComponent } from '../../../ui/buttons/admin-down-button/
 import { AdminSubmitButtonComponent } from '../../../ui/buttons/admin-submit-button/admin-submit-button.component';
 import { ToggleVisibleButtonComponent } from '../../../ui/buttons/toggle-visible-button/toggle-visible-button.component';
 import { DownDistanceFormsComponent } from '../down-distance-forms/down-distance-forms.component';
+import { Websocket } from '../../../../store/websocket/websocket';
 
 @Component({
   selector: 'app-scoreboard-data-forms',
@@ -35,7 +36,10 @@ export class ScoreboardDataFormsComponent implements OnChanges {
 
   teamColorForm: FormGroup;
 
-  constructor(private scoreboardData: ScoreboardData) {
+  constructor(
+    private scoreboardData: ScoreboardData,
+    private websocket: Websocket,
+  ) {
     this.teamColorForm = this.initForm();
   }
 
@@ -65,6 +69,7 @@ export class ScoreboardDataFormsComponent implements OnChanges {
 
   toggleQuarterVisibility(scoreboardData: IScoreboard) {
     if (!scoreboardData) return;
+    this.websocket.checkConnection();
     // const updatedScoreboardData = {
     //   ...scoreboardData,
     //   is_qtr: !scoreboardData.is_qtr,
@@ -77,6 +82,7 @@ export class ScoreboardDataFormsComponent implements OnChanges {
 
   togglePlayClockVisibility(scoreboardData: IScoreboard) {
     if (!scoreboardData) return;
+    this.websocket.checkConnection();
     // const updatedScoreboardData = {
     //   ...scoreboardData,
     //   is_playclock: !scoreboardData.is_playclock,
@@ -89,6 +95,7 @@ export class ScoreboardDataFormsComponent implements OnChanges {
 
   toggleGameClockVisibility(scoreboardData: IScoreboard) {
     if (!scoreboardData) return;
+    this.websocket.checkConnection();
     // const updatedScoreboardData = {
     //   ...scoreboardData,
     //   is_time: !scoreboardData.is_time,
@@ -101,6 +108,7 @@ export class ScoreboardDataFormsComponent implements OnChanges {
 
   toggleDownAndDistanceVisibility(scoreboardData: IScoreboard) {
     if (!scoreboardData) return;
+    this.websocket.checkConnection();
     // const updatedScoreboardData = {
     //   ...scoreboardData,
     //   is_downdistance: !scoreboardData.is_downdistance,
@@ -113,6 +121,7 @@ export class ScoreboardDataFormsComponent implements OnChanges {
 
   updateTeamColor(team: 'a' | 'b', scoreboardData: IScoreboard) {
     if (!scoreboardData) return;
+    this.websocket.checkConnection();
     // console.log(scoreboardData);
 
     if (this.teamColorForm.valid) {

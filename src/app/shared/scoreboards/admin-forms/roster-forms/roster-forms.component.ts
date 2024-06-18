@@ -14,6 +14,7 @@ import { SelectPlayerToMatchComponent } from '../../../ui/select/select-player-t
 import { SelectPlayerLowerComponent } from '../../../ui/select/select-player-lower/select-player-lower.component';
 import { IPlayerInMatchFullData } from '../../../../type/player.type';
 import { PlayerInMatch } from '../../../../components/player-match/player-match';
+import { Websocket } from '../../../../store/websocket/websocket';
 
 @Component({
   selector: 'app-roster-forms',
@@ -50,6 +51,7 @@ export class RosterFormsComponent implements OnChanges {
   constructor(
     private scoreboardData: ScoreboardData,
     private playerInMatch: PlayerInMatch,
+    private websocket: Websocket,
   ) {
     playerInMatch.loadAllPlayersFullDataInMatch();
   }
@@ -63,6 +65,7 @@ export class RosterFormsComponent implements OnChanges {
 
   toggleShowHomeOffenseRosterVisibility(scoreboardData: IScoreboard) {
     if (!scoreboardData) return;
+    this.websocket.checkConnection();
     // const updatedScoreboardData = {
     //   ...scoreboardData,
     //   is_team_a_start_offense: !scoreboardData.is_team_a_start_offense,
@@ -81,6 +84,7 @@ export class RosterFormsComponent implements OnChanges {
 
   toggleShowAwayOffenseRosterVisibility(scoreboardData: IScoreboard) {
     if (!scoreboardData) return;
+    this.websocket.checkConnection();
     // const updatedScoreboardData = {
     //   ...scoreboardData,
     //   is_team_b_start_offense: !scoreboardData.is_team_b_start_offense,
@@ -99,6 +103,7 @@ export class RosterFormsComponent implements OnChanges {
 
   toggleShowHomeDefenseRosterVisibility(scoreboardData: IScoreboard) {
     if (!scoreboardData) return;
+    this.websocket.checkConnection();
     // const updatedScoreboardData = {
     //   ...scoreboardData,
     //   is_team_a_start_defense: !scoreboardData.is_team_a_start_defense,
@@ -117,6 +122,7 @@ export class RosterFormsComponent implements OnChanges {
 
   toggleShowAwayDefenseRosterVisibility(scoreboardData: IScoreboard) {
     if (!scoreboardData) return;
+    this.websocket.checkConnection();
     // const updatedScoreboardData = {
     //   ...scoreboardData,
     //   is_team_b_start_defense: !scoreboardData.is_team_b_start_defense,
@@ -135,6 +141,7 @@ export class RosterFormsComponent implements OnChanges {
 
   toggleShowMatchPlayerLowerVisibility(scoreboardData: IScoreboard) {
     if (!scoreboardData) return;
+    this.websocket.checkConnection();
     // const updatedScoreboardData = {
     //   ...scoreboardData,
     //   is_match_player_lower: !scoreboardData.is_match_player_lower,

@@ -7,6 +7,7 @@ import { AsyncPipe, NgIf } from '@angular/common';
 import { ToggleVisibleButtonComponent } from '../../../ui/buttons/toggle-visible-button/toggle-visible-button.component';
 import { TuiLabelModule, TuiTextfieldControllerModule } from '@taiga-ui/core';
 import { AdminTimeoutButtonComponent } from '../../../ui/buttons/admin-timeout-button/admin-timeout-button.component';
+import { Websocket } from '../../../../store/websocket/websocket';
 
 @Component({
   selector: 'app-timeout-forms',
@@ -27,11 +28,15 @@ export class TimeoutFormsComponent {
   @Input() data: IMatchFullDataWithScoreboard | undefined;
   @Input() disabled: boolean = false;
 
-  constructor(private matchData: MatchData) {}
+  constructor(
+    private matchData: MatchData,
+    private websocket: Websocket,
+  ) {}
 
   updateTeamTimeout(team: 'a' | 'b', inputValue: string) {
     return (matchData: IMatchData) => {
       if (!matchData) return;
+      this.websocket.checkConnection();
 
       if (inputValue) {
         const timeoutKey = team === 'a' ? 'timeout_team_a' : 'timeout_team_b';

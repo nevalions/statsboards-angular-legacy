@@ -25,6 +25,7 @@ import { switchMap } from 'rxjs/operators';
 import { ScoreboardData } from '../../../../components/scoreboard-data/scoreboard-data';
 import { IScoreboard } from '../../../../type/matchdata.type';
 import { TuiValueChangesModule } from '@taiga-ui/cdk';
+import { Websocket } from '../../../../store/websocket/websocket';
 
 @Component({
   selector: 'app-change-teams-forms',
@@ -64,6 +65,7 @@ export class ChangeTeamsFormsComponent implements OnChanges {
     private scoreboardData: ScoreboardData,
     // private matchData: MatchData,
     private imageService: ImageService,
+    private websocket: Websocket,
   ) {
     this.teamDataForm = this.initForm();
   }
@@ -233,6 +235,7 @@ export class ChangeTeamsFormsComponent implements OnChanges {
       aLogo: 'use_team_a_game_logo',
       bLogo: 'use_team_b_game_logo',
     };
+    this.websocket.checkConnection();
 
     const currentControlKey = controlKeys[team];
     // console.log(currentControlKey, useItem);
@@ -248,6 +251,7 @@ export class ChangeTeamsFormsComponent implements OnChanges {
 
   scaleLogo(team: 'a' | 'b', scoreboardData: IScoreboard) {
     if (!scoreboardData) return;
+    this.websocket.checkConnection();
 
     if (this.teamDataForm.valid) {
       const formValue = this.teamDataForm.getRawValue();
@@ -287,6 +291,7 @@ export class ChangeTeamsFormsComponent implements OnChanges {
   updateTeamGameLogo(team: 'a' | 'b', scoreboardData: IScoreboard) {
     // console.log('logo clicked');
     if (!scoreboardData) return;
+    this.websocket.checkConnection();
 
     if (this.teamDataForm.valid) {
       // console.log('valid');
@@ -328,6 +333,7 @@ export class ChangeTeamsFormsComponent implements OnChanges {
 
   updateTeamGameTitle(team: 'a' | 'b', scoreboardData: IScoreboard) {
     if (!scoreboardData) return;
+    this.websocket.checkConnection();
 
     if (this.teamDataForm.valid) {
       const formValue = this.teamDataForm.getRawValue();

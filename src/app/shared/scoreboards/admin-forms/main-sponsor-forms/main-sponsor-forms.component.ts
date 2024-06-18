@@ -9,6 +9,7 @@ import { AdminDownButtonComponent } from '../../../ui/buttons/admin-down-button/
 import { ToggleVisibleButtonComponent } from '../../../ui/buttons/toggle-visible-button/toggle-visible-button.component';
 import { AdminSubmitButtonComponent } from '../../../ui/buttons/admin-submit-button/admin-submit-button.component';
 import { TuiInputSliderModule } from '@taiga-ui/kit';
+import { Websocket } from '../../../../store/websocket/websocket';
 
 @Component({
   selector: 'app-main-sponsor-forms',
@@ -39,7 +40,10 @@ export class MainSponsorFormsComponent implements OnChanges {
   readonly steps = (this.max - this.min) / this.sliderStep;
   readonly quantum = 0.01;
 
-  constructor(private scoreboardData: ScoreboardData) {
+  constructor(
+    private scoreboardData: ScoreboardData,
+    private websocket: Websocket,
+  ) {
     this.mainSponsorForm = this.initForm();
   }
 
@@ -73,6 +77,7 @@ export class MainSponsorFormsComponent implements OnChanges {
 
   toggleMainSponsorVisibility(scoreboardData: IScoreboard) {
     if (!scoreboardData) return;
+    this.websocket.checkConnection();
     // const updatedScoreboardData = {
     //   ...scoreboardData,
     //   is_main_sponsor: !scoreboardData.is_main_sponsor,
@@ -85,6 +90,7 @@ export class MainSponsorFormsComponent implements OnChanges {
 
   toggleTournamentLogoVisibility(scoreboardData: IScoreboard) {
     if (!scoreboardData) return;
+    this.websocket.checkConnection();
     // const updatedScoreboardData = {
     //   ...scoreboardData,
     //   is_tournament_logo: !scoreboardData.is_tournament_logo,
@@ -97,6 +103,7 @@ export class MainSponsorFormsComponent implements OnChanges {
 
   toggleSponsorLineVisibility(scoreboardData: IScoreboard) {
     if (!scoreboardData) return;
+    this.websocket.checkConnection();
     // const updatedScoreboardData = {
     //   ...scoreboardData,
     //   is_sponsor_line: !scoreboardData.is_sponsor_line,
@@ -109,6 +116,7 @@ export class MainSponsorFormsComponent implements OnChanges {
 
   toggleMatchSponsorLineVisibility(scoreboardData: IScoreboard) {
     if (!scoreboardData) return;
+    this.websocket.checkConnection();
     // const updatedScoreboardData = {
     //   ...scoreboardData,
     //   is_match_sponsor_line: !scoreboardData.is_match_sponsor_line,
@@ -121,6 +129,7 @@ export class MainSponsorFormsComponent implements OnChanges {
 
   scaleLogo(logo: 'tournament' | 'mainSponsor', scoreboardData: IScoreboard) {
     if (!scoreboardData) return;
+    this.websocket.checkConnection();
 
     if (this.mainSponsorForm.valid) {
       const formValue = this.mainSponsorForm.getRawValue();

@@ -30,6 +30,7 @@ import {
 } from '@taiga-ui/kit';
 import { IncrementButtonComponent } from '../../../ui/buttons/increment-button/increment-button.component';
 import { AdminSubmitButtonComponent } from '../../../ui/buttons/admin-submit-button/admin-submit-button.component';
+import { Websocket } from '../../../../store/websocket/websocket';
 
 @Component({
   selector: 'app-score-forms',
@@ -67,7 +68,10 @@ export class ScoreFormsComponent implements OnChanges {
 
   scoreForm: FormGroup;
 
-  constructor(private matchData: MatchData) {
+  constructor(
+    private websocket: Websocket,
+    private matchData: MatchData,
+  ) {
     this.scoreForm = this.initForm();
   }
 
@@ -104,6 +108,7 @@ export class ScoreFormsComponent implements OnChanges {
       const formValue = this.scoreForm.getRawValue();
       const scoreA = Number(formValue.scoreTeamA);
       const scoreB = Number(formValue.scoreTeamB);
+      this.websocket.checkConnection();
 
       if (scoreA >= 0 && team == 'a') {
         // const updatedMatchData = { ...matchData, score_team_a: scoreA };

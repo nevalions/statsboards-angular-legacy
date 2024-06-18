@@ -19,7 +19,7 @@ export class ToggleVisibleButtonComponent {
   constructor(private ui: Ui) {}
 
   toggleItemVisibility(formName: string) {
-    console.log('toggleItemVisibility', formName);
+    // console.log('toggleItemVisibility', formName);
     this.ui.toggleFormVisibility(formName);
   }
 }
