@@ -117,6 +117,24 @@ const webSocketFeature = createFeature({
       loading: false,
       error,
     })),
+    on(webSocketActions.checkConnection, (state) => ({
+      ...state,
+      loading: true,
+      error: null,
+    })),
+    on(webSocketActions.checkConnectionSuccess, (state, { isConnected }) => ({
+      ...state,
+      loading: false,
+      connectionState: isConnected
+        ? WebSocketStateEnum.CONNECTED
+        : WebSocketStateEnum.DISCONNECTED,
+      error: null,
+    })),
+    on(webSocketActions.checkConnectionFailure, (state, { error }) => ({
+      ...state,
+      loading: false,
+      error,
+    })),
   ),
 });
 

@@ -40,11 +40,6 @@ export class WebSocketService {
     );
   }
 
-  // public regenerateClientId(): void {
-  //   this.clientId = this.generateUUID();
-  //   localStorage.setItem('clientId', this.clientId);
-  // }
-
   public connect(matchId: number): Observable<number> {
     return new Observable<number>((observer) => {
       // If a WebSocket is already open, use it.
@@ -108,9 +103,21 @@ export class WebSocketService {
     }
   }
 
-  public isConnected(): boolean {
-    return this.socket?.readyState === 1 || false;
+  public checkConnection(): Observable<boolean> {
+    return new Observable<boolean>((observer) => {
+      if (this.socket && this.socket.readyState === WebSocket.OPEN) {
+        observer.next(true);
+        observer.complete();
+      } else {
+        observer.next(false);
+        observer.complete();
+      }
+    });
   }
+
+  // public isConnected(): boolean {
+  //   return this.socket?.readyState === 1 || false;
+  // }
 
   private reconnect(matchId: number): void {
     if (

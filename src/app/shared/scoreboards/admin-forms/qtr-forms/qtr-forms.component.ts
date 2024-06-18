@@ -89,7 +89,7 @@ export class QtrFormsComponent implements OnChanges {
       const formValue = this.isGoalForm.getRawValue();
       const isTouchdownTeamA = formValue.isTouchdownTeamA;
 
-      // console.log('TD', !isTouchdownTeamA);
+      console.log('TD', !isTouchdownTeamA);
       if (isTouchdownTeamA === true || isTouchdownTeamA === false) {
         // const updatedScoreboardData = {
         //   ...scoreboardData,

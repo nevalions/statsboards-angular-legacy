@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { delay, filter, from, mergeMap, of, scan, withLatestFrom } from 'rxjs';
+import { filter, mergeMap, of, withLatestFrom } from 'rxjs';
 import { catchError, map, switchMap, tap } from 'rxjs/operators';
 import { WebSocketService } from '../../services/web-socket.service';
 import { webSocketActions } from './websocket.actions';
@@ -65,6 +65,57 @@ export class WebSocketEffects {
       ),
     ),
   );
+
+  checkConnection$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(webSocketActions.checkConnection),
+      switchMap(() =>
+        this.webSocketService.checkConnection().pipe(
+          map((isConnected) =>
+            webSocketActions.checkConnectionSuccess({ isConnected }),
+          ),
+          catchError((error) =>
+            of(webSocketActions.checkConnectionFailure({ error })),
+          ),
+        ),
+      ),
+    ),
+  );
+
+  reconnectOnCheckConnectionFailure$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(webSocketActions.checkConnectionSuccess),
+      tap(({ isConnected }) =>
+        console.log(
+          `WebSocket connection status: ${isConnected ? 'Connected' : 'Disconnected'}`,
+        ),
+      ),
+      mergeMap(
+        ({ isConnected }) =>
+          isConnected
+            ? of().pipe(tap(() => console.log('Already connected')))
+            : of(webSocketActions.connect()).pipe(
+                tap(() => console.log('Reconnecting WebSocket...')),
+              ), // Dispatch reconnect action if not connected
+      ),
+    ),
+  );
+
+  // checkConnection$ = createEffect(() =>
+  //   this.actions$.pipe(
+  //     ofType(webSocketActions.checkConnection),
+  //     switchMap(() =>
+  //       this.webSocketService.checkConnection().pipe(
+  //         map((isConnected) =>
+  //           webSocketActions.checkConnectionSuccess({ isConnected }),
+  //         ),
+  //         catchError((error) =>
+  //           of(webSocketActions.checkConnectionFailure({ error })),
+  //         ),
+  //       ),
+  //     ),
+  //   ),
+  // );
 
   receiveMessage$ = createEffect(() =>
     this.actions$.pipe(

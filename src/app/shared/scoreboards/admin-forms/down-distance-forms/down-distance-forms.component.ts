@@ -16,6 +16,7 @@ import {
 import { AdminDownButtonComponent } from '../../../ui/buttons/admin-down-button/admin-down-button.component';
 import { TuiButtonModule } from '@taiga-ui/core';
 import { ScoreboardData } from '../../../../components/scoreboard-data/scoreboard-data';
+import { Websocket } from '../../../../store/websocket/websocket';
 
 @Component({
   selector: 'app-down-distance-forms',
@@ -103,6 +104,7 @@ export class DownDistanceFormsComponent implements OnChanges {
   constructor(
     private matchData: MatchData,
     private scoreboardData: ScoreboardData,
+    private websocket: Websocket,
   ) {
     this.downDistanceForm = this.initForm();
     this.distanceForm = this.initDistanceForm();
@@ -174,6 +176,8 @@ export class DownDistanceFormsComponent implements OnChanges {
         //   ...scoreboardData,
         //   is_flag: !isFlagged,
         // };
+        this.websocket.checkConnection();
+
         this.scoreboardData.updateScoreboardDataKeyValue(scoreboardData.id!, {
           // is_flag: !isFlagged,
           is_flag: !this.data?.scoreboard_data?.is_flag,

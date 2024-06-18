@@ -1,11 +1,8 @@
-import { map, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppState } from '../appstate';
-import {
-  selectConnectionState,
-  WebSocketStateEnum,
-} from './websocket.reducers';
+import { WebSocketStateEnum } from './websocket.reducers';
 import { webSocketActions } from './websocket.actions';
 
 @Injectable({
@@ -33,15 +30,19 @@ export class Websocket {
     this.store.dispatch(webSocketActions.connect());
   }
 
+  checkConnection() {
+    this.store.dispatch(webSocketActions.checkConnection());
+  }
+
   // connectMatchByUrl() {
   //   this.store.dispatch();
   // }
 
-  isConnected() {
-    this.store
-      .select(selectConnectionState)
-      .pipe(map((state) => state === 'CONNECTED'));
-  }
+  // isConnected() {
+  //   this.store
+  //     .select(selectConnectionState)
+  //     .pipe(map((state) => state === 'CONNECTED'));
+  // }
 
   // message(){
   //   this.store.dispatch(webSocketActions.());
