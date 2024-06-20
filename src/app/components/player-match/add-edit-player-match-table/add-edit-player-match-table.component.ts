@@ -471,6 +471,13 @@ export class AddEditPlayerMatchTableComponent implements OnChanges, OnInit {
           } else {
             console.error('no team');
           }
+          if (
+            newPlayerInMatch.p.player_team_tournament
+              .player_team_tournament_eesl_id
+          ) {
+            playerInMatchData.player_match_eesl_id =
+              newPlayerInMatch.p.player_team_tournament.player_team_tournament_eesl_id;
+          }
           if (newPlayerInMatch.match_number) {
             playerInMatchData.match_number = newPlayerInMatch.match_number;
           }
