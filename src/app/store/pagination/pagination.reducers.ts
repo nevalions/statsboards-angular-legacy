@@ -11,7 +11,7 @@ export interface PaginationState {
 
 export const initialPaginationState: PaginationState = {
   currentPage: 1,
-  itemsPerPage: 5,
+  itemsPerPage: 8,
   currentPagePlayersInTeamTable: 1,
   itemsPerPagePlayersInTeamTable: 10,
 };

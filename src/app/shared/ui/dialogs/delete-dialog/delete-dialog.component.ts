@@ -58,6 +58,14 @@ export class DeleteDialogComponent implements OnInit, OnDestroy, OnChanges {
 
   open: boolean = false;
 
+  itemUpperCaseTitle(item: string): string {
+    if (item) {
+      return item.toUpperCase();
+    } else {
+      return '';
+    }
+  }
+
   private initializeDialogSubscription(): void {
     this.unsubscribeDialogSubscription();
     this.dialogSubscription = this.dialogService

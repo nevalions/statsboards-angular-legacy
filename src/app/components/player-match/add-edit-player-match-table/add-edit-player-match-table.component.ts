@@ -394,7 +394,7 @@ export class AddEditPlayerMatchTableComponent implements OnChanges, OnInit {
         };
         const data: IPlayerInMatch = {
           id: playerData.playerInMatchId,
-          player_match_eesl_id: null,
+          // player_match_eesl_id: null,
           player_team_tournament_id: null,
           match_position_id: null,
           // match_id: this.match.id,
@@ -418,6 +418,11 @@ export class AddEditPlayerMatchTableComponent implements OnChanges, OnInit {
         if (playerData.isStart) {
           data.is_start = playerData.isStart;
         }
+
+        // if (playerData.playerInMatch.player_match_eesl_id) {
+        //   data.player_match_eesl_id =
+        //     playerData.playerInMatch.player_match_eesl_id;
+        // }
         // if (playerData.teamId) {
         //   data.team_id = playerData.teamId;
         // }
@@ -471,12 +476,14 @@ export class AddEditPlayerMatchTableComponent implements OnChanges, OnInit {
           } else {
             console.error('no team');
           }
-          if (
-            newPlayerInMatch.p.player_team_tournament
-              .player_team_tournament_eesl_id
-          ) {
-            playerInMatchData.player_match_eesl_id =
-              newPlayerInMatch.p.player_team_tournament.player_team_tournament_eesl_id;
+          if (newPlayerInMatch.p.player_team_tournament) {
+            if (
+              newPlayerInMatch.p.player_team_tournament
+                .player_team_tournament_eesl_id
+            ) {
+              playerInMatchData.player_match_eesl_id =
+                newPlayerInMatch.p.player_team_tournament.player_team_tournament_eesl_id;
+            }
           }
           if (newPlayerInMatch.match_number) {
             playerInMatchData.match_number = newPlayerInMatch.match_number;

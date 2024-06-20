@@ -3,21 +3,20 @@ import { Store } from '@ngrx/store';
 import { AppState } from '../appstate';
 import { Observable } from 'rxjs';
 import {
-  selectSearchFilteredMatches,
+  selectPaginatedFilteredMatches,
   selectPaginatedMatchesInTournamentSearchResults,
   selectPaginatedMatchesInTournamentWeekSearchResults,
   selectPaginatedPersonSearchResults,
   selectPaginatedPlayerInSportSearchResults,
+  selectPaginatedPlayerInTeamTournamentResults,
   selectPaginatedTeamInSportSearchResults,
   selectTotalFilteredMatchesPages,
   selectTotalMatchesInTournamentSearchPages,
   selectTotalMatchesInTournamentWeekSearchPages,
   selectTotalPersonSearchPages,
   selectTotalPlayerInSportSearchPages,
-  selectTotalTeamInSportSearchPages,
-  selectPaginatedFilteredMatches,
   selectTotalPlayersInTeamTournamentPages,
-  selectPaginatedPlayerInTeamTournamentResults,
+  selectTotalTeamInSportSearchPages,
 } from './pagination.selectors';
 import { ITeam } from '../../type/team.type';
 import { paginationActions } from './pagination.actions';
@@ -27,7 +26,6 @@ import {
   IPlayerInTeamTournamentWithPersonWithSportWithPosition,
 } from '../../type/player.type';
 import { IMatchWithFullData } from '../../type/match.type';
-import { selectAllPlayersInTeamTournamentWithPersonsWithPositions } from '../../components/player-team-tournament/store/selectors';
 
 @Injectable({
   providedIn: 'root',
