@@ -4,19 +4,20 @@ import { Observable } from 'rxjs';
 import { AppState } from '../../store/appstate';
 import { IMatch } from '../../type/match.type';
 import { matchActions } from './store/actions';
-import { selectCurrentMatchWithTeams } from './store/selectors';
 import { ITournament } from '../../type/tournament.type';
 
 @Injectable({
   providedIn: 'root',
 })
 export class Match {
+  matchIsLoading$: Observable<boolean>;
   match$: Observable<IMatch | null | undefined>;
   matchesInSport$: Observable<IMatch[]>;
   matchesInTournament$: Observable<IMatch[]>;
   matchTournament$: Observable<ITournament | null | undefined>;
 
   constructor(private store: Store<AppState>) {
+    this.matchIsLoading$ = store.select((state) => state.match.matchIsLoading);
     this.match$ = store.select((state) => state.match.currentMatch);
     this.matchesInSport$ = store.select(
       (state) => state.match.allMatchesInSport,
@@ -55,5 +56,9 @@ export class Match {
   deleteMatch() {
     this.store.dispatch(matchActions.delete());
     //   DELETE FULL DATA FROM REDUCER
+  }
+
+  parsMatchesInTournamentEESL() {
+    this.store.dispatch(matchActions.parsMatchesFromTournamentEESL());
   }
 }

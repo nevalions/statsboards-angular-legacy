@@ -49,6 +49,8 @@ import { Team } from '../../team/team';
 import { Tournament } from '../tournament';
 import { TournamentAddEditFormComponent } from '../tournament-add-edit-form/tournament-add-edit-form.component';
 import { calculateAgeStats } from '../../../base/helpers';
+import { Match } from '../../match/match';
+import { ParseButtonComponent } from '../../../shared/ui/buttons/parse-button/parse-button.component';
 
 @Component({
   selector: 'app-item-tournament',
@@ -76,6 +78,7 @@ import { calculateAgeStats } from '../../../base/helpers';
     TuiValueChangesModule,
     DecimalPipe,
     TitleCasePipe,
+    ParseButtonComponent,
   ],
   templateUrl: './item-tournament.component.html',
   styleUrl: './item-tournament.component.less',
@@ -102,6 +105,8 @@ export class ItemTournamentComponent {
   matchesInTournament$ =
     this.matchWithFullData.matchesWithFullDataInTournament$;
 
+  parsMatchIsLoading$ = this.match.matchIsLoading$;
+
   allSportPlayersWithPerson$ = this.player.allSportPlayersWithPerson$;
   allAvailablePlayersToAddInTournament$ =
     this.playerInTeamTournament.allAvailablePlayersToAddInTournament$;
@@ -127,6 +132,7 @@ export class ItemTournamentComponent {
     private tournament: Tournament,
     private team: Team,
     private teamTournament: TeamTournament,
+    private match: Match,
     private matchWithFullData: MatchWithFullData,
     private sponsor: Sponsor,
     private sponsorLine: SponsorLine,
@@ -194,6 +200,10 @@ export class ItemTournamentComponent {
 
   changePlayerInTournamentPageSize(size: number | 'All'): void {
     this.pagination.changePlayerInTournamentItemsPerPage(size);
+  }
+
+  parsMatchesFromTournamentEESL() {
+    this.match.parsMatchesInTournamentEESL();
   }
 
   protected readonly url = urlWithProtocol;

@@ -1,16 +1,14 @@
 import { inject, Injectable } from '@angular/core';
 import { BaseApiService } from '../../services/base.api.service';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, map, Observable, Subject } from 'rxjs';
+import { BehaviorSubject, map, Observable } from 'rxjs';
 import { Router } from '@angular/router';
 import { ErrorHandlingService } from '../../services/error.service';
 import { IMatch, IMatchWithFullData } from '../../type/match.type';
-import { ITournament } from '../../type/tournament.type';
 import { tap } from 'rxjs/operators';
 import { SortService } from '../../services/sort.service';
 import { TournamentService } from '../tournament/tournament.service';
 import { MatchWithFullDataService } from '../match-with-full-data/matchfulldata.service';
-import { IPlayerInMatchFullData } from '../../type/player.type';
 
 @Injectable({
   providedIn: 'root',
@@ -83,5 +81,22 @@ export class MatchService extends BaseApiService<IMatch> {
         subscriber.complete();
       });
     });
+  }
+
+  parsMatchesFromTournamentEESL(
+    tournamentEESLId: number,
+  ): Observable<IMatchWithFullData[]> {
+    return this.parsByFirstKeyValue(
+      'matches/pars_and_create',
+      'tournament',
+      tournamentEESLId,
+    ).pipe(
+      tap((matches) =>
+        console.log(
+          `MATCHES from TOURNAMENT EESL ID: ${tournamentEESLId}`,
+          matches,
+        ),
+      ),
+    );
   }
 }

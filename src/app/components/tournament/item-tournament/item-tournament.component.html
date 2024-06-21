@@ -50,10 +50,19 @@
         [allSponsorLines]="allSponsorLines$ | async"
       ></app-tournament-add-edit-form>
 
+      <app-parse-button
+        [isLoading]="(parsMatchIsLoading$|async)!"
+        [appear]="TuiAppearance.Primary"
+        [buttonSize]="'m'"
+        [item]="'add matches from eesl'"
+        (click)="parsMatchesFromTournamentEESL()"
+      ></app-parse-button>
+
       <app-delete-button
         [item]="buttonTitle"
         [dialogId]="'deleteDialog'"
       ></app-delete-button>
+
       <app-delete-dialog
         [item]="buttonTitle"
         (delete)="onDelete()"

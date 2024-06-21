@@ -462,7 +462,7 @@ export class AddEditPlayerMatchTableComponent implements OnChanges, OnInit {
             match_number: null,
             team_id: null,
             match_id: this.match.id!,
-            is_start: null,
+            is_start: false,
           };
 
           if (newPlayerInMatch.p.player_team_tournament) {
@@ -515,7 +515,7 @@ export class AddEditPlayerMatchTableComponent implements OnChanges, OnInit {
       match_number: '0',
       team_id: null,
       match_id: this.match.id,
-      is_start: null,
+      is_start: false,
     };
 
     if (this.side === 'home') {

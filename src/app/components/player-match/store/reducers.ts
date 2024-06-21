@@ -355,12 +355,14 @@ const playerInMatchFeature = createFeature({
         };
       },
     ),
-
-    on(playerInMatchActions.getItemFailure, (state, action) => ({
-      ...state,
-      playerInMatchIsLoading: false,
-      errors: action,
-    })),
+    on(
+      playerInMatchActions.parsedPlayerFromMatchEESLFailure,
+      (state, action) => ({
+        ...state,
+        playerInMatchIsLoading: false,
+        errors: action,
+      }),
+    ),
   ),
 });
 

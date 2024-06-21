@@ -1,5 +1,5 @@
 import { createActionGroup, emptyProps, props } from '@ngrx/store';
-import { IMatch } from '../../../type/match.type';
+import { IMatch, IMatchWithFullData } from '../../../type/match.type';
 
 export const matchActions = createActionGroup({
   source: 'match',
@@ -42,5 +42,11 @@ export const matchActions = createActionGroup({
       seasonId: number;
     }>(),
     'Delete failure': emptyProps(),
+
+    ParsMatchesFromTournamentEESL: emptyProps,
+    'Parsed matches from tournament EESL successfully': props<{
+      parseList: any[] | IMatchWithFullData[];
+    }>(),
+    'Parsed matches from tournament EESL failure': emptyProps(),
   },
 });

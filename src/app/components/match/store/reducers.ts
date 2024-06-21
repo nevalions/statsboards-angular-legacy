@@ -1,30 +1,31 @@
 import { createFeature, createReducer, on } from '@ngrx/store';
 import { SortService } from '../../../services/sort.service';
-import {
-  crudStoreInterface,
-  getDefaultCrudStore,
-} from '../../../type/store.intarface';
 import { matchActions } from './actions';
-import { IMatch } from '../../../type/match.type';
+import { IMatch, IMatchWithFullData } from '../../../type/match.type';
+import { IPlayerInTeamTournament } from '../../../type/player.type';
 
-export interface MatchState extends crudStoreInterface {
+export interface MatchState {
   matchIsLoading: boolean;
+  matchIsSubmitting: boolean;
   currentMatchId: number | undefined | null;
   currentMatch: IMatch | undefined | null;
   allMatches: IMatch[];
   allMatchesInSport: IMatch[];
   allMatchesInTournament: IMatch[];
+  allMatchesWithFullDataInTournament: IMatchWithFullData[];
+  parsedMatchesFromTournamentEESL: any[] | IPlayerInTeamTournament[];
 }
 
 const initialState: MatchState = {
-  ...getDefaultCrudStore(),
   matchIsLoading: false,
+  matchIsSubmitting: false,
   currentMatchId: null,
   allMatches: [],
   allMatchesInSport: [],
   allMatchesInTournament: [],
+  allMatchesWithFullDataInTournament: [],
   currentMatch: null,
-  errors: null,
+  parsedMatchesFromTournamentEESL: [],
 };
 
 const matchFeature = createFeature({
@@ -48,14 +49,14 @@ const matchFeature = createFeature({
     // create actions
     on(matchActions.create, (state) => ({
       ...state,
-      isSubmitting: true,
+      matchIsSubmitting: true,
     })),
     on(matchActions.createdSuccessfully, (state, action) => {
       const newList = [...state.allMatches, action.currentMatch];
       const sortedTournaments = SortService.sort(newList, 'week', '-date');
       return {
         ...state,
-        isSubmitting: false,
+        matchIsSubmitting: false,
         currentMatch: action.currentMatch,
         allMatches: sortedTournaments,
         allMatchesInTournament: sortedTournaments,
@@ -63,18 +64,18 @@ const matchFeature = createFeature({
     }),
     on(matchActions.createFailure, (state, action) => ({
       ...state,
-      isSubmitting: false,
+      matchIsSubmitting: false,
       errors: action,
     })),
 
     // delete actions
     on(matchActions.delete, (state) => ({
       ...state,
-      isSubmitting: true,
+      matchIsSubmitting: true,
     })),
     on(matchActions.deletedSuccessfully, (state, action) => ({
       ...state,
-      isSubmitting: false,
+      matchIsSubmitting: false,
       allMatches: (state.allMatches || []).filter(
         (item) => item.id !== action.matchId,
       ),
@@ -85,18 +86,18 @@ const matchFeature = createFeature({
     })),
     on(matchActions.deleteFailure, (state, action) => ({
       ...state,
-      isSubmitting: false,
+      matchIsSubmitting: false,
       errors: action,
     })),
 
     // update actions
     on(matchActions.update, (state) => ({
       ...state,
-      isSubmitting: true,
+      matchIsSubmitting: true,
     })),
     on(matchActions.updatedSuccessfully, (state, action) => ({
       ...state,
-      isSubmitting: false,
+      matchIsSubmitting: false,
       currentMatch: action.updatedMatch,
       allMatches: state.allMatches.map((item) =>
         item.id === action.updatedMatch.id ? action.updatedMatch : item,
@@ -108,7 +109,7 @@ const matchFeature = createFeature({
     })),
     on(matchActions.updateFailure, (state, action) => ({
       ...state,
-      isSubmitting: false,
+      matchIsSubmitting: false,
       errors: action,
     })),
     on(matchActions.updateAllMatchesInTournament, (state, { newMatch }) => {
@@ -123,87 +124,122 @@ const matchFeature = createFeature({
     // get actions
     on(matchActions.get, (state) => ({
       ...state,
-      isLoading: true,
       matchIsLoading: true,
     })),
     on(matchActions.getItemSuccess, (state, action) => ({
       ...state,
-      isLoading: false,
-      matchIsLoading: true,
+      matchIsLoading: false,
       currentMatch: action.match,
     })),
     on(matchActions.getItemFailure, (state, action) => ({
       ...state,
-      isLoading: false,
       matchIsLoading: false,
       errors: action,
     })),
 
     on(matchActions.getAll, (state) => ({
       ...state,
-      isLoading: true,
+      matchIsLoading: true,
     })),
     on(matchActions.getAllItemsSuccess, (state, action) => {
       const sortedMatches = SortService.sort(action.matches, '-date');
       return {
         ...state,
-        isLoading: false,
+        matchIsLoading: false,
         allMatches: sortedMatches,
       };
     }),
     on(matchActions.getAllItemsFailure, (state, action) => ({
       ...state,
-      isLoading: false,
+      matchIsLoading: false,
       errors: action,
     })),
 
     on(matchActions.getMatchesBySportId, (state) => ({
       ...state,
-      isLoading: true,
+      matchIsLoading: true,
     })),
     on(matchActions.getMatchesBySportIDSuccess, (state, action) => {
       const sortedMatches = SortService.sort(action.matches, '-date');
       return {
         ...state,
-        isLoading: false,
+        matchIsLoading: false,
         allMatchesInSport: sortedMatches,
       };
     }),
     on(matchActions.getMatchesBySportIDFailure, (state, action) => ({
       ...state,
-      isLoading: false,
+      matchIsLoading: false,
       errors: action,
     })),
 
     on(matchActions.getMatchesByTournamentId, (state) => ({
       ...state,
-      isLoading: true,
+      matchIsLoading: true,
     })),
     on(matchActions.getMatchesByTournamentIDSuccess, (state, action) => {
       const sortedMatches = SortService.sort(action.matches, 'week', '-date');
       return {
         ...state,
-        isLoading: false,
+        matchIsLoading: false,
         allMatchesInTournament: sortedMatches,
       };
     }),
     on(matchActions.getMatchesByTournamentIDFailure, (state, action) => ({
       ...state,
-      isLoading: false,
+      matchIsLoading: false,
       errors: action,
     })),
+
+    //pars matches from tournament EESL
+    on(matchActions.parsMatchesFromTournamentEESL, (state) => ({
+      ...state,
+      matchIsLoading: true,
+    })),
+    on(
+      matchActions.parsedMatchesFromTournamentEESLSuccessfully,
+      (state, action) => {
+        let updatedMatchList: IMatchWithFullData[] = [];
+        action.parseList.forEach((newMatch) => {
+          let existingMatch = state.allMatchesInTournament.find(
+            (match) => match.id === newMatch.match.id,
+          );
+
+          if (existingMatch) {
+            updatedMatchList.push({ ...existingMatch, ...newMatch });
+          } else {
+            updatedMatchList.push(newMatch);
+          }
+        });
+        return {
+          ...state,
+          allMatchesWithFullDataInTournament: updatedMatchList,
+          matchIsLoading: false,
+          parsedMatchesFromTournamentEESL: action.parseList,
+        };
+      },
+    ),
+    on(
+      matchActions.parsedMatchesFromTournamentEESLFailure,
+      (state, action) => ({
+        ...state,
+        matchIsLoading: false,
+        errors: action,
+      }),
+    ),
   ),
 });
 
 export const {
   name: matchFeatureKey,
   reducer: matchReducer,
-  selectIsSubmitting,
-  selectIsLoading,
   selectMatchIsLoading,
+  selectMatchIsSubmitting,
   selectCurrentMatchId,
   selectCurrentMatch,
   selectAllMatches,
   selectAllMatchesInSport,
   selectAllMatchesInTournament,
+  selectAllMatchesWithFullDataInTournament,
+  selectParsedMatchesFromTournamentEESL,
 } = matchFeature;

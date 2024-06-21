@@ -13,13 +13,16 @@ import {
 import { tap } from 'rxjs/operators';
 
 import { Store } from '@ngrx/store';
-import { selectCurrentTournamentId } from '../../tournament/store/reducers';
+import {
+  selectCurrentTournament,
+  selectCurrentTournamentId,
+} from '../../tournament/store/reducers';
 
 import { routerNavigatedAction } from '@ngrx/router-store';
 import {
+  getDefaultFullData,
   IMatch,
   IMatchWithFullData,
-  getDefaultFullData,
 } from '../../../type/match.type';
 import { MatchService } from '../match.service';
 import { matchActions } from './actions';
@@ -33,6 +36,7 @@ import { selectCurrentMatchWithFullData } from '../../match-with-full-data/store
 import { selectAllTeamsInTournament } from '../../team/store/reducers';
 import { tournamentActions } from '../../tournament/store/actions';
 import { TournamentService } from '../../tournament/tournament.service';
+import { selectAllMatchesWithFullDataInTournament } from './reducers';
 
 @Injectable()
 export class MatchEffects {
@@ -362,6 +366,50 @@ export class MatchEffects {
       }),
     ),
   );
+
+  parsMatchesFromTournamentEESLEffect = createEffect(
+    () => {
+      return this.actions$.pipe(
+        ofType(matchActions.parsMatchesFromTournamentEESL),
+        switchMap(() => this.store.select(selectCurrentTournament)),
+        filter((tournament) => tournament !== null && tournament !== undefined),
+        switchMap((tournament) =>
+          this.matchService
+            .parsMatchesFromTournamentEESL(tournament!.tournament_eesl_id!)
+            .pipe(
+              map((parseList: any[] | IMatchWithFullData[]) =>
+                matchActions.parsedMatchesFromTournamentEESLSuccessfully({
+                  parseList,
+                }),
+              ),
+              catchError(() =>
+                of(matchActions.parsedMatchesFromTournamentEESLFailure()),
+              ),
+            ),
+        ),
+      );
+    },
+    { functional: true },
+  );
+
+  triggerGetMatchesWithFullDataEffect = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(matchActions.parsedMatchesFromTournamentEESLSuccessfully),
+      switchMap(() =>
+        this.store.select(selectAllMatchesWithFullDataInTournament),
+      ),
+      map((matchesWithFullData) =>
+        matchWithFullDataActions.getMatchesWithFullDataByTournamentIDSuccess({
+          matchesWithFullData,
+        }),
+      ),
+      catchError(() =>
+        of(
+          matchWithFullDataActions.getMatchesWithFullDataByTournamentIDFailure(),
+        ),
+      ),
+    );
+  });
 
   constructor(
     private router: Router,
