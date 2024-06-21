@@ -35,6 +35,7 @@ export class QtrFormsComponent implements OnChanges {
 
   qtrForm: FormGroup;
   isGoalForm: FormGroup;
+  isTimeoutForm: FormGroup;
 
   // items: string[] = ['1st', '2nd', 'HT', '3rd', '4th', 'Final', 'OT'];
   items: string[] = ['1', '2', '', '3', '4', '', 'ОТ'];
@@ -46,12 +47,14 @@ export class QtrFormsComponent implements OnChanges {
   ) {
     this.qtrForm = this.initQtrForm();
     this.isGoalForm = this.initGoalForm();
+    this.isTimeoutForm = this.initTimeoutForm();
   }
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['data']) {
       this.qtrForm = this.initQtrForm();
       this.isGoalForm = this.initGoalForm();
+      this.isTimeoutForm = this.initTimeoutForm();
     }
     if (changes['disabled']) {
       if (this.disabled) {
@@ -80,6 +83,17 @@ export class QtrFormsComponent implements OnChanges {
       ),
       isTouchdownTeamB: new FormControl<boolean | null | undefined>(
         this.data?.scoreboard_data?.is_goal_team_b,
+      ),
+    });
+  }
+
+  private initTimeoutForm(): FormGroup {
+    return new FormGroup({
+      isTimeoutTeamA: new FormControl<boolean | null | undefined>(
+        this.data?.scoreboard_data?.is_timeout_team_a,
+      ),
+      isTimeoutTeamB: new FormControl<boolean | null | undefined>(
+        this.data?.scoreboard_data?.is_timeout_team_b,
       ),
     });
   }
@@ -143,6 +157,48 @@ export class QtrFormsComponent implements OnChanges {
         // this.scoreboardData.updateScoreboardData(updatedScoreboardData);
         this.scoreboardData.updateScoreboardDataKeyValue(scoreboardData.id!, {
           is_goal_team_b: false,
+        });
+      }
+    }
+  }
+
+  toggleTimeoutTeamA(scoreboardData: IScoreboard) {
+    if (!scoreboardData) return;
+
+    if (this.isTimeoutForm.valid) {
+      const formValue = this.isTimeoutForm.getRawValue();
+      const isTimoutTeamA = formValue.isTimeoutTeamA;
+      this.websocket.checkConnection();
+
+      // console.log('Timeout', !isTimoutTeamA);
+      if (isTimoutTeamA === true || isTimoutTeamA === false) {
+        this.scoreboardData.updateScoreboardDataKeyValue(scoreboardData.id!, {
+          is_timeout_team_a: !this.data?.scoreboard_data?.is_timeout_team_a,
+        });
+      } else {
+        this.scoreboardData.updateScoreboardDataKeyValue(scoreboardData.id!, {
+          is_timeout_team_a: false,
+        });
+      }
+    }
+  }
+
+  toggleTimeoutTeamB(scoreboardData: IScoreboard) {
+    if (!scoreboardData) return;
+
+    if (this.isTimeoutForm.valid) {
+      const formValue = this.isTimeoutForm.getRawValue();
+      const isTimoutTeamB = formValue.isTimeoutTeamB;
+      this.websocket.checkConnection();
+
+      // console.log('Timeout', !isTimoutTeamA);
+      if (isTimoutTeamB === true || isTimoutTeamB === false) {
+        this.scoreboardData.updateScoreboardDataKeyValue(scoreboardData.id!, {
+          is_timeout_team_b: !this.data?.scoreboard_data?.is_timeout_team_b,
+        });
+      } else {
+        this.scoreboardData.updateScoreboardDataKeyValue(scoreboardData.id!, {
+          is_timeout_team_b: false,
         });
       }
     }

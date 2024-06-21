@@ -39,7 +39,7 @@
           <div class="team-block">
             <div class="team_a-name">
               <span
-                [hidden]="data.scoreboard_data?.is_goal_team_a"
+                [hidden]="data.scoreboard_data?.is_goal_team_a || data.scoreboard_data?.is_timeout_team_a"
                 [@visibilityChange]="teamAVisibility"
                 class="team_a-name-span"
                 [style.font-size]="teamAFontSize"
@@ -52,7 +52,7 @@
               </span>
             </div>
             <div
-              [hidden]="data.scoreboard_data?.is_goal_team_a"
+              [hidden]="data.scoreboard_data?.is_goal_team_a || data.scoreboard_data?.is_timeout_team_a"
               [@visibilityChange]="teamAVisibility"
               class="team_a-thisgame"
             >
@@ -60,17 +60,26 @@
                 @for (box of data.match_data?.timeout_team_a; track $index) {
                   <div class="box" [class]="{'black-box': box === '○', 'white-box': box === '●'}"></div>
                 }
-                <!--                <span class="timeout-text">{{ data.match_data?.timeout_team_a }}</span>-->
               </div>
             </div>
 
             <div
-              [hidden]="!data.scoreboard_data?.is_goal_team_a"
-              [@visibilityChange]="teamAVisibility == 'invisible' ? 'visible' : 'invisible'"
+              [hidden]="!data.scoreboard_data?.is_goal_team_a || data.scoreboard_data?.is_timeout_team_a"
+              [@visibilityChange]="teamAGoalVisibility"
               class="touchdown"
             >
               <span class="touchdown-span breathing">
                 {{ goal | uppercase }}
+              </span>
+            </div>
+
+            <div
+              [hidden]="!data.scoreboard_data?.is_timeout_team_a || data.scoreboard_data?.is_goal_team_a"
+              [@visibilityChange]="teamATimeoutVisibility"
+              class="touchdown"
+            >
+              <span class="touchdown-span">
+                {{ timeout | uppercase }}
               </span>
             </div>
 
@@ -113,7 +122,7 @@
           <div class="team-block">
             <div class="team_b-name">
               <span
-                [hidden]="data.scoreboard_data?.is_goal_team_b"
+                [hidden]="data.scoreboard_data?.is_goal_team_b || data.scoreboard_data?.is_timeout_team_b"
                 [@visibilityChange]="teamBVisibility"
                 class="team_b-name-span"
                 [style.font-size]="teamBFontSize"
@@ -126,7 +135,7 @@
               </span>
             </div>
             <div
-              [hidden]="data.scoreboard_data?.is_goal_team_b"
+              [hidden]="data.scoreboard_data?.is_goal_team_b || data.scoreboard_data?.is_timeout_team_b"
               [@visibilityChange]="teamBVisibility"
               class="team_b-thisgame"
             >
@@ -138,15 +147,23 @@
             </div>
 
             <div
-              [hidden]="!data.scoreboard_data?.is_goal_team_b"
-              [@visibilityChange]="teamBVisibility == 'invisible' ? 'visible' : 'invisible'"
+              [hidden]="!data.scoreboard_data?.is_goal_team_b || data.scoreboard_data?.is_timeout_team_b"
+              [@visibilityChange]="teamBGoalVisibility"
               class="touchdown"
             >
-            <span
-              class="touchdown-span breathing"
+              <span class="touchdown-span breathing">
+                {{ goal | uppercase }}
+              </span>
+            </div>
+
+            <div
+              [hidden]="!data.scoreboard_data?.is_timeout_team_b || data.scoreboard_data?.is_goal_team_b"
+              [@visibilityChange]="teamBTimeoutVisibility"
+              class="touchdown"
             >
-              {{ goal | uppercase }}
-            </span>
+              <span class="touchdown-span">
+                {{ timeout | uppercase }}
+              </span>
             </div>
 
           </div>

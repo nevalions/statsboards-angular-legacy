@@ -52,6 +52,7 @@ export class ScoreboardDisplayFlatComponent
 
   // goal = 'touchdown';
   goal = 'ТАЧДАУН';
+  timeout = 'ТАЙМАУТ';
   scoreAState = 'unchanged';
   scoreBState = 'unchanged';
   downDistanceState = 'unchanged';
@@ -60,6 +61,10 @@ export class ScoreboardDisplayFlatComponent
   flagVisibility = 'invisible';
   teamAVisibility = 'invisible';
   teamBVisibility = 'invisible';
+  teamAGoalVisibility = 'invisible';
+  teamBGoalVisibility = 'invisible';
+  teamATimeoutVisibility = 'invisible';
+  teamBTimeoutVisibility = 'invisible';
 
   playerLowerVisibility = 'invisible';
   // awayPlayerLowerVisibility = 'invisible';
@@ -139,12 +144,49 @@ export class ScoreboardDisplayFlatComponent
         ? 'visible'
         : 'invisible';
 
-      this.teamAVisibility = !currData.scoreboard_data?.is_goal_team_a
-        ? 'visible'
-        : 'invisible';
-      this.teamBVisibility = !currData.scoreboard_data?.is_goal_team_b
-        ? 'visible'
-        : 'invisible';
+      this.teamAVisibility =
+        !currData.scoreboard_data?.is_goal_team_a &&
+        !currData.scoreboard_data?.is_timeout_team_a
+          ? 'visible'
+          : 'invisible';
+      this.teamBVisibility =
+        !currData.scoreboard_data?.is_goal_team_b &&
+        !currData.scoreboard_data?.is_timeout_team_b
+          ? 'visible'
+          : 'invisible';
+      this.teamAGoalVisibility =
+        currData.scoreboard_data?.is_goal_team_a &&
+        !currData.scoreboard_data?.is_timeout_team_a
+          ? 'visible'
+          : 'invisible';
+      this.teamBGoalVisibility =
+        currData.scoreboard_data?.is_goal_team_b &&
+        !currData.scoreboard_data?.is_timeout_team_b
+          ? 'visible'
+          : 'invisible';
+      this.teamATimeoutVisibility =
+        currData.scoreboard_data?.is_timeout_team_a &&
+        !currData.scoreboard_data?.is_goal_team_a
+          ? 'visible'
+          : 'invisible';
+      this.teamBTimeoutVisibility =
+        currData.scoreboard_data?.is_timeout_team_b &&
+        !currData.scoreboard_data?.is_goal_team_b
+          ? 'visible'
+          : 'invisible';
+
+      // this.teamAVisibility = !currData.scoreboard_data?.is_goal_team_a
+      //   ? 'visible'
+      //   : 'invisible';
+      // this.teamBVisibility = !currData.scoreboard_data?.is_goal_team_b
+      //   ? 'visible'
+      //   : 'invisible';
+      // this.teamAGoalVisibility = currData.scoreboard_data?.is_timeout_team_a
+      //   ? 'visible'
+      //   : 'invisible';
+      // this.teamBGoalVisibility = currData.scoreboard_data?.is_timeout_team_b
+      //   ? 'visible'
+      //   : 'invisible';
     }
   }
 

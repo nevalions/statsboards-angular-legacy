@@ -54,5 +54,28 @@
     </button>
   </form>
 
+  <form class="goal-btns">
+    <button
+      class="goal-btn"
+      appearance="down-admin"
+      tuiButton
+      size="m"
+      type="button"
+      [disabled]="disabled"
+      (click)="toggleTimeoutTeamA(data?.scoreboard_data!)"
+    >Timeout HOME
+    </button>
+    <button
+      class="goal-btn"
+      appearance="down-admin"
+      tuiButton
+      size="m"
+      type="button"
+      [disabled]="disabled"
+      (click)="toggleTimeoutTeamB(data?.scoreboard_data!)"
+    >Timeout AWAY
+    </button>
+  </form>
+
 </div>
 

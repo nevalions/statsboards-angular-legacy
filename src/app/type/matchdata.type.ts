@@ -54,6 +54,8 @@ export interface IScoreboard {
   is_flag: boolean;
   is_goal_team_a: boolean;
   is_goal_team_b: boolean;
+  is_timeout_team_a: boolean;
+  is_timeout_team_b: boolean;
 
   match_id: number;
 }
