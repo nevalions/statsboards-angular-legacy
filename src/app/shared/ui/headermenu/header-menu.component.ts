@@ -4,9 +4,8 @@ import {
   TuiDropdownModule,
   TuiLinkModule,
 } from '@taiga-ui/core';
-import { AsyncPipe } from '@angular/common';
+import { AsyncPipe, UpperCasePipe } from '@angular/common';
 import { RouterLink, RouterLinkActive } from '@angular/router';
-import { Observable } from 'rxjs';
 import { IBaseIdElse } from '../../../type/base.type';
 import { ISport } from '../../../type/sport.type';
 
@@ -20,6 +19,7 @@ import { ISport } from '../../../type/sport.type';
     RouterLinkActive,
     TuiDropdownModule,
     TuiDataListModule,
+    UpperCasePipe,
   ],
   templateUrl: './header-menu.component.html',
   styleUrl: './header-menu.component.less',
