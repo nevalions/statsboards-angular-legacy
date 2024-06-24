@@ -31,4 +31,16 @@ export class HeaderMenuComponent {
   @Input() mapItemToTeamsRoute: (item: IBaseIdElse) => any[] = () => [];
   @Input() mapItemToPayersRoute: (item: IBaseIdElse) => any[] = () => [];
   @Input() mapItemToPositionRoute: (item: IBaseIdElse) => any[] = () => [];
+
+  isDropdownOpen = false;
+
+  closeDropdown() {
+    // console.log('click', this.closeDropdown);
+    this.isDropdownOpen = false;
+  }
+
+  toggleDropdown() {
+    // console.log('toggle click', this.closeDropdown);
+    this.isDropdownOpen = !this.isDropdownOpen;
+  }
 }

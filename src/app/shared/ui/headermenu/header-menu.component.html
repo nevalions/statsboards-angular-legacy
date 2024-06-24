@@ -2,6 +2,7 @@
   <div
     tuiDropdownHover
     [tuiDropdown]="persons"
+    [tuiDropdownHideDelay]="100"
   >
     <!--    <a-->
     <!--      routerLinkActive="active"-->
@@ -30,6 +31,7 @@
   <div
     tuiDropdownHover
     [tuiDropdown]="sponsors"
+    [tuiDropdownHideDelay]="100"
   >
     <!--    <a-->
     <!--      routerLinkActive="active"-->
@@ -65,18 +67,14 @@
   @for (item of data; track item.id) {
     <div
       tuiDropdownHover
-      [tuiDropdown]="content"
+      [tuiDropdown]="sport"
+      [(tuiDropdownOpen)]="isDropdownOpen"
+      [tuiDropdownHideDelay]="100"
+      (click)="toggleDropdown()"
     >
-      <!--      <a-->
-      <!--        routerLinkActive="active"-->
-      <!--        [routerLink]="mapItemToSportRoute(item)"-->
-      <!--        tuiLink-->
-      <!--        ariaCurrentWhenActive="page"-->
-      <!--      >-->
       <span class="tui-text_h6"> {{ item.title | uppercase }}</span>
-      <!--      </a>-->
     </div>
-    <ng-template #content>
+    <ng-template #sport>
       <tui-data-list role="menu">
         <tui-opt-group>
           <a
@@ -84,6 +82,7 @@
             [routerLink]="mapItemToSportRoute(item)"
             tuiOption
             ariaCurrentWhenActive="page"
+            (click)="closeDropdown()"
           >
             TOURNAMENTS
           </a>
@@ -92,6 +91,7 @@
             [routerLink]="mapItemToTeamsRoute(item)"
             tuiOption
             ariaCurrentWhenActive="page"
+            (click)="closeDropdown()"
           >
             TEAMS
           </a>
@@ -100,6 +100,7 @@
             [routerLink]="mapItemToPayersRoute(item)"
             tuiOption
             ariaCurrentWhenActive="page"
+            (click)="closeDropdown()"
           >
             PLAYERS
           </a>
@@ -108,6 +109,7 @@
             [routerLink]="mapItemToPositionRoute(item)"
             tuiOption
             ariaCurrentWhenActive="page"
+            (click)="closeDropdown()"
           >
             POSITIONS
           </a>
