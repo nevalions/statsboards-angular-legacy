@@ -3,7 +3,7 @@ import { Component, Input, ViewEncapsulation } from '@angular/core';
 import { TuiDropdownHostModule } from '@taiga-ui/cdk';
 import { TuiButtonModule } from '@taiga-ui/core';
 import { TuiArrowModule } from '@taiga-ui/kit';
-import { Observable, map } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { MatchData } from '../../../../components/match/matchdata';
 import { Ui } from '../../../../store/ui/ui';
 import { IGameclock } from '../../../../type/gameclock.type';
@@ -19,6 +19,7 @@ import { ScoreFormsComponent } from '../score-forms/score-forms.component';
 import { ScoreboardDataFormsComponent } from '../scoreboard-data-forms/scoreboard-data-forms.component';
 import { TimeFormsComponent } from '../time-forms/time-forms.component';
 import { TimeoutFormsComponent } from '../timeout-forms/timeout-forms.component';
+import { EventsFormsComponent } from '../events-forms/events-forms.component';
 
 @Component({
   selector: 'app-all-admin-forms',
@@ -39,6 +40,7 @@ import { TimeoutFormsComponent } from '../timeout-forms/timeout-forms.component'
     TuiArrowModule,
     TuiDropdownHostModule,
     MainSponsorFormsComponent,
+    EventsFormsComponent,
   ],
   encapsulation: ViewEncapsulation.None,
   templateUrl: './all-admin-forms.component.html',
@@ -63,6 +65,7 @@ export class AllAdminFormsComponent {
   changeScoreBoardFormsVisible$: Observable<boolean>;
   sponsorsFormsVisible$: Observable<boolean>;
   rostersFormsVisible$: Observable<boolean>;
+  eventsFormsVisible$: Observable<boolean>;
 
   constructor(
     private matchData: MatchData,
@@ -100,6 +103,9 @@ export class AllAdminFormsComponent {
     );
     this.rostersFormsVisible$ = this.ui.formVisibility$.pipe(
       map((formVisibility) => formVisibility['rostersForms']),
+    );
+    this.eventsFormsVisible$ = this.ui.formVisibility$.pipe(
+      map((formVisibility) => formVisibility['eventsForms']),
     );
   }
 

@@ -83,6 +83,11 @@ import {
   webSocketFeatureKey,
   webSocketReducer,
 } from './store/websocket/websocket.reducers';
+import {
+  footballEventFeatureKey,
+  footballEventReducer,
+} from './components/match-event/football-event/store/reducers';
+import { FootballEventEffects } from './components/match-event/football-event/store/effects';
 
 export const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'index' },
@@ -102,6 +107,7 @@ export const routes: Routes = [
       provideState(sponsorLineFeatureKey, sponsorLineReducer),
       provideState(positionFeatureKey, positionReducer),
       provideState(playerInMatchFeatureKey, playerInMatchReducer),
+      provideState(footballEventFeatureKey, footballEventReducer),
       provideEffects(
         SearchEffects,
         MatchEffects,
@@ -115,6 +121,7 @@ export const routes: Routes = [
         TournamentEffects,
         PositionEffects,
         PlayerInMatchEffects,
+        FootballEventEffects,
       ),
     ],
     data: {

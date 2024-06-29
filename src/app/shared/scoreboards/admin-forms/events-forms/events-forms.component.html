@@ -1,0 +1,12 @@
+<app-toggle-visible-button
+  [isVisible$]="eventsFormsVisible$"
+  [formName]="'eventsForms'"
+  [buttonText]="'Events Forms'"
+>
+</app-toggle-visible-button>
+<div
+  *ngIf="eventsFormsVisible$ | async"
+  class="event-forms"
+>
+  <p>events-forms works!</p>
+</div>

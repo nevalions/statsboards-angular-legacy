@@ -98,6 +98,11 @@ import { TeamEffects } from '../team/store/effects';
 import { teamFeatureKey, teamReducer } from '../team/store/reducers';
 import { WithPlayersComponent } from './item-sport/with-players/with-players.component';
 import { WithPositionsComponent } from './item-sport/with-positions/with-positions.component';
+import {
+  footballEventFeatureKey,
+  footballEventReducer,
+} from '../match-event/football-event/store/reducers';
+import { FootballEventEffects } from '../match-event/football-event/store/effects';
 
 export const SPORT_ROUTES: Routes = [
   {
@@ -348,6 +353,7 @@ export const SPORT_ROUTES: Routes = [
                   ),
                   provideState(sponsorFeatureKey, sponsorReducer),
                   provideState(sponsorLineFeatureKey, sponsorLineReducer),
+                  provideState(footballEventFeatureKey, footballEventReducer),
                   provideEffects(
                     SeasonEffects,
                     TournamentEffects,
@@ -362,6 +368,7 @@ export const SPORT_ROUTES: Routes = [
                     MatchWithFullDataEffects,
                     SponsorEffects,
                     SponsorLineEffects,
+                    FootballEventEffects,
                   ),
                 ],
                 data: {
@@ -383,6 +390,7 @@ export const SPORT_ROUTES: Routes = [
                   provideState(playclockFeatureKey, playclockReducer),
                   provideState(scoreboardDataFeatureKey, scoreboardDataReducer),
                   provideState(tournamentFeatureKey, tournamentReducer),
+                  provideState(footballEventFeatureKey, footballEventReducer),
                   provideEffects(
                     MatchDataEffects,
                     PlayclockEffects,
@@ -391,6 +399,7 @@ export const SPORT_ROUTES: Routes = [
                     SponsorLineEffects,
                     ScoreboardDataEffects,
                     TournamentEffects,
+                    FootballEventEffects,
                     WebSocketEffects,
                   ),
                 ],

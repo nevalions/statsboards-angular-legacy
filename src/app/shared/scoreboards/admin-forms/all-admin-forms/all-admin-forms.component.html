@@ -89,4 +89,8 @@
       (isMatchDataLoading$ | async)! || (isMatchDataSubmitting$ | async)!
     "
   ></app-roster-forms>
+
+  <app-events-forms
+    [eventsFormsVisible$]="eventsFormsVisible$"
+  ></app-events-forms>
 </div>
