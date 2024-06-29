@@ -22,6 +22,8 @@ import { TimeoutFormsComponent } from '../timeout-forms/timeout-forms.component'
 import { EventsFormsComponent } from '../events-forms/events-forms.component';
 import { PlayerInMatch } from '../../../../components/player-match/player-match';
 import { IPlayerInMatchFullData } from '../../../../type/player.type';
+import { IFootballEvent } from '../../../../type/football-event.type';
+import { FootballEvent } from '../../../../components/match-event/football-event/football-event';
 
 @Component({
   selector: 'app-all-admin-forms',
@@ -74,9 +76,13 @@ export class AllAdminFormsComponent {
   awayPlayersInMatch$: Observable<IPlayerInMatchFullData[]> =
     this.playerInMatch.awayRoster$;
 
+  allMatchFootballEvents$: Observable<IFootballEvent[]> =
+    this.footballEvents.allMatchFootballEvents$;
+
   constructor(
     private matchData: MatchData,
     private playerInMatch: PlayerInMatch,
+    private footballEvents: FootballEvent,
     private ui: Ui,
   ) {
     playerInMatch.loadAllPlayersFullDataInMatch();

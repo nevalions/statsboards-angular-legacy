@@ -1,6 +1,7 @@
 import { createFeature, createReducer, on } from '@ngrx/store';
 import { footballEventActions } from './actions';
 import { IFootballEvent } from '../../../../type/football-event.type';
+import { SortService } from '../../../../services/sort.service';
 
 export interface FootballEventState {
   footballEventIsLoading: boolean;
@@ -22,6 +23,27 @@ const footballEventFeature = createFeature({
   name: 'footballEvent',
   reducer: createReducer(
     initialState,
+    // create actions
+    on(footballEventActions.create, (state) => ({
+      ...state,
+      footballEventIsSubmitting: true,
+    })),
+    on(footballEventActions.createdSuccessfully, (state, action) => {
+      const newList = [...state.allMatchFootballEvents, action.footballEvent];
+      const sortedEvents = SortService.sort(newList, 'event_number');
+      return {
+        ...state,
+        footballEventIsSubmitting: false,
+        currentFootballEvent: action.footballEvent,
+        allMatchFootballEvents: sortedEvents,
+      };
+    }),
+    on(footballEventActions.createFailure, (state, action) => ({
+      ...state,
+      footballEventIsSubmitting: false,
+      errors: action,
+    })),
+
     // update actions
     on(footballEventActions.update, (state) => ({
       ...state,

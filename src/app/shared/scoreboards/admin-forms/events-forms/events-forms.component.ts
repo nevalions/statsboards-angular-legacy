@@ -3,6 +3,7 @@ import { Observable } from 'rxjs';
 import { IFootballEvent } from '../../../../type/football-event.type';
 import { ToggleVisibleButtonComponent } from '../../../ui/buttons/toggle-visible-button/toggle-visible-button.component';
 import { AsyncPipe, NgIf } from '@angular/common';
+import { IPlayerInMatchFullData } from '../../../../type/player.type';
 
 @Component({
   selector: 'app-events-forms',
@@ -13,8 +14,11 @@ import { AsyncPipe, NgIf } from '@angular/common';
 })
 export class EventsFormsComponent implements OnChanges {
   @Input() eventsFormsVisible$!: Observable<boolean>;
-  @Input() data: IFootballEvent[] = [];
+  @Input() events: IFootballEvent[] | null = [];
   @Input() disabled: boolean = false;
+
+  @Input() homePlayersInMatch: IPlayerInMatchFullData[] | null = [];
+  @Input() awayPlayersInMatch: IPlayerInMatchFullData[] | null = [];
 
   constructor() {}
 

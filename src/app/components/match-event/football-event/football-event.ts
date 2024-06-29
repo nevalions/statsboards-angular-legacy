@@ -15,7 +15,7 @@ import { footballEventActions } from './store/actions';
 })
 export class FootballEvent {
   footballEvent$: Observable<IFootballEvent | null | undefined>;
-  allFootballEvents$: Observable<IFootballEvent[]>;
+  allMatchFootballEvents$: Observable<IFootballEvent[]>;
   footballEventIsSubmitting$: Observable<boolean>;
 
   constructor(private store: Store<AppState>) {
@@ -23,7 +23,13 @@ export class FootballEvent {
     this.footballEventIsSubmitting$ = this.store.select(
       selectFootballEventIsSubmitting,
     );
-    this.allFootballEvents$ = this.store.select(selectAllMatchFootballEvents);
+    this.allMatchFootballEvents$ = this.store.select(
+      selectAllMatchFootballEvents,
+    );
+  }
+
+  createFootballEvent(event: IFootballEvent) {
+    this.store.dispatch(footballEventActions.create({ request: event }));
   }
 
   updateFootballEventKeyValue(id: number, data: Partial<IFootballEvent>) {

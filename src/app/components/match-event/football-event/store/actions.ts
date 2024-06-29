@@ -10,6 +10,10 @@ export const footballEventActions = createActionGroup({
     }>(),
     'Get football event id failure': emptyProps(),
 
+    Create: props<{ request: IFootballEvent }>(),
+    'Created successfully': props<{ footballEvent: IFootballEvent }>(),
+    'Create failure': emptyProps(),
+
     Get: props<{ id: number }>(),
     'Get item success': props<{ footballEvent: IFootballEvent }>(),
     'Get item failure': emptyProps(),

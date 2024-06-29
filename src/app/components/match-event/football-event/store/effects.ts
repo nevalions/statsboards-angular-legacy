@@ -12,6 +12,27 @@ import { FootballEventService } from '../football-event.service';
 
 @Injectable()
 export class FootballEventEffects {
+  createFootballEventEffect = createEffect(
+    () => {
+      return this.actions$.pipe(
+        ofType(footballEventActions.create),
+        switchMap(({ request }) => {
+          return this.footballEventService.addItem(request).pipe(
+            map((footballEvent: IFootballEvent) => {
+              return footballEventActions.createdSuccessfully({
+                footballEvent,
+              });
+            }),
+            catchError(() => {
+              return of(footballEventActions.createFailure());
+            }),
+          );
+        }),
+      );
+    },
+    { functional: true },
+  );
+
   updateFootballEventEffect = createEffect(
     () => {
       return this.actions$.pipe(
