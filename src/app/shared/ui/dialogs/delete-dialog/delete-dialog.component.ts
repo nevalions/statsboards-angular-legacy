@@ -58,8 +58,8 @@ export class DeleteDialogComponent implements OnInit, OnDestroy, OnChanges {
 
   open: boolean = false;
 
-  itemUpperCaseTitle(item: string): string {
-    if (item) {
+  itemUpperCaseTitle(item: string | number | null | undefined): string {
+    if (typeof item === 'string') {
       return item.toUpperCase();
     } else {
       return '';

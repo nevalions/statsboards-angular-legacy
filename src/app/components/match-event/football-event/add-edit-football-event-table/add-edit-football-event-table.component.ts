@@ -20,7 +20,7 @@ import {
   getFormDataByIndexAndKey,
 } from '../../../../base/formHelpers';
 import { TuiTextfieldControllerModule } from '@taiga-ui/core';
-import { NgForOf } from '@angular/common';
+import { NgForOf, UpperCasePipe } from '@angular/common';
 import { AddButtonOnFinalTrComponent } from '../../../../shared/ui/buttons/add-button-on-final-tr/add-button-on-final-tr.component';
 import { ActionsButtonsComponent } from '../../../../shared/ui/buttons/actions-buttons/actions-buttons.component';
 import { TuiInputNumberModule } from '@taiga-ui/kit';
@@ -36,6 +36,7 @@ import { FootballEvent } from '../football-event';
     AddButtonOnFinalTrComponent,
     ActionsButtonsComponent,
     TuiInputNumberModule,
+    UpperCasePipe,
   ],
   templateUrl: './add-edit-football-event-table.component.html',
   styleUrl: './add-edit-football-event-table.component.less',
