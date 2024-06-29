@@ -4,9 +4,8 @@ import {
   TuiDropdownModule,
   TuiLinkModule,
 } from '@taiga-ui/core';
-import { AsyncPipe } from '@angular/common';
+import { AsyncPipe, UpperCasePipe } from '@angular/common';
 import { RouterLink, RouterLinkActive } from '@angular/router';
-import { Observable } from 'rxjs';
 import { IBaseIdElse } from '../../../type/base.type';
 import { ISport } from '../../../type/sport.type';
 
@@ -20,6 +19,7 @@ import { ISport } from '../../../type/sport.type';
     RouterLinkActive,
     TuiDropdownModule,
     TuiDataListModule,
+    UpperCasePipe,
   ],
   templateUrl: './header-menu.component.html',
   styleUrl: './header-menu.component.less',
@@ -31,4 +31,16 @@ export class HeaderMenuComponent {
   @Input() mapItemToTeamsRoute: (item: IBaseIdElse) => any[] = () => [];
   @Input() mapItemToPayersRoute: (item: IBaseIdElse) => any[] = () => [];
   @Input() mapItemToPositionRoute: (item: IBaseIdElse) => any[] = () => [];
+
+  isDropdownOpen = false;
+
+  closeDropdown() {
+    // console.log('click', this.closeDropdown);
+    this.isDropdownOpen = false;
+  }
+
+  toggleDropdown() {
+    // console.log('toggle click', this.closeDropdown);
+    this.isDropdownOpen = !this.isDropdownOpen;
+  }
 }

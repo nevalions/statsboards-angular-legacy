@@ -1,32 +1,58 @@
 <nav>
   <div
+    tuiDropdownHover
+    [tuiDropdown]="persons"
+    [tuiDropdownHideDelay]="100"
   >
-    <a
-      routerLinkActive="active"
-      href="/persons"
-      tuiLink
-      ariaCurrentWhenActive="page"
-    >
-      PERSONS
-    </a>
+    <!--    <a-->
+    <!--      routerLinkActive="active"-->
+    <!--      href="/persons"-->
+    <!--      tuiLink-->
+    <!--      ariaCurrentWhenActive="page"-->
+    <!--    >-->
+    <span class="tui-text_h6">PERSONS</span>
+    <!--    </a>-->
+    <ng-template #persons>
+      <tui-data-list role="menu">
+        <tui-opt-group>
+          <a
+            routerLinkActive="active"
+            href="/persons"
+            tuiOption
+            ariaCurrentWhenActive="page"
+          >
+            PERSONS LIST
+          </a>
+        </tui-opt-group>
+      </tui-data-list>
+    </ng-template>
   </div>
 
   <div
     tuiDropdownHover
     [tuiDropdown]="sponsors"
+    [tuiDropdownHideDelay]="100"
   >
-    <a
-      routerLinkActive="active"
-      href="/home/adv/sponsors"
-      tuiLink
-      ariaCurrentWhenActive="page"
-    >
-      SPONSORS
-    </a>
+    <!--    <a-->
+    <!--      routerLinkActive="active"-->
+    <!--      href=""-->
+    <!--      tuiLink-->
+    <!--      ariaCurrentWhenActive="page"-->
+    <!--    >-->
+    <span class="tui-text_h6">SPONSORS</span>
+    <!--    </a>-->
   </div>
   <ng-template #sponsors>
     <tui-data-list role="menu">
       <tui-opt-group>
+        <a
+          routerLinkActive="active"
+          href="/home/adv/sponsors"
+          tuiOption
+          ariaCurrentWhenActive="page"
+        >
+          SPONSORS LIST
+        </a>
         <a
           routerLinkActive="active"
           href="/home/adv/sponsors/lines"
@@ -41,25 +67,31 @@
   @for (item of data; track item.id) {
     <div
       tuiDropdownHover
-      [tuiDropdown]="content"
+      [tuiDropdown]="sport"
+      [(tuiDropdownOpen)]="isDropdownOpen"
+      [tuiDropdownHideDelay]="100"
+      (click)="toggleDropdown()"
     >
-      <a
-        routerLinkActive="active"
-        [routerLink]="mapItemToSportRoute(item)"
-        tuiLink
-        ariaCurrentWhenActive="page"
-      >
-        {{ item.title }}
-      </a>
+      <span class="tui-text_h6"> {{ item.title | uppercase }}</span>
     </div>
-    <ng-template #content>
+    <ng-template #sport>
       <tui-data-list role="menu">
         <tui-opt-group>
+          <a
+            routerLinkActive="active"
+            [routerLink]="mapItemToSportRoute(item)"
+            tuiOption
+            ariaCurrentWhenActive="page"
+            (click)="closeDropdown()"
+          >
+            TOURNAMENTS
+          </a>
           <a
             routerLinkActive="active"
             [routerLink]="mapItemToTeamsRoute(item)"
             tuiOption
             ariaCurrentWhenActive="page"
+            (click)="closeDropdown()"
           >
             TEAMS
           </a>
@@ -68,6 +100,7 @@
             [routerLink]="mapItemToPayersRoute(item)"
             tuiOption
             ariaCurrentWhenActive="page"
+            (click)="closeDropdown()"
           >
             PLAYERS
           </a>
@@ -76,6 +109,7 @@
             [routerLink]="mapItemToPositionRoute(item)"
             tuiOption
             ariaCurrentWhenActive="page"
+            (click)="closeDropdown()"
           >
             POSITIONS
           </a>
