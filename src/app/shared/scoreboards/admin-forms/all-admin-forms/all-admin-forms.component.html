@@ -84,6 +84,8 @@
 
   <app-roster-forms
     [data]="data"
+    [homePlayersInMatch]="homePlayersInMatch$ | async"
+    [awayPlayersInMatch]="awayPlayersInMatch$ | async"
     [rosterFormsVisible$]="rostersFormsVisible$"
     [disabled]="
       (isMatchDataLoading$ | async)! || (isMatchDataSubmitting$ | async)!

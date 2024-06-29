@@ -20,6 +20,8 @@ import { ScoreboardDataFormsComponent } from '../scoreboard-data-forms/scoreboar
 import { TimeFormsComponent } from '../time-forms/time-forms.component';
 import { TimeoutFormsComponent } from '../timeout-forms/timeout-forms.component';
 import { EventsFormsComponent } from '../events-forms/events-forms.component';
+import { PlayerInMatch } from '../../../../components/player-match/player-match';
+import { IPlayerInMatchFullData } from '../../../../type/player.type';
 
 @Component({
   selector: 'app-all-admin-forms',
@@ -67,10 +69,18 @@ export class AllAdminFormsComponent {
   rostersFormsVisible$: Observable<boolean>;
   eventsFormsVisible$: Observable<boolean>;
 
+  homePlayersInMatch$: Observable<IPlayerInMatchFullData[]> =
+    this.playerInMatch.homeRoster$;
+  awayPlayersInMatch$: Observable<IPlayerInMatchFullData[]> =
+    this.playerInMatch.awayRoster$;
+
   constructor(
     private matchData: MatchData,
+    private playerInMatch: PlayerInMatch,
     private ui: Ui,
   ) {
+    playerInMatch.loadAllPlayersFullDataInMatch();
+
     this.showHideAllButtonVisible$ = this.ui.formVisibility$.pipe(
       map((formVisibility) => formVisibility['showHideAll']),
     );

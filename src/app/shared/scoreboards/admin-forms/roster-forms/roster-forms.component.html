@@ -72,7 +72,7 @@
       <app-select-player-lower
         [selectedPlayer]="playerMatchSelected$ | async"
         [scoreboardId]="data.scoreboard_data?.id"
-        [matchPlayers]="(homePlayersInMatch$ | async) || []"
+        [matchPlayers]="(homePlayersInMatch) || []"
       ></app-select-player-lower>
     </div>
 
@@ -80,9 +80,25 @@
       <app-select-player-lower
         [selectedPlayer]="playerMatchSelected$ | async"
         [scoreboardId]="data.scoreboard_data?.id"
-        [matchPlayers]="(awayPlayersInMatch$ | async) || []"
+        [matchPlayers]="(awayPlayersInMatch) || []"
       ></app-select-player-lower>
     </div>
+
+    <!--    <div class="team-players-select">-->
+    <!--      <app-select-player-lower-->
+    <!--        [selectedPlayer]="playerMatchSelected$ | async"-->
+    <!--        [scoreboardId]="data.scoreboard_data?.id"-->
+    <!--        [matchPlayers]="(homePlayersInMatch$ | async) || []"-->
+    <!--      ></app-select-player-lower>-->
+    <!--    </div>-->
+
+    <!--    <div class="team-players-select">-->
+    <!--      <app-select-player-lower-->
+    <!--        [selectedPlayer]="playerMatchSelected$ | async"-->
+    <!--        [scoreboardId]="data.scoreboard_data?.id"-->
+    <!--        [matchPlayers]="(awayPlayersInMatch$ | async) || []"-->
+    <!--      ></app-select-player-lower>-->
+    <!--    </div>-->
 
   </div>
 }

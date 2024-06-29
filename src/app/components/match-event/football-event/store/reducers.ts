@@ -101,5 +101,6 @@ export const {
   selectFootballEventIsSubmitting,
   selectFootballEventIsLoading,
   selectCurrentFootballEventId,
+  selectAllMatchFootballEvents,
   selectCurrentFootballEvent,
 } = footballEventFeature;

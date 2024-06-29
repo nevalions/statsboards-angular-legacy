@@ -38,15 +38,17 @@ import { Websocket } from '../../../../store/websocket/websocket';
 export class RosterFormsComponent implements OnChanges {
   @Input() rosterFormsVisible$!: Observable<boolean>;
   @Input() data: IMatchFullDataWithScoreboard | undefined;
+  @Input() homePlayersInMatch: IPlayerInMatchFullData[] | null = [];
+  @Input() awayPlayersInMatch: IPlayerInMatchFullData[] | null = [];
   @Input() players: IPlayerInMatchFullData[] = [];
   @Input() isMatchDataSubmitting$?: Observable<boolean>;
   @Input() disabled: boolean = false;
   playerMatchSelected$ = this.playerInMatch.selectSelectedPlayerInMatchLower$;
 
-  homePlayersInMatch$: Observable<IPlayerInMatchFullData[]> =
-    this.playerInMatch.homeRoster$;
-  awayPlayersInMatch$: Observable<IPlayerInMatchFullData[]> =
-    this.playerInMatch.awayRoster$;
+  // homePlayersInMatch$: Observable<IPlayerInMatchFullData[]> =
+  //   this.playerInMatch.homeRoster$;
+  // awayPlayersInMatch$: Observable<IPlayerInMatchFullData[]> =
+  //   this.playerInMatch.awayRoster$;
 
   constructor(
     private scoreboardData: ScoreboardData,
