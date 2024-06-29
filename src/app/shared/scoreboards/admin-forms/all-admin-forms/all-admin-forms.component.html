@@ -93,6 +93,7 @@
   ></app-roster-forms>
 
   <app-events-forms
+    [data]="data"
     [eventsFormsVisible$]="eventsFormsVisible$"
     [events]="allMatchFootballEvents$ | async"
     [homePlayersInMatch]="homePlayersInMatch$ | async"

@@ -1,0 +1,55 @@
+@if (matchId) {
+  <form
+    tuiTextfieldSize="m"
+    [formGroup]="eventForm"
+    [tuiTextfieldLabelOutside]="true"
+    style="padding: 10px"
+  >
+    @if (events && events.length && eventForm && eventsArray && eventsArray.length) {
+      <div class="table">
+        <div formArrayName="events" class="table-body">
+          <div
+            *ngFor="let eventFormGroup of eventsArray.controls; let i = index"
+            class="table-row"
+            [formGroupName]="i"
+          >
+            <div
+              class="table-cell first"
+            >
+              @if (getFormDataByIndexAndKey(eventFormGroup, i, 'eventId')) {
+                @if (getFormDataByIndexAndKey(eventFormGroup, i, 'eventNumber'); as number) {
+                  {{ number }}
+                }
+              } @else {
+                <tui-input-number
+                  [formControl]="getFormControl(
+                        this.eventForm,
+                        i,
+                        'eventNumber',
+                        'events'
+                      )"
+                ></tui-input-number>
+              }
+            </div>
+            <div class="table-cell">
+              <app-actions-buttons
+                [index]="i"
+                (onSubmit)="onCreateNewEvent($event.action, $event.index, $event.id)"
+                (onCancel)="onCancelButtonClick()"
+              ></app-actions-buttons>
+            </div>
+          </div>
+        </div>
+      </div>
+    } @else {
+      No Events
+      <div class="table-row final">
+        <app-add-button-on-final-tr
+          (onAdd)="addNewEvent()"
+        ></app-add-button-on-final-tr>
+      </div>
+    }
+  </form>
+} @else {
+  NO MATCH ID
+}

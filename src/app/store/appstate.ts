@@ -22,6 +22,7 @@ import { PaginationState } from './pagination/pagination.reducers';
 import { SearchState } from './search/search.reducers';
 import { UiState } from './ui/ui.reducers';
 import { WebSocketState } from './websocket/websocket.reducers';
+import { FootballEventState } from '../components/match-event/football-event/store/reducers';
 
 export interface AppState {
   breadcrumb: BreadcrumbState;
@@ -29,6 +30,7 @@ export interface AppState {
   match: MatchState;
   matchData: MatchDataState;
   matchWithFullData: MatchWithFullDataState;
+  footballEvent: FootballEventState;
   pagination: PaginationState;
   person: PersonState;
   player: PlayerState;

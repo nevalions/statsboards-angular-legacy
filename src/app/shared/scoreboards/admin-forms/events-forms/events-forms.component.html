@@ -8,5 +8,12 @@
   *ngIf="eventsFormsVisible$ | async"
   class="event-forms"
 >
-  <p>events-forms works!</p>
+  <p>
+    @if (data && data?.match_id) {
+      <app-add-edit-football-event-table
+        [events]="events"
+        [matchId]="data.match_id!"
+      ></app-add-edit-football-event-table>
+    }
+  </p>
 </div>

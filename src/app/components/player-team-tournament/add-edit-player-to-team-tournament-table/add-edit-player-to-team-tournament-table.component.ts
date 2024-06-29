@@ -543,7 +543,6 @@ export class AddEditPlayerToTeamTournamentTableComponent
       if (!lastPlayer.playerInTeamTournament.id) {
         this.players = this.players.slice(0, this.players.length - 1);
         this.populateFormArray();
-        // this.initializeForm();
       }
     }
   }
