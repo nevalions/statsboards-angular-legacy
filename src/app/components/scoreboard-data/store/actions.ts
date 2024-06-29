@@ -1,5 +1,5 @@
 import { createActionGroup, emptyProps, props } from '@ngrx/store';
-import { IMatchData, IScoreboard } from '../../../type/matchdata.type';
+import { IScoreboard } from '../../../type/matchdata.type';
 
 export const scoreboardDataActions = createActionGroup({
   source: 'scoreboard',
