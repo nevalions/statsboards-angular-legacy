@@ -105,24 +105,20 @@ export class QtrFormsComponent implements OnChanges {
       const formValue = this.isGoalForm.getRawValue();
       const isTouchdownTeamA = formValue.isTouchdownTeamA;
       this.websocket.checkConnection();
-
       // console.log('TD', !isTouchdownTeamA);
       if (isTouchdownTeamA === true || isTouchdownTeamA === false) {
-        // const updatedScoreboardData = {
-        //   ...scoreboardData,
-        //   is_goal_team_a: !isTouchdownTeamA,
-        // };
-        // this.scoreboardData.updateScoreboardData(updatedScoreboardData);
-        this.scoreboardData.updateScoreboardDataKeyValue(scoreboardData.id!, {
-          is_goal_team_a: !this.data?.scoreboard_data?.is_goal_team_a,
-          // is_goal_team_a: !isTouchdownTeamA,
-        });
+        if (this.data?.scoreboard_data?.is_goal_team_a) {
+          this.scoreboardData.updateScoreboardDataKeyValue(scoreboardData.id!, {
+            is_goal_team_a: false,
+            is_timeout_team_a: false,
+          });
+        } else {
+          this.scoreboardData.updateScoreboardDataKeyValue(scoreboardData.id!, {
+            is_goal_team_a: true,
+            is_timeout_team_a: false,
+          });
+        }
       } else {
-        // const updatedScoreboardData = {
-        //   ...scoreboardData,
-        //   is_goal_team_a: true,
-        // };
-        // this.scoreboardData.updateScoreboardData(updatedScoreboardData);
         this.scoreboardData.updateScoreboardDataKeyValue(scoreboardData.id!, {
           is_goal_team_a: false,
         });
@@ -140,21 +136,18 @@ export class QtrFormsComponent implements OnChanges {
 
       // console.log('TD', !isTouchdownTeamB);
       if (isTouchdownTeamB === true || isTouchdownTeamB === false) {
-        // const updatedScoreboardData = {
-        //   ...scoreboardData,
-        //   is_goal_team_b: !isTouchdownTeamB,
-        // };
-        // this.scoreboardData.updateScoreboardData(updatedScoreboardData);
-        this.scoreboardData.updateScoreboardDataKeyValue(scoreboardData.id!, {
-          // is_goal_team_b: !isTouchdownTeamB,
-          is_goal_team_b: !this.data?.scoreboard_data?.is_goal_team_b,
-        });
+        if (this.data?.scoreboard_data?.is_goal_team_b) {
+          this.scoreboardData.updateScoreboardDataKeyValue(scoreboardData.id!, {
+            is_goal_team_b: false,
+            is_timeout_team_b: false,
+          });
+        } else {
+          this.scoreboardData.updateScoreboardDataKeyValue(scoreboardData.id!, {
+            is_goal_team_b: true,
+            is_timeout_team_b: false,
+          });
+        }
       } else {
-        // const updatedScoreboardData = {
-        //   ...scoreboardData,
-        //   is_goal_team_b: true,
-        // };
-        // this.scoreboardData.updateScoreboardData(updatedScoreboardData);
         this.scoreboardData.updateScoreboardDataKeyValue(scoreboardData.id!, {
           is_goal_team_b: false,
         });
@@ -201,9 +194,17 @@ export class QtrFormsComponent implements OnChanges {
 
       // console.log('Timeout B', isTimoutTeamB);
       if (isTimoutTeamB === true || isTimoutTeamB === false) {
-        this.scoreboardData.updateScoreboardDataKeyValue(scoreboardData.id!, {
-          is_timeout_team_b: !this.data?.scoreboard_data?.is_timeout_team_b,
-        });
+        if (this.data?.scoreboard_data?.is_timeout_team_b) {
+          this.scoreboardData.updateScoreboardDataKeyValue(scoreboardData.id!, {
+            is_timeout_team_b: false,
+            is_goal_team_b: false,
+          });
+        } else {
+          this.scoreboardData.updateScoreboardDataKeyValue(scoreboardData.id!, {
+            is_timeout_team_b: true,
+            is_goal_team_b: false,
+          });
+        }
       } else {
         this.scoreboardData.updateScoreboardDataKeyValue(scoreboardData.id!, {
           is_timeout_team_b: false,
