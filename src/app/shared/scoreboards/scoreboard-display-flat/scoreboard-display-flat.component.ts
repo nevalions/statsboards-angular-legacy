@@ -67,7 +67,6 @@ export class ScoreboardDisplayFlatComponent
   teamBTimeoutVisibility = 'invisible';
 
   playerLowerVisibility = 'invisible';
-  // awayPlayerLowerVisibility = 'invisible';
 
   teamAFontSize: string = '26px';
   teamBFontSize: string = '26px';

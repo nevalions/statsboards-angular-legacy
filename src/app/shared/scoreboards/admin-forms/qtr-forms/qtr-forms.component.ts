@@ -170,7 +170,7 @@ export class QtrFormsComponent implements OnChanges {
       const isTimoutTeamA = formValue.isTimeoutTeamA;
       this.websocket.checkConnection();
 
-      // console.log('Timeout', !isTimoutTeamA);
+      console.log('Timeout S', isTimoutTeamA);
       if (isTimoutTeamA === true || isTimoutTeamA === false) {
         this.scoreboardData.updateScoreboardDataKeyValue(scoreboardData.id!, {
           is_timeout_team_a: !this.data?.scoreboard_data?.is_timeout_team_a,
@@ -191,7 +191,7 @@ export class QtrFormsComponent implements OnChanges {
       const isTimoutTeamB = formValue.isTimeoutTeamB;
       this.websocket.checkConnection();
 
-      // console.log('Timeout', !isTimoutTeamA);
+      console.log('Timeout B', isTimoutTeamB);
       if (isTimoutTeamB === true || isTimoutTeamB === false) {
         this.scoreboardData.updateScoreboardDataKeyValue(scoreboardData.id!, {
           is_timeout_team_b: !this.data?.scoreboard_data?.is_timeout_team_b,
