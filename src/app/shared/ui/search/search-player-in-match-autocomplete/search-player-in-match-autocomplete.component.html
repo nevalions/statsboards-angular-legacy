@@ -3,7 +3,7 @@
     <tui-combo-box
       formControlName="player"
     >
-      {{ 'search ' | uppercase }} {{ placeholder | uppercase }}
+      {{ action | uppercase }} {{ placeholder | uppercase }}
       @if (players) {
         <tui-data-list-wrapper
           *tuiDataList

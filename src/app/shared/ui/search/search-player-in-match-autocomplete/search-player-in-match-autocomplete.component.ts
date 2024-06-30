@@ -51,6 +51,7 @@ import { UpperCasePipe } from '@angular/common';
   styleUrl: './search-player-in-match-autocomplete.component.less',
 })
 export class SearchPlayerInMatchAutocompleteComponent {
+  @Input() action: string = 'search';
   @Input() placeholder: string = 'player by number or last name';
   @Input() players: IPlayerInMatchFullData[] | null = [];
   @Input() control!: FormControl;

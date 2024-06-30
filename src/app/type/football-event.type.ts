@@ -63,11 +63,11 @@ export interface IFootballEventWithPlayers {
   match_id?: number | null;
 
   event_number?: number | null;
-  event_qtr?: [1, 2, 3, 4] | null;
+  event_qtr?: number | null;
   ball_on?: number | null;
   offense_team?: ITeam | null;
   event_qb?: IPlayerInMatchFullData | null;
-  event_down?: [1, 2, 3, 4] | null;
+  event_down?: number | null;
   event_distance?: number | null;
 
   event_hash?: EventHash | null;
