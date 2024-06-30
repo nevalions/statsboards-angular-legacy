@@ -30,8 +30,6 @@ export const selectFootballEventsWithPlayers = createSelector(
   selectAllPlayersInMatchFullData,
   selectCurrentMatchWithFullData,
   (footballEvents, matchPlayers, match): IFootballEventWithPlayers[] => {
-    // const teamA = match?.teams_data?.team_a || null;
-    // const teamB = match?.teams_data?.team_b || null;
     const teamA = match?.teams_data?.team_a || null;
     const teamB = match?.teams_data?.team_b || null;
 
