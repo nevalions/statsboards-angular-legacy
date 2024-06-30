@@ -92,7 +92,7 @@
             >
               @if (getFormDataByIndexAndKey(eventFormGroup, i, 'eventId')) {
                 @if (getEventTeam(eventFormGroup, i, 'eventTeam'); as eventTeam) {
-                  {{ eventTeam.title | uppercase }}
+                  OFFENCE TEAM: {{ eventTeam.title | uppercase }}
                 }
               } @else {
                 @if (match && match.teams_data && match.teams_data.team_a && match.teams_data.team_b) {
@@ -118,7 +118,7 @@
             >
               @if (getFormDataByIndexAndKey(eventFormGroup, i, 'eventId')) {
                 @if (getEventPlayer(eventFormGroup, i, 'eventQb'); as eventQb) {
-                  #{{ eventQb.match_player.match_number }} {{ eventQb.person?.second_name | uppercase }}
+                  QB #{{ eventQb.match_player.match_number }} {{ eventQb.person?.second_name | uppercase }}
                 }
               } @else {
                 @if (getEventTeam(eventFormGroup, i, 'eventTeam'); as selectedTeam) {
@@ -179,7 +179,90 @@
                                       )"
                 ></tui-input-number>
               }
+            </div>
 
+            <!--EVENT HASH-->
+            <div
+              class="table-cell first"
+            >
+              @if (getFormDataByIndexAndKey(eventFormGroup, i, 'eventId')) {
+                @if (getFormDataByIndexAndKey(eventFormGroup, i, 'eventHash'); as eventHash) {
+                  HASH: {{ eventHash | uppercase }}
+                }
+              } @else {
+                <tui-combo-box
+                  [stringify]="stringify"
+                  [formControl]="getFormControl(
+                  this.eventForm,
+                  i,
+                  'eventHash',
+                  'events'
+                  )"
+                >
+                  HASH
+                  <tui-data-list-wrapper
+                    *tuiDataList
+                    [itemContent]="stringify | tuiStringifyContent"
+                    [items]="eventHashOptions | tuiFilterByInputWith: stringify"
+                  ></tui-data-list-wrapper>
+                </tui-combo-box>
+              }
+            </div>
+
+            <!--EVENT PLAY TYPE-->
+            <div
+              class="table-cell first"
+            >
+              @if (getFormDataByIndexAndKey(eventFormGroup, i, 'eventId')) {
+                @if (getFormDataByIndexAndKey(eventFormGroup, i, 'eventPlayType'); as eventPlayType) {
+                  PLAY TYPE: {{ eventPlayType | uppercase }}
+                }
+              } @else {
+                <tui-combo-box
+                  [stringify]="stringify"
+                  [formControl]="getFormControl(
+                  this.eventForm,
+                  i,
+                  'eventPlayType',
+                  'events'
+                  )"
+                >
+                  PLAY TYPE
+                  <tui-data-list-wrapper
+                    *tuiDataList
+                    [itemContent]="stringify | tuiStringifyContent"
+                    [items]="eventPlayTypeOptions | tuiFilterByInputWith: stringify"
+                  ></tui-data-list-wrapper>
+                </tui-combo-box>
+              }
+            </div>
+
+            <!--EVENT PLAY RESULT-->
+            <div
+              class="table-cell first"
+            >
+              @if (getFormDataByIndexAndKey(eventFormGroup, i, 'eventId')) {
+                @if (getFormDataByIndexAndKey(eventFormGroup, i, 'eventPlayResult'); as eventPlayResult) {
+                  PLAY RESULT: {{ eventPlayResult | uppercase }}
+                }
+              } @else {
+                <tui-combo-box
+                  [stringify]="stringify"
+                  [formControl]="getFormControl(
+                  this.eventForm,
+                  i,
+                  'eventPlayResult',
+                  'events'
+                  )"
+                >
+                  PLAY RESULT
+                  <tui-data-list-wrapper
+                    *tuiDataList
+                    [itemContent]="stringify | tuiStringifyContent"
+                    [items]="eventPlayResultOptions | tuiFilterByInputWith: stringify"
+                  ></tui-data-list-wrapper>
+                </tui-combo-box>
+              }
             </div>
 
 

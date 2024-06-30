@@ -7,8 +7,11 @@ import {
 } from '@angular/core';
 import { IPlayerInMatchFullData } from '../../../../type/player.type';
 import {
+  IEventHash,
   IFootballEvent,
   IFootballEventWithPlayers,
+  IFootballPlayResult,
+  IFootballPlayType,
 } from '../../../../type/football-event.type';
 import {
   AbstractControl,
@@ -27,7 +30,15 @@ import { TuiTextfieldControllerModule } from '@taiga-ui/core';
 import { NgForOf, UpperCasePipe } from '@angular/common';
 import { AddButtonOnFinalTrComponent } from '../../../../shared/ui/buttons/add-button-on-final-tr/add-button-on-final-tr.component';
 import { ActionsButtonsComponent } from '../../../../shared/ui/buttons/actions-buttons/actions-buttons.component';
-import { TuiInputNumberModule } from '@taiga-ui/kit';
+import {
+  TuiComboBoxModule,
+  TuiDataListWrapperModule,
+  TuiFilterByInputPipeModule,
+  TuiInputNumberModule,
+  TuiSelectModule,
+  TuiSelectOptionModule,
+  TuiStringifyContentPipeModule,
+} from '@taiga-ui/kit';
 import { FootballEvent } from '../football-event';
 import { SearchPlayerInMatchAutocompleteComponent } from '../../../../shared/ui/search/search-player-in-match-autocomplete/search-player-in-match-autocomplete.component';
 import { ITeam } from '../../../../type/team.type';
@@ -53,6 +64,12 @@ import { TuiValueChangesModule } from '@taiga-ui/cdk';
     SelectTeamComponent,
     SelectTeamInMatchComponent,
     TuiValueChangesModule,
+    TuiSelectOptionModule,
+    TuiSelectModule,
+    TuiDataListWrapperModule,
+    TuiComboBoxModule,
+    TuiFilterByInputPipeModule,
+    TuiStringifyContentPipeModule,
   ],
   templateUrl: './add-edit-football-event-table.component.html',
   styleUrl: './add-edit-football-event-table.component.less',
@@ -65,6 +82,28 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
 
   eventForm!: FormGroup;
   newEventCount = 0;
+
+  eventHashOptions = Object.entries(IEventHash).map(([key, value]) => ({
+    value: value,
+    label: key,
+  }));
+
+  eventPlayTypeOptions = Object.entries(IFootballPlayType).map(
+    ([key, value]) => ({
+      value: value,
+      label: key,
+    }),
+  );
+
+  eventPlayResultOptions = Object.entries(IFootballPlayResult).map(
+    ([key, value]) => ({
+      value: value,
+      label: key,
+    }),
+  );
+
+  readonly stringify = (item: { value: string; label: string }): string =>
+    `${item.value.toUpperCase()}`;
 
   get eventsArray(): FormArray {
     return this.eventForm.get('events') as FormArray;
@@ -118,6 +157,10 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
     const controlEventDown = `eventDown${index}`;
     const controlEventDistance = `eventDistance${index}`;
 
+    const controlEventHash = `eventHash${index}`;
+    const controlEventPlayType = `eventPlayType${index}`;
+    const controlEventPlayResult = `eventPlayResult${index}`;
+
     return this.fb.group({
       [controlEventId]: new FormControl(event.id),
       [controlEventNumber]: new FormControl(event.event_number),
@@ -127,6 +170,9 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
       [controlEventQb]: new FormControl(event.event_qb),
       [controlEventDown]: new FormControl(event.event_down),
       [controlEventDistance]: new FormControl(event.event_distance),
+      [controlEventHash]: new FormControl(event.event_hash),
+      [controlEventPlayType]: new FormControl(event.play_type),
+      [controlEventPlayResult]: new FormControl(event.play_result),
     });
   }
 
@@ -195,24 +241,17 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
         event_qb: newEventQb,
         event_down: newEventDown,
         event_distance: newEventDistance,
+        event_hash: null,
+        play_type: null,
+        play_result: null,
       };
-      console.log('new event', newEvent);
+      // console.log('new event', newEvent);
 
       // Use spread operator to create a new array
       this.events = [...this.events, newEvent];
 
       // console.log(this.newEventCount, this.events);
       this.populateFormArray();
-
-      // if (newEventTeam) {
-      //   const newEventIndex = this.events.length - 1;
-      //   console.log('newIndex', newEventIndex);
-      //   const eventFormArray = this.eventForm.get('events') as FormArray;
-      //   const newEventControl = eventFormArray.at(newEventIndex);
-      //   newEventControl.get('eventTeam')?.setValue(newEventTeam.id);
-      //   console.log('newEventControl', newEventControl);
-      //   this.setInitialTeamSelection();
-      // }
     }
   }
 
@@ -253,6 +292,22 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
         index,
         'eventDistance',
       );
+      const eventHash = getArrayFormDataByIndexAndKey(
+        array,
+        index,
+        'eventHash',
+      );
+      const eventPlayType = getArrayFormDataByIndexAndKey(
+        array,
+        index,
+        'eventPlayType',
+      );
+      const eventPlayResult = getArrayFormDataByIndexAndKey(
+        array,
+        index,
+        'eventPlayResult',
+      );
+
       const newEventData: IFootballEvent = {
         match_id: this.match.match_id,
         event_number: getArrayFormDataByIndexAndKey<number>(
@@ -270,16 +325,13 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
         newEventData.ball_on = eventBallOn;
       }
 
-      // console.log(eventTeam);
       if (eventTeam) {
         newEventData.offense_team = eventTeam.id;
       }
 
-      // console.log('New Event DATA', newEventData);
       if (eventQb) {
         newEventData.event_qb = eventQb.match_player.id;
       }
-      // console.log('QB', eventQb);
 
       if (eventDown) {
         newEventData.event_down = eventDown;
@@ -287,6 +339,18 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
 
       if (eventDistance) {
         newEventData.event_distance = eventDistance;
+      }
+
+      if (eventHash && eventHash.value) {
+        newEventData.event_hash = eventHash.value.toLowerCase();
+      }
+
+      if (eventPlayType && eventPlayType.value) {
+        newEventData.play_type = eventPlayType.value.toLowerCase();
+      }
+
+      if (eventPlayResult && eventPlayResult.value) {
+        newEventData.play_result = eventPlayResult.value.toLowerCase();
       }
       console.log('New EVENT WITH NEW DATA', newEventData);
 
@@ -461,22 +525,6 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
     const homePlayers = this.homePlayersInMatch || [];
     const awayPlayers = this.awayPlayersInMatch || [];
     return [...homePlayers, ...awayPlayers];
-  }
-
-  setInitialTeamSelection() {
-    if (this.match) {
-      const eventFormArray = this.eventForm.get('events') as FormArray;
-      eventFormArray.controls.forEach((eventControl, index) => {
-        const selectedTeam = this.getEventTeam(
-          this.eventForm,
-          index,
-          'eventTeam',
-        );
-        if (selectedTeam) {
-          eventControl.get('eventTeam')?.setValue(selectedTeam.id);
-        }
-      });
-    }
   }
 
   protected readonly getFormControl = getFormControl;

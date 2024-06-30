@@ -1,7 +1,8 @@
 import { ITeam } from './team.type';
 import { IPlayerInMatchFullData } from './player.type';
 
-export enum FootballPlayType {
+export enum IFootballPlayType {
+  None = '',
   Run = 'run',
   Pass = 'pass',
   Kickoff = 'kickoff',
@@ -9,13 +10,15 @@ export enum FootballPlayType {
   FieldGoal = 'field goal',
 }
 
-export enum EventHash {
-  Left = 'l',
-  Middle = 'm',
-  Right = 'r',
+export enum IEventHash {
+  None = '',
+  Left = 'left',
+  Middle = 'middle',
+  Right = 'right',
 }
 
-export enum FootballPlayResult {
+export enum IFootballPlayResult {
+  None = '',
   Run = 'run',
   PassCompleted = 'pass completed',
   PassDropped = 'pass dropped',
@@ -42,7 +45,9 @@ export interface IFootballEvent {
   event_hash?: string | null;
   play_type?: string | null;
   play_result?: string | null;
+  play_direction?: string | null; //TODO
   fumble_result?: string | null; //TODO
+  score_result?: string | null; //TODO
 
   run_player?: number | null;
   pass_received_player?: number | null;
@@ -70,9 +75,9 @@ export interface IFootballEventWithPlayers {
   event_down?: number | null;
   event_distance?: number | null;
 
-  event_hash?: EventHash | null;
-  play_type?: FootballPlayType | null;
-  play_result?: FootballPlayResult | null;
+  event_hash?: IEventHash | null;
+  play_type?: IFootballPlayType | null;
+  play_result?: IFootballPlayResult | null;
 
   run_player?: IPlayerInMatchFullData | null;
   pass_received_player?: IPlayerInMatchFullData | null;
