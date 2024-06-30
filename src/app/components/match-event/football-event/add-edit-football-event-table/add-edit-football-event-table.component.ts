@@ -161,6 +161,9 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
     const controlEventPlayType = `eventPlayType${index}`;
     const controlEventPlayResult = `eventPlayResult${index}`;
 
+    const controlEventRunPlayer = `eventRunPlayer${index}`;
+    const controlEventReceiverPlayer = `eventReceiverPlayer${index}`;
+
     return this.fb.group({
       [controlEventId]: new FormControl(event.id),
       [controlEventNumber]: new FormControl(event.event_number),
@@ -173,6 +176,8 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
       [controlEventHash]: new FormControl(event.event_hash),
       [controlEventPlayType]: new FormControl(event.play_type),
       [controlEventPlayResult]: new FormControl(event.play_result),
+      [controlEventRunPlayer]: new FormControl(event.run_player),
+      [controlEventReceiverPlayer]: new FormControl(event.pass_received_player),
     });
   }
 
@@ -189,8 +194,8 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
       let newEventTeam: ITeam | null = null;
       let newEventQb: IPlayerInMatchFullData | null = null;
       let newEventBallOn: number | null = null;
-      let newEventDown: number | null = null;
-      let newEventDistance: number | null = null;
+      let newEventDown: number | null;
+      let newEventDistance: number | null;
 
       if (lastEvent && lastEvent.event_number) {
         newEventNumber = lastEvent.event_number + 1;
@@ -307,6 +312,11 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
         index,
         'eventPlayResult',
       );
+      const eventRunPlayer: IPlayerInMatchFullData =
+        getArrayFormDataByIndexAndKey(array, index, 'eventRunPlayer');
+
+      const eventReceiverPlayer: IPlayerInMatchFullData =
+        getArrayFormDataByIndexAndKey(array, index, 'eventReceiverPlayer');
 
       const newEventData: IFootballEvent = {
         match_id: this.match.match_id,
@@ -351,6 +361,14 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
 
       if (eventPlayResult && eventPlayResult.value) {
         newEventData.play_result = eventPlayResult.value.toLowerCase();
+      }
+
+      if (eventRunPlayer) {
+        newEventData.run_player = eventRunPlayer.match_player.id;
+      }
+
+      if (eventReceiverPlayer) {
+        newEventData.pass_received_player = eventReceiverPlayer.match_player.id;
       }
       console.log('New EVENT WITH NEW DATA', newEventData);
 
@@ -525,6 +543,30 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
     const homePlayers = this.homePlayersInMatch || [];
     const awayPlayers = this.awayPlayersInMatch || [];
     return [...homePlayers, ...awayPlayers];
+  }
+
+  isRunPlay(formGroup: FormGroup | any, index: number, key: string): boolean {
+    const playType = getFormDataByIndexAndKey(formGroup, index, key);
+    // console.log(playType);
+    if (playType) {
+      return playType.value === IFootballPlayType.Run;
+    } else {
+      return false;
+    }
+  }
+
+  isPassReceivedPlay(
+    formGroup: FormGroup | any,
+    index: number,
+    key: string,
+  ): boolean {
+    const playType = getFormDataByIndexAndKey(formGroup, index, key);
+    // console.log(playType);
+    if (playType) {
+      return playType.value === IFootballPlayType.Pass;
+    } else {
+      return false;
+    }
   }
 
   protected readonly getFormControl = getFormControl;

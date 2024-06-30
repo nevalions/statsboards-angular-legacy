@@ -22,7 +22,7 @@ export enum IFootballPlayResult {
   Run = 'run',
   PassCompleted = 'pass completed',
   PassDropped = 'pass dropped',
-  PassDeleted = 'pass deleted',
+  PassDeflected = 'pass deflected',
   PassIntercepted = 'pass intercepted',
   Sack = 'sack',
   Kick = 'kick',
