@@ -84,7 +84,7 @@ export class SearchPlayerInMatchAutocompleteComponent {
   };
 
   onSelected(player: IPlayerInMatchFullData): void {
-    console.log('selected player', player);
+    // console.log('selected player', player);
     this.control.setValue(player);
   }
 

@@ -30,10 +30,21 @@ export const selectFootballEventsWithPlayers = createSelector(
   selectAllPlayersInMatchFullData,
   selectCurrentMatchWithFullData,
   (footballEvents, matchPlayers, match): IFootballEventWithPlayers[] => {
+    // const teamA = match?.teams_data?.team_a || null;
+    // const teamB = match?.teams_data?.team_b || null;
+    const teamA = match?.teams_data?.team_a || null;
+    const teamB = match?.teams_data?.team_b || null;
+
     return footballEvents.map((event) => {
       return {
         ...event,
         // offense_team: getMatchTeamById(match, event.offense_team),
+        offense_team:
+          event.offense_team === teamA?.id
+            ? teamA
+            : event.offense_team === teamB?.id
+              ? teamB
+              : null,
         event_qb: getMatchPlayerById(matchPlayers, event.event_qb),
         run_player: getMatchPlayerById(matchPlayers, event.run_player),
         pass_received_player: getMatchPlayerById(

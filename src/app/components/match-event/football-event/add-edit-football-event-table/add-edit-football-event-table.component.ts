@@ -29,6 +29,10 @@ import { ActionsButtonsComponent } from '../../../../shared/ui/buttons/actions-b
 import { TuiInputNumberModule } from '@taiga-ui/kit';
 import { FootballEvent } from '../football-event';
 import { SearchPlayerInMatchAutocompleteComponent } from '../../../../shared/ui/search/search-player-in-match-autocomplete/search-player-in-match-autocomplete.component';
+import { ITeam } from '../../../../type/team.type';
+import { SelectTeamComponent } from '../../../../shared/ui/forms/select-team/select-team.component';
+import { IMatchFullDataWithScoreboard } from '../../../../type/match.type';
+import { SelectTeamInMatchComponent } from '../../../../shared/ui/select/select-team-in-match/select-team-in-match.component';
 
 @Component({
   selector: 'app-add-edit-football-event-table',
@@ -42,6 +46,8 @@ import { SearchPlayerInMatchAutocompleteComponent } from '../../../../shared/ui/
     TuiInputNumberModule,
     UpperCasePipe,
     SearchPlayerInMatchAutocompleteComponent,
+    SelectTeamComponent,
+    SelectTeamInMatchComponent,
   ],
   templateUrl: './add-edit-football-event-table.component.html',
   styleUrl: './add-edit-football-event-table.component.less',
@@ -50,7 +56,7 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
   @Input() events: IFootballEventWithPlayers[] | null = [];
   @Input() homePlayersInMatch: IPlayerInMatchFullData[] | null = [];
   @Input() awayPlayersInMatch: IPlayerInMatchFullData[] | null = [];
-  @Input() matchId: number | null = null;
+  @Input() match: IMatchFullDataWithScoreboard | null = null;
 
   eventForm!: FormGroup;
   newEventCount = 0;
@@ -98,11 +104,13 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
     const controlEventId = `eventId${index}`;
     const controlEventNumber = `eventNumber${index}`;
 
+    const controlEventTeam = `eventTeam${index}`;
     const controlEventQb = `eventQb${index}`;
 
     return this.fb.group({
       [controlEventId]: new FormControl(event.id),
       [controlEventNumber]: new FormControl(event.event_number),
+      [controlEventTeam]: new FormControl(event.offense_team),
       [controlEventQb]: new FormControl(event.event_qb),
     });
   }
@@ -118,6 +126,7 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
       const newEvent: Partial<IFootballEventWithPlayers> = {
         id: null,
         event_number: null,
+        offense_team: null,
         event_qb: null,
       };
 
@@ -134,28 +143,40 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
     index: number,
     eventId: number | null,
   ): void {
-    if (this.eventForm.valid && this.matchId) {
+    if (this.eventForm.valid && this.match?.match_id) {
       const array = this.eventForm.get('events') as FormArray;
+      const eventTeam: ITeam = getArrayFormDataByIndexAndKey(
+        array,
+        index,
+        'eventTeam',
+      );
       const eventQb: IPlayerInMatchFullData = getArrayFormDataByIndexAndKey(
         array,
         index,
         'eventQb',
       );
       const newEventData: IFootballEvent = {
-        match_id: this.matchId,
+        match_id: this.match.match_id,
         event_number: getArrayFormDataByIndexAndKey<number>(
           array,
           index,
           'eventNumber',
         ),
+        offense_team: null,
         event_qb: null,
       };
+
+      console.log(eventTeam);
+      if (eventTeam) {
+        newEventData.offense_team = eventTeam.id;
+      }
+
       // console.log('New Event DATA', newEventData);
       if (eventQb) {
         newEventData.event_qb = eventQb.match_player.id;
       }
       // console.log('QB', eventQb);
-      // console.log('New Event DATA WITH QB', newEventData);
+      console.log('New EVENT WITH NEW DATA', newEventData);
 
       this.footballEvent.createFootballEvent(newEventData);
     }
@@ -172,13 +193,18 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
     }
   }
 
+  getEventTeam(formGroup: FormGroup | any, index: number, key: string): ITeam {
+    const team = getFormDataByIndexAndKey<ITeam>(formGroup, index, key);
+    return team;
+  }
+
   getEventPlayer(
-    playerFormGroup: FormGroup | any,
+    formGroup: FormGroup | any,
     index: number,
     key: string,
   ): IPlayerInMatchFullData {
     const player = getFormDataByIndexAndKey<IPlayerInMatchFullData>(
-      playerFormGroup,
+      formGroup,
       index,
       key,
     );

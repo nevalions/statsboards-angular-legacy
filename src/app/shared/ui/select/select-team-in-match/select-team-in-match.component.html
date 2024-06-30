@@ -1,0 +1,23 @@
+@if (control) {
+  <tui-select
+    [formControl]="control"
+    [tuiDropdownLimitWidth]="'min'"
+    style="padding-top: 10px;"
+  >
+    {{ placeholder | uppercase }}
+
+    <tui-data-list *tuiDataList>
+      @for (team of teamsList; track team!.id) {
+        @if (team) {
+          <button
+            tuiOption
+            [value]="team"
+            (click)="onSelected(team)"
+          >
+            {{ team.title | titlecase }}
+          </button>
+        }
+      }
+    </tui-data-list>
+  </tui-select>
+}
