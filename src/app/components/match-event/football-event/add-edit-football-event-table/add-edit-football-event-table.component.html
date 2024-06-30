@@ -275,7 +275,7 @@
                 }
               } @else {
                 @if (getEventTeam(eventFormGroup, i, 'eventTeam'); as selectedTeam) {
-                  @if (isRunPlay(eventFormGroup, i, 'eventPlayType')) {
+                  @if (isPlayType(eventFormGroup, i, 'eventPlayType', IFootballPlayType.Run)) {
                     <app-search-player-in-match-autocomplete
                       [action]="'select'"
                       [placeholder]="'run player'"
@@ -303,7 +303,7 @@
                 }
               } @else {
                 @if (getEventTeam(eventFormGroup, i, 'eventTeam'); as selectedTeam) {
-                  @if (isPassReceivedPlay(eventFormGroup, i, 'eventPlayType')) {
+                  @if (isPlayType(eventFormGroup, i, 'eventPlayType', IFootballPlayType.Pass)) {
                     <app-search-player-in-match-autocomplete
                       [action]="'select'"
                       [placeholder]="'receiver player'"
@@ -322,7 +322,7 @@
             </div>
 
 
-            <!--              ACTIONS-->
+            <!--ACTIONS-->
             @if (eventFormGroup.get("eventId" + i)!.value; as id) {
               <div class="table-cell">
                 <app-actions-buttons

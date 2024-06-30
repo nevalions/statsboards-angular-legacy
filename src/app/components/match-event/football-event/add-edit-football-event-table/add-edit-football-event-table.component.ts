@@ -545,30 +545,17 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
     return [...homePlayers, ...awayPlayers];
   }
 
-  isRunPlay(formGroup: FormGroup | any, index: number, key: string): boolean {
-    const playType = getFormDataByIndexAndKey(formGroup, index, key);
-    // console.log(playType);
-    if (playType) {
-      return playType.value === IFootballPlayType.Run;
-    } else {
-      return false;
-    }
-  }
-
-  isPassReceivedPlay(
+  isPlayType(
     formGroup: FormGroup | any,
     index: number,
     key: string,
+    playTypeEnum: IFootballPlayType,
   ): boolean {
     const playType = getFormDataByIndexAndKey(formGroup, index, key);
-    // console.log(playType);
-    if (playType) {
-      return playType.value === IFootballPlayType.Pass;
-    } else {
-      return false;
-    }
+    return playType ? playType.value === playTypeEnum : false;
   }
 
   protected readonly getFormControl = getFormControl;
   protected readonly getFormDataByIndexAndKey = getFormDataByIndexAndKey;
+  protected readonly IFootballPlayType = IFootballPlayType;
 }
