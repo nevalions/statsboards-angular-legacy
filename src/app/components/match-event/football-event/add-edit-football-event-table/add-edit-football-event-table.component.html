@@ -32,6 +32,33 @@
                   ></tui-input-number>
                 }
               </div>
+
+              <!--              EVENT QB-->
+              <div
+                class="table-cell first"
+              >
+                @if (getFormDataByIndexAndKey(eventFormGroup, i, 'eventId')) {
+                  @if (getEventPlayer(eventFormGroup, i, 'eventQb'); as eventQb) {
+                    {{ eventQb.match_player.match_number }} {{ eventQb.person?.second_name | uppercase }}
+                  } @else {
+                    NO PLAYER
+                  }
+                } @else {
+                  <app-search-player-in-match-autocomplete
+                    [players]="homePlayersInMatch"
+                    [control]="getFormControl(
+                        this.eventForm,
+                        i,
+                        'eventQb',
+                        'events'
+                      )"
+                  ></app-search-player-in-match-autocomplete>
+
+                }
+              </div>
+
+
+              <!--              ACTIONS-->
               @if (eventFormGroup.get("eventId" + i)!.value; as id) {
                 <div class="table-cell">
                   <app-actions-buttons

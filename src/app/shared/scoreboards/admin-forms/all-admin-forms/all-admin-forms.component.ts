@@ -22,7 +22,10 @@ import { TimeoutFormsComponent } from '../timeout-forms/timeout-forms.component'
 import { EventsFormsComponent } from '../events-forms/events-forms.component';
 import { PlayerInMatch } from '../../../../components/player-match/player-match';
 import { IPlayerInMatchFullData } from '../../../../type/player.type';
-import { IFootballEvent } from '../../../../type/football-event.type';
+import {
+  IFootballEvent,
+  IFootballEventWithPlayers,
+} from '../../../../type/football-event.type';
 import { FootballEvent } from '../../../../components/match-event/football-event/football-event';
 
 @Component({
@@ -78,6 +81,8 @@ export class AllAdminFormsComponent {
 
   allMatchFootballEvents$: Observable<IFootballEvent[]> =
     this.footballEvents.allMatchFootballEvents$;
+  allMatchFootballEventsWithPlayers$: Observable<IFootballEventWithPlayers[]> =
+    this.footballEvents.allMatchFootballEventsWithPlayers$;
 
   constructor(
     private matchData: MatchData,

@@ -37,6 +37,15 @@ export function stringifySportPlayerSurnameName(item: IPlayerInSport): string {
   return item.toString();
 }
 
+export function stringifyMatchPlayerNumberSurnameName(
+  item: IPlayerInMatchFullData,
+): string {
+  if (item.person) {
+    return `${item.match_player.match_number ?? ''} ${toTitleCase(item.person.second_name) ?? ''} ${toTitleCase(item.person.first_name) ?? ''}`.trim();
+  }
+  return item.toString();
+}
+
 export function stringifyTitle(item: AnyObjectWithTitle | any): string {
   return `${toTitleCase(item.title) ?? ''}`.trim();
 }

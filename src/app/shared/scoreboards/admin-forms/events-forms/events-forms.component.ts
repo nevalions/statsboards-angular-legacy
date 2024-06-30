@@ -1,6 +1,6 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { Observable } from 'rxjs';
-import { IFootballEvent } from '../../../../type/football-event.type';
+import { IFootballEventWithPlayers } from '../../../../type/football-event.type';
 import { ToggleVisibleButtonComponent } from '../../../ui/buttons/toggle-visible-button/toggle-visible-button.component';
 import { AsyncPipe, NgIf } from '@angular/common';
 import { IPlayerInMatchFullData } from '../../../../type/player.type';
@@ -23,7 +23,7 @@ export class EventsFormsComponent implements OnChanges {
   @Input() data: IMatchFullDataWithScoreboard | undefined;
 
   @Input() eventsFormsVisible$!: Observable<boolean>;
-  @Input() events: IFootballEvent[] | null = [];
+  @Input() events: IFootballEventWithPlayers[] | null = [];
   @Input() disabled: boolean = false;
 
   @Input() homePlayersInMatch: IPlayerInMatchFullData[] | null = [];

@@ -95,7 +95,7 @@
   <app-events-forms
     [data]="data"
     [eventsFormsVisible$]="eventsFormsVisible$"
-    [events]="allMatchFootballEvents$ | async"
+    [events]="allMatchFootballEventsWithPlayers$ | async"
     [homePlayersInMatch]="homePlayersInMatch$ | async"
     [awayPlayersInMatch]="awayPlayersInMatch$ | async"
   ></app-events-forms>

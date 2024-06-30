@@ -9,10 +9,12 @@
   class="event-forms"
 >
   <p>
-    @if (data && data?.match_id) {
+    @if (data && data.match_id) {
       <app-add-edit-football-event-table
         [events]="events"
         [matchId]="data.match_id!"
+        [homePlayersInMatch]="homePlayersInMatch"
+        [awayPlayersInMatch]="awayPlayersInMatch"
       ></app-add-edit-football-event-table>
     }
   </p>
