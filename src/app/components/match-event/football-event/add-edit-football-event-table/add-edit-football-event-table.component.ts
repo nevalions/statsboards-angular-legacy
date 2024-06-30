@@ -91,7 +91,7 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
   }
 
   ngOnInit() {
-    if (this.events) {
+    if (this.events && this.match) {
       this.populateFormArray();
     }
   }
@@ -130,7 +130,7 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
     });
   }
 
-  addNewEvent(index: number | null): void {
+  addNewEvent(): void {
     if (this.events) {
       const lastEvent = this.events[this.events.length - 1];
       // console.log('lastEvent', lastEvent);
@@ -162,18 +162,13 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
         newEventBallOn = lastEvent.ball_on;
       }
 
-      // if (lastEvent && lastEvent.offense_team && index) {
-      //   newEventTeam = lastEvent.offense_team;
-      //   console.log('QQQQQQQQQQQQQ', newEventTeam, index);
-      //   this.eventsArray.controls[index]
-      //     .get(`eventTeam${index}`)
-      //     ?.setValue(null);
-      // }
-      //
-      // if (lastEvent && lastEvent.event_qb) {
-      //   newEventQb = lastEvent.event_qb;
-      //   // console.log('newQB', newEventQb);
-      // }
+      if (lastEvent && lastEvent.offense_team) {
+        newEventTeam = lastEvent.offense_team;
+      }
+
+      if (lastEvent && lastEvent.event_qb) {
+        newEventQb = lastEvent.event_qb;
+      }
 
       if (lastEvent && lastEvent.event_down) {
         if (lastEvent.event_down < 4) {
@@ -201,6 +196,7 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
         event_down: newEventDown,
         event_distance: newEventDistance,
       };
+      console.log('new event', newEvent);
 
       // Use spread operator to create a new array
       this.events = [...this.events, newEvent];
@@ -341,6 +337,7 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
     if (!previousTeam || selectedTeam.id !== previousTeam.id) {
       // console.log('first down team change');
       this.eventsArray.controls[index].get(`eventDown${index}`)?.setValue(1);
+      this.eventsArray.controls[index].get(`eventQb${index}`)?.setValue(null);
     }
   }
 
@@ -438,22 +435,23 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
   getPlayersForSelectedTeam(
     selectedTeam: ITeam | null,
   ): IPlayerInMatchFullData[] {
-    // if (!selectedTeam) {
-    //   return [];
-    // }
+    if (!selectedTeam) {
+      console.log('no team at top');
+      return [];
+    }
     if (
       this.homePlayersInMatch &&
-      selectedTeam === this.match?.teams_data?.team_a
+      this.homePlayersInMatch.length &&
+      selectedTeam.id === this.match?.teams_data?.team_a.id
     ) {
-      console.log('homeTeam', this.homePlayersInMatch);
       return this.homePlayersInMatch;
     }
 
     if (
       this.awayPlayersInMatch &&
-      selectedTeam === this.match?.teams_data?.team_b
+      this.awayPlayersInMatch.length &&
+      selectedTeam.id === this.match?.teams_data?.team_b.id
     ) {
-      console.log('awayTeam', this.awayPlayersInMatch);
       return this.awayPlayersInMatch;
     }
     return [];

@@ -1,17 +1,21 @@
 <div class="tui-form__row">
-  <form [formGroup]="form">
-    <tui-combo-box
-      formControlName="player"
-    >
-      {{ action | uppercase }} {{ placeholder | uppercase }}
-      @if (players) {
-        <tui-data-list-wrapper
-          *tuiDataList
-          [itemContent]="stringifyMatchPlayerNumberSurnameName | tuiStringifyContent"
-          [items]="players| tuiFilterByInput: matcherString"
-          (itemClick)="onSelected($event)"
-        ></tui-data-list-wrapper>
-      }
-    </tui-combo-box>
-  </form>
+  <!--  <form [formGroup]="form">-->
+  <!--    <tui-combo-box-->
+  <!--      formControlName="player"-->
+  <!--    >-->
+
+  <tui-combo-box
+    [formControl]="control"
+  >
+    {{ action | uppercase }} {{ placeholder | uppercase }}
+    @if (players) {
+      <tui-data-list-wrapper
+        *tuiDataList
+        [itemContent]="stringifyMatchPlayerNumberSurnameName | tuiStringifyContent"
+        [items]="players| tuiFilterByInput: matcherString"
+        (itemClick)="onSelected($event)"
+      ></tui-data-list-wrapper>
+    }
+  </tui-combo-box>
+  <!--  </form>-->
 </div>

@@ -219,7 +219,7 @@
           <div class="table-row final">
             <app-add-button-on-final-tr
               [action]="'add event'"
-              (onAdd)="addNewEvent(events.length - 1)"
+              (onAdd)="addNewEvent()"
             ></app-add-button-on-final-tr>
           </div>
         }
@@ -236,7 +236,7 @@
       NO EVENTS
       <div class="table-row final">
         <app-add-button-on-final-tr
-          (onAdd)="addNewEvent(0)"
+          (onAdd)="addNewEvent()"
         ></app-add-button-on-final-tr>
       </div>
     }

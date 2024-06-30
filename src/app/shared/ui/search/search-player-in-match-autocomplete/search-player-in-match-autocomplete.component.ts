@@ -56,9 +56,9 @@ export class SearchPlayerInMatchAutocompleteComponent {
   @Input() players: IPlayerInMatchFullData[] | null = [];
   @Input() control!: FormControl;
 
-  readonly form = new FormGroup({
-    player: new FormControl<IPlayerInMatchFullData | null>(null),
-  });
+  // readonly form = new FormGroup({
+  //   player: new FormControl<IPlayerInMatchFullData | null>(null),
+  // });
 
   constructor() {}
 
