@@ -15,16 +15,6 @@ export function getMatchPlayerById(
   return players.find((player) => player.match_player.id === playerId) || null;
 }
 
-// export function getMatchTeamById(
-//   match: IMatchWithFullData,
-//   teamId: number | null,
-// ): ITeam | null {
-//   if (teamId === null || teamId === undefined) {
-//     return null;
-//   }
-//   return match.find((team) => team.id === teamId) || null;
-// }
-
 export const selectFootballEventsWithPlayers = createSelector(
   selectAllMatchFootballEvents,
   selectAllPlayersInMatchFullData,
@@ -36,7 +26,6 @@ export const selectFootballEventsWithPlayers = createSelector(
     return footballEvents.map((event) => {
       return {
         ...event,
-        // offense_team: getMatchTeamById(match, event.offense_team),
         offense_team:
           event.offense_team === teamA?.id
             ? teamA
