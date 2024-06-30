@@ -130,7 +130,7 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
     });
   }
 
-  addNewEvent(): void {
+  addNewEvent(index: number | null): void {
     if (this.events) {
       const lastEvent = this.events[this.events.length - 1];
       // console.log('lastEvent', lastEvent);
@@ -162,8 +162,12 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
         newEventBallOn = lastEvent.ball_on;
       }
 
-      // if (lastEvent && lastEvent.offense_team) {
+      // if (lastEvent && lastEvent.offense_team && index) {
       //   newEventTeam = lastEvent.offense_team;
+      //   console.log('QQQQQQQQQQQQQ', newEventTeam, index);
+      //   this.eventsArray.controls[index]
+      //     .get(`eventTeam${index}`)
+      //     ?.setValue(null);
       // }
       //
       // if (lastEvent && lastEvent.event_qb) {
@@ -326,11 +330,47 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
     return player;
   }
 
+  onTeamChange(selectedTeam: ITeam, index: number): void {
+    let previousTeam = null;
+    if (index > 0) {
+      previousTeam = this.eventsArray.controls[index - 1].get(
+        `eventTeam${index - 1}`,
+      )?.value;
+    }
+    // console.log('teams', selectedTeam, previousTeam);
+    if (!previousTeam || selectedTeam.id !== previousTeam.id) {
+      // console.log('first down team change');
+      this.eventsArray.controls[index].get(`eventDown${index}`)?.setValue(1);
+    }
+  }
+
+  onDownChange(down: number, index: number): void {
+    let previousDown = null;
+    if (index > 0) {
+      previousDown = this.eventsArray.controls[index - 1].get(
+        `eventDown${index - 1}`,
+      )?.value;
+    }
+
+    // console.log('downs', down, previousDown);
+    if (down === 1 && previousDown !== 1) {
+      // console.log('first down on down change');
+      this.eventsArray.controls[index]
+        .get(`eventDistance${index}`)
+        ?.setValue(10);
+    }
+
+    this.eventsArray.controls[index].get(`eventDown${index}`)?.setValue(down);
+  }
+
   onBallOnChange(ballOn: number, index: number): void {
     const updatedDown = this.isFirstDown(ballOn, index);
+    const currentDown = this.eventsArray.controls[index].get(
+      `eventDown${index}`,
+    )?.value;
 
     let updatedDistance;
-    if (updatedDown === 1) {
+    if (updatedDown === 1 && currentDown !== 1) {
       updatedDistance = 10;
     } else {
       updatedDistance = this.calculateDistance(ballOn, index);
@@ -398,9 +438,9 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
   getPlayersForSelectedTeam(
     selectedTeam: ITeam | null,
   ): IPlayerInMatchFullData[] {
-    if (!selectedTeam) {
-      return [];
-    }
+    // if (!selectedTeam) {
+    //   return [];
+    // }
     if (
       this.homePlayersInMatch &&
       selectedTeam === this.match?.teams_data?.team_a

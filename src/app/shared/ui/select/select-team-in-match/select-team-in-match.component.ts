@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { ITeam } from '../../../../type/team.type';
 import { tuiItemsHandlersProvider, TuiSelectModule } from '@taiga-ui/kit';
@@ -29,13 +29,15 @@ export class SelectTeamInMatchComponent {
   @Input() placeholder: string = 'offence team';
   @Input() teamsList!: (ITeam | null)[];
   @Input() control!: FormControl;
-
-  // readonly form = new FormGroup({
-  //   team: new FormControl<ITeam | null>(null),
-  // });
+  @Output() teamSelected = new EventEmitter<ITeam>(); // Emitting the selected team
 
   onSelected(team: ITeam): void {
-    // console.log('selected player', player);
     this.control.setValue(team);
+    this.teamSelected.emit(team);
   }
+
+  // onSelected(team: ITeam): void {
+  //   // console.log('selected player', player);
+  //   this.control.setValue(team);
+  // }
 }

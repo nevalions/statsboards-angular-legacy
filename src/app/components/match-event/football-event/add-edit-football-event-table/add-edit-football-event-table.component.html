@@ -7,234 +7,236 @@
   >
     @if (events && events.length && eventForm && eventsArray && eventsArray.length) {
       <div class="table">
-        @if (events && events.length) {
-          <div formArrayName="events" class="table-body">
+        <!--        @if (events && events.length) {-->
+        <div formArrayName="events" class="table-body">
+          <div
+            *ngFor="let eventFormGroup of eventsArray.controls; let i = index"
+            class="table-row"
+            [formGroupName]="i"
+          >
+            <!--EVENT NUMBER-->
             <div
-              *ngFor="let eventFormGroup of eventsArray.controls; let i = index"
-              class="table-row"
-              [formGroupName]="i"
+              class="table-cell first"
             >
-              <!--EVENT NUMBER-->
-              <div
-                class="table-cell first"
-              >
-                @if (getFormDataByIndexAndKey(eventFormGroup, i, 'eventId')) {
-                  @if (getFormDataByIndexAndKey(eventFormGroup, i, 'eventNumber'); as number) {
-                    {{ number }}
-                  }
-                } @else {
-                  <tui-input-number
-                    [focusable]="false"
-                    [min]="1"
-                    [step]="1"
-                    [formControl]="getFormControl(
+              @if (getFormDataByIndexAndKey(eventFormGroup, i, 'eventId')) {
+                @if (getFormDataByIndexAndKey(eventFormGroup, i, 'eventNumber'); as number) {
+                  {{ number }}
+                }
+              } @else {
+                <tui-input-number
+                  [focusable]="false"
+                  [min]="1"
+                  [step]="1"
+                  [formControl]="getFormControl(
                         this.eventForm,
                         i,
                         'eventNumber',
                         'events'
                       )"
-                  ></tui-input-number>
-                }
-              </div>
+                ></tui-input-number>
+              }
+            </div>
 
-              <!--EVENT QTR-->
-              <div
-                class="table-cell first"
-              >
-                @if (getFormDataByIndexAndKey(eventFormGroup, i, 'eventId')) {
-                  @if (getFormDataByIndexAndKey(eventFormGroup, i, 'eventQtr'); as qtr) {
-                    QTR {{ qtr }}
-                  }
-                } @else {
-                  <tui-input-number
-                    [focusable]="false"
-                    [min]="1"
-                    [max]="4"
-                    [step]="1"
-                    [formControl]="getFormControl(
+            <!--EVENT QTR-->
+            <div
+              class="table-cell first"
+            >
+              @if (getFormDataByIndexAndKey(eventFormGroup, i, 'eventId')) {
+                @if (getFormDataByIndexAndKey(eventFormGroup, i, 'eventQtr'); as qtr) {
+                  QTR {{ qtr }}
+                }
+              } @else {
+                <tui-input-number
+                  [focusable]="false"
+                  [min]="1"
+                  [max]="4"
+                  [step]="1"
+                  [formControl]="getFormControl(
                         this.eventForm,
                         i,
                         'eventQtr',
                         'events'
                       )"
-                  ></tui-input-number>
-                }
-              </div>
+                ></tui-input-number>
+              }
+            </div>
 
-              <!--BALL ON-->
-              <div
-                class="table-cell first"
-              >
-                @if (getFormDataByIndexAndKey(eventFormGroup, i, 'eventId')) {
-                  @if (getFormDataByIndexAndKey(eventFormGroup, i, 'eventBallOn'); as ballOn) {
-                    BALL ON {{ ballOn }}
-                  }
-                } @else {
-                  <tui-input-number
-                    [focusable]="false"
-                    [min]="-50"
-                    [max]="50"
-                    [step]="1"
-                    (tuiValueChanges)="onBallOnChange($event, i)"
-                    [formControl]="getFormControl(
+            <!--BALL ON-->
+            <div
+              class="table-cell first"
+            >
+              @if (getFormDataByIndexAndKey(eventFormGroup, i, 'eventId')) {
+                @if (getFormDataByIndexAndKey(eventFormGroup, i, 'eventBallOn'); as ballOn) {
+                  BALL ON {{ ballOn }}
+                }
+              } @else {
+                <tui-input-number
+                  [focusable]="false"
+                  [min]="-50"
+                  [max]="50"
+                  [step]="1"
+                  (tuiValueChanges)="onBallOnChange($event, i)"
+                  [formControl]="getFormControl(
                         this.eventForm,
                         i,
                         'eventBallOn',
                         'events'
                       )"
-                  ></tui-input-number>
-                }
-              </div>
+                ></tui-input-number>
+              }
+            </div>
 
-              <!--EVENT TEAM-->
-              <div
-                class="table-cell first"
-              >
-                @if (getFormDataByIndexAndKey(eventFormGroup, i, 'eventId')) {
-                  @if (getEventTeam(eventFormGroup, i, 'eventTeam'); as eventTeam) {
-                    <!--                    {{ eventTeam.title | uppercase }}-->
-                  }
-                } @else {
-                  @if (match && match.teams_data && match.teams_data.team_a && match.teams_data.team_b) {
-                    <app-select-team-in-match
-                      [placeholder]="'offence team'"
-                      [teamsList]="[match.teams_data.team_a, match.teams_data.team_b]"
-                      [control]="getFormControl(
+            <!--EVENT TEAM-->
+            <div
+              class="table-cell first"
+            >
+              @if (getFormDataByIndexAndKey(eventFormGroup, i, 'eventId')) {
+                @if (getEventTeam(eventFormGroup, i, 'eventTeam'); as eventTeam) {
+                  {{ eventTeam.title | uppercase }}
+                }
+              } @else {
+                @if (match && match.teams_data && match.teams_data.team_a && match.teams_data.team_b) {
+                  <app-select-team-in-match
+                    [placeholder]="'offence team'"
+                    [teamsList]="[match.teams_data.team_a, match.teams_data.team_b]"
+                    [control]="getFormControl(
                                             this.eventForm,
                                             i,
                                             'eventTeam',
                                             'events'
                                           )"
-                    ></app-select-team-in-match>
-                  }
-                }
-              </div>
+                    (teamSelected)="onTeamChange($event, i)"
 
-              <!--EVENT QB-->
-              <div
-                class="table-cell first"
-              >
-                @if (getFormDataByIndexAndKey(eventFormGroup, i, 'eventId')) {
-                  @if (getEventPlayer(eventFormGroup, i, 'eventQb'); as eventQb) {
-                    #{{ eventQb.match_player.match_number }} {{ eventQb.person?.second_name | uppercase }}
-                  }
-                } @else {
-                  @if (getEventTeam(eventFormGroup, i, 'eventTeam'); as selectedTeam) {
-                    <!--                    {{ selectedTeam.title }}-->
-                    <app-search-player-in-match-autocomplete
-                      [action]="'select'"
-                      [placeholder]="'qb'"
-                      [players]="getPlayersForSelectedTeam(selectedTeam)"
-                      [control]="getFormControl(
+                  ></app-select-team-in-match>
+                }
+              }
+            </div>
+
+            <!--EVENT QB-->
+            <div
+              class="table-cell first"
+            >
+              @if (getFormDataByIndexAndKey(eventFormGroup, i, 'eventId')) {
+                @if (getEventPlayer(eventFormGroup, i, 'eventQb'); as eventQb) {
+                  #{{ eventQb.match_player.match_number }} {{ eventQb.person?.second_name | uppercase }}
+                }
+              } @else {
+                @if (getEventTeam(eventFormGroup, i, 'eventTeam'); as selectedTeam) {
+                  <!--                    {{ selectedTeam.title }}-->
+                  <app-search-player-in-match-autocomplete
+                    [action]="'select'"
+                    [placeholder]="'qb'"
+                    [players]="getPlayersForSelectedTeam(selectedTeam)"
+                    [control]="getFormControl(
                         this.eventForm,
                         i,
                         'eventQb',
                         'events'
                       )"
-                    ></app-search-player-in-match-autocomplete>
-                  }
-
+                  ></app-search-player-in-match-autocomplete>
                 }
-              </div>
 
-              <!--EVENT DOWN-->
-              <div
-                class="table-cell first"
-              >
-                @if (getFormDataByIndexAndKey(eventFormGroup, i, 'eventId')) {
-                  @if (getFormDataByIndexAndKey(eventFormGroup, i, 'eventDown'); as down) {
-                    {{ down }} &
-                  }
-                } @else {
-                  <tui-input-number
-                    [focusable]="false"
-                    [min]="1"
-                    [max]="4"
-                    [step]="1"
-                    [formControl]="getFormControl(
+              }
+            </div>
+
+            <!--EVENT DOWN-->
+            <div
+              class="table-cell first"
+            >
+              @if (getFormDataByIndexAndKey(eventFormGroup, i, 'eventId')) {
+                @if (getFormDataByIndexAndKey(eventFormGroup, i, 'eventDown'); as down) {
+                  {{ down }} &
+                }
+              } @else {
+                <tui-input-number
+                  [focusable]="false"
+                  [min]="1"
+                  [max]="4"
+                  [step]="1"
+                  (tuiValueChanges)="onDownChange($event, i)"
+                  [formControl]="getFormControl(
                         this.eventForm,
                         i,
                         'eventDown',
                         'events'
                       )"
-                  ></tui-input-number>
+                ></tui-input-number>
+              }
+              @if (getFormDataByIndexAndKey(eventFormGroup, i, 'eventId')) {
+                @if (getFormDataByIndexAndKey(eventFormGroup, i, 'eventDistance'); as distance) {
+                  {{ distance }}
                 }
-                @if (getFormDataByIndexAndKey(eventFormGroup, i, 'eventId')) {
-                  @if (getFormDataByIndexAndKey(eventFormGroup, i, 'eventDistance'); as distance) {
-                    {{ distance }}
-                  }
-                } @else {
-                  <tui-input-number
-                    [min]="1"
-                    [max]="100"
-                    [step]="1"
-                    [formControl]="getFormControl(
+              } @else {
+                <tui-input-number
+                  [min]="1"
+                  [max]="100"
+                  [step]="1"
+                  [formControl]="getFormControl(
                                         this.eventForm,
                                         i,
                                         'eventDistance',
                                         'events'
                                       )"
-                  ></tui-input-number>
-                }
+                ></tui-input-number>
+              }
 
-              </div>
+            </div>
 
 
-              <!--              ACTIONS-->
-              @if (eventFormGroup.get("eventId" + i)!.value; as id) {
-                <div class="table-cell">
-                  <app-actions-buttons
-                    [id]="id"
-                    [index]="i"
-                    [deleteOrUpdate]="'delete'"
-                    [item]="
-                            getFormDataByIndexAndKey(
+            <!--              ACTIONS-->
+            @if (eventFormGroup.get("eventId" + i)!.value; as id) {
+              <div class="table-cell">
+                <app-actions-buttons
+                  [id]="id"
+                  [index]="i"
+                  [deleteOrUpdate]="'delete'"
+                  [item]="getFormDataByIndexAndKey(
                               eventFormGroup,
                               i,
                               'eventNumber'
                             )
                           "
-                    (onSubmit)="
+                  (onSubmit)="
                             onSubmitNewEvent($event.action, $event.index, $event.id)
                           "
-                    (onCancel)="onCancelButtonClick()"
+                  (onCancel)="onCancelButtonClick()"
 
-                  ></app-actions-buttons>
-                </div>
-              } @else {
-                <div class="table-cell actions">
-                  <app-actions-buttons
-                    [index]="i"
-                    (onSubmit)="onSubmitNewEvent($event.action, $event.index, $event.id)"
-                    (onCancel)="onCancelButtonClick()"
-                  ></app-actions-buttons>
-                </div>
-              }
-            </div>
+                ></app-actions-buttons>
+              </div>
+            } @else {
+              <div class="table-cell actions">
+                <app-actions-buttons
+                  [index]="i"
+                  (onSubmit)="onSubmitNewEvent($event.action, $event.index, $event.id)"
+                  (onCancel)="onCancelButtonClick()"
+                ></app-actions-buttons>
+              </div>
+            }
           </div>
-          @if (!events.length ||
-          events[events.length - 1].id !== null) {
-            <div class="table-row final">
-              <app-add-button-on-final-tr
-                [action]="'add event'"
-                (onAdd)="addNewEvent()"
-              ></app-add-button-on-final-tr>
-            </div>
-          }
-
-        } @else {
+        </div>
+        @if (!events.length ||
+        events[events.length - 1].id !== null) {
           <div class="table-row final">
             <app-add-button-on-final-tr
-              (onAdd)="addNewEvent()"
+              [action]="'add event'"
+              (onAdd)="addNewEvent(events.length - 1)"
             ></app-add-button-on-final-tr>
           </div>
         }
+
+        <!--        } @else {-->
+        <!--          <div class="table-row final">-->
+        <!--            <app-add-button-on-final-tr-->
+        <!--              (onAdd)="addNewEvent(null)"-->
+        <!--            ></app-add-button-on-final-tr>-->
+        <!--          </div>-->
+        <!--        }-->
       </div>
     } @else {
       NO EVENTS
       <div class="table-row final">
         <app-add-button-on-final-tr
-          (onAdd)="addNewEvent()"
+          (onAdd)="addNewEvent(0)"
         ></app-add-button-on-final-tr>
       </div>
     }
