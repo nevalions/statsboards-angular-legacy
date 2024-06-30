@@ -327,11 +327,8 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
   }
 
   onBallOnChange(ballOn: number, index: number): void {
-    // Calculate the updated down based on the current ball position
     const updatedDown = this.isFirstDown(ballOn, index);
 
-    // Determine the updated distance. If the down has changed to 1, set distance to 10.
-    // Otherwise, calculate the distance normally.
     let updatedDistance;
     if (updatedDown === 1) {
       updatedDistance = 10;
@@ -339,7 +336,6 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
       updatedDistance = this.calculateDistance(ballOn, index);
     }
 
-    // Update the form controls with the new values
     this.eventsArray.controls[index]
       .get(`eventDistance${index}`)
       ?.setValue(updatedDistance);
