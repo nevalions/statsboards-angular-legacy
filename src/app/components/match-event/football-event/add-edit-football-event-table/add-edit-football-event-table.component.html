@@ -17,396 +17,163 @@
             <!--EVENT NUMBER-->
             <div class="event-num-qtr-row">
               <div class="event-table-cell">
-                <ng-container *ngIf="getFormDataByIndexAndKey(eventFormGroup, i, 'eventId'); else noEventIdNum">
-                  <ng-container *ngIf="getFormDataByIndexAndKey(eventFormGroup, i, 'eventNumber') as number">
-                    <ng-container
-                      *ngIf="isRowEnabled(i); then editableEventNumber else staticEventNumber"></ng-container>
-                    <ng-template #editableEventNumber>
-                      <label>Event Number</label>
-                      <tui-input-number
-                        [tuiTextfieldCleaner]="true"
-                        [min]="1"
-                        [step]="1"
-                        [formControl]="getFormControl(this.eventForm, i, 'eventNumber', this.arrayName)">
-                      </tui-input-number>
-                    </ng-template>
-                    <ng-template #staticEventNumber>
-                      {{ number }}
-                    </ng-template>
-                  </ng-container>
-                </ng-container>
-                <ng-template #noEventIdNum>
-                  <label>Event Number</label>
-                  <tui-input-number
-                    [tuiTextfieldCleaner]="true"
-                    [min]="1"
-                    [step]="1"
-                    [formControl]="getFormControl(this.eventForm, i, 'eventNumber', this.arrayName)">
-                  </tui-input-number>
-                </ng-template>
+
+                <label>Event Number</label>
+                <tui-input-number
+                  [tuiTextfieldCleaner]="true"
+                  [min]="1"
+                  [step]="1"
+                  [formControl]="getFormControl(this.eventForm, i, 'eventNumber', this.arrayName)">
+                </tui-input-number>
+
               </div>
 
               <!--EVENT QTR-->
               <div class="event-table-cell">
-                <ng-container *ngIf="getFormDataByIndexAndKey(eventFormGroup, i, 'eventId'); else noEventIdQtr">
-                  <ng-container *ngIf="isRowEnabled(i); then editQBInput else staticQtr"></ng-container>
-                </ng-container>
-                <ng-template #noEventIdQtr>
-                  <label>Qtr</label>
-                  <tui-input-number
-                    [min]="1"
-                    [max]="4"
-                    [step]="1"
-                    [tuiTextfieldCleaner]="true"
-                    [formControl]="getFormControl(this.eventForm, i, 'eventQtr', this.arrayName)">
-                  </tui-input-number>
-                </ng-template>
-                <ng-template #editQBInput>
-                  <label>Qtr</label>
-                  <tui-input-number
-                    [min]="1"
-                    [max]="4"
-                    [step]="1"
-                    [tuiTextfieldCleaner]="true"
-                    [formControl]="getFormControl(this.eventForm, i, 'eventQtr', this.arrayName)">
-                  </tui-input-number>
-                </ng-template>
-                <ng-template #staticQtr>
-                  QTR: {{ getFormDataByIndexAndKey(eventFormGroup, i, 'eventQtr') }}
-                </ng-template>
+                <label>Qtr</label>
+                <tui-input-number
+                  [min]="1"
+                  [max]="4"
+                  [step]="1"
+                  [tuiTextfieldCleaner]="true"
+                  [formControl]="getFormControl(this.eventForm, i, 'eventQtr', this.arrayName)">
+                </tui-input-number>
+
               </div>
             </div>
 
             <!--BALL ON-->
             <div class="event-table-cell">
-              <ng-container *ngIf="getFormDataByIndexAndKey(eventFormGroup, i, 'eventId'); else noEventIdBallOn">
-                <ng-container *ngIf="isRowEnabled(i); then editableBallOn else staticBallOn"></ng-container>
-              </ng-container>
-              <ng-template #editableBallOn>
-                <label>Ball On</label>
-                <tui-input-number
-                  [tuiTextfieldSize]="'l'"
-                  [tuiTextfieldCleaner]="true"
-                  [min]="-50"
-                  [max]="50"
-                  [step]="1"
-                  [formControl]="getFormControl(this.eventForm, i, 'eventBallOn', this.arrayName)"
-                  (tuiValueChanges)="onBallOnChange($event, i)"
-                >
-                </tui-input-number>
-              </ng-template>
-              <ng-template #staticBallOn>
-                BALL ON: {{ getFormDataByIndexAndKey(eventFormGroup, i, 'eventBallOn') }}
-              </ng-template>
-              <ng-template #noEventIdBallOn>
-                <label>Ball On</label>
-                <tui-input-number
-                  [tuiTextfieldCleaner]="true"
-                  [min]="-50"
-                  [max]="50"
-                  [step]="1"
-                  [formControl]="getFormControl(this.eventForm, i, 'eventBallOn', this.arrayName)"
-                  (tuiValueChanges)="onBallOnChange($event, i)"
-                >
-                </tui-input-number>
-              </ng-template>
+              <label>Ball On</label>
+              <tui-input-number
+                [tuiTextfieldSize]="'l'"
+                [tuiTextfieldCleaner]="true"
+                [min]="-50"
+                [max]="50"
+                [step]="1"
+                [formControl]="getFormControl(this.eventForm, i, 'eventBallOn', this.arrayName)"
+                (tuiValueChanges)="onBallOnChange($event, i)"
+              >
+              </tui-input-number>
             </div>
 
 
             <!--EVENT TEAM-->
             <div class="event-table-cell">
-              <ng-container *ngIf="getFormDataByIndexAndKey(eventFormGroup, i, 'eventId'); else noEventIdTeam">
-                <ng-container *ngIf="isRowEnabled(i); then editableTeam else staticTeam"></ng-container>
-              </ng-container>
-              <ng-template #editableTeam>
-                <ng-container *ngIf="match && match.teams_data && match.teams_data.team_a && match.teams_data.team_b">
-                  <label>Offence Team</label>
-                  <app-select-team-in-match
-                    [placeholder]="'offence team'"
-                    [teamsList]="[match.teams_data.team_a, match.teams_data.team_b]"
-                    [control]="getFormControl(this.eventForm, i, 'eventTeam', this.arrayName)"
-                    (teamSelected)="onTeamChange($event, i)"
-                  ></app-select-team-in-match>
-                </ng-container>
-              </ng-template>
-              <ng-template #staticTeam>
-                <ng-container *ngIf="getEventTeam(eventFormGroup, i, 'eventTeam') as eventTeam">
-                  OFFENCE TEAM: {{ eventTeam.title | uppercase }}
-                </ng-container>
-              </ng-template>
-              <ng-template #noEventIdTeam>
-                <ng-container *ngIf="match && match.teams_data && match.teams_data.team_a && match.teams_data.team_b">
-                  <label>Offence Team</label>
-                  <app-select-team-in-match
-                    [placeholder]="'offence team'"
-                    [teamsList]="[match.teams_data.team_a, match.teams_data.team_b]"
-                    [control]="getFormControl(this.eventForm, i, 'eventTeam', this.arrayName)"
-                    (teamSelected)="onTeamChange($event, i)"
-                  ></app-select-team-in-match>
-                </ng-container>
-              </ng-template>
+              @if (match && match.teams_data && match.teams_data.team_a && match.teams_data.team_b) {
+                <label>Offence Team</label>
+                <app-select-team-in-match
+                  [placeholder]="'offence team'"
+                  [teamsList]="[match.teams_data.team_a, match.teams_data.team_b]"
+                  [control]="getFormControl(this.eventForm, i, 'eventTeam', this.arrayName)"
+                  (teamSelected)="onTeamChange($event, i)"
+                ></app-select-team-in-match>
+              }
             </div>
 
             <!--EVENT QB-->
             <div class="event-table-cell">
-              <ng-container *ngIf="getFormDataByIndexAndKey(eventFormGroup, i, 'eventId'); else noEventIdQB">
-                <ng-container *ngIf="isRowEnabled(i); then editableQB else staticQB"></ng-container>
+              <ng-container *ngIf="getEventTeam(eventFormGroup, i, 'eventTeam') as selectedTeam">
+                @if (getEventTeam(eventFormGroup, i, 'eventTeam'); as selectedTeam) {
+                  <label>QB</label>
+                  <app-search-player-in-match-autocomplete
+                    [action]="'select'"
+                    [placeholder]="'qb'"
+                    [players]="getPlayersForSelectedTeam(selectedTeam)"
+                    [control]="getFormControl(this.eventForm, i, 'eventQb', this.arrayName)">
+                  </app-search-player-in-match-autocomplete>
+                }
               </ng-container>
-              <ng-template #editableQB>
-                <ng-container *ngIf="getEventTeam(eventFormGroup, i, 'eventTeam') as selectedTeam">
-                  <label>QB</label>
-                  <app-search-player-in-match-autocomplete
-                    [action]="'select'"
-                    [placeholder]="'qb'"
-                    [players]="getPlayersForSelectedTeam(selectedTeam)"
-                    [control]="getFormControl(this.eventForm, i, 'eventQb', this.arrayName)">
-                  </app-search-player-in-match-autocomplete>
-                </ng-container>
-              </ng-template>
-              <ng-template #staticQB>
-                <ng-container *ngIf="getEventPlayer(eventFormGroup, i, 'eventQb') as eventQb">
-                  QB #{{ eventQb.match_player.match_number }} {{ eventQb.person?.second_name | titlecase }}
-                </ng-container>
-              </ng-template>
-              <ng-template #noEventIdQB>
-                <ng-container *ngIf="getEventTeam(eventFormGroup, i, 'eventTeam') as selectedTeam">
-                  <label>QB</label>
-                  <app-search-player-in-match-autocomplete
-                    [action]="'select'"
-                    [placeholder]="'qb'"
-                    [players]="getPlayersForSelectedTeam(selectedTeam)"
-                    [control]="getFormControl(this.eventForm, i, 'eventQb', this.arrayName)">
-                  </app-search-player-in-match-autocomplete>
-                </ng-container>
-              </ng-template>
             </div>
 
 
             <!--EVENT DOWN-->
             <div class="event-table-cell">
               <div class="event-down-distance">
-                <ng-container *ngIf="getFormDataByIndexAndKey(eventFormGroup, i, 'eventId'); else noEventIdDown">
-                  <ng-container *ngIf="isRowEnabled(i); then editableDown else staticDown"></ng-container>
-                </ng-container>
-                <ng-template #editableDown>
-                  <div class="event-down">
-                    <label>Down</label>
-                    <tui-input-number
-                      [tuiTextfieldCleaner]="true"
-                      [min]="1"
-                      [max]="4"
-                      [step]="1"
-                      (tuiValueChanges)="onDownChange($event, i)"
-                      [formControl]="getFormControl(this.eventForm, i, 'eventDown', this.arrayName)">
-                    </tui-input-number>
-                  </div>
-                  <div class="event-distance">
-                    <label>Distance</label>
-                    <tui-input-number
-                      [tuiTextfieldCleaner]="true"
-                      [min]="1"
-                      [max]="100"
-                      [step]="1"
-                      [formControl]="getFormControl(this.eventForm, i, 'eventDistance', this.arrayName)">
-                    </tui-input-number>
-                  </div>
-                </ng-template>
-                <ng-template #staticDown>
-                  <ng-container *ngIf="getFormDataByIndexAndKey(eventFormGroup, i, 'eventDown') as down">
-                    {{ down }} &
-                  </ng-container>
-                  <ng-container *ngIf="getFormDataByIndexAndKey(eventFormGroup, i, 'eventDistance') as distance">
-                    {{ distance }}
-                  </ng-container>
-                </ng-template>
-                <ng-template #noEventIdDown>
-                  <div class="event-down">
-                    <label>Down</label>
-                    <tui-input-number
-                      [tuiTextfieldCleaner]="true"
-                      [min]="1"
-                      [max]="4"
-                      [step]="1"
-                      (tuiValueChanges)="onDownChange($event, i)"
-                      [formControl]="getFormControl(this.eventForm, i, 'eventDown', this.arrayName)">
-                    </tui-input-number>
-                  </div>
-                  <div class="event-distance">
-                    <label>Distance</label>
-                    <tui-input-number
-                      [tuiTextfieldCleaner]="true"
-                      [min]="1"
-                      [max]="100"
-                      [step]="1"
-                      [formControl]="getFormControl(this.eventForm, i, 'eventDistance', this.arrayName)">
-                    </tui-input-number>
-                  </div>
-                </ng-template>
+                <div class="event-down">
+                  <label>Down</label>
+                  <tui-input-number
+                    [tuiTextfieldCleaner]="true"
+                    [min]="1"
+                    [max]="4"
+                    [step]="1"
+                    (tuiValueChanges)="onDownChange($event, i)"
+                    [formControl]="getFormControl(this.eventForm, i, 'eventDown', this.arrayName)">
+                  </tui-input-number>
+                </div>
+                <div class="event-distance">
+                  <label>Distance</label>
+                  <tui-input-number
+                    [tuiTextfieldCleaner]="true"
+                    [min]="1"
+                    [max]="100"
+                    [step]="1"
+                    [formControl]="getFormControl(this.eventForm, i, 'eventDistance', this.arrayName)">
+                  </tui-input-number>
+                </div>
               </div>
             </div>
 
             <!--EVENT HASH-->
             <div class="event-hash-type">
               <div class="event-table-cell">
-                <ng-container *ngIf="getFormDataByIndexAndKey(eventFormGroup, i, 'eventId'); else noEventIdHash">
-                  <ng-container *ngIf="isRowEnabled(i); then editableHash else staticHash"></ng-container>
-                </ng-container>
-                <ng-template #editableHash>
-                  <label>Hash</label>
-                  <app-select-enum
-                    [control]="getFormControl(this.eventForm, i, 'eventHash', this.arrayName)"
-                    [placeholder]="'hash'"
-                    [enumObjects]="eventHashOptions"
-                  ></app-select-enum>
-                </ng-template>
-                <ng-template #staticHash>
-                  <ng-container *ngIf="getFormDataByIndexAndKey(eventFormGroup, i, 'eventHash') as eventHash">
-                    HASH: {{ eventHash.value | uppercase }}
-                  </ng-container>
-                </ng-template>
-                <ng-template #noEventIdHash>
-                  <label>Hash</label>
-                  <app-select-enum
-                    [control]="getFormControl(this.eventForm, i, 'eventHash', this.arrayName)"
-                    [placeholder]="'hash'"
-                    [enumObjects]="eventHashOptions"
-                  ></app-select-enum>
-                </ng-template>
+                <label>Hash</label>
+                <app-select-enum
+                  [control]="getFormControl(this.eventForm, i, 'eventHash', this.arrayName)"
+                  [placeholder]="'hash'"
+                  [enumObjects]="eventHashOptions"
+                ></app-select-enum>
               </div>
 
               <!--EVENT PLAY TYPE-->
               <div class="event-table-cell">
-                <ng-container *ngIf="getFormDataByIndexAndKey(eventFormGroup, i, 'eventId'); else noEventIdPlayType">
-                  <ng-container *ngIf="isRowEnabled(i); then editablePlayType else staticPlayType"></ng-container>
-                </ng-container>
-                <ng-template #editablePlayType>
-                  <label>Play Type</label>
-                  <app-select-enum
-                    [control]="getFormControl(this.eventForm, i, 'eventPlayType', this.arrayName)"
-                    [placeholder]="'play type'"
-                    [enumObjects]="eventPlayTypeOptions"
-                  ></app-select-enum>
-                </ng-template>
-                <ng-template #staticPlayType>
-                  <ng-container *ngIf="getFormDataByIndexAndKey(eventFormGroup, i, 'eventPlayType') as eventPlayType">
-                    PLAY TYPE: {{ eventPlayType.value | uppercase }}
-                  </ng-container>
-                </ng-template>
-                <ng-template #noEventIdPlayType>
-                  <label>Play Type</label>
-                  <app-select-enum
-                    [control]="getFormControl(this.eventForm, i, 'eventPlayType', this.arrayName)"
-                    [placeholder]="'play type'"
-                    [enumObjects]="eventPlayTypeOptions"
-                  ></app-select-enum>
-                </ng-template>
+                <label>Play Type</label>
+                <app-select-enum
+                  [control]="getFormControl(this.eventForm, i, 'eventPlayType', this.arrayName)"
+                  [placeholder]="'play type'"
+                  [enumObjects]="eventPlayTypeOptions"
+                ></app-select-enum>
               </div>
             </div>
 
             <!--EVENT PLAY RESULT-->
             <div class="event-table-cell">
-              <ng-container *ngIf="getFormDataByIndexAndKey(eventFormGroup, i, 'eventId'); else noEventIdPlayResult">
-                <ng-container *ngIf="isRowEnabled(i); then editablePlayResult else staticPlayResult"></ng-container>
-              </ng-container>
-              <ng-template #editablePlayResult>
-                <label>Play Result</label>
-                <app-select-enum
-                  [control]="getFormControl(this.eventForm, i, 'eventPlayResult', this.arrayName)"
-                  [placeholder]="'play result'"
-                  [enumObjects]="eventPlayResultOptions"
-                ></app-select-enum>
-              </ng-template>
-              <ng-template #staticPlayResult>
-                <ng-container *ngIf="getFormDataByIndexAndKey(eventFormGroup, i, 'eventPlayResult') as eventPlayResult">
-                  PLAY RESULT: {{ eventPlayResult.value | uppercase }}
-                </ng-container>
-              </ng-template>
-              <ng-template #noEventIdPlayResult>
-                <label>Play Result</label>
-                <app-select-enum
-                  [control]="getFormControl(this.eventForm, i, 'eventPlayResult', this.arrayName)"
-                  [placeholder]="'play result'"
-                  [enumObjects]="eventPlayResultOptions"
-                ></app-select-enum>
-              </ng-template>
+              <label>Play Result</label>
+              <app-select-enum
+                [control]="getFormControl(this.eventForm, i, 'eventPlayResult', this.arrayName)"
+                [placeholder]="'play result'"
+                [enumObjects]="eventPlayResultOptions"
+              ></app-select-enum>
             </div>
 
             <!--EVENT RUN PLAYER-->
             <div class="event-table-cell">
-              <ng-container *ngIf="getFormDataByIndexAndKey(eventFormGroup, i, 'eventId'); else noEventIdRunPlayer">
-                <ng-container *ngIf="isRowEnabled(i); then editableRunPlayer else staticRunPlayer"></ng-container>
-              </ng-container>
-              <ng-template #editableRunPlayer>
-                <ng-container *ngIf="getEventTeam(eventFormGroup, i, 'eventTeam') as selectedTeam">
-                  <ng-container *ngIf="isPlayType(eventFormGroup, i, 'eventPlayType', IFootballPlayType.Run)">
-                    <label>Run Player</label>
-                    <app-search-player-in-match-autocomplete
-                      [action]="'select'"
-                      [placeholder]="'run player'"
-                      [players]="getPlayersForSelectedTeam(selectedTeam)"
-                      [control]="getFormControl(this.eventForm, i, 'eventRunPlayer', this.arrayName)">
-                    </app-search-player-in-match-autocomplete>
-                  </ng-container>
-                </ng-container>
-              </ng-template>
-              <ng-template #staticRunPlayer>
-                <ng-container *ngIf="getEventPlayer(eventFormGroup, i, 'eventRunPlayer') as eventPlayer">
-                  RUN PLAYER
-                  #{{ eventPlayer.match_player.match_number }} {{ eventPlayer.person?.second_name | titlecase }}
-                </ng-container>
-              </ng-template>
-              <ng-template #noEventIdRunPlayer>
-                <ng-container *ngIf="getEventTeam(eventFormGroup, i, 'eventTeam') as selectedTeam">
-                  <ng-container *ngIf="isPlayType(eventFormGroup, i, 'eventPlayType', IFootballPlayType.Run)">
-                    <label>Run Player</label>
-                    <app-search-player-in-match-autocomplete
-                      [action]="'select'"
-                      [placeholder]="'run player'"
-                      [players]="getPlayersForSelectedTeam(selectedTeam)"
-                      [control]="getFormControl(this.eventForm, i, 'eventRunPlayer', this.arrayName)">
-                    </app-search-player-in-match-autocomplete>
-                  </ng-container>
-                </ng-container>
-              </ng-template>
+              @if (getEventTeam(eventFormGroup, i, 'eventTeam'); as selectedTeam) {
+                @if (isPlayType(eventFormGroup, i, 'eventPlayType', IFootballPlayType.Run)) {
+                  <label>Run Player</label>
+                  <app-search-player-in-match-autocomplete
+                    [action]="'select'"
+                    [placeholder]="'run player'"
+                    [players]="getPlayersForSelectedTeam(selectedTeam)"
+                    [control]="getFormControl(this.eventForm, i, 'eventRunPlayer', this.arrayName)">
+                  </app-search-player-in-match-autocomplete>
+                }
+              }
             </div>
 
             <!--EVENT PASS PLAYER-->
             <div class="event-table-cell">
-              <ng-container *ngIf="getFormDataByIndexAndKey(eventFormGroup, i, 'eventId'); else noEventIdPassPlayer">
-                <ng-container *ngIf="isRowEnabled(i); then editablePassPlayer else staticPassPlayer"></ng-container>
-              </ng-container>
-              <ng-template #editablePassPlayer>
-                <ng-container *ngIf="getEventTeam(eventFormGroup, i, 'eventTeam') as selectedTeam">
-                  <ng-container *ngIf="isPlayType(eventFormGroup, i, 'eventPlayType', IFootballPlayType.Pass)">
-                    <label>Receiver Player</label>
-                    <app-search-player-in-match-autocomplete
-                      [action]="'select'"
-                      [placeholder]="'receiver player'"
-                      [players]="getPlayersForSelectedTeam(selectedTeam)"
-                      [control]="getFormControl(this.eventForm, i, 'eventReceiverPlayer', this.arrayName)">
-                    </app-search-player-in-match-autocomplete>
-                  </ng-container>
-                </ng-container>
-              </ng-template>
-              <ng-template #staticPassPlayer>
-                <ng-container *ngIf="getEventPlayer(eventFormGroup, i, 'eventReceiverPlayer') as eventPlayer">
-                  RECEIVER PLAYER
-                  #{{ eventPlayer.match_player.match_number }} {{ eventPlayer.person?.second_name | uppercase }}
-                </ng-container>
-              </ng-template>
-              <ng-template #noEventIdPassPlayer>
-                <ng-container *ngIf="getEventTeam(eventFormGroup, i, 'eventTeam') as selectedTeam">
-                  <ng-container *ngIf="isPlayType(eventFormGroup, i, 'eventPlayType', IFootballPlayType.Pass)">
-                    <label>Receiver Player</label>
-                    <app-search-player-in-match-autocomplete
-                      [action]="'select'"
-                      [placeholder]="'receiver player'"
-                      [players]="getPlayersForSelectedTeam(selectedTeam)"
-                      [control]="getFormControl(this.eventForm, i, 'eventReceiverPlayer', this.arrayName)">
-                    </app-search-player-in-match-autocomplete>
-                  </ng-container>
-                </ng-container>
-              </ng-template>
+              @if (getEventTeam(eventFormGroup, i, 'eventTeam'); as selectedTeam) {
+                @if (isPlayType(eventFormGroup, i, 'eventPlayType', IFootballPlayType.Pass)) {
+                  <label>Receiver Player</label>
+                  <app-search-player-in-match-autocomplete
+                    [action]="'select'"
+                    [placeholder]="'receiver player'"
+                    [players]="getPlayersForSelectedTeam(selectedTeam)"
+                    [control]="getFormControl(this.eventForm, i, 'eventReceiverPlayer', this.arrayName)">
+                  </app-search-player-in-match-autocomplete>
+                }
+              }
             </div>
 
 
