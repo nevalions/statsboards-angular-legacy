@@ -62,6 +62,12 @@ export const selectFootballEventsWithPlayers = createSelector(
         event_hash: event.event_hash
           ? { value: event.event_hash.toLowerCase() }
           : null,
+        play_type: event.play_type
+          ? { value: event.play_type.toLowerCase() }
+          : null,
+        play_result: event.play_result
+          ? { value: event.play_result.toLowerCase() }
+          : null,
       } as IFootballEventWithPlayers;
     });
   },

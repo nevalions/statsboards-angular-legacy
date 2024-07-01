@@ -15,63 +15,66 @@
             [formGroupName]="i"
           >
             <!--EVENT NUMBER-->
-            <div class="event-table-cell">
-              <ng-container *ngIf="getFormDataByIndexAndKey(eventFormGroup, i, 'eventId'); else noEventIdNum">
-                <ng-container *ngIf="getFormDataByIndexAndKey(eventFormGroup, i, 'eventNumber') as number">
-                  <ng-container *ngIf="isRowEnabled(i); then editableEventNumber else staticEventNumber"></ng-container>
-                  <ng-template #editableEventNumber>
-                    <label>Event Number</label>
-                    <tui-input-number
-                      [tuiTextfieldCleaner]="true"
-                      [min]="1"
-                      [step]="1"
-                      [formControl]="getFormControl(this.eventForm, i, 'eventNumber', this.arrayName)">
-                    </tui-input-number>
-                  </ng-template>
-                  <ng-template #staticEventNumber>
-                    {{ number }}
-                  </ng-template>
+            <div class="event-num-qtr-row">
+              <div class="event-table-cell">
+                <ng-container *ngIf="getFormDataByIndexAndKey(eventFormGroup, i, 'eventId'); else noEventIdNum">
+                  <ng-container *ngIf="getFormDataByIndexAndKey(eventFormGroup, i, 'eventNumber') as number">
+                    <ng-container
+                      *ngIf="isRowEnabled(i); then editableEventNumber else staticEventNumber"></ng-container>
+                    <ng-template #editableEventNumber>
+                      <label>Event Number</label>
+                      <tui-input-number
+                        [tuiTextfieldCleaner]="true"
+                        [min]="1"
+                        [step]="1"
+                        [formControl]="getFormControl(this.eventForm, i, 'eventNumber', this.arrayName)">
+                      </tui-input-number>
+                    </ng-template>
+                    <ng-template #staticEventNumber>
+                      {{ number }}
+                    </ng-template>
+                  </ng-container>
                 </ng-container>
-              </ng-container>
-              <ng-template #noEventIdNum>
-                <label>Event Number</label>
-                <tui-input-number
-                  [tuiTextfieldCleaner]="true"
-                  [min]="1"
-                  [step]="1"
-                  [formControl]="getFormControl(this.eventForm, i, 'eventNumber', this.arrayName)">
-                </tui-input-number>
-              </ng-template>
-            </div>
+                <ng-template #noEventIdNum>
+                  <label>Event Number</label>
+                  <tui-input-number
+                    [tuiTextfieldCleaner]="true"
+                    [min]="1"
+                    [step]="1"
+                    [formControl]="getFormControl(this.eventForm, i, 'eventNumber', this.arrayName)">
+                  </tui-input-number>
+                </ng-template>
+              </div>
 
-            <!--EVENT QTR-->
-            <div class="event-table-cell">
-              <ng-container *ngIf="getFormDataByIndexAndKey(eventFormGroup, i, 'eventId'); else noEventIdQtr">
-                <ng-container *ngIf="isRowEnabled(i); then editQBInput else staticQtr"></ng-container>
-              </ng-container>
-              <ng-template #noEventIdQtr>
-                <label>Qtr</label>
-                <tui-input-number
-                  [min]="1"
-                  [max]="4"
-                  [step]="1"
-                  [tuiTextfieldCleaner]="true"
-                  [formControl]="getFormControl(this.eventForm, i, 'eventQtr', this.arrayName)">
-                </tui-input-number>
-              </ng-template>
-              <ng-template #editQBInput>
-                <label>Qtr</label>
-                <tui-input-number
-                  [min]="1"
-                  [max]="4"
-                  [step]="1"
-                  [tuiTextfieldCleaner]="true"
-                  [formControl]="getFormControl(this.eventForm, i, 'eventQtr', this.arrayName)">
-                </tui-input-number>
-              </ng-template>
-              <ng-template #staticQtr>
-                QTR: {{ getFormDataByIndexAndKey(eventFormGroup, i, 'eventQtr') }}
-              </ng-template>
+              <!--EVENT QTR-->
+              <div class="event-table-cell">
+                <ng-container *ngIf="getFormDataByIndexAndKey(eventFormGroup, i, 'eventId'); else noEventIdQtr">
+                  <ng-container *ngIf="isRowEnabled(i); then editQBInput else staticQtr"></ng-container>
+                </ng-container>
+                <ng-template #noEventIdQtr>
+                  <label>Qtr</label>
+                  <tui-input-number
+                    [min]="1"
+                    [max]="4"
+                    [step]="1"
+                    [tuiTextfieldCleaner]="true"
+                    [formControl]="getFormControl(this.eventForm, i, 'eventQtr', this.arrayName)">
+                  </tui-input-number>
+                </ng-template>
+                <ng-template #editQBInput>
+                  <label>Qtr</label>
+                  <tui-input-number
+                    [min]="1"
+                    [max]="4"
+                    [step]="1"
+                    [tuiTextfieldCleaner]="true"
+                    [formControl]="getFormControl(this.eventForm, i, 'eventQtr', this.arrayName)">
+                  </tui-input-number>
+                </ng-template>
+                <ng-template #staticQtr>
+                  QTR: {{ getFormDataByIndexAndKey(eventFormGroup, i, 'eventQtr') }}
+                </ng-template>
+              </div>
             </div>
 
             <!--BALL ON-->
@@ -82,11 +85,14 @@
               <ng-template #editableBallOn>
                 <label>Ball On</label>
                 <tui-input-number
+                  [tuiTextfieldSize]="'l'"
                   [tuiTextfieldCleaner]="true"
                   [min]="-50"
                   [max]="50"
                   [step]="1"
-                  [formControl]="getFormControl(this.eventForm, i, 'eventBallOn', this.arrayName)">
+                  [formControl]="getFormControl(this.eventForm, i, 'eventBallOn', this.arrayName)"
+                  (tuiValueChanges)="onBallOnChange($event, i)"
+                >
                 </tui-input-number>
               </ng-template>
               <ng-template #staticBallOn>
@@ -99,10 +105,13 @@
                   [min]="-50"
                   [max]="50"
                   [step]="1"
-                  [formControl]="getFormControl(this.eventForm, i, 'eventBallOn', this.arrayName)">
+                  [formControl]="getFormControl(this.eventForm, i, 'eventBallOn', this.arrayName)"
+                  (tuiValueChanges)="onBallOnChange($event, i)"
+                >
                 </tui-input-number>
               </ng-template>
             </div>
+
 
             <!--EVENT TEAM-->
             <div class="event-table-cell">
@@ -172,123 +181,126 @@
               </ng-template>
             </div>
 
+
             <!--EVENT DOWN-->
             <div class="event-table-cell">
-              <ng-container *ngIf="getFormDataByIndexAndKey(eventFormGroup, i, 'eventId'); else noEventIdDown">
-                <ng-container *ngIf="isRowEnabled(i); then editableDown else staticDown"></ng-container>
-              </ng-container>
-              <ng-template #editableDown>
-                <label>Down</label>
-                <tui-input-number
-                  [tuiTextfieldCleaner]="true"
-                  [min]="1"
-                  [max]="4"
-                  [step]="1"
-                  (tuiValueChanges)="onDownChange($event, i)"
-                  [formControl]="getFormControl(this.eventForm, i, 'eventDown', this.arrayName)">
-                </tui-input-number>
-                <label>Distance</label>
-                <tui-input-number
-                  [tuiTextfieldCleaner]="true"
-                  [min]="1"
-                  [max]="100"
-                  [step]="1"
-                  [formControl]="getFormControl(this.eventForm, i, 'eventDistance', this.arrayName)">
-                </tui-input-number>
-              </ng-template>
-              <ng-template #staticDown>
-                <ng-container *ngIf="getFormDataByIndexAndKey(eventFormGroup, i, 'eventDown') as down">
-                  {{ down }} &
+              <div class="event-down-distance">
+                <ng-container *ngIf="getFormDataByIndexAndKey(eventFormGroup, i, 'eventId'); else noEventIdDown">
+                  <ng-container *ngIf="isRowEnabled(i); then editableDown else staticDown"></ng-container>
                 </ng-container>
-                <ng-container *ngIf="getFormDataByIndexAndKey(eventFormGroup, i, 'eventDistance') as distance">
-                  {{ distance }}
-                </ng-container>
-              </ng-template>
-              <ng-template #noEventIdDown>
-                <label>Down</label>
-                <tui-input-number
-                  [tuiTextfieldCleaner]="true"
-                  [min]="1"
-                  [max]="4"
-                  [step]="1"
-                  (tuiValueChanges)="onDownChange($event, i)"
-                  [formControl]="getFormControl(this.eventForm, i, 'eventDown', this.arrayName)">
-                </tui-input-number>
-                <label>Distance</label>
-                <tui-input-number
-                  [tuiTextfieldCleaner]="true"
-                  [min]="1"
-                  [max]="100"
-                  [step]="1"
-                  [formControl]="getFormControl(this.eventForm, i, 'eventDistance', this.arrayName)">
-                </tui-input-number>
-              </ng-template>
+                <ng-template #editableDown>
+                  <div class="event-down">
+                    <label>Down</label>
+                    <tui-input-number
+                      [tuiTextfieldCleaner]="true"
+                      [min]="1"
+                      [max]="4"
+                      [step]="1"
+                      (tuiValueChanges)="onDownChange($event, i)"
+                      [formControl]="getFormControl(this.eventForm, i, 'eventDown', this.arrayName)">
+                    </tui-input-number>
+                  </div>
+                  <div class="event-distance">
+                    <label>Distance</label>
+                    <tui-input-number
+                      [tuiTextfieldCleaner]="true"
+                      [min]="1"
+                      [max]="100"
+                      [step]="1"
+                      [formControl]="getFormControl(this.eventForm, i, 'eventDistance', this.arrayName)">
+                    </tui-input-number>
+                  </div>
+                </ng-template>
+                <ng-template #staticDown>
+                  <ng-container *ngIf="getFormDataByIndexAndKey(eventFormGroup, i, 'eventDown') as down">
+                    {{ down }} &
+                  </ng-container>
+                  <ng-container *ngIf="getFormDataByIndexAndKey(eventFormGroup, i, 'eventDistance') as distance">
+                    {{ distance }}
+                  </ng-container>
+                </ng-template>
+                <ng-template #noEventIdDown>
+                  <div class="event-down">
+                    <label>Down</label>
+                    <tui-input-number
+                      [tuiTextfieldCleaner]="true"
+                      [min]="1"
+                      [max]="4"
+                      [step]="1"
+                      (tuiValueChanges)="onDownChange($event, i)"
+                      [formControl]="getFormControl(this.eventForm, i, 'eventDown', this.arrayName)">
+                    </tui-input-number>
+                  </div>
+                  <div class="event-distance">
+                    <label>Distance</label>
+                    <tui-input-number
+                      [tuiTextfieldCleaner]="true"
+                      [min]="1"
+                      [max]="100"
+                      [step]="1"
+                      [formControl]="getFormControl(this.eventForm, i, 'eventDistance', this.arrayName)">
+                    </tui-input-number>
+                  </div>
+                </ng-template>
+              </div>
             </div>
 
             <!--EVENT HASH-->
-            <div class="event-table-cell">
-              <ng-container *ngIf="getFormDataByIndexAndKey(eventFormGroup, i, 'eventId'); else noEventIdHash">
-                <ng-container *ngIf="isRowEnabled(i); then editableHash else staticHash"></ng-container>
-              </ng-container>
-              <ng-template #editableHash>
-                <label>Hash</label>
-                <app-select-enum
-                  [control]="getFormControl(this.eventForm, i, 'eventHash', this.arrayName)"
-                  [placeholder]="'hash'"
-                  [enumObjects]="eventHashOptions"
-                ></app-select-enum>
-              </ng-template>
-              <ng-template #staticHash>
-                <ng-container *ngIf="getFormDataByIndexAndKey(eventFormGroup, i, 'eventHash') as eventHash">
-                  HASH: {{ eventHash.value | uppercase }}
+            <div class="event-hash-type">
+              <div class="event-table-cell">
+                <ng-container *ngIf="getFormDataByIndexAndKey(eventFormGroup, i, 'eventId'); else noEventIdHash">
+                  <ng-container *ngIf="isRowEnabled(i); then editableHash else staticHash"></ng-container>
                 </ng-container>
-              </ng-template>
-              <ng-template #noEventIdHash>
-                <label>Hash</label>
-                <app-select-enum
-                  [control]="getFormControl(this.eventForm, i, 'eventHash', this.arrayName)"
-                  [placeholder]="'hash'"
-                  [enumObjects]="eventHashOptions"
-                ></app-select-enum>
-              </ng-template>
-            </div>
+                <ng-template #editableHash>
+                  <label>Hash</label>
+                  <app-select-enum
+                    [control]="getFormControl(this.eventForm, i, 'eventHash', this.arrayName)"
+                    [placeholder]="'hash'"
+                    [enumObjects]="eventHashOptions"
+                  ></app-select-enum>
+                </ng-template>
+                <ng-template #staticHash>
+                  <ng-container *ngIf="getFormDataByIndexAndKey(eventFormGroup, i, 'eventHash') as eventHash">
+                    HASH: {{ eventHash.value | uppercase }}
+                  </ng-container>
+                </ng-template>
+                <ng-template #noEventIdHash>
+                  <label>Hash</label>
+                  <app-select-enum
+                    [control]="getFormControl(this.eventForm, i, 'eventHash', this.arrayName)"
+                    [placeholder]="'hash'"
+                    [enumObjects]="eventHashOptions"
+                  ></app-select-enum>
+                </ng-template>
+              </div>
 
-            <!--EVENT PLAY TYPE-->
-            <div class="event-table-cell">
-              <ng-container *ngIf="getFormDataByIndexAndKey(eventFormGroup, i, 'eventId'); else noEventIdPlayType">
-                <ng-container *ngIf="isRowEnabled(i); then editablePlayType else staticPlayType"></ng-container>
-              </ng-container>
-              <ng-template #editablePlayType>
-                <label>Play Type</label>
-                <tui-combo-box
-                  [stringify]="stringifySelected"
-                  [formControl]="getFormControl(this.eventForm, i, 'eventPlayType', this.arrayName)">
-                  PLAY TYPE
-                  <tui-data-list-wrapper
-                    *tuiDataList
-                    [itemContent]="stringifyValue | tuiStringifyContent"
-                    [items]="eventPlayTypeOptions | tuiFilterByInputWith: stringifySelected">
-                  </tui-data-list-wrapper>
-                </tui-combo-box>
-              </ng-template>
-              <ng-template #staticPlayType>
-                <ng-container *ngIf="getFormDataByIndexAndKey(eventFormGroup, i, 'eventPlayType') as eventPlayType">
-                  PLAY TYPE: {{ eventPlayType }}
+              <!--EVENT PLAY TYPE-->
+              <div class="event-table-cell">
+                <ng-container *ngIf="getFormDataByIndexAndKey(eventFormGroup, i, 'eventId'); else noEventIdPlayType">
+                  <ng-container *ngIf="isRowEnabled(i); then editablePlayType else staticPlayType"></ng-container>
                 </ng-container>
-              </ng-template>
-              <ng-template #noEventIdPlayType>
-                <label>Play Type</label>
-                <tui-combo-box
-                  [stringify]="stringifyValue"
-                  [formControl]="getFormControl(this.eventForm, i, 'eventPlayType', this.arrayName)">
-                  PLAY TYPE
-                  <tui-data-list-wrapper
-                    *tuiDataList
-                    [itemContent]="stringifyValue | tuiStringifyContent"
-                    [items]="eventPlayTypeOptions | tuiFilterByInputWith: stringifyValue">
-                  </tui-data-list-wrapper>
-                </tui-combo-box>
-              </ng-template>
+                <ng-template #editablePlayType>
+                  <label>Play Type</label>
+                  <app-select-enum
+                    [control]="getFormControl(this.eventForm, i, 'eventPlayType', this.arrayName)"
+                    [placeholder]="'play type'"
+                    [enumObjects]="eventPlayTypeOptions"
+                  ></app-select-enum>
+                </ng-template>
+                <ng-template #staticPlayType>
+                  <ng-container *ngIf="getFormDataByIndexAndKey(eventFormGroup, i, 'eventPlayType') as eventPlayType">
+                    PLAY TYPE: {{ eventPlayType.value | uppercase }}
+                  </ng-container>
+                </ng-template>
+                <ng-template #noEventIdPlayType>
+                  <label>Play Type</label>
+                  <app-select-enum
+                    [control]="getFormControl(this.eventForm, i, 'eventPlayType', this.arrayName)"
+                    [placeholder]="'play type'"
+                    [enumObjects]="eventPlayTypeOptions"
+                  ></app-select-enum>
+                </ng-template>
+              </div>
             </div>
 
             <!--EVENT PLAY RESULT-->
@@ -298,34 +310,24 @@
               </ng-container>
               <ng-template #editablePlayResult>
                 <label>Play Result</label>
-                <tui-combo-box
-                  [stringify]="stringifyValue"
-                  [formControl]="getFormControl(this.eventForm, i, 'eventPlayResult', this.arrayName)">
-                  PLAY RESULT
-                  <tui-data-list-wrapper
-                    *tuiDataList
-                    [itemContent]="stringifyValue | tuiStringifyContent"
-                    [items]="eventPlayResultOptions | tuiFilterByInputWith: stringifyValue">
-                  </tui-data-list-wrapper>
-                </tui-combo-box>
+                <app-select-enum
+                  [control]="getFormControl(this.eventForm, i, 'eventPlayResult', this.arrayName)"
+                  [placeholder]="'play result'"
+                  [enumObjects]="eventPlayResultOptions"
+                ></app-select-enum>
               </ng-template>
               <ng-template #staticPlayResult>
                 <ng-container *ngIf="getFormDataByIndexAndKey(eventFormGroup, i, 'eventPlayResult') as eventPlayResult">
-                  PLAY RESULT: {{ eventPlayResult }}
+                  PLAY RESULT: {{ eventPlayResult.value | uppercase }}
                 </ng-container>
               </ng-template>
               <ng-template #noEventIdPlayResult>
                 <label>Play Result</label>
-                <tui-combo-box
-                  [stringify]="stringifyValue"
-                  [formControl]="getFormControl(this.eventForm, i, 'eventPlayResult', this.arrayName)">
-                  PLAY RESULT
-                  <tui-data-list-wrapper
-                    *tuiDataList
-                    [itemContent]="stringifyValue | tuiStringifyContent"
-                    [items]="eventPlayResultOptions | tuiFilterByInputWith: stringifyValue">
-                  </tui-data-list-wrapper>
-                </tui-combo-box>
+                <app-select-enum
+                  [control]="getFormControl(this.eventForm, i, 'eventPlayResult', this.arrayName)"
+                  [placeholder]="'play result'"
+                  [enumObjects]="eventPlayResultOptions"
+                ></app-select-enum>
               </ng-template>
             </div>
 
