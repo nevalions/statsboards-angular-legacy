@@ -41,5 +41,11 @@ export const footballEventActions = createActionGroup({
       updatedFootballEvent: IFootballEvent;
     }>(),
     'Update football event by key value failure': emptyProps(),
+
+    DeleteById: props<{ id: number }>(),
+    'Deleted by id successfully': props<{
+      eventInMatchId: number;
+    }>(),
+    'Delete by id failure': emptyProps(),
   },
 });

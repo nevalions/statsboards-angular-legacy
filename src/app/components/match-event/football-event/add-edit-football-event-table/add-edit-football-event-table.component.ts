@@ -27,13 +27,14 @@ import {
   getFormDataByIndexAndKey,
 } from '../../../../base/formHelpers';
 import { TuiTextfieldControllerModule } from '@taiga-ui/core';
-import { NgForOf, UpperCasePipe } from '@angular/common';
+import { NgForOf, NgIf, TitleCasePipe, UpperCasePipe } from '@angular/common';
 import { AddButtonOnFinalTrComponent } from '../../../../shared/ui/buttons/add-button-on-final-tr/add-button-on-final-tr.component';
 import { ActionsButtonsComponent } from '../../../../shared/ui/buttons/actions-buttons/actions-buttons.component';
 import {
   TuiComboBoxModule,
   TuiDataListWrapperModule,
   TuiFilterByInputPipeModule,
+  TuiInputModule,
   TuiInputNumberModule,
   TuiSelectModule,
   TuiSelectOptionModule,
@@ -48,6 +49,7 @@ import { SelectTeamInMatchComponent } from '../../../../shared/ui/select/select-
 import { F } from '@angular/cdk/keycodes';
 import * as net from 'node:net';
 import { TuiValueChangesModule } from '@taiga-ui/cdk';
+import { DialogService } from '../../../../services/dialog.service';
 
 @Component({
   selector: 'app-add-edit-football-event-table',
@@ -70,6 +72,9 @@ import { TuiValueChangesModule } from '@taiga-ui/cdk';
     TuiComboBoxModule,
     TuiFilterByInputPipeModule,
     TuiStringifyContentPipeModule,
+    NgIf,
+    TuiInputModule,
+    TitleCasePipe,
   ],
   templateUrl: './add-edit-football-event-table.component.html',
   styleUrl: './add-edit-football-event-table.component.less',
@@ -79,8 +84,10 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
   @Input() homePlayersInMatch: IPlayerInMatchFullData[] | null = [];
   @Input() awayPlayersInMatch: IPlayerInMatchFullData[] | null = [];
   @Input() match: IMatchFullDataWithScoreboard | null = null;
+  @Input() deleteOrUpdate: 'delete' | 'update' | 'deleteFromTeam' = 'delete';
 
   eventForm!: FormGroup;
+  arrayName = 'events';
   newEventCount = 0;
 
   eventHashOptions = Object.entries(IEventHash).map(([key, value]) => ({
@@ -102,11 +109,16 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
     }),
   );
 
-  readonly stringify = (item: { value: string; label: string }): string =>
-    `${item.value.toUpperCase()}`;
+  readonly stringifyValue = (item: { value: string; label: string }): string =>
+    `${item.value}`;
+
+  readonly stringifySelected = (item: {
+    value: string;
+    label: string;
+  }): string => `${item}`;
 
   get eventsArray(): FormArray {
-    return this.eventForm.get('events') as FormArray;
+    return this.eventForm.get(this.arrayName) as FormArray;
   }
 
   private populateFormArray(): void {
@@ -116,13 +128,14 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
       );
       const formArray = this.fb.array(eventFormArray);
       // console.log('array', formArray);
-      this.eventForm.setControl('events', formArray);
+      this.eventForm.setControl(this.arrayName, formArray);
     }
   }
 
   constructor(
     private footballEvent: FootballEvent,
     private fb: FormBuilder,
+    private dialogService: DialogService,
   ) {
     this.eventForm = this.fb.group({
       events: this.fb.array([]),
@@ -164,7 +177,8 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
     const controlEventRunPlayer = `eventRunPlayer${index}`;
     const controlEventReceiverPlayer = `eventReceiverPlayer${index}`;
 
-    return this.fb.group({
+    // Create the form group
+    const formGroup = this.fb.group({
       [controlEventId]: new FormControl(event.id),
       [controlEventNumber]: new FormControl(event.event_number),
       [controlEventQtr]: new FormControl(event.event_qtr),
@@ -179,6 +193,13 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
       [controlEventRunPlayer]: new FormControl(event.run_player),
       [controlEventReceiverPlayer]: new FormControl(event.pass_received_player),
     });
+
+    // Disable the entire form group if event.id is not null
+    if (event.id !== null && event.id !== undefined) {
+      formGroup.disable();
+    }
+
+    return formGroup;
   }
 
   addNewEvent(): void {
@@ -385,6 +406,52 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
         this.populateFormArray();
       }
     }
+  }
+
+  onDeleteEvent(id: number) {
+    this.footballEvent.deleteEventInMatchById(id);
+  }
+
+  onDeleteButtonClick(dialogId: string) {
+    this.dialogService.showDialog(dialogId);
+  }
+
+  enableRowToEdit(index: number): void {
+    const formGroup = (this.eventForm.get(this.arrayName) as FormArray).at(
+      index,
+    );
+    if (formGroup && formGroup.disabled) {
+      formGroup.enable();
+    } else if (formGroup && formGroup.enabled) {
+      formGroup.disable();
+    } else {
+      console.log(
+        formGroup ? 'FormGroup is already enabled' : 'FormGroup is null',
+      );
+    }
+  }
+
+  isRowEnabled(index: number): boolean {
+    const formGroup = (this.eventForm.get(this.arrayName) as FormArray).at(
+      index,
+    );
+    if (formGroup && formGroup.disabled) {
+      // console.log('formGroup is disabled');
+      return false;
+    } else if (formGroup && formGroup.enabled) {
+      // console.log('formGroup is enabled');
+      return true;
+    } else {
+      console.log('formGroup is null');
+      return false;
+    }
+  }
+
+  isDataChanged(index: number): boolean {
+    const formGroup = (this.eventForm.get(this.arrayName) as FormArray).at(
+      index,
+    );
+    return formGroup ? formGroup.dirty : false;
   }
 
   getEventTeam(formGroup: FormGroup | any, index: number, key: string): ITeam {

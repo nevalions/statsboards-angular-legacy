@@ -318,18 +318,6 @@ export class PlayerInMatchEffects {
     },
     { functional: true },
   );
-  //
-  // navigateOnPlayerInMatchDeletion$ = createEffect(
-  //   () => {
-  //     return this.actions$.pipe(
-  //       ofType(playerInMatchActions.deletedSuccessfully),
-  //       tap(({ match_id }) =>
-  //         this.router.navigateByUrl(`/sport/1/tournament/${tournament_id}`),
-  //       ),
-  //     );
-  //   },
-  //   { dispatch: false },
-  // );
 
   parsPlayersInMatchFromEESLEffect = createEffect(
     () => {

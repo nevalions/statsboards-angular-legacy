@@ -6,6 +6,7 @@
 
   <tui-combo-box
     [formControl]="control"
+    [tuiTextfieldCleaner]="true"
   >
     {{ action | uppercase }} {{ placeholder | uppercase }}
     @if (players) {

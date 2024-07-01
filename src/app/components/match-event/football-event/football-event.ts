@@ -53,4 +53,8 @@ export class FootballEvent {
       }),
     );
   }
+
+  deleteEventInMatchById(id: number) {
+    this.store.dispatch(footballEventActions.deleteById({ id: id }));
+  }
 }

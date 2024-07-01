@@ -13,6 +13,7 @@ import {
 } from '@taiga-ui/kit';
 import { IPlayerInMatchFullData } from '../../../../type/player.type';
 import { UpperCasePipe } from '@angular/common';
+import { TuiTextfieldControllerModule } from '@taiga-ui/core';
 
 @Component({
   selector: 'app-search-player-in-match-autocomplete',
@@ -24,6 +25,7 @@ import { UpperCasePipe } from '@angular/common';
     UpperCasePipe,
     TuiStringifyContentPipeModule,
     TuiFilterByInputPipeModule,
+    TuiTextfieldControllerModule,
   ],
   providers: [
     tuiItemsHandlersProvider({

@@ -9,6 +9,7 @@ import { IFootballEvent } from '../../../../type/football-event.type';
 import { selectCurrentMatchId } from '../../../match/store/reducers';
 import { matchActions } from '../../../match/store/actions';
 import { FootballEventService } from '../football-event.service';
+import { playerInMatchActions } from '../../../player-match/store/actions';
 
 @Injectable()
 export class FootballEventEffects {
@@ -152,6 +153,27 @@ export class FootballEventEffects {
       );
     },
     { functional: false },
+  );
+
+  deleteEventInMatchByIdEffect = createEffect(
+    () => {
+      return this.actions$.pipe(
+        ofType(footballEventActions.deleteById),
+        switchMap(({ id }) => {
+          return this.footballEventService.deleteItem(id).pipe(
+            map(() => {
+              return footballEventActions.deletedByIdSuccessfully({
+                eventInMatchId: id,
+              });
+            }),
+            catchError(() => {
+              return of(footballEventActions.deleteByIdFailure());
+            }),
+          );
+        }),
+      );
+    },
+    { functional: true },
   );
 
   constructor(

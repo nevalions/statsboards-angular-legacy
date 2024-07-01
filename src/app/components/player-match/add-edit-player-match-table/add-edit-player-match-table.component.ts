@@ -148,17 +148,7 @@ export class AddEditPlayerMatchTableComponent implements OnChanges, OnInit {
     private dialogService: DialogService,
     private fb: FormBuilder,
     private imageService: ImageService,
-  ) {
-    // if (this.side && this.arrayName) {
-    //   const fullArrayName = this.arrayName + this.side;
-    //   this.playerForm = this.fb.group({
-    //     [fullArrayName]: this.fb.array([]),
-    //   });
-    //   if (this.players) {
-    //     this.populateFormArray();
-    //   }
-    // }
-  }
+  ) {}
 
   ngOnInit() {
     if (this.side && this.players) {

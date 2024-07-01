@@ -2,6 +2,7 @@ import { createFeature, createReducer, on } from '@ngrx/store';
 import { footballEventActions } from './actions';
 import { IFootballEvent } from '../../../../type/football-event.type';
 import { SortService } from '../../../../services/sort.service';
+import { playerInMatchActions } from '../../../player-match/store/actions';
 
 export interface FootballEventState {
   footballEventIsLoading: boolean;
@@ -114,6 +115,24 @@ const footballEventFeature = createFeature({
         footballEventIsLoading: false,
       }),
     ),
+
+    // delete by id
+    on(footballEventActions.deleteById, (state) => ({
+      ...state,
+      footballEventIsSubmitting: true,
+    })),
+    on(footballEventActions.deletedByIdSuccessfully, (state, action) => ({
+      ...state,
+      footballEventIsSubmitting: false,
+      allMatchFootballEvents: (state.allMatchFootballEvents || []).filter(
+        (item) => item.id !== action.eventInMatchId,
+      ),
+      errors: null,
+    })),
+    on(footballEventActions.deleteByIdFailure, (state, action) => ({
+      ...state,
+      footballEventIsSubmitting: false,
+    })),
   ),
 });
 
