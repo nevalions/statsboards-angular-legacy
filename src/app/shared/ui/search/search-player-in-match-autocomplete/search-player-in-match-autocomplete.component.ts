@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import {
   stringifyMatchPlayerNumberSurnameName,
   toTitleCase,
@@ -57,12 +57,6 @@ export class SearchPlayerInMatchAutocompleteComponent {
   @Input() placeholder: string = 'player by number or last name';
   @Input() players: IPlayerInMatchFullData[] | null = [];
   @Input() control!: FormControl;
-
-  // readonly form = new FormGroup({
-  //   player: new FormControl<IPlayerInMatchFullData | null>(null),
-  // });
-
-  constructor() {}
 
   readonly matcherString = (
     player: IPlayerInMatchFullData,

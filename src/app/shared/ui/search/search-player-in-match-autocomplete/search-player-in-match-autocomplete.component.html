@@ -1,9 +1,4 @@
 <div class="tui-form__row">
-  <!--  <form [formGroup]="form">-->
-  <!--    <tui-combo-box-->
-  <!--      formControlName="player"-->
-  <!--    >-->
-
   <tui-combo-box
     [formControl]="control"
     [tuiTextfieldCleaner]="true"
@@ -13,10 +8,9 @@
       <tui-data-list-wrapper
         *tuiDataList
         [itemContent]="stringifyMatchPlayerNumberSurnameName | tuiStringifyContent"
-        [items]="players| tuiFilterByInput: matcherString"
+        [items]="players | tuiFilterByInput: matcherString"
         (itemClick)="onSelected($event)"
       ></tui-data-list-wrapper>
     }
   </tui-combo-box>
-  <!--  </form>-->
 </div>

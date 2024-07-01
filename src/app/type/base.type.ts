@@ -1,5 +1,10 @@
 import { BehaviorSubject, Observable } from 'rxjs';
 
+export interface IEnumObject {
+  value: string;
+  label: string;
+}
+
 export interface IBaseID {
   id?: number;
 }

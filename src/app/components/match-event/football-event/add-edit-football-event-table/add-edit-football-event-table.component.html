@@ -25,7 +25,7 @@
                       [tuiTextfieldCleaner]="true"
                       [min]="1"
                       [step]="1"
-                      [formControl]="getFormControl(this.eventForm, i, 'eventNumber', 'events')">
+                      [formControl]="getFormControl(this.eventForm, i, 'eventNumber', this.arrayName)">
                     </tui-input-number>
                   </ng-template>
                   <ng-template #staticEventNumber>
@@ -39,7 +39,7 @@
                   [tuiTextfieldCleaner]="true"
                   [min]="1"
                   [step]="1"
-                  [formControl]="getFormControl(this.eventForm, i, 'eventNumber', 'events')">
+                  [formControl]="getFormControl(this.eventForm, i, 'eventNumber', this.arrayName)">
                 </tui-input-number>
               </ng-template>
             </div>
@@ -56,7 +56,7 @@
                   [max]="4"
                   [step]="1"
                   [tuiTextfieldCleaner]="true"
-                  [formControl]="getFormControl(this.eventForm, i, 'eventQtr', 'events')">
+                  [formControl]="getFormControl(this.eventForm, i, 'eventQtr', this.arrayName)">
                 </tui-input-number>
               </ng-template>
               <ng-template #editQBInput>
@@ -66,7 +66,7 @@
                   [max]="4"
                   [step]="1"
                   [tuiTextfieldCleaner]="true"
-                  [formControl]="getFormControl(this.eventForm, i, 'eventQtr', 'events')">
+                  [formControl]="getFormControl(this.eventForm, i, 'eventQtr', this.arrayName)">
                 </tui-input-number>
               </ng-template>
               <ng-template #staticQtr>
@@ -86,7 +86,7 @@
                   [min]="-50"
                   [max]="50"
                   [step]="1"
-                  [formControl]="getFormControl(this.eventForm, i, 'eventBallOn', 'events')">
+                  [formControl]="getFormControl(this.eventForm, i, 'eventBallOn', this.arrayName)">
                 </tui-input-number>
               </ng-template>
               <ng-template #staticBallOn>
@@ -99,7 +99,7 @@
                   [min]="-50"
                   [max]="50"
                   [step]="1"
-                  [formControl]="getFormControl(this.eventForm, i, 'eventBallOn', 'events')">
+                  [formControl]="getFormControl(this.eventForm, i, 'eventBallOn', this.arrayName)">
                 </tui-input-number>
               </ng-template>
             </div>
@@ -115,7 +115,7 @@
                   <app-select-team-in-match
                     [placeholder]="'offence team'"
                     [teamsList]="[match.teams_data.team_a, match.teams_data.team_b]"
-                    [control]="getFormControl(this.eventForm, i, 'eventTeam', 'events')"
+                    [control]="getFormControl(this.eventForm, i, 'eventTeam', this.arrayName)"
                     (teamSelected)="onTeamChange($event, i)"
                   ></app-select-team-in-match>
                 </ng-container>
@@ -131,7 +131,7 @@
                   <app-select-team-in-match
                     [placeholder]="'offence team'"
                     [teamsList]="[match.teams_data.team_a, match.teams_data.team_b]"
-                    [control]="getFormControl(this.eventForm, i, 'eventTeam', 'events')"
+                    [control]="getFormControl(this.eventForm, i, 'eventTeam', this.arrayName)"
                     (teamSelected)="onTeamChange($event, i)"
                   ></app-select-team-in-match>
                 </ng-container>
@@ -150,7 +150,7 @@
                     [action]="'select'"
                     [placeholder]="'qb'"
                     [players]="getPlayersForSelectedTeam(selectedTeam)"
-                    [control]="getFormControl(this.eventForm, i, 'eventQb', 'events')">
+                    [control]="getFormControl(this.eventForm, i, 'eventQb', this.arrayName)">
                   </app-search-player-in-match-autocomplete>
                 </ng-container>
               </ng-template>
@@ -166,7 +166,7 @@
                     [action]="'select'"
                     [placeholder]="'qb'"
                     [players]="getPlayersForSelectedTeam(selectedTeam)"
-                    [control]="getFormControl(this.eventForm, i, 'eventQb', 'events')">
+                    [control]="getFormControl(this.eventForm, i, 'eventQb', this.arrayName)">
                   </app-search-player-in-match-autocomplete>
                 </ng-container>
               </ng-template>
@@ -185,7 +185,7 @@
                   [max]="4"
                   [step]="1"
                   (tuiValueChanges)="onDownChange($event, i)"
-                  [formControl]="getFormControl(this.eventForm, i, 'eventDown', 'events')">
+                  [formControl]="getFormControl(this.eventForm, i, 'eventDown', this.arrayName)">
                 </tui-input-number>
                 <label>Distance</label>
                 <tui-input-number
@@ -193,7 +193,7 @@
                   [min]="1"
                   [max]="100"
                   [step]="1"
-                  [formControl]="getFormControl(this.eventForm, i, 'eventDistance', 'events')">
+                  [formControl]="getFormControl(this.eventForm, i, 'eventDistance', this.arrayName)">
                 </tui-input-number>
               </ng-template>
               <ng-template #staticDown>
@@ -212,7 +212,7 @@
                   [max]="4"
                   [step]="1"
                   (tuiValueChanges)="onDownChange($event, i)"
-                  [formControl]="getFormControl(this.eventForm, i, 'eventDown', 'events')">
+                  [formControl]="getFormControl(this.eventForm, i, 'eventDown', this.arrayName)">
                 </tui-input-number>
                 <label>Distance</label>
                 <tui-input-number
@@ -220,7 +220,7 @@
                   [min]="1"
                   [max]="100"
                   [step]="1"
-                  [formControl]="getFormControl(this.eventForm, i, 'eventDistance', 'events')">
+                  [formControl]="getFormControl(this.eventForm, i, 'eventDistance', this.arrayName)">
                 </tui-input-number>
               </ng-template>
             </div>
@@ -232,34 +232,24 @@
               </ng-container>
               <ng-template #editableHash>
                 <label>Hash</label>
-                <tui-combo-box
-                  [stringify]="stringifyValue"
-                  [formControl]="getFormControl(this.eventForm, i, 'eventHash', 'events')">
-                  HASH
-                  <tui-data-list-wrapper
-                    *tuiDataList
-                    [itemContent]="stringifyValue | tuiStringifyContent"
-                    [items]="eventHashOptions | tuiFilterByInputWith: stringifyValue">
-                  </tui-data-list-wrapper>
-                </tui-combo-box>
+                <app-select-enum
+                  [control]="getFormControl(this.eventForm, i, 'eventHash', this.arrayName)"
+                  [placeholder]="'hash'"
+                  [enumObjects]="eventHashOptions"
+                ></app-select-enum>
               </ng-template>
               <ng-template #staticHash>
                 <ng-container *ngIf="getFormDataByIndexAndKey(eventFormGroup, i, 'eventHash') as eventHash">
-                  HASH: {{ eventHash }}
+                  HASH: {{ eventHash.value | uppercase }}
                 </ng-container>
               </ng-template>
               <ng-template #noEventIdHash>
                 <label>Hash</label>
-                <tui-combo-box
-                  [stringify]="stringifyValue"
-                  [formControl]="getFormControl(this.eventForm, i, 'eventHash', 'events')">
-                  HASH
-                  <tui-data-list-wrapper
-                    *tuiDataList
-                    [itemContent]="stringifyValue | tuiStringifyContent"
-                    [items]="eventHashOptions | tuiFilterByInputWith: stringifyValue">
-                  </tui-data-list-wrapper>
-                </tui-combo-box>
+                <app-select-enum
+                  [control]="getFormControl(this.eventForm, i, 'eventHash', this.arrayName)"
+                  [placeholder]="'hash'"
+                  [enumObjects]="eventHashOptions"
+                ></app-select-enum>
               </ng-template>
             </div>
 
@@ -272,7 +262,7 @@
                 <label>Play Type</label>
                 <tui-combo-box
                   [stringify]="stringifySelected"
-                  [formControl]="getFormControl(this.eventForm, i, 'eventPlayType', 'events')">
+                  [formControl]="getFormControl(this.eventForm, i, 'eventPlayType', this.arrayName)">
                   PLAY TYPE
                   <tui-data-list-wrapper
                     *tuiDataList
@@ -290,7 +280,7 @@
                 <label>Play Type</label>
                 <tui-combo-box
                   [stringify]="stringifyValue"
-                  [formControl]="getFormControl(this.eventForm, i, 'eventPlayType', 'events')">
+                  [formControl]="getFormControl(this.eventForm, i, 'eventPlayType', this.arrayName)">
                   PLAY TYPE
                   <tui-data-list-wrapper
                     *tuiDataList
@@ -310,7 +300,7 @@
                 <label>Play Result</label>
                 <tui-combo-box
                   [stringify]="stringifyValue"
-                  [formControl]="getFormControl(this.eventForm, i, 'eventPlayResult', 'events')">
+                  [formControl]="getFormControl(this.eventForm, i, 'eventPlayResult', this.arrayName)">
                   PLAY RESULT
                   <tui-data-list-wrapper
                     *tuiDataList
@@ -328,7 +318,7 @@
                 <label>Play Result</label>
                 <tui-combo-box
                   [stringify]="stringifyValue"
-                  [formControl]="getFormControl(this.eventForm, i, 'eventPlayResult', 'events')">
+                  [formControl]="getFormControl(this.eventForm, i, 'eventPlayResult', this.arrayName)">
                   PLAY RESULT
                   <tui-data-list-wrapper
                     *tuiDataList
@@ -352,7 +342,7 @@
                       [action]="'select'"
                       [placeholder]="'run player'"
                       [players]="getPlayersForSelectedTeam(selectedTeam)"
-                      [control]="getFormControl(this.eventForm, i, 'eventRunPlayer', 'events')">
+                      [control]="getFormControl(this.eventForm, i, 'eventRunPlayer', this.arrayName)">
                     </app-search-player-in-match-autocomplete>
                   </ng-container>
                 </ng-container>
@@ -371,7 +361,7 @@
                       [action]="'select'"
                       [placeholder]="'run player'"
                       [players]="getPlayersForSelectedTeam(selectedTeam)"
-                      [control]="getFormControl(this.eventForm, i, 'eventRunPlayer', 'events')">
+                      [control]="getFormControl(this.eventForm, i, 'eventRunPlayer', this.arrayName)">
                     </app-search-player-in-match-autocomplete>
                   </ng-container>
                 </ng-container>
@@ -391,7 +381,7 @@
                       [action]="'select'"
                       [placeholder]="'receiver player'"
                       [players]="getPlayersForSelectedTeam(selectedTeam)"
-                      [control]="getFormControl(this.eventForm, i, 'eventReceiverPlayer', 'events')">
+                      [control]="getFormControl(this.eventForm, i, 'eventReceiverPlayer', this.arrayName)">
                     </app-search-player-in-match-autocomplete>
                   </ng-container>
                 </ng-container>
@@ -410,7 +400,7 @@
                       [action]="'select'"
                       [placeholder]="'receiver player'"
                       [players]="getPlayersForSelectedTeam(selectedTeam)"
-                      [control]="getFormControl(this.eventForm, i, 'eventReceiverPlayer', 'events')">
+                      [control]="getFormControl(this.eventForm, i, 'eventReceiverPlayer', this.arrayName)">
                     </app-search-player-in-match-autocomplete>
                   </ng-container>
                 </ng-container>

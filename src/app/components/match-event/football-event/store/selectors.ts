@@ -59,6 +59,9 @@ export const selectFootballEventsWithPlayers = createSelector(
         sack_player: getMatchPlayerById(matchPlayers, event.sack_player),
         kick_player: getMatchPlayerById(matchPlayers, event.kick_player),
         punt_player: getMatchPlayerById(matchPlayers, event.punt_player),
+        event_hash: event.event_hash
+          ? { value: event.event_hash.toLowerCase() }
+          : null,
       } as IFootballEventWithPlayers;
     });
   },

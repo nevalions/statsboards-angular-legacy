@@ -1,4 +1,4 @@
-import { AnyObjectWithTitle } from '../type/base.type';
+import { AnyObjectWithTitle, IEnumObject } from '../type/base.type';
 import { AgeStats, IPerson } from '../type/person.type';
 import {
   IPlayerInMatchFullData,
@@ -46,15 +46,23 @@ export function stringifyMatchPlayerNumberSurnameName(
   return item.toString();
 }
 
+export function stringifyEnumObject(item: IEnumObject): string {
+  if (!item) {
+    return 'No Enum Item';
+  }
+  if (item.value) {
+    // console.log(item.value);
+    return toTitleCase(item.value.trim());
+  }
+  if (item.value === '') {
+    return 'None';
+  }
+  return toTitleCase(item.toString());
+}
+
 export function stringifyTitle(item: AnyObjectWithTitle | any): string {
   return `${toTitleCase(item.title) ?? ''}`.trim();
 }
-
-// export function stringifyTitleUpperCase(
-//   item: AnyObjectWithTitle | any,
-// ): string {
-//   return `${item.title ?? ''}`.toUpperCase().trim();
-// }
 
 export function stringifyPerson(
   item: IPlayerInSport | IPlayerInTeamTournamentWithPersonWithSportWithPosition,

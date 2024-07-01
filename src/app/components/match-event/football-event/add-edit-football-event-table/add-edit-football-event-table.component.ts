@@ -14,7 +14,6 @@ import {
   IFootballPlayType,
 } from '../../../../type/football-event.type';
 import {
-  AbstractControl,
   FormArray,
   FormBuilder,
   FormControl,
@@ -46,10 +45,10 @@ import { ITeam } from '../../../../type/team.type';
 import { SelectTeamComponent } from '../../../../shared/ui/forms/select-team/select-team.component';
 import { IMatchFullDataWithScoreboard } from '../../../../type/match.type';
 import { SelectTeamInMatchComponent } from '../../../../shared/ui/select/select-team-in-match/select-team-in-match.component';
-import { F } from '@angular/cdk/keycodes';
-import * as net from 'node:net';
 import { TuiValueChangesModule } from '@taiga-ui/cdk';
 import { DialogService } from '../../../../services/dialog.service';
+import { IEnumObject } from '../../../../type/base.type';
+import { SelectEnumComponent } from '../../../../shared/ui/select/select-enum/select-enum.component';
 
 @Component({
   selector: 'app-add-edit-football-event-table',
@@ -75,6 +74,7 @@ import { DialogService } from '../../../../services/dialog.service';
     NgIf,
     TuiInputModule,
     TitleCasePipe,
+    SelectEnumComponent,
   ],
   templateUrl: './add-edit-football-event-table.component.html',
   styleUrl: './add-edit-football-event-table.component.less',
@@ -90,24 +90,26 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
   arrayName = 'events';
   newEventCount = 0;
 
-  eventHashOptions = Object.entries(IEventHash).map(([key, value]) => ({
+  eventHashOptions: IEnumObject[] = Object.entries(IEventHash).map(
+    ([key, value]) => ({
+      value: value,
+      label: key,
+    }),
+  );
+
+  eventPlayTypeOptions: IEnumObject[] = Object.entries(IFootballPlayType).map(
+    ([key, value]) => ({
+      value: value,
+      label: key,
+    }),
+  );
+
+  eventPlayResultOptions: IEnumObject[] = Object.entries(
+    IFootballPlayResult,
+  ).map(([key, value]) => ({
     value: value,
     label: key,
   }));
-
-  eventPlayTypeOptions = Object.entries(IFootballPlayType).map(
-    ([key, value]) => ({
-      value: value,
-      label: key,
-    }),
-  );
-
-  eventPlayResultOptions = Object.entries(IFootballPlayResult).map(
-    ([key, value]) => ({
-      value: value,
-      label: key,
-    }),
-  );
 
   readonly stringifyValue = (item: { value: string; label: string }): string =>
     `${item.value}`;
