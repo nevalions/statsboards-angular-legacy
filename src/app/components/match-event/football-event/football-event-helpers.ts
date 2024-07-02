@@ -262,7 +262,6 @@ export function getEventRunPlayerFormControl(
 
 export function resetRunPlayer(eventsArray: FormArray, index: number): void {
   resetArrayKeyIndexValue(eventsArray, index, eventRunPlayerKey);
-  // eventsArray.controls[index].get(eventRunPlayer(index))?.setValue(null);
 }
 
 // EventReceiverPlayer
@@ -289,7 +288,8 @@ export function resetReceiverPlayer(
   eventsArray: FormArray,
   index: number,
 ): void {
-  eventsArray.controls[index].get(eventReceiverPlayer(index))?.setValue(null);
+  resetArrayKeyIndexValue(eventsArray, index, eventReceiverPlayerKey);
+  // eventsArray.controls[index].get(eventReceiverPlayer(index))?.setValue(null);
 }
 
 export function onPlayTypeChange(
