@@ -121,6 +121,36 @@ export function resetArrayKeyIndexValue(
   array.controls[index].get(key + index)?.setValue(null);
 }
 
+export function enableFullRowToEdit(array: FormArray, index: number): void {
+  const formArray = (array as FormArray).at(index);
+  if (formArray && formArray.disabled) {
+    formArray.enable();
+  } else if (formArray && formArray.enabled) {
+    formArray.disable();
+  } else {
+    console.log('FormGroup is null');
+  }
+}
+
+export function isFullRowEnabled(array: FormArray, index: number): boolean {
+  const formArray = (array as FormArray).at(index);
+  if (formArray && formArray.disabled) {
+    // console.log('formGroup is disabled');
+    return false;
+  } else if (formArray && formArray.enabled) {
+    // console.log('formGroup is enabled');
+    return true;
+  } else {
+    console.log('array is null');
+    return false;
+  }
+}
+
+export function isDataChanged(array: FormArray, index: number): boolean {
+  const formArray = (array as FormArray).at(index);
+  return formArray ? formArray.dirty : false;
+}
+
 export function getControlNameByIndexAndData(
   title: string,
   index: number,

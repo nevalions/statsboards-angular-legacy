@@ -50,9 +50,9 @@ export function onDownChange(
     // )?.value;
   }
 
-  console.log('downs', down, previousDown);
+  // console.log('downs', down, previousDown);
   if (down === 1 && previousDown !== 1) {
-    console.log('first down on down change');
+    // console.log('first down on down change');
     setDistance(eventsArray, index, 10);
     // this.eventsArray.controls[index].get(`eventDistance${index}`)?.setValue(10);
   }

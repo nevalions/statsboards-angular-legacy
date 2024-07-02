@@ -21,7 +21,12 @@ import {
   FormGroup,
   ReactiveFormsModule,
 } from '@angular/forms';
-import { getFormDataByIndexAndKey } from '../../../../base/formHelpers';
+import {
+  enableFullRowToEdit,
+  getFormDataByIndexAndKey,
+  isDataChanged,
+  isFullRowEnabled,
+} from '../../../../base/formHelpers';
 import { TuiTextfieldControllerModule } from '@taiga-ui/core';
 import { NgForOf, NgIf, TitleCasePipe, UpperCasePipe } from '@angular/common';
 import { AddButtonOnFinalTrComponent } from '../../../../shared/ui/buttons/add-button-on-final-tr/add-button-on-final-tr.component';
@@ -393,209 +398,39 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
     this.dialogService.showDialog(dialogId);
   }
 
-  enableRowToEdit(index: number): void {
-    const formArray = (this.eventsArray as FormArray).at(index);
-    if (formArray && formArray.disabled) {
-      formArray.enable();
-    } else if (formArray && formArray.enabled) {
-      formArray.disable();
-    } else {
-      console.log(
-        formArray ? 'FormGroup is already enabled' : 'FormGroup is null',
-      );
-    }
-  }
-
-  isRowEnabled(index: number): boolean {
-    // const formArray = (this.eventForm.get(this.arrayName) as FormArray).at(
-    //   index,
-    // );
-    const formArray = (this.eventsArray as FormArray).at(index);
-    if (formArray && formArray.disabled) {
-      // console.log('formGroup is disabled');
-      return false;
-    } else if (formArray && formArray.enabled) {
-      // console.log('formGroup is enabled');
-      return true;
-    } else {
-      console.log('formGroup is null');
-      return false;
-    }
-  }
-
-  isDataChanged(index: number): boolean {
-    const formArray = (this.eventsArray as FormArray).at(index);
-    return formArray ? formArray.dirty : false;
-  }
-
-  // getEventTeam(formGroup: FormGroup | any, index: number, key: string): ITeam {
-  //   const team = getFormDataByIndexAndKey<ITeam>(formGroup, index, key);
-  //   // console.log('team', team)
-  //   return team;
-  // }
-
-  // getEventPlayer(
-  //   formGroup: FormGroup | any,
-  //   index: number,
-  //   key: string,
-  // ): IPlayerInMatchFullData {
-  //   const player = getFormDataByIndexAndKey<IPlayerInMatchFullData>(
-  //     formGroup,
-  //     index,
-  //     key,
-  //   );
-  //   // console.log(playerFormGroup, index, key);
-  //   // console.log('Player', player);
-  //   return player;
-  // }
-
-  // onTeamChange(selectedTeam: ITeam, index: number): void {
-  //   let previousTeam = null;
-  //   if (index > 0) {
-  //     previousTeam = this.eventsArray.controls[index - 1].get(
-  //       `eventTeam${index - 1}`,
-  //     )?.value;
-  //   }
-  //   // console.log('teams', selectedTeam, previousTeam);
-  //   if (!previousTeam || selectedTeam.id !== previousTeam.id) {
-  //     // console.log('first down team change');
-  //     this.eventsArray.controls[index].get(`eventDown${index}`)?.setValue(1);
-  //     this.eventsArray.controls[index].get(`eventQb${index}`)?.setValue(null);
-  //   }
-  // }
-
-  // private resetRunPlayer(index: number): void {
-  //   this.eventsArray.controls[index]
-  //     .get(`eventRunPlayer${index}`)
-  //     ?.setValue(null);
-  // }
-  //
-  // private resetReceiverPlayer(index: number): void {
-  //   this.eventsArray.controls[index]
-  //     .get(`eventReceiverPlayer${index}`)
-  //     ?.setValue(null);
-  // }
-  //
-  // private setPlayType(index: number, selectedType: IEnumObject): void {
-  //   this.eventsArray.controls[index]
-  //     .get(`eventPlayType`)
-  //     ?.setValue(selectedType);
-  // }
-  //
-  // onPlayTypeChange(selectedType: IEnumObject, index: number): void {
-  //   if (!selectedType) {
-  //     return;
-  //   }
-  //   console.log('selected type', selectedType);
-  //   if (selectedType.value) {
-  //     console.log('selected type value', selectedType.value);
-  //
-  //     switch (selectedType.value.toLowerCase()) {
-  //       case IFootballPlayType.Pass.toLowerCase():
-  //         this.resetRunPlayer(index);
-  //         break;
-  //       case IFootballPlayType.Run.toLowerCase():
-  //         this.resetReceiverPlayer(index);
-  //         break;
-  //     }
-  //
-  //     this.setPlayType(index, selectedType);
+  // enableRowToEdit(index: number): void {
+  //   const formArray = (this.eventsArray as FormArray).at(index);
+  //   if (formArray && formArray.disabled) {
+  //     formArray.enable();
+  //   } else if (formArray && formArray.enabled) {
+  //     formArray.disable();
   //   } else {
-  //     this.resetRunPlayer(index);
-  //     this.resetReceiverPlayer(index);
-  //     this.setPlayType(index, selectedType);
+  //     console.log(
+  //       formArray ? 'FormGroup is already enabled' : 'FormGroup is null',
+  //     );
   //   }
   // }
-
-  // onDownChange(down: number, index: number): void {
-  //   let previousDown = null;
-  //   if (index > 0) {
-  //     previousDown = this.eventsArray.controls[index - 1].get(
-  //       `eventDown${index - 1}`,
-  //     )?.value;
-  //   }
   //
-  //   // console.log('downs', down, previousDown);
-  //   if (down === 1 && previousDown !== 1) {
-  //     // console.log('first down on down change');
-  //     this.eventsArray.controls[index]
-  //       .get(`eventDistance${index}`)
-  //       ?.setValue(10);
-  //   }
-  //
-  //   this.eventsArray.controls[index].get(`eventDown${index}`)?.setValue(down);
-  // }
-
-  // onBallOnChange(ballOn: number, index: number): void {
-  //   const updatedDown = this.isFirstDown(ballOn, index);
-  //   const currentDown = this.eventsArray.controls[index].get(
-  //     `eventDown${index}`,
-  //   )?.value;
-  //
-  //   let updatedDistance;
-  //   if (updatedDown === 1 && currentDown !== 1) {
-  //     updatedDistance = 10;
+  // isRowEnabled(index: number): boolean {
+  //   // const formArray = (this.eventForm.get(this.arrayName) as FormArray).at(
+  //   //   index,
+  //   // );
+  //   const formArray = (this.eventsArray as FormArray).at(index);
+  //   if (formArray && formArray.disabled) {
+  //     // console.log('formGroup is disabled');
+  //     return false;
+  //   } else if (formArray && formArray.enabled) {
+  //     // console.log('formGroup is enabled');
+  //     return true;
   //   } else {
-  //     updatedDistance = this.calculateDistance(ballOn, index);
+  //     console.log('formGroup is null');
+  //     return false;
   //   }
-  //
-  //   this.eventsArray.controls[index]
-  //     .get(`eventDistance${index}`)
-  //     ?.setValue(updatedDistance);
-  //
-  //   this.eventsArray.controls[index]
-  //     .get(`eventDown${index}`)
-  //     ?.setValue(updatedDown);
   // }
 
-  // isFirstDown(ballOn: number | null, index: number): number | null {
-  //   if (this.events && index >= 0 && index < this.events.length) {
-  //     if (ballOn === null) {
-  //       return null;
-  //     }
-  //     if (index > 0) {
-  //       const previousEvent = this.events[index - 1];
-  //       if (previousEvent && previousEvent.ball_on) {
-  //         let newDistance = 10 - (ballOn - previousEvent.ball_on);
-  //         if (newDistance <= 0) {
-  //           return 1;
-  //         } else {
-  //           const previousDown =
-  //             typeof previousEvent.event_down === 'number'
-  //               ? previousEvent.event_down
-  //               : 1;
-  //           return previousDown < 4 ? previousDown + 1 : previousDown;
-  //         }
-  //       }
-  //     } else {
-  //       return 1;
-  //     }
-  //   }
-  //   return null;
-  // }
-
-  // calculateDistance(ballOn: number | null, index: number): number | null {
-  //   if (this.events && index >= 0 && index < this.events.length) {
-  //     if (ballOn === null) {
-  //       return null;
-  //     }
-  //     let newDistance: number | null = null;
-  //     if (index > 0) {
-  //       const previousEvent = this.events[index - 1];
-  //       if (previousEvent && previousEvent.ball_on) {
-  //         newDistance = 10 - (ballOn - previousEvent.ball_on);
-  //         if (newDistance <= 0) {
-  //           newDistance = 10;
-  //         }
-  //       } else {
-  //         return newDistance;
-  //       }
-  //     } else {
-  //       newDistance = 10;
-  //     }
-  //     return newDistance;
-  //   }
-  //   return null;
+  // isDataChanged(index: number): boolean {
+  //   const formArray = (this.eventsArray as FormArray).at(index);
+  //   return formArray ? formArray.dirty : false;
   // }
 
   getPlayersForSelectedTeam(
@@ -664,4 +499,7 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
   protected readonly onTeamChange = onTeamChange;
   protected readonly onDownChange = onDownChange;
   protected readonly onBallOnChange = onBallOnChange;
+  protected readonly isDataChanged = isDataChanged;
+  protected readonly isFullRowEnabled = isFullRowEnabled;
+  protected readonly enableFullRowToEdit = enableFullRowToEdit;
 }
