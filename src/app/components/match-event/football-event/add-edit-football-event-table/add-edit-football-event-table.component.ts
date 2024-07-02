@@ -63,6 +63,8 @@ import {
   eventReceiverPlayer,
   eventRunPlayer,
   eventTeam,
+  getEventNumber,
+  getEventNumberFormControl,
   getQtr,
   getQtrFormControl,
   onPlayTypeChange,
@@ -284,6 +286,7 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
       //   index,
       //   'eventQtr',
       // );
+      const eventNumber = getEventNumber(array, index);
       const eventQtr = getQtr(array, index);
       const eventBallOn: number = getArrayFormDataByIndexAndKey(
         array,
@@ -333,12 +336,11 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
 
       const newEventData: IFootballEvent = {
         match_id: this.match.match_id,
-        event_number: getArrayFormDataByIndexAndKey<number>(
-          array,
-          index,
-          'eventNumber',
-        ),
       };
+
+      if (eventNumber) {
+        newEventData.event_number = eventNumber;
+      }
 
       if (eventQtr) {
         newEventData.event_qtr = eventQtr;
@@ -665,4 +667,5 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
   protected readonly eventPlayResultOptions = eventPlayResultOptions;
   protected readonly onPlayTypeChange = onPlayTypeChange;
   protected readonly getQtrFormControl = getQtrFormControl;
+  protected readonly getEventNumberFormControl = getEventNumberFormControl;
 }

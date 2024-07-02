@@ -35,6 +35,27 @@ export const eventRunPlayer = (index: number) => eventRunPlayerString + index;
 export const eventReceiverPlayer = (index: number) =>
   eventReceiverPlayerString + index;
 
+// EVENT NUMBER
+export function getEventNumber(
+  eventsArray: FormArray,
+  index: number,
+): number | null | undefined {
+  return getArrayFormDataByIndexAndKey<number>(
+    eventsArray,
+    index,
+    eventNumberString,
+  );
+}
+
+export function getEventNumberFormControl(
+  form: FormGroup,
+  arrayName: string,
+  index: number,
+): FormControl | null | undefined {
+  return getFormControl(form, index, eventNumberString, arrayName);
+}
+
+// QTR
 export function getQtr(
   eventsArray: FormArray,
   index: number,

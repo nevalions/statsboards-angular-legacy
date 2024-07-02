@@ -16,17 +16,17 @@
           >
             <!--EVENT NUMBER-->
             <div class="event-num-qtr-row">
-              <div class="event-table-cell">
-
-                <label>Event Number</label>
-                <tui-input-number
-                  [tuiTextfieldCleaner]="true"
-                  [min]="1"
-                  [step]="1"
-                  [formControl]="getFormControl(this.eventForm, i, 'eventNumber', this.arrayName)">
-                </tui-input-number>
-
-              </div>
+              @if (getEventNumberFormControl(this.eventForm, this.arrayName, i); as control) {
+                <div class="event-table-cell">
+                  <label>Event Number</label>
+                  <tui-input-number
+                    [tuiTextfieldCleaner]="true"
+                    [min]="1"
+                    [step]="1"
+                    [formControl]="control">
+                  </tui-input-number>
+                </div>
+              }
 
               <!--EVENT QTR-->
               @if (getQtrFormControl(this.eventForm, this.arrayName, i); as control) {
