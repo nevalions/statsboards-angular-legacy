@@ -1,5 +1,6 @@
 import { ITeam } from './team.type';
 import { IPlayerInMatchFullData } from './player.type';
+import { IEnumObject } from './base.type';
 
 export enum IFootballPlayType {
   None = '',
@@ -91,3 +92,24 @@ export interface IFootballEventWithPlayers {
   kick_player?: IPlayerInMatchFullData | null;
   punt_player?: IPlayerInMatchFullData | null;
 }
+
+export const eventHashOptions: IEnumObject[] = Object.entries(IEventHash).map(
+  ([key, value]) => ({
+    value: value,
+    label: key,
+  }),
+);
+
+export const eventPlayTypeOptions: IEnumObject[] = Object.entries(
+  IFootballPlayType,
+).map(([key, value]) => ({
+  value: value,
+  label: key,
+}));
+
+export const eventPlayResultOptions: IEnumObject[] = Object.entries(
+  IFootballPlayResult,
+).map(([key, value]) => ({
+  value: value,
+  label: key,
+}));

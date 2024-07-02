@@ -7,10 +7,11 @@ import {
 } from '@angular/core';
 import { IPlayerInMatchFullData } from '../../../../type/player.type';
 import {
-  IEventHash,
+  eventHashOptions,
+  eventPlayResultOptions,
+  eventPlayTypeOptions,
   IFootballEvent,
   IFootballEventWithPlayers,
-  IFootballPlayResult,
   IFootballPlayType,
 } from '../../../../type/football-event.type';
 import {
@@ -47,8 +48,23 @@ import { IMatchFullDataWithScoreboard } from '../../../../type/match.type';
 import { SelectTeamInMatchComponent } from '../../../../shared/ui/select/select-team-in-match/select-team-in-match.component';
 import { TuiValueChangesModule } from '@taiga-ui/cdk';
 import { DialogService } from '../../../../services/dialog.service';
-import { IEnumObject } from '../../../../type/base.type';
 import { SelectEnumComponent } from '../../../../shared/ui/select/select-enum/select-enum.component';
+import {
+  eventBallOn,
+  eventDistance,
+  eventDown,
+  eventHash,
+  eventId,
+  eventNumber,
+  eventPlayResult,
+  eventPlayType,
+  eventQb,
+  eventQtr,
+  eventReceiverPlayer,
+  eventRunPlayer,
+  eventTeam,
+  onPlayTypeChange,
+} from '../football-event-helpers';
 
 @Component({
   selector: 'app-add-edit-football-event-table',
@@ -90,34 +106,26 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
   arrayName = 'events';
   newEventCount = 0;
 
-  eventHashOptions: IEnumObject[] = Object.entries(IEventHash).map(
-    ([key, value]) => ({
-      value: value,
-      label: key,
-    }),
-  );
-
-  eventPlayTypeOptions: IEnumObject[] = Object.entries(IFootballPlayType).map(
-    ([key, value]) => ({
-      value: value,
-      label: key,
-    }),
-  );
-
-  eventPlayResultOptions: IEnumObject[] = Object.entries(
-    IFootballPlayResult,
-  ).map(([key, value]) => ({
-    value: value,
-    label: key,
-  }));
-
-  readonly stringifyValue = (item: { value: string; label: string }): string =>
-    `${item.value}`;
-
-  readonly stringifySelected = (item: {
-    value: string;
-    label: string;
-  }): string => `${item}`;
+  // eventHashOptions: IEnumObject[] = Object.entries(IEventHash).map(
+  //   ([key, value]) => ({
+  //     value: value,
+  //     label: key,
+  //   }),
+  // );
+  //
+  // eventPlayTypeOptions: IEnumObject[] = Object.entries(IFootballPlayType).map(
+  //   ([key, value]) => ({
+  //     value: value,
+  //     label: key,
+  //   }),
+  // );
+  //
+  // eventPlayResultOptions: IEnumObject[] = Object.entries(
+  //   IFootballPlayResult,
+  // ).map(([key, value]) => ({
+  //   value: value,
+  //   label: key,
+  // }));
 
   get eventsArray(): FormArray {
     return this.eventForm.get(this.arrayName) as FormArray;
@@ -161,23 +169,23 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
     event: IFootballEventWithPlayers,
     index: number,
   ): FormGroup {
-    const controlEventId = `eventId${index}`;
-    const controlEventNumber = `eventNumber${index}`;
-    const controlEventQtr = `eventQtr${index}`;
-    const controlEventBallOn = `eventBallOn${index}`;
+    const controlEventId = eventId(index);
+    const controlEventNumber = eventNumber(index);
+    const controlEventQtr = eventQtr(index);
+    const controlEventBallOn = eventBallOn(index);
 
-    const controlEventTeam = `eventTeam${index}`;
-    const controlEventQb = `eventQb${index}`;
+    const controlEventTeam = eventTeam(index);
+    const controlEventQb = eventQb(index);
 
-    const controlEventDown = `eventDown${index}`;
-    const controlEventDistance = `eventDistance${index}`;
+    const controlEventDown = eventDown(index);
+    const controlEventDistance = eventDistance(index);
 
-    const controlEventHash = `eventHash${index}`;
-    const controlEventPlayType = `eventPlayType${index}`;
-    const controlEventPlayResult = `eventPlayResult${index}`;
+    const controlEventHash = eventHash(index);
+    const controlEventPlayType = eventPlayType(index);
+    const controlEventPlayResult = eventPlayResult(index);
 
-    const controlEventRunPlayer = `eventRunPlayer${index}`;
-    const controlEventReceiverPlayer = `eventReceiverPlayer${index}`;
+    const controlEventRunPlayer = eventRunPlayer(index);
+    const controlEventReceiverPlayer = eventReceiverPlayer(index);
 
     // Create the form group
     const formGroup = this.fb.group({
@@ -492,6 +500,49 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
     }
   }
 
+  // private resetRunPlayer(index: number): void {
+  //   this.eventsArray.controls[index]
+  //     .get(`eventRunPlayer${index}`)
+  //     ?.setValue(null);
+  // }
+  //
+  // private resetReceiverPlayer(index: number): void {
+  //   this.eventsArray.controls[index]
+  //     .get(`eventReceiverPlayer${index}`)
+  //     ?.setValue(null);
+  // }
+  //
+  // private setPlayType(index: number, selectedType: IEnumObject): void {
+  //   this.eventsArray.controls[index]
+  //     .get(`eventPlayType`)
+  //     ?.setValue(selectedType);
+  // }
+  //
+  // onPlayTypeChange(selectedType: IEnumObject, index: number): void {
+  //   if (!selectedType) {
+  //     return;
+  //   }
+  //   console.log('selected type', selectedType);
+  //   if (selectedType.value) {
+  //     console.log('selected type value', selectedType.value);
+  //
+  //     switch (selectedType.value.toLowerCase()) {
+  //       case IFootballPlayType.Pass.toLowerCase():
+  //         this.resetRunPlayer(index);
+  //         break;
+  //       case IFootballPlayType.Run.toLowerCase():
+  //         this.resetReceiverPlayer(index);
+  //         break;
+  //     }
+  //
+  //     this.setPlayType(index, selectedType);
+  //   } else {
+  //     this.resetRunPlayer(index);
+  //     this.resetReceiverPlayer(index);
+  //     this.setPlayType(index, selectedType);
+  //   }
+  // }
+
   onDownChange(down: number, index: number): void {
     let previousDown = null;
     if (index > 0) {
@@ -627,4 +678,8 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
   protected readonly getFormControl = getFormControl;
   protected readonly getFormDataByIndexAndKey = getFormDataByIndexAndKey;
   protected readonly IFootballPlayType = IFootballPlayType;
+  protected readonly eventHashOptions = eventHashOptions;
+  protected readonly eventPlayTypeOptions = eventPlayTypeOptions;
+  protected readonly eventPlayResultOptions = eventPlayResultOptions;
+  protected readonly onPlayTypeChange = onPlayTypeChange;
 }

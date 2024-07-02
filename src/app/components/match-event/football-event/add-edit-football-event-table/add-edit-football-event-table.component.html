@@ -132,6 +132,7 @@
                   [control]="getFormControl(this.eventForm, i, 'eventPlayType', this.arrayName)"
                   [placeholder]="'play type'"
                   [enumObjects]="eventPlayTypeOptions"
+                  (itemSelected)="onPlayTypeChange(this.eventsArray, $event, i)"
                 ></app-select-enum>
               </div>
             </div>
