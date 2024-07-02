@@ -4,6 +4,7 @@ import { IFootballPlayType } from '../../../type/football-event.type';
 import {
   getArrayFormDataByIndexAndKey,
   getFormControl,
+  resetArrayKeyIndexValue,
   setArrayValue,
 } from '../../../base/formHelpers';
 import { IPlayerInMatchFullData } from '../../../type/player.type';
@@ -259,6 +260,11 @@ export function getEventRunPlayerFormControl(
   return getFormControl(form, index, eventRunPlayerKey, arrayName);
 }
 
+export function resetRunPlayer(eventsArray: FormArray, index: number): void {
+  resetArrayKeyIndexValue(eventsArray, index, eventRunPlayerKey);
+  // eventsArray.controls[index].get(eventRunPlayer(index))?.setValue(null);
+}
+
 // EventReceiverPlayer
 export function getEventReceiverPlayer(
   eventsArray: FormArray,
@@ -277,10 +283,6 @@ export function getEventReceiverPlayerFormControl(
   index: number,
 ): FormControl | null | undefined {
   return getFormControl(form, index, eventReceiverPlayerKey, arrayName);
-}
-
-export function resetRunPlayer(eventsArray: FormArray, index: number): void {
-  eventsArray.controls[index].get(eventRunPlayer(index))?.setValue(null);
 }
 
 export function resetReceiverPlayer(

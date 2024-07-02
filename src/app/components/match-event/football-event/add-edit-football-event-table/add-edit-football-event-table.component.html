@@ -198,21 +198,23 @@
             <!--ACTIONS-->
             @if (deleteOrUpdate == "delete") {
               @if (eventFormGroup.get("eventId" + i)!.value; as id) {
-                <div class="table-cell">
-                  <app-actions-buttons
-                    [id]="id"
-                    [index]="i"
-                    [deleteOrUpdate]="'delete'"
-                    [item]="getFormDataByIndexAndKey(eventFormGroup, i,'eventNumber')"
-                    (onSubmit)="onSubmitNewEvent($event.action, $event.index, $event.id)"
-                    [isEnabled]="isRowEnabled(i)"
-                    [isDataChanged]="isDataChanged(i)"
-                    (onEdit)="enableRowToEdit($event.index)"
-                    (onCancel)="onCancelButtonClick()"
-                    (onDelete)="onDeleteEvent($event.id!)"
-                    (onDeleteDialog)="onDeleteButtonClick('deleteDialogPlayer' + $event.id!)"
-                  ></app-actions-buttons>
-                </div>
+                @if (getEventNumber(this.eventsArray, i); as eventNumber) {
+                  <div class="table-cell">
+                    <app-actions-buttons
+                      [id]="id"
+                      [index]="i"
+                      [deleteOrUpdate]="'delete'"
+                      [item]="eventNumber.toString()"
+                      (onSubmit)="onSubmitNewEvent($event.action, $event.index, $event.id)"
+                      [isEnabled]="isRowEnabled(i)"
+                      [isDataChanged]="isDataChanged(i)"
+                      (onEdit)="enableRowToEdit($event.index)"
+                      (onCancel)="onCancelButtonClick()"
+                      (onDelete)="onDeleteEvent($event.id!)"
+                      (onDeleteDialog)="onDeleteButtonClick('deleteDialogPlayer' + $event.id!)"
+                    ></app-actions-buttons>
+                  </div>
+                }
               } @else {
                 <div class="table-cell actions">
                   <app-actions-buttons

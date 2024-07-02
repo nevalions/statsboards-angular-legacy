@@ -21,10 +21,7 @@ import {
   FormGroup,
   ReactiveFormsModule,
 } from '@angular/forms';
-import {
-  getFormControl,
-  getFormDataByIndexAndKey,
-} from '../../../../base/formHelpers';
+import { getFormDataByIndexAndKey } from '../../../../base/formHelpers';
 import { TuiTextfieldControllerModule } from '@taiga-ui/core';
 import { NgForOf, NgIf, TitleCasePipe, UpperCasePipe } from '@angular/common';
 import { AddButtonOnFinalTrComponent } from '../../../../shared/ui/buttons/add-button-on-final-tr/add-button-on-final-tr.component';
@@ -392,16 +389,14 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
   }
 
   enableRowToEdit(index: number): void {
-    const formGroup = (this.eventForm.get(this.arrayName) as FormArray).at(
-      index,
-    );
-    if (formGroup && formGroup.disabled) {
-      formGroup.enable();
-    } else if (formGroup && formGroup.enabled) {
-      formGroup.disable();
+    const formArray = (this.eventsArray as FormArray).at(index);
+    if (formArray && formArray.disabled) {
+      formArray.enable();
+    } else if (formArray && formArray.enabled) {
+      formArray.disable();
     } else {
       console.log(
-        formGroup ? 'FormGroup is already enabled' : 'FormGroup is null',
+        formArray ? 'FormGroup is already enabled' : 'FormGroup is null',
       );
     }
   }
@@ -424,10 +419,8 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
   }
 
   isDataChanged(index: number): boolean {
-    const formGroup = (this.eventForm.get(this.arrayName) as FormArray).at(
-      index,
-    );
-    return formGroup ? formGroup.dirty : false;
+    const formArray = (this.eventsArray as FormArray).at(index);
+    return formArray ? formArray.dirty : false;
   }
 
   // getEventTeam(formGroup: FormGroup | any, index: number, key: string): ITeam {
@@ -641,8 +634,6 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
     return playType ? playType.value === playTypeEnum : false;
   }
 
-  protected readonly getFormControl = getFormControl;
-  protected readonly getFormDataByIndexAndKey = getFormDataByIndexAndKey;
   protected readonly IFootballPlayType = IFootballPlayType;
   protected readonly eventHashOptions = eventHashOptions;
   protected readonly eventPlayTypeOptions = eventPlayTypeOptions;
@@ -659,10 +650,10 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
   protected readonly getEventPlayTypeFormControl = getEventPlayTypeFormControl;
   protected readonly getEventPlayResultFormControl =
     getEventPlayResultFormControl;
-  protected readonly getEventRunPlayer = getEventRunPlayer;
   protected readonly getEventRunPlayerFormControl =
     getEventRunPlayerFormControl;
   protected readonly getEventReceiverPlayerFormControl =
     getEventReceiverPlayerFormControl;
   protected readonly getEventTeam = getEventTeam;
+  protected readonly getEventNumber = getEventNumber;
 }
