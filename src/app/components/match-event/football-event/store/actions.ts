@@ -47,5 +47,8 @@ export const footballEventActions = createActionGroup({
       eventInMatchId: number;
     }>(),
     'Delete by id failure': emptyProps(),
+
+    RecalculateEventsSuccess: props<{ footballEvents: IFootballEvent[] }>(),
+    'recalculate events failure': emptyProps(),
   },
 });

@@ -1,15 +1,34 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { catchError, map, of, switchMap } from 'rxjs';
+import {
+  catchError,
+  from,
+  map,
+  of,
+  switchMap,
+  toArray,
+  withLatestFrom,
+} from 'rxjs';
 import { Router } from '@angular/router';
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 
 import { footballEventActions } from './actions';
 import { IFootballEvent } from '../../../../type/football-event.type';
 import { selectCurrentMatchId } from '../../../match/store/reducers';
 import { matchActions } from '../../../match/store/actions';
 import { FootballEventService } from '../football-event.service';
-import { playerInMatchActions } from '../../../player-match/store/actions';
+import { selectAllMatchFootballEvents } from './reducers';
+import { SortService } from '../../../../services/sort.service';
+import { mergeMap } from 'rxjs/operators';
+
+export function recalculateEventNumbers(
+  events: IFootballEvent[],
+): IFootballEvent[] {
+  return events.map((event, index) => ({
+    ...event,
+    event_number: index + 1,
+  }));
+}
 
 @Injectable()
 export class FootballEventEffects {
@@ -169,6 +188,46 @@ export class FootballEventEffects {
             catchError(() => {
               return of(footballEventActions.deleteByIdFailure());
             }),
+          );
+        }),
+      );
+    },
+    { functional: true },
+  );
+
+  recalculateOnCreateEventNumbersEffect = createEffect(
+    () => {
+      return this.actions$.pipe(
+        ofType(footballEventActions.createdSuccessfully),
+        withLatestFrom(this.store.pipe(select(selectAllMatchFootballEvents))),
+        switchMap(([action, allMatchFootballEvents]) => {
+          const updatedEvents = [
+            ...allMatchFootballEvents,
+            action.footballEvent,
+          ];
+          const sortedEvents = SortService.sort(updatedEvents, 'event_number');
+          const recalculatedEvents = recalculateEventNumbers(sortedEvents);
+
+          // Update each event in the backend
+          const updateEvents$ = recalculatedEvents.map(
+            (event: IFootballEvent) =>
+              this.footballEventService.editFootballEventKeyValue(
+                event.id!,
+                event,
+              ),
+          );
+
+          return from(updateEvents$).pipe(
+            mergeMap((updateEvent$) => updateEvent$),
+            toArray(),
+            map(() =>
+              footballEventActions.recalculateEventsSuccess({
+                footballEvents: recalculatedEvents,
+              }),
+            ),
+            catchError(() =>
+              of(footballEventActions.recalculateEventsFailure()),
+            ),
           );
         }),
       );

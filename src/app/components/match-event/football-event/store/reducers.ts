@@ -145,6 +145,19 @@ const footballEventFeature = createFeature({
       ...state,
       footballEventIsSubmitting: false,
     })),
+
+    // recalculate
+    on(footballEventActions.recalculateEventsSuccess, (state, action) => {
+      return {
+        ...state,
+        allMatchFootballEvents: action.footballEvents,
+        footballEventIsSubmitting: false,
+      };
+    }),
+    on(footballEventActions.recalculateEventsFailure, (state, action) => ({
+      ...state,
+      footballEventIsSubmitting: false,
+    })),
   ),
 });
 

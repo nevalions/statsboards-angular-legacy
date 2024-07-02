@@ -212,20 +212,20 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
   ): void {
     if (this.eventForm.valid && this.match?.match_id) {
       if (action === 'add') {
-        console.log('action', action);
+        // console.log('action', action);
         const newEventData = extractEventData(this.eventsArray, index);
         newEventData.match_id = this.match.match_id;
         newEventData.id = null;
-        console.log('New EVENT WITH NEW DATA', newEventData);
+        // console.log('New EVENT WITH NEW DATA', newEventData);
         if (newEventData) {
           this.footballEvent.createFootballEvent(
             newEventData as IFootballEvent,
           );
         }
       } else if (action === 'edit') {
-        console.log('action', action);
+        // console.log('action', action);
         const updateEventData = extractEventData(this.eventsArray, index);
-        console.log('UPDATE EVENT WITH NEW DATA', updateEventData);
+        // console.log('UPDATE EVENT WITH NEW DATA', updateEventData);
         if (updateEventData) {
           if (updateEventData.id) {
             this.footballEvent.updateFootballEventKeyValue(
