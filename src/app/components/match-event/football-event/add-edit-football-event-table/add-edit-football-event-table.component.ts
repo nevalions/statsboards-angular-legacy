@@ -22,7 +22,6 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 import {
-  getArrayFormDataByIndexAndKey,
   getFormControl,
   getFormDataByIndexAndKey,
 } from '../../../../base/formHelpers';
@@ -63,8 +62,28 @@ import {
   eventReceiverPlayer,
   eventRunPlayer,
   eventTeam,
+  getBallOn,
+  getBallOnFormControl,
+  getEventDistance,
+  getEventDistanceFormControl,
+  getEventDown,
+  getEventDownFormControl,
+  getEventHash,
+  getEventHashFormControl,
   getEventNumber,
   getEventNumberFormControl,
+  getEventPlayResult,
+  getEventPlayResultFormControl,
+  getEventPlayType,
+  getEventPlayTypeFormControl,
+  getEventQb,
+  getEventQbFormControl,
+  getEventReceiverPlayer,
+  getEventReceiverPlayerFormControl,
+  getEventRunPlayer,
+  getEventRunPlayerFormControl,
+  getEventTeam,
+  getEventTeamFormControl,
   getQtr,
   getQtrFormControl,
   onPlayTypeChange,
@@ -281,58 +300,19 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
   ): void {
     if (this.eventForm.valid && this.match?.match_id) {
       const array = this.eventForm.get(this.arrayName) as FormArray;
-      // const eventQtr: number = getArrayFormDataByIndexAndKey(
-      //   array,
-      //   index,
-      //   'eventQtr',
-      // );
+
       const eventNumber = getEventNumber(array, index);
       const eventQtr = getQtr(array, index);
-      const eventBallOn: number = getArrayFormDataByIndexAndKey(
-        array,
-        index,
-        'eventBallOn',
-      );
-      const eventTeam: ITeam = getArrayFormDataByIndexAndKey(
-        array,
-        index,
-        'eventTeam',
-      );
-      const eventQb: IPlayerInMatchFullData = getArrayFormDataByIndexAndKey(
-        array,
-        index,
-        'eventQb',
-      );
-      const eventDown: number = getArrayFormDataByIndexAndKey(
-        array,
-        index,
-        'eventDown',
-      );
-      const eventDistance: number = getArrayFormDataByIndexAndKey(
-        array,
-        index,
-        'eventDistance',
-      );
-      const eventHash = getArrayFormDataByIndexAndKey(
-        array,
-        index,
-        'eventHash',
-      );
-      const eventPlayType = getArrayFormDataByIndexAndKey(
-        array,
-        index,
-        'eventPlayType',
-      );
-      const eventPlayResult = getArrayFormDataByIndexAndKey(
-        array,
-        index,
-        'eventPlayResult',
-      );
-      const eventRunPlayer: IPlayerInMatchFullData =
-        getArrayFormDataByIndexAndKey(array, index, 'eventRunPlayer');
-
-      const eventReceiverPlayer: IPlayerInMatchFullData =
-        getArrayFormDataByIndexAndKey(array, index, 'eventReceiverPlayer');
+      const eventBallOn = getBallOn(array, index);
+      const eventTeam = getEventTeam(array, index);
+      const eventQb = getEventQb(array, index);
+      const eventDown = getEventDown(array, index);
+      const eventDistance = getEventDistance(array, index);
+      const eventHash = getEventHash(array, index);
+      const eventPlayType = getEventPlayType(array, index);
+      const eventPlayResult = getEventPlayResult(array, index);
+      const eventRunPlayer = getEventRunPlayer(array, index);
+      const eventReceiverPlayer = getEventReceiverPlayer(array, index);
 
       const newEventData: IFootballEvent = {
         match_id: this.match.match_id,
@@ -668,4 +648,18 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
   protected readonly onPlayTypeChange = onPlayTypeChange;
   protected readonly getQtrFormControl = getQtrFormControl;
   protected readonly getEventNumberFormControl = getEventNumberFormControl;
+  protected readonly getBallOnFormControl = getBallOnFormControl;
+  protected readonly getEventTeamFormControl = getEventTeamFormControl;
+  protected readonly getEventQbFormControl = getEventQbFormControl;
+  protected readonly getEventDownFormControl = getEventDownFormControl;
+  protected readonly getEventDistanceFormControl = getEventDistanceFormControl;
+  protected readonly getEventHashFormControl = getEventHashFormControl;
+  protected readonly getEventPlayTypeFormControl = getEventPlayTypeFormControl;
+  protected readonly getEventPlayResultFormControl =
+    getEventPlayResultFormControl;
+  protected readonly getEventRunPlayer = getEventRunPlayer;
+  protected readonly getEventRunPlayerFormControl =
+    getEventRunPlayerFormControl;
+  protected readonly getEventReceiverPlayerFormControl =
+    getEventReceiverPlayerFormControl;
 }

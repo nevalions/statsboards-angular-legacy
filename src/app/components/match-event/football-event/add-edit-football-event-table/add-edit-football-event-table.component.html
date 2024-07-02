@@ -7,7 +7,6 @@
   >
     @if (events && events.length && eventForm && eventsArray && eventsArray.length) {
       <div class="event-table">
-        <!--        @if (events && events.length) {-->
         <div formArrayName="events" class="event-table-body">
           <div
             *ngFor="let eventFormGroup of eventsArray.controls; let i = index"
@@ -44,139 +43,156 @@
             </div>
 
             <!--BALL ON-->
-            <div class="event-table-cell">
-              <label>Ball On</label>
-              <tui-input-number
-                [tuiTextfieldSize]="'l'"
-                [tuiTextfieldCleaner]="true"
-                [min]="-50"
-                [max]="50"
-                [step]="1"
-                [formControl]="getFormControl(this.eventForm, i, 'eventBallOn', this.arrayName)"
-                (tuiValueChanges)="onBallOnChange($event, i)"
-              >
-              </tui-input-number>
-            </div>
+            @if (getBallOnFormControl(this.eventForm, this.arrayName, i); as control) {
+              <div class="event-table-cell">
+                <label>Ball On</label>
+                <tui-input-number
+                  [tuiTextfieldSize]="'l'"
+                  [tuiTextfieldCleaner]="true"
+                  [min]="-50"
+                  [max]="50"
+                  [step]="1"
+                  [formControl]="control"
+                  (tuiValueChanges)="onBallOnChange($event, i)"
+                >
+                </tui-input-number>
+              </div>
+            }
 
 
             <!--EVENT TEAM-->
-            <div class="event-table-cell">
-              @if (match && match.teams_data && match.teams_data.team_a && match.teams_data.team_b) {
-                <label>Offence Team</label>
-                <app-select-team-in-match
-                  [placeholder]="'offence team'"
-                  [teamsList]="[match.teams_data.team_a, match.teams_data.team_b]"
-                  [control]="getFormControl(this.eventForm, i, 'eventTeam', this.arrayName)"
-                  (teamSelected)="onTeamChange($event, i)"
-                ></app-select-team-in-match>
-              }
-            </div>
+            @if (getEventTeamFormControl(this.eventForm, this.arrayName, i); as control) {
+              <div class="event-table-cell">
+                @if (match && match.teams_data && match.teams_data.team_a && match.teams_data.team_b) {
+                  <label>Offence Team</label>
+                  <app-select-team-in-match
+                    [placeholder]="'offence team'"
+                    [teamsList]="[match.teams_data.team_a, match.teams_data.team_b]"
+                    [control]="control"
+                    (teamSelected)="onTeamChange($event, i)"
+                  ></app-select-team-in-match>
+                }
+              </div>
+            }
 
             <!--EVENT QB-->
-            <div class="event-table-cell">
-              <ng-container *ngIf="getEventTeam(eventFormGroup, i, 'eventTeam') as selectedTeam">
+            @if (getEventQbFormControl(this.eventForm, this.arrayName, i); as control) {
+              <div class="event-table-cell">
                 @if (getEventTeam(eventFormGroup, i, 'eventTeam'); as selectedTeam) {
                   <label>QB</label>
                   <app-search-player-in-match-autocomplete
                     [action]="'select'"
                     [placeholder]="'qb'"
                     [players]="getPlayersForSelectedTeam(selectedTeam)"
-                    [control]="getFormControl(this.eventForm, i, 'eventQb', this.arrayName)">
+                    [control]="control">
                   </app-search-player-in-match-autocomplete>
                 }
-              </ng-container>
-            </div>
+              </div>
+            }
 
 
             <!--EVENT DOWN-->
             <div class="event-table-cell">
               <div class="event-down-distance">
-                <div class="event-down">
-                  <label>Down</label>
-                  <tui-input-number
-                    [tuiTextfieldCleaner]="true"
-                    [min]="1"
-                    [max]="4"
-                    [step]="1"
-                    (tuiValueChanges)="onDownChange($event, i)"
-                    [formControl]="getFormControl(this.eventForm, i, 'eventDown', this.arrayName)">
-                  </tui-input-number>
-                </div>
-                <div class="event-distance">
-                  <label>Distance</label>
-                  <tui-input-number
-                    [tuiTextfieldCleaner]="true"
-                    [min]="1"
-                    [max]="100"
-                    [step]="1"
-                    [formControl]="getFormControl(this.eventForm, i, 'eventDistance', this.arrayName)">
-                  </tui-input-number>
-                </div>
+                @if (getEventDownFormControl(this.eventForm, this.arrayName, i); as control) {
+                  <div class="event-down">
+                    <label>Down</label>
+                    <tui-input-number
+                      [tuiTextfieldCleaner]="true"
+                      [min]="1"
+                      [max]="4"
+                      [step]="1"
+                      (tuiValueChanges)="onDownChange($event, i)"
+                      [formControl]="control">
+                    </tui-input-number>
+                  </div>
+                }
+                @if (getEventDistanceFormControl(this.eventForm, this.arrayName, i); as control) {
+                  <div class="event-distance">
+                    <label>Distance</label>
+                    <tui-input-number
+                      [tuiTextfieldCleaner]="true"
+                      [min]="1"
+                      [max]="100"
+                      [step]="1"
+                      [formControl]="control">
+                    </tui-input-number>
+                  </div>
+                }
               </div>
             </div>
 
             <!--EVENT HASH-->
             <div class="event-hash-type">
-              <div class="event-table-cell">
-                <label>Hash</label>
-                <app-select-enum
-                  [control]="getFormControl(this.eventForm, i, 'eventHash', this.arrayName)"
-                  [placeholder]="'hash'"
-                  [enumObjects]="eventHashOptions"
-                ></app-select-enum>
-              </div>
-
+              @if (getEventHashFormControl(this.eventForm, this.arrayName, i); as control) {
+                <div class="event-table-cell">
+                  <label>Hash</label>
+                  <app-select-enum
+                    [control]="control"
+                    [placeholder]="'hash'"
+                    [enumObjects]="eventHashOptions"
+                  ></app-select-enum>
+                </div>
+              }
               <!--EVENT PLAY TYPE-->
-              <div class="event-table-cell">
-                <label>Play Type</label>
-                <app-select-enum
-                  [control]="getFormControl(this.eventForm, i, 'eventPlayType', this.arrayName)"
-                  [placeholder]="'play type'"
-                  [enumObjects]="eventPlayTypeOptions"
-                  (itemSelected)="onPlayTypeChange(this.eventsArray, $event, i)"
-                ></app-select-enum>
-              </div>
+              @if (getEventPlayTypeFormControl(this.eventForm, this.arrayName, i); as control) {
+                <div class="event-table-cell">
+                  <label>Play Type</label>
+                  <app-select-enum
+                    [control]="control"
+                    [placeholder]="'play type'"
+                    [enumObjects]="eventPlayTypeOptions"
+                    (itemSelected)="onPlayTypeChange(this.eventsArray, $event, i)"
+                  ></app-select-enum>
+                </div>
+              }
             </div>
 
             <!--EVENT PLAY RESULT-->
-            <div class="event-table-cell">
-              <label>Play Result</label>
-              <app-select-enum
-                [control]="getFormControl(this.eventForm, i, 'eventPlayResult', this.arrayName)"
-                [placeholder]="'play result'"
-                [enumObjects]="eventPlayResultOptions"
-              ></app-select-enum>
-            </div>
+            @if (getEventPlayResultFormControl(this.eventForm, this.arrayName, i); as control) {
+              <div class="event-table-cell">
+                <label>Play Result</label>
+                <app-select-enum
+                  [control]="control"
+                  [placeholder]="'play result'"
+                  [enumObjects]="eventPlayResultOptions"
+                ></app-select-enum>
+              </div>
+            }
 
             <!--EVENT RUN PLAYER-->
-            <div class="event-table-cell">
-              @if (getEventTeam(eventFormGroup, i, 'eventTeam'); as selectedTeam) {
-                @if (isPlayType(eventFormGroup, i, 'eventPlayType', IFootballPlayType.Run)) {
-                  <label>Run Player</label>
-                  <app-search-player-in-match-autocomplete
-                    [action]="'select'"
-                    [placeholder]="'run player'"
-                    [players]="getPlayersForSelectedTeam(selectedTeam)"
-                    [control]="getFormControl(this.eventForm, i, 'eventRunPlayer', this.arrayName)">
-                  </app-search-player-in-match-autocomplete>
+            @if (getEventRunPlayerFormControl(this.eventForm, this.arrayName, i); as control) {
+              <div class="event-table-cell">
+                @if (getEventTeam(eventFormGroup, i, 'eventTeam'); as selectedTeam) {
+                  @if (isPlayType(eventFormGroup, i, 'eventPlayType', IFootballPlayType.Run)) {
+                    <label>Run Player</label>
+                    <app-search-player-in-match-autocomplete
+                      [action]="'select'"
+                      [placeholder]="'run player'"
+                      [players]="getPlayersForSelectedTeam(selectedTeam)"
+                      [control]="control">
+                    </app-search-player-in-match-autocomplete>
+                  }
                 }
-              }
-            </div>
+              </div>
+            }
 
             <!--EVENT PASS PLAYER-->
-            <div class="event-table-cell">
-              @if (getEventTeam(eventFormGroup, i, 'eventTeam'); as selectedTeam) {
-                @if (isPlayType(eventFormGroup, i, 'eventPlayType', IFootballPlayType.Pass)) {
-                  <label>Receiver Player</label>
-                  <app-search-player-in-match-autocomplete
-                    [action]="'select'"
-                    [placeholder]="'receiver player'"
-                    [players]="getPlayersForSelectedTeam(selectedTeam)"
-                    [control]="getFormControl(this.eventForm, i, 'eventReceiverPlayer', this.arrayName)">
-                  </app-search-player-in-match-autocomplete>
+            @if (getEventReceiverPlayerFormControl(this.eventForm, this.arrayName, i); as control) {
+              <div class="event-table-cell">
+                @if (getEventTeam(eventFormGroup, i, 'eventTeam'); as selectedTeam) {
+                  @if (isPlayType(eventFormGroup, i, 'eventPlayType', IFootballPlayType.Pass)) {
+                    <label>Receiver Player</label>
+                    <app-search-player-in-match-autocomplete
+                      [action]="'select'"
+                      [placeholder]="'receiver player'"
+                      [players]="getPlayersForSelectedTeam(selectedTeam)"
+                      [control]="control">
+                    </app-search-player-in-match-autocomplete>
+                  }
                 }
-              }
-            </div>
+              </div>
+            }
 
 
             <!--ACTIONS-->
