@@ -104,6 +104,15 @@ export function setArrayValue<T>(
   array.controls[index].get(key)?.setValue(selectedItem);
 }
 
+export function setArrayKeyIndexValue<T>(
+  array: FormArray,
+  index: number,
+  selectedItem: T | null,
+  key: string,
+): void {
+  array.controls[index].get(key + index)?.setValue(selectedItem);
+}
+
 export function resetArrayKeyIndexValue(
   array: FormArray,
   index: number,

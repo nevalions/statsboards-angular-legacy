@@ -83,8 +83,11 @@ import {
   getEventTeamFormControl,
   getQtr,
   getQtrFormControl,
-  onPlayTypeChange,
 } from '../football-event-helpers';
+import {
+  onPlayTypeChange,
+  onTeamChange,
+} from '../football-event-on-change-helpers';
 
 @Component({
   selector: 'app-add-edit-football-event-table',
@@ -444,20 +447,20 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
   //   return player;
   // }
 
-  onTeamChange(selectedTeam: ITeam, index: number): void {
-    let previousTeam = null;
-    if (index > 0) {
-      previousTeam = this.eventsArray.controls[index - 1].get(
-        `eventTeam${index - 1}`,
-      )?.value;
-    }
-    // console.log('teams', selectedTeam, previousTeam);
-    if (!previousTeam || selectedTeam.id !== previousTeam.id) {
-      // console.log('first down team change');
-      this.eventsArray.controls[index].get(`eventDown${index}`)?.setValue(1);
-      this.eventsArray.controls[index].get(`eventQb${index}`)?.setValue(null);
-    }
-  }
+  // onTeamChange(selectedTeam: ITeam, index: number): void {
+  //   let previousTeam = null;
+  //   if (index > 0) {
+  //     previousTeam = this.eventsArray.controls[index - 1].get(
+  //       `eventTeam${index - 1}`,
+  //     )?.value;
+  //   }
+  //   // console.log('teams', selectedTeam, previousTeam);
+  //   if (!previousTeam || selectedTeam.id !== previousTeam.id) {
+  //     // console.log('first down team change');
+  //     this.eventsArray.controls[index].get(`eventDown${index}`)?.setValue(1);
+  //     this.eventsArray.controls[index].get(`eventQb${index}`)?.setValue(null);
+  //   }
+  // }
 
   // private resetRunPlayer(index: number): void {
   //   this.eventsArray.controls[index]
@@ -638,7 +641,6 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
   protected readonly eventHashOptions = eventHashOptions;
   protected readonly eventPlayTypeOptions = eventPlayTypeOptions;
   protected readonly eventPlayResultOptions = eventPlayResultOptions;
-  protected readonly onPlayTypeChange = onPlayTypeChange;
   protected readonly getQtrFormControl = getQtrFormControl;
   protected readonly getEventNumberFormControl = getEventNumberFormControl;
   protected readonly getBallOnFormControl = getBallOnFormControl;
@@ -656,4 +658,6 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
     getEventReceiverPlayerFormControl;
   protected readonly getEventTeam = getEventTeam;
   protected readonly getEventNumber = getEventNumber;
+  protected readonly onPlayTypeChange = onPlayTypeChange;
+  protected readonly onTeamChange = onTeamChange;
 }

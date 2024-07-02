@@ -1,10 +1,10 @@
 import { FormArray, FormControl, FormGroup } from '@angular/forms';
 import { IEnumObject } from '../../../type/base.type';
-import { IFootballPlayType } from '../../../type/football-event.type';
 import {
   getArrayFormDataByIndexAndKey,
   getFormControl,
   resetArrayKeyIndexValue,
+  setArrayKeyIndexValue,
   setArrayValue,
 } from '../../../base/formHelpers';
 import { IPlayerInMatchFullData } from '../../../type/player.type';
@@ -131,6 +131,10 @@ export function getEventQbFormControl(
   return getFormControl(form, index, eventQbKey, arrayName);
 }
 
+export function resetQb(eventsArray: FormArray, index: number): void {
+  resetArrayKeyIndexValue(eventsArray, index, eventQbKey);
+}
+
 // EventDown
 export function getEventDown(
   eventsArray: FormArray,
@@ -149,6 +153,14 @@ export function getEventDownFormControl(
   index: number,
 ): FormControl | null | undefined {
   return getFormControl(form, index, eventDownKey, arrayName);
+}
+
+export function setDown(
+  eventsArray: FormArray,
+  index: number,
+  selectedItem: number,
+): void {
+  setArrayKeyIndexValue(eventsArray, index, selectedItem, eventDownKey);
 }
 
 // EventDistance
@@ -290,31 +302,31 @@ export function resetReceiverPlayer(
   resetArrayKeyIndexValue(eventsArray, index, eventReceiverPlayerKey);
 }
 
-export function onPlayTypeChange(
-  eventsArray: FormArray,
-  selectedType: IEnumObject,
-  index: number,
-): void {
-  if (!selectedType) {
-    return;
-  }
-  console.log('selected type', selectedType);
-  if (selectedType.value) {
-    console.log('selected type value', selectedType.value);
-
-    switch (selectedType.value.toLowerCase()) {
-      case IFootballPlayType.Pass.toLowerCase():
-        resetRunPlayer(eventsArray, index);
-        break;
-      case IFootballPlayType.Run.toLowerCase():
-        resetReceiverPlayer(eventsArray, index);
-        break;
-    }
-
-    setPlayType(eventsArray, index, selectedType);
-  } else {
-    resetRunPlayer(eventsArray, index);
-    resetReceiverPlayer(eventsArray, index);
-    setPlayType(eventsArray, index, selectedType);
-  }
-}
+// export function onPlayTypeChange(
+//   eventsArray: FormArray,
+//   selectedType: IEnumObject,
+//   index: number,
+// ): void {
+//   if (!selectedType) {
+//     return;
+//   }
+//   console.log('selected type', selectedType);
+//   if (selectedType.value) {
+//     console.log('selected type value', selectedType.value);
+//
+//     switch (selectedType.value.toLowerCase()) {
+//       case IFootballPlayType.Pass.toLowerCase():
+//         resetRunPlayer(eventsArray, index);
+//         break;
+//       case IFootballPlayType.Run.toLowerCase():
+//         resetReceiverPlayer(eventsArray, index);
+//         break;
+//     }
+//
+//     setPlayType(eventsArray, index, selectedType);
+//   } else {
+//     resetRunPlayer(eventsArray, index);
+//     resetReceiverPlayer(eventsArray, index);
+//     setPlayType(eventsArray, index, selectedType);
+//   }
+// }

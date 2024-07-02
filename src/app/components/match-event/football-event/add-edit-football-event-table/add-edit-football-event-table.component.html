@@ -69,7 +69,7 @@
                     [placeholder]="'offence team'"
                     [teamsList]="[match.teams_data.team_a, match.teams_data.team_b]"
                     [control]="control"
-                    (teamSelected)="onTeamChange($event, i)"
+                    (teamSelected)="onTeamChange(eventsArray, $event, i)"
                   ></app-select-team-in-match>
                 }
               </div>
