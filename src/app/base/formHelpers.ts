@@ -95,6 +95,15 @@ export function getFormDataByIndexAndKey<T>(
   }
 }
 
+export function setArrayValue<T>(
+  array: FormArray,
+  index: number,
+  selectedItem: T,
+  key: string,
+): void {
+  array.controls[index].get(key)?.setValue(selectedItem);
+}
+
 export function getControlNameByIndexAndData(
   title: string,
   index: number,

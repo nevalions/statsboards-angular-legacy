@@ -78,7 +78,7 @@
             <!--EVENT QB-->
             @if (getEventQbFormControl(this.eventForm, this.arrayName, i); as control) {
               <div class="event-table-cell">
-                @if (getEventTeam(eventFormGroup, i, 'eventTeam'); as selectedTeam) {
+                @if (getEventTeam(eventsArray, i); as selectedTeam) {
                   <label>QB</label>
                   <app-search-player-in-match-autocomplete
                     [action]="'select'"
@@ -163,7 +163,7 @@
             <!--EVENT RUN PLAYER-->
             @if (getEventRunPlayerFormControl(this.eventForm, this.arrayName, i); as control) {
               <div class="event-table-cell">
-                @if (getEventTeam(eventFormGroup, i, 'eventTeam'); as selectedTeam) {
+                @if (getEventTeam(eventsArray, i); as selectedTeam) {
                   @if (isPlayType(eventFormGroup, i, 'eventPlayType', IFootballPlayType.Run)) {
                     <label>Run Player</label>
                     <app-search-player-in-match-autocomplete
@@ -180,7 +180,7 @@
             <!--EVENT PASS PLAYER-->
             @if (getEventReceiverPlayerFormControl(this.eventForm, this.arrayName, i); as control) {
               <div class="event-table-cell">
-                @if (getEventTeam(eventFormGroup, i, 'eventTeam'); as selectedTeam) {
+                @if (getEventTeam(eventsArray, i); as selectedTeam) {
                   @if (isPlayType(eventFormGroup, i, 'eventPlayType', IFootballPlayType.Pass)) {
                     <label>Receiver Player</label>
                     <app-search-player-in-match-autocomplete

@@ -4,38 +4,39 @@ import { IFootballPlayType } from '../../../type/football-event.type';
 import {
   getArrayFormDataByIndexAndKey,
   getFormControl,
+  setArrayValue,
 } from '../../../base/formHelpers';
 import { IPlayerInMatchFullData } from '../../../type/player.type';
 import { ITeam } from '../../../type/team.type';
 
-export const eventIdString = 'eventId';
-export const eventNumberString = 'eventNumber';
-export const eventQtrString = 'eventQtr';
-export const eventBallOnString = 'eventBallOn';
-export const eventTeamString = 'eventTeam';
-export const eventQbString = 'eventQb';
-export const eventDownString = 'eventDown';
-export const eventDistanceString = 'eventDistance';
-export const eventHashString = 'eventHash';
-export const eventPlayTypeString = 'eventPlayType';
-export const eventPlayResultString = 'eventPlayResult';
-export const eventRunPlayerString = 'eventRunPlayer';
-export const eventReceiverPlayerString = 'eventReceiverPlayer';
+export const eventIdKey = 'eventId';
+export const eventNumberKey = 'eventNumber';
+export const eventQtrKey = 'eventQtr';
+export const eventBallOnKey = 'eventBallOn';
+export const eventTeamKey = 'eventTeam';
+export const eventQbKey = 'eventQb';
+export const eventDownKey = 'eventDown';
+export const eventDistanceKey = 'eventDistance';
+export const eventHashKey = 'eventHash';
+export const eventPlayTypeKey = 'eventPlayType';
+export const eventPlayResultKey = 'eventPlayResult';
+export const eventRunPlayerKey = 'eventRunPlayer';
+export const eventReceiverPlayerKey = 'eventReceiverPlayer';
 
-export const eventId = (index: number) => eventIdString + index;
-export const eventNumber = (index: number) => eventNumberString + index;
-export const eventQtr = (index: number) => eventQtrString + index;
-export const eventBallOn = (index: number) => eventBallOnString + index;
-export const eventTeam = (index: number) => eventTeamString + index;
-export const eventQb = (index: number) => eventQbString + index;
-export const eventDown = (index: number) => eventDownString + index;
-export const eventDistance = (index: number) => eventDistanceString + index;
-export const eventHash = (index: number) => eventHashString + index;
-export const eventPlayType = (index: number) => eventPlayTypeString + index;
-export const eventPlayResult = (index: number) => eventPlayResultString + index;
-export const eventRunPlayer = (index: number) => eventRunPlayerString + index;
+export const eventId = (index: number) => eventIdKey + index;
+export const eventNumber = (index: number) => eventNumberKey + index;
+export const eventQtr = (index: number) => eventQtrKey + index;
+export const eventBallOn = (index: number) => eventBallOnKey + index;
+export const eventTeam = (index: number) => eventTeamKey + index;
+export const eventQb = (index: number) => eventQbKey + index;
+export const eventDown = (index: number) => eventDownKey + index;
+export const eventDistance = (index: number) => eventDistanceKey + index;
+export const eventHash = (index: number) => eventHashKey + index;
+export const eventPlayType = (index: number) => eventPlayTypeKey + index;
+export const eventPlayResult = (index: number) => eventPlayResultKey + index;
+export const eventRunPlayer = (index: number) => eventRunPlayerKey + index;
 export const eventReceiverPlayer = (index: number) =>
-  eventReceiverPlayerString + index;
+  eventReceiverPlayerKey + index;
 
 // EVENT NUMBER
 export function getEventNumber(
@@ -45,7 +46,7 @@ export function getEventNumber(
   return getArrayFormDataByIndexAndKey<number>(
     eventsArray,
     index,
-    eventNumberString,
+    eventNumberKey,
   );
 }
 
@@ -54,7 +55,7 @@ export function getEventNumberFormControl(
   arrayName: string,
   index: number,
 ): FormControl | null | undefined {
-  return getFormControl(form, index, eventNumberString, arrayName);
+  return getFormControl(form, index, eventNumberKey, arrayName);
 }
 
 // QTR
@@ -62,11 +63,7 @@ export function getQtr(
   eventsArray: FormArray,
   index: number,
 ): number | null | undefined {
-  return getArrayFormDataByIndexAndKey<number>(
-    eventsArray,
-    index,
-    eventQtrString,
-  );
+  return getArrayFormDataByIndexAndKey<number>(eventsArray, index, eventQtrKey);
 }
 
 export function getQtrFormControl(
@@ -74,7 +71,7 @@ export function getQtrFormControl(
   arrayName: string,
   index: number,
 ): FormControl | null | undefined {
-  return getFormControl(form, index, eventQtrString, arrayName);
+  return getFormControl(form, index, eventQtrKey, arrayName);
 }
 
 // BallOn
@@ -85,7 +82,7 @@ export function getBallOn(
   return getArrayFormDataByIndexAndKey<number>(
     eventsArray,
     index,
-    eventBallOnString,
+    eventBallOnKey,
   );
 }
 
@@ -94,7 +91,7 @@ export function getBallOnFormControl(
   arrayName: string,
   index: number,
 ): FormControl | null | undefined {
-  return getFormControl(form, index, eventBallOnString, arrayName);
+  return getFormControl(form, index, eventBallOnKey, arrayName);
 }
 
 // EventTeam
@@ -105,7 +102,7 @@ export function getEventTeam(
   return getArrayFormDataByIndexAndKey<number>(
     eventsArray,
     index,
-    eventTeamString,
+    eventTeamKey,
   );
 }
 
@@ -114,7 +111,7 @@ export function getEventTeamFormControl(
   arrayName: string,
   index: number,
 ): FormControl | null | undefined {
-  return getFormControl(form, index, eventTeamString, arrayName);
+  return getFormControl(form, index, eventTeamKey, arrayName);
 }
 
 // EventQb
@@ -122,11 +119,7 @@ export function getEventQb(
   eventsArray: FormArray,
   index: number,
 ): IPlayerInMatchFullData | null | undefined {
-  return getArrayFormDataByIndexAndKey<number>(
-    eventsArray,
-    index,
-    eventQbString,
-  );
+  return getArrayFormDataByIndexAndKey<number>(eventsArray, index, eventQbKey);
 }
 
 export function getEventQbFormControl(
@@ -134,7 +127,7 @@ export function getEventQbFormControl(
   arrayName: string,
   index: number,
 ): FormControl | null | undefined {
-  return getFormControl(form, index, eventQbString, arrayName);
+  return getFormControl(form, index, eventQbKey, arrayName);
 }
 
 // EventDown
@@ -145,7 +138,7 @@ export function getEventDown(
   return getArrayFormDataByIndexAndKey<number>(
     eventsArray,
     index,
-    eventDownString,
+    eventDownKey,
   );
 }
 
@@ -154,7 +147,7 @@ export function getEventDownFormControl(
   arrayName: string,
   index: number,
 ): FormControl | null | undefined {
-  return getFormControl(form, index, eventDownString, arrayName);
+  return getFormControl(form, index, eventDownKey, arrayName);
 }
 
 // EventDistance
@@ -165,7 +158,7 @@ export function getEventDistance(
   return getArrayFormDataByIndexAndKey<number>(
     eventsArray,
     index,
-    eventDistanceString,
+    eventDistanceKey,
   );
 }
 
@@ -174,7 +167,7 @@ export function getEventDistanceFormControl(
   arrayName: string,
   index: number,
 ): FormControl | null | undefined {
-  return getFormControl(form, index, eventDistanceString, arrayName);
+  return getFormControl(form, index, eventDistanceKey, arrayName);
 }
 
 // EventHash
@@ -185,7 +178,7 @@ export function getEventHash(
   return getArrayFormDataByIndexAndKey<number>(
     eventsArray,
     index,
-    eventHashString,
+    eventHashKey,
   );
 }
 
@@ -194,7 +187,7 @@ export function getEventHashFormControl(
   arrayName: string,
   index: number,
 ): FormControl | null | undefined {
-  return getFormControl(form, index, eventHashString, arrayName);
+  return getFormControl(form, index, eventHashKey, arrayName);
 }
 
 // EventPlayType
@@ -205,7 +198,7 @@ export function getEventPlayType(
   return getArrayFormDataByIndexAndKey<number>(
     eventsArray,
     index,
-    eventPlayTypeString,
+    eventPlayTypeKey,
   );
 }
 
@@ -214,7 +207,7 @@ export function getEventPlayTypeFormControl(
   arrayName: string,
   index: number,
 ): FormControl | null | undefined {
-  return getFormControl(form, index, eventPlayTypeString, arrayName);
+  return getFormControl(form, index, eventPlayTypeKey, arrayName);
 }
 
 // EventPlayResult
@@ -225,7 +218,7 @@ export function getEventPlayResult(
   return getArrayFormDataByIndexAndKey<number>(
     eventsArray,
     index,
-    eventPlayResultString,
+    eventPlayResultKey,
   );
 }
 
@@ -234,7 +227,16 @@ export function getEventPlayResultFormControl(
   arrayName: string,
   index: number,
 ): FormControl | null | undefined {
-  return getFormControl(form, index, eventPlayResultString, arrayName);
+  return getFormControl(form, index, eventPlayResultKey, arrayName);
+}
+
+export function setPlayType(
+  eventsArray: FormArray,
+  index: number,
+  selectedType: IEnumObject,
+): void {
+  setArrayValue(eventsArray, index, selectedType, eventPlayTypeKey);
+  // eventsArray.controls[index].get(`eventPlayType`)?.setValue(selectedType);
 }
 
 // EventRunPlayer
@@ -245,7 +247,7 @@ export function getEventRunPlayer(
   return getArrayFormDataByIndexAndKey<number>(
     eventsArray,
     index,
-    eventRunPlayerString,
+    eventRunPlayerKey,
   );
 }
 
@@ -254,7 +256,7 @@ export function getEventRunPlayerFormControl(
   arrayName: string,
   index: number,
 ): FormControl | null | undefined {
-  return getFormControl(form, index, eventRunPlayerString, arrayName);
+  return getFormControl(form, index, eventRunPlayerKey, arrayName);
 }
 
 // EventReceiverPlayer
@@ -265,7 +267,7 @@ export function getEventReceiverPlayer(
   return getArrayFormDataByIndexAndKey<number>(
     eventsArray,
     index,
-    eventReceiverPlayerString,
+    eventReceiverPlayerKey,
   );
 }
 
@@ -274,7 +276,7 @@ export function getEventReceiverPlayerFormControl(
   arrayName: string,
   index: number,
 ): FormControl | null | undefined {
-  return getFormControl(form, index, eventReceiverPlayerString, arrayName);
+  return getFormControl(form, index, eventReceiverPlayerKey, arrayName);
 }
 
 export function resetRunPlayer(eventsArray: FormArray, index: number): void {
@@ -286,14 +288,6 @@ export function resetReceiverPlayer(
   index: number,
 ): void {
   eventsArray.controls[index].get(eventReceiverPlayer(index))?.setValue(null);
-}
-
-export function setPlayType(
-  eventsArray: FormArray,
-  index: number,
-  selectedType: IEnumObject,
-): void {
-  eventsArray.controls[index].get(`eventPlayType`)?.setValue(selectedType);
 }
 
 export function onPlayTypeChange(

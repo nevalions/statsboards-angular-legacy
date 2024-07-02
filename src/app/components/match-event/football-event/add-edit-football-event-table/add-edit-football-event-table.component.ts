@@ -299,20 +299,21 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
     eventId: number | null,
   ): void {
     if (this.eventForm.valid && this.match?.match_id) {
-      const array = this.eventForm.get(this.arrayName) as FormArray;
-
-      const eventNumber = getEventNumber(array, index);
-      const eventQtr = getQtr(array, index);
-      const eventBallOn = getBallOn(array, index);
-      const eventTeam = getEventTeam(array, index);
-      const eventQb = getEventQb(array, index);
-      const eventDown = getEventDown(array, index);
-      const eventDistance = getEventDistance(array, index);
-      const eventHash = getEventHash(array, index);
-      const eventPlayType = getEventPlayType(array, index);
-      const eventPlayResult = getEventPlayResult(array, index);
-      const eventRunPlayer = getEventRunPlayer(array, index);
-      const eventReceiverPlayer = getEventReceiverPlayer(array, index);
+      const eventNumber = getEventNumber(this.eventsArray, index);
+      const eventQtr = getQtr(this.eventsArray, index);
+      const eventBallOn = getBallOn(this.eventsArray, index);
+      const eventTeam = getEventTeam(this.eventsArray, index);
+      const eventQb = getEventQb(this.eventsArray, index);
+      const eventDown = getEventDown(this.eventsArray, index);
+      const eventDistance = getEventDistance(this.eventsArray, index);
+      const eventHash = getEventHash(this.eventsArray, index);
+      const eventPlayType = getEventPlayType(this.eventsArray, index);
+      const eventPlayResult = getEventPlayResult(this.eventsArray, index);
+      const eventRunPlayer = getEventRunPlayer(this.eventsArray, index);
+      const eventReceiverPlayer = getEventReceiverPlayer(
+        this.eventsArray,
+        index,
+      );
 
       const newEventData: IFootballEvent = {
         match_id: this.match.match_id,
@@ -406,13 +407,14 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
   }
 
   isRowEnabled(index: number): boolean {
-    const formGroup = (this.eventForm.get(this.arrayName) as FormArray).at(
-      index,
-    );
-    if (formGroup && formGroup.disabled) {
+    // const formArray = (this.eventForm.get(this.arrayName) as FormArray).at(
+    //   index,
+    // );
+    const formArray = (this.eventsArray as FormArray).at(index);
+    if (formArray && formArray.disabled) {
       // console.log('formGroup is disabled');
       return false;
-    } else if (formGroup && formGroup.enabled) {
+    } else if (formArray && formArray.enabled) {
       // console.log('formGroup is enabled');
       return true;
     } else {
@@ -428,26 +430,26 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
     return formGroup ? formGroup.dirty : false;
   }
 
-  getEventTeam(formGroup: FormGroup | any, index: number, key: string): ITeam {
-    const team = getFormDataByIndexAndKey<ITeam>(formGroup, index, key);
-    // console.log('team', team)
-    return team;
-  }
+  // getEventTeam(formGroup: FormGroup | any, index: number, key: string): ITeam {
+  //   const team = getFormDataByIndexAndKey<ITeam>(formGroup, index, key);
+  //   // console.log('team', team)
+  //   return team;
+  // }
 
-  getEventPlayer(
-    formGroup: FormGroup | any,
-    index: number,
-    key: string,
-  ): IPlayerInMatchFullData {
-    const player = getFormDataByIndexAndKey<IPlayerInMatchFullData>(
-      formGroup,
-      index,
-      key,
-    );
-    // console.log(playerFormGroup, index, key);
-    // console.log('Player', player);
-    return player;
-  }
+  // getEventPlayer(
+  //   formGroup: FormGroup | any,
+  //   index: number,
+  //   key: string,
+  // ): IPlayerInMatchFullData {
+  //   const player = getFormDataByIndexAndKey<IPlayerInMatchFullData>(
+  //     formGroup,
+  //     index,
+  //     key,
+  //   );
+  //   // console.log(playerFormGroup, index, key);
+  //   // console.log('Player', player);
+  //   return player;
+  // }
 
   onTeamChange(selectedTeam: ITeam, index: number): void {
     let previousTeam = null;
@@ -662,4 +664,5 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
     getEventRunPlayerFormControl;
   protected readonly getEventReceiverPlayerFormControl =
     getEventReceiverPlayerFormControl;
+  protected readonly getEventTeam = getEventTeam;
 }
