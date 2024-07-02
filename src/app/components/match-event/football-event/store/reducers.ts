@@ -2,7 +2,6 @@ import { createFeature, createReducer, on } from '@ngrx/store';
 import { footballEventActions } from './actions';
 import { IFootballEvent } from '../../../../type/football-event.type';
 import { SortService } from '../../../../services/sort.service';
-import { playerInMatchActions } from '../../../player-match/store/actions';
 
 export interface FootballEventState {
   footballEventIsLoading: boolean;
@@ -67,11 +66,19 @@ const footballEventFeature = createFeature({
     })),
     on(
       footballEventActions.updateFootballEventByKeyValueSuccessfully,
-      (state, action) => ({
-        ...state,
-        footballEventIsSubmitting: false,
-        currentFootballEvent: action.updatedFootballEvent,
-      }),
+      (state, action) => {
+        const updatedEvent = action.updatedFootballEvent;
+        const newList = state.allMatchFootballEvents.map((event) =>
+          event.id === updatedEvent.id ? updatedEvent : event,
+        );
+        const sortedEvents = SortService.sort(newList, 'event_number');
+        return {
+          ...state,
+          footballEventIsSubmitting: false,
+          currentFootballEvent: updatedEvent,
+          allMatchFootballEvents: sortedEvents,
+        };
+      },
     ),
     on(
       footballEventActions.updateFootballEventByKeyValueFailure,
@@ -102,11 +109,16 @@ const footballEventFeature = createFeature({
     })),
     on(
       footballEventActions.getFootballEventsByMatchIDSuccess,
-      (state, action) => ({
-        ...state,
-        footballEventIsLoading: false,
-        allMatchFootballEvents: action.footballEvents,
-      }),
+      (state, action) => {
+        const newList = action.footballEvents;
+        const sortedEvents = SortService.sort(newList, 'event_number');
+        return {
+          ...state,
+          footballEventIsSubmitting: false,
+          allMatchFootballEvents: sortedEvents,
+          footballEventIsLoading: false,
+        };
+      },
     ),
     on(
       footballEventActions.getFootballEventsByMatchIDFailure,

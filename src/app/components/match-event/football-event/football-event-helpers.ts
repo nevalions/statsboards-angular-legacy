@@ -114,69 +114,25 @@ export function extractEventData(
   eventsArray: FormArray,
   index: number,
 ): Partial<IFootballEvent> {
-  const eventNumber = getArrayFormDataByIndexAndKey<number>(
-    eventsArray,
-    index,
-    'eventNumber',
-  );
-  const eventQtr = getArrayFormDataByIndexAndKey<number>(
-    eventsArray,
-    index,
-    'eventQtr',
-  );
-  const eventBallOn = getArrayFormDataByIndexAndKey<number>(
-    eventsArray,
-    index,
-    'eventBallOn',
-  );
-  const eventTeam = getArrayFormDataByIndexAndKey<ITeam>(
-    eventsArray,
-    index,
-    'eventTeam',
-  );
-  const eventQb = getArrayFormDataByIndexAndKey<IPlayerInMatchFullData>(
-    eventsArray,
-    index,
-    'eventQb',
-  );
-  const eventDown = getArrayFormDataByIndexAndKey<number>(
-    eventsArray,
-    index,
-    'eventDown',
-  );
-  const eventDistance = getArrayFormDataByIndexAndKey<number>(
-    eventsArray,
-    index,
-    'eventDistance',
-  );
-  const eventHash = getArrayFormDataByIndexAndKey<IEnumObject>(
-    eventsArray,
-    index,
-    'eventHash',
-  );
-  const eventPlayType = getArrayFormDataByIndexAndKey<IEnumObject>(
-    eventsArray,
-    index,
-    'eventPlayType',
-  );
-  const eventPlayResult = getArrayFormDataByIndexAndKey<IEnumObject>(
-    eventsArray,
-    index,
-    'eventPlayResult',
-  );
-  const eventRunPlayer = getArrayFormDataByIndexAndKey<IPlayerInMatchFullData>(
-    eventsArray,
-    index,
-    'eventRunPlayer',
-  );
-  const eventReceiverPlayer =
-    getArrayFormDataByIndexAndKey<IPlayerInMatchFullData>(
-      eventsArray,
-      index,
-      'eventReceiverPlayer',
-    );
+  const eventId = getEventId(eventsArray, index);
+  const eventNumber = getEventNumber(eventsArray, index);
+  const eventQtr = getQtr(eventsArray, index);
+  const eventBallOn = getBallOn(eventsArray, index);
+  const eventTeam = getEventTeam(eventsArray, index);
+  const eventQb = getEventQb(eventsArray, index);
+  const eventDown = getEventDown(eventsArray, index);
+  const eventDistance = getEventDistance(eventsArray, index);
+  const eventHash = getEventHash(eventsArray, index);
+  const eventPlayType = getEventPlayType(eventsArray, index);
+  const eventPlayResult = getEventPlayResult(eventsArray, index);
+  const eventRunPlayer = getEventRunPlayer(eventsArray, index);
+  const eventReceiverPlayer = getEventReceiverPlayer(eventsArray, index);
 
   const newEventData: Partial<IFootballEvent> = {};
+
+  if (eventId !== null && eventId !== undefined) {
+    newEventData.id = eventId;
+  }
 
   if (eventNumber !== undefined) {
     newEventData.event_number = eventNumber;
@@ -227,6 +183,14 @@ export function extractEventData(
   }
 
   return newEventData;
+}
+
+// EVENT ID
+export function getEventId(
+  eventsArray: FormArray,
+  index: number,
+): number | null | undefined {
+  return getArrayFormDataByIndexAndKey<number>(eventsArray, index, eventIdKey);
 }
 
 // EVENT NUMBER

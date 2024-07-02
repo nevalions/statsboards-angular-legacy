@@ -205,7 +205,7 @@
                       [index]="i"
                       [deleteOrUpdate]="'delete'"
                       [item]="eventNumber.toString()"
-                      (onSubmit)="onSubmitNewEvent($event.action, $event.index, $event.id)"
+                      (onSubmit)="onSubmitEvent($event.action, $event.index, $event.id)"
                       [isEnabled]="isFullRowEnabled(eventsArray, i)"
                       [isDataChanged]="isDataChanged(eventsArray, i)"
                       (onEdit)="enableFullRowToEdit(eventsArray, $event.index)"
@@ -219,7 +219,7 @@
                 <div class="table-cell actions">
                   <app-actions-buttons
                     [index]="i"
-                    (onSubmit)="onSubmitNewEvent($event.action, $event.index, $event.id)"
+                    (onSubmit)="onSubmitEvent($event.action, $event.index, $event.id)"
                     (onCancel)="onCancelButtonClick()"
                   ></app-actions-buttons>
                 </div>

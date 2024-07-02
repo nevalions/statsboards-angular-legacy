@@ -205,18 +205,36 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
     }
   }
 
-  onSubmitNewEvent(
+  onSubmitEvent(
     action: 'add' | 'edit' | 'deleteFromTeam',
     index: number,
     eventId: number | null,
   ): void {
     if (this.eventForm.valid && this.match?.match_id) {
-      const newEventData = extractEventData(this.eventsArray, index);
-      newEventData.match_id = this.match.match_id;
-
-      console.log('New EVENT WITH NEW DATA', newEventData);
-
-      this.footballEvent.createFootballEvent(newEventData as IFootballEvent);
+      if (action === 'add') {
+        console.log('action', action);
+        const newEventData = extractEventData(this.eventsArray, index);
+        newEventData.match_id = this.match.match_id;
+        newEventData.id = null;
+        console.log('New EVENT WITH NEW DATA', newEventData);
+        if (newEventData) {
+          this.footballEvent.createFootballEvent(
+            newEventData as IFootballEvent,
+          );
+        }
+      } else if (action === 'edit') {
+        console.log('action', action);
+        const updateEventData = extractEventData(this.eventsArray, index);
+        console.log('UPDATE EVENT WITH NEW DATA', updateEventData);
+        if (updateEventData) {
+          if (updateEventData.id) {
+            this.footballEvent.updateFootballEventKeyValue(
+              updateEventData.id,
+              updateEventData,
+            );
+          }
+        }
+      }
     }
   }
 
