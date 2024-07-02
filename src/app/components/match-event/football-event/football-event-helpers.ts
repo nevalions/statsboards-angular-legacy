@@ -183,6 +183,14 @@ export function getEventDistanceFormControl(
   return getFormControl(form, index, eventDistanceKey, arrayName);
 }
 
+export function setDistance(
+  eventsArray: FormArray,
+  index: number,
+  selectedItem: number,
+): void {
+  setArrayKeyIndexValue(eventsArray, index, selectedItem, eventDistanceKey);
+}
+
 // EventHash
 export function getEventHash(
   eventsArray: FormArray,

@@ -85,6 +85,7 @@ import {
   getQtrFormControl,
 } from '../football-event-helpers';
 import {
+  onDownChange,
   onPlayTypeChange,
   onTeamChange,
 } from '../football-event-on-change-helpers';
@@ -505,24 +506,24 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
   //   }
   // }
 
-  onDownChange(down: number, index: number): void {
-    let previousDown = null;
-    if (index > 0) {
-      previousDown = this.eventsArray.controls[index - 1].get(
-        `eventDown${index - 1}`,
-      )?.value;
-    }
-
-    // console.log('downs', down, previousDown);
-    if (down === 1 && previousDown !== 1) {
-      // console.log('first down on down change');
-      this.eventsArray.controls[index]
-        .get(`eventDistance${index}`)
-        ?.setValue(10);
-    }
-
-    this.eventsArray.controls[index].get(`eventDown${index}`)?.setValue(down);
-  }
+  // onDownChange(down: number, index: number): void {
+  //   let previousDown = null;
+  //   if (index > 0) {
+  //     previousDown = this.eventsArray.controls[index - 1].get(
+  //       `eventDown${index - 1}`,
+  //     )?.value;
+  //   }
+  //
+  //   // console.log('downs', down, previousDown);
+  //   if (down === 1 && previousDown !== 1) {
+  //     // console.log('first down on down change');
+  //     this.eventsArray.controls[index]
+  //       .get(`eventDistance${index}`)
+  //       ?.setValue(10);
+  //   }
+  //
+  //   this.eventsArray.controls[index].get(`eventDown${index}`)?.setValue(down);
+  // }
 
   onBallOnChange(ballOn: number, index: number): void {
     const updatedDown = this.isFirstDown(ballOn, index);
@@ -660,4 +661,5 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
   protected readonly getEventNumber = getEventNumber;
   protected readonly onPlayTypeChange = onPlayTypeChange;
   protected readonly onTeamChange = onTeamChange;
+  protected readonly onDownChange = onDownChange;
 }

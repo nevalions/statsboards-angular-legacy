@@ -102,7 +102,7 @@
                       [min]="1"
                       [max]="4"
                       [step]="1"
-                      (tuiValueChanges)="onDownChange($event, i)"
+                      (tuiValueChanges)="onDownChange(eventsArray, $event, i)"
                       [formControl]="control">
                     </tui-input-number>
                   </div>

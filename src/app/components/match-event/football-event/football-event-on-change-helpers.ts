@@ -2,9 +2,11 @@ import { FormArray } from '@angular/forms';
 import { IEnumObject } from '../../../type/base.type';
 import { IFootballPlayType } from '../../../type/football-event.type';
 import {
+  getEventDown,
   resetQb,
   resetReceiverPlayer,
   resetRunPlayer,
+  setDistance,
   setDown,
   setPlayType,
 } from './football-event-helpers';
@@ -29,6 +31,29 @@ export function onTeamChange(
     // this.eventsArray.controls[index].get(`eventDown${index}`)?.setValue(1);
     // this.eventsArray.controls[index].get(`eventQb${index}`)?.setValue(null);
   }
+}
+
+export function onDownChange(
+  eventsArray: FormArray,
+  down: number,
+  index: number,
+): void {
+  let previousDown = null;
+  if (index > 0) {
+    previousDown = getEventDown(eventsArray, index - 1);
+    //   eventsArray.controls[index - 1].get(
+    //   `eventDown${index - 1}`,
+    // )?.value;
+  }
+
+  console.log('downs', down, previousDown);
+  if (down === 1 && previousDown !== 1) {
+    console.log('first down on down change');
+    setDistance(eventsArray, index, 10);
+    // this.eventsArray.controls[index].get(`eventDistance${index}`)?.setValue(10);
+  }
+  setDown(eventsArray, index, down);
+  // this.eventsArray.controls[index].get(`eventDown${index}`)?.setValue(down);
 }
 
 export function onPlayTypeChange(
