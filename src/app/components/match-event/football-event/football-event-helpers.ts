@@ -1,33 +1,68 @@
-import { FormArray } from '@angular/forms';
+import { FormArray, FormControl, FormGroup } from '@angular/forms';
 import { IEnumObject } from '../../../type/base.type';
 import { IFootballPlayType } from '../../../type/football-event.type';
+import {
+  getArrayFormDataByIndexAndKey,
+  getFormControl,
+} from '../../../base/formHelpers';
 
-export const eventId = (index: number) => `eventId${index}`;
-export const eventNumber = (index: number) => `eventNumber${index}`;
-export const eventQtr = (index: number) => `eventQtr${index}`;
-export const eventBallOn = (index: number) => `eventBallOn${index}`;
-export const eventTeam = (index: number) => `eventTeam${index}`;
-export const eventQb = (index: number) => `eventQb${index}`;
-export const eventDown = (index: number) => `eventDown${index}`;
-export const eventDistance = (index: number) => `eventDistance${index}`;
-export const eventHash = (index: number) => `eventHash${index}`;
-export const eventPlayType = (index: number) => `eventPlayType${index}`;
-export const eventPlayResult = (index: number) => `eventPlayResult${index}`;
-export const eventRunPlayer = (index: number) => `eventRunPlayer${index}`;
+export const eventIdString = 'eventId';
+export const eventNumberString = 'eventNumber';
+export const eventQtrString = 'eventQtr';
+export const eventBallOnString = 'eventBallOn';
+export const eventTeamString = 'eventTeam';
+export const eventQbString = 'eventQb';
+export const eventDownString = 'eventDown';
+export const eventDistanceString = 'eventDistance';
+export const eventHashString = 'eventHash';
+export const eventPlayTypeString = 'eventPlayType';
+export const eventPlayResultString = 'eventPlayResult';
+export const eventRunPlayerString = 'eventRunPlayer';
+export const eventReceiverPlayerString = 'eventReceiverPlayer';
+
+export const eventId = (index: number) => eventIdString + index;
+export const eventNumber = (index: number) => eventNumberString + index;
+export const eventQtr = (index: number) => eventQtrString + index;
+export const eventBallOn = (index: number) => eventBallOnString + index;
+export const eventTeam = (index: number) => eventTeamString + index;
+export const eventQb = (index: number) => eventQbString + index;
+export const eventDown = (index: number) => eventDownString + index;
+export const eventDistance = (index: number) => eventDistanceString + index;
+export const eventHash = (index: number) => eventHashString + index;
+export const eventPlayType = (index: number) => eventPlayTypeString + index;
+export const eventPlayResult = (index: number) => eventPlayResultString + index;
+export const eventRunPlayer = (index: number) => eventRunPlayerString + index;
 export const eventReceiverPlayer = (index: number) =>
-  `eventReceiverPlayer${index}`;
+  eventReceiverPlayerString + index;
+
+export function getQtr(
+  eventsArray: FormArray,
+  index: number,
+): number | null | undefined {
+  return getArrayFormDataByIndexAndKey<number>(
+    eventsArray,
+    index,
+    eventQtrString,
+  );
+}
+
+export function getQtrFormControl(
+  form: FormGroup,
+  arrayName: string,
+  index: number,
+): FormControl | null | undefined {
+  return getFormControl(form, index, eventQtrString, arrayName);
+}
 
 export function resetRunPlayer(eventsArray: FormArray, index: number): void {
-  eventsArray.controls[index].get(`eventRunPlayer${index}`)?.setValue(null);
+  eventsArray.controls[index].get(eventRunPlayer(index))?.setValue(null);
 }
 
 export function resetReceiverPlayer(
   eventsArray: FormArray,
   index: number,
 ): void {
-  eventsArray.controls[index]
-    .get(`eventReceiverPlayer${index}`)
-    ?.setValue(null);
+  eventsArray.controls[index].get(eventReceiverPlayer(index))?.setValue(null);
 }
 
 export function setPlayType(

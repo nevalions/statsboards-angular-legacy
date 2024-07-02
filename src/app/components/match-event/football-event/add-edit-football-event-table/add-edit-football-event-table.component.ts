@@ -63,6 +63,8 @@ import {
   eventReceiverPlayer,
   eventRunPlayer,
   eventTeam,
+  getQtr,
+  getQtrFormControl,
   onPlayTypeChange,
 } from '../football-event-helpers';
 
@@ -106,27 +108,6 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
   arrayName = 'events';
   newEventCount = 0;
 
-  // eventHashOptions: IEnumObject[] = Object.entries(IEventHash).map(
-  //   ([key, value]) => ({
-  //     value: value,
-  //     label: key,
-  //   }),
-  // );
-  //
-  // eventPlayTypeOptions: IEnumObject[] = Object.entries(IFootballPlayType).map(
-  //   ([key, value]) => ({
-  //     value: value,
-  //     label: key,
-  //   }),
-  // );
-  //
-  // eventPlayResultOptions: IEnumObject[] = Object.entries(
-  //   IFootballPlayResult,
-  // ).map(([key, value]) => ({
-  //   value: value,
-  //   label: key,
-  // }));
-
   get eventsArray(): FormArray {
     return this.eventForm.get(this.arrayName) as FormArray;
   }
@@ -161,7 +142,6 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['events'] && this.events) {
       this.populateFormArray();
-      // this.setInitialTeamSelection();
     }
   }
 
@@ -170,6 +150,7 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
     index: number,
   ): FormGroup {
     const controlEventId = eventId(index);
+    // console.log(eventId(index));
     const controlEventNumber = eventNumber(index);
     const controlEventQtr = eventQtr(index);
     const controlEventBallOn = eventBallOn(index);
@@ -297,12 +278,13 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
     eventId: number | null,
   ): void {
     if (this.eventForm.valid && this.match?.match_id) {
-      const array = this.eventForm.get('events') as FormArray;
-      const eventQtr: number = getArrayFormDataByIndexAndKey(
-        array,
-        index,
-        'eventQtr',
-      );
+      const array = this.eventForm.get(this.arrayName) as FormArray;
+      // const eventQtr: number = getArrayFormDataByIndexAndKey(
+      //   array,
+      //   index,
+      //   'eventQtr',
+      // );
+      const eventQtr = getQtr(array, index);
       const eventBallOn: number = getArrayFormDataByIndexAndKey(
         array,
         index,
@@ -682,4 +664,5 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
   protected readonly eventPlayTypeOptions = eventPlayTypeOptions;
   protected readonly eventPlayResultOptions = eventPlayResultOptions;
   protected readonly onPlayTypeChange = onPlayTypeChange;
+  protected readonly getQtrFormControl = getQtrFormControl;
 }

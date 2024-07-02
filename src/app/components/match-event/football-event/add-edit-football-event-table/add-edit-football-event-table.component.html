@@ -29,17 +29,18 @@
               </div>
 
               <!--EVENT QTR-->
-              <div class="event-table-cell">
-                <label>Qtr</label>
-                <tui-input-number
-                  [min]="1"
-                  [max]="4"
-                  [step]="1"
-                  [tuiTextfieldCleaner]="true"
-                  [formControl]="getFormControl(this.eventForm, i, 'eventQtr', this.arrayName)">
-                </tui-input-number>
-
-              </div>
+              @if (getQtrFormControl(this.eventForm, this.arrayName, i); as control) {
+                <div class="event-table-cell">
+                  <label>Qtr</label>
+                  <tui-input-number
+                    [min]="1"
+                    [max]="4"
+                    [step]="1"
+                    [tuiTextfieldCleaner]="true"
+                    [formControl]="control">
+                  </tui-input-number>
+                </div>
+              }
             </div>
 
             <!--BALL ON-->
