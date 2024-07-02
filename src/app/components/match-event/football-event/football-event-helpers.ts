@@ -237,7 +237,6 @@ export function setPlayType(
   selectedType: IEnumObject,
 ): void {
   setArrayValue(eventsArray, index, selectedType, eventPlayTypeKey);
-  // eventsArray.controls[index].get(`eventPlayType`)?.setValue(selectedType);
 }
 
 // EventRunPlayer
@@ -289,7 +288,6 @@ export function resetReceiverPlayer(
   index: number,
 ): void {
   resetArrayKeyIndexValue(eventsArray, index, eventReceiverPlayerKey);
-  // eventsArray.controls[index].get(eventReceiverPlayer(index))?.setValue(null);
 }
 
 export function onPlayTypeChange(
