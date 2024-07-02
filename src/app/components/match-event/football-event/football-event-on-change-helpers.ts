@@ -1,6 +1,9 @@
 import { FormArray } from '@angular/forms';
 import { IEnumObject } from '../../../type/base.type';
-import { IFootballPlayType } from '../../../type/football-event.type';
+import {
+  IFootballEventWithPlayers,
+  IFootballPlayType,
+} from '../../../type/football-event.type';
 import {
   getEventDown,
   resetQb,
@@ -11,6 +14,7 @@ import {
   setPlayType,
 } from './football-event-helpers';
 import { ITeam } from '../../../type/team.type';
+import { calculateDistance, isFirstDown } from './football-event-calc-helpers';
 
 export function onTeamChange(
   eventsArray: FormArray,
@@ -54,6 +58,40 @@ export function onDownChange(
   }
   setDown(eventsArray, index, down);
   // this.eventsArray.controls[index].get(`eventDown${index}`)?.setValue(down);
+}
+
+export function onBallOnChange(
+  events: IFootballEventWithPlayers[] | null,
+  eventsArray: FormArray,
+  ballOn: number,
+  index: number,
+): void {
+  const updatedDown = isFirstDown(events, ballOn, index);
+  const currentDown = getEventDown(eventsArray, index);
+  //   eventsArray.controls[index].get(
+  //   `eventDown${index}`,
+  // )?.value;
+
+  let updatedDistance;
+  if (updatedDown === 1 && currentDown !== 1) {
+    updatedDistance = 10;
+  } else {
+    updatedDistance = calculateDistance(events, ballOn, index);
+  }
+
+  if (updatedDistance) {
+    setDistance(eventsArray, index, updatedDistance);
+  }
+
+  if (updatedDown) {
+    setDown(eventsArray, index, updatedDown);
+  }
+
+  // eventsArray.controls[index]
+  //   .get(`eventDistance${index}`)
+  //   ?.setValue(updatedDistance);
+
+  // eventsArray.controls[index].get(`eventDown${index}`)?.setValue(updatedDown);
 }
 
 export function onPlayTypeChange(

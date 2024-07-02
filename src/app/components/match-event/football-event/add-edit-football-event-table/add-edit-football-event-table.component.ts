@@ -85,6 +85,7 @@ import {
   getQtrFormControl,
 } from '../football-event-helpers';
 import {
+  onBallOnChange,
   onDownChange,
   onPlayTypeChange,
   onTeamChange,
@@ -525,77 +526,77 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
   //   this.eventsArray.controls[index].get(`eventDown${index}`)?.setValue(down);
   // }
 
-  onBallOnChange(ballOn: number, index: number): void {
-    const updatedDown = this.isFirstDown(ballOn, index);
-    const currentDown = this.eventsArray.controls[index].get(
-      `eventDown${index}`,
-    )?.value;
+  // onBallOnChange(ballOn: number, index: number): void {
+  //   const updatedDown = this.isFirstDown(ballOn, index);
+  //   const currentDown = this.eventsArray.controls[index].get(
+  //     `eventDown${index}`,
+  //   )?.value;
+  //
+  //   let updatedDistance;
+  //   if (updatedDown === 1 && currentDown !== 1) {
+  //     updatedDistance = 10;
+  //   } else {
+  //     updatedDistance = this.calculateDistance(ballOn, index);
+  //   }
+  //
+  //   this.eventsArray.controls[index]
+  //     .get(`eventDistance${index}`)
+  //     ?.setValue(updatedDistance);
+  //
+  //   this.eventsArray.controls[index]
+  //     .get(`eventDown${index}`)
+  //     ?.setValue(updatedDown);
+  // }
 
-    let updatedDistance;
-    if (updatedDown === 1 && currentDown !== 1) {
-      updatedDistance = 10;
-    } else {
-      updatedDistance = this.calculateDistance(ballOn, index);
-    }
+  // isFirstDown(ballOn: number | null, index: number): number | null {
+  //   if (this.events && index >= 0 && index < this.events.length) {
+  //     if (ballOn === null) {
+  //       return null;
+  //     }
+  //     if (index > 0) {
+  //       const previousEvent = this.events[index - 1];
+  //       if (previousEvent && previousEvent.ball_on) {
+  //         let newDistance = 10 - (ballOn - previousEvent.ball_on);
+  //         if (newDistance <= 0) {
+  //           return 1;
+  //         } else {
+  //           const previousDown =
+  //             typeof previousEvent.event_down === 'number'
+  //               ? previousEvent.event_down
+  //               : 1;
+  //           return previousDown < 4 ? previousDown + 1 : previousDown;
+  //         }
+  //       }
+  //     } else {
+  //       return 1;
+  //     }
+  //   }
+  //   return null;
+  // }
 
-    this.eventsArray.controls[index]
-      .get(`eventDistance${index}`)
-      ?.setValue(updatedDistance);
-
-    this.eventsArray.controls[index]
-      .get(`eventDown${index}`)
-      ?.setValue(updatedDown);
-  }
-
-  isFirstDown(ballOn: number | null, index: number): number | null {
-    if (this.events && index >= 0 && index < this.events.length) {
-      if (ballOn === null) {
-        return null;
-      }
-      if (index > 0) {
-        const previousEvent = this.events[index - 1];
-        if (previousEvent && previousEvent.ball_on) {
-          let newDistance = 10 - (ballOn - previousEvent.ball_on);
-          if (newDistance <= 0) {
-            return 1;
-          } else {
-            const previousDown =
-              typeof previousEvent.event_down === 'number'
-                ? previousEvent.event_down
-                : 1;
-            return previousDown < 4 ? previousDown + 1 : previousDown;
-          }
-        }
-      } else {
-        return 1;
-      }
-    }
-    return null;
-  }
-
-  calculateDistance(ballOn: number | null, index: number): number | null {
-    if (this.events && index >= 0 && index < this.events.length) {
-      if (ballOn === null) {
-        return null;
-      }
-      let newDistance: number | null = null;
-      if (index > 0) {
-        const previousEvent = this.events[index - 1];
-        if (previousEvent && previousEvent.ball_on) {
-          newDistance = 10 - (ballOn - previousEvent.ball_on);
-          if (newDistance <= 0) {
-            newDistance = 10;
-          }
-        } else {
-          return newDistance;
-        }
-      } else {
-        newDistance = 10;
-      }
-      return newDistance;
-    }
-    return null;
-  }
+  // calculateDistance(ballOn: number | null, index: number): number | null {
+  //   if (this.events && index >= 0 && index < this.events.length) {
+  //     if (ballOn === null) {
+  //       return null;
+  //     }
+  //     let newDistance: number | null = null;
+  //     if (index > 0) {
+  //       const previousEvent = this.events[index - 1];
+  //       if (previousEvent && previousEvent.ball_on) {
+  //         newDistance = 10 - (ballOn - previousEvent.ball_on);
+  //         if (newDistance <= 0) {
+  //           newDistance = 10;
+  //         }
+  //       } else {
+  //         return newDistance;
+  //       }
+  //     } else {
+  //       newDistance = 10;
+  //     }
+  //     return newDistance;
+  //   }
+  //   return null;
+  // }
 
   getPlayersForSelectedTeam(
     selectedTeam: ITeam | null,
@@ -662,4 +663,5 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
   protected readonly onPlayTypeChange = onPlayTypeChange;
   protected readonly onTeamChange = onTeamChange;
   protected readonly onDownChange = onDownChange;
+  protected readonly onBallOnChange = onBallOnChange;
 }
