@@ -51,6 +51,7 @@ import { TuiValueChangesModule } from '@taiga-ui/cdk';
 import { DialogService } from '../../../../services/dialog.service';
 import { SelectEnumComponent } from '../../../../shared/ui/select/select-enum/select-enum.component';
 import {
+  createNewEvent,
   eventBallOn,
   eventDistance,
   eventDown,
@@ -64,29 +65,20 @@ import {
   eventReceiverPlayer,
   eventRunPlayer,
   eventTeam,
-  getBallOn,
+  extractEventData,
   getBallOnFormControl,
-  getEventDistance,
   getEventDistanceFormControl,
-  getEventDown,
   getEventDownFormControl,
-  getEventHash,
   getEventHashFormControl,
   getEventNumber,
   getEventNumberFormControl,
-  getEventPlayResult,
   getEventPlayResultFormControl,
-  getEventPlayType,
   getEventPlayTypeFormControl,
-  getEventQb,
   getEventQbFormControl,
-  getEventReceiverPlayer,
   getEventReceiverPlayerFormControl,
-  getEventRunPlayer,
   getEventRunPlayerFormControl,
   getEventTeam,
   getEventTeamFormControl,
-  getQtr,
   getQtrFormControl,
 } from '../football-event-helpers';
 import {
@@ -224,78 +216,12 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
   addNewEvent(): void {
     if (this.events) {
       const lastEvent = this.events[this.events.length - 1];
-      // console.log('lastEvent', lastEvent);
       if (lastEvent && lastEvent.id === null) {
         return;
       }
       this.newEventCount++;
-      let newEventNumber: number | null;
-      let newEventQtr: number | null;
-      let newEventTeam: ITeam | null = null;
-      let newEventQb: IPlayerInMatchFullData | null = null;
-      let newEventBallOn: number | null = null;
-      let newEventDown: number | null;
-      let newEventDistance: number | null;
-
-      if (lastEvent && lastEvent.event_number) {
-        newEventNumber = lastEvent.event_number + 1;
-      } else {
-        newEventNumber = 1;
-      }
-
-      if (lastEvent && lastEvent.event_qtr) {
-        newEventQtr = lastEvent.event_qtr;
-      } else {
-        newEventQtr = 1;
-      }
-
-      if (lastEvent && lastEvent.ball_on) {
-        newEventBallOn = lastEvent.ball_on;
-      }
-
-      if (lastEvent && lastEvent.offense_team) {
-        newEventTeam = lastEvent.offense_team;
-      }
-
-      if (lastEvent && lastEvent.event_qb) {
-        newEventQb = lastEvent.event_qb;
-      }
-
-      if (lastEvent && lastEvent.event_down) {
-        if (lastEvent.event_down < 4) {
-          newEventDown = lastEvent.event_down + 1;
-        } else {
-          newEventDown = lastEvent.event_down;
-        }
-      } else {
-        newEventDown = 1;
-      }
-
-      if (lastEvent && lastEvent.event_distance) {
-        newEventDistance = lastEvent.event_distance;
-      } else {
-        newEventDistance = 10;
-      }
-
-      const newEvent: Partial<IFootballEventWithPlayers> = {
-        id: null,
-        event_number: newEventNumber,
-        event_qtr: newEventQtr,
-        ball_on: newEventBallOn,
-        offense_team: newEventTeam,
-        event_qb: newEventQb,
-        event_down: newEventDown,
-        event_distance: newEventDistance,
-        event_hash: null,
-        play_type: null,
-        play_result: null,
-      };
-      // console.log('new event', newEvent);
-
-      // Use spread operator to create a new array
+      const newEvent = createNewEvent(lastEvent, this.newEventCount);
       this.events = [...this.events, newEvent];
-
-      // console.log(this.newEventCount, this.events);
       this.populateFormArray();
     }
   }
@@ -306,78 +232,172 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
     eventId: number | null,
   ): void {
     if (this.eventForm.valid && this.match?.match_id) {
-      const eventNumber = getEventNumber(this.eventsArray, index);
-      const eventQtr = getQtr(this.eventsArray, index);
-      const eventBallOn = getBallOn(this.eventsArray, index);
-      const eventTeam = getEventTeam(this.eventsArray, index);
-      const eventQb = getEventQb(this.eventsArray, index);
-      const eventDown = getEventDown(this.eventsArray, index);
-      const eventDistance = getEventDistance(this.eventsArray, index);
-      const eventHash = getEventHash(this.eventsArray, index);
-      const eventPlayType = getEventPlayType(this.eventsArray, index);
-      const eventPlayResult = getEventPlayResult(this.eventsArray, index);
-      const eventRunPlayer = getEventRunPlayer(this.eventsArray, index);
-      const eventReceiverPlayer = getEventReceiverPlayer(
-        this.eventsArray,
-        index,
-      );
+      const newEventData = extractEventData(this.eventsArray, index);
+      newEventData.match_id = this.match.match_id;
 
-      const newEventData: IFootballEvent = {
-        match_id: this.match.match_id,
-      };
-
-      if (eventNumber) {
-        newEventData.event_number = eventNumber;
-      }
-
-      if (eventQtr) {
-        newEventData.event_qtr = eventQtr;
-      }
-
-      if (eventBallOn) {
-        newEventData.ball_on = eventBallOn;
-      }
-
-      if (eventTeam) {
-        newEventData.offense_team = eventTeam.id;
-      }
-
-      if (eventQb) {
-        newEventData.event_qb = eventQb.match_player.id;
-      }
-
-      if (eventDown) {
-        newEventData.event_down = eventDown;
-      }
-
-      if (eventDistance) {
-        newEventData.event_distance = eventDistance;
-      }
-
-      if (eventHash && eventHash.value) {
-        newEventData.event_hash = eventHash.value.toLowerCase();
-      }
-
-      if (eventPlayType && eventPlayType.value) {
-        newEventData.play_type = eventPlayType.value.toLowerCase();
-      }
-
-      if (eventPlayResult && eventPlayResult.value) {
-        newEventData.play_result = eventPlayResult.value.toLowerCase();
-      }
-
-      if (eventRunPlayer) {
-        newEventData.run_player = eventRunPlayer.match_player.id;
-      }
-
-      if (eventReceiverPlayer) {
-        newEventData.pass_received_player = eventReceiverPlayer.match_player.id;
-      }
       console.log('New EVENT WITH NEW DATA', newEventData);
 
-      this.footballEvent.createFootballEvent(newEventData);
+      this.footballEvent.createFootballEvent(newEventData as IFootballEvent);
     }
   }
+
+  // addNewEvent(): void {
+  //   if (this.events) {
+  //     const lastEvent = this.events[this.events.length - 1];
+  //     // console.log('lastEvent', lastEvent);
+  //     if (lastEvent && lastEvent.id === null) {
+  //       return;
+  //     }
+  //     this.newEventCount++;
+  //     let newEventNumber: number | null;
+  //     let newEventQtr: number | null;
+  //     let newEventTeam: ITeam | null = null;
+  //     let newEventQb: IPlayerInMatchFullData | null = null;
+  //     let newEventBallOn: number | null = null;
+  //     let newEventDown: number | null;
+  //     let newEventDistance: number | null;
+  //
+  //     if (lastEvent && lastEvent.event_number) {
+  //       newEventNumber = lastEvent.event_number + 1;
+  //     } else {
+  //       newEventNumber = 1;
+  //     }
+  //
+  //     if (lastEvent && lastEvent.event_qtr) {
+  //       newEventQtr = lastEvent.event_qtr;
+  //     } else {
+  //       newEventQtr = 1;
+  //     }
+  //
+  //     if (lastEvent && lastEvent.ball_on) {
+  //       newEventBallOn = lastEvent.ball_on;
+  //     }
+  //
+  //     if (lastEvent && lastEvent.offense_team) {
+  //       newEventTeam = lastEvent.offense_team;
+  //     }
+  //
+  //     if (lastEvent && lastEvent.event_qb) {
+  //       newEventQb = lastEvent.event_qb;
+  //     }
+  //
+  //     if (lastEvent && lastEvent.event_down) {
+  //       if (lastEvent.event_down < 4) {
+  //         newEventDown = lastEvent.event_down + 1;
+  //       } else {
+  //         newEventDown = lastEvent.event_down;
+  //       }
+  //     } else {
+  //       newEventDown = 1;
+  //     }
+  //
+  //     if (lastEvent && lastEvent.event_distance) {
+  //       newEventDistance = lastEvent.event_distance;
+  //     } else {
+  //       newEventDistance = 10;
+  //     }
+  //
+  //     const newEvent: Partial<IFootballEventWithPlayers> = {
+  //       id: null,
+  //       event_number: newEventNumber,
+  //       event_qtr: newEventQtr,
+  //       ball_on: newEventBallOn,
+  //       offense_team: newEventTeam,
+  //       event_qb: newEventQb,
+  //       event_down: newEventDown,
+  //       event_distance: newEventDistance,
+  //       event_hash: null,
+  //       play_type: null,
+  //       play_result: null,
+  //     };
+  //     // console.log('new event', newEvent);
+  //
+  //     // Use spread operator to create a new array
+  //     this.events = [...this.events, newEvent];
+  //
+  //     // console.log(this.newEventCount, this.events);
+  //     this.populateFormArray();
+  //   }
+  // }
+  //
+  // onSubmitNewEvent(
+  //   action: 'add' | 'edit' | 'deleteFromTeam',
+  //   index: number,
+  //   eventId: number | null,
+  // ): void {
+  //   if (this.eventForm.valid && this.match?.match_id) {
+  //     const eventNumber = getEventNumber(this.eventsArray, index);
+  //     const eventQtr = getQtr(this.eventsArray, index);
+  //     const eventBallOn = getBallOn(this.eventsArray, index);
+  //     const eventTeam = getEventTeam(this.eventsArray, index);
+  //     const eventQb = getEventQb(this.eventsArray, index);
+  //     const eventDown = getEventDown(this.eventsArray, index);
+  //     const eventDistance = getEventDistance(this.eventsArray, index);
+  //     const eventHash = getEventHash(this.eventsArray, index);
+  //     const eventPlayType = getEventPlayType(this.eventsArray, index);
+  //     const eventPlayResult = getEventPlayResult(this.eventsArray, index);
+  //     const eventRunPlayer = getEventRunPlayer(this.eventsArray, index);
+  //     const eventReceiverPlayer = getEventReceiverPlayer(
+  //       this.eventsArray,
+  //       index,
+  //     );
+  //
+  //     const newEventData: IFootballEvent = {
+  //       match_id: this.match.match_id,
+  //     };
+  //
+  //     if (eventNumber) {
+  //       newEventData.event_number = eventNumber;
+  //     }
+  //
+  //     if (eventQtr) {
+  //       newEventData.event_qtr = eventQtr;
+  //     }
+  //
+  //     if (eventBallOn) {
+  //       newEventData.ball_on = eventBallOn;
+  //     }
+  //
+  //     if (eventTeam) {
+  //       newEventData.offense_team = eventTeam.id;
+  //     }
+  //
+  //     if (eventQb) {
+  //       newEventData.event_qb = eventQb.match_player.id;
+  //     }
+  //
+  //     if (eventDown) {
+  //       newEventData.event_down = eventDown;
+  //     }
+  //
+  //     if (eventDistance) {
+  //       newEventData.event_distance = eventDistance;
+  //     }
+  //
+  //     if (eventHash && eventHash.value) {
+  //       newEventData.event_hash = eventHash.value.toLowerCase();
+  //     }
+  //
+  //     if (eventPlayType && eventPlayType.value) {
+  //       newEventData.play_type = eventPlayType.value.toLowerCase();
+  //     }
+  //
+  //     if (eventPlayResult && eventPlayResult.value) {
+  //       newEventData.play_result = eventPlayResult.value.toLowerCase();
+  //     }
+  //
+  //     if (eventRunPlayer) {
+  //       newEventData.run_player = eventRunPlayer.match_player.id;
+  //     }
+  //
+  //     if (eventReceiverPlayer) {
+  //       newEventData.pass_received_player = eventReceiverPlayer.match_player.id;
+  //     }
+  //     console.log('New EVENT WITH NEW DATA', newEventData);
+  //
+  //     this.footballEvent.createFootballEvent(newEventData);
+  //   }
+  // }
 
   onCancelButtonClick() {
     if (this.events && this.events.length > 0) {
@@ -397,41 +417,6 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
   onDeleteButtonClick(dialogId: string) {
     this.dialogService.showDialog(dialogId);
   }
-
-  // enableRowToEdit(index: number): void {
-  //   const formArray = (this.eventsArray as FormArray).at(index);
-  //   if (formArray && formArray.disabled) {
-  //     formArray.enable();
-  //   } else if (formArray && formArray.enabled) {
-  //     formArray.disable();
-  //   } else {
-  //     console.log(
-  //       formArray ? 'FormGroup is already enabled' : 'FormGroup is null',
-  //     );
-  //   }
-  // }
-  //
-  // isRowEnabled(index: number): boolean {
-  //   // const formArray = (this.eventForm.get(this.arrayName) as FormArray).at(
-  //   //   index,
-  //   // );
-  //   const formArray = (this.eventsArray as FormArray).at(index);
-  //   if (formArray && formArray.disabled) {
-  //     // console.log('formGroup is disabled');
-  //     return false;
-  //   } else if (formArray && formArray.enabled) {
-  //     // console.log('formGroup is enabled');
-  //     return true;
-  //   } else {
-  //     console.log('formGroup is null');
-  //     return false;
-  //   }
-  // }
-
-  // isDataChanged(index: number): boolean {
-  //   const formArray = (this.eventsArray as FormArray).at(index);
-  //   return formArray ? formArray.dirty : false;
-  // }
 
   getPlayersForSelectedTeam(
     selectedTeam: ITeam | null,

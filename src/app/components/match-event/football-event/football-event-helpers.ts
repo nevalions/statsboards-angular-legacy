@@ -9,6 +9,10 @@ import {
 } from '../../../base/formHelpers';
 import { IPlayerInMatchFullData } from '../../../type/player.type';
 import { ITeam } from '../../../type/team.type';
+import {
+  IFootballEvent,
+  IFootballEventWithPlayers,
+} from '../../../type/football-event.type';
 
 export const eventIdKey = 'eventId';
 export const eventNumberKey = 'eventNumber';
@@ -38,6 +42,192 @@ export const eventPlayResult = (index: number) => eventPlayResultKey + index;
 export const eventRunPlayer = (index: number) => eventRunPlayerKey + index;
 export const eventReceiverPlayer = (index: number) =>
   eventReceiverPlayerKey + index;
+
+export function createNewEvent(
+  lastEvent: IFootballEventWithPlayers | undefined,
+  newEventCount: number,
+): Partial<IFootballEventWithPlayers> {
+  let newEventNumber: number | null;
+  let newEventQtr: number | null;
+  let newEventTeam: ITeam | null = null;
+  let newEventQb: IPlayerInMatchFullData | null = null;
+  let newEventBallOn: number | null = null;
+  let newEventDown: number | null;
+  let newEventDistance: number | null;
+
+  if (lastEvent && lastEvent.event_number) {
+    newEventNumber = lastEvent.event_number + 1;
+  } else {
+    newEventNumber = 1;
+  }
+
+  if (lastEvent && lastEvent.event_qtr) {
+    newEventQtr = lastEvent.event_qtr;
+  } else {
+    newEventQtr = 1;
+  }
+
+  if (lastEvent && lastEvent.ball_on) {
+    newEventBallOn = lastEvent.ball_on;
+  }
+
+  if (lastEvent && lastEvent.offense_team) {
+    newEventTeam = lastEvent.offense_team;
+  }
+
+  if (lastEvent && lastEvent.event_qb) {
+    newEventQb = lastEvent.event_qb;
+  }
+
+  if (lastEvent && lastEvent.event_down) {
+    if (lastEvent.event_down < 4) {
+      newEventDown = lastEvent.event_down + 1;
+    } else {
+      newEventDown = lastEvent.event_down;
+    }
+  } else {
+    newEventDown = 1;
+  }
+
+  if (lastEvent && lastEvent.event_distance) {
+    newEventDistance = lastEvent.event_distance;
+  } else {
+    newEventDistance = 10;
+  }
+
+  return {
+    id: null,
+    event_number: newEventNumber,
+    event_qtr: newEventQtr,
+    ball_on: newEventBallOn,
+    offense_team: newEventTeam,
+    event_qb: newEventQb,
+    event_down: newEventDown,
+    event_distance: newEventDistance,
+    event_hash: null,
+    play_type: null,
+    play_result: null,
+  };
+}
+
+export function extractEventData(
+  eventsArray: FormArray,
+  index: number,
+): Partial<IFootballEvent> {
+  const eventNumber = getArrayFormDataByIndexAndKey<number>(
+    eventsArray,
+    index,
+    'eventNumber',
+  );
+  const eventQtr = getArrayFormDataByIndexAndKey<number>(
+    eventsArray,
+    index,
+    'eventQtr',
+  );
+  const eventBallOn = getArrayFormDataByIndexAndKey<number>(
+    eventsArray,
+    index,
+    'eventBallOn',
+  );
+  const eventTeam = getArrayFormDataByIndexAndKey<ITeam>(
+    eventsArray,
+    index,
+    'eventTeam',
+  );
+  const eventQb = getArrayFormDataByIndexAndKey<IPlayerInMatchFullData>(
+    eventsArray,
+    index,
+    'eventQb',
+  );
+  const eventDown = getArrayFormDataByIndexAndKey<number>(
+    eventsArray,
+    index,
+    'eventDown',
+  );
+  const eventDistance = getArrayFormDataByIndexAndKey<number>(
+    eventsArray,
+    index,
+    'eventDistance',
+  );
+  const eventHash = getArrayFormDataByIndexAndKey<IEnumObject>(
+    eventsArray,
+    index,
+    'eventHash',
+  );
+  const eventPlayType = getArrayFormDataByIndexAndKey<IEnumObject>(
+    eventsArray,
+    index,
+    'eventPlayType',
+  );
+  const eventPlayResult = getArrayFormDataByIndexAndKey<IEnumObject>(
+    eventsArray,
+    index,
+    'eventPlayResult',
+  );
+  const eventRunPlayer = getArrayFormDataByIndexAndKey<IPlayerInMatchFullData>(
+    eventsArray,
+    index,
+    'eventRunPlayer',
+  );
+  const eventReceiverPlayer =
+    getArrayFormDataByIndexAndKey<IPlayerInMatchFullData>(
+      eventsArray,
+      index,
+      'eventReceiverPlayer',
+    );
+
+  const newEventData: Partial<IFootballEvent> = {};
+
+  if (eventNumber !== undefined) {
+    newEventData.event_number = eventNumber;
+  }
+
+  if (eventQtr !== undefined) {
+    newEventData.event_qtr = eventQtr;
+  }
+
+  if (eventBallOn !== undefined) {
+    newEventData.ball_on = eventBallOn;
+  }
+
+  if (eventTeam) {
+    newEventData.offense_team = eventTeam.id;
+  }
+
+  if (eventQb) {
+    newEventData.event_qb = eventQb.match_player.id;
+  }
+
+  if (eventDown !== undefined) {
+    newEventData.event_down = eventDown;
+  }
+
+  if (eventDistance !== undefined) {
+    newEventData.event_distance = eventDistance;
+  }
+
+  if (eventHash && eventHash.value) {
+    newEventData.event_hash = eventHash.value.toLowerCase();
+  }
+
+  if (eventPlayType && eventPlayType.value) {
+    newEventData.play_type = eventPlayType.value.toLowerCase();
+  }
+
+  if (eventPlayResult && eventPlayResult.value) {
+    newEventData.play_result = eventPlayResult.value.toLowerCase();
+  }
+
+  if (eventRunPlayer) {
+    newEventData.run_player = eventRunPlayer.match_player.id;
+  }
+
+  if (eventReceiverPlayer) {
+    newEventData.pass_received_player = eventReceiverPlayer.match_player.id;
+  }
+
+  return newEventData;
+}
 
 // EVENT NUMBER
 export function getEventNumber(
