@@ -18,16 +18,40 @@ import { selectCurrentMatchId } from '../../../match/store/reducers';
 import { matchActions } from '../../../match/store/actions';
 import { FootballEventService } from '../football-event.service';
 import { selectAllMatchFootballEvents } from './reducers';
+import { mergeMap, tap } from 'rxjs/operators';
 import { SortService } from '../../../../services/sort.service';
-import { mergeMap } from 'rxjs/operators';
 
 export function recalculateEventNumbers(
   events: IFootballEvent[],
 ): IFootballEvent[] {
-  return events.map((event, index) => ({
-    ...event,
-    event_number: index + 1,
-  }));
+  if (events.length === 0) {
+    return [];
+  }
+
+  // Create a deep copy of the events array before sorting
+  const eventsCopy = events.map((event) => ({ ...event }));
+
+  // Sort events by their current event_number
+  const sortedEvents = eventsCopy.sort(
+    (a, b) => (a.event_number || 1) - (b.event_number || 1),
+  );
+
+  // Check for conflicts and adjust event numbers
+  const seenNumbers = new Set<number>();
+  const recalculatedEvents = sortedEvents.map((event) => {
+    let eventNumber = event.event_number || 1;
+    while (seenNumbers.has(eventNumber)) {
+      eventNumber += 1;
+    }
+    seenNumbers.add(eventNumber);
+    // Return a new object with the adjusted event_number
+    return {
+      ...event,
+      event_number: eventNumber,
+    };
+  });
+
+  return recalculatedEvents;
 }
 
 @Injectable()
@@ -195,45 +219,81 @@ export class FootballEventEffects {
     { functional: true },
   );
 
-  recalculateOnCreateEventNumbersEffect = createEffect(
-    () => {
-      return this.actions$.pipe(
-        ofType(footballEventActions.createdSuccessfully),
-        withLatestFrom(this.store.pipe(select(selectAllMatchFootballEvents))),
-        switchMap(([action, allMatchFootballEvents]) => {
-          const updatedEvents = [
-            ...allMatchFootballEvents,
-            action.footballEvent,
-          ];
-          const sortedEvents = SortService.sort(updatedEvents, 'event_number');
-          const recalculatedEvents = recalculateEventNumbers(sortedEvents);
+  recalculateOnCreateEventNumbersEffect = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(footballEventActions.createdSuccessfully),
+      tap((action) => console.log('Action dispatched:', action)), // Log the dispatched action
+      withLatestFrom(this.store.pipe(select(selectAllMatchFootballEvents))),
+      tap(([action, allMatchFootballEvents]) => {
+        console.log('All Match Football Events:', allMatchFootballEvents);
+      }),
+      switchMap(([action, allMatchFootballEvents]) => {
+        console.log('SwitchMap Triggered');
+        const newEvent = action.footballEvent;
 
-          // Update each event in the backend
-          const updateEvents$ = recalculatedEvents.map(
-            (event: IFootballEvent) =>
-              this.footballEventService.editFootballEventKeyValue(
-                event.id!,
-                event,
+        // Check if the new event's number already exists
+        const existingEventNumbers = new Set(
+          allMatchFootballEvents.map((event) => event.event_number),
+        );
+        console.log('Existing Event Numbers:', existingEventNumbers);
+        console.log('New Event:', newEvent);
+
+        // Recalculate numbers for existing events only if there's a conflict
+        const recalculatedExistingEvents = allMatchFootballEvents.map(
+          (event) => {
+            if (
+              event.id !== newEvent.id &&
+              newEvent.event_number &&
+              event.event_number === newEvent.event_number
+            ) {
+              const nextEventNumber = event.event_number + 1;
+              console.log(
+                `Event number ${event.event_number} conflicts, adjusting to ${nextEventNumber}`,
+              );
+              console.log('CONFLICT EVENT', event);
+              return { ...event, event_number: nextEventNumber };
+            }
+            console.log('Event number without recalculation:', event);
+            return event;
+          },
+        );
+
+        console.log(
+          'Recalculated Existing Events:',
+          recalculatedExistingEvents,
+        );
+
+        // Filter only events that have changed
+        const changedEvents = recalculatedExistingEvents.filter(
+          (event) =>
+            event.event_number !==
+            allMatchFootballEvents.find((e) => e.id === event.id)?.event_number,
+        );
+
+        // Update each changed event in the backend
+        const updateEvents$ = changedEvents.map((event) =>
+          this.footballEventService.editFootballEventKeyValue(event.id!, event),
+        );
+
+        return from(updateEvents$).pipe(
+          mergeMap((updateEvent$) => updateEvent$),
+          toArray(),
+          map(() =>
+            footballEventActions.recalculateEventsSuccess({
+              footballEvents: SortService.sort(
+                recalculatedExistingEvents,
+                'event_number',
               ),
-          );
-
-          return from(updateEvents$).pipe(
-            mergeMap((updateEvent$) => updateEvent$),
-            toArray(),
-            map(() =>
-              footballEventActions.recalculateEventsSuccess({
-                footballEvents: recalculatedEvents,
-              }),
-            ),
-            catchError(() =>
-              of(footballEventActions.recalculateEventsFailure()),
-            ),
-          );
-        }),
-      );
-    },
-    { functional: true },
-  );
+            }),
+          ),
+          catchError((error) => {
+            console.error('Update Events Error:', error);
+            return of(footballEventActions.recalculateEventsFailure());
+          }),
+        );
+      }),
+    );
+  });
 
   constructor(
     private router: Router,
