@@ -18,7 +18,7 @@ import { selectCurrentMatchId } from '../../../match/store/reducers';
 import { matchActions } from '../../../match/store/actions';
 import { FootballEventService } from '../football-event.service';
 import { selectAllMatchFootballEvents } from './reducers';
-import { mergeMap, tap } from 'rxjs/operators';
+import { mergeMap } from 'rxjs/operators';
 import { SortService } from '../../../../services/sort.service';
 
 export function recalculateEventNumbers(
@@ -222,36 +222,70 @@ export class FootballEventEffects {
   recalculateOnCreateEventNumbersEffect = createEffect(() => {
     return this.actions$.pipe(
       ofType(footballEventActions.createdSuccessfully),
-      tap((action) => console.log('Action dispatched:', action)), // Log the dispatched action
       withLatestFrom(this.store.pipe(select(selectAllMatchFootballEvents))),
-      tap(([action, allMatchFootballEvents]) => {
-        console.log('All Match Football Events:', allMatchFootballEvents);
-      }),
       switchMap(([action, allMatchFootballEvents]) => {
-        console.log('SwitchMap Triggered');
         const newEvent = action.footballEvent;
 
         // Check if the new event's number already exists
         const existingEventNumbers = new Set(
           allMatchFootballEvents.map((event) => event.event_number),
         );
-        console.log('Existing Event Numbers:', existingEventNumbers);
-        console.log('New Event:', newEvent);
 
-        // Recalculate numbers for existing events only if there's a conflict
+        // // Log initial information
+        // console.log(`New Event Number: ${newEvent.event_number}`);
+        // console.log('Existing Event Numbers:', existingEventNumbers);
+        // console.log('New Event:', newEvent);
+
+        // Identify all events that conflict with the new event
+        const conflictingWithNewEvent = allMatchFootballEvents.filter(
+          (event) =>
+            event.id !== newEvent.id &&
+            event.event_number === newEvent.event_number,
+        );
+        console.log('Conflicts with new event:', conflictingWithNewEvent);
+
+        // Initialize an array to store event numbers that need to be adjusted
+        const toChangeList: number[] = [];
+
+        // Iterate through the existing event numbers set
+        existingEventNumbers.forEach((eventNumber) => {
+          // Check if the event number is greater than newEvent.event_number and conflicts
+          if (conflictingWithNewEvent) {
+            conflictingWithNewEvent.forEach((event) => {
+              if (event && event.event_number) {
+                toChangeList.push(event.event_number);
+              }
+            });
+          }
+          if (
+            eventNumber &&
+            newEvent.event_number &&
+            eventNumber > newEvent.event_number &&
+            allMatchFootballEvents.some(
+              (event) =>
+                event.event_number === eventNumber && event.id !== newEvent.id,
+            )
+          ) {
+            // Add the conflicting event number to the list
+            toChangeList.push(eventNumber);
+          }
+        });
+        console.log('Other conflicting event numbers:', toChangeList);
+
+        // Prepare to adjust subsequent events with higher numbers
         const recalculatedExistingEvents = allMatchFootballEvents.map(
           (event) => {
             if (
               event.id !== newEvent.id &&
-              newEvent.event_number &&
-              event.event_number === newEvent.event_number
+              event.event_number &&
+              toChangeList.includes(event.event_number)
             ) {
-              const nextEventNumber = event.event_number + 1;
+              const adjustedEventNumber = event.event_number + 1;
               console.log(
-                `Event number ${event.event_number} conflicts, adjusting to ${nextEventNumber}`,
+                `Event number ${event.event_number} conflicts, adjusting to ${adjustedEventNumber}`,
               );
               console.log('CONFLICT EVENT', event);
-              return { ...event, event_number: nextEventNumber };
+              return { ...event, event_number: adjustedEventNumber };
             }
             console.log('Event number without recalculation:', event);
             return event;
@@ -263,17 +297,20 @@ export class FootballEventEffects {
           recalculatedExistingEvents,
         );
 
-        // Filter only events that have changed
-        const changedEvents = recalculatedExistingEvents.filter(
-          (event) =>
-            event.event_number !==
-            allMatchFootballEvents.find((e) => e.id === event.id)?.event_number,
-        );
-
         // Update each changed event in the backend
-        const updateEvents$ = changedEvents.map((event) =>
-          this.footballEventService.editFootballEventKeyValue(event.id!, event),
-        );
+        const updateEvents$ = recalculatedExistingEvents
+          .filter(
+            (event) =>
+              event.event_number !==
+              allMatchFootballEvents.find((e) => e.id === event.id)
+                ?.event_number,
+          )
+          .map((event) =>
+            this.footballEventService.editFootballEventKeyValue(
+              event.id!,
+              event,
+            ),
+          );
 
         return from(updateEvents$).pipe(
           mergeMap((updateEvent$) => updateEvent$),
