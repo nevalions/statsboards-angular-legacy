@@ -137,9 +137,8 @@ const footballEventFeature = createFeature({
       ...state,
       footballEventIsSubmitting: false,
       allMatchFootballEvents: (state.allMatchFootballEvents || []).filter(
-        (item) => item.id !== action.eventInMatchId,
+        (item) => item.id !== action.deletedFootballEvent.id,
       ),
-      errors: null,
     })),
     on(footballEventActions.deleteByIdFailure, (state, action) => ({
       ...state,

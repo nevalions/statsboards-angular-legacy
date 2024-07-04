@@ -44,7 +44,7 @@ export const footballEventActions = createActionGroup({
 
     DeleteById: props<{ id: number }>(),
     'Deleted by id successfully': props<{
-      eventInMatchId: number;
+      deletedFootballEvent: IFootballEvent;
     }>(),
     'Delete by id failure': emptyProps(),
 

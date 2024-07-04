@@ -1,12 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import {
-  BehaviorSubject,
-  catchError,
-  map,
-  Observable,
-  shareReplay,
-} from 'rxjs';
+import { catchError, map, Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { ErrorHandlingService } from './error.service';
 import { IMatchData } from '../type/matchdata.type';
@@ -176,6 +170,10 @@ export abstract class BaseApiService<T> {
     return this.http.delete<T>(`${this.endpoint}/id/${id}`).pipe(
       tap(() => {
         console.log(`DELETED /API/${this.endpoint.toUpperCase()}/${id}`);
+      }),
+      map((response) => {
+        console.log('Server response:', response);
+        return response;
       }),
       catchError((error) => {
         return this.errorHandlingService.handleError(error);
