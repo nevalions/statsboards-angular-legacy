@@ -9,7 +9,6 @@ import {
   toArray,
   withLatestFrom,
 } from 'rxjs';
-import { Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 
 import { footballEventActions } from './actions';
@@ -20,57 +19,6 @@ import { FootballEventService } from '../football-event.service';
 import { mergeMap } from 'rxjs/operators';
 import { SortService } from '../../../../services/sort.service';
 import { selectAllMatchFootballEvents } from './reducers';
-
-// // Function to identify conflicts and prepare toChangeList
-// export function identifyConflictsAndAdjustments(
-//   newEvent: any,
-//   allMatchFootballEvents: any[],
-// ): {
-//   toChangeList: number[];
-// } {
-//   // Check if the new event's number already exists
-//   const existingEventNumbers = new Set(
-//     allMatchFootballEvents.map((event) => event.event_number),
-//   );
-//
-//   // Identify all events that conflict with the new event
-//   const conflictingWithNewEvent = allMatchFootballEvents.filter(
-//     (event) =>
-//       event.id !== newEvent.id && event.event_number === newEvent.event_number,
-//   );
-//
-//   console.log('conflictingWithNewEvent', conflictingWithNewEvent);
-//
-//   // Initialize an array to store event numbers that need to be adjusted
-//   const toChangeList: number[] = [];
-//
-//   // Push event_numbers from conflictingWithNewEvent to toChangeList
-//   conflictingWithNewEvent.forEach((event) => {
-//     toChangeList.push(event.event_number);
-//   });
-//
-//   if (!conflictingWithNewEvent.length) {
-//     console.log('no conflictingWithNewEvent');
-//     return { toChangeList };
-//   }
-//
-//   // Iterate through the existing event numbers set
-//   existingEventNumbers.forEach((eventNumber) => {
-//     // Check if the event number is greater than newEvent.event_number and conflicts
-//     if (
-//       eventNumber > newEvent.event_number &&
-//       allMatchFootballEvents.some(
-//         (event) =>
-//           event.event_number === eventNumber && event.id !== newEvent.id,
-//       )
-//     ) {
-//       // Add the conflicting event number to the list
-//       toChangeList.push(eventNumber);
-//     }
-//   });
-//   // console.log('Other conflicting event numbers:', toChangeList);
-//   return { toChangeList };
-// }
 
 // Function to recalculate event numbers based on conflicts and toChangeList
 export function recalculateEventNumbers(
@@ -412,133 +360,7 @@ export class FootballEventEffects {
     );
   }
 
-  //
-  // // Effect to recalculate event numbers on successful creation of a football event
-  // recalculateOnCreateEventNumbersEffect = createEffect(() => {
-  //   return this.actions$.pipe(
-  //     ofType(footballEventActions.createdSuccessfully),
-  //     withLatestFrom(this.store.pipe(select(selectAllMatchFootballEvents))),
-  //     switchMap(([action, allMatchFootballEvents]) => {
-  //       const newEvent = action.footballEvent;
-  //
-  //       // Identify conflicts and prepare toChangeList
-  //       const { toChangeList } = identifyConflictsAndAdjustments(
-  //         newEvent,
-  //         allMatchFootballEvents,
-  //       );
-  //
-  //       // Recalculate event numbers based on conflicts
-  //       const recalculatedExistingEvents = recalculateEventNumbers(
-  //         newEvent,
-  //         allMatchFootballEvents,
-  //         toChangeList,
-  //       );
-  //
-  //       console.log(
-  //         'Recalculated Existing Events:',
-  //         recalculatedExistingEvents,
-  //       );
-  //
-  //       // Update each changed event in the backend
-  //       const updateEvents$ = recalculatedExistingEvents
-  //         .filter(
-  //           (event) =>
-  //             event.event_number !==
-  //             allMatchFootballEvents.find((e) => e.id === event.id)
-  //               ?.event_number,
-  //         )
-  //         .map((event) =>
-  //           this.footballEventService.editFootballEventKeyValue(
-  //             event.id!,
-  //             event,
-  //           ),
-  //         );
-  //
-  //       return from(updateEvents$).pipe(
-  //         mergeMap((updateEvent$) => updateEvent$),
-  //         toArray(),
-  //         map(() =>
-  //           footballEventActions.recalculateEventsSuccess({
-  //             footballEvents: SortService.sort(
-  //               recalculatedExistingEvents,
-  //               'event_number',
-  //             ),
-  //           }),
-  //         ),
-  //         catchError((error) => {
-  //           console.error('Update Events Error:', error);
-  //           return of(footballEventActions.recalculateEventsFailure());
-  //         }),
-  //       );
-  //     }),
-  //   );
-  // });
-  //
-  // // Effect to recalculate event numbers on successful creation of a football event
-  // recalculateOnUpdateEventNumbersEffect = createEffect(() => {
-  //   return this.actions$.pipe(
-  //     ofType(footballEventActions.updateFootballEventByKeyValueSuccessfully),
-  //     withLatestFrom(this.store.pipe(select(selectAllMatchFootballEvents))),
-  //     switchMap(([action, allMatchFootballEvents]) => {
-  //       const newEvent = action.updatedFootballEvent;
-  //       console.log('newEvent', newEvent);
-  //
-  //       // Identify conflicts and prepare toChangeList
-  //       const { toChangeList } = identifyConflictsAndAdjustments(
-  //         newEvent,
-  //         allMatchFootballEvents,
-  //       );
-  //       console.log('tochangelist', toChangeList);
-  //
-  //       // Recalculate event numbers based on conflicts
-  //       const recalculatedExistingEvents = recalculateEventNumbers(
-  //         newEvent,
-  //         allMatchFootballEvents,
-  //         toChangeList,
-  //       );
-  //
-  //       console.log(
-  //         'Recalculated Existing Events:',
-  //         recalculatedExistingEvents,
-  //       );
-  //
-  //       // Update each changed event in the backend
-  //       const updateEvents$ = recalculatedExistingEvents
-  //         .filter(
-  //           (event) =>
-  //             event.event_number !==
-  //             allMatchFootballEvents.find((e) => e.id === event.id)
-  //               ?.event_number,
-  //         )
-  //         .map((event) =>
-  //           this.footballEventService.editFootballEventKeyValue(
-  //             event.id!,
-  //             event,
-  //           ),
-  //         );
-  //
-  //       return from(updateEvents$).pipe(
-  //         mergeMap((updateEvent$) => updateEvent$),
-  //         toArray(),
-  //         map(() =>
-  //           footballEventActions.recalculateEventsSuccess({
-  //             footballEvents: SortService.sort(
-  //               recalculatedExistingEvents,
-  //               'event_number',
-  //             ),
-  //           }),
-  //         ),
-  //         catchError((error) => {
-  //           console.error('Update Events Error:', error);
-  //           return of(footballEventActions.recalculateEventsFailure());
-  //         }),
-  //       );
-  //     }),
-  //   );
-  // });
-
   constructor(
-    private router: Router,
     private actions$: Actions,
     private footballEventService: FootballEventService,
     private store: Store,
@@ -591,53 +413,4 @@ export class FootballEventEffects {
       }),
     );
   }
-
-  //   recalculateOnDeleteEventNumbersEffect = createEffect(() => {
-  //   return this.actions$.pipe(
-  //     ofType(footballEventActions.deletedByIdSuccessfully),
-  //     withLatestFrom(this.store.pipe(select(selectAllMatchFootballEvents))),
-  //     switchMap(([action, allMatchFootballEvents]) => {
-  //       const deletedEventNumber = action.deletedEventNumber;
-  //
-  //       // Identify events to adjust
-  //       const toChangeList = allMatchFootballEvents
-  //         .filter(event => event.event_number! > deletedEventNumber)
-  //         .map(event => event.event_number);
-  //
-  //       // Return early if toChangeList is empty
-  //       if (toChangeList.length === 0) {
-  //         return of(footballEventActions.recalculateEventsSuccess({
-  //           footballEvents: allMatchFootballEvents,
-  //         }));
-  //       }
-  //
-  //       // Adjust event numbers
-  //       const recalculatedExistingEvents = allMatchFootballEvents.map(event => {
-  //         if (event.event_number! > deletedEventNumber) {
-  //           const adjustedEventNumber = event.event_number - 1;
-  //           console.log(`Event number ${event.event_number} greater than deleted event, adjusting to ${adjustedEventNumber}`);
-  //           return { ...event, event_number: adjustedEventNumber };
-  //         }
-  //         return event;
-  //       });
-  //
-  //       // Update the backend
-  //       const updateEvents$ = recalculatedExistingEvents
-  //         .filter(event => event.event_number !== allMatchFootballEvents.find(e => e.id === event.id)?.event_number)
-  //         .map(event => this.footballEventService.editFootballEventKeyValue(event.id!, event));
-  //
-  //       return from(updateEvents$).pipe(
-  //         mergeMap(updateEvent$ => updateEvent$),
-  //         toArray(),
-  //         map(() => footballEventActions.recalculateEventsSuccess({
-  //           footballEvents: SortService.sort(recalculatedExistingEvents, 'event_number'),
-  //         })),
-  //         catchError(error => {
-  //           console.error('Update Events Error:', error);
-  //           return of(footballEventActions.recalculateEventsFailure());
-  //         })
-  //       );
-  //     })
-  //   );
-  // });
 }
