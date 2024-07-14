@@ -6,6 +6,8 @@ import {
 } from '../../../type/football-event.type';
 import {
   getEventDown,
+  resetKickPlayer,
+  resetPuntPlayer,
   resetQb,
   resetReceiverPlayer,
   resetRunPlayer,
@@ -109,16 +111,32 @@ export function onPlayTypeChange(
     switch (selectedType.value.toLowerCase()) {
       case IFootballPlayType.Pass.toLowerCase():
         resetRunPlayer(eventsArray, index);
+        resetPuntPlayer(eventsArray, index);
+        resetKickPlayer(eventsArray, index);
         break;
       case IFootballPlayType.Run.toLowerCase():
+        resetPuntPlayer(eventsArray, index);
+        resetReceiverPlayer(eventsArray, index);
+        resetKickPlayer(eventsArray, index);
+        break;
+      case IFootballPlayType.Kick.toLowerCase():
+        resetPuntPlayer(eventsArray, index);
+        resetRunPlayer(eventsArray, index);
         resetReceiverPlayer(eventsArray, index);
         break;
+      case IFootballPlayType.Punt.toLowerCase():
+        resetRunPlayer(eventsArray, index);
+        resetReceiverPlayer(eventsArray, index);
+        resetKickPlayer(eventsArray, index);
     }
 
     setPlayType(eventsArray, index, selectedType);
   } else {
+    console.log('else play type');
+    resetPuntPlayer(eventsArray, index);
     resetRunPlayer(eventsArray, index);
     resetReceiverPlayer(eventsArray, index);
+    resetKickPlayer(eventsArray, index);
     setPlayType(eventsArray, index, selectedType);
   }
 }

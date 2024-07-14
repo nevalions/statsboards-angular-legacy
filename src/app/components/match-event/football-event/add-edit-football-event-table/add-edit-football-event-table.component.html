@@ -59,7 +59,6 @@
               </div>
             }
 
-
             <!--EVENT TEAM-->
             @if (getEventTeamFormControl(this.eventForm, this.arrayName, i); as control) {
               <div class="event-table-cell">
@@ -89,7 +88,6 @@
                 }
               </div>
             }
-
 
             <!--EVENT DOWN-->
             <div class="event-table-cell">
@@ -186,6 +184,40 @@
                     <app-search-player-in-match-autocomplete
                       [action]="'select'"
                       [placeholder]="'receiver player'"
+                      [players]="getPlayersForSelectedTeam(selectedTeam)"
+                      [control]="control">
+                    </app-search-player-in-match-autocomplete>
+                  }
+                }
+              </div>
+            }
+
+            <!--EVENT KICK PLAYER-->
+            @if (getEventKickPlayerFormControl(this.eventForm, this.arrayName, i); as control) {
+              <div class="event-table-cell">
+                @if (getEventTeam(eventsArray, i); as selectedTeam) {
+                  @if (isPlayType(eventFormGroup, i, 'eventPlayType', IFootballPlayType.Kick)) {
+                    <label>Kick Player</label>
+                    <app-search-player-in-match-autocomplete
+                      [action]="'select'"
+                      [placeholder]="'kick player'"
+                      [players]="getPlayersForSelectedTeam(selectedTeam)"
+                      [control]="control">
+                    </app-search-player-in-match-autocomplete>
+                  }
+                }
+              </div>
+            }
+
+            <!--EVENT PUNT PLAYER-->
+            @if (getEventPuntPlayerFormControl(this.eventForm, this.arrayName, i); as control) {
+              <div class="event-table-cell">
+                @if (getEventTeam(eventsArray, i); as selectedTeam) {
+                  @if (isPlayType(eventFormGroup, i, 'eventPlayType', IFootballPlayType.Punt)) {
+                    <label>Punt Player</label>
+                    <app-search-player-in-match-autocomplete
+                      [action]="'select'"
+                      [placeholder]="'punt player'"
                       [players]="getPlayersForSelectedTeam(selectedTeam)"
                       [control]="control">
                     </app-search-player-in-match-autocomplete>

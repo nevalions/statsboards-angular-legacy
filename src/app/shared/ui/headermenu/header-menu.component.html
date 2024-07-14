@@ -68,9 +68,7 @@
     <div
       tuiDropdownHover
       [tuiDropdown]="sport"
-      [(tuiDropdownOpen)]="isDropdownOpen"
       [tuiDropdownHideDelay]="100"
-      (click)="toggleDropdown()"
     >
       <span class="tui-text_h6"> {{ item.title | uppercase }}</span>
     </div>
@@ -82,7 +80,6 @@
             [routerLink]="mapItemToSportRoute(item)"
             tuiOption
             ariaCurrentWhenActive="page"
-            (click)="closeDropdown()"
           >
             TOURNAMENTS
           </a>
@@ -91,7 +88,6 @@
             [routerLink]="mapItemToTeamsRoute(item)"
             tuiOption
             ariaCurrentWhenActive="page"
-            (click)="closeDropdown()"
           >
             TEAMS
           </a>
@@ -100,7 +96,6 @@
             [routerLink]="mapItemToPayersRoute(item)"
             tuiOption
             ariaCurrentWhenActive="page"
-            (click)="closeDropdown()"
           >
             PLAYERS
           </a>
@@ -109,7 +104,6 @@
             [routerLink]="mapItemToPositionRoute(item)"
             tuiOption
             ariaCurrentWhenActive="page"
-            (click)="closeDropdown()"
           >
             POSITIONS
           </a>

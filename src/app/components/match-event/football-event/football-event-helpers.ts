@@ -27,6 +27,8 @@ export const eventPlayTypeKey = 'eventPlayType';
 export const eventPlayResultKey = 'eventPlayResult';
 export const eventRunPlayerKey = 'eventRunPlayer';
 export const eventReceiverPlayerKey = 'eventReceiverPlayer';
+export const eventKickPlayerKey = 'eventKickPlayer';
+export const eventPuntPlayerKey = 'eventPuntPlayer';
 
 export const eventId = (index: number) => eventIdKey + index;
 export const eventNumber = (index: number) => eventNumberKey + index;
@@ -42,6 +44,9 @@ export const eventPlayResult = (index: number) => eventPlayResultKey + index;
 export const eventRunPlayer = (index: number) => eventRunPlayerKey + index;
 export const eventReceiverPlayer = (index: number) =>
   eventReceiverPlayerKey + index;
+
+export const eventKickPlayer = (index: number) => eventKickPlayerKey + index;
+export const eventPuntPlayer = (index: number) => eventPuntPlayerKey + index;
 
 export function createNewEvent(
   lastEvent: IFootballEventWithPlayers | undefined,
@@ -127,6 +132,8 @@ export function extractEventData(
   const eventPlayResult = getEventPlayResult(eventsArray, index);
   const eventRunPlayer = getEventRunPlayer(eventsArray, index);
   const eventReceiverPlayer = getEventReceiverPlayer(eventsArray, index);
+  const eventKickPlayer = getEventKickPlayer(eventsArray, index);
+  const eventPuntPlayer = getEventPuntPlayer(eventsArray, index);
 
   const newEventData: Partial<IFootballEvent> = {};
 
@@ -180,6 +187,14 @@ export function extractEventData(
 
   if (eventReceiverPlayer) {
     newEventData.pass_received_player = eventReceiverPlayer.match_player.id;
+  }
+
+  if (eventKickPlayer) {
+    newEventData.kick_player = eventKickPlayer.match_player.id;
+  }
+
+  if (eventPuntPlayer) {
+    newEventData.punt_player = eventPuntPlayer.match_player.id;
   }
 
   return newEventData;
@@ -462,6 +477,54 @@ export function resetReceiverPlayer(
   index: number,
 ): void {
   resetArrayKeyIndexValue(eventsArray, index, eventReceiverPlayerKey);
+}
+
+// EventKickPlayer
+export function getEventKickPlayer(
+  eventsArray: FormArray,
+  index: number,
+): IPlayerInMatchFullData | null | undefined {
+  return getArrayFormDataByIndexAndKey<number>(
+    eventsArray,
+    index,
+    eventKickPlayerKey,
+  );
+}
+
+export function getEventKickPlayerFormControl(
+  form: FormGroup,
+  arrayName: string,
+  index: number,
+): FormControl | null | undefined {
+  return getFormControl(form, index, eventKickPlayerKey, arrayName);
+}
+
+export function resetKickPlayer(eventsArray: FormArray, index: number): void {
+  resetArrayKeyIndexValue(eventsArray, index, eventKickPlayerKey);
+}
+
+// EventPuntPlayer
+export function getEventPuntPlayer(
+  eventsArray: FormArray,
+  index: number,
+): IPlayerInMatchFullData | null | undefined {
+  return getArrayFormDataByIndexAndKey<number>(
+    eventsArray,
+    index,
+    eventPuntPlayerKey,
+  );
+}
+
+export function getEventPuntPlayerFormControl(
+  form: FormGroup,
+  arrayName: string,
+  index: number,
+): FormControl | null | undefined {
+  return getFormControl(form, index, eventPuntPlayerKey, arrayName);
+}
+
+export function resetPuntPlayer(eventsArray: FormArray, index: number): void {
+  resetArrayKeyIndexValue(eventsArray, index, eventPuntPlayerKey);
 }
 
 // export function onPlayTypeChange(

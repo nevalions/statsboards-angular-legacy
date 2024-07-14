@@ -38,9 +38,11 @@ import {
   eventDown,
   eventHash,
   eventId,
+  eventKickPlayer,
   eventNumber,
   eventPlayResult,
   eventPlayType,
+  eventPuntPlayer,
   eventQb,
   eventQtr,
   eventReceiverPlayer,
@@ -51,10 +53,12 @@ import {
   getEventDistanceFormControl,
   getEventDownFormControl,
   getEventHashFormControl,
+  getEventKickPlayerFormControl,
   getEventNumber,
   getEventNumberFormControl,
   getEventPlayResultFormControl,
   getEventPlayTypeFormControl,
+  getEventPuntPlayerFormControl,
   getEventQbFormControl,
   getEventReceiverPlayerFormControl,
   getEventRunPlayerFormControl,
@@ -166,6 +170,8 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
 
     const controlEventRunPlayer = eventRunPlayer(index);
     const controlEventReceiverPlayer = eventReceiverPlayer(index);
+    const controlEventKickPlayer = eventKickPlayer(index);
+    const controlEventPuntPlayer = eventPuntPlayer(index);
 
     // Create the form group
     const formGroup = this.fb.group({
@@ -182,6 +188,8 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
       [controlEventPlayResult]: new FormControl(event.play_result),
       [controlEventRunPlayer]: new FormControl(event.run_player),
       [controlEventReceiverPlayer]: new FormControl(event.pass_received_player),
+      [controlEventKickPlayer]: new FormControl(event.kick_player),
+      [controlEventPuntPlayer]: new FormControl(event.punt_player),
     });
 
     // Disable the entire form group if event.id is not null
@@ -261,7 +269,7 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
     selectedTeam: ITeam | null,
   ): IPlayerInMatchFullData[] {
     if (!selectedTeam) {
-      console.log('no team at top');
+      console.log('no team');
       return [];
     }
     if (
@@ -295,6 +303,9 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
     playTypeEnum: IFootballPlayType,
   ): boolean {
     const playType = getFormDataByIndexAndKey(formGroup, index, key);
+    console.log('playtype', playType);
+    console.log('playtype Value', playType.value);
+    console.log('playtypeEnum', playTypeEnum);
     return playType ? playType.value === playTypeEnum : false;
   }
 
@@ -326,4 +337,8 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
   protected readonly isDataChanged = isDataChanged;
   protected readonly isFullRowEnabled = isFullRowEnabled;
   protected readonly enableFullRowToEdit = enableFullRowToEdit;
+  protected readonly getEventKickPlayerFormControl =
+    getEventKickPlayerFormControl;
+  protected readonly getEventPuntPlayerFormControl =
+    getEventPuntPlayerFormControl;
 }

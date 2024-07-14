@@ -6,9 +6,11 @@ export enum IFootballPlayType {
   None = '',
   Run = 'run',
   Pass = 'pass',
+  Kick = 'kick',
   Kickoff = 'kickoff',
   Punt = 'punt',
-  FieldGoal = 'field goal',
+  PatOne = 'pat 1',
+  PatTwo = 'pat 2',
 }
 
 export enum IEventHash {
@@ -26,8 +28,10 @@ export enum IFootballPlayResult {
   PassDeflected = 'pass deflected',
   PassIntercepted = 'pass intercepted',
   Sack = 'sack',
-  Kick = 'kick',
-  Punt = 'punt',
+  KickGood = 'kick is good',
+  KickMissed = 'kick is missed',
+  PuntReturn = 'punt return',
+  KickOffReturn = 'kickoff return',
   Flag = 'flag',
 }
 
@@ -61,6 +65,9 @@ export interface IFootballEvent {
   sack_player?: number | null;
   kick_player?: number | null;
   punt_player?: number | null;
+  kickoff_player?: number | null; //TODO
+  return_player?: number | null; //TODO
+  pat_one_player?: number | null; //TODO
   flagged_player?: number | null; //TODO
 }
 
