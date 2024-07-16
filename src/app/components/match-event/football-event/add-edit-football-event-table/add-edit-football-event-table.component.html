@@ -140,7 +140,7 @@
                     [control]="control"
                     [placeholder]="'play type'"
                     [enumObjects]="eventPlayTypeOptions"
-                    (itemSelected)="onPlayTypeChange(this.eventsArray, $event, i)"
+                    (itemSelected)="handlePlayTypeChange(eventsArray, $event, i)"
                   ></app-select-enum>
                 </div>
               }
@@ -153,7 +153,7 @@
                 <app-select-enum
                   [control]="control"
                   [placeholder]="'play result'"
-                  [enumObjects]="eventPlayResultOptions"
+                  [enumObjects]="eventFilteredPlayResultOptions"
                 ></app-select-enum>
               </div>
             }

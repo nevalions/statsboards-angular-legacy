@@ -2,11 +2,13 @@ import { FormArray } from '@angular/forms';
 import { IEnumObject } from '../../../type/base.type';
 import {
   IFootballEventWithPlayers,
+  IFootballPlayResult,
   IFootballPlayType,
 } from '../../../type/football-event.type';
 import {
   getEventDown,
   resetKickPlayer,
+  resetPlayResult,
   resetPuntPlayer,
   resetQb,
   resetReceiverPlayer,
@@ -100,6 +102,7 @@ export function onPlayTypeChange(
   eventsArray: FormArray,
   selectedType: IEnumObject,
   index: number,
+  setFilteredPlayResults: (results: IEnumObject[]) => void,
 ): void {
   if (!selectedType) {
     return;
@@ -138,5 +141,75 @@ export function onPlayTypeChange(
     resetReceiverPlayer(eventsArray, index);
     resetKickPlayer(eventsArray, index);
     setPlayType(eventsArray, index, selectedType);
+  }
+
+  resetPlayResult(eventsArray, index);
+
+  const filteredResults = filterPlayResultsByType(
+    selectedType.value as IFootballPlayType,
+  );
+  setFilteredPlayResults(
+    filteredResults.map((result) => ({
+      value: result,
+      label: result,
+    })),
+  );
+}
+
+export function filterPlayResultsByType(
+  playType: IFootballPlayType,
+): IFootballPlayResult[] {
+  console.log('filterPlayResultsByType', playType);
+  switch (playType) {
+    case IFootballPlayType.Run:
+      return [
+        IFootballPlayResult.None,
+        IFootballPlayResult.Run,
+        IFootballPlayResult.Flag,
+      ];
+    case IFootballPlayType.Pass:
+      return [
+        IFootballPlayResult.None,
+        IFootballPlayResult.PassCompleted,
+        IFootballPlayResult.PassDropped,
+        IFootballPlayResult.PassDeflected,
+        IFootballPlayResult.PassIntercepted,
+        IFootballPlayResult.Flag,
+      ];
+    case IFootballPlayType.Kick:
+      return [
+        IFootballPlayResult.None,
+        IFootballPlayResult.KickGood,
+        IFootballPlayResult.KickMissed,
+        IFootballPlayResult.Flag,
+      ];
+    case IFootballPlayType.Kickoff:
+      return [
+        IFootballPlayResult.None,
+        IFootballPlayResult.KickOffReturn,
+        IFootballPlayResult.Flag,
+      ];
+    case IFootballPlayType.Punt:
+      return [
+        IFootballPlayResult.None,
+        IFootballPlayResult.PuntReturn,
+        IFootballPlayResult.Flag,
+      ];
+    case IFootballPlayType.PatOne:
+      return [
+        IFootballPlayResult.None,
+        IFootballPlayResult.PatOneGood,
+        IFootballPlayResult.PatOneMissed,
+        IFootballPlayResult.Flag,
+      ];
+    case IFootballPlayType.PatTwo:
+      return [
+        IFootballPlayResult.None,
+        IFootballPlayResult.PatTwoGood,
+        IFootballPlayResult.PatTwoMissed,
+        IFootballPlayResult.Flag,
+      ];
+    default:
+      return [];
   }
 }

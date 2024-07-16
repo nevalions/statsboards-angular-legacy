@@ -12,6 +12,7 @@ import { ITeam } from '../../../type/team.type';
 import {
   IFootballEvent,
   IFootballEventWithPlayers,
+  IFootballPlayResult,
 } from '../../../type/football-event.type';
 
 export const eventIdKey = 'eventId';
@@ -400,6 +401,14 @@ export function getEventPlayTypeFormControl(
   return getFormControl(form, index, eventPlayTypeKey, arrayName);
 }
 
+export function setPlayType(
+  eventsArray: FormArray,
+  index: number,
+  selectedType: IEnumObject,
+): void {
+  setArrayValue(eventsArray, index, selectedType, eventPlayTypeKey);
+}
+
 // EventPlayResult
 export function getEventPlayResult(
   eventsArray: FormArray,
@@ -420,12 +429,8 @@ export function getEventPlayResultFormControl(
   return getFormControl(form, index, eventPlayResultKey, arrayName);
 }
 
-export function setPlayType(
-  eventsArray: FormArray,
-  index: number,
-  selectedType: IEnumObject,
-): void {
-  setArrayValue(eventsArray, index, selectedType, eventPlayTypeKey);
+export function resetPlayResult(eventsArray: FormArray, index: number): void {
+  resetArrayKeyIndexValue(eventsArray, index, eventPlayResultKey);
 }
 
 // EventRunPlayer

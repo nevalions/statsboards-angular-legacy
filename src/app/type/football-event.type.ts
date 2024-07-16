@@ -1,6 +1,7 @@
 import { ITeam } from './team.type';
 import { IPlayerInMatchFullData } from './player.type';
 import { IEnumObject } from './base.type';
+import { filterPlayResultsByType } from '../components/match-event/football-event/football-event-on-change-helpers';
 
 export enum IFootballPlayType {
   None = '',
@@ -30,6 +31,10 @@ export enum IFootballPlayResult {
   Sack = 'sack',
   KickGood = 'kick is good',
   KickMissed = 'kick is missed',
+  PatOneGood = 'pat 1 is good',
+  PatOneMissed = 'pat 1 is missed',
+  PatTwoGood = 'pat 2 is good',
+  PatTwoMissed = 'pat 2 is missed',
   PuntReturn = 'punt return',
   KickOffReturn = 'kickoff return',
   Flag = 'flag',
@@ -120,3 +125,16 @@ export const eventPlayResultOptions: IEnumObject[] = Object.entries(
   value: value,
   label: key,
 }));
+
+export const allPlayTypes = Object.values(IFootballPlayType);
+
+export const eventFilteredPlayResultOptions: IEnumObject[] = allPlayTypes
+  .flatMap((playType) => filterPlayResultsByType(playType))
+  .map((playResult) => ({
+    value: playResult,
+    label: playResult,
+  }))
+  .filter(
+    (option, index, self) =>
+      index === self.findIndex((o) => o.value === option.value),
+  );

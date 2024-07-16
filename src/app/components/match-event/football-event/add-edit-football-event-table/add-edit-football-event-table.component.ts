@@ -7,11 +7,13 @@ import {
 } from '@angular/core';
 import { IPlayerInMatchFullData } from '../../../../type/player.type';
 import {
+  eventFilteredPlayResultOptions,
   eventHashOptions,
   eventPlayResultOptions,
   eventPlayTypeOptions,
   IFootballEvent,
   IFootballEventWithPlayers,
+  IFootballPlayResult,
   IFootballPlayType,
 } from '../../../../type/football-event.type';
 import {
@@ -81,6 +83,7 @@ import { SearchPlayerInMatchAutocompleteComponent } from '../../../../shared/ui/
 import { SelectEnumComponent } from '../../../../shared/ui/select/select-enum/select-enum.component';
 import { ActionsButtonsComponent } from '../../../../shared/ui/buttons/actions-buttons/actions-buttons.component';
 import { AddButtonOnFinalTrComponent } from '../../../../shared/ui/buttons/add-button-on-final-tr/add-button-on-final-tr.component';
+import { IEnumObject } from '../../../../type/base.type';
 
 @Component({
   selector: 'app-add-edit-football-event-table',
@@ -110,6 +113,29 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
   eventForm!: FormGroup;
   arrayName = 'events';
   newEventCount = 0;
+
+  eventFilteredPlayResultOptions: IEnumObject[] = [];
+  eventPlayTypeOptions = Object.values(IFootballPlayType).map((type) => ({
+    value: type,
+    label: type,
+  }));
+
+  handlePlayTypeChange(
+    eventsArray: FormArray,
+    selectedType: IEnumObject,
+    index: number,
+  ): void {
+    onPlayTypeChange(
+      eventsArray,
+      selectedType,
+      index,
+      this.setFilteredPlayResults.bind(this),
+    );
+  }
+
+  setFilteredPlayResults(results: IEnumObject[]): void {
+    this.eventFilteredPlayResultOptions = results;
+  }
 
   get eventsArray(): FormArray {
     return this.eventForm.get(this.arrayName) as FormArray;
@@ -303,16 +329,21 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
     playTypeEnum: IFootballPlayType,
   ): boolean {
     const playType = getFormDataByIndexAndKey(formGroup, index, key);
-    console.log('playtype', playType);
-    console.log('playtype Value', playType.value);
-    console.log('playtypeEnum', playTypeEnum);
-    return playType ? playType.value === playTypeEnum : false;
+
+    if (!playType || !playType.value) {
+      // console.log('No play type found');
+      return false;
+    }
+    //
+    // console.log('playtype', playType);
+    // console.log('playtype Value', playType.value);
+    // console.log('playtypeEnum', playTypeEnum);
+
+    return playType.value === playTypeEnum;
   }
 
   protected readonly IFootballPlayType = IFootballPlayType;
   protected readonly eventHashOptions = eventHashOptions;
-  protected readonly eventPlayTypeOptions = eventPlayTypeOptions;
-  protected readonly eventPlayResultOptions = eventPlayResultOptions;
   protected readonly getQtrFormControl = getQtrFormControl;
   protected readonly getEventNumberFormControl = getEventNumberFormControl;
   protected readonly getBallOnFormControl = getBallOnFormControl;
