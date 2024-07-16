@@ -6,6 +6,7 @@ import {
   IFootballPlayType,
 } from '../../../type/football-event.type';
 import {
+  eventNumberKey,
   getEventDown,
   resetKickPlayer,
   resetPlayResult,
@@ -19,6 +20,7 @@ import {
 } from './football-event-helpers';
 import { ITeam } from '../../../type/team.type';
 import { calculateDistance, isFirstDown } from './football-event-calc-helpers';
+import { setArrayKeyIndexValue } from '../../../base/formHelpers';
 
 export function onTeamChange(
   eventsArray: FormArray,
@@ -211,5 +213,18 @@ export function filterPlayResultsByType(
       ];
     default:
       return [];
+  }
+}
+
+export function incrementNumber(
+  array: FormArray,
+  index: number,
+  num: number,
+  step: number,
+  arrayKey: string,
+): void {
+  if (num !== undefined && num !== null) {
+    const newValue = num + step;
+    setArrayKeyIndexValue(array, index, newValue, arrayKey);
   }
 }

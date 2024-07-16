@@ -22,9 +22,12 @@ import {
 } from '@angular/forms';
 import {
   enableFullRowToEdit,
+  getArrayFormDataByIndexAndKey,
+  getFormControl,
   getFormDataByIndexAndKey,
   isDataChanged,
   isFullRowEnabled,
+  setArrayKeyIndexValue,
 } from '../../../../base/formHelpers';
 import { FootballEvent } from '../football-event';
 import { ITeam } from '../../../../type/team.type';
@@ -34,11 +37,14 @@ import {
   createNewEvent,
   eventBallOn,
   eventDistance,
+  eventDistanceKey,
   eventDown,
+  eventDownKey,
   eventHash,
   eventId,
   eventKickPlayer,
   eventNumber,
+  eventNumberKey,
   eventPlayResult,
   eventPlayType,
   eventPuntPlayer,
@@ -66,12 +72,13 @@ import {
   getQtrFormControl,
 } from '../football-event-helpers';
 import {
+  incrementNumber,
   onBallOnChange,
   onDownChange,
   onPlayTypeChange,
   onTeamChange,
 } from '../football-event-on-change-helpers';
-import { TuiTextfieldControllerModule } from '@taiga-ui/core';
+import { TuiButtonModule, TuiTextfieldControllerModule } from '@taiga-ui/core';
 import { NgForOf } from '@angular/common';
 import { TuiInputNumberModule } from '@taiga-ui/kit';
 import { TuiFocusableModule, TuiValueChangesModule } from '@taiga-ui/cdk';
@@ -98,6 +105,7 @@ import { TuiKeyboardService } from '@taiga-ui/addon-mobile';
     ActionsButtonsComponent,
     AddButtonOnFinalTrComponent,
     TuiFocusableModule,
+    TuiButtonModule,
   ],
   templateUrl: './add-edit-football-event-table.component.html',
   styleUrl: './add-edit-football-event-table.component.less',
@@ -108,6 +116,9 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
   @Input() awayPlayersInMatch: IPlayerInMatchFullData[] | null = [];
   @Input() match: IMatchFullDataWithScoreboard | null = null;
   @Input() deleteOrUpdate: 'delete' | 'update' | 'deleteFromTeam' = 'delete';
+
+  @Input() min: number = 1;
+  @Input() step: number = 1;
 
   eventForm!: FormGroup;
   arrayName = 'events';
@@ -151,11 +162,17 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
     }
   }
 
+  incrementEventNumber(index: number, step: number): void {
+    const value = getEventNumber(this.eventsArray, index);
+    if (value !== undefined && value !== null) {
+      incrementNumber(this.eventsArray, index, value, step, eventNumberKey);
+    }
+  }
+
   constructor(
     private footballEvent: FootballEvent,
     private fb: FormBuilder,
     private dialogService: DialogService,
-    @Inject(TuiKeyboardService) readonly keyboard: TuiKeyboardService,
   ) {
     this.eventForm = this.fb.group({
       events: this.fb.array([]),

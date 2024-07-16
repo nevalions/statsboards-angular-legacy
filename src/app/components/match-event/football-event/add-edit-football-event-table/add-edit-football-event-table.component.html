@@ -18,12 +18,37 @@
               @if (getEventNumberFormControl(this.eventForm, this.arrayName, i); as control) {
                 <div class="event-table-cell">
                   <label>Event Number</label>
-                  <tui-input-number
-                    (mousedown)="keyboard.toggle()"
-                    [min]="1"
-                    [step]="1"
-                    [formControl]="control">
-                  </tui-input-number>
+                  <div
+                    style="display: grid; grid-template-columns: auto auto; grid-template-rows: auto auto; grid-gap: 5px">
+                    <tui-input-number
+                      [tuiTextfieldSize]="'l'"
+                      style="grid-row: span 2"
+                      [formControl]="control">
+                      Event Number
+                      <input
+                        name="event number"
+                        tuiTextfield
+                      />
+                    </tui-input-number>
+                    <button
+                      appearance="icon"
+                      icon="tuiIconPlus"
+                      tuiIconButton
+                      [size]="'xs'"
+                      (click)="incrementEventNumber(i, -1)"
+                      [disabled]="control.disabled"
+                    >-
+                    </button>
+                    <button
+                      appearance="icon"
+                      icon="tuiIconMinus"
+                      tuiIconButton
+                      [size]="'xs'"
+                      (click)="incrementEventNumber(i, 1)"
+                      [disabled]="control.disabled"
+                    >+
+                    </button>
+                  </div>
                 </div>
               }
 
@@ -32,7 +57,6 @@
                 <div class="event-table-cell">
                   <label>Qtr</label>
                   <tui-input-number
-                    (click)="keyboard.hide()"
                     [min]="1"
                     [max]="4"
                     [step]="1"
@@ -48,7 +72,6 @@
               <div class="event-table-cell">
                 <label>Ball On</label>
                 <tui-input-number
-                  (click)="keyboard.hide()"
                   [tuiTextfieldSize]="'l'"
                   [tuiTextfieldCleaner]="true"
                   [min]="-50"
