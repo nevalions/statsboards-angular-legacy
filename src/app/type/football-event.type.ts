@@ -111,30 +111,30 @@ export const eventHashOptions: IEnumObject[] = Object.entries(IEventHash).map(
     label: key,
   }),
 );
+//
+// export const eventPlayTypeOptions: IEnumObject[] = Object.entries(
+//   IFootballPlayType,
+// ).map(([key, value]) => ({
+//   value: value,
+//   label: key,
+// }));
+//
+// export const eventPlayResultOptions: IEnumObject[] = Object.entries(
+//   IFootballPlayResult,
+// ).map(([key, value]) => ({
+//   value: value,
+//   label: key,
+// }));
 
-export const eventPlayTypeOptions: IEnumObject[] = Object.entries(
-  IFootballPlayType,
-).map(([key, value]) => ({
-  value: value,
-  label: key,
-}));
-
-export const eventPlayResultOptions: IEnumObject[] = Object.entries(
-  IFootballPlayResult,
-).map(([key, value]) => ({
-  value: value,
-  label: key,
-}));
-
-export const allPlayTypes = Object.values(IFootballPlayType);
-
-export const eventFilteredPlayResultOptions: IEnumObject[] = allPlayTypes
-  .flatMap((playType) => filterPlayResultsByType(playType))
-  .map((playResult) => ({
-    value: playResult,
-    label: playResult,
-  }))
-  .filter(
-    (option, index, self) =>
-      index === self.findIndex((o) => o.value === option.value),
-  );
+// export const allPlayTypes = Object.values(IFootballPlayType);
+//
+// export const eventFilteredPlayResultOptions: IEnumObject[] = allPlayTypes
+//   .flatMap((playType) => filterPlayResultsByType(playType))
+//   .map((playResult) => ({
+//     value: playResult,
+//     label: playResult,
+//   }))
+//   .filter(
+//     (option, index, self) =>
+//       index === self.findIndex((o) => o.value === option.value),
+//   );

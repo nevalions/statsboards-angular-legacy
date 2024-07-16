@@ -7,13 +7,9 @@ import {
 } from '@angular/core';
 import { IPlayerInMatchFullData } from '../../../../type/player.type';
 import {
-  eventFilteredPlayResultOptions,
   eventHashOptions,
-  eventPlayResultOptions,
-  eventPlayTypeOptions,
   IFootballEvent,
   IFootballEventWithPlayers,
-  IFootballPlayResult,
   IFootballPlayType,
 } from '../../../../type/football-event.type';
 import {
@@ -361,7 +357,6 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
     getEventReceiverPlayerFormControl;
   protected readonly getEventTeam = getEventTeam;
   protected readonly getEventNumber = getEventNumber;
-  protected readonly onPlayTypeChange = onPlayTypeChange;
   protected readonly onTeamChange = onTeamChange;
   protected readonly onDownChange = onDownChange;
   protected readonly onBallOnChange = onBallOnChange;
