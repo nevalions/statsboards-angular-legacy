@@ -1,5 +1,6 @@
 import {
   Component,
+  Inject,
   Input,
   OnChanges,
   OnInit,
@@ -80,6 +81,7 @@ import { SelectEnumComponent } from '../../../../shared/ui/select/select-enum/se
 import { ActionsButtonsComponent } from '../../../../shared/ui/buttons/actions-buttons/actions-buttons.component';
 import { AddButtonOnFinalTrComponent } from '../../../../shared/ui/buttons/add-button-on-final-tr/add-button-on-final-tr.component';
 import { IEnumObject } from '../../../../type/base.type';
+import { TuiKeyboardService } from '@taiga-ui/addon-mobile';
 
 @Component({
   selector: 'app-add-edit-football-event-table',
@@ -153,6 +155,7 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
     private footballEvent: FootballEvent,
     private fb: FormBuilder,
     private dialogService: DialogService,
+    @Inject(TuiKeyboardService) readonly keyboard: TuiKeyboardService,
   ) {
     this.eventForm = this.fb.group({
       events: this.fb.array([]),

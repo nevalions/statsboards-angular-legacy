@@ -19,8 +19,7 @@
                 <div class="event-table-cell">
                   <label>Event Number</label>
                   <tui-input-number
-                    [tuiFocusable]="false"
-                    [tuiTextfieldCleaner]="true"
+                    (mousedown)="keyboard.toggle()"
                     [min]="1"
                     [step]="1"
                     [formControl]="control">
@@ -33,6 +32,7 @@
                 <div class="event-table-cell">
                   <label>Qtr</label>
                   <tui-input-number
+                    (click)="keyboard.hide()"
                     [min]="1"
                     [max]="4"
                     [step]="1"
@@ -48,6 +48,7 @@
               <div class="event-table-cell">
                 <label>Ball On</label>
                 <tui-input-number
+                  (click)="keyboard.hide()"
                   [tuiTextfieldSize]="'l'"
                   [tuiTextfieldCleaner]="true"
                   [min]="-50"
