@@ -36,6 +36,7 @@ import { DialogService } from '../../../../services/dialog.service';
 import {
   createNewEvent,
   eventBallOn,
+  eventBallOnKey,
   eventDistance,
   eventDistanceKey,
   eventDown,
@@ -50,6 +51,7 @@ import {
   eventPuntPlayer,
   eventQb,
   eventQtr,
+  eventQtrKey,
   eventReceiverPlayer,
   eventRunPlayer,
   eventTeam,
@@ -89,6 +91,7 @@ import { ActionsButtonsComponent } from '../../../../shared/ui/buttons/actions-b
 import { AddButtonOnFinalTrComponent } from '../../../../shared/ui/buttons/add-button-on-final-tr/add-button-on-final-tr.component';
 import { IEnumObject } from '../../../../type/base.type';
 import { TuiKeyboardService } from '@taiga-ui/addon-mobile';
+import { InputNumberWithButtonsComponent } from '../../../../shared/scoreboards/admin-forms/input-number-with-buttons/input-number-with-buttons.component';
 
 @Component({
   selector: 'app-add-edit-football-event-table',
@@ -106,6 +109,7 @@ import { TuiKeyboardService } from '@taiga-ui/addon-mobile';
     AddButtonOnFinalTrComponent,
     TuiFocusableModule,
     TuiButtonModule,
+    InputNumberWithButtonsComponent,
   ],
   templateUrl: './add-edit-football-event-table.component.html',
   styleUrl: './add-edit-football-event-table.component.less',
@@ -162,12 +166,118 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
     }
   }
 
-  incrementEventNumber(index: number, step: number): void {
-    const value = getEventNumber(this.eventsArray, index);
-    if (value !== undefined && value !== null) {
-      incrementNumber(this.eventsArray, index, value, step, eventNumberKey);
+  handleFieldChange(event: { index: number; step: number; key: string }): void {
+    const { index, step, key } = event;
+    const control = this.getFormControlByFieldKey(key, index);
+
+    if (control && !control.disabled) {
+      const value = control.value || 0;
+      const newValue = incrementNumber(
+        this.eventsArray,
+        index,
+        value,
+        step,
+        key,
+      );
+
+      if (value !== newValue) {
+        control.markAsDirty();
+      }
     }
   }
+
+  // Method to get form control based on the field key
+  getFormControlByFieldKey(
+    key: string,
+    index: number,
+  ): FormControl | null | undefined {
+    switch (key) {
+      case eventNumberKey:
+        return this.getEventNumberFormControl(
+          this.eventForm,
+          this.arrayName,
+          index,
+        );
+      case eventQtrKey:
+        return this.getQtrFormControl(this.eventForm, this.arrayName, index);
+      case eventBallOnKey:
+        return this.getBallOnFormControl(this.eventForm, this.arrayName, index);
+      case eventDistanceKey:
+        return this.getEventDistanceFormControl(
+          this.eventForm,
+          this.arrayName,
+          index,
+        );
+
+      default:
+        return null;
+    }
+  }
+
+  // handleEventNumberChange(event: {
+  //   index: number;
+  //   step: number;
+  //   key: string;
+  // }): void {
+  //   const { index, step, key } = event;
+  //   const control = this.getEventNumberFormControl(
+  //     this.eventForm,
+  //     this.arrayName,
+  //     index,
+  //   );
+  //   // console.log('key', key);
+  //   if (control && !control.disabled) {
+  //     const value = control.value || 0;
+  //     const newValue = incrementNumber(
+  //       this.eventsArray,
+  //       index,
+  //       value,
+  //       step,
+  //       key,
+  //     );
+  //     console.log(value, newValue, step, key);
+  //     if (value !== newValue) {
+  //       // console.log('value and newValue', value + step, newValue);
+  //       control.markAsDirty();
+  //     }
+  //   }
+  // }
+  //
+  // handleEventQtrChange(event: {
+  //   index: number;
+  //   step: number;
+  //   key: string;
+  // }): void {
+  //   const { index, step, key } = event;
+  //   const control = this.getQtrFormControl(
+  //     this.eventForm,
+  //     this.arrayName,
+  //     index,
+  //   );
+  //   // console.log('key', key);
+  //   if (control && !control.disabled) {
+  //     const value = control.value || 0;
+  //     const newValue = incrementNumber(
+  //       this.eventsArray,
+  //       index,
+  //       value,
+  //       step,
+  //       key,
+  //     );
+  //     console.log(value, newValue, step, key);
+  //     if (value !== newValue) {
+  //       // console.log('value and newValue', value + step, newValue);
+  //       control.markAsDirty();
+  //     }
+  //   }
+  // }
+
+  // incrementEventNumber(index: number, step: number): void {
+  //   const value = getEventNumber(this.eventsArray, index);
+  //   if (value !== undefined && value !== null) {
+  //     incrementNumber(this.eventsArray, index, value, step, eventNumberKey);
+  //   }
+  // }
 
   constructor(
     private footballEvent: FootballEvent,
@@ -388,4 +498,9 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
     getEventKickPlayerFormControl;
   protected readonly getEventPuntPlayerFormControl =
     getEventPuntPlayerFormControl;
+  protected readonly eventNumberKey = eventNumberKey;
+  protected readonly eventQtrKey = eventQtrKey;
+  protected readonly eventBallOn = eventBallOn;
+  protected readonly eventBallOnKey = eventBallOnKey;
+  protected readonly eventDistanceKey = eventDistanceKey;
 }

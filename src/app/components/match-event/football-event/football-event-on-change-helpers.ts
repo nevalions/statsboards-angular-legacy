@@ -72,6 +72,7 @@ export function onBallOnChange(
   ballOn: number,
   index: number,
 ): void {
+  console.log(ballOn);
   const updatedDown = isFirstDown(events, ballOn, index);
   const currentDown = getEventDown(eventsArray, index);
   //   eventsArray.controls[index].get(
@@ -222,9 +223,11 @@ export function incrementNumber(
   num: number,
   step: number,
   arrayKey: string,
-): void {
+): number | null {
   if (num !== undefined && num !== null) {
     const newValue = num + step;
     setArrayKeyIndexValue(array, index, newValue, arrayKey);
+    return newValue;
   }
+  return null;
 }
