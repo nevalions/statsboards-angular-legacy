@@ -73,7 +73,7 @@ import {
 import { TuiTextfieldControllerModule } from '@taiga-ui/core';
 import { NgForOf } from '@angular/common';
 import { TuiInputNumberModule } from '@taiga-ui/kit';
-import { TuiValueChangesModule } from '@taiga-ui/cdk';
+import { TuiFocusableModule, TuiValueChangesModule } from '@taiga-ui/cdk';
 import { SelectTeamInMatchComponent } from '../../../../shared/ui/select/select-team-in-match/select-team-in-match.component';
 import { SearchPlayerInMatchAutocompleteComponent } from '../../../../shared/ui/search/search-player-in-match-autocomplete/search-player-in-match-autocomplete.component';
 import { SelectEnumComponent } from '../../../../shared/ui/select/select-enum/select-enum.component';
@@ -95,6 +95,7 @@ import { IEnumObject } from '../../../../type/base.type';
     SelectEnumComponent,
     ActionsButtonsComponent,
     AddButtonOnFinalTrComponent,
+    TuiFocusableModule,
   ],
   templateUrl: './add-edit-football-event-table.component.html',
   styleUrl: './add-edit-football-event-table.component.less',
