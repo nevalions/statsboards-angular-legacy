@@ -1,9 +1,10 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { TuiButtonModule, TuiTextfieldControllerModule } from '@taiga-ui/core';
 import { TuiInputNumberModule, TuiInputPhoneModule } from '@taiga-ui/kit';
-import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { FormArray, FormControl, ReactiveFormsModule } from '@angular/forms';
 import { TuiValueChangesModule } from '@taiga-ui/cdk';
 import { UpperCasePipe } from '@angular/common';
+import { IFootballEventWithPlayers } from '../../../../type/football-event.type';
 
 @Component({
   selector: 'app-input-number-with-buttons',
@@ -27,6 +28,19 @@ export class InputNumberWithButtonsComponent {
   @Input() key!: string;
   @Input() min: number = -1000;
   @Input() max: number = 1000;
+  @Input() events: IFootballEventWithPlayers[] | null = null;
+  @Input() eventsArray!: FormArray;
+  @Input() onBallOnChange?: (
+    events: IFootballEventWithPlayers[] | null,
+    eventsArray: FormArray,
+    ballOn: number,
+    index: number,
+  ) => void;
+  @Input() onDownChange?: (
+    eventsArray: FormArray,
+    down: number,
+    index: number,
+  ) => void;
   @Output() numberChanged = new EventEmitter<{
     index: number;
     step: number;
@@ -35,9 +49,29 @@ export class InputNumberWithButtonsComponent {
 
   incrementEventNumber(step: number): void {
     if (this.control && !this.control.disabled) {
+      const newValue = this.control.value + step;
       this.numberChanged.emit({ index: this.index, step, key: this.key });
+
+      if (this.onBallOnChange) {
+        this.onBallOnChange(
+          this.events,
+          this.eventsArray,
+          newValue,
+          this.index,
+        );
+      }
+
+      if (this.onDownChange) {
+        this.onDownChange(this.eventsArray, newValue, this.index);
+      }
     }
   }
+
+  // incrementEventNumber(step: number): void {
+  //   if (this.control && !this.control.disabled) {
+  //     this.numberChanged.emit({ index: this.index, step, key: this.key });
+  //   }
+  // }
 
   isMinValue(): boolean {
     return this.control.value <= this.min;

@@ -1,6 +1,5 @@
 import {
   Component,
-  Inject,
   Input,
   OnChanges,
   OnInit,
@@ -22,12 +21,9 @@ import {
 } from '@angular/forms';
 import {
   enableFullRowToEdit,
-  getArrayFormDataByIndexAndKey,
-  getFormControl,
   getFormDataByIndexAndKey,
   isDataChanged,
   isFullRowEnabled,
-  setArrayKeyIndexValue,
 } from '../../../../base/formHelpers';
 import { FootballEvent } from '../football-event';
 import { ITeam } from '../../../../type/team.type';
@@ -90,7 +86,6 @@ import { SelectEnumComponent } from '../../../../shared/ui/select/select-enum/se
 import { ActionsButtonsComponent } from '../../../../shared/ui/buttons/actions-buttons/actions-buttons.component';
 import { AddButtonOnFinalTrComponent } from '../../../../shared/ui/buttons/add-button-on-final-tr/add-button-on-final-tr.component';
 import { IEnumObject } from '../../../../type/base.type';
-import { TuiKeyboardService } from '@taiga-ui/addon-mobile';
 import { InputNumberWithButtonsComponent } from '../../../../shared/scoreboards/admin-forms/input-number-with-buttons/input-number-with-buttons.component';
 
 @Component({
@@ -204,6 +199,12 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
         return this.getBallOnFormControl(this.eventForm, this.arrayName, index);
       case eventDistanceKey:
         return this.getEventDistanceFormControl(
+          this.eventForm,
+          this.arrayName,
+          index,
+        );
+      case eventDownKey:
+        return this.getEventDownFormControl(
           this.eventForm,
           this.arrayName,
           index,
@@ -503,4 +504,5 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
   protected readonly eventBallOn = eventBallOn;
   protected readonly eventBallOnKey = eventBallOnKey;
   protected readonly eventDistanceKey = eventDistanceKey;
+  protected readonly eventDownKey = eventDownKey;
 }

@@ -87,25 +87,29 @@
             @if (getBallOnFormControl(this.eventForm, this.arrayName, i); as control) {
               <div class="event-table-cell">
                 <label>Ball On</label>
-                <!--                <app-input-number-with-buttons-->
-                <!--                  [control]="control"-->
-                <!--                  [index]="i"-->
-                <!--                  [key]="eventBallOnKey"-->
-                <!--                  [min]="-50"-->
-                <!--                  [max]="50"-->
-                <!--                  (numberChanged)="handleFieldChange($event)"-->
-                <!--                  (tuiValueChanges)="onBallOnChange(events, eventsArray, $event, i)"-->
-                <!--                ></app-input-number-with-buttons>-->
-                <tui-input-number
-                  [tuiTextfieldSize]="'l'"
-                  [tuiTextfieldCleaner]="true"
+                <app-input-number-with-buttons
+                  [label]="'ball on'"
+                  [control]="control"
+                  [index]="i"
+                  [key]="eventBallOnKey"
                   [min]="-50"
                   [max]="50"
-                  [step]="1"
-                  [formControl]="control"
-                  (tuiValueChanges)="onBallOnChange(events, eventsArray, $event, i)"
-                >
-                </tui-input-number>
+                  [events]="events"
+                  [eventsArray]="eventsArray"
+                  (numberChanged)="handleFieldChange($event)"
+                  [onBallOnChange]="onBallOnChange"
+                ></app-input-number-with-buttons>
+
+                <!--                <tui-input-number-->
+                <!--                  [tuiTextfieldSize]="'l'"-->
+                <!--                  [tuiTextfieldCleaner]="true"-->
+                <!--                  [min]="-50"-->
+                <!--                  [max]="50"-->
+                <!--                  [step]="1"-->
+                <!--                  [formControl]="control"-->
+                <!--                  (tuiValueChanges)="onBallOnChange(events, eventsArray, $event, i)"-->
+                <!--                >-->
+                <!--                </tui-input-number>-->
               </div>
             }
 
@@ -145,14 +149,25 @@
                 @if (getEventDownFormControl(this.eventForm, this.arrayName, i); as control) {
                   <div class="event-down">
                     <label>Down</label>
-                    <tui-input-number
-                      [tuiTextfieldCleaner]="true"
+                    <app-input-number-with-buttons
+                      [label]="'down'"
+                      [control]="control"
+                      [index]="i"
+                      [key]="eventDownKey"
                       [min]="1"
                       [max]="4"
-                      [step]="1"
-                      (tuiValueChanges)="onDownChange(eventsArray, $event, i)"
-                      [formControl]="control">
-                    </tui-input-number>
+                      [eventsArray]="eventsArray"
+                      (numberChanged)="handleFieldChange($event)"
+                      [onDownChange]="onDownChange"
+                    ></app-input-number-with-buttons>
+                    <!--                    <tui-input-number-->
+                    <!--                      [tuiTextfieldCleaner]="true"-->
+                    <!--                      [min]="1"-->
+                    <!--                      [max]="4"-->
+                    <!--                      [step]="1"-->
+                    <!--                      (tuiValueChanges)="onDownChange(eventsArray, $event, i)"-->
+                    <!--                      [formControl]="control">-->
+                    <!--                    </tui-input-number>-->
                   </div>
                 }
                 @if (getEventDistanceFormControl(this.eventForm, this.arrayName, i); as control) {

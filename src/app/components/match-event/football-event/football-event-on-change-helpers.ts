@@ -6,7 +6,6 @@ import {
   IFootballPlayType,
 } from '../../../type/football-event.type';
 import {
-  eventNumberKey,
   getEventDown,
   resetKickPlayer,
   resetPlayResult,
@@ -51,19 +50,13 @@ export function onDownChange(
   let previousDown = null;
   if (index > 0) {
     previousDown = getEventDown(eventsArray, index - 1);
-    //   eventsArray.controls[index - 1].get(
-    //   `eventDown${index - 1}`,
-    // )?.value;
   }
-
   // console.log('downs', down, previousDown);
   if (down === 1 && previousDown !== 1) {
     // console.log('first down on down change');
     setDistance(eventsArray, index, 10);
-    // this.eventsArray.controls[index].get(`eventDistance${index}`)?.setValue(10);
   }
   setDown(eventsArray, index, down);
-  // this.eventsArray.controls[index].get(`eventDown${index}`)?.setValue(down);
 }
 
 export function onBallOnChange(
@@ -72,12 +65,9 @@ export function onBallOnChange(
   ballOn: number,
   index: number,
 ): void {
-  console.log(ballOn);
+  // console.log(events, eventsArray, ballOn, index);
   const updatedDown = isFirstDown(events, ballOn, index);
   const currentDown = getEventDown(eventsArray, index);
-  //   eventsArray.controls[index].get(
-  //   `eventDown${index}`,
-  // )?.value;
 
   let updatedDistance;
   if (updatedDown === 1 && currentDown !== 1) {
@@ -94,11 +84,7 @@ export function onBallOnChange(
     setDown(eventsArray, index, updatedDown);
   }
 
-  // eventsArray.controls[index]
-  //   .get(`eventDistance${index}`)
-  //   ?.setValue(updatedDistance);
-
-  // eventsArray.controls[index].get(`eventDown${index}`)?.setValue(updatedDown);
+  // console.log(currentDown, updatedDown, updatedDown);
 }
 
 export function onPlayTypeChange(
