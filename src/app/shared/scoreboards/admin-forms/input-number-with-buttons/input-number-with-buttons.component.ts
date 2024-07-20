@@ -67,12 +67,6 @@ export class InputNumberWithButtonsComponent {
     }
   }
 
-  // incrementEventNumber(step: number): void {
-  //   if (this.control && !this.control.disabled) {
-  //     this.numberChanged.emit({ index: this.index, step, key: this.key });
-  //   }
-  // }
-
   isMinValue(): boolean {
     return this.control.value <= this.min;
   }

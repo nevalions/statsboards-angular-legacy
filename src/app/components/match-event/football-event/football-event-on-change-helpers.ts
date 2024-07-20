@@ -37,8 +37,6 @@ export function onTeamChange(
     // console.log('first down team change');
     setDown(eventsArray, index, 1);
     resetQb(eventsArray, index);
-    // this.eventsArray.controls[index].get(`eventDown${index}`)?.setValue(1);
-    // this.eventsArray.controls[index].get(`eventQb${index}`)?.setValue(null);
   }
 }
 

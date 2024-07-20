@@ -161,6 +161,7 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
     }
   }
 
+  // RENAME MOVE TO HELPERS
   handleFieldChange(event: { index: number; step: number; key: string }): void {
     const { index, step, key } = event;
     const control = this.getFormControlByFieldKey(key, index);
@@ -214,71 +215,6 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
         return null;
     }
   }
-
-  // handleEventNumberChange(event: {
-  //   index: number;
-  //   step: number;
-  //   key: string;
-  // }): void {
-  //   const { index, step, key } = event;
-  //   const control = this.getEventNumberFormControl(
-  //     this.eventForm,
-  //     this.arrayName,
-  //     index,
-  //   );
-  //   // console.log('key', key);
-  //   if (control && !control.disabled) {
-  //     const value = control.value || 0;
-  //     const newValue = incrementNumber(
-  //       this.eventsArray,
-  //       index,
-  //       value,
-  //       step,
-  //       key,
-  //     );
-  //     console.log(value, newValue, step, key);
-  //     if (value !== newValue) {
-  //       // console.log('value and newValue', value + step, newValue);
-  //       control.markAsDirty();
-  //     }
-  //   }
-  // }
-  //
-  // handleEventQtrChange(event: {
-  //   index: number;
-  //   step: number;
-  //   key: string;
-  // }): void {
-  //   const { index, step, key } = event;
-  //   const control = this.getQtrFormControl(
-  //     this.eventForm,
-  //     this.arrayName,
-  //     index,
-  //   );
-  //   // console.log('key', key);
-  //   if (control && !control.disabled) {
-  //     const value = control.value || 0;
-  //     const newValue = incrementNumber(
-  //       this.eventsArray,
-  //       index,
-  //       value,
-  //       step,
-  //       key,
-  //     );
-  //     console.log(value, newValue, step, key);
-  //     if (value !== newValue) {
-  //       // console.log('value and newValue', value + step, newValue);
-  //       control.markAsDirty();
-  //     }
-  //   }
-  // }
-
-  // incrementEventNumber(index: number, step: number): void {
-  //   const value = getEventNumber(this.eventsArray, index);
-  //   if (value !== undefined && value !== null) {
-  //     incrementNumber(this.eventsArray, index, value, step, eventNumberKey);
-  //   }
-  // }
 
   constructor(
     private footballEvent: FootballEvent,

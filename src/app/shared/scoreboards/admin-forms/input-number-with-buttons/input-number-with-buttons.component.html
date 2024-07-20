@@ -1,8 +1,7 @@
-<div
-  style="display: grid; grid-template-columns: auto auto; grid-template-rows: auto auto; grid-gap: 5px">
+<div class="input-number-with-buttons">
   <tui-input-number
     [tuiTextfieldSize]="'l'"
-    style="grid-row: span 2"
+    class="input-number"
     [formControl]="control"
     [tuiTextfieldCleaner]="true"
     [min]="min"
@@ -18,18 +17,58 @@
     appearance="icon"
     icon="tuiIconPlus"
     tuiIconButton
+    class="increment-button"
     [size]="'xs'"
     (click)="incrementEventNumber(1)"
     [disabled]="control.disabled || isMaxValue()"
-  >-
+  >+
   </button>
   <button
     appearance="icon"
     icon="tuiIconMinus"
     tuiIconButton
+    class="decrement-button"
     [size]="'xs'"
     (click)="incrementEventNumber(-1)"
     [disabled]="control.disabled || isMinValue()"
-  >+
+  >-
   </button>
 </div>
+
+
+<!--<div-->
+<!--  style="display: grid; grid-template-columns: auto auto; grid-template-rows: auto auto; grid-gap: 5px; justify-content: center; align-items: center"-->
+<!--&gt;-->
+<!--  <tui-input-number-->
+<!--    [tuiTextfieldSize]="'l'"-->
+<!--    style="grid-row: span 2"-->
+<!--    [formControl]="control"-->
+<!--    [tuiTextfieldCleaner]="true"-->
+<!--    [min]="min"-->
+<!--    [max]="max"-->
+<!--  >-->
+<!--    {{ label | uppercase }}-->
+<!--    <input-->
+<!--      name="event number"-->
+<!--      tuiTextfield-->
+<!--    />-->
+<!--  </tui-input-number>-->
+<!--  <button-->
+<!--    appearance="icon"-->
+<!--    icon="tuiIconPlus"-->
+<!--    tuiIconButton-->
+<!--    [size]="'xs'"-->
+<!--    (click)="incrementEventNumber(1)"-->
+<!--    [disabled]="control.disabled || isMaxValue()"-->
+<!--  >- -->
+<!--  </button>-->
+<!--  <button-->
+<!--    appearance="icon"-->
+<!--    icon="tuiIconMinus"-->
+<!--    tuiIconButton-->
+<!--    [size]="'xs'"-->
+<!--    (click)="incrementEventNumber(-1)"-->
+<!--    [disabled]="control.disabled || isMinValue()"-->
+<!--  >+-->
+<!--  </button>-->
+<!--</div>-->
