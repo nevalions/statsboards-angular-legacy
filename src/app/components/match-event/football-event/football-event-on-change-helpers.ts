@@ -69,11 +69,13 @@ export function onBallOnChange(
   ballOn: number,
   index: number,
   max: number,
-  min: number,
 ): void {
   // console.log(events, eventsArray, ballOn, index);
-  const updatedDown = isFirstDown(events, ballOn, index);
+  const updatedDown = isFirstDown(events, ballOn, index, max);
   const currentDown = getEventDown(eventsArray, index);
+
+  console.log('updatedDown', updatedDown);
+  console.log('currentDown', currentDown);
 
   let updatedDistance;
   if (updatedDown === 1 && currentDown !== 1) {
