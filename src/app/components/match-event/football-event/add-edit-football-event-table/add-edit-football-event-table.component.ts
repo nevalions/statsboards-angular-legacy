@@ -12,6 +12,7 @@ import {
   IFootballEventWithPlayers,
   IFootballPlayResult,
   IFootballPlayType,
+  IFootballScoreResult,
 } from '../../../../type/football-event.type';
 import {
   FormArray,
@@ -57,6 +58,7 @@ import {
   eventReceiverPlayer,
   eventRunPlayer,
   eventSackPlayer,
+  eventScoreResult,
   eventTacklePlayer,
   eventTeam,
   extractEventData,
@@ -68,6 +70,7 @@ import {
   getEventDroppedPlayer,
   getEventDroppedPlayerFormControl,
   getEventHashFormControl,
+  getEventId,
   getEventInterceptedPlayer,
   getEventInterceptedPlayerFormControl,
   getEventKickPlayer,
@@ -85,6 +88,8 @@ import {
   getEventRunPlayerFormControl,
   getEventSackPlayer,
   getEventSackPlayerFormControl,
+  getEventScoreResult,
+  getEventScoreResultFormControl,
   getEventTacklePlayer,
   getEventTacklePlayerFormControl,
   getEventTeam,
@@ -92,7 +97,6 @@ import {
   getQtrFormControl,
 } from '../football-event-helpers';
 import {
-  filterPlayResultsByType,
   incrementNumber,
   onBallOnChange,
   onDownChange,
@@ -100,7 +104,11 @@ import {
   onPlayTypeChange,
   onTeamChange,
 } from '../football-event-on-change-helpers';
-import { TuiButtonModule, TuiTextfieldControllerModule } from '@taiga-ui/core';
+import {
+  TuiButtonModule,
+  TuiExpandModule,
+  TuiTextfieldControllerModule,
+} from '@taiga-ui/core';
 import { NgForOf } from '@angular/common';
 import { TuiInputNumberModule } from '@taiga-ui/kit';
 import { TuiFocusableModule, TuiValueChangesModule } from '@taiga-ui/cdk';
@@ -129,6 +137,7 @@ import { InputNumberWithButtonsComponent } from '../../../../shared/scoreboards/
     TuiFocusableModule,
     TuiButtonModule,
     InputNumberWithButtonsComponent,
+    TuiExpandModule,
   ],
   templateUrl: './add-edit-football-event-table.component.html',
   styleUrl: './add-edit-football-event-table.component.less',
@@ -146,8 +155,29 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
   eventForm!: FormGroup;
   arrayName = 'events';
   newEventCount = 0;
-
   eventFilteredPlayResultOptions: IEnumObject[] = [];
+  eventFilteredScoreResultOptions: IEnumObject[] = [];
+  expandedStates: { [key: string]: boolean } = {};
+
+  toggle(id: string): void {
+    // console.log(id);
+    if (id) {
+      let str = id.toString();
+      if (this.expandedStates[str] === undefined) {
+        this.expandedStates[str] = true;
+      } else {
+        this.expandedStates[str] = !this.expandedStates[str];
+      }
+      // console.log(this.expandedStates);
+    }
+  }
+
+  isExpanded(id: string): boolean {
+    console.log(this.expandedStates);
+    console.log(this.expandedStates[id]);
+    return this.expandedStates[id];
+  }
+
   eventPlayTypeOptions = Object.values(IFootballPlayType).map((type) => ({
     value: type,
     label: type,
@@ -163,6 +193,7 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
       selectedType,
       index,
       this.setFilteredPlayResults.bind(this),
+      this.setFilteredScoreResults.bind(this),
     );
   }
 
@@ -176,6 +207,10 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
 
   setFilteredPlayResults(results: IEnumObject[]): void {
     this.eventFilteredPlayResultOptions = results;
+  }
+
+  setFilteredScoreResults(results: IEnumObject[]): void {
+    this.eventFilteredScoreResultOptions = results;
   }
 
   get eventsArray(): FormArray {
@@ -289,6 +324,7 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
     const controlEventHash = eventHash(index);
     const controlEventPlayType = eventPlayType(index);
     const controlEventPlayResult = eventPlayResult(index);
+    const controlEventScoreResult = eventScoreResult(index);
 
     const controlEventRunPlayer = eventRunPlayer(index);
     const controlEventReceiverPlayer = eventReceiverPlayer(index);
@@ -314,6 +350,7 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
       [controlEventHash]: new FormControl(event.event_hash),
       [controlEventPlayType]: new FormControl(event.play_type),
       [controlEventPlayResult]: new FormControl(event.play_result),
+      [controlEventScoreResult]: new FormControl(event.score_result),
       [controlEventRunPlayer]: new FormControl(event.run_player),
       [controlEventReceiverPlayer]: new FormControl(event.pass_received_player),
       [controlEventDroppedPlayer]: new FormControl(event.pass_dropped_player),
@@ -547,4 +584,7 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
   protected readonly getEventSackPlayerFormControl =
     getEventSackPlayerFormControl;
   protected readonly getEventSackPlayer = getEventSackPlayer;
+  protected readonly getEventScoreResultFormControl =
+    getEventScoreResultFormControl;
+  protected readonly getEventScoreResult = getEventScoreResult;
 }

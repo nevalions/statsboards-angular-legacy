@@ -26,6 +26,7 @@ export const eventDistanceKey = 'eventDistance';
 export const eventHashKey = 'eventHash';
 export const eventPlayTypeKey = 'eventPlayType';
 export const eventPlayResultKey = 'eventPlayResult';
+export const eventScoreResultKey = 'eventScoreResult';
 export const eventRunPlayerKey = 'eventRunPlayer';
 export const eventReceiverPlayerKey = 'eventReceiverPlayer';
 export const eventDroppedPlayerKey = 'eventDroppedPlayer';
@@ -48,6 +49,7 @@ export const eventDistance = (index: number) => eventDistanceKey + index;
 export const eventHash = (index: number) => eventHashKey + index;
 export const eventPlayType = (index: number) => eventPlayTypeKey + index;
 export const eventPlayResult = (index: number) => eventPlayResultKey + index;
+export const eventScoreResult = (index: number) => eventScoreResultKey + index;
 export const eventRunPlayer = (index: number) => eventRunPlayerKey + index;
 export const eventReceiverPlayer = (index: number) =>
   eventReceiverPlayerKey + index;
@@ -129,6 +131,7 @@ export function createNewEvent(
     event_hash: null,
     play_type: null,
     play_result: null,
+    score_result: null,
   };
 }
 
@@ -147,6 +150,7 @@ export function extractEventData(
   const eventHash = getEventHash(eventsArray, index);
   const eventPlayType = getEventPlayType(eventsArray, index);
   const eventPlayResult = getEventPlayResult(eventsArray, index);
+  const eventScoreResult = getEventScoreResult(eventsArray, index);
   const eventRunPlayer = getEventRunPlayer(eventsArray, index);
   const eventReceiverPlayer = getEventReceiverPlayer(eventsArray, index);
   const eventDroppedPlayer = getEventDroppedPlayer(eventsArray, index);
@@ -199,6 +203,11 @@ export function extractEventData(
 
   if (eventPlayResult && eventPlayResult.value) {
     newEventData.play_result = eventPlayResult.value.toLowerCase();
+  }
+
+  if (eventScoreResult && eventScoreResult.value) {
+    // console.log(eventScoreResult.value);
+    newEventData.score_result = eventScoreResult.value.toLowerCase();
   }
 
   newEventData.run_player = eventRunPlayer?.match_player?.id ?? null;
@@ -448,6 +457,30 @@ export function getEventPlayResultFormControl(
 
 export function resetPlayResult(eventsArray: FormArray, index: number): void {
   resetArrayKeyIndexValue(eventsArray, index, eventPlayResultKey);
+}
+
+// EventScoreResult
+export function getEventScoreResult(
+  eventsArray: FormArray,
+  index: number,
+): IEnumObject | null | undefined {
+  return getArrayFormDataByIndexAndKey<number>(
+    eventsArray,
+    index,
+    eventScoreResultKey,
+  );
+}
+
+export function getEventScoreResultFormControl(
+  form: FormGroup,
+  arrayName: string,
+  index: number,
+): FormControl | null | undefined {
+  return getFormControl(form, index, eventScoreResultKey, arrayName);
+}
+
+export function resetScoreResult(eventsArray: FormArray, index: number): void {
+  resetArrayKeyIndexValue(eventsArray, index, eventScoreResultKey);
 }
 
 // EventRunPlayer

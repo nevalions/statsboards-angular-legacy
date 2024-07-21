@@ -4,6 +4,7 @@ import {
   IFootballEventWithPlayers,
   IFootballPlayResult,
   IFootballPlayType,
+  IFootballScoreResult,
 } from '../../../type/football-event.type';
 import {
   getEventDown,
@@ -17,6 +18,7 @@ import {
   resetReceiverPlayer,
   resetRunPlayer,
   resetSackPlayer,
+  resetScoreResult,
   setDistance,
   setDown,
   setPlayType,
@@ -94,7 +96,7 @@ export function onPlayTypeChange(
   selectedType: IEnumObject,
   index: number,
   setFilteredPlayResults: (results: IEnumObject[]) => void,
-  selectedResult: IEnumObject | null = null,
+  setFilteredScoreResults: (results: IEnumObject[]) => void,
 ): void {
   if (!selectedType) {
     return;
@@ -152,12 +154,23 @@ export function onPlayTypeChange(
   }
 
   resetPlayResult(eventsArray, index);
+  resetScoreResult(eventsArray, index);
 
   const filteredResults = filterPlayResultsByType(
     selectedType.value as IFootballPlayType,
   );
   setFilteredPlayResults(
     filteredResults.map((result) => ({
+      value: result,
+      label: result,
+    })),
+  );
+
+  const filteredScoreResults = filterScoreResultsByType(
+    selectedType.value as IFootballPlayType,
+  );
+  setFilteredScoreResults(
+    filteredScoreResults.map((result) => ({
       value: result,
       label: result,
     })),
@@ -232,8 +245,8 @@ export function filterPlayResultsByType(
     case IFootballPlayType.Kick:
       return [
         IFootballPlayResult.None,
-        IFootballPlayResult.KickGood,
-        IFootballPlayResult.KickMissed,
+        IFootballPlayResult.Kick,
+        IFootballPlayResult.KickBlocked,
         IFootballPlayResult.Flag,
       ];
     case IFootballPlayType.Kickoff:
@@ -246,21 +259,80 @@ export function filterPlayResultsByType(
       return [
         IFootballPlayResult.None,
         IFootballPlayResult.PuntReturn,
-        IFootballPlayResult.Flag,
-      ];
-    case IFootballPlayType.PatOne:
-      return [
-        IFootballPlayResult.None,
-        IFootballPlayResult.PatOneGood,
-        IFootballPlayResult.PatOneMissed,
+        IFootballPlayResult.PuntBlocked,
         IFootballPlayResult.Flag,
       ];
     case IFootballPlayType.PatTwo:
       return [
         IFootballPlayResult.None,
-        IFootballPlayResult.PatTwoGood,
-        IFootballPlayResult.PatTwoMissed,
+        IFootballPlayResult.Run,
+        IFootballPlayResult.PassCompleted,
+        IFootballPlayResult.PassDropped,
+        IFootballPlayResult.PassDeflected,
+        IFootballPlayResult.PassIntercepted,
+        IFootballPlayResult.Sack,
         IFootballPlayResult.Flag,
+      ];
+    default:
+      return [];
+  }
+}
+
+export function filterScoreResultsByType(
+  scoreResult: IFootballPlayType,
+): IFootballScoreResult[] {
+  console.log('filterScoreResultsByType', scoreResult);
+  switch (scoreResult) {
+    case IFootballPlayType.Run:
+      return [
+        IFootballScoreResult.None,
+        IFootballScoreResult.Td,
+        IFootballScoreResult.TdDefence,
+        IFootballScoreResult.Safety,
+      ];
+    case IFootballPlayType.Pass:
+      return [
+        IFootballScoreResult.None,
+        IFootballScoreResult.Td,
+        IFootballScoreResult.TdDefence,
+        IFootballScoreResult.Safety,
+      ];
+    case IFootballPlayType.Kick:
+      return [
+        IFootballScoreResult.None,
+        IFootballScoreResult.KickGood,
+        IFootballScoreResult.KickMissed,
+        IFootballScoreResult.Td,
+        IFootballScoreResult.TdDefence,
+        IFootballScoreResult.Safety,
+      ];
+    case IFootballPlayType.Kickoff:
+      return [
+        IFootballScoreResult.None,
+        IFootballScoreResult.Td,
+        IFootballScoreResult.TdDefence,
+        IFootballScoreResult.Safety,
+      ];
+    case IFootballPlayType.Punt:
+      return [
+        IFootballScoreResult.None,
+        IFootballScoreResult.Td,
+        IFootballScoreResult.TdDefence,
+        IFootballScoreResult.Safety,
+      ];
+    case IFootballPlayType.PatOne:
+      return [
+        IFootballScoreResult.None,
+        IFootballScoreResult.PatOneGood,
+        IFootballScoreResult.PatOneMissed,
+        IFootballScoreResult.PatOneReturn,
+      ];
+    case IFootballPlayType.PatTwo:
+      return [
+        IFootballScoreResult.None,
+        IFootballScoreResult.PatTwoGood,
+        IFootballScoreResult.PatTwoMissed,
+        IFootballScoreResult.PatTwoReturn,
       ];
     default:
       return [];

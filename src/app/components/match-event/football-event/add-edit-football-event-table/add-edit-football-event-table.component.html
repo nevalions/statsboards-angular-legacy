@@ -17,7 +17,13 @@
             <div class="event-num-qtr-row">
               @if (getEventNumberFormControl(this.eventForm, this.arrayName, i); as control) {
                 <div class="event-table-cell">
-                  <label>Event Number</label>
+                  <!--                  @if (getEventId(eventsArray, i); as id) {-->
+                  <!--                    <label-->
+                  <!--                      (click)="toggle(id.toString())"-->
+                  <!--                    >Event Number</label>-->
+                  <!--                  }-->
+                  <label
+                  >Event Number</label>
                   <app-input-number-with-buttons
                     [control]="control"
                     [label]="'event number'"
@@ -78,6 +84,10 @@
                 }
               </div>
             }
+
+            <!--            @if (getEventId(eventsArray, i); as id) {-->
+            <!--              <tui-expand [expanded]="isExpanded(id.toString())" class="expand">-->
+            <!--                <ng-template tuiExpandContent>-->
 
             <!--EVENT QB-->
             @if (getEventQbFormControl(this.eventForm, this.arrayName, i); as control) {
@@ -165,6 +175,18 @@
                   [placeholder]="'play result'"
                   [enumObjects]="eventFilteredPlayResultOptions"
                   (itemSelected)="handlePlayResultChange(eventsArray, $event, i)"
+                ></app-select-enum>
+              </div>
+            }
+
+            <!--EVENT SCORE RESULT-->
+            @if (getEventScoreResultFormControl(this.eventForm, this.arrayName, i); as control) {
+              <div class="event-table-cell">
+                <label>Score Result</label>
+                <app-select-enum
+                  [control]="control"
+                  [placeholder]="'score result'"
+                  [enumObjects]="eventFilteredScoreResultOptions"
                 ></app-select-enum>
               </div>
             }
@@ -363,6 +385,9 @@
                   ></app-actions-buttons>
                 </div>
               }
+              <!--                  }-->
+                <!--                </ng-template>-->
+                <!--              </tui-expand>-->
             }
           </div>
         </div>

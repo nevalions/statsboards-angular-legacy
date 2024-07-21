@@ -21,6 +21,15 @@ export enum IEventHash {
   Right = 'right',
 }
 
+export enum IEventDirection {
+  None = '',
+  LeftWide = 'left wide',
+  Left = 'left',
+  Middle = 'middle',
+  Right = 'right',
+  RightWide = 'right wide',
+}
+
 export enum IFootballPlayResult {
   None = '',
   Run = 'run',
@@ -29,15 +38,32 @@ export enum IFootballPlayResult {
   PassDeflected = 'pass deflected',
   PassIntercepted = 'pass intercepted',
   Sack = 'sack',
+  Kick = 'kick',
+  KickBlocked = 'kick blocked',
+  // KickMissed = 'kick is missed',
+  // PatOneGood = 'pat 1 is good',
+  // PatOneMissed = 'pat 1 is missed',
+  // PatTwoGood = 'pat 2 is good',
+  // PatTwoMissed = 'pat 2 is missed',
+  PuntReturn = 'punt return',
+  PuntBlocked = 'punt blocked',
+  KickOffReturn = 'kickoff return',
+  Flag = 'flag',
+}
+
+export enum IFootballScoreResult {
+  None = '',
+  Td = 'td',
+  TdDefence = 'defence td',
   KickGood = 'kick is good',
   KickMissed = 'kick is missed',
   PatOneGood = 'pat 1 is good',
   PatOneMissed = 'pat 1 is missed',
+  PatOneReturn = 'pat 1 return',
   PatTwoGood = 'pat 2 is good',
   PatTwoMissed = 'pat 2 is missed',
-  PuntReturn = 'punt return',
-  KickOffReturn = 'kickoff return',
-  Flag = 'flag',
+  PatTwoReturn = 'pat 2 return',
+  Safety = 'safety',
 }
 
 export interface IFootballEvent {
@@ -58,7 +84,7 @@ export interface IFootballEvent {
   play_direction?: string | null; //TODO
   is_fumble?: boolean | null; //TODO
   is_fumble_recovered?: boolean | null; //TODO
-  score_result?: string | null; //TODO
+  score_result?: string | null;
 
   run_player?: number | null;
   pass_received_player?: number | null;
@@ -72,6 +98,7 @@ export interface IFootballEvent {
   sack_player?: number | null;
   kick_player?: number | null;
   punt_player?: number | null;
+  score_player?: number | null; //TODO
   kickoff_player?: number | null; //TODO
   return_player?: number | null; //TODO
   pat_one_player?: number | null; //TODO
@@ -93,6 +120,7 @@ export interface IFootballEventWithPlayers {
   event_hash?: IEventHash | null;
   play_type?: IFootballPlayType | null;
   play_result?: IFootballPlayResult | null;
+  score_result?: IFootballScoreResult | null;
 
   run_player?: IPlayerInMatchFullData | null;
   pass_received_player?: IPlayerInMatchFullData | null;
@@ -113,3 +141,10 @@ export const eventHashOptions: IEnumObject[] = Object.entries(IEventHash).map(
     label: key,
   }),
 );
+
+// export const eventScoreOptions: IEnumObject[] = Object.entries(
+//   IFootballScoreResult,
+// ).map(([key, value]) => ({
+//   value: value,
+//   label: key,
+// }));
