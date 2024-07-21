@@ -489,6 +489,14 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
       return [];
     }
     if (
+      this.homePlayersInMatch &&
+      this.homePlayersInMatch.length &&
+      selectedTeam.id === this.match?.teams_data?.team_b.id
+    ) {
+      return this.homePlayersInMatch;
+    }
+
+    if (
       this.awayPlayersInMatch &&
       this.awayPlayersInMatch.length &&
       selectedTeam.id === this.match?.teams_data?.team_a.id
