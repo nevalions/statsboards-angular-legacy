@@ -75,6 +75,7 @@ import {
   eventTacklePlayer,
   eventTeam,
   extractEventData,
+  getBallOn,
   getBallOnFormControl,
   getEventAssistTacklePlayer,
   getEventAssistTacklePlayerFormControl,
@@ -134,6 +135,7 @@ import {
 } from '../football-event-helpers';
 import {
   incrementNumber,
+  incrementOnBall,
   onBallOnChange,
   onDownChange,
   onPlayResultChange,
@@ -145,7 +147,7 @@ import {
   TuiExpandModule,
   TuiTextfieldControllerModule,
 } from '@taiga-ui/core';
-import { NgForOf } from '@angular/common';
+import { NgForOf, UpperCasePipe } from '@angular/common';
 import { TuiInputNumberModule, TuiToggleModule } from '@taiga-ui/kit';
 import { TuiFocusableModule, TuiValueChangesModule } from '@taiga-ui/cdk';
 import { SelectTeamInMatchComponent } from '../../../../shared/ui/select/select-team-in-match/select-team-in-match.component';
@@ -175,6 +177,7 @@ import { InputNumberWithButtonsComponent } from '../../../../shared/scoreboards/
     InputNumberWithButtonsComponent,
     TuiExpandModule,
     TuiToggleModule,
+    UpperCasePipe,
   ],
   templateUrl: './add-edit-football-event-table.component.html',
   styleUrl: './add-edit-football-event-table.component.less',
@@ -701,4 +704,6 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
   protected readonly getEventFlaggedPlayerFormControl =
     getEventFlaggedPlayerFormControl;
   protected readonly getEventFlaggedPlayer = getEventFlaggedPlayer;
+  protected readonly incrementOnBall = incrementOnBall;
+  protected readonly getBallOn = getBallOn;
 }

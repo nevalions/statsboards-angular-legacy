@@ -30,30 +30,192 @@ export function isFirstDown(
   return null;
 }
 
+export function computeDistance(
+  previousBallOn: number,
+  currentBallOn: number,
+  previousEventDistance: number,
+  max: number,
+): number {
+  let calcDistance: number;
+  let newDistance: number;
+
+  if (previousBallOn > 0 && currentBallOn > 0) {
+    // Both in positive field
+    calcDistance = previousBallOn - currentBallOn;
+    newDistance = previousEventDistance - calcDistance;
+    console.log('Both positive:', newDistance);
+  } else if (previousBallOn < 0 && currentBallOn < 0) {
+    // Both in negative field
+    calcDistance = previousBallOn - currentBallOn;
+    newDistance = previousEventDistance - calcDistance;
+    console.log('Both negative:', newDistance);
+  } else if (previousBallOn > 0 && currentBallOn < 0) {
+    // Transition from positive to negative
+    const centerDistance = max - previousBallOn + max + currentBallOn;
+    newDistance = previousEventDistance + centerDistance;
+    console.log('Positive to negative:', newDistance);
+  } else if (previousBallOn < 0 && currentBallOn > 0) {
+    // Transition from negative to positive
+    const centerDistance = max + previousBallOn + max - currentBallOn;
+    newDistance = previousEventDistance - centerDistance;
+    console.log('Negative to positive:', newDistance);
+  } else {
+    throw new Error('Unexpected ball position');
+  }
+
+  return newDistance;
+}
+
 export function calculateDistance(
   events: IFootballEventWithPlayers[] | null,
   ballOn: number | null,
   index: number,
+  max: number,
 ): number | null {
+  console.log('Calculating distance...');
+  console.log('Ball On:', ballOn);
+
   if (events && index >= 0 && index < events.length) {
     if (ballOn === null) {
+      console.log('BallOn is null.');
       return null;
     }
+
     let newDistance: number | null = null;
+
     if (index > 0) {
       const previousEvent = events[index - 1];
-      if (previousEvent && previousEvent.ball_on) {
-        newDistance = 10 - (ballOn - previousEvent.ball_on);
-        if (newDistance <= 0) {
-          newDistance = 10;
+      if (
+        previousEvent &&
+        previousEvent.ball_on !== undefined &&
+        previousEvent.ball_on !== null &&
+        previousEvent.event_distance !== null &&
+        previousEvent.event_distance !== undefined
+      ) {
+        const previousBallOn = previousEvent.ball_on;
+        console.log('Previous Ball On:', previousBallOn);
+
+        try {
+          newDistance = computeDistance(
+            previousBallOn,
+            ballOn,
+            previousEvent.event_distance,
+            max,
+          );
+        } catch (error) {
+          console.error(error);
+          return null;
         }
       } else {
-        return newDistance;
+        console.log('No previous ball_on value.');
+        return null;
       }
     } else {
       newDistance = 10;
+      console.log('First event, default distance:', newDistance);
     }
+
+    console.log('Calculated Distance:', newDistance);
     return newDistance;
   }
+
+  console.log('Invalid events or index.');
   return null;
 }
+
+// export function calculateDistance(
+//   events: IFootballEventWithPlayers[] | null,
+//   ballOn: number | null,
+//   index: number,
+//   max: number,
+// ): number | null {
+//   console.log('Calculating distance...');
+//   console.log('Ball On:', ballOn);
+//
+//   if (events && index >= 0 && index < events.length) {
+//     if (ballOn === null) {
+//       console.log('BallOn is null.');
+//       return null;
+//     }
+//
+//     let calcDistance: number | null = null;
+//     let newDistance: number | null = null;
+//
+//     if (index > 0) {
+//       const previousEvent = events[index - 1];
+//       // console.log('Previous Event:', previousEvent);
+//       if (
+//         previousEvent &&
+//         previousEvent.ball_on !== undefined &&
+//         previousEvent.ball_on !== null &&
+//         previousEvent.event_distance !== null &&
+//         previousEvent.event_distance !== undefined
+//       ) {
+//         const previousBallOn = previousEvent.ball_on;
+//         console.log('Previous Ball On:', previousBallOn);
+//
+//         if (previousBallOn > 0 && ballOn > 0) {
+//           // Both in positive field
+//           calcDistance = previousBallOn - ballOn;
+//           newDistance = previousEvent.event_distance - calcDistance;
+//           console.log('Both positive:', newDistance);
+//         } else if (previousBallOn < 0 && ballOn < 0) {
+//           // Both in negative field
+//           calcDistance = previousBallOn - ballOn;
+//           newDistance = previousEvent.event_distance - calcDistance;
+//           console.log('Both negative:', newDistance);
+//         } else if (previousBallOn > 0 && ballOn < 0) {
+//           // Transition from positive to negative
+//           const centerDistance = max - previousBallOn + max + ballOn;
+//           newDistance = previousEvent.event_distance + centerDistance;
+//           console.log('Positive to negative:', newDistance);
+//         } else if (previousBallOn < 0 && ballOn > 0) {
+//           // Transition from negative to positive
+//           const centerDistance = max + previousBallOn + max - ballOn;
+//           newDistance = previousEvent.event_distance - centerDistance;
+//           console.log('Negative to positive:', newDistance);
+//         }
+//       } else {
+//         console.log('No previous ball_on value.');
+//         return newDistance;
+//       }
+//     } else {
+//       newDistance = 10;
+//       console.log('First event, default distance:', newDistance);
+//     }
+//
+//     console.log('Calculated Distance:', newDistance);
+//     return newDistance;
+//   }
+//
+//   console.log('Invalid events or index.');
+//   return null;
+// }
+
+// export function calculateDistance(
+//   events: IFootballEventWithPlayers[] | null,
+//   ballOn: number | null,
+//   index: number,
+// ): number | null {
+//   if (events && index >= 0 && index < events.length) {
+//     if (ballOn === null) {
+//       return null;
+//     }
+//     let newDistance: number | null = null;
+//     if (index > 0) {
+//       const previousEvent = events[index - 1];
+//       if (previousEvent && previousEvent.ball_on) {
+//         newDistance = 10 - (ballOn - previousEvent.ball_on);
+//         if (newDistance <= 0) {
+//           newDistance = 10;
+//         }
+//       } else {
+//         return newDistance;
+//       }
+//     } else {
+//       newDistance = 10;
+//     }
+//     return newDistance;
+//   }
+//   return null;
+// }

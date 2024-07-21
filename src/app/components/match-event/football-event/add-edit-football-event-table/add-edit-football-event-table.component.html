@@ -55,18 +55,58 @@
             @if (getBallOnFormControl(this.eventForm, this.arrayName, i); as control) {
               <div class="event-table-cell">
                 <label>Ball On</label>
-                <app-input-number-with-buttons
-                  [label]="'ball on'"
-                  [control]="control"
-                  [index]="i"
-                  [key]="eventBallOnKey"
-                  [min]="-50"
-                  [max]="50"
-                  [events]="events"
-                  [eventsArray]="eventsArray"
-                  (numberChanged)="handleFieldChange($event)"
-                  [onBallOnChange]="onBallOnChange"
-                ></app-input-number-with-buttons>
+                <div class="input-number-with-buttons">
+                  <tui-input-number
+                    [tuiTextfieldSize]="'l'"
+                    class="input-number"
+                    [formControl]="control"
+                    [tuiTextfieldCleaner]="true"
+                    [min]="-49"
+                    [max]="50"
+                    (tuiValueChanges)="onBallOnChange(events, eventsArray, $event, i, 50, -49)"
+                  >
+                    {{ 'Ball On' | uppercase }}
+                    <input
+                      name="event number"
+                      tuiTextfield
+                    />
+                  </tui-input-number>
+                  @if (getBallOn(eventsArray, i); as number) {
+                    <button
+                      appearance="icon"
+                      icon="tuiIconPlus"
+                      tuiIconButton
+                      class="increment-button"
+                      [size]="'xs'"
+                      (click)="incrementOnBall(eventsArray, i, number, 1, -49, 50, eventBallOnKey)"
+                      [disabled]="control.disabled"
+                    >
+                    </button>
+                    <button
+                      appearance="icon"
+                      icon="tuiIconMinus"
+                      tuiIconButton
+                      class="decrement-button"
+                      [size]="'xs'"
+                      (click)="incrementOnBall(eventsArray, i, number, -1, -49, 50, eventBallOnKey)"
+                      [disabled]="control.disabled"
+                    >-
+                    </button>
+                  }
+                </div>
+
+                <!--                <app-input-number-with-buttons-->
+                <!--                  [label]="'ball on'"-->
+                <!--                  [control]="control"-->
+                <!--                  [index]="i"-->
+                <!--                  [key]="eventBallOnKey"-->
+                <!--                  [min]="-50"-->
+                <!--                  [max]="50"-->
+                <!--                  [events]="events"-->
+                <!--                  [eventsArray]="eventsArray"-->
+                <!--                  (numberChanged)="handleFieldChange($event)"-->
+                <!--                  [onBallOnChange]="onBallOnChange"-->
+                <!--                ></app-input-number-with-buttons>-->
               </div>
             }
 

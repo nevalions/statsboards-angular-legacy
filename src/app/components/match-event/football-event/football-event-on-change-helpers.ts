@@ -68,6 +68,8 @@ export function onBallOnChange(
   eventsArray: FormArray,
   ballOn: number,
   index: number,
+  max: number,
+  min: number,
 ): void {
   // console.log(events, eventsArray, ballOn, index);
   const updatedDown = isFirstDown(events, ballOn, index);
@@ -77,7 +79,7 @@ export function onBallOnChange(
   if (updatedDown === 1 && currentDown !== 1) {
     updatedDistance = 10;
   } else {
-    updatedDistance = calculateDistance(events, ballOn, index);
+    updatedDistance = calculateDistance(events, ballOn, index, max);
   }
 
   if (updatedDistance) {
@@ -347,9 +349,46 @@ export function incrementNumber(
   arrayKey: string,
 ): number | null {
   if (num !== undefined && num !== null) {
-    const newValue = num + step;
+    const newValue = num - step;
     setArrayKeyIndexValue(array, index, newValue, arrayKey);
     return newValue;
   }
   return null;
+}
+
+export function incrementOnBall(
+  array: FormArray,
+  index: number,
+  num: number,
+  step: number,
+  min: number,
+  max: number,
+  arrayKey: string,
+): number | null {
+  if (num === undefined || num === null) {
+    return null;
+  }
+
+  let newValue = num;
+
+  if (num > 0) {
+    newValue = num - step;
+
+    // If the new value crosses over the max boundary to 0
+    if (newValue > max) {
+      newValue = min;
+    }
+  } else if (num < 0) {
+    // Negative field
+    newValue = num - step;
+
+    // If the new value crosses over the min boundary to 0
+    if (newValue < min) {
+      newValue = max;
+    }
+  }
+
+  // Set the new value in the array
+  setArrayKeyIndexValue(array, index, newValue, arrayKey);
+  return newValue;
 }
