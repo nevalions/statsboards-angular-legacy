@@ -58,6 +58,8 @@ export enum IFootballScoreResult {
   PatTwoGood = 'pat 2 is good',
   PatTwoMissed = 'pat 2 is missed',
   PatTwoReturn = 'pat 2 return',
+  KickOffTdReturn = 'kickoff td return',
+  PuntTdReturn = 'punt td return',
   Safety = 'safety',
 }
 
@@ -90,16 +92,16 @@ export interface IFootballEvent {
   fumble_player?: number | null;
   fumble_recovered_player?: number | null;
   tackle_player?: number | null;
-  assist_tackle_player?: number | null; //TODO
+  assist_tackle_player?: number | null;
   sack_player?: number | null;
   kick_player?: number | null;
   punt_player?: number | null;
-  score_player?: number | null; //TODO
-  defence_score_player?: number | null; //TODO
-  kickoff_player?: number | null; //TODO
-  return_player?: number | null; //TODO
-  pat_one_player?: number | null; //TODO
-  flagged_player?: number | null; //TODO
+  score_player?: number | null;
+  defence_score_player?: number | null;
+  kickoff_player?: number | null;
+  return_player?: number | null;
+  pat_one_player?: number | null;
+  flagged_player?: number | null;
 }
 
 export interface IFootballEventWithPlayers {
@@ -131,8 +133,15 @@ export interface IFootballEventWithPlayers {
   fumble_player?: IPlayerInMatchFullData | null;
   fumble_recovered_player?: IPlayerInMatchFullData | null;
   tackle_player?: IPlayerInMatchFullData | null;
+  assist_tackle_player?: IPlayerInMatchFullData | null;
   sack_player?: IPlayerInMatchFullData | null;
+  score_player?: IPlayerInMatchFullData | null;
+  defence_score_player?: IPlayerInMatchFullData | null;
   kick_player?: IPlayerInMatchFullData | null;
+  kickoff_player?: IPlayerInMatchFullData | null;
+  return_player?: IPlayerInMatchFullData | null;
+  pat_one_player?: IPlayerInMatchFullData | null;
+  flagged_player?: IPlayerInMatchFullData | null;
   punt_player?: IPlayerInMatchFullData | null;
 }
 

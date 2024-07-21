@@ -50,16 +50,27 @@ export const selectFootballEventsWithPlayers = createSelector(
           matchPlayers,
           event.pass_intercepted_player,
         ),
-        // is_fumble: event.is_fumble,
-        // is_fumble_recovered: event.is_fumble_recovered,
         fumble_player: getMatchPlayerById(matchPlayers, event.fumble_player),
         fumble_recovered_player: getMatchPlayerById(
           matchPlayers,
           event.fumble_recovered_player,
         ),
         tackle_player: getMatchPlayerById(matchPlayers, event.tackle_player),
+        assist_tackle_player: getMatchPlayerById(
+          matchPlayers,
+          event.assist_tackle_player,
+        ),
         sack_player: getMatchPlayerById(matchPlayers, event.sack_player),
+        score_player: getMatchPlayerById(matchPlayers, event.score_player),
+        defence_score_player: getMatchPlayerById(
+          matchPlayers,
+          event.defence_score_player,
+        ),
         kick_player: getMatchPlayerById(matchPlayers, event.kick_player),
+        kickoff_player: getMatchPlayerById(matchPlayers, event.kickoff_player),
+        return_player: getMatchPlayerById(matchPlayers, event.return_player),
+        pat_one_player: getMatchPlayerById(matchPlayers, event.pat_one_player),
+        flagged_player: getMatchPlayerById(matchPlayers, event.flagged_player),
         punt_player: getMatchPlayerById(matchPlayers, event.punt_player),
         event_hash: event.event_hash
           ? { value: event.event_hash.toLowerCase() }

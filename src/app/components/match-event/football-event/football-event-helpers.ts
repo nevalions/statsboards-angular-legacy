@@ -37,9 +37,18 @@ export const eventKickPlayerKey = 'eventKickPlayer';
 export const eventPuntPlayerKey = 'eventPuntPlayer';
 //DEFENCE
 export const eventTacklePlayerKey = 'eventTacklePlayer';
+export const eventAssistTacklePlayerKey = 'eventAssistTacklePlayer';
 export const eventDeflectedPlayerKey = 'eventDeflectedPlayer';
 export const eventInterceptedPlayerKey = 'eventInterceptedPlayer';
 export const eventSackPlayerKey = 'eventSackPlayer';
+export const eventScorePlayerKey = 'eventScorePlayer';
+export const eventDefenceScorePlayerKey = 'eventDefenceScorePlayer';
+export const eventKickOffPlayerKey = 'eventKickOffPlayer';
+export const eventReturnPlayerKey = 'eventReturnPlayer';
+export const eventPatOnePlayerKey = 'eventPatOnePlayer';
+export const eventFlaggedPlayerKey = 'eventFlaggedPlayer';
+export const eventFumblePlayerKey = 'eventFumblePlayer';
+export const eventFumbleRecoveredPlayerKey = 'eventFumbleRecoveredPlayer';
 
 export const eventId = (index: number) => eventIdKey + index;
 export const eventNumber = (index: number) => eventNumberKey + index;
@@ -62,17 +71,34 @@ export const eventReceiverPlayer = (index: number) =>
   eventReceiverPlayerKey + index;
 export const eventDroppedPlayer = (index: number) =>
   eventDroppedPlayerKey + index;
+export const eventScorePlayer = (index: number) => eventScorePlayerKey + index;
+export const eventDefenceScorePlayer = (index: number) =>
+  eventDefenceScorePlayerKey + index;
+export const eventKickOffPlayer = (index: number) =>
+  eventKickOffPlayerKey + index;
+export const eventReturnPlayer = (index: number) =>
+  eventReturnPlayerKey + index;
+export const eventPatOnePlayer = (index: number) =>
+  eventPatOnePlayerKey + index;
+export const eventFlaggedPlayer = (index: number) =>
+  eventFlaggedPlayerKey + index;
 
 export const eventKickPlayer = (index: number) => eventKickPlayerKey + index;
 export const eventPuntPlayer = (index: number) => eventPuntPlayerKey + index;
 
 export const eventTacklePlayer = (index: number) =>
   eventTacklePlayerKey + index;
+export const eventAssistTacklePlayer = (index: number) =>
+  eventAssistTacklePlayerKey + index;
 export const eventDeflectedPlayer = (index: number) =>
   eventDeflectedPlayerKey + index;
 export const eventInterceptedPlayer = (index: number) =>
   eventInterceptedPlayerKey + index;
 export const eventSackPlayer = (index: number) => eventSackPlayerKey + index;
+export const eventFumblePlayer = (index: number) =>
+  eventFumblePlayerKey + index;
+export const eventFumbleRecoveredPlayer = (index: number) =>
+  eventFumbleRecoveredPlayerKey + index;
 
 export function createNewEvent(
   lastEvent: IFootballEventWithPlayers | undefined,
@@ -169,12 +195,30 @@ export function extractEventData(
   const eventRunPlayer = getEventRunPlayer(eventsArray, index);
   const eventReceiverPlayer = getEventReceiverPlayer(eventsArray, index);
   const eventDroppedPlayer = getEventDroppedPlayer(eventsArray, index);
+  const eventScorePlayer = getEventScorePlayer(eventsArray, index);
+  const eventDefenceScorePlayer = getEventDefenceScorePlayer(
+    eventsArray,
+    index,
+  );
+  const eventKickOffPlayer = getEventKickOffPlayer(eventsArray, index);
+  const eventReturnPlayer = getEventReturnPlayer(eventsArray, index);
+  const eventPatOnePlayer = getEventPatOnePlayer(eventsArray, index);
+  const eventFlaggedPlayer = getEventFlaggedPlayer(eventsArray, index);
   const eventKickPlayer = getEventKickPlayer(eventsArray, index);
   const eventPuntPlayer = getEventPuntPlayer(eventsArray, index);
   const eventTacklePlayer = getEventTacklePlayer(eventsArray, index);
+  const eventAssistTacklePlayer = getEventAssistTacklePlayer(
+    eventsArray,
+    index,
+  );
   const eventDeflectedPlayer = getEventDeflectedPlayer(eventsArray, index);
   const eventInterceptedPlayer = getEventInterceptedPlayer(eventsArray, index);
   const eventSackPlayer = getEventSackPlayer(eventsArray, index);
+  const eventFumblePlayer = getEventFumblePlayer(eventsArray, index);
+  const eventFumbleRecoveredPlayer = getEventFumbleRecoveredPlayer(
+    eventsArray,
+    index,
+  );
 
   const newEventData: Partial<IFootballEvent> = {};
 
@@ -210,23 +254,32 @@ export function extractEventData(
 
   if (eventHash && eventHash.value) {
     newEventData.event_hash = eventHash.value.toLowerCase();
+  } else {
+    newEventData.event_hash = null;
   }
 
   if (eventDirection && eventDirection.value) {
     newEventData.play_direction = eventDirection.value.toLowerCase();
+  } else {
+    newEventData.play_direction = null;
   }
 
   if (eventPlayType && eventPlayType.value) {
     newEventData.play_type = eventPlayType.value.toLowerCase();
+  } else {
+    newEventData.play_type = null;
   }
 
   if (eventPlayResult && eventPlayResult.value) {
     newEventData.play_result = eventPlayResult.value.toLowerCase();
+  } else {
+    newEventData.play_result = null;
   }
 
   if (eventScoreResult && eventScoreResult.value) {
-    // console.log(eventScoreResult.value);
     newEventData.score_result = eventScoreResult.value.toLowerCase();
+  } else {
+    newEventData.score_result = null;
   }
 
   newEventData.is_fumble = eventIsFumble ?? false;
@@ -237,14 +290,26 @@ export function extractEventData(
     eventReceiverPlayer?.match_player?.id ?? null;
   newEventData.pass_dropped_player =
     eventDroppedPlayer?.match_player?.id ?? null;
+  newEventData.score_player = eventScorePlayer?.match_player?.id ?? null;
+  newEventData.defence_score_player =
+    eventDefenceScorePlayer?.match_player?.id ?? null;
+  newEventData.kickoff_player = eventKickOffPlayer?.match_player?.id ?? null;
+  newEventData.return_player = eventReturnPlayer?.match_player?.id ?? null;
+  newEventData.pat_one_player = eventPatOnePlayer?.match_player?.id ?? null;
+  newEventData.flagged_player = eventFlaggedPlayer?.match_player?.id ?? null;
   newEventData.kick_player = eventKickPlayer?.match_player?.id ?? null;
   newEventData.punt_player = eventPuntPlayer?.match_player?.id ?? null;
   newEventData.tackle_player = eventTacklePlayer?.match_player?.id ?? null;
+  newEventData.assist_tackle_player =
+    eventAssistTacklePlayer?.match_player?.id ?? null;
   newEventData.pass_deflected_player =
     eventDeflectedPlayer?.match_player?.id ?? null;
   newEventData.pass_intercepted_player =
     eventInterceptedPlayer?.match_player?.id ?? null;
   newEventData.sack_player = eventSackPlayer?.match_player?.id ?? null;
+  newEventData.fumble_player = eventFumblePlayer?.match_player?.id ?? null;
+  newEventData.fumble_recovered_player =
+    eventFumbleRecoveredPlayer?.match_player?.id ?? null;
 
   return newEventData;
 }
@@ -643,6 +708,57 @@ export function resetDroppedPlayer(
   resetArrayKeyIndexValue(eventsArray, index, eventDroppedPlayerKey);
 }
 
+// EventScorePlayer
+export function getEventScorePlayer(
+  eventsArray: FormArray,
+  index: number,
+): IPlayerInMatchFullData | null | undefined {
+  return getArrayFormDataByIndexAndKey<number>(
+    eventsArray,
+    index,
+    eventScorePlayerKey,
+  );
+}
+
+export function getEventScorePlayerFormControl(
+  form: FormGroup,
+  arrayName: string,
+  index: number,
+): FormControl | null | undefined {
+  return getFormControl(form, index, eventScorePlayerKey, arrayName);
+}
+
+export function resetScorePlayer(eventsArray: FormArray, index: number): void {
+  resetArrayKeyIndexValue(eventsArray, index, eventScorePlayerKey);
+}
+
+// EventDefenceScorePlayer
+export function getEventDefenceScorePlayer(
+  eventsArray: FormArray,
+  index: number,
+): IPlayerInMatchFullData | null | undefined {
+  return getArrayFormDataByIndexAndKey<number>(
+    eventsArray,
+    index,
+    eventDefenceScorePlayerKey,
+  );
+}
+
+export function getEventDefenceScorePlayerFormControl(
+  form: FormGroup,
+  arrayName: string,
+  index: number,
+): FormControl | null | undefined {
+  return getFormControl(form, index, eventDefenceScorePlayerKey, arrayName);
+}
+
+export function resetDefenceScorePlayer(
+  eventsArray: FormArray,
+  index: number,
+): void {
+  resetArrayKeyIndexValue(eventsArray, index, eventDefenceScorePlayerKey);
+}
+
 // EventKickPlayer
 export function getEventKickPlayer(
   eventsArray: FormArray,
@@ -665,6 +781,108 @@ export function getEventKickPlayerFormControl(
 
 export function resetKickPlayer(eventsArray: FormArray, index: number): void {
   resetArrayKeyIndexValue(eventsArray, index, eventKickPlayerKey);
+}
+
+// EventReturnPlayer
+export function getEventReturnPlayer(
+  eventsArray: FormArray,
+  index: number,
+): IPlayerInMatchFullData | null | undefined {
+  return getArrayFormDataByIndexAndKey<number>(
+    eventsArray,
+    index,
+    eventReturnPlayerKey,
+  );
+}
+
+export function getEventReturnPlayerFormControl(
+  form: FormGroup,
+  arrayName: string,
+  index: number,
+): FormControl | null | undefined {
+  return getFormControl(form, index, eventReturnPlayerKey, arrayName);
+}
+
+export function resetReturnPlayer(eventsArray: FormArray, index: number): void {
+  resetArrayKeyIndexValue(eventsArray, index, eventReturnPlayerKey);
+}
+
+// EventKickOffPlayer
+export function getEventKickOffPlayer(
+  eventsArray: FormArray,
+  index: number,
+): IPlayerInMatchFullData | null | undefined {
+  return getArrayFormDataByIndexAndKey<number>(
+    eventsArray,
+    index,
+    eventKickOffPlayerKey,
+  );
+}
+
+export function getEventKickOffPlayerFormControl(
+  form: FormGroup,
+  arrayName: string,
+  index: number,
+): FormControl | null | undefined {
+  return getFormControl(form, index, eventKickOffPlayerKey, arrayName);
+}
+
+export function resetKickOffPlayer(
+  eventsArray: FormArray,
+  index: number,
+): void {
+  resetArrayKeyIndexValue(eventsArray, index, eventKickOffPlayerKey);
+}
+
+// EventPatOnePlayer
+export function getEventPatOnePlayer(
+  eventsArray: FormArray,
+  index: number,
+): IPlayerInMatchFullData | null | undefined {
+  return getArrayFormDataByIndexAndKey<number>(
+    eventsArray,
+    index,
+    eventPatOnePlayerKey,
+  );
+}
+
+export function getEventPatOnePlayerFormControl(
+  form: FormGroup,
+  arrayName: string,
+  index: number,
+): FormControl | null | undefined {
+  return getFormControl(form, index, eventPatOnePlayerKey, arrayName);
+}
+
+export function resetPatOnePlayer(eventsArray: FormArray, index: number): void {
+  resetArrayKeyIndexValue(eventsArray, index, eventPatOnePlayerKey);
+}
+
+// EventFlaggedPlayer
+export function getEventFlaggedPlayer(
+  eventsArray: FormArray,
+  index: number,
+): IPlayerInMatchFullData | null | undefined {
+  return getArrayFormDataByIndexAndKey<number>(
+    eventsArray,
+    index,
+    eventFlaggedPlayerKey,
+  );
+}
+
+export function getEventFlaggedPlayerFormControl(
+  form: FormGroup,
+  arrayName: string,
+  index: number,
+): FormControl | null | undefined {
+  return getFormControl(form, index, eventFlaggedPlayerKey, arrayName);
+}
+
+export function resetFlaggedPlayer(
+  eventsArray: FormArray,
+  index: number,
+): void {
+  resetArrayKeyIndexValue(eventsArray, index, eventFlaggedPlayerKey);
 }
 
 // EventPuntPlayer
@@ -713,6 +931,33 @@ export function getEventTacklePlayerFormControl(
 
 export function resetTacklePlayer(eventsArray: FormArray, index: number): void {
   resetArrayKeyIndexValue(eventsArray, index, eventTacklePlayerKey);
+}
+
+// EventAssistTacklePlayer
+export function getEventAssistTacklePlayer(
+  eventsArray: FormArray,
+  index: number,
+): IPlayerInMatchFullData | null | undefined {
+  return getArrayFormDataByIndexAndKey<number>(
+    eventsArray,
+    index,
+    eventTacklePlayerKey,
+  );
+}
+
+export function getEventAssistTacklePlayerFormControl(
+  form: FormGroup,
+  arrayName: string,
+  index: number,
+): FormControl | null | undefined {
+  return getFormControl(form, index, eventAssistTacklePlayerKey, arrayName);
+}
+
+export function resetAssistTacklePlayer(
+  eventsArray: FormArray,
+  index: number,
+): void {
+  resetArrayKeyIndexValue(eventsArray, index, eventAssistTacklePlayerKey);
 }
 
 // EventDeflectedPlayer
@@ -791,4 +1036,55 @@ export function getEventSackPlayerFormControl(
 
 export function resetSackPlayer(eventsArray: FormArray, index: number): void {
   resetArrayKeyIndexValue(eventsArray, index, eventSackPlayerKey);
+}
+
+// EventFumblePlayer
+export function getEventFumblePlayer(
+  eventsArray: FormArray,
+  index: number,
+): IPlayerInMatchFullData | null | undefined {
+  return getArrayFormDataByIndexAndKey<number>(
+    eventsArray,
+    index,
+    eventFumblePlayerKey,
+  );
+}
+
+export function getEventFumblePlayerFormControl(
+  form: FormGroup,
+  arrayName: string,
+  index: number,
+): FormControl | null | undefined {
+  return getFormControl(form, index, eventFumblePlayerKey, arrayName);
+}
+
+export function resetFumblePlayer(eventsArray: FormArray, index: number): void {
+  resetArrayKeyIndexValue(eventsArray, index, eventFumblePlayerKey);
+}
+
+// EventFumbleRecoveredPlayer
+export function getEventFumbleRecoveredPlayer(
+  eventsArray: FormArray,
+  index: number,
+): IPlayerInMatchFullData | null | undefined {
+  return getArrayFormDataByIndexAndKey<number>(
+    eventsArray,
+    index,
+    eventFumbleRecoveredPlayerKey,
+  );
+}
+
+export function getEventFumbleRecoveredPlayerFormControl(
+  form: FormGroup,
+  arrayName: string,
+  index: number,
+): FormControl | null | undefined {
+  return getFormControl(form, index, eventFumbleRecoveredPlayerKey, arrayName);
+}
+
+export function resetFumbleRecoveredPlayer(
+  eventsArray: FormArray,
+  index: number,
+): void {
+  resetArrayKeyIndexValue(eventsArray, index, eventFumbleRecoveredPlayerKey);
 }

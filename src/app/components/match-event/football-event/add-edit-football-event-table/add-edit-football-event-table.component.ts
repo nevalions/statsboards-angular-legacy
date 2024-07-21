@@ -34,8 +34,10 @@ import { IMatchFullDataWithScoreboard } from '../../../../type/match.type';
 import { DialogService } from '../../../../services/dialog.service';
 import {
   createNewEvent,
+  eventAssistTacklePlayer,
   eventBallOn,
   eventBallOnKey,
+  eventDefenceScorePlayer,
   eventDeflectedPlayer,
   eventDirection,
   eventDistance,
@@ -43,14 +45,19 @@ import {
   eventDown,
   eventDownKey,
   eventDroppedPlayer,
+  eventFlaggedPlayer,
+  eventFumblePlayer,
+  eventFumbleRecoveredPlayer,
   eventHash,
   eventId,
   eventInterceptedPlayer,
   eventIsFumble,
   eventIsFumbleRecovered,
+  eventKickOffPlayer,
   eventKickPlayer,
   eventNumber,
   eventNumberKey,
+  eventPatOnePlayer,
   eventPlayResult,
   eventPlayResultKey,
   eventPlayType,
@@ -60,13 +67,19 @@ import {
   eventQtr,
   eventQtrKey,
   eventReceiverPlayer,
+  eventReturnPlayer,
   eventRunPlayer,
   eventSackPlayer,
+  eventScorePlayer,
   eventScoreResult,
   eventTacklePlayer,
   eventTeam,
   extractEventData,
   getBallOnFormControl,
+  getEventAssistTacklePlayer,
+  getEventAssistTacklePlayerFormControl,
+  getEventDefenceScorePlayer,
+  getEventDefenceScorePlayerFormControl,
   getEventDeflectedPlayer,
   getEventDeflectedPlayerFormControl,
   getEventDirectionFormControl,
@@ -74,17 +87,28 @@ import {
   getEventDownFormControl,
   getEventDroppedPlayer,
   getEventDroppedPlayerFormControl,
+  getEventFlaggedPlayer,
+  getEventFlaggedPlayerFormControl,
+  getEventFumblePlayer,
+  getEventFumblePlayerFormControl,
+  getEventFumbleRecoveredPlayer,
+  getEventFumbleRecoveredPlayerFormControl,
   getEventHashFormControl,
   getEventId,
   getEventInterceptedPlayer,
   getEventInterceptedPlayerFormControl,
   getEventIsFumble,
   getEventIsFumbleFormControl,
+  getEventIsFumbleRecovered,
   getEventIsFumbleRecoveredFormControl,
+  getEventKickOffPlayer,
+  getEventKickOffPlayerFormControl,
   getEventKickPlayer,
   getEventKickPlayerFormControl,
   getEventNumber,
   getEventNumberFormControl,
+  getEventPatOnePlayer,
+  getEventPatOnePlayerFormControl,
   getEventPlayResultFormControl,
   getEventPlayTypeFormControl,
   getEventPuntPlayer,
@@ -92,10 +116,14 @@ import {
   getEventQbFormControl,
   getEventReceiverPlayer,
   getEventReceiverPlayerFormControl,
+  getEventReturnPlayer,
+  getEventReturnPlayerFormControl,
   getEventRunPlayer,
   getEventRunPlayerFormControl,
   getEventSackPlayer,
   getEventSackPlayerFormControl,
+  getEventScorePlayer,
+  getEventScorePlayerFormControl,
   getEventScoreResult,
   getEventScoreResultFormControl,
   getEventTacklePlayer,
@@ -341,13 +369,22 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
     const controlEventRunPlayer = eventRunPlayer(index);
     const controlEventReceiverPlayer = eventReceiverPlayer(index);
     const controlEventDroppedPlayer = eventDroppedPlayer(index);
+    const controlEventScorePlayer = eventScorePlayer(index);
+    const controlEventDefenceScorePlayer = eventDefenceScorePlayer(index);
+    const controlEventKickOffPlayer = eventKickOffPlayer(index);
+    const controlEventReturnPlayer = eventReturnPlayer(index);
+    const controlEventPatOnePlayer = eventPatOnePlayer(index);
+    const controlEventFlaggedPlayer = eventFlaggedPlayer(index);
     const controlEventKickPlayer = eventKickPlayer(index);
     const controlEventPuntPlayer = eventPuntPlayer(index);
 
     const controlEventTacklePlayer = eventTacklePlayer(index);
+    const controlEventAssistTacklePlayer = eventAssistTacklePlayer(index);
     const controlEventDeflectedPlayer = eventDeflectedPlayer(index);
     const controlEventInterceptedPlayer = eventInterceptedPlayer(index);
     const controlEventSackPlayer = eventSackPlayer(index);
+    const controlEventFumblePlayer = eventFumblePlayer(index);
+    const controlEventFumbleRecoveredPlayer = eventFumbleRecoveredPlayer(index);
 
     // Create the form group
     const formGroup = this.fb.group({
@@ -371,9 +408,20 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
       [controlEventRunPlayer]: new FormControl(event.run_player),
       [controlEventReceiverPlayer]: new FormControl(event.pass_received_player),
       [controlEventDroppedPlayer]: new FormControl(event.pass_dropped_player),
+      [controlEventScorePlayer]: new FormControl(event.score_player),
+      [controlEventDefenceScorePlayer]: new FormControl(
+        event.defence_score_player,
+      ),
+      [controlEventKickOffPlayer]: new FormControl(event.kickoff_player),
+      [controlEventReturnPlayer]: new FormControl(event.return_player),
+      [controlEventPatOnePlayer]: new FormControl(event.pat_one_player),
+      [controlEventFlaggedPlayer]: new FormControl(event.flagged_player),
       [controlEventKickPlayer]: new FormControl(event.kick_player),
       [controlEventPuntPlayer]: new FormControl(event.punt_player),
       [controlEventTacklePlayer]: new FormControl(event.tackle_player),
+      [controlEventAssistTacklePlayer]: new FormControl(
+        event.assist_tackle_player,
+      ),
       [controlEventDeflectedPlayer]: new FormControl(
         event.pass_deflected_player,
       ),
@@ -381,6 +429,10 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
         event.pass_intercepted_player,
       ),
       [controlEventSackPlayer]: new FormControl(event.sack_player),
+      [controlEventFumblePlayer]: new FormControl(event.fumble_player),
+      [controlEventFumbleRecoveredPlayer]: new FormControl(
+        event.fumble_recovered_player,
+      ),
     });
 
     // Disable the entire form group if event.id is not null
@@ -619,4 +671,34 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
   protected readonly getEventIsFumbleRecoveredFormControl =
     getEventIsFumbleRecoveredFormControl;
   protected readonly getEventIsFumble = getEventIsFumble;
+  protected readonly getEventFumblePlayerFormControl =
+    getEventFumblePlayerFormControl;
+  protected readonly getEventFumblePlayer = getEventFumblePlayer;
+  protected readonly getEventFumbleRecoveredPlayerFormControl =
+    getEventFumbleRecoveredPlayerFormControl;
+  protected readonly getEventFumbleRecoveredPlayer =
+    getEventFumbleRecoveredPlayer;
+  protected readonly getEventIsFumbleRecovered = getEventIsFumbleRecovered;
+  protected readonly getEventScorePlayerFormControl =
+    getEventScorePlayerFormControl;
+  protected readonly getEventScorePlayer = getEventScorePlayer;
+  protected readonly getEventDefenceScorePlayerFormControl =
+    getEventDefenceScorePlayerFormControl;
+  protected readonly IFootballScoreResult = IFootballScoreResult;
+  protected readonly getEventDefenceScorePlayer = getEventDefenceScorePlayer;
+  protected readonly getEventAssistTacklePlayerFormControl =
+    getEventAssistTacklePlayerFormControl;
+  protected readonly getEventAssistTacklePlayer = getEventAssistTacklePlayer;
+  protected readonly getEventKickOffPlayerFormControl =
+    getEventKickOffPlayerFormControl;
+  protected readonly getEventKickOffPlayer = getEventKickOffPlayer;
+  protected readonly getEventPatOnePlayerFormControl =
+    getEventPatOnePlayerFormControl;
+  protected readonly getEventPatOnePlayer = getEventPatOnePlayer;
+  protected readonly getEventReturnPlayerFormControl =
+    getEventReturnPlayerFormControl;
+  protected readonly getEventReturnPlayer = getEventReturnPlayer;
+  protected readonly getEventFlaggedPlayerFormControl =
+    getEventFlaggedPlayerFormControl;
+  protected readonly getEventFlaggedPlayer = getEventFlaggedPlayer;
 }

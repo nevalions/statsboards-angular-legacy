@@ -193,40 +193,90 @@
 
             <!--EVENT SCORE RESULT-->
             @if (getEventScoreResultFormControl(this.eventForm, this.arrayName, i); as control) {
-              <div class="event-table-cell">
-                <label>Score Result</label>
-                <app-select-enum
-                  [control]="control"
-                  [placeholder]="'score result'"
-                  [enumObjects]="eventFilteredScoreResultOptions"
-                ></app-select-enum>
-              </div>
+              @if (!isPlayResult(eventFormGroup, i, eventPlayResultKey, IFootballPlayResult.Flag)) {
+                <div class="event-table-cell">
+                  <label>Score Result</label>
+                  <app-select-enum
+                    [control]="control"
+                    [placeholder]="'score result'"
+                    [enumObjects]="eventFilteredScoreResultOptions"
+                  ></app-select-enum>
+                </div>
+              }
             }
 
             <div class="event-fumble">
-              <!--EVENT IS FUMBLE-->
-              @if (getEventIsFumbleFormControl(this.eventForm, this.arrayName, i); as control) {
-                <div class="event-table-cell">
-                  <label>Is Fumble?</label>
-                  <tui-toggle
-                    [formControl]="control"
-                    size="l"
-                  ></tui-toggle>
-                </div>
-              }
+              <div class="event-is-fumble">
+                <!--EVENT IS FUMBLE-->
+                @if (getEventIsFumbleFormControl(this.eventForm, this.arrayName, i); as control) {
+                  @if (!isPlayResult(eventFormGroup, i, eventPlayResultKey, IFootballPlayResult.Flag)) {
+                    <div class="event-table-cell">
+                      <label>Is Fumble?</label>
+                      <tui-toggle
+                        [formControl]="control"
+                        size="l"
+                      ></tui-toggle>
+                    </div>
+                  }
+                }
 
-              <!--EVENT IS FUMBLE RECOVERED-->
-              @if (getEventIsFumbleRecoveredFormControl(this.eventForm, this.arrayName, i); as control) {
-                @if (getEventIsFumble(eventsArray, i)) {
+                <!--EVENT IS FUMBLE RECOVERED-->
+                @if (getEventIsFumbleRecoveredFormControl(this.eventForm, this.arrayName, i); as control) {
+                  @if (!isPlayResult(eventFormGroup, i, eventPlayResultKey, IFootballPlayResult.Flag)) {
+                    @if (getEventIsFumble(eventsArray, i)) {
+                      <div class="event-table-cell">
+                        <label>Is Fumble Recovered?</label>
+                        <tui-toggle
+                          [formControl]="control"
+                          size="l"
+                        ></tui-toggle>
+                      </div>
+                    }
+                  }
+                }
+              </div>
+
+              <div class="event-fumble-input">
+                <!--EVENT FUMBLE PLAYER-->
+                @if (getEventFumblePlayerFormControl(this.eventForm, this.arrayName, i); as control) {
                   <div class="event-table-cell">
-                    <label>Is Fumble Recovered?</label>
-                    <tui-toggle
-                      [formControl]="control"
-                      size="l"
-                    ></tui-toggle>
+                    @if (getEventTeam(eventsArray, i); as selectedTeam) {
+                      @if (!isPlayResult(eventFormGroup, i, eventPlayResultKey, IFootballPlayResult.Flag) &&
+                      getEventIsFumble(eventsArray, i) ||
+                      getEventFumblePlayer(eventsArray, i)) {
+                        <label>Fumble Player</label>
+                        <app-search-player-in-match-autocomplete
+                          [action]="'select'"
+                          [placeholder]="'fumble player'"
+                          [players]="getPlayersForSelectedTeam(selectedTeam)"
+                          [control]="control">
+                        </app-search-player-in-match-autocomplete>
+                      }
+                    }
                   </div>
                 }
-              }
+              </div>
+
+              <div class="event-fumble-recover-input">
+                <!--EVENT FUMBLE RECOVERED PLAYER-->
+                @if (getEventFumbleRecoveredPlayerFormControl(this.eventForm, this.arrayName, i); as control) {
+                  <div class="event-table-cell">
+                    @if (getEventTeam(eventsArray, i); as selectedTeam) {
+                      @if (!isPlayResult(eventFormGroup, i, eventPlayResultKey, IFootballPlayResult.Flag) &&
+                      getEventIsFumbleRecovered(eventsArray, i) ||
+                      getEventFumbleRecoveredPlayer(eventsArray, i)) {
+                        <label>Fumble Recovered Player</label>
+                        <app-search-player-in-match-autocomplete
+                          [action]="'select'"
+                          [placeholder]="'fumble recovered player'"
+                          [players]="getDefencePlayersForTeam(selectedTeam)"
+                          [control]="control">
+                        </app-search-player-in-match-autocomplete>
+                      }
+                    }
+                  </div>
+                }
+              </div>
             </div>
 
             <!--EVENT RUN PLAYER-->
@@ -301,6 +351,42 @@
               </div>
             }
 
+            <!--EVENT KICKOFF PLAYER-->
+            @if (getEventKickOffPlayerFormControl(this.eventForm, this.arrayName, i); as control) {
+              <div class="event-table-cell">
+                @if (getEventTeam(eventsArray, i); as selectedTeam) {
+                  @if (isPlayType(eventFormGroup, i, eventPlayTypeKey, IFootballPlayType.Kickoff) ||
+                  getEventKickOffPlayer(eventsArray, i)) {
+                    <label>KickOff Player</label>
+                    <app-search-player-in-match-autocomplete
+                      [action]="'select'"
+                      [placeholder]="'kickoff player'"
+                      [players]="getPlayersForSelectedTeam(selectedTeam)"
+                      [control]="control">
+                    </app-search-player-in-match-autocomplete>
+                  }
+                }
+              </div>
+            }
+
+            <!--EVENT PAT ONE PLAYER-->
+            @if (getEventPatOnePlayerFormControl(this.eventForm, this.arrayName, i); as control) {
+              <div class="event-table-cell">
+                @if (getEventTeam(eventsArray, i); as selectedTeam) {
+                  @if (isPlayType(eventFormGroup, i, eventPlayTypeKey, IFootballPlayType.PatOne) ||
+                  getEventPatOnePlayer(eventsArray, i)) {
+                    <label>Pat One Player</label>
+                    <app-search-player-in-match-autocomplete
+                      [action]="'select'"
+                      [placeholder]="'pat one player'"
+                      [players]="getPlayersForSelectedTeam(selectedTeam)"
+                      [control]="control">
+                    </app-search-player-in-match-autocomplete>
+                  }
+                }
+              </div>
+            }
+
             <!--EVENT PUNT PLAYER-->
             @if (getEventPuntPlayerFormControl(this.eventForm, this.arrayName, i); as control) {
               <div class="event-table-cell">
@@ -311,6 +397,47 @@
                     <app-search-player-in-match-autocomplete
                       [action]="'select'"
                       [placeholder]="'punt player'"
+                      [players]="getPlayersForSelectedTeam(selectedTeam)"
+                      [control]="control">
+                    </app-search-player-in-match-autocomplete>
+                  }
+                }
+              </div>
+            }
+
+            <!--EVENT RETURN PLAYER-->
+            @if (getEventReturnPlayerFormControl(this.eventForm, this.arrayName, i); as control) {
+              <div class="event-table-cell">
+                @if (getEventTeam(eventsArray, i); as selectedTeam) {
+                  @if (isPlayType(eventFormGroup, i, eventPlayTypeKey, IFootballPlayType.Punt) ||
+                  isPlayType(eventFormGroup, i, eventPlayTypeKey, IFootballPlayType.Kickoff) ||
+                  getEventReturnPlayer(eventsArray, i)) {
+                    <label>Return Player</label>
+                    <app-search-player-in-match-autocomplete
+                      [action]="'select'"
+                      [placeholder]="'return player'"
+                      [players]="getDefencePlayersForTeam(selectedTeam)"
+                      [control]="control">
+                    </app-search-player-in-match-autocomplete>
+                  }
+                }
+              </div>
+            }
+
+
+            <!--EVENT SCORE PLAYER-->
+            @if (getEventScorePlayerFormControl(this.eventForm, this.arrayName, i); as control) {
+              <div class="event-table-cell">
+                @if (getEventTeam(eventsArray, i); as selectedTeam) {
+                  @if (getEventScoreResult(eventsArray, i)?.value === IFootballScoreResult.Td ||
+                  getEventScoreResult(eventsArray, i)?.value === IFootballScoreResult.KickGood ||
+                  getEventScoreResult(eventsArray, i)?.value === IFootballScoreResult.PatOneGood ||
+                  getEventScoreResult(eventsArray, i)?.value === IFootballScoreResult.PatTwoGood ||
+                  getEventScorePlayer(eventsArray, i)) {
+                    <label>Score Player</label>
+                    <app-search-player-in-match-autocomplete
+                      [action]="'select'"
+                      [placeholder]="'score player'"
                       [players]="getPlayersForSelectedTeam(selectedTeam)"
                       [control]="control">
                     </app-search-player-in-match-autocomplete>
@@ -355,11 +482,14 @@
               </div>
             }
 
+
+
             <!--EVENT SACK PLAYER-->
             @if (getEventSackPlayerFormControl(this.eventForm, this.arrayName, i); as control) {
               <div class="event-table-cell">
                 @if (getEventTeam(eventsArray, i); as selectedTeam) {
-                  @if (isPlayResult(eventFormGroup, i, eventPlayResultKey, IFootballPlayResult.Sack) ||
+                  @if (isPlayResult(eventFormGroup, i, eventPlayResultKey, IFootballPlayResult.Sack) &&
+                  !isPlayResult(eventFormGroup, i, eventPlayResultKey, IFootballPlayResult.Flag) ||
                   getEventSackPlayer(eventsArray, i)) {
                     <label>Sack Player</label>
                     <app-search-player-in-match-autocomplete
@@ -385,10 +515,67 @@
                       [placeholder]="'tackle player'"
                       [players]="getDefencePlayersForTeam(selectedTeam)"
                       [control]="control"
-                      (reset)="control.setValue(null)"
                     >
                     </app-search-player-in-match-autocomplete>
                   }
+                }
+              </div>
+            }
+
+            <!--EVENT ASSIST TACKLE PLAYER-->
+            @if (getEventAssistTacklePlayerFormControl(this.eventForm, this.arrayName, i); as control) {
+              <div class="event-table-cell">
+                @if (getEventTeam(eventsArray, i); as selectedTeam) {
+                  @if (!isPlayResult(eventFormGroup, i, eventPlayResultKey, IFootballPlayResult.Flag) ||
+                  getEventAssistTacklePlayer(eventsArray, i)) {
+                    <label>Assist Tackle Player</label>
+                    <app-search-player-in-match-autocomplete
+                      [action]="'select'"
+                      [placeholder]="'assist tackle player'"
+                      [players]="getDefencePlayersForTeam(selectedTeam)"
+                      [control]="control"
+                    >
+                    </app-search-player-in-match-autocomplete>
+                  }
+                }
+              </div>
+            }
+
+            <!--EVENT DEFENCE SCORE PLAYER-->
+            @if (getEventDefenceScorePlayerFormControl(this.eventForm, this.arrayName, i); as control) {
+              <div class="event-table-cell">
+                @if (getEventTeam(eventsArray, i); as selectedTeam) {
+                  @if (getEventScoreResult(eventsArray, i)?.value === IFootballScoreResult.TdDefence ||
+                  getEventScoreResult(eventsArray, i)?.value === IFootballScoreResult.PatOneReturn ||
+                  getEventScoreResult(eventsArray, i)?.value === IFootballScoreResult.PatTwoReturn ||
+                  getEventScoreResult(eventsArray, i)?.value === IFootballScoreResult.KickOffTdReturn ||
+                  getEventScoreResult(eventsArray, i)?.value === IFootballScoreResult.PuntTdReturn ||
+                  getEventDefenceScorePlayer(eventsArray, i)) {
+                    <label>Defence Score Player</label>
+                    <app-search-player-in-match-autocomplete
+                      [action]="'select'"
+                      [placeholder]="'defence score player'"
+                      [players]="getDefencePlayersForTeam(selectedTeam)"
+                      [control]="control">
+                    </app-search-player-in-match-autocomplete>
+                  }
+                }
+              </div>
+            }
+
+            <!--EVENT FLAGGED PLAYER-->
+            @if (getEventFlaggedPlayerFormControl(this.eventForm, this.arrayName, i); as control) {
+              <div class="event-table-cell">
+                @if (isPlayResult(eventFormGroup, i, eventPlayResultKey, IFootballPlayResult.Flag) ||
+                getEventFlaggedPlayer(eventsArray, i)) {
+                  <label>Flagged Player</label>
+                  <app-search-player-in-match-autocomplete
+                    [action]="'select'"
+                    [placeholder]="'flagged player'"
+                    [players]="getAllPlayers()"
+                    [control]="control"
+                  >
+                  </app-search-player-in-match-autocomplete>
                 }
               </div>
             }
