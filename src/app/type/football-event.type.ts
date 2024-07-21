@@ -57,7 +57,7 @@ export interface IFootballEvent {
   play_result?: string | null;
   play_direction?: string | null; //TODO
   is_fumble?: boolean | null; //TODO
-  fumble_result?: string | null; //TODO
+  is_fumble_recovered?: boolean | null; //TODO
   score_result?: string | null; //TODO
 
   run_player?: number | null;

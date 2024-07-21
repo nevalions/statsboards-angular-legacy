@@ -56,6 +56,7 @@ import {
   eventQtrKey,
   eventReceiverPlayer,
   eventRunPlayer,
+  eventSackPlayer,
   eventTacklePlayer,
   eventTeam,
   extractEventData,
@@ -82,6 +83,8 @@ import {
   getEventReceiverPlayerFormControl,
   getEventRunPlayer,
   getEventRunPlayerFormControl,
+  getEventSackPlayer,
+  getEventSackPlayerFormControl,
   getEventTacklePlayer,
   getEventTacklePlayerFormControl,
   getEventTeam,
@@ -296,6 +299,7 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
     const controlEventTacklePlayer = eventTacklePlayer(index);
     const controlEventDeflectedPlayer = eventDeflectedPlayer(index);
     const controlEventInterceptedPlayer = eventInterceptedPlayer(index);
+    const controlEventSackPlayer = eventSackPlayer(index);
 
     // Create the form group
     const formGroup = this.fb.group({
@@ -322,6 +326,7 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
       [controlEventInterceptedPlayer]: new FormControl(
         event.pass_intercepted_player,
       ),
+      [controlEventSackPlayer]: new FormControl(event.sack_player),
     });
 
     // Disable the entire form group if event.id is not null
@@ -539,4 +544,7 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
   protected readonly getEventInterceptedPlayer = getEventInterceptedPlayer;
   protected readonly getEventInterceptedPlayerFormControl =
     getEventInterceptedPlayerFormControl;
+  protected readonly getEventSackPlayerFormControl =
+    getEventSackPlayerFormControl;
+  protected readonly getEventSackPlayer = getEventSackPlayer;
 }

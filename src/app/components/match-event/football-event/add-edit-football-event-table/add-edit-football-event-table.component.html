@@ -295,6 +295,24 @@
               </div>
             }
 
+            <!--EVENT SACK PLAYER-->
+            @if (getEventSackPlayerFormControl(this.eventForm, this.arrayName, i); as control) {
+              <div class="event-table-cell">
+                @if (getEventTeam(eventsArray, i); as selectedTeam) {
+                  @if (isPlayResult(eventFormGroup, i, eventPlayResultKey, IFootballPlayResult.Sack) ||
+                  getEventSackPlayer(eventsArray, i)) {
+                    <label>Sack Player</label>
+                    <app-search-player-in-match-autocomplete
+                      [action]="'select'"
+                      [placeholder]="'sack player'"
+                      [players]="getDefencePlayersForTeam(selectedTeam)"
+                      [control]="control">
+                    </app-search-player-in-match-autocomplete>
+                  }
+                }
+              </div>
+            }
+
             <!--EVENT TACKLE PLAYER-->
             @if (getEventTacklePlayerFormControl(this.eventForm, this.arrayName, i); as control) {
               <div class="event-table-cell">

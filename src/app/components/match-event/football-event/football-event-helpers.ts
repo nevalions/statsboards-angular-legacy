@@ -35,6 +35,7 @@ export const eventPuntPlayerKey = 'eventPuntPlayer';
 export const eventTacklePlayerKey = 'eventTacklePlayer';
 export const eventDeflectedPlayerKey = 'eventDeflectedPlayer';
 export const eventInterceptedPlayerKey = 'eventInterceptedPlayer';
+export const eventSackPlayerKey = 'eventSackPlayer';
 
 export const eventId = (index: number) => eventIdKey + index;
 export const eventNumber = (index: number) => eventNumberKey + index;
@@ -62,6 +63,7 @@ export const eventDeflectedPlayer = (index: number) =>
   eventDeflectedPlayerKey + index;
 export const eventInterceptedPlayer = (index: number) =>
   eventInterceptedPlayerKey + index;
+export const eventSackPlayer = (index: number) => eventSackPlayerKey + index;
 
 export function createNewEvent(
   lastEvent: IFootballEventWithPlayers | undefined,
@@ -153,6 +155,7 @@ export function extractEventData(
   const eventTacklePlayer = getEventTacklePlayer(eventsArray, index);
   const eventDeflectedPlayer = getEventDeflectedPlayer(eventsArray, index);
   const eventInterceptedPlayer = getEventInterceptedPlayer(eventsArray, index);
+  const eventSackPlayer = getEventSackPlayer(eventsArray, index);
 
   const newEventData: Partial<IFootballEvent> = {};
 
@@ -210,6 +213,7 @@ export function extractEventData(
     eventDeflectedPlayer?.match_player?.id ?? null;
   newEventData.pass_intercepted_player =
     eventInterceptedPlayer?.match_player?.id ?? null;
+  newEventData.sack_player = eventSackPlayer?.match_player?.id ?? null;
 
   return newEventData;
 }
@@ -648,4 +652,28 @@ export function resetInterceptedPlayer(
   index: number,
 ): void {
   resetArrayKeyIndexValue(eventsArray, index, eventInterceptedPlayerKey);
+}
+
+// EventSackPlayer
+export function getEventSackPlayer(
+  eventsArray: FormArray,
+  index: number,
+): IPlayerInMatchFullData | null | undefined {
+  return getArrayFormDataByIndexAndKey<number>(
+    eventsArray,
+    index,
+    eventSackPlayerKey,
+  );
+}
+
+export function getEventSackPlayerFormControl(
+  form: FormGroup,
+  arrayName: string,
+  index: number,
+): FormControl | null | undefined {
+  return getFormControl(form, index, eventSackPlayerKey, arrayName);
+}
+
+export function resetSackPlayer(eventsArray: FormArray, index: number): void {
+  resetArrayKeyIndexValue(eventsArray, index, eventSackPlayerKey);
 }
