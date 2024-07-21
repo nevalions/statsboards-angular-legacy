@@ -547,7 +547,14 @@
             @if (getEventTacklePlayerFormControl(this.eventForm, this.arrayName, i); as control) {
               <div class="event-table-cell">
                 @if (getEventTeam(eventsArray, i); as selectedTeam) {
-                  @if (!isPlayResult(eventFormGroup, i, eventPlayResultKey, IFootballPlayResult.Flag) ||
+                  @if (!isPlayResult(eventFormGroup, i, eventPlayResultKey, IFootballPlayResult.Flag) &&
+                  !isPlayResult(eventFormGroup, i, eventPlayResultKey, IFootballPlayResult.PassDeflected) &&
+                  !isPlayResult(eventFormGroup, i, eventPlayResultKey, IFootballPlayResult.PassDropped) &&
+                  !isScoreResult(eventFormGroup, i, eventScoreResultKey, IFootballScoreResult.Td) &&
+                  !isScoreResult(eventFormGroup, i, eventScoreResultKey, IFootballScoreResult.TdDefence) &&
+                  !isScoreResult(eventFormGroup, i, eventScoreResultKey, IFootballScoreResult.KickGood) &&
+                  !isScoreResult(eventFormGroup, i, eventScoreResultKey, IFootballScoreResult.PuntTdReturn)
+                  ||
                   getEventTacklePlayer(eventsArray, i)) {
                     <label>Tackle Player</label>
                     <app-search-player-in-match-autocomplete
@@ -566,7 +573,14 @@
             @if (getEventAssistTacklePlayerFormControl(this.eventForm, this.arrayName, i); as control) {
               <div class="event-table-cell">
                 @if (getEventTeam(eventsArray, i); as selectedTeam) {
-                  @if (!isPlayResult(eventFormGroup, i, eventPlayResultKey, IFootballPlayResult.Flag) ||
+                  @if (!isPlayResult(eventFormGroup, i, eventPlayResultKey, IFootballPlayResult.Flag) &&
+                  !isPlayResult(eventFormGroup, i, eventPlayResultKey, IFootballPlayResult.PassDeflected) &&
+                  !isPlayResult(eventFormGroup, i, eventPlayResultKey, IFootballPlayResult.PassDropped) &&
+                  !isScoreResult(eventFormGroup, i, eventScoreResultKey, IFootballScoreResult.Td) &&
+                  !isScoreResult(eventFormGroup, i, eventScoreResultKey, IFootballScoreResult.TdDefence) &&
+                  !isScoreResult(eventFormGroup, i, eventScoreResultKey, IFootballScoreResult.KickGood) &&
+                  !isScoreResult(eventFormGroup, i, eventScoreResultKey, IFootballScoreResult.PuntTdReturn)
+                  ||
                   getEventAssistTacklePlayer(eventsArray, i)) {
                     <label>Assist Tackle Player</label>
                     <app-search-player-in-match-autocomplete

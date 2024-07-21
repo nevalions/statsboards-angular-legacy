@@ -72,6 +72,7 @@ import {
   eventSackPlayer,
   eventScorePlayer,
   eventScoreResult,
+  eventScoreResultKey,
   eventTacklePlayer,
   eventTeam,
   extractEventData,
@@ -607,6 +608,26 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
     return playResult.value === playResultEnum;
   }
 
+  isScoreResult(
+    formGroup: FormGroup | any,
+    index: number,
+    key: string,
+    scoreResultEnum: IFootballScoreResult,
+  ): boolean {
+    const scoreResult = getFormDataByIndexAndKey(formGroup, index, key);
+
+    if (!scoreResult || !scoreResult.value) {
+      // console.log('No score result found');
+      return false;
+    }
+    //
+    // console.log('playresult', playResult);
+    // console.log('playresult Value', playResult.value);
+    // console.log('playresultEnum', playResultEnum);
+
+    return scoreResult.value === scoreResultEnum;
+  }
+
   protected readonly IFootballPlayType = IFootballPlayType;
   protected readonly eventHashOptions = eventHashOptions;
   protected readonly getQtrFormControl = getQtrFormControl;
@@ -706,4 +727,6 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
   protected readonly getEventFlaggedPlayer = getEventFlaggedPlayer;
   protected readonly incrementOnBall = incrementOnBall;
   protected readonly getBallOn = getBallOn;
+  protected readonly eventScoreResult = eventScoreResult;
+  protected readonly eventScoreResultKey = eventScoreResultKey;
 }

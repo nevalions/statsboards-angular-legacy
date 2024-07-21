@@ -8,17 +8,22 @@ import {
 } from '../../../type/football-event.type';
 import {
   getEventDown,
+  resetAssistTacklePlayer,
   resetDeflectedPlayer,
   resetDroppedPlayer,
   resetInterceptedPlayer,
+  resetKickOffPlayer,
   resetKickPlayer,
+  resetPatOnePlayer,
   resetPlayResult,
   resetPuntPlayer,
   resetQb,
   resetReceiverPlayer,
+  resetReturnPlayer,
   resetRunPlayer,
   resetSackPlayer,
   resetScoreResult,
+  resetTacklePlayer,
   setDistance,
   setDown,
   setPlayType,
@@ -74,8 +79,8 @@ export function onBallOnChange(
   const updatedDown = isFirstDown(events, ballOn, index, max);
   const currentDown = getEventDown(eventsArray, index);
 
-  console.log('updatedDown', updatedDown);
-  console.log('currentDown', currentDown);
+  // console.log('updatedDown', updatedDown);
+  // console.log('currentDown', currentDown);
 
   let updatedDistance;
   if (updatedDown === 1 && currentDown !== 1) {
@@ -114,6 +119,10 @@ export function onPlayTypeChange(
         resetRunPlayer(eventsArray, index);
         resetPuntPlayer(eventsArray, index);
         resetKickPlayer(eventsArray, index);
+        resetKickOffPlayer(eventsArray, index);
+        resetReturnPlayer(eventsArray, index);
+        resetPatOnePlayer(eventsArray, index);
+        resetPuntPlayer(eventsArray, index);
         break;
       case IFootballPlayType.Run.toLowerCase():
         resetPuntPlayer(eventsArray, index);
@@ -123,6 +132,9 @@ export function onPlayTypeChange(
         resetInterceptedPlayer(eventsArray, index);
         resetSackPlayer(eventsArray, index);
         resetKickPlayer(eventsArray, index);
+        resetKickOffPlayer(eventsArray, index);
+        resetPatOnePlayer(eventsArray, index);
+        resetPuntPlayer(eventsArray, index);
         break;
       case IFootballPlayType.Kick.toLowerCase():
         resetPuntPlayer(eventsArray, index);
@@ -132,6 +144,35 @@ export function onPlayTypeChange(
         resetDeflectedPlayer(eventsArray, index);
         resetInterceptedPlayer(eventsArray, index);
         resetSackPlayer(eventsArray, index);
+        resetKickOffPlayer(eventsArray, index);
+        resetReturnPlayer(eventsArray, index);
+        resetPatOnePlayer(eventsArray, index);
+        resetPuntPlayer(eventsArray, index);
+        break;
+      case IFootballPlayType.PatOne.toLowerCase():
+        resetPuntPlayer(eventsArray, index);
+        resetRunPlayer(eventsArray, index);
+        resetReceiverPlayer(eventsArray, index);
+        resetDroppedPlayer(eventsArray, index);
+        resetDeflectedPlayer(eventsArray, index);
+        resetInterceptedPlayer(eventsArray, index);
+        resetSackPlayer(eventsArray, index);
+        resetKickPlayer(eventsArray, index);
+        resetKickOffPlayer(eventsArray, index);
+        resetReturnPlayer(eventsArray, index);
+        resetPuntPlayer(eventsArray, index);
+        break;
+      case IFootballPlayType.Kickoff.toLowerCase():
+        resetPuntPlayer(eventsArray, index);
+        resetRunPlayer(eventsArray, index);
+        resetReceiverPlayer(eventsArray, index);
+        resetDroppedPlayer(eventsArray, index);
+        resetDeflectedPlayer(eventsArray, index);
+        resetInterceptedPlayer(eventsArray, index);
+        resetSackPlayer(eventsArray, index);
+        resetKickPlayer(eventsArray, index);
+        resetPatOnePlayer(eventsArray, index);
+        resetPuntPlayer(eventsArray, index);
         break;
       case IFootballPlayType.Punt.toLowerCase():
         resetRunPlayer(eventsArray, index);
@@ -141,6 +182,8 @@ export function onPlayTypeChange(
         resetDeflectedPlayer(eventsArray, index);
         resetInterceptedPlayer(eventsArray, index);
         resetSackPlayer(eventsArray, index);
+        resetKickOffPlayer(eventsArray, index);
+        resetPatOnePlayer(eventsArray, index);
     }
 
     setPlayType(eventsArray, index, selectedType);
@@ -152,8 +195,12 @@ export function onPlayTypeChange(
     resetDeflectedPlayer(eventsArray, index);
     resetDroppedPlayer(eventsArray, index);
     resetKickPlayer(eventsArray, index);
+    resetReturnPlayer(eventsArray, index);
     resetInterceptedPlayer(eventsArray, index);
     resetSackPlayer(eventsArray, index);
+    resetKickOffPlayer(eventsArray, index);
+    resetPatOnePlayer(eventsArray, index);
+    resetPuntPlayer(eventsArray, index);
     setPlayType(eventsArray, index, selectedType);
   }
 
@@ -202,18 +249,24 @@ export function onPlayResultChange(
         resetReceiverPlayer(eventsArray, index);
         resetInterceptedPlayer(eventsArray, index);
         resetSackPlayer(eventsArray, index);
+        resetAssistTacklePlayer(eventsArray, index);
+        resetTacklePlayer(eventsArray, index);
         break;
       case IFootballPlayResult.PassDeflected.toLowerCase():
         resetDroppedPlayer(eventsArray, index);
         resetReceiverPlayer(eventsArray, index);
         resetInterceptedPlayer(eventsArray, index);
         resetSackPlayer(eventsArray, index);
+        resetAssistTacklePlayer(eventsArray, index);
+        resetTacklePlayer(eventsArray, index);
         break;
       case IFootballPlayResult.PassIntercepted.toLowerCase():
         resetDroppedPlayer(eventsArray, index);
         resetReceiverPlayer(eventsArray, index);
         resetDeflectedPlayer(eventsArray, index);
         resetSackPlayer(eventsArray, index);
+        resetAssistTacklePlayer(eventsArray, index);
+        resetTacklePlayer(eventsArray, index);
         break;
       case IFootballPlayResult.Sack.toLowerCase():
         resetDroppedPlayer(eventsArray, index);
