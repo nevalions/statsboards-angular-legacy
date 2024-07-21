@@ -7,6 +7,7 @@ import {
 } from '@angular/core';
 import { IPlayerInMatchFullData } from '../../../../type/player.type';
 import {
+  eventDirectionOptions,
   eventHashOptions,
   IFootballEvent,
   IFootballEventWithPlayers,
@@ -36,6 +37,7 @@ import {
   eventBallOn,
   eventBallOnKey,
   eventDeflectedPlayer,
+  eventDirection,
   eventDistance,
   eventDistanceKey,
   eventDown,
@@ -44,6 +46,8 @@ import {
   eventHash,
   eventId,
   eventInterceptedPlayer,
+  eventIsFumble,
+  eventIsFumbleRecovered,
   eventKickPlayer,
   eventNumber,
   eventNumberKey,
@@ -65,6 +69,7 @@ import {
   getBallOnFormControl,
   getEventDeflectedPlayer,
   getEventDeflectedPlayerFormControl,
+  getEventDirectionFormControl,
   getEventDistanceFormControl,
   getEventDownFormControl,
   getEventDroppedPlayer,
@@ -73,6 +78,9 @@ import {
   getEventId,
   getEventInterceptedPlayer,
   getEventInterceptedPlayerFormControl,
+  getEventIsFumble,
+  getEventIsFumbleFormControl,
+  getEventIsFumbleRecoveredFormControl,
   getEventKickPlayer,
   getEventKickPlayerFormControl,
   getEventNumber,
@@ -110,7 +118,7 @@ import {
   TuiTextfieldControllerModule,
 } from '@taiga-ui/core';
 import { NgForOf } from '@angular/common';
-import { TuiInputNumberModule } from '@taiga-ui/kit';
+import { TuiInputNumberModule, TuiToggleModule } from '@taiga-ui/kit';
 import { TuiFocusableModule, TuiValueChangesModule } from '@taiga-ui/cdk';
 import { SelectTeamInMatchComponent } from '../../../../shared/ui/select/select-team-in-match/select-team-in-match.component';
 import { SearchPlayerInMatchAutocompleteComponent } from '../../../../shared/ui/search/search-player-in-match-autocomplete/search-player-in-match-autocomplete.component';
@@ -138,6 +146,7 @@ import { InputNumberWithButtonsComponent } from '../../../../shared/scoreboards/
     TuiButtonModule,
     InputNumberWithButtonsComponent,
     TuiExpandModule,
+    TuiToggleModule,
   ],
   templateUrl: './add-edit-football-event-table.component.html',
   styleUrl: './add-edit-football-event-table.component.less',
@@ -322,9 +331,12 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
     const controlEventDistance = eventDistance(index);
 
     const controlEventHash = eventHash(index);
+    const controlEventDirection = eventDirection(index);
     const controlEventPlayType = eventPlayType(index);
     const controlEventPlayResult = eventPlayResult(index);
     const controlEventScoreResult = eventScoreResult(index);
+    const controlEventIsFumble = eventIsFumble(index);
+    const controlEventIsFumbleRecovered = eventIsFumbleRecovered(index);
 
     const controlEventRunPlayer = eventRunPlayer(index);
     const controlEventReceiverPlayer = eventReceiverPlayer(index);
@@ -348,9 +360,14 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
       [controlEventDown]: new FormControl(event.event_down),
       [controlEventDistance]: new FormControl(event.event_distance),
       [controlEventHash]: new FormControl(event.event_hash),
+      [controlEventDirection]: new FormControl(event.play_direction),
       [controlEventPlayType]: new FormControl(event.play_type),
       [controlEventPlayResult]: new FormControl(event.play_result),
       [controlEventScoreResult]: new FormControl(event.score_result),
+      [controlEventIsFumble]: new FormControl(event.is_fumble),
+      [controlEventIsFumbleRecovered]: new FormControl(
+        event.is_fumble_recovered,
+      ),
       [controlEventRunPlayer]: new FormControl(event.run_player),
       [controlEventReceiverPlayer]: new FormControl(event.pass_received_player),
       [controlEventDroppedPlayer]: new FormControl(event.pass_dropped_player),
@@ -587,4 +604,11 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
   protected readonly getEventScoreResultFormControl =
     getEventScoreResultFormControl;
   protected readonly getEventScoreResult = getEventScoreResult;
+  protected readonly getEventDirectionFormControl =
+    getEventDirectionFormControl;
+  protected readonly eventDirectionOptions = eventDirectionOptions;
+  protected readonly getEventIsFumbleFormControl = getEventIsFumbleFormControl;
+  protected readonly getEventIsFumbleRecoveredFormControl =
+    getEventIsFumbleRecoveredFormControl;
+  protected readonly getEventIsFumble = getEventIsFumble;
 }

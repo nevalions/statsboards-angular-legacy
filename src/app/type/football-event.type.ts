@@ -40,11 +40,6 @@ export enum IFootballPlayResult {
   Sack = 'sack',
   Kick = 'kick',
   KickBlocked = 'kick blocked',
-  // KickMissed = 'kick is missed',
-  // PatOneGood = 'pat 1 is good',
-  // PatOneMissed = 'pat 1 is missed',
-  // PatTwoGood = 'pat 2 is good',
-  // PatTwoMissed = 'pat 2 is missed',
   PuntReturn = 'punt return',
   PuntBlocked = 'punt blocked',
   KickOffReturn = 'kickoff return',
@@ -79,12 +74,13 @@ export interface IFootballEvent {
   event_distance?: number | null;
 
   event_hash?: string | null;
+  play_direction?: string | null;
   play_type?: string | null;
   play_result?: string | null;
-  play_direction?: string | null; //TODO
-  is_fumble?: boolean | null; //TODO
-  is_fumble_recovered?: boolean | null; //TODO
   score_result?: string | null;
+
+  is_fumble?: boolean | null;
+  is_fumble_recovered?: boolean | null;
 
   run_player?: number | null;
   pass_received_player?: number | null;
@@ -99,6 +95,7 @@ export interface IFootballEvent {
   kick_player?: number | null;
   punt_player?: number | null;
   score_player?: number | null; //TODO
+  defence_score_player?: number | null; //TODO
   kickoff_player?: number | null; //TODO
   return_player?: number | null; //TODO
   pat_one_player?: number | null; //TODO
@@ -118,9 +115,13 @@ export interface IFootballEventWithPlayers {
   event_distance?: number | null;
 
   event_hash?: IEventHash | null;
+  play_direction?: IEventDirection | null;
   play_type?: IFootballPlayType | null;
   play_result?: IFootballPlayResult | null;
   score_result?: IFootballScoreResult | null;
+
+  is_fumble?: boolean | null;
+  is_fumble_recovered?: boolean | null;
 
   run_player?: IPlayerInMatchFullData | null;
   pass_received_player?: IPlayerInMatchFullData | null;
@@ -142,9 +143,9 @@ export const eventHashOptions: IEnumObject[] = Object.entries(IEventHash).map(
   }),
 );
 
-// export const eventScoreOptions: IEnumObject[] = Object.entries(
-//   IFootballScoreResult,
-// ).map(([key, value]) => ({
-//   value: value,
-//   label: key,
-// }));
+export const eventDirectionOptions: IEnumObject[] = Object.entries(
+  IEventDirection,
+).map(([key, value]) => ({
+  value: value,
+  label: key,
+}));

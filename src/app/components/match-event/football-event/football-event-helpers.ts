@@ -24,9 +24,12 @@ export const eventQbKey = 'eventQb';
 export const eventDownKey = 'eventDown';
 export const eventDistanceKey = 'eventDistance';
 export const eventHashKey = 'eventHash';
+export const eventDirectionKey = 'eventDirection';
 export const eventPlayTypeKey = 'eventPlayType';
 export const eventPlayResultKey = 'eventPlayResult';
 export const eventScoreResultKey = 'eventScoreResult';
+export const eventIsFumbleKey = 'eventIsFumble';
+export const eventIsFumbleRecoveredKey = 'eventIsFumbleRecovered';
 export const eventRunPlayerKey = 'eventRunPlayer';
 export const eventReceiverPlayerKey = 'eventReceiverPlayer';
 export const eventDroppedPlayerKey = 'eventDroppedPlayer';
@@ -47,9 +50,13 @@ export const eventQb = (index: number) => eventQbKey + index;
 export const eventDown = (index: number) => eventDownKey + index;
 export const eventDistance = (index: number) => eventDistanceKey + index;
 export const eventHash = (index: number) => eventHashKey + index;
+export const eventDirection = (index: number) => eventDirectionKey + index;
 export const eventPlayType = (index: number) => eventPlayTypeKey + index;
 export const eventPlayResult = (index: number) => eventPlayResultKey + index;
 export const eventScoreResult = (index: number) => eventScoreResultKey + index;
+export const eventIsFumble = (index: number) => eventIsFumbleKey + index;
+export const eventIsFumbleRecovered = (index: number) =>
+  eventIsFumbleRecoveredKey + index;
 export const eventRunPlayer = (index: number) => eventRunPlayerKey + index;
 export const eventReceiverPlayer = (index: number) =>
   eventReceiverPlayerKey + index;
@@ -78,6 +85,8 @@ export function createNewEvent(
   let newEventBallOn: number | null = null;
   let newEventDown: number | null;
   let newEventDistance: number | null;
+  let newEventIsFumble: boolean | null = false;
+  let newEventIsFumbleRecovered: boolean | null = false;
 
   if (lastEvent && lastEvent.event_number) {
     newEventNumber = lastEvent.event_number + 1;
@@ -129,9 +138,12 @@ export function createNewEvent(
     event_down: newEventDown,
     event_distance: newEventDistance,
     event_hash: null,
+    play_direction: null,
     play_type: null,
     play_result: null,
     score_result: null,
+    is_fumble: false,
+    is_fumble_recovered: false,
   };
 }
 
@@ -148,9 +160,12 @@ export function extractEventData(
   const eventDown = getEventDown(eventsArray, index);
   const eventDistance = getEventDistance(eventsArray, index);
   const eventHash = getEventHash(eventsArray, index);
+  const eventDirection = getEventDirection(eventsArray, index);
   const eventPlayType = getEventPlayType(eventsArray, index);
   const eventPlayResult = getEventPlayResult(eventsArray, index);
   const eventScoreResult = getEventScoreResult(eventsArray, index);
+  const eventIsFumble = getEventIsFumble(eventsArray, index);
+  const eventIsFumbleRecovered = getEventIsFumbleRecovered(eventsArray, index);
   const eventRunPlayer = getEventRunPlayer(eventsArray, index);
   const eventReceiverPlayer = getEventReceiverPlayer(eventsArray, index);
   const eventDroppedPlayer = getEventDroppedPlayer(eventsArray, index);
@@ -197,6 +212,10 @@ export function extractEventData(
     newEventData.event_hash = eventHash.value.toLowerCase();
   }
 
+  if (eventDirection && eventDirection.value) {
+    newEventData.play_direction = eventDirection.value.toLowerCase();
+  }
+
   if (eventPlayType && eventPlayType.value) {
     newEventData.play_type = eventPlayType.value.toLowerCase();
   }
@@ -209,6 +228,9 @@ export function extractEventData(
     // console.log(eventScoreResult.value);
     newEventData.score_result = eventScoreResult.value.toLowerCase();
   }
+
+  newEventData.is_fumble = eventIsFumble ?? false;
+  newEventData.is_fumble_recovered = eventIsFumbleRecovered ?? false;
 
   newEventData.run_player = eventRunPlayer?.match_player?.id ?? null;
   newEventData.pass_received_player =
@@ -407,6 +429,26 @@ export function getEventHashFormControl(
   return getFormControl(form, index, eventHashKey, arrayName);
 }
 
+// EventDirection
+export function getEventDirection(
+  eventsArray: FormArray,
+  index: number,
+): IEnumObject | null | undefined {
+  return getArrayFormDataByIndexAndKey<number>(
+    eventsArray,
+    index,
+    eventDirectionKey,
+  );
+}
+
+export function getEventDirectionFormControl(
+  form: FormGroup,
+  arrayName: string,
+  index: number,
+): FormControl | null | undefined {
+  return getFormControl(form, index, eventDirectionKey, arrayName);
+}
+
 // EventPlayType
 export function getEventPlayType(
   eventsArray: FormArray,
@@ -481,6 +523,46 @@ export function getEventScoreResultFormControl(
 
 export function resetScoreResult(eventsArray: FormArray, index: number): void {
   resetArrayKeyIndexValue(eventsArray, index, eventScoreResultKey);
+}
+
+// EventIsFumble
+export function getEventIsFumble(
+  eventsArray: FormArray,
+  index: number,
+): boolean | null | undefined {
+  return getArrayFormDataByIndexAndKey<number>(
+    eventsArray,
+    index,
+    eventIsFumbleKey,
+  );
+}
+
+export function getEventIsFumbleFormControl(
+  form: FormGroup,
+  arrayName: string,
+  index: number,
+): FormControl | null | undefined {
+  return getFormControl(form, index, eventIsFumbleKey, arrayName);
+}
+
+// EventIsFumbleRecovered
+export function getEventIsFumbleRecovered(
+  eventsArray: FormArray,
+  index: number,
+): boolean | null | undefined {
+  return getArrayFormDataByIndexAndKey<number>(
+    eventsArray,
+    index,
+    eventIsFumbleRecoveredKey,
+  );
+}
+
+export function getEventIsFumbleRecoveredFormControl(
+  form: FormGroup,
+  arrayName: string,
+  index: number,
+): FormControl | null | undefined {
+  return getFormControl(form, index, eventIsFumbleRecoveredKey, arrayName);
 }
 
 // EventRunPlayer

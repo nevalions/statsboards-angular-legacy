@@ -50,6 +50,8 @@ export const selectFootballEventsWithPlayers = createSelector(
           matchPlayers,
           event.pass_intercepted_player,
         ),
+        // is_fumble: event.is_fumble,
+        // is_fumble_recovered: event.is_fumble_recovered,
         fumble_player: getMatchPlayerById(matchPlayers, event.fumble_player),
         fumble_recovered_player: getMatchPlayerById(
           matchPlayers,
@@ -61,6 +63,9 @@ export const selectFootballEventsWithPlayers = createSelector(
         punt_player: getMatchPlayerById(matchPlayers, event.punt_player),
         event_hash: event.event_hash
           ? { value: event.event_hash.toLowerCase() }
+          : null,
+        play_direction: event.play_direction
+          ? { value: event.play_direction.toLowerCase() }
           : null,
         play_type: event.play_type
           ? { value: event.play_type.toLowerCase() }

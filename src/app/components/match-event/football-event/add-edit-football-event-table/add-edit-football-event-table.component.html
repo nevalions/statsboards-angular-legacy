@@ -166,6 +166,18 @@
               }
             </div>
 
+            <!--EVENT PLAY DIRECTION-->
+            @if (getEventDirectionFormControl(this.eventForm, this.arrayName, i); as control) {
+              <div class="event-table-cell">
+                <label>Play Direction</label>
+                <app-select-enum
+                  [control]="control"
+                  [placeholder]="'play direction'"
+                  [enumObjects]="eventDirectionOptions"
+                ></app-select-enum>
+              </div>
+            }
+
             <!--EVENT PLAY RESULT-->
             @if (getEventPlayResultFormControl(this.eventForm, this.arrayName, i); as control) {
               <div class="event-table-cell">
@@ -190,6 +202,32 @@
                 ></app-select-enum>
               </div>
             }
+
+            <div class="event-fumble">
+              <!--EVENT IS FUMBLE-->
+              @if (getEventIsFumbleFormControl(this.eventForm, this.arrayName, i); as control) {
+                <div class="event-table-cell">
+                  <label>Is Fumble?</label>
+                  <tui-toggle
+                    [formControl]="control"
+                    size="l"
+                  ></tui-toggle>
+                </div>
+              }
+
+              <!--EVENT IS FUMBLE RECOVERED-->
+              @if (getEventIsFumbleRecoveredFormControl(this.eventForm, this.arrayName, i); as control) {
+                @if (getEventIsFumble(eventsArray, i)) {
+                  <div class="event-table-cell">
+                    <label>Is Fumble Recovered?</label>
+                    <tui-toggle
+                      [formControl]="control"
+                      size="l"
+                    ></tui-toggle>
+                  </div>
+                }
+              }
+            </div>
 
             <!--EVENT RUN PLAYER-->
             @if (getEventRunPlayerFormControl(this.eventForm, this.arrayName, i); as control) {
