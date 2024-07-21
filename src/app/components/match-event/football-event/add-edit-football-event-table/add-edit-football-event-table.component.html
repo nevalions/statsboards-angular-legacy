@@ -233,7 +233,11 @@
 
             <!--EVENT SCORE RESULT-->
             @if (getEventScoreResultFormControl(this.eventForm, this.arrayName, i); as control) {
-              @if (!isPlayResult(eventFormGroup, i, eventPlayResultKey, IFootballPlayResult.Flag)) {
+              @if (!isPlayResult(eventFormGroup, i, eventPlayResultKey, IFootballPlayResult.PassIncomplete) &&
+              !isPlayResult(eventFormGroup, i, eventPlayResultKey, IFootballPlayResult.PassDeflected) &&
+              !isPlayResult(eventFormGroup, i, eventPlayResultKey, IFootballPlayResult.PassDropped) &&
+              !isPlayResult(eventFormGroup, i, eventPlayResultKey, IFootballPlayResult.PassIntercepted) &&
+              !isPlayResult(eventFormGroup, i, eventPlayResultKey, IFootballPlayResult.Flag)) {
                 <div class="event-table-cell">
                   <label>Score Result</label>
                   <app-select-enum
