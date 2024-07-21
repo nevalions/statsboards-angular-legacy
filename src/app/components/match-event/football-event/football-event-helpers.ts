@@ -28,8 +28,13 @@ export const eventPlayTypeKey = 'eventPlayType';
 export const eventPlayResultKey = 'eventPlayResult';
 export const eventRunPlayerKey = 'eventRunPlayer';
 export const eventReceiverPlayerKey = 'eventReceiverPlayer';
+export const eventDroppedPlayerKey = 'eventDroppedPlayer';
 export const eventKickPlayerKey = 'eventKickPlayer';
 export const eventPuntPlayerKey = 'eventPuntPlayer';
+//DEFENCE
+export const eventTacklePlayerKey = 'eventTacklePlayer';
+export const eventDeflectedPlayerKey = 'eventDeflectedPlayer';
+export const eventInterceptedPlayerKey = 'eventInterceptedPlayer';
 
 export const eventId = (index: number) => eventIdKey + index;
 export const eventNumber = (index: number) => eventNumberKey + index;
@@ -45,9 +50,18 @@ export const eventPlayResult = (index: number) => eventPlayResultKey + index;
 export const eventRunPlayer = (index: number) => eventRunPlayerKey + index;
 export const eventReceiverPlayer = (index: number) =>
   eventReceiverPlayerKey + index;
+export const eventDroppedPlayer = (index: number) =>
+  eventDroppedPlayerKey + index;
 
 export const eventKickPlayer = (index: number) => eventKickPlayerKey + index;
 export const eventPuntPlayer = (index: number) => eventPuntPlayerKey + index;
+
+export const eventTacklePlayer = (index: number) =>
+  eventTacklePlayerKey + index;
+export const eventDeflectedPlayer = (index: number) =>
+  eventDeflectedPlayerKey + index;
+export const eventInterceptedPlayer = (index: number) =>
+  eventInterceptedPlayerKey + index;
 
 export function createNewEvent(
   lastEvent: IFootballEventWithPlayers | undefined,
@@ -133,8 +147,12 @@ export function extractEventData(
   const eventPlayResult = getEventPlayResult(eventsArray, index);
   const eventRunPlayer = getEventRunPlayer(eventsArray, index);
   const eventReceiverPlayer = getEventReceiverPlayer(eventsArray, index);
+  const eventDroppedPlayer = getEventDroppedPlayer(eventsArray, index);
   const eventKickPlayer = getEventKickPlayer(eventsArray, index);
   const eventPuntPlayer = getEventPuntPlayer(eventsArray, index);
+  const eventTacklePlayer = getEventTacklePlayer(eventsArray, index);
+  const eventDeflectedPlayer = getEventDeflectedPlayer(eventsArray, index);
+  const eventInterceptedPlayer = getEventInterceptedPlayer(eventsArray, index);
 
   const newEventData: Partial<IFootballEvent> = {};
 
@@ -158,9 +176,7 @@ export function extractEventData(
     newEventData.offense_team = eventTeam.id;
   }
 
-  if (eventQb) {
-    newEventData.event_qb = eventQb.match_player.id;
-  }
+  newEventData.event_qb = eventQb?.match_player?.id ?? null;
 
   if (eventDown !== undefined) {
     newEventData.event_down = eventDown;
@@ -182,21 +198,18 @@ export function extractEventData(
     newEventData.play_result = eventPlayResult.value.toLowerCase();
   }
 
-  if (eventRunPlayer) {
-    newEventData.run_player = eventRunPlayer.match_player.id;
-  }
-
-  if (eventReceiverPlayer) {
-    newEventData.pass_received_player = eventReceiverPlayer.match_player.id;
-  }
-
-  if (eventKickPlayer) {
-    newEventData.kick_player = eventKickPlayer.match_player.id;
-  }
-
-  if (eventPuntPlayer) {
-    newEventData.punt_player = eventPuntPlayer.match_player.id;
-  }
+  newEventData.run_player = eventRunPlayer?.match_player?.id ?? null;
+  newEventData.pass_received_player =
+    eventReceiverPlayer?.match_player?.id ?? null;
+  newEventData.pass_dropped_player =
+    eventDroppedPlayer?.match_player?.id ?? null;
+  newEventData.kick_player = eventKickPlayer?.match_player?.id ?? null;
+  newEventData.punt_player = eventPuntPlayer?.match_player?.id ?? null;
+  newEventData.tackle_player = eventTacklePlayer?.match_player?.id ?? null;
+  newEventData.pass_deflected_player =
+    eventDeflectedPlayer?.match_player?.id ?? null;
+  newEventData.pass_intercepted_player =
+    eventInterceptedPlayer?.match_player?.id ?? null;
 
   return newEventData;
 }
@@ -484,6 +497,33 @@ export function resetReceiverPlayer(
   resetArrayKeyIndexValue(eventsArray, index, eventReceiverPlayerKey);
 }
 
+// EventDroppedPlayer
+export function getEventDroppedPlayer(
+  eventsArray: FormArray,
+  index: number,
+): IPlayerInMatchFullData | null | undefined {
+  return getArrayFormDataByIndexAndKey<number>(
+    eventsArray,
+    index,
+    eventDroppedPlayerKey,
+  );
+}
+
+export function getEventDroppedPlayerFormControl(
+  form: FormGroup,
+  arrayName: string,
+  index: number,
+): FormControl | null | undefined {
+  return getFormControl(form, index, eventDroppedPlayerKey, arrayName);
+}
+
+export function resetDroppedPlayer(
+  eventsArray: FormArray,
+  index: number,
+): void {
+  resetArrayKeyIndexValue(eventsArray, index, eventDroppedPlayerKey);
+}
+
 // EventKickPlayer
 export function getEventKickPlayer(
   eventsArray: FormArray,
@@ -532,31 +572,80 @@ export function resetPuntPlayer(eventsArray: FormArray, index: number): void {
   resetArrayKeyIndexValue(eventsArray, index, eventPuntPlayerKey);
 }
 
-// export function onPlayTypeChange(
-//   eventsArray: FormArray,
-//   selectedType: IEnumObject,
-//   index: number,
-// ): void {
-//   if (!selectedType) {
-//     return;
-//   }
-//   console.log('selected type', selectedType);
-//   if (selectedType.value) {
-//     console.log('selected type value', selectedType.value);
-//
-//     switch (selectedType.value.toLowerCase()) {
-//       case IFootballPlayType.Pass.toLowerCase():
-//         resetRunPlayer(eventsArray, index);
-//         break;
-//       case IFootballPlayType.Run.toLowerCase():
-//         resetReceiverPlayer(eventsArray, index);
-//         break;
-//     }
-//
-//     setPlayType(eventsArray, index, selectedType);
-//   } else {
-//     resetRunPlayer(eventsArray, index);
-//     resetReceiverPlayer(eventsArray, index);
-//     setPlayType(eventsArray, index, selectedType);
-//   }
-// }
+// EventTacklePlayer
+export function getEventTacklePlayer(
+  eventsArray: FormArray,
+  index: number,
+): IPlayerInMatchFullData | null | undefined {
+  return getArrayFormDataByIndexAndKey<number>(
+    eventsArray,
+    index,
+    eventTacklePlayerKey,
+  );
+}
+
+export function getEventTacklePlayerFormControl(
+  form: FormGroup,
+  arrayName: string,
+  index: number,
+): FormControl | null | undefined {
+  return getFormControl(form, index, eventTacklePlayerKey, arrayName);
+}
+
+export function resetTacklePlayer(eventsArray: FormArray, index: number): void {
+  resetArrayKeyIndexValue(eventsArray, index, eventTacklePlayerKey);
+}
+
+// EventDeflectedPlayer
+export function getEventDeflectedPlayer(
+  eventsArray: FormArray,
+  index: number,
+): IPlayerInMatchFullData | null | undefined {
+  return getArrayFormDataByIndexAndKey<number>(
+    eventsArray,
+    index,
+    eventDeflectedPlayerKey,
+  );
+}
+
+export function getEventDeflectedPlayerFormControl(
+  form: FormGroup,
+  arrayName: string,
+  index: number,
+): FormControl | null | undefined {
+  return getFormControl(form, index, eventDeflectedPlayerKey, arrayName);
+}
+
+export function resetDeflectedPlayer(
+  eventsArray: FormArray,
+  index: number,
+): void {
+  resetArrayKeyIndexValue(eventsArray, index, eventDeflectedPlayerKey);
+}
+
+// EventInterceptedPlayer
+export function getEventInterceptedPlayer(
+  eventsArray: FormArray,
+  index: number,
+): IPlayerInMatchFullData | null | undefined {
+  return getArrayFormDataByIndexAndKey<number>(
+    eventsArray,
+    index,
+    eventInterceptedPlayerKey,
+  );
+}
+
+export function getEventInterceptedPlayerFormControl(
+  form: FormGroup,
+  arrayName: string,
+  index: number,
+): FormControl | null | undefined {
+  return getFormControl(form, index, eventInterceptedPlayerKey, arrayName);
+}
+
+export function resetInterceptedPlayer(
+  eventsArray: FormArray,
+  index: number,
+): void {
+  resetArrayKeyIndexValue(eventsArray, index, eventInterceptedPlayerKey);
+}

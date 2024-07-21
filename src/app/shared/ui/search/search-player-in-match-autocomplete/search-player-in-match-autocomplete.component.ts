@@ -13,7 +13,8 @@ import {
 } from '@taiga-ui/kit';
 import { IPlayerInMatchFullData } from '../../../../type/player.type';
 import { UpperCasePipe } from '@angular/common';
-import { TuiTextfieldControllerModule } from '@taiga-ui/core';
+import { TuiButtonModule, TuiTextfieldControllerModule } from '@taiga-ui/core';
+import { TuiValueChangesModule } from '@taiga-ui/cdk';
 
 @Component({
   selector: 'app-search-player-in-match-autocomplete',
@@ -26,6 +27,8 @@ import { TuiTextfieldControllerModule } from '@taiga-ui/core';
     TuiStringifyContentPipeModule,
     TuiFilterByInputPipeModule,
     TuiTextfieldControllerModule,
+    TuiValueChangesModule,
+    TuiButtonModule,
   ],
   providers: [
     tuiItemsHandlersProvider({
@@ -80,7 +83,7 @@ export class SearchPlayerInMatchAutocompleteComponent {
       .includes(search.toLowerCase());
   };
 
-  onSelected(player: IPlayerInMatchFullData): void {
+  onSelected(player: IPlayerInMatchFullData | null): void {
     // console.log('selected player', player);
     this.control.setValue(player);
   }

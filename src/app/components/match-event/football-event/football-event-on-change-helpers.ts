@@ -7,6 +7,9 @@ import {
 } from '../../../type/football-event.type';
 import {
   getEventDown,
+  resetDeflectedPlayer,
+  resetDroppedPlayer,
+  resetInterceptedPlayer,
   resetKickPlayer,
   resetPlayResult,
   resetPuntPlayer,
@@ -90,6 +93,7 @@ export function onPlayTypeChange(
   selectedType: IEnumObject,
   index: number,
   setFilteredPlayResults: (results: IEnumObject[]) => void,
+  selectedResult: IEnumObject | null = null,
 ): void {
   if (!selectedType) {
     return;
@@ -107,26 +111,38 @@ export function onPlayTypeChange(
       case IFootballPlayType.Run.toLowerCase():
         resetPuntPlayer(eventsArray, index);
         resetReceiverPlayer(eventsArray, index);
+        resetDeflectedPlayer(eventsArray, index);
+        resetDroppedPlayer(eventsArray, index);
+        resetInterceptedPlayer(eventsArray, index);
         resetKickPlayer(eventsArray, index);
         break;
       case IFootballPlayType.Kick.toLowerCase():
         resetPuntPlayer(eventsArray, index);
         resetRunPlayer(eventsArray, index);
         resetReceiverPlayer(eventsArray, index);
+        resetDroppedPlayer(eventsArray, index);
+        resetDeflectedPlayer(eventsArray, index);
+        resetInterceptedPlayer(eventsArray, index);
         break;
       case IFootballPlayType.Punt.toLowerCase():
         resetRunPlayer(eventsArray, index);
         resetReceiverPlayer(eventsArray, index);
+        resetDroppedPlayer(eventsArray, index);
         resetKickPlayer(eventsArray, index);
+        resetDeflectedPlayer(eventsArray, index);
+        resetInterceptedPlayer(eventsArray, index);
     }
 
     setPlayType(eventsArray, index, selectedType);
   } else {
-    console.log('else play type');
+    // console.log('else play type');
     resetPuntPlayer(eventsArray, index);
     resetRunPlayer(eventsArray, index);
     resetReceiverPlayer(eventsArray, index);
+    resetDeflectedPlayer(eventsArray, index);
+    resetDroppedPlayer(eventsArray, index);
     resetKickPlayer(eventsArray, index);
+    resetInterceptedPlayer(eventsArray, index);
     setPlayType(eventsArray, index, selectedType);
   }
 
@@ -141,6 +157,40 @@ export function onPlayTypeChange(
       label: result,
     })),
   );
+}
+
+export function onPlayResultChange(
+  eventsArray: FormArray,
+  selectedResult: IEnumObject | null = null,
+  index: number,
+): void {
+  console.log('selected result', selectedResult);
+  if (selectedResult && selectedResult.value) {
+    console.log('selected result value', selectedResult.value);
+
+    switch (selectedResult.value.toLowerCase()) {
+      case IFootballPlayResult.PassCompleted.toLowerCase():
+        resetDeflectedPlayer(eventsArray, index);
+        resetDroppedPlayer(eventsArray, index);
+        resetInterceptedPlayer(eventsArray, index);
+        break;
+      case IFootballPlayResult.PassDropped.toLowerCase():
+        resetDeflectedPlayer(eventsArray, index);
+        resetReceiverPlayer(eventsArray, index);
+        resetInterceptedPlayer(eventsArray, index);
+        break;
+      case IFootballPlayResult.PassDeflected.toLowerCase():
+        resetDroppedPlayer(eventsArray, index);
+        resetReceiverPlayer(eventsArray, index);
+        resetInterceptedPlayer(eventsArray, index);
+        break;
+      case IFootballPlayResult.PassIntercepted.toLowerCase():
+        resetDroppedPlayer(eventsArray, index);
+        resetReceiverPlayer(eventsArray, index);
+        resetDeflectedPlayer(eventsArray, index);
+        break;
+    }
+  }
 }
 
 export function filterPlayResultsByType(

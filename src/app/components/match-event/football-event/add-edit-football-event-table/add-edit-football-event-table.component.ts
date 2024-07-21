@@ -10,6 +10,7 @@ import {
   eventHashOptions,
   IFootballEvent,
   IFootballEventWithPlayers,
+  IFootballPlayResult,
   IFootballPlayType,
 } from '../../../../type/football-event.type';
 import {
@@ -33,46 +34,66 @@ import {
   createNewEvent,
   eventBallOn,
   eventBallOnKey,
+  eventDeflectedPlayer,
   eventDistance,
   eventDistanceKey,
   eventDown,
   eventDownKey,
+  eventDroppedPlayer,
   eventHash,
   eventId,
+  eventInterceptedPlayer,
   eventKickPlayer,
   eventNumber,
   eventNumberKey,
   eventPlayResult,
+  eventPlayResultKey,
   eventPlayType,
+  eventPlayTypeKey,
   eventPuntPlayer,
   eventQb,
   eventQtr,
   eventQtrKey,
   eventReceiverPlayer,
   eventRunPlayer,
+  eventTacklePlayer,
   eventTeam,
   extractEventData,
   getBallOnFormControl,
+  getEventDeflectedPlayer,
+  getEventDeflectedPlayerFormControl,
   getEventDistanceFormControl,
   getEventDownFormControl,
+  getEventDroppedPlayer,
+  getEventDroppedPlayerFormControl,
   getEventHashFormControl,
+  getEventInterceptedPlayer,
+  getEventInterceptedPlayerFormControl,
+  getEventKickPlayer,
   getEventKickPlayerFormControl,
   getEventNumber,
   getEventNumberFormControl,
   getEventPlayResultFormControl,
   getEventPlayTypeFormControl,
+  getEventPuntPlayer,
   getEventPuntPlayerFormControl,
   getEventQbFormControl,
+  getEventReceiverPlayer,
   getEventReceiverPlayerFormControl,
+  getEventRunPlayer,
   getEventRunPlayerFormControl,
+  getEventTacklePlayer,
+  getEventTacklePlayerFormControl,
   getEventTeam,
   getEventTeamFormControl,
   getQtrFormControl,
 } from '../football-event-helpers';
 import {
+  filterPlayResultsByType,
   incrementNumber,
   onBallOnChange,
   onDownChange,
+  onPlayResultChange,
   onPlayTypeChange,
   onTeamChange,
 } from '../football-event-on-change-helpers';
@@ -140,6 +161,14 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
       index,
       this.setFilteredPlayResults.bind(this),
     );
+  }
+
+  handlePlayResultChange(
+    eventsArray: FormArray,
+    selectedResult: IEnumObject,
+    index: number,
+  ): void {
+    onPlayResultChange(eventsArray, selectedResult, index);
   }
 
   setFilteredPlayResults(results: IEnumObject[]): void {
@@ -260,8 +289,13 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
 
     const controlEventRunPlayer = eventRunPlayer(index);
     const controlEventReceiverPlayer = eventReceiverPlayer(index);
+    const controlEventDroppedPlayer = eventDroppedPlayer(index);
     const controlEventKickPlayer = eventKickPlayer(index);
     const controlEventPuntPlayer = eventPuntPlayer(index);
+
+    const controlEventTacklePlayer = eventTacklePlayer(index);
+    const controlEventDeflectedPlayer = eventDeflectedPlayer(index);
+    const controlEventInterceptedPlayer = eventInterceptedPlayer(index);
 
     // Create the form group
     const formGroup = this.fb.group({
@@ -278,8 +312,16 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
       [controlEventPlayResult]: new FormControl(event.play_result),
       [controlEventRunPlayer]: new FormControl(event.run_player),
       [controlEventReceiverPlayer]: new FormControl(event.pass_received_player),
+      [controlEventDroppedPlayer]: new FormControl(event.pass_dropped_player),
       [controlEventKickPlayer]: new FormControl(event.kick_player),
       [controlEventPuntPlayer]: new FormControl(event.punt_player),
+      [controlEventTacklePlayer]: new FormControl(event.tackle_player),
+      [controlEventDeflectedPlayer]: new FormControl(
+        event.pass_deflected_player,
+      ),
+      [controlEventInterceptedPlayer]: new FormControl(
+        event.pass_intercepted_player,
+      ),
     });
 
     // Disable the entire form group if event.id is not null
@@ -321,9 +363,9 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
           );
         }
       } else if (action === 'edit') {
-        // console.log('action', action);
+        console.log('action', action);
         const updateEventData = extractEventData(this.eventsArray, index);
-        // console.log('UPDATE EVENT WITH NEW DATA', updateEventData);
+        console.log('UPDATE EVENT WITH NEW DATA', updateEventData);
         if (updateEventData) {
           if (updateEventData.id) {
             this.footballEvent.updateFootballEventKeyValue(
@@ -380,6 +422,23 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
     return [];
   }
 
+  getDefencePlayersForTeam(
+    selectedTeam: ITeam | null,
+  ): IPlayerInMatchFullData[] {
+    if (!selectedTeam) {
+      console.log('no team');
+      return [];
+    }
+    if (
+      this.awayPlayersInMatch &&
+      this.awayPlayersInMatch.length &&
+      selectedTeam.id === this.match?.teams_data?.team_a.id
+    ) {
+      return this.awayPlayersInMatch;
+    }
+    return [];
+  }
+
   getAllPlayers(): IPlayerInMatchFullData[] {
     const homePlayers = this.homePlayersInMatch || [];
     const awayPlayers = this.awayPlayersInMatch || [];
@@ -404,6 +463,26 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
     // console.log('playtypeEnum', playTypeEnum);
 
     return playType.value === playTypeEnum;
+  }
+
+  isPlayResult(
+    formGroup: FormGroup | any,
+    index: number,
+    key: string,
+    playResultEnum: IFootballPlayResult,
+  ): boolean {
+    const playResult = getFormDataByIndexAndKey(formGroup, index, key);
+
+    if (!playResult || !playResult.value) {
+      // console.log('No play result found');
+      return false;
+    }
+    //
+    // console.log('playresult', playResult);
+    // console.log('playresult Value', playResult.value);
+    // console.log('playresultEnum', playResultEnum);
+
+    return playResult.value === playResultEnum;
   }
 
   protected readonly IFootballPlayType = IFootballPlayType;
@@ -441,4 +520,23 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
   protected readonly eventBallOnKey = eventBallOnKey;
   protected readonly eventDistanceKey = eventDistanceKey;
   protected readonly eventDownKey = eventDownKey;
+  protected readonly eventPlayTypeKey = eventPlayTypeKey;
+  protected readonly eventPlayResultKey = eventPlayResultKey;
+  protected readonly IFootballPlayResult = IFootballPlayResult;
+  protected readonly getEventTacklePlayerFormControl =
+    getEventTacklePlayerFormControl;
+  protected readonly getEventDeflectedPlayer = getEventDeflectedPlayer;
+  protected readonly getEventDeflectedPlayerFormControl =
+    getEventDeflectedPlayerFormControl;
+  protected readonly getEventDroppedPlayerFormControl =
+    getEventDroppedPlayerFormControl;
+  protected readonly getEventRunPlayer = getEventRunPlayer;
+  protected readonly getEventReceiverPlayer = getEventReceiverPlayer;
+  protected readonly getEventDroppedPlayer = getEventDroppedPlayer;
+  protected readonly getEventKickPlayer = getEventKickPlayer;
+  protected readonly getEventPuntPlayer = getEventPuntPlayer;
+  protected readonly getEventTacklePlayer = getEventTacklePlayer;
+  protected readonly getEventInterceptedPlayer = getEventInterceptedPlayer;
+  protected readonly getEventInterceptedPlayerFormControl =
+    getEventInterceptedPlayerFormControl;
 }
