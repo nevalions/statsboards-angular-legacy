@@ -545,6 +545,7 @@
               <div class="event-table-cell">
                 @if (getEventTeam(eventsArray, i); as selectedTeam) {
                   @if (!isPlayResult(eventFormGroup, i, eventPlayResultKey, IFootballPlayResult.Flag) &&
+                  !isPlayResult(eventFormGroup, i, eventPlayResultKey, IFootballPlayResult.PassIncomplete) &&
                   !isPlayResult(eventFormGroup, i, eventPlayResultKey, IFootballPlayResult.PassDeflected) &&
                   !isPlayResult(eventFormGroup, i, eventPlayResultKey, IFootballPlayResult.PassDropped) &&
                   !isScoreResult(eventFormGroup, i, eventScoreResultKey, IFootballScoreResult.Td) &&
@@ -571,6 +572,7 @@
               <div class="event-table-cell">
                 @if (getEventTeam(eventsArray, i); as selectedTeam) {
                   @if (!isPlayResult(eventFormGroup, i, eventPlayResultKey, IFootballPlayResult.Flag) &&
+                  !isPlayResult(eventFormGroup, i, eventPlayResultKey, IFootballPlayResult.PassIncomplete) &&
                   !isPlayResult(eventFormGroup, i, eventPlayResultKey, IFootballPlayResult.PassDeflected) &&
                   !isPlayResult(eventFormGroup, i, eventPlayResultKey, IFootballPlayResult.PassDropped) &&
                   !isScoreResult(eventFormGroup, i, eventScoreResultKey, IFootballScoreResult.Td) &&

@@ -34,6 +34,7 @@ export enum IFootballPlayResult {
   None = '',
   Run = 'run',
   PassCompleted = 'pass completed',
+  PassIncomplete = 'pass incomplete',
   PassDropped = 'pass dropped',
   PassDeflected = 'pass deflected',
   PassIntercepted = 'pass intercepted',

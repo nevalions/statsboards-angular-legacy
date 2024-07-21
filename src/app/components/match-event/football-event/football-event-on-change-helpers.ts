@@ -293,6 +293,7 @@ export function filterPlayResultsByType(
       return [
         IFootballPlayResult.None,
         IFootballPlayResult.PassCompleted,
+        IFootballPlayResult.PassIncomplete,
         IFootballPlayResult.PassDropped,
         IFootballPlayResult.PassDeflected,
         IFootballPlayResult.PassIntercepted,
@@ -324,6 +325,7 @@ export function filterPlayResultsByType(
         IFootballPlayResult.None,
         IFootballPlayResult.Run,
         IFootballPlayResult.PassCompleted,
+        IFootballPlayResult.PassIncomplete,
         IFootballPlayResult.PassDropped,
         IFootballPlayResult.PassDeflected,
         IFootballPlayResult.PassIntercepted,
