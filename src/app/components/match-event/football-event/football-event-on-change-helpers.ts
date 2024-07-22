@@ -1,4 +1,4 @@
-import { FormArray } from '@angular/forms';
+import { FormArray, FormControl } from '@angular/forms';
 import { IEnumObject } from '../../../type/base.type';
 import {
   IFootballEventWithPlayers,
@@ -7,6 +7,7 @@ import {
   IFootballScoreResult,
 } from '../../../type/football-event.type';
 import {
+  getBallOnFormControl,
   getEventDown,
   resetAssistTacklePlayer,
   resetDeflectedPlayer,
@@ -414,6 +415,7 @@ export function incrementNumber(
 }
 
 export function incrementOnBall(
+  control: FormControl,
   array: FormArray,
   index: number,
   num: number,
@@ -442,6 +444,14 @@ export function incrementOnBall(
     // If the new value crosses over the min boundary to 0
     if (newValue < min) {
       newValue = max;
+    }
+  }
+
+  if (control && !control.disabled) {
+    const value = control.value || 0;
+    // console.log(value, newValue);
+    if (value !== newValue) {
+      control.markAsDirty();
     }
   }
 

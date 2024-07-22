@@ -80,7 +80,7 @@
                         tuiIconButton
                         class="increment-button"
                         [size]="'xs'"
-                        (click)="incrementOnBall(eventsArray, i, number, 1, (fieldLength/2), eventBallOnKey)"
+                        (click)="incrementOnBall(control, eventsArray, i, number, 1, (fieldLength/2), eventBallOnKey)"
                         [disabled]="control.disabled"
                       >
                       </button>
@@ -90,7 +90,7 @@
                         tuiIconButton
                         class="decrement-button"
                         [size]="'xs'"
-                        (click)="incrementOnBall(eventsArray, i, number, -1, (fieldLength/2), eventBallOnKey)"
+                        (click)="incrementOnBall(control, eventsArray, i, number, -1, (fieldLength/2), eventBallOnKey)"
                         [disabled]="control.disabled"
                       >-
                       </button>
