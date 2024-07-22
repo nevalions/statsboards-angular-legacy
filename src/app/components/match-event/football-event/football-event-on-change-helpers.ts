@@ -48,6 +48,7 @@ export function onTeamChange(
   if (!previousTeam || selectedTeam.id !== previousTeam.id) {
     // console.log('first down team change');
     setDown(eventsArray, index, 1);
+    setDistance(eventsArray, index, 10);
     resetQb(eventsArray, index);
   }
 }
