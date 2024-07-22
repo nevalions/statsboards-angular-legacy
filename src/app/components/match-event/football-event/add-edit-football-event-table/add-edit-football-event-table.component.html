@@ -54,46 +54,49 @@
             <!--BALL ON-->
             @if (getBallOnFormControl(this.eventForm, this.arrayName, i); as control) {
               <div class="event-table-cell">
+
                 <label>Ball On</label>
-                <div class="input-number-with-buttons">
-                  <tui-input-number
-                    [tuiTextfieldSize]="'l'"
-                    class="input-number"
-                    [formControl]="control"
-                    [tuiTextfieldCleaner]="true"
-                    [min]="-49"
-                    [max]="50"
-                    (tuiValueChanges)="onBallOnChange(events, eventsArray, $event, i, 50)"
-                  >
-                    {{ 'Ball On' | uppercase }}
-                    <input
-                      name="event number"
-                      tuiTextfield
-                    />
-                  </tui-input-number>
-                  @if (getBallOn(eventsArray, i); as number) {
-                    <button
-                      appearance="icon"
-                      icon="tuiIconPlus"
-                      tuiIconButton
-                      class="increment-button"
-                      [size]="'xs'"
-                      (click)="incrementOnBall(eventsArray, i, number, 1, -49, 50, eventBallOnKey)"
-                      [disabled]="control.disabled"
+                @if (match.match_data?.field_length; as fieldLength) {
+                  <div class="input-number-with-buttons">
+                    <tui-input-number
+                      [tuiTextfieldSize]="'l'"
+                      class="input-number"
+                      [formControl]="control"
+                      [tuiTextfieldCleaner]="true"
+                      [min]="-49"
+                      [max]="50"
+                      (tuiValueChanges)="onBallOnChange(events, eventsArray, $event, i, (fieldLength/2))"
                     >
-                    </button>
-                    <button
-                      appearance="icon"
-                      icon="tuiIconMinus"
-                      tuiIconButton
-                      class="decrement-button"
-                      [size]="'xs'"
-                      (click)="incrementOnBall(eventsArray, i, number, -1, -49, 50, eventBallOnKey)"
-                      [disabled]="control.disabled"
-                    >-
-                    </button>
-                  }
-                </div>
+                      {{ 'Ball On' | uppercase }}
+                      <input
+                        name="event number"
+                        tuiTextfield
+                      />
+                    </tui-input-number>
+                    @if (getBallOn(eventsArray, i); as number) {
+                      <button
+                        appearance="icon"
+                        icon="tuiIconPlus"
+                        tuiIconButton
+                        class="increment-button"
+                        [size]="'xs'"
+                        (click)="incrementOnBall(eventsArray, i, number, 1, (fieldLength/2), eventBallOnKey)"
+                        [disabled]="control.disabled"
+                      >
+                      </button>
+                      <button
+                        appearance="icon"
+                        icon="tuiIconMinus"
+                        tuiIconButton
+                        class="decrement-button"
+                        [size]="'xs'"
+                        (click)="incrementOnBall(eventsArray, i, number, -1, (fieldLength/2), eventBallOnKey)"
+                        [disabled]="control.disabled"
+                      >-
+                      </button>
+                    }
+                  </div>
+                }
 
               </div>
             }

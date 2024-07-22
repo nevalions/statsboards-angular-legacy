@@ -10,6 +10,25 @@
 >
   <p>
     @if (data && data.match_id) {
+      <form
+        class="field-form"
+        [formGroup]="fieldForm"
+      >
+        <tui-input-number
+          class="field-form-input"
+          formControlName="fieldLength"
+        >FIELD LENGTH: EVEN NUMBERS ONLY
+        </tui-input-number>
+        <tui-error
+          formControlName="fieldLength"
+          [error]="[] | tuiFieldError | async"
+        ></tui-error>
+        <app-admin-submit-button
+          [disabled]="disabled"
+          (click)="updateFieldLength(data.match_data!)"
+        ></app-admin-submit-button>
+      </form>
+
       <app-add-edit-football-event-table
         [events]="events"
         [match]="data"

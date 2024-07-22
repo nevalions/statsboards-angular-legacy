@@ -418,7 +418,6 @@ export function incrementOnBall(
   index: number,
   num: number,
   step: number,
-  min: number,
   max: number,
   arrayKey: string,
 ): number | null {
@@ -427,6 +426,7 @@ export function incrementOnBall(
   }
 
   let newValue = num;
+  let min = -(max - 1);
 
   if (num > 0) {
     newValue = num - step;
