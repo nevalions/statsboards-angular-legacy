@@ -941,7 +941,7 @@ export function getEventAssistTacklePlayer(
   return getArrayFormDataByIndexAndKey<number>(
     eventsArray,
     index,
-    eventTacklePlayerKey,
+    eventAssistTacklePlayerKey,
   );
 }
 
