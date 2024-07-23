@@ -340,7 +340,10 @@ export const selectPassesPerQuarterback = createSelector(
           };
         }
 
-        if (event.play_type?.value === IFootballPlayType.Pass) {
+        if (
+          event.play_type?.value === IFootballPlayType.Pass &&
+          event.play_result?.value !== IFootballPlayResult.Flag
+        ) {
           // Increment the total pass count for the quarterback
           qbStats[qbId].passes++;
 
@@ -353,7 +356,10 @@ export const selectPassesPerQuarterback = createSelector(
           }
         }
 
-        if (event.play_type?.value === IFootballPlayType.Run) {
+        if (
+          event.play_type?.value === IFootballPlayType.Run &&
+          event.play_result?.value !== IFootballPlayResult.Flag
+        ) {
           if (event.run_player?.match_player.id === qbId) {
             // console.log('run player ok', event.run_player, qbStats[qbId]);
             qbStats[qbId].run_attempts++;
