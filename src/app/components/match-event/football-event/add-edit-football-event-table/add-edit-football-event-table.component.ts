@@ -112,7 +112,9 @@ import {
   getEventNumberFormControl,
   getEventPatOnePlayer,
   getEventPatOnePlayerFormControl,
+  getEventPlayResult,
   getEventPlayResultFormControl,
+  getEventPlayType,
   getEventPlayTypeFormControl,
   getEventPuntPlayer,
   getEventPuntPlayerFormControl,
@@ -145,11 +147,12 @@ import {
   onTeamChange,
 } from '../football-event-on-change-helpers';
 import {
+  TuiAppearance,
   TuiButtonModule,
   TuiExpandModule,
   TuiTextfieldControllerModule,
 } from '@taiga-ui/core';
-import { NgForOf, UpperCasePipe } from '@angular/common';
+import { NgForOf, TitleCasePipe, UpperCasePipe } from '@angular/common';
 import { TuiInputNumberModule, TuiToggleModule } from '@taiga-ui/kit';
 import { TuiFocusableModule, TuiValueChangesModule } from '@taiga-ui/cdk';
 import { SelectTeamInMatchComponent } from '../../../../shared/ui/select/select-team-in-match/select-team-in-match.component';
@@ -159,6 +162,7 @@ import { ActionsButtonsComponent } from '../../../../shared/ui/buttons/actions-b
 import { AddButtonOnFinalTrComponent } from '../../../../shared/ui/buttons/add-button-on-final-tr/add-button-on-final-tr.component';
 import { IEnumObject } from '../../../../type/base.type';
 import { InputNumberWithButtonsComponent } from '../../../../shared/scoreboards/admin-forms/input-number-with-buttons/input-number-with-buttons.component';
+import { ButtonIconComponent } from '../../../../shared/ui/buttons/button-icon/button-icon.component';
 
 @Component({
   selector: 'app-add-edit-football-event-table',
@@ -180,6 +184,8 @@ import { InputNumberWithButtonsComponent } from '../../../../shared/scoreboards/
     TuiExpandModule,
     TuiToggleModule,
     UpperCasePipe,
+    TitleCasePipe,
+    ButtonIconComponent,
   ],
   templateUrl: './add-edit-football-event-table.component.html',
   styleUrl: './add-edit-football-event-table.component.less',
@@ -200,25 +206,65 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
   eventFilteredPlayResultOptions: IEnumObject[] = [];
   eventFilteredScoreResultOptions: IEnumObject[] = [];
   expandedStates: { [key: string]: boolean } = {};
+  highestId: number | null = null;
 
-  toggle(id: string): void {
-    // console.log(id);
-    if (id) {
-      let str = id.toString();
-      if (this.expandedStates[str] === undefined) {
-        this.expandedStates[str] = true;
-      } else {
-        this.expandedStates[str] = !this.expandedStates[str];
-      }
-      // console.log(this.expandedStates);
+  // toggle(id: number): void {
+  //   console.log(id);
+  //   if (this.highestId === null || id > this.highestId) {
+  //     this.highestId = id;
+  //   }
+  //   this.expandedStates[id] = !this.expandedStates[id];
+  //   // Ensure the highest ID is always expanded
+  //   if (this.highestId !== null) {
+  //     this.expandedStates[this.highestId] = true;
+  //   }
+  // }
+  //
+  // isExpanded(id: number): boolean {
+  //   return this.expandedStates[id];
+  // }
+
+  toggle(id: number): void {
+    if (this.highestId === null || id > this.highestId) {
+      this.highestId = id;
+    }
+
+    // Toggle the state of the item
+    const str = id.toString();
+    if (this.expandedStates[str] === undefined) {
+      this.expandedStates[str] = true;
+    } else {
+      this.expandedStates[str] = !this.expandedStates[str];
+    }
+
+    // Ensure the highest ID is always expanded
+    if (this.highestId !== null) {
+      this.expandedStates[this.highestId] = true;
     }
   }
 
-  isExpanded(id: string): boolean {
-    console.log(this.expandedStates);
-    console.log(this.expandedStates[id]);
-    return this.expandedStates[id];
+  isExpanded(id: number): boolean {
+    return this.expandedStates[id] || false;
   }
+
+  // toggle(id: string): void {
+  //   // console.log(id);
+  //   if (id) {
+  //     let str = id.toString();
+  //     if (this.expandedStates[str] === undefined) {
+  //       this.expandedStates[str] = true;
+  //     } else {
+  //       this.expandedStates[str] = !this.expandedStates[str];
+  //     }
+  //     // console.log(this.expandedStates);
+  //   }
+  // }
+  //
+  // isExpanded(id: string): boolean {
+  //   // console.log(this.expandedStates);
+  //   // console.log(this.expandedStates[id]);
+  //   return this.expandedStates[id];
+  // }
 
   eventPlayTypeOptions = Object.values(IFootballPlayType).map((type) => ({
     value: type,
@@ -267,6 +313,15 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
       const formArray = this.fb.array(eventFormArray);
       // console.log('array', formArray);
       this.eventForm.setControl(this.arrayName, formArray);
+
+      // Determine the ID of the last event and toggle its state
+      if (this.events.length > 0) {
+        const lastEventNumber =
+          this.events[this.events.length - 1].event_number;
+        if (lastEventNumber) {
+          this.toggle(lastEventNumber);
+        }
+      }
     }
   }
 
@@ -479,6 +534,9 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
           this.footballEvent.createFootballEvent(
             newEventData as IFootballEvent,
           );
+          if (newEventData.event_number) {
+            this.toggle(newEventData.event_number - 1);
+          }
         }
       } else if (action === 'edit') {
         console.log('action', action);
@@ -741,7 +799,9 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
   protected readonly getEventFlaggedPlayer = getEventFlaggedPlayer;
   protected readonly incrementOnBall = incrementOnBall;
   protected readonly getBallOn = getBallOn;
-  protected readonly eventScoreResult = eventScoreResult;
   protected readonly eventScoreResultKey = eventScoreResultKey;
   protected readonly getEventDistanceMoved = getEventDistanceMoved;
+  protected readonly getEventPlayType = getEventPlayType;
+  protected readonly getEventPlayResult = getEventPlayResult;
+  protected readonly tuiAppFlat = TuiAppearance.Flat;
 }
