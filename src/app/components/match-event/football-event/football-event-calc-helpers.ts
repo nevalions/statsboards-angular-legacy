@@ -90,15 +90,9 @@ export function computeDistance(
   } else if (nextEventBallOn > 0 && currentBallOn < 0) {
     // Transition from positive to negative
     calcDistance = max - nextEventBallOn + max + currentBallOn;
-
-    // calcDistance = -(max - nextEventBallOn + max + currentBallOn);
   } else if (nextEventBallOn < 0 && currentBallOn > 0) {
     // Transition from negative to positive
-    console.log(max - currentBallOn);
-    console.log(max + nextEventBallOn);
     calcDistance = -(max - currentBallOn + max + nextEventBallOn);
-
-    // calcDistance = max + nextEventBallOn + max - currentBallOn;
   } else {
     throw new Error('Unexpected ball position');
   }

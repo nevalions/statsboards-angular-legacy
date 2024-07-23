@@ -133,7 +133,10 @@ export const selectOverallRunDistanceForTeamA = createSelector(
       //   IFootballPlayType.Run,
       // );
       if (event.offense_team?.id === teamId && event.play_type) {
-        if (event.play_type.value === IFootballPlayType.Run) {
+        if (
+          event.play_type.value === IFootballPlayType.Run &&
+          event.play_result?.value === IFootballPlayResult.Run
+        ) {
           // console.log(event.play_type, IFootballPlayType.Run);
           return totalDistance + (event.distance_moved || 0);
         }
@@ -150,7 +153,10 @@ export const selectOverallRunDistanceForTeamB = createSelector(
     const teamId = match?.match.team_b_id;
     return eventsWithPlayers.reduce((totalDistance, event) => {
       if (event.offense_team?.id === teamId && event.play_type) {
-        if (event.play_type.value === IFootballPlayType.Run) {
+        if (
+          event.play_type.value === IFootballPlayType.Run &&
+          event.play_result?.value === IFootballPlayResult.Run
+        ) {
           return totalDistance + (event.distance_moved || 0);
         }
       }
@@ -166,7 +172,10 @@ export const selectOverallPassDistanceForTeamA = createSelector(
     const teamId = match?.match.team_a_id;
     return eventsWithPlayers.reduce((totalDistance, event) => {
       if (event.offense_team?.id === teamId && event.play_type) {
-        if (event.play_type.value === IFootballPlayType.Pass) {
+        if (
+          event.play_type.value === IFootballPlayType.Pass &&
+          event.play_result?.value === IFootballPlayResult.PassCompleted
+        ) {
           return totalDistance + (event.distance_moved || 0);
         }
       }
@@ -188,7 +197,7 @@ export const selectOverallPassDistanceForTeamB = createSelector(
       ) {
         if (
           event.play_type.value === IFootballPlayType.Pass &&
-          event.play_result.value !== IFootballPlayResult.Flag
+          event.play_result?.value === IFootballPlayResult.PassCompleted
         ) {
           return totalDistance + (event.distance_moved || 0);
         }
