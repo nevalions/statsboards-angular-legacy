@@ -407,7 +407,7 @@ export function incrementNumber(
   arrayKey: string,
 ): number | null {
   if (num !== undefined && num !== null) {
-    const newValue = num - step;
+    const newValue = num + step;
     setArrayKeyIndexValue(array, index, newValue, arrayKey);
     return newValue;
   }

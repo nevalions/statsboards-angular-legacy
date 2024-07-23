@@ -73,7 +73,7 @@
                           tuiTextfield
                         />
                       </tui-input-number>
-                      @if (getBallOn(eventsArray, i); as number) {
+                      @if ((getBallOn(eventsArray, i)); as number) {
                         <button
                           appearance="icon"
                           icon="tuiIconPlus"
@@ -100,8 +100,9 @@
                 </div>
                 <div class="event-table-cell">
                   <div class="tui-text_h6">
-                    @if (getEventDistanceMoved(eventsArray, i); as dist) {
-                      Distance moved: {{ dist }}
+                    @if ((getEventDistanceMoved(eventsArray, i)) ||
+                    (getEventDistanceMoved(eventsArray, i) === 0)) {
+                      Distance moved: {{ getEventDistanceMoved(eventsArray, i) }}
                     }</div>
                 </div>
               </div>
