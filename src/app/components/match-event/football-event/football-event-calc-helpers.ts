@@ -20,7 +20,7 @@ export function isFirstDown(
         previousEvent.event_distance !== null
       ) {
         const previousBallOn = previousEvent.ball_on;
-        const distance = computeDistance(
+        const distance = computeDistanceForDownDistance(
           previousBallOn,
           ballOn,
           previousEvent.event_distance,
@@ -49,6 +49,32 @@ export function isFirstDown(
 }
 
 export function computeDistance(
+  previousBallOn: number,
+  currentBallOn: number,
+  max: number,
+): number {
+  let calcDistance: number;
+
+  if (previousBallOn > 0 && currentBallOn > 0) {
+    // Both in positive field
+    calcDistance = previousBallOn - currentBallOn;
+  } else if (previousBallOn < 0 && currentBallOn < 0) {
+    // Both in negative field
+    calcDistance = previousBallOn - currentBallOn;
+  } else if (previousBallOn > 0 && currentBallOn < 0) {
+    // Transition from positive to negative
+    calcDistance = max - previousBallOn + max + currentBallOn;
+  } else if (previousBallOn < 0 && currentBallOn > 0) {
+    // Transition from negative to positive
+    calcDistance = max + previousBallOn + max - currentBallOn;
+  } else {
+    throw new Error('Unexpected ball position');
+  }
+
+  return calcDistance;
+}
+
+export function computeDistanceForDownDistance(
   previousBallOn: number,
   currentBallOn: number,
   previousEventDistance: number,
@@ -114,7 +140,7 @@ export function calculateDistance(
         // console.log('Previous Ball On:', previousBallOn);
 
         try {
-          newDistance = computeDistance(
+          newDistance = computeDistanceForDownDistance(
             previousBallOn,
             ballOn,
             previousEvent.event_distance,

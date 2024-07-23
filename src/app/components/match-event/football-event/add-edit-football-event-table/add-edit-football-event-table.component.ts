@@ -42,6 +42,7 @@ import {
   eventDirection,
   eventDistance,
   eventDistanceKey,
+  eventDistanceMoved,
   eventDown,
   eventDownKey,
   eventDroppedPlayer,
@@ -86,6 +87,7 @@ import {
   getEventDeflectedPlayerFormControl,
   getEventDirectionFormControl,
   getEventDistanceFormControl,
+  getEventDistanceMoved,
   getEventDownFormControl,
   getEventDroppedPlayer,
   getEventDroppedPlayerFormControl,
@@ -96,7 +98,6 @@ import {
   getEventFumbleRecoveredPlayer,
   getEventFumbleRecoveredPlayerFormControl,
   getEventHashFormControl,
-  getEventId,
   getEventInterceptedPlayer,
   getEventInterceptedPlayerFormControl,
   getEventIsFumble,
@@ -355,6 +356,7 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
     const controlEventNumber = eventNumber(index);
     const controlEventQtr = eventQtr(index);
     const controlEventBallOn = eventBallOn(index);
+    const controlEventDistanceMoved = eventDistanceMoved(index);
 
     const controlEventTeam = eventTeam(index);
     const controlEventQb = eventQb(index);
@@ -396,6 +398,7 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
       [controlEventNumber]: new FormControl(event.event_number),
       [controlEventQtr]: new FormControl(event.event_qtr),
       [controlEventBallOn]: new FormControl(event.ball_on),
+      [controlEventDistanceMoved]: new FormControl(event.distance_moved),
       [controlEventTeam]: new FormControl(event.offense_team),
       [controlEventQb]: new FormControl(event.event_qb),
       [controlEventDown]: new FormControl(event.event_down),
@@ -729,4 +732,5 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
   protected readonly getBallOn = getBallOn;
   protected readonly eventScoreResult = eventScoreResult;
   protected readonly eventScoreResultKey = eventScoreResultKey;
+  protected readonly getEventDistanceMoved = getEventDistanceMoved;
 }

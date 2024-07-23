@@ -4,6 +4,7 @@ import { selectAllMatchFootballEvents } from './reducers';
 import { selectAllPlayersInMatchFullData } from '../../../player-match/store/reducers';
 import { IFootballEventWithPlayers } from '../../../../type/football-event.type';
 import { selectCurrentMatchWithFullData } from '../../../match-with-full-data/store/reducers';
+import { computeDistance } from '../football-event-calc-helpers';
 
 export function getMatchPlayerById(
   players: IPlayerInMatchFullData[],
@@ -22,10 +23,30 @@ export const selectFootballEventsWithPlayers = createSelector(
   (footballEvents, matchPlayers, match): IFootballEventWithPlayers[] => {
     const teamA = match?.teams_data?.team_a || null;
     const teamB = match?.teams_data?.team_b || null;
+    const fieldLength = match?.match_data?.field_length || 100;
 
-    return footballEvents.map((event) => {
+    return footballEvents.map((event, index) => {
+      const previousEvent = footballEvents[index - 1];
+
+      let distanceMoved: number | null = null;
+
+      if (
+        previousEvent &&
+        previousEvent.ball_on !== undefined &&
+        event.ball_on !== undefined &&
+        previousEvent.ball_on !== null &&
+        event.ball_on !== null
+      ) {
+        distanceMoved = computeDistance(
+          previousEvent.ball_on,
+          event.ball_on,
+          fieldLength / 2,
+        );
+      }
+
       return {
         ...event,
+        distance_moved: distanceMoved,
         offense_team:
           event.offense_team === teamA?.id
             ? teamA

@@ -1,7 +1,6 @@
 import { ITeam } from './team.type';
 import { IPlayerInMatchFullData } from './player.type';
 import { IEnumObject } from './base.type';
-import { filterPlayResultsByType } from '../components/match-event/football-event/football-event-on-change-helpers';
 
 export enum IFootballPlayType {
   None = '',
@@ -112,6 +111,7 @@ export interface IFootballEventWithPlayers {
   event_number?: number | null;
   event_qtr?: number | null;
   ball_on?: number | null;
+  distance_moved?: number | null;
   offense_team?: ITeam | null;
   event_qb?: IPlayerInMatchFullData | null;
   event_down?: number | null;

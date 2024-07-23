@@ -7,7 +7,6 @@ import {
   IFootballScoreResult,
 } from '../../../type/football-event.type';
 import {
-  getBallOnFormControl,
   getEventDown,
   resetAssistTacklePlayer,
   resetDeflectedPlayer,

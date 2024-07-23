@@ -12,13 +12,13 @@ import { ITeam } from '../../../type/team.type';
 import {
   IFootballEvent,
   IFootballEventWithPlayers,
-  IFootballPlayResult,
 } from '../../../type/football-event.type';
 
 export const eventIdKey = 'eventId';
 export const eventNumberKey = 'eventNumber';
 export const eventQtrKey = 'eventQtr';
 export const eventBallOnKey = 'eventBallOn';
+export const eventDistanceMovedKey = 'eventDistanceMoved';
 export const eventTeamKey = 'eventTeam';
 export const eventQbKey = 'eventQb';
 export const eventDownKey = 'eventDown';
@@ -54,6 +54,8 @@ export const eventId = (index: number) => eventIdKey + index;
 export const eventNumber = (index: number) => eventNumberKey + index;
 export const eventQtr = (index: number) => eventQtrKey + index;
 export const eventBallOn = (index: number) => eventBallOnKey + index;
+export const eventDistanceMoved = (index: number) =>
+  eventDistanceMovedKey + index;
 export const eventTeam = (index: number) => eventTeamKey + index;
 export const eventQb = (index: number) => eventQbKey + index;
 export const eventDown = (index: number) => eventDownKey + index;
@@ -181,6 +183,7 @@ export function extractEventData(
   const eventNumber = getEventNumber(eventsArray, index);
   const eventQtr = getQtr(eventsArray, index);
   const eventBallOn = getBallOn(eventsArray, index);
+  const eventDistanceMoved = getEventDistanceMoved(eventsArray, index);
   const eventTeam = getEventTeam(eventsArray, index);
   const eventQb = getEventQb(eventsArray, index);
   const eventDown = getEventDown(eventsArray, index);
@@ -376,6 +379,39 @@ export function getBallOnFormControl(
   index: number,
 ): FormControl | null | undefined {
   return getFormControl(form, index, eventBallOnKey, arrayName);
+}
+
+// EventDistanceMoved
+export function getEventDistanceMoved(
+  eventsArray: FormArray,
+  index: number,
+): number | null | undefined {
+  return getArrayFormDataByIndexAndKey<number>(
+    eventsArray,
+    index,
+    eventDistanceMovedKey,
+  );
+}
+
+export function getEventDistanceMovedFormControl(
+  form: FormGroup,
+  arrayName: string,
+  index: number,
+): FormControl | null | undefined {
+  return getFormControl(form, index, eventDistanceMovedKey, arrayName);
+}
+
+export function setDistanceMoved(
+  eventsArray: FormArray,
+  index: number,
+  selectedItem: number,
+): void {
+  setArrayKeyIndexValue(
+    eventsArray,
+    index,
+    selectedItem,
+    eventDistanceMovedKey,
+  );
 }
 
 // EventTeam
