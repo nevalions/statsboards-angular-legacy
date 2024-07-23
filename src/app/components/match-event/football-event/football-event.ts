@@ -13,7 +13,10 @@ import {
   selectFootballEventIsSubmitting,
 } from './store/reducers';
 import { footballEventActions } from './store/actions';
-import { selectFootballEventsWithPlayers } from './store/selectors';
+import {
+  selectFootballEventsWithPlayers,
+  selectOverallRunDistanceForTeamA,
+} from './store/selectors';
 
 @Injectable({
   providedIn: 'root',
@@ -24,6 +27,9 @@ export class FootballEvent {
   allMatchFootballEventsWithPlayers$: Observable<IFootballEventWithPlayers[]>;
   footballEventIsSubmitting$: Observable<boolean>;
   footballEventIsLoading$: Observable<boolean>;
+
+  // football match stats
+  runDistanceForTeamA$: Observable<number>;
 
   constructor(private store: Store<AppState>) {
     this.footballEvent$ = this.store.select(selectCurrentFootballEvent);
@@ -38,6 +44,11 @@ export class FootballEvent {
     );
     this.allMatchFootballEventsWithPlayers$ = this.store.select(
       selectFootballEventsWithPlayers,
+    );
+
+    // stats
+    this.runDistanceForTeamA$ = this.store.select(
+      selectOverallRunDistanceForTeamA,
     );
   }
 

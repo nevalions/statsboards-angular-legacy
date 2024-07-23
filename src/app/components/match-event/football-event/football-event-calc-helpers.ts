@@ -63,7 +63,7 @@ export function computeDistance(
     calcDistance = previousBallOn - currentBallOn;
   } else if (previousBallOn > 0 && currentBallOn < 0) {
     // Transition from positive to negative
-    calcDistance = max - previousBallOn + max + currentBallOn;
+    calcDistance = -(max - previousBallOn + max + currentBallOn);
   } else if (previousBallOn < 0 && currentBallOn > 0) {
     // Transition from negative to positive
     calcDistance = max + previousBallOn + max - currentBallOn;

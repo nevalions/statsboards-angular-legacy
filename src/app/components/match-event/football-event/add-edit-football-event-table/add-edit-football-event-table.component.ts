@@ -571,7 +571,18 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
     return [...homePlayers, ...awayPlayers];
   }
 
-  isPlayType(
+  // isPlayType(
+  //   playType: IFootballPlayType,
+  //   playTypeCompare: IFootballPlayType,
+  // ): boolean {
+  //   console.log(playType, playTypeCompare);
+  //   if (playType && playTypeCompare) {
+  //     return playType === playTypeCompare;
+  //   }
+  //   return false;
+  // }
+
+  isPlayTypeWithIndex(
     formGroup: FormGroup | any,
     index: number,
     key: string,

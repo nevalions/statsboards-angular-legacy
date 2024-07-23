@@ -8,6 +8,8 @@
   *ngIf="eventsFormsVisible$ | async"
   class="event-forms"
 >
+  <p>Home Team Stats</p>
+  <p>Run Yards: {{ runDistanceForTeamA$ | async }}</p>
   <p>
     @if (data && data.match_id) {
       <form

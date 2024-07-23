@@ -2,7 +2,10 @@ import { IPlayerInMatchFullData } from '../../../../type/player.type';
 import { createSelector } from '@ngrx/store';
 import { selectAllMatchFootballEvents } from './reducers';
 import { selectAllPlayersInMatchFullData } from '../../../player-match/store/reducers';
-import { IFootballEventWithPlayers } from '../../../../type/football-event.type';
+import {
+  IFootballEventWithPlayers,
+  IFootballPlayType,
+} from '../../../../type/football-event.type';
 import { selectCurrentMatchWithFullData } from '../../../match-with-full-data/store/reducers';
 import { computeDistance } from '../football-event-calc-helpers';
 
@@ -110,5 +113,28 @@ export const selectFootballEventsWithPlayers = createSelector(
           : null,
       } as IFootballEventWithPlayers;
     });
+  },
+);
+
+export const selectOverallRunDistanceForTeamA = createSelector(
+  selectFootballEventsWithPlayers,
+  (eventsWithPlayers: IFootballEventWithPlayers[]): number => {
+    const teamAId = eventsWithPlayers[0]?.offense_team?.id;
+    // console.log('teamAId', teamAId);
+    return eventsWithPlayers.reduce((totalDistance, event) => {
+      // console.log(
+      //   'totalDistance',
+      //   totalDistance,
+      //   event.play_type,
+      //   IFootballPlayType.Run,
+      // );
+      if (event.offense_team?.id === teamAId && event.play_type) {
+        if (event.play_type.value === IFootballPlayType.Run) {
+          // console.log(event.play_type, IFootballPlayType.Run);
+          return totalDistance + (event.distance_moved || 0);
+        }
+      }
+      return totalDistance;
+    }, 0);
   },
 );

@@ -233,7 +233,7 @@
             @if (getEventRunPlayerFormControl(this.eventForm, this.arrayName, i); as control) {
               <!--              <div class="event-table-cell">-->
               @if (getEventTeam(eventsArray, i); as selectedTeam) {
-                @if (isPlayType(eventFormGroup, i, eventPlayTypeKey, IFootballPlayType.Run) ||
+                @if (isPlayTypeWithIndex(eventFormGroup, i, eventPlayTypeKey, IFootballPlayType.Run) ||
                 getEventRunPlayer(eventsArray, i)) {
                   <div class="event-table-cell">
                     <label>Run Player</label>
@@ -293,7 +293,7 @@
             @if (getEventKickPlayerFormControl(this.eventForm, this.arrayName, i); as control) {
               <!--              <div class="event-table-cell">-->
               @if (getEventTeam(eventsArray, i); as selectedTeam) {
-                @if (isPlayType(eventFormGroup, i, eventPlayTypeKey, IFootballPlayType.Kick) ||
+                @if (isPlayTypeWithIndex(eventFormGroup, i, eventPlayTypeKey, IFootballPlayType.Kick) ||
                 getEventKickPlayer(eventsArray, i)) {
                   <div class="event-table-cell">
                     <label>Kick Player</label>
@@ -313,7 +313,7 @@
             @if (getEventKickOffPlayerFormControl(this.eventForm, this.arrayName, i); as control) {
               <!--              <div class="event-table-cell">-->
               @if (getEventTeam(eventsArray, i); as selectedTeam) {
-                @if (isPlayType(eventFormGroup, i, eventPlayTypeKey, IFootballPlayType.Kickoff) ||
+                @if (isPlayTypeWithIndex(eventFormGroup, i, eventPlayTypeKey, IFootballPlayType.Kickoff) ||
                 getEventKickOffPlayer(eventsArray, i)) {
                   <div class="event-table-cell">
                     <label>KickOff Player</label>
@@ -333,7 +333,7 @@
             @if (getEventPatOnePlayerFormControl(this.eventForm, this.arrayName, i); as control) {
               <!--              <div class="event-table-cell">-->
               @if (getEventTeam(eventsArray, i); as selectedTeam) {
-                @if (isPlayType(eventFormGroup, i, eventPlayTypeKey, IFootballPlayType.PatOne) ||
+                @if (isPlayTypeWithIndex(eventFormGroup, i, eventPlayTypeKey, IFootballPlayType.PatOne) ||
                 getEventPatOnePlayer(eventsArray, i)) {
                   <div class="event-table-cell">
                     <label>Pat One Player</label>
@@ -353,7 +353,7 @@
             @if (getEventPuntPlayerFormControl(this.eventForm, this.arrayName, i); as control) {
               <!--              <div class="event-table-cell">-->
               @if (getEventTeam(eventsArray, i); as selectedTeam) {
-                @if (isPlayType(eventFormGroup, i, eventPlayTypeKey, IFootballPlayType.Punt) ||
+                @if (isPlayTypeWithIndex(eventFormGroup, i, eventPlayTypeKey, IFootballPlayType.Punt) ||
                 getEventPuntPlayer(eventsArray, i)) {
                   <div class="event-table-cell">
                     <label>Punt Player</label>
@@ -373,8 +373,8 @@
             @if (getEventReturnPlayerFormControl(this.eventForm, this.arrayName, i); as control) {
               <!--              <div class="event-table-cell">-->
               @if (getEventTeam(eventsArray, i); as selectedTeam) {
-                @if (isPlayType(eventFormGroup, i, eventPlayTypeKey, IFootballPlayType.Punt) ||
-                isPlayType(eventFormGroup, i, eventPlayTypeKey, IFootballPlayType.Kickoff) ||
+                @if (isPlayTypeWithIndex(eventFormGroup, i, eventPlayTypeKey, IFootballPlayType.Punt) ||
+                isPlayTypeWithIndex(eventFormGroup, i, eventPlayTypeKey, IFootballPlayType.Kickoff) ||
                 getEventReturnPlayer(eventsArray, i)) {
                   <div class="event-table-cell">
                     <label>Return Player</label>

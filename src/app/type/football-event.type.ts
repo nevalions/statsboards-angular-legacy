@@ -117,11 +117,11 @@ export interface IFootballEventWithPlayers {
   event_down?: number | null;
   event_distance?: number | null;
 
-  event_hash?: IEventHash | null;
-  play_direction?: IEventDirection | null;
-  play_type?: IFootballPlayType | null;
-  play_result?: IFootballPlayResult | null;
-  score_result?: IFootballScoreResult | null;
+  event_hash?: IEnumObject | null;
+  play_direction?: IEnumObject | null;
+  play_type?: IEnumObject | null;
+  play_result?: IEnumObject | null;
+  score_result?: IEnumObject | null;
 
   is_fumble?: boolean | null;
   is_fumble_recovered?: boolean | null;

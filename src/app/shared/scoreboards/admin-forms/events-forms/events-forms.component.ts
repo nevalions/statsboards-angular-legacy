@@ -18,6 +18,7 @@ import { TuiFieldErrorPipeModule, TuiInputNumberModule } from '@taiga-ui/kit';
 import { IMatchData } from '../../../../type/matchdata.type';
 import { Websocket } from '../../../../store/websocket/websocket';
 import { MatchData } from '../../../../components/match/matchdata';
+import { FootballEvent } from '../../../../components/match-event/football-event/football-event';
 
 @Component({
   selector: 'app-events-forms',
@@ -46,11 +47,14 @@ export class EventsFormsComponent implements OnChanges {
   @Input() homePlayersInMatch: IPlayerInMatchFullData[] | null = [];
   @Input() awayPlayersInMatch: IPlayerInMatchFullData[] | null = [];
 
+  runDistanceForTeamA$ = this.footballEvent.runDistanceForTeamA$;
+
   fieldForm: FormGroup;
 
   constructor(
     private websocket: Websocket,
     private matchData: MatchData,
+    private footballEvent: FootballEvent,
   ) {
     this.fieldForm = this.initForm();
   }
