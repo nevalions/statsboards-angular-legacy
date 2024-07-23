@@ -48,25 +48,57 @@ export function isFirstDown(
   return null;
 }
 
+// export function computeDistance(
+//   previousBallOn: number,
+//   currentBallOn: number,
+//   max: number,
+// ): number {
+//   let calcDistance: number;
+//
+//   if (previousBallOn > 0 && currentBallOn > 0) {
+//     // Both in positive field
+//     calcDistance = previousBallOn - currentBallOn;
+//   } else if (previousBallOn < 0 && currentBallOn < 0) {
+//     // Both in negative field
+//     calcDistance = previousBallOn - currentBallOn;
+//   } else if (previousBallOn > 0 && currentBallOn < 0) {
+//     // Transition from positive to negative
+//     calcDistance = -(max - previousBallOn + max + currentBallOn);
+//   } else if (previousBallOn < 0 && currentBallOn > 0) {
+//     // Transition from negative to positive
+//     calcDistance = max + previousBallOn + max - currentBallOn;
+//   } else {
+//     throw new Error('Unexpected ball position');
+//   }
+//
+//   return calcDistance;
+// }
+
 export function computeDistance(
-  previousBallOn: number,
+  nextEventBallOn: number,
   currentBallOn: number,
   max: number,
 ): number {
   let calcDistance: number;
 
-  if (previousBallOn > 0 && currentBallOn > 0) {
+  if (nextEventBallOn > 0 && currentBallOn > 0) {
     // Both in positive field
-    calcDistance = previousBallOn - currentBallOn;
-  } else if (previousBallOn < 0 && currentBallOn < 0) {
+    calcDistance = currentBallOn - nextEventBallOn;
+  } else if (nextEventBallOn < 0 && currentBallOn < 0) {
     // Both in negative field
-    calcDistance = previousBallOn - currentBallOn;
-  } else if (previousBallOn > 0 && currentBallOn < 0) {
+    calcDistance = currentBallOn - nextEventBallOn;
+  } else if (nextEventBallOn > 0 && currentBallOn < 0) {
     // Transition from positive to negative
-    calcDistance = -(max - previousBallOn + max + currentBallOn);
-  } else if (previousBallOn < 0 && currentBallOn > 0) {
+    calcDistance = max - nextEventBallOn + max + currentBallOn;
+
+    // calcDistance = -(max - nextEventBallOn + max + currentBallOn);
+  } else if (nextEventBallOn < 0 && currentBallOn > 0) {
     // Transition from negative to positive
-    calcDistance = max + previousBallOn + max - currentBallOn;
+    console.log(max - currentBallOn);
+    console.log(max + nextEventBallOn);
+    calcDistance = -(max - currentBallOn + max + nextEventBallOn);
+
+    // calcDistance = max + nextEventBallOn + max - currentBallOn;
   } else {
     throw new Error('Unexpected ball position');
   }

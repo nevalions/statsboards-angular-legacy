@@ -15,6 +15,8 @@ import {
 import { footballEventActions } from './store/actions';
 import {
   selectFootballEventsWithPlayers,
+  selectOverallFlagYardsForTeamA,
+  selectOverallFlagYardsForTeamB,
   selectOverallOffenceDistanceForTeamA,
   selectOverallOffenceDistanceForTeamB,
   selectOverallPassDistanceForTeamA,
@@ -40,6 +42,9 @@ export class FootballEvent {
   passDistanceForTeamB$: Observable<number>;
   overallOffenceDistanceForTeamA$: Observable<number>;
   overallOffenceDistanceForTeamB$: Observable<number>;
+
+  flagYardsTeamA$: Observable<number>;
+  flagYardsTeamB$: Observable<number>;
 
   constructor(private store: Store<AppState>) {
     this.footballEvent$ = this.store.select(selectCurrentFootballEvent);
@@ -76,6 +81,9 @@ export class FootballEvent {
     this.overallOffenceDistanceForTeamB$ = this.store.select(
       selectOverallOffenceDistanceForTeamB,
     );
+    // flag
+    this.flagYardsTeamA$ = this.store.select(selectOverallFlagYardsForTeamA);
+    this.flagYardsTeamB$ = this.store.select(selectOverallFlagYardsForTeamB);
   }
 
   createFootballEvent(event: IFootballEvent) {
