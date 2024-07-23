@@ -2,7 +2,7 @@ import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { Observable } from 'rxjs';
 import { IFootballEventWithPlayers } from '../../../../type/football-event.type';
 import { ToggleVisibleButtonComponent } from '../../../ui/buttons/toggle-visible-button/toggle-visible-button.component';
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe, NgIf, UpperCasePipe } from '@angular/common';
 import { IPlayerInMatchFullData } from '../../../../type/player.type';
 import { AddEditFootballEventTableComponent } from '../../../../components/match-event/football-event/add-edit-football-event-table/add-edit-football-event-table.component';
 import { IMatchFullDataWithScoreboard } from '../../../../type/match.type';
@@ -33,6 +33,7 @@ import { FootballEvent } from '../../../../components/match-event/football-event
     TuiErrorModule,
     TuiFieldErrorPipeModule,
     TuiInputNumberModule,
+    UpperCasePipe,
   ],
   templateUrl: './events-forms.component.html',
   styleUrl: './events-forms.component.less',
@@ -48,6 +49,11 @@ export class EventsFormsComponent implements OnChanges {
   @Input() awayPlayersInMatch: IPlayerInMatchFullData[] | null = [];
 
   runDistanceForTeamA$ = this.footballEvent.runDistanceForTeamA$;
+  runDistanceForTeamB$ = this.footballEvent.runDistanceForTeamB$;
+  passDistanceForTeamA$ = this.footballEvent.passDistanceForTeamA$;
+  passDistanceForTeamB$ = this.footballEvent.passDistanceForTeamB$;
+  offenceDistanceForTeamA$ = this.footballEvent.overallOffenceDistanceForTeamA$;
+  offenceDistanceForTeamB$ = this.footballEvent.overallOffenceDistanceForTeamB$;
 
   fieldForm: FormGroup;
 

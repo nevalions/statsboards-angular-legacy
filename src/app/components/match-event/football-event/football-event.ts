@@ -15,7 +15,12 @@ import {
 import { footballEventActions } from './store/actions';
 import {
   selectFootballEventsWithPlayers,
+  selectOverallOffenceDistanceForTeamA,
+  selectOverallOffenceDistanceForTeamB,
+  selectOverallPassDistanceForTeamA,
+  selectOverallPassDistanceForTeamB,
   selectOverallRunDistanceForTeamA,
+  selectOverallRunDistanceForTeamB,
 } from './store/selectors';
 
 @Injectable({
@@ -30,6 +35,11 @@ export class FootballEvent {
 
   // football match stats
   runDistanceForTeamA$: Observable<number>;
+  runDistanceForTeamB$: Observable<number>;
+  passDistanceForTeamA$: Observable<number>;
+  passDistanceForTeamB$: Observable<number>;
+  overallOffenceDistanceForTeamA$: Observable<number>;
+  overallOffenceDistanceForTeamB$: Observable<number>;
 
   constructor(private store: Store<AppState>) {
     this.footballEvent$ = this.store.select(selectCurrentFootballEvent);
@@ -47,8 +57,24 @@ export class FootballEvent {
     );
 
     // stats
+    // offence
     this.runDistanceForTeamA$ = this.store.select(
       selectOverallRunDistanceForTeamA,
+    );
+    this.runDistanceForTeamB$ = this.store.select(
+      selectOverallRunDistanceForTeamB,
+    );
+    this.passDistanceForTeamA$ = this.store.select(
+      selectOverallPassDistanceForTeamA,
+    );
+    this.passDistanceForTeamB$ = this.store.select(
+      selectOverallPassDistanceForTeamB,
+    );
+    this.overallOffenceDistanceForTeamA$ = this.store.select(
+      selectOverallOffenceDistanceForTeamA,
+    );
+    this.overallOffenceDistanceForTeamB$ = this.store.select(
+      selectOverallOffenceDistanceForTeamB,
     );
   }
 

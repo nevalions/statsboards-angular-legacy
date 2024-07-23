@@ -8,8 +8,21 @@
   *ngIf="eventsFormsVisible$ | async"
   class="event-forms"
 >
-  <p>Home Team Stats</p>
-  <p>Run Yards: {{ runDistanceForTeamA$ | async }}</p>
+  <div style="display: grid; grid-template-columns: 50% 50%">
+    <div>
+      <p class="tui-text_h6">{{ data?.teams_data?.team_a?.title | uppercase }} STATS</p>
+      <p>Offence Yards: {{ offenceDistanceForTeamA$ | async }}</p>
+      <p>Run Yards: {{ runDistanceForTeamA$ | async }}</p>
+      <p>Pass Yards: {{ passDistanceForTeamA$ | async }}</p>
+    </div>
+    <div>
+      <p class="tui-text_h6">{{ data?.teams_data?.team_b?.title | uppercase }} STATS</p>
+      <p>Offence Yards: {{ offenceDistanceForTeamB$ | async }}</p>
+      <p>Run Yards: {{ runDistanceForTeamB$ | async }}</p>
+      <p>Pass Yards: {{ passDistanceForTeamB$ | async }}</p>
+    </div>
+
+  </div>
   <p>
     @if (data && data.match_id) {
       <form

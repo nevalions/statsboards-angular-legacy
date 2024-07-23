@@ -116,11 +116,14 @@ export const selectFootballEventsWithPlayers = createSelector(
   },
 );
 
+// STATS OFFENCE
+
 export const selectOverallRunDistanceForTeamA = createSelector(
   selectFootballEventsWithPlayers,
-  (eventsWithPlayers: IFootballEventWithPlayers[]): number => {
-    const teamAId = eventsWithPlayers[0]?.offense_team?.id;
-    // console.log('teamAId', teamAId);
+  selectCurrentMatchWithFullData,
+  (eventsWithPlayers: IFootballEventWithPlayers[], match): number => {
+    const teamId = match?.match.team_a_id;
+    // console.log('teamId', teamId);
     return eventsWithPlayers.reduce((totalDistance, event) => {
       // console.log(
       //   'totalDistance',
@@ -128,7 +131,7 @@ export const selectOverallRunDistanceForTeamA = createSelector(
       //   event.play_type,
       //   IFootballPlayType.Run,
       // );
-      if (event.offense_team?.id === teamAId && event.play_type) {
+      if (event.offense_team?.id === teamId && event.play_type) {
         if (event.play_type.value === IFootballPlayType.Run) {
           // console.log(event.play_type, IFootballPlayType.Run);
           return totalDistance + (event.distance_moved || 0);
@@ -136,5 +139,75 @@ export const selectOverallRunDistanceForTeamA = createSelector(
       }
       return totalDistance;
     }, 0);
+  },
+);
+
+export const selectOverallRunDistanceForTeamB = createSelector(
+  selectFootballEventsWithPlayers,
+  selectCurrentMatchWithFullData,
+  (eventsWithPlayers: IFootballEventWithPlayers[], match): number => {
+    const teamId = match?.match.team_b_id;
+    // console.log('teamId', teamId);
+    return eventsWithPlayers.reduce((totalDistance, event) => {
+      if (event.offense_team?.id === teamId && event.play_type) {
+        if (event.play_type.value === IFootballPlayType.Run) {
+          // console.log(event.play_type, IFootballPlayType.Run);
+          return totalDistance + (event.distance_moved || 0);
+        }
+      }
+      return totalDistance;
+    }, 0);
+  },
+);
+
+export const selectOverallPassDistanceForTeamA = createSelector(
+  selectFootballEventsWithPlayers,
+  selectCurrentMatchWithFullData,
+  (eventsWithPlayers: IFootballEventWithPlayers[], match): number => {
+    const teamId = match?.match.team_a_id;
+    // console.log('teamId', teamId);
+    return eventsWithPlayers.reduce((totalDistance, event) => {
+      if (event.offense_team?.id === teamId && event.play_type) {
+        if (event.play_type.value === IFootballPlayType.Pass) {
+          // console.log(event.play_type, IFootballPlayType.Run);
+          return totalDistance + (event.distance_moved || 0);
+        }
+      }
+      return totalDistance;
+    }, 0);
+  },
+);
+
+export const selectOverallPassDistanceForTeamB = createSelector(
+  selectFootballEventsWithPlayers,
+  selectCurrentMatchWithFullData,
+  (eventsWithPlayers: IFootballEventWithPlayers[], match): number => {
+    const teamId = match?.match.team_b_id;
+    // console.log('teamId', teamId);
+    return eventsWithPlayers.reduce((totalDistance, event) => {
+      if (event.offense_team?.id === teamId && event.play_type) {
+        if (event.play_type.value === IFootballPlayType.Pass) {
+          // console.log(event.play_type, IFootballPlayType.Run);
+          return totalDistance + (event.distance_moved || 0);
+        }
+      }
+      return totalDistance;
+    }, 0);
+  },
+);
+
+export const selectOverallOffenceDistanceForTeamA = createSelector(
+  selectOverallRunDistanceForTeamA,
+  selectOverallPassDistanceForTeamA,
+  (runYards, passYards): number => {
+    return runYards + passYards;
+  },
+);
+
+export const selectOverallOffenceDistanceForTeamB = createSelector(
+  selectOverallRunDistanceForTeamB,
+  selectOverallPassDistanceForTeamB,
+  (runYards, passYards): number => {
+    return runYards + passYards;
   },
 );
