@@ -1,4 +1,7 @@
-import { IPlayerInMatchFullData } from '../../../../type/player.type';
+import {
+  IPlayerInMatchFullData,
+  IPlayerInMatchFullDataWithQbStats,
+} from '../../../../type/player.type';
 import { createSelector } from '@ngrx/store';
 import { selectAllMatchFootballEvents } from './reducers';
 import { selectAllPlayersInMatchFullData } from '../../../player-match/store/reducers';
@@ -223,6 +226,7 @@ export const selectOverallOffenceDistanceForTeamB = createSelector(
   },
 );
 
+// FLAGS
 export const selectOverallFlagYardsForTeamA = createSelector(
   selectFootballEventsWithPlayers,
   selectCurrentMatchWithFullData,
@@ -253,5 +257,120 @@ export const selectOverallFlagYardsForTeamB = createSelector(
       }
       return totalDistance;
     }, 0);
+  },
+);
+
+// QB
+// export const selectAllQuarterbacksTeamA = createSelector(
+//   selectFootballEventsWithPlayers,
+//   selectCurrentMatchWithFullData,
+//   (events, match) => {
+//     const teamId = match?.match.team_a_id;
+//     if (!teamId) {
+//       return [];
+//     }
+//     if (events && events.length > 0) {
+//       const qbIds = events
+//         .filter(
+//           (event) =>
+//             event.event_qb &&
+//             event.event_qb.match_player.id &&
+//             event.offense_team?.id === teamId,
+//         )
+//         .map((event) => event.event_qb!.match_player.id);
+//
+//       // Deduplicate QB IDs
+//       const uniqueQbIds = Array.from(new Set(qbIds));
+//
+//       // Assuming you have a selector to get all players, you can filter them
+//       // by the unique QB IDs to get the details
+//       return events
+//         .flatMap((event) => (event.event_qb ? [event.event_qb] : []))
+//         .filter(
+//           (qb, index, self) =>
+//             uniqueQbIds.includes(qb.match_player.id!) &&
+//             self.findIndex((q) => q.match_player.id === qb.match_player.id) ===
+//               index,
+//         );
+//     } else {
+//       return [];
+//     }
+//   },
+// );
+
+export const selectPassesPerQuarterback = createSelector(
+  selectFootballEventsWithPlayers,
+  (
+    events: IFootballEventWithPlayers[],
+  ): Record<number, { passes: number; passes_completed: number }> => {
+    // Create an object to store the count of passes and completed passes per quarterback
+    const qbPassCount: Record<
+      number,
+      { passes: number; passes_completed: number }
+    > = {};
+
+    events.forEach((event) => {
+      if (
+        event.play_type?.value === IFootballPlayType.Pass &&
+        event.event_qb?.match_player.id
+      ) {
+        const qbId = event.event_qb.match_player.id;
+
+        // Initialize the qbPassCount object for the quarterback if it doesn't exist
+        if (!qbPassCount[qbId]) {
+          qbPassCount[qbId] = { passes: 0, passes_completed: 0 };
+        }
+
+        // Increment the total pass count for the quarterback
+        qbPassCount[qbId].passes++;
+
+        // Increment the completed pass count if the pass was completed
+        if (event.play_result?.value === IFootballPlayResult.PassCompleted) {
+          qbPassCount[qbId].passes_completed++;
+        }
+      }
+    });
+
+    return qbPassCount;
+  },
+);
+
+// Selector to get all quarterbacks for team A and include their stats
+export const selectAllQuarterbacksWithStatsTeamA = createSelector(
+  selectFootballEventsWithPlayers,
+  selectCurrentMatchWithFullData,
+  selectPassesPerQuarterback,
+  (events, match, qbPassCount): IPlayerInMatchFullDataWithQbStats[] => {
+    const teamId = match?.match.team_a_id;
+    if (!teamId) {
+      return [];
+    }
+
+    // Deduplicate and get all quarterbacks for team A
+    const qbs = events
+      .filter(
+        (event) =>
+          event.event_qb &&
+          event.offense_team?.id === teamId &&
+          event.event_qb.match_player.id,
+      )
+      .map((event) => event.event_qb!)
+      .reduce((uniqueQbs, qb) => {
+        if (!uniqueQbs.some((q) => q.match_player.id === qb.match_player.id)) {
+          uniqueQbs.push(qb);
+        }
+        return uniqueQbs;
+      }, [] as IPlayerInMatchFullData[]);
+
+    // Map to IPlayerInMatchFullDataWithQbStats
+    return qbs.map((qb) => ({
+      ...qb,
+      qb_stats: {
+        id: qb.match_player.id!,
+        passes: qbPassCount[qb.match_player.id!]?.passes || 0,
+        passes_completed:
+          qbPassCount[qb.match_player.id!]?.passes_completed || 0,
+      },
+    }));
   },
 );

@@ -55,6 +55,20 @@ export interface IPlayerInMatchFullData {
   position?: IPosition | null;
 }
 
+export interface IQBStats {
+  id: number;
+  passes: number;
+  passes_completed: number;
+}
+
+export interface IPlayerInMatchFullDataWithQbStats {
+  match_player: IPlayerInMatch;
+  player_team_tournament?: IPlayerInTeamTournament | null;
+  person?: IPerson | null;
+  position?: IPosition | null;
+  qb_stats: IQBStats | null;
+}
+
 export interface IRoster {
   home: IPlayerInMatchFullData[];
   away: IPlayerInMatchFullData[];

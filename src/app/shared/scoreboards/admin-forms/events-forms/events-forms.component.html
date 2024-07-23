@@ -15,6 +15,17 @@
       <p>Run Yards: {{ runDistanceForTeamA$ | async }}</p>
       <p>Pass Yards: {{ passDistanceForTeamA$ | async }}</p>
       <p>Flag Yards: {{ flagYardsTeamA$ | async }}</p>
+      @if (allQuarterbacksTeamA$ | async; as qbs) {
+        @for (qb of qbs; track qb.match_player.id) {
+          <p>
+            QB:
+            #{{ qb.match_player.match_number }}
+            {{ qb.person?.first_name | titlecase }}
+            {{ qb.person?.second_name | titlecase }}
+            (ATT:{{ qb.qb_stats?.passes }}/{{ qb.qb_stats?.passes_completed }} )
+          </p>
+        }
+      }
     </div>
     <div>
       <p class="tui-text_h6">{{ data?.teams_data?.team_b?.title | uppercase }} STATS</p>
