@@ -233,7 +233,7 @@ export const selectOverallFlagYardsForTeamA = createSelector(
   (eventsWithPlayers: IFootballEventWithPlayers[], match): number => {
     const teamId = match?.match.team_a_id;
     return eventsWithPlayers.reduce((totalDistance, event) => {
-      console.log('teamId', teamId, totalDistance, event.play_result?.value);
+      // console.log('teamId', teamId, totalDistance, event.play_result?.value);
       if (event.offense_team?.id === teamId && event.play_result) {
         if (event.play_result.value === IFootballPlayResult.Flag) {
           return totalDistance + (event.distance_moved || 0);
@@ -302,36 +302,70 @@ export const selectPassesPerQuarterback = createSelector(
   selectFootballEventsWithPlayers,
   (
     events: IFootballEventWithPlayers[],
-  ): Record<number, { passes: number; passes_completed: number }> => {
+  ): Record<
+    number,
+    {
+      passes: number;
+      passes_completed: number;
+      pass_yards: number;
+      run_attempts: number;
+      run_yards: number;
+    }
+  > => {
     // Create an object to store the count of passes and completed passes per quarterback
-    const qbPassCount: Record<
+    const qbStats: Record<
       number,
-      { passes: number; passes_completed: number }
+      {
+        passes: number;
+        passes_completed: number;
+        pass_yards: number;
+        run_attempts: number;
+        run_yards: number;
+      }
     > = {};
 
     events.forEach((event) => {
       if (
-        event.play_type?.value === IFootballPlayType.Pass &&
+        // event.play_type?.value === IFootballPlayType.Pass &&
         event.event_qb?.match_player.id
       ) {
         const qbId = event.event_qb.match_player.id;
-
-        // Initialize the qbPassCount object for the quarterback if it doesn't exist
-        if (!qbPassCount[qbId]) {
-          qbPassCount[qbId] = { passes: 0, passes_completed: 0 };
+        if (!qbStats[qbId]) {
+          qbStats[qbId] = {
+            passes: 0,
+            passes_completed: 0,
+            pass_yards: 0,
+            run_attempts: 0,
+            run_yards: 0,
+          };
         }
 
-        // Increment the total pass count for the quarterback
-        qbPassCount[qbId].passes++;
+        if (event.play_type?.value === IFootballPlayType.Pass) {
+          // Increment the total pass count for the quarterback
+          qbStats[qbId].passes++;
 
-        // Increment the completed pass count if the pass was completed
-        if (event.play_result?.value === IFootballPlayResult.PassCompleted) {
-          qbPassCount[qbId].passes_completed++;
+          // Increment the completed pass count if the pass was completed
+          if (event.play_result?.value === IFootballPlayResult.PassCompleted) {
+            qbStats[qbId].passes_completed++;
+            if (event.distance_moved) {
+              qbStats[qbId].pass_yards += event.distance_moved;
+            }
+          }
+        }
+
+        if (event.play_type?.value === IFootballPlayType.Run) {
+          if (event.run_player?.match_player.id === qbId) {
+            // console.log('run player ok', event.run_player, qbStats[qbId]);
+            qbStats[qbId].run_attempts++;
+            if (event.distance_moved) {
+              qbStats[qbId].run_yards += event.distance_moved;
+            }
+          }
         }
       }
     });
 
-    return qbPassCount;
+    return qbStats;
   },
 );
 
@@ -340,7 +374,7 @@ export const selectAllQuarterbacksWithStatsTeamA = createSelector(
   selectFootballEventsWithPlayers,
   selectCurrentMatchWithFullData,
   selectPassesPerQuarterback,
-  (events, match, qbPassCount): IPlayerInMatchFullDataWithQbStats[] => {
+  (events, match, qbStats): IPlayerInMatchFullDataWithQbStats[] => {
     const teamId = match?.match.team_a_id;
     if (!teamId) {
       return [];
@@ -367,9 +401,11 @@ export const selectAllQuarterbacksWithStatsTeamA = createSelector(
       ...qb,
       qb_stats: {
         id: qb.match_player.id!,
-        passes: qbPassCount[qb.match_player.id!]?.passes || 0,
-        passes_completed:
-          qbPassCount[qb.match_player.id!]?.passes_completed || 0,
+        passes: qbStats[qb.match_player.id!]?.passes || 0,
+        passes_completed: qbStats[qb.match_player.id!]?.passes_completed || 0,
+        pass_yards: qbStats[qb.match_player.id!]?.pass_yards || 0,
+        run_attempts: qbStats[qb.match_player.id!]?.run_attempts || 0,
+        run_yards: qbStats[qb.match_player.id!]?.run_yards || 0,
       },
     }));
   },

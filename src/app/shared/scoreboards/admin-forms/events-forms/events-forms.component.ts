@@ -2,7 +2,13 @@ import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { Observable } from 'rxjs';
 import { IFootballEventWithPlayers } from '../../../../type/football-event.type';
 import { ToggleVisibleButtonComponent } from '../../../ui/buttons/toggle-visible-button/toggle-visible-button.component';
-import { AsyncPipe, NgIf, TitleCasePipe, UpperCasePipe } from '@angular/common';
+import {
+  AsyncPipe,
+  DecimalPipe,
+  NgIf,
+  TitleCasePipe,
+  UpperCasePipe,
+} from '@angular/common';
 import { IPlayerInMatchFullData } from '../../../../type/player.type';
 import { AddEditFootballEventTableComponent } from '../../../../components/match-event/football-event/add-edit-football-event-table/add-edit-football-event-table.component';
 import { IMatchFullDataWithScoreboard } from '../../../../type/match.type';
@@ -35,6 +41,7 @@ import { FootballEvent } from '../../../../components/match-event/football-event
     TuiInputNumberModule,
     UpperCasePipe,
     TitleCasePipe,
+    DecimalPipe,
   ],
   templateUrl: './events-forms.component.html',
   styleUrl: './events-forms.component.less',

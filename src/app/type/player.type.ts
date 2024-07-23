@@ -59,6 +59,9 @@ export interface IQBStats {
   id: number;
   passes: number;
   passes_completed: number;
+  pass_yards: number;
+  run_attempts: number;
+  run_yards: number;
 }
 
 export interface IPlayerInMatchFullDataWithQbStats {

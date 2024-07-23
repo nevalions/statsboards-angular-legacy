@@ -22,7 +22,22 @@
             #{{ qb.match_player.match_number }}
             {{ qb.person?.first_name | titlecase }}
             {{ qb.person?.second_name | titlecase }}
-            (ATT:{{ qb.qb_stats?.passes }}/{{ qb.qb_stats?.passes_completed }} )
+            (PASS ATT: {{ qb.qb_stats?.passes }}/{{ qb.qb_stats?.passes_completed }},
+            PASS YDS: {{ qb.qb_stats?.pass_yards }},
+            PASS%: {{
+              qb.qb_stats?.passes_completed && qb.qb_stats?.passes
+                ? (qb.qb_stats!.passes_completed / qb.qb_stats!.passes) * 100
+                : 0
+                  | number:'1.0-1'
+            }}%,
+            RUN ATT: {{ qb.qb_stats?.run_attempts }},
+            RUN YDS: {{ qb.qb_stats?.run_yards }},
+            AVG RUN YDS: {{
+              qb.qb_stats?.run_attempts && qb.qb_stats?.run_yards
+                ? (qb.qb_stats!.run_yards / qb.qb_stats!.run_attempts)
+                : 0
+                  | number:'1.0-1'
+            }})
           </p>
         }
       }
