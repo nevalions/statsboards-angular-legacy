@@ -19,7 +19,7 @@
                   <div
                     style="display: flex; flex-direction: row; flex-wrap: wrap; padding: 5px">
                     <div
-                      class="table-cell-match-roster toggle"
+                      class="event-table-cell toggle"
                       (click)="toggle(id)"
                     >
                       <app-button-icon
@@ -30,16 +30,21 @@
                         [buttonSize]="'m'"
                       ></app-button-icon>
                     </div>
-                    <label>#{{ id }}</label>
-                    <div>{{ team.title | titlecase }}&nbsp;</div>
+                    <div class="event-short-view"><label>#{{ id }}</label></div>
+                    <div
+                      class="event-short-view"
+                      [style.background-color]="team.team_color ? hexToRgba(team.team_color, 0.3) : 'transparent'"
+                    >{{ team.title | titlecase }}&nbsp;
+                    </div>
                     @if (getBallOn(eventsArray, i); as ballOn) {
-                      <div>BallOn: {{ ballOn }}&nbsp;</div>
+                      <div class="event-short-view">BallOn: {{ ballOn }}&nbsp;</div>
                     }
                     @if (getEventPlayType(eventsArray, i); as playType) {
-                      <div>{{ playType.value | uppercase }}&nbsp;</div>
+                      <div class="event-short-view">{{ playType.value | uppercase }}&nbsp;</div>
                     }
                     @if (getEventPlayResult(eventsArray, i); as playResult) {
                       <div
+                        class="event-short-view"
                         [style]="{ 'background-color': playResult.value === 'flag' ? '#D7BB69FF' : 'transparent' }">{{ playResult.value | uppercase }}&nbsp;
                       </div>
                     }

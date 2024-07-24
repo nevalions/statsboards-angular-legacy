@@ -163,6 +163,7 @@ import { AddButtonOnFinalTrComponent } from '../../../../shared/ui/buttons/add-b
 import { IEnumObject } from '../../../../type/base.type';
 import { InputNumberWithButtonsComponent } from '../../../../shared/scoreboards/admin-forms/input-number-with-buttons/input-number-with-buttons.component';
 import { ButtonIconComponent } from '../../../../shared/ui/buttons/button-icon/button-icon.component';
+import { hexToRgba } from '../../../../base/helpers';
 
 @Component({
   selector: 'app-add-edit-football-event-table',
@@ -548,6 +549,10 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
               updateEventData.id,
               updateEventData,
             );
+
+            if (updateEventData.event_number) {
+              this.toggle(updateEventData.event_number);
+            }
           }
         }
       }
@@ -804,4 +809,5 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
   protected readonly getEventPlayType = getEventPlayType;
   protected readonly getEventPlayResult = getEventPlayResult;
   protected readonly tuiAppFlat = TuiAppearance.Flat;
+  protected readonly hexToRgba = hexToRgba;
 }
