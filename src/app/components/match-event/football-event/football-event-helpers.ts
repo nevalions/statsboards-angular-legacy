@@ -12,7 +12,9 @@ import { ITeam } from '../../../type/team.type';
 import {
   IFootballEvent,
   IFootballEventWithPlayers,
+  IFootballPlayResult,
 } from '../../../type/football-event.type';
+import { IMatchWithFullData } from '../../../type/match.type';
 
 export const eventIdKey = 'eventId';
 export const eventNumberKey = 'eventNumber';
@@ -105,6 +107,7 @@ export const eventFumbleRecoveredPlayer = (index: number) =>
 export function createNewEvent(
   lastEvent: IFootballEventWithPlayers | undefined,
   newEventCount: number,
+  match: IMatchWithFullData | undefined | null,
 ): Partial<IFootballEventWithPlayers> {
   let newEventNumber: number | null;
   let newEventQtr: number | null;
@@ -154,6 +157,24 @@ export function createNewEvent(
     newEventDistance = lastEvent.event_distance;
   } else {
     newEventDistance = 10;
+  }
+
+  if (lastEvent && lastEvent.play_result) {
+    if (lastEvent.play_result.value === IFootballPlayResult.TouchBack) {
+      newEventBallOn = -20;
+      newEventDown = 1;
+      newEventDistance = 10;
+      if (match && match.teams_data?.team_a && match.teams_data?.team_b) {
+        const homeTeam = match.teams_data.team_a;
+        const awayTeam = match.teams_data.team_b;
+        if (lastEvent.offense_team?.id === homeTeam.id) {
+          newEventTeam = awayTeam;
+        } else if (lastEvent.offense_team === awayTeam.id) {
+          newEventTeam = homeTeam;
+        }
+        newEventQb = null;
+      }
+    }
   }
 
   return {

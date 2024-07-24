@@ -406,7 +406,8 @@
                 @if (getEventReturnPlayerFormControl(this.eventForm, this.arrayName, i); as control) {
                   @if (getEventTeam(eventsArray, i); as selectedTeam) {
                     @if (isPlayTypeWithIndex(eventFormGroup, i, eventPlayTypeKey, IFootballPlayType.Punt) ||
-                    isPlayTypeWithIndex(eventFormGroup, i, eventPlayTypeKey, IFootballPlayType.Kickoff) ||
+                    isPlayTypeWithIndex(eventFormGroup, i, eventPlayTypeKey, IFootballPlayType.Kickoff) &&
+                    !isPlayResult(eventFormGroup, i, eventPlayResultKey, IFootballPlayResult.TouchBack) ||
                     getEventReturnPlayer(eventsArray, i)) {
                       <div class="event-table-cell">
                         <!--                        <label>Return Player</label>-->
@@ -431,7 +432,8 @@
                     !isScoreResult(eventFormGroup, i, eventScoreResultKey, IFootballScoreResult.Td) &&
                     !isScoreResult(eventFormGroup, i, eventScoreResultKey, IFootballScoreResult.TdDefence) &&
                     !isScoreResult(eventFormGroup, i, eventScoreResultKey, IFootballScoreResult.KickGood) &&
-                    !isScoreResult(eventFormGroup, i, eventScoreResultKey, IFootballScoreResult.PuntTdReturn)
+                    !isScoreResult(eventFormGroup, i, eventScoreResultKey, IFootballScoreResult.PuntTdReturn) &&
+                    !isPlayResult(eventFormGroup, i, eventPlayResultKey, IFootballPlayResult.TouchBack)
                     ||
                     getEventTacklePlayer(eventsArray, i)) {
                       <div class="event-table-cell">
@@ -458,7 +460,8 @@
                     !isScoreResult(eventFormGroup, i, eventScoreResultKey, IFootballScoreResult.Td) &&
                     !isScoreResult(eventFormGroup, i, eventScoreResultKey, IFootballScoreResult.TdDefence) &&
                     !isScoreResult(eventFormGroup, i, eventScoreResultKey, IFootballScoreResult.KickGood) &&
-                    !isScoreResult(eventFormGroup, i, eventScoreResultKey, IFootballScoreResult.PuntTdReturn)
+                    !isScoreResult(eventFormGroup, i, eventScoreResultKey, IFootballScoreResult.PuntTdReturn) &&
+                    !isPlayResult(eventFormGroup, i, eventPlayResultKey, IFootballPlayResult.TouchBack)
                     ||
                     getEventAssistTacklePlayer(eventsArray, i)) {
                       <div class="event-table-cell">
@@ -557,7 +560,8 @@
                   !isPlayResult(eventFormGroup, i, eventPlayResultKey, IFootballPlayResult.PassDeflected) &&
                   !isPlayResult(eventFormGroup, i, eventPlayResultKey, IFootballPlayResult.PassDropped) &&
                   !isPlayResult(eventFormGroup, i, eventPlayResultKey, IFootballPlayResult.PassIntercepted) &&
-                  !isPlayResult(eventFormGroup, i, eventPlayResultKey, IFootballPlayResult.Flag)) {
+                  !isPlayResult(eventFormGroup, i, eventPlayResultKey, IFootballPlayResult.Flag) &&
+                  !isPlayResult(eventFormGroup, i, eventPlayResultKey, IFootballPlayResult.TouchBack)) {
                     <div class="event-table-cell">
                       <!--                      <label>Score Result</label>-->
                       <app-select-enum

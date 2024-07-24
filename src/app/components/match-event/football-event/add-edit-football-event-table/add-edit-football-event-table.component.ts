@@ -480,7 +480,11 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
         return;
       }
       this.newEventCount++;
-      const newEvent = createNewEvent(lastEvent, this.newEventCount);
+      const newEvent = createNewEvent(
+        lastEvent,
+        this.newEventCount,
+        this.match,
+      );
       this.events = [...this.events, newEvent];
       this.populateFormArray();
     }
