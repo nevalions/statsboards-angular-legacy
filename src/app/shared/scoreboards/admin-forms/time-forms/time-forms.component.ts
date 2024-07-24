@@ -103,44 +103,51 @@ export class TimeFormsComponent implements OnChanges {
   }
 
   private initGameClockForm(): FormGroup {
-    const time = this.gameclock?.gameclock;
+    let time;
     let max_minutes;
     if (this.gameclock?.gameclock_max) {
       max_minutes = Math.floor(this.gameclock?.gameclock_max / 60);
+    } else {
+      max_minutes = 0;
     }
 
-    if (time) {
-      let gameMinutes = Math.floor(time / 60);
-      let gameSeconds = time % 60;
-      return new FormGroup({
-        gameTimeMinutes: new FormControl<number | null | undefined>(
-          gameMinutes,
-          [Validators.min(0)],
-        ),
-        gameTimeSeconds: new FormControl<number | null | undefined>(
-          gameSeconds,
-          [Validators.min(0), Validators.max(59)],
-        ),
-        maxMinutes: new FormControl<number | null | undefined>(max_minutes, [
-          Validators.min(0),
-          Validators.max(60),
-        ]),
-      });
+    if (this.gameclock?.gameclock) {
+      time = this.gameclock?.gameclock;
     } else {
-      return new FormGroup({
-        gameTimeMinutes: new FormControl<number | null | undefined>(null, [
-          Validators.min(0),
-        ]),
-        gameTimeSeconds: new FormControl<number | null | undefined>(null, [
-          Validators.min(0),
-          Validators.max(59),
-        ]),
-        maxMinutes: new FormControl<number | null | undefined>(null, [
-          Validators.min(0),
-          Validators.max(60),
-        ]),
-      });
+      time = 0;
     }
+
+    // if (time && time >= 0 && max_minutes && max_minutes >= 0) {
+    let gameMinutes = Math.floor(time / 60);
+    let gameSeconds = time % 60;
+    return new FormGroup({
+      gameTimeMinutes: new FormControl<number | null | undefined>(gameMinutes, [
+        Validators.min(0),
+      ]),
+      gameTimeSeconds: new FormControl<number | null | undefined>(gameSeconds, [
+        Validators.min(0),
+        Validators.max(59),
+      ]),
+      maxMinutes: new FormControl<number | null | undefined>(max_minutes, [
+        Validators.min(0),
+        Validators.max(60),
+      ]),
+    });
+    // } else {
+    //   return new FormGroup({
+    //     gameTimeMinutes: new FormControl<number | null | undefined>(0, [
+    //       Validators.min(0),
+    //     ]),
+    //     gameTimeSeconds: new FormControl<number | null | undefined>(0, [
+    //       Validators.min(0),
+    //       Validators.max(59),
+    //     ]),
+    //     maxMinutes: new FormControl<number | null | undefined>(max_minutes, [
+    //       Validators.min(0),
+    //       Validators.max(60),
+    //     ]),
+    //   });
+    // }
   }
 
   private initPlayClockForm(): FormGroup {
