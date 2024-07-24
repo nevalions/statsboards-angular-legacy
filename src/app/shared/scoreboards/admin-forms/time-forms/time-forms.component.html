@@ -17,17 +17,37 @@
         [formGroup]="gameClockForm"
       >
         <div class="time-inputs">
-          <tui-input-number
-            class="game-timer-input"
-            formControlName="gameTimeMinutes"
-          > Min.
-          </tui-input-number>
+          @if (getFormControl(gameClockForm, 'gameTimeMinutes'); as control) {
+            <app-simple-input-with-buttons
+              [label]="'Min.'"
+              [control]="control"
+              [min]="0"
+              [max]="12"
+              [isCycle]="true"
+              [cleaner]="false"
+            ></app-simple-input-with-buttons>
+          }
+          @if (getFormControl(gameClockForm, 'gameTimeSeconds'); as control) {
+            <app-simple-input-with-buttons
+              [label]="'Sec.'"
+              [control]="control"
+              [min]="0"
+              [max]="59"
+              [isCycle]="true"
+              [cleaner]="false"
+            ></app-simple-input-with-buttons>
+          }
+          <!--          <tui-input-number-->
+          <!--            class="game-timer-input"-->
+          <!--            formControlName="gameTimeMinutes"-->
+          <!--          > Min.-->
+          <!--          </tui-input-number>-->
 
-          <tui-input-number
-            class="game-timer-input"
-            formControlName="gameTimeSeconds"
-          > Sec.
-          </tui-input-number>
+          <!--          <tui-input-number-->
+          <!--            class="game-timer-input"-->
+          <!--            formControlName="gameTimeSeconds"-->
+          <!--          > Sec.-->
+          <!--          </tui-input-number>-->
         </div>
 
         <div class="time-inputs-save-btn">

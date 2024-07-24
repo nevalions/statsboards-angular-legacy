@@ -13,7 +13,6 @@ import {
   TuiFieldErrorPipeModule,
   TuiInputModule,
   TuiInputNumberModule,
-  tuiInputNumberOptionsProvider,
 } from '@taiga-ui/kit';
 import {
   FormControl,
@@ -29,6 +28,8 @@ import { IPlayclock } from '../../../../type/playclock.type';
 import { IGameclock } from '../../../../type/gameclock.type';
 import { Gameclock } from '../../../../components/gameclock/gameclock';
 import { Websocket } from '../../../../store/websocket/websocket';
+import { SimpleInputWithButtonsComponent } from '../simple-input-with-buttons/simple-input-with-buttons.component';
+import { getFormControl } from '../../../../base/formHelpers';
 
 @Component({
   selector: 'app-time-forms',
@@ -44,15 +45,16 @@ import { Websocket } from '../../../../store/websocket/websocket';
     TuiInputModule,
     AdminSubmitButtonComponent,
     AdminDownButtonComponent,
+    SimpleInputWithButtonsComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [
-    tuiInputNumberOptionsProvider({
-      decimal: 'never',
-      step: 1,
-      min: 0,
-    }),
-  ],
+  // providers: [
+  //   tuiInputNumberOptionsProvider({
+  //     decimal: 'never',
+  //     step: 1,
+  //     min: 0,
+  //   }),
+  // ],
   templateUrl: './time-forms.component.html',
   styleUrl: './time-forms.component.less',
 })
@@ -181,4 +183,6 @@ export class TimeFormsComponent implements OnChanges {
     this.websocket.checkConnection();
     this.playclockData.resetPlayClock();
   }
+
+  protected readonly getFormControl = getFormControl;
 }
