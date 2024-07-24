@@ -2,7 +2,7 @@ import { FormArray, FormControl, FormGroup } from '@angular/forms';
 import { IEnumObject } from '../../../type/base.type';
 import {
   getArrayFormDataByIndexAndKey,
-  getFormControl,
+  getFormControlWithIndex,
   resetArrayKeyIndexValue,
   setArrayKeyIndexValue,
   setArrayValue,
@@ -342,7 +342,7 @@ export function getEventNumberFormControl(
   arrayName: string,
   index: number,
 ): FormControl | null | undefined {
-  return getFormControl(form, index, eventNumberKey, arrayName);
+  return getFormControlWithIndex(form, index, eventNumberKey, arrayName);
 }
 
 // QTR
@@ -358,7 +358,7 @@ export function getQtrFormControl(
   arrayName: string,
   index: number,
 ): FormControl | null | undefined {
-  return getFormControl(form, index, eventQtrKey, arrayName);
+  return getFormControlWithIndex(form, index, eventQtrKey, arrayName);
 }
 
 // BallOn
@@ -378,7 +378,7 @@ export function getBallOnFormControl(
   arrayName: string,
   index: number,
 ): FormControl | null | undefined {
-  return getFormControl(form, index, eventBallOnKey, arrayName);
+  return getFormControlWithIndex(form, index, eventBallOnKey, arrayName);
 }
 
 // EventDistanceMoved
@@ -398,7 +398,7 @@ export function getEventDistanceMovedFormControl(
   arrayName: string,
   index: number,
 ): FormControl | null | undefined {
-  return getFormControl(form, index, eventDistanceMovedKey, arrayName);
+  return getFormControlWithIndex(form, index, eventDistanceMovedKey, arrayName);
 }
 
 export function setDistanceMoved(
@@ -431,7 +431,7 @@ export function getEventTeamFormControl(
   arrayName: string,
   index: number,
 ): FormControl | null | undefined {
-  return getFormControl(form, index, eventTeamKey, arrayName);
+  return getFormControlWithIndex(form, index, eventTeamKey, arrayName);
 }
 
 // EventQb
@@ -447,7 +447,7 @@ export function getEventQbFormControl(
   arrayName: string,
   index: number,
 ): FormControl | null | undefined {
-  return getFormControl(form, index, eventQbKey, arrayName);
+  return getFormControlWithIndex(form, index, eventQbKey, arrayName);
 }
 
 export function resetQb(eventsArray: FormArray, index: number): void {
@@ -471,7 +471,7 @@ export function getEventDownFormControl(
   arrayName: string,
   index: number,
 ): FormControl | null | undefined {
-  return getFormControl(form, index, eventDownKey, arrayName);
+  return getFormControlWithIndex(form, index, eventDownKey, arrayName);
 }
 
 export function setDown(
@@ -499,7 +499,7 @@ export function getEventDistanceFormControl(
   arrayName: string,
   index: number,
 ): FormControl | null | undefined {
-  return getFormControl(form, index, eventDistanceKey, arrayName);
+  return getFormControlWithIndex(form, index, eventDistanceKey, arrayName);
 }
 
 export function setDistance(
@@ -527,7 +527,7 @@ export function getEventHashFormControl(
   arrayName: string,
   index: number,
 ): FormControl | null | undefined {
-  return getFormControl(form, index, eventHashKey, arrayName);
+  return getFormControlWithIndex(form, index, eventHashKey, arrayName);
 }
 
 // EventDirection
@@ -547,7 +547,7 @@ export function getEventDirectionFormControl(
   arrayName: string,
   index: number,
 ): FormControl | null | undefined {
-  return getFormControl(form, index, eventDirectionKey, arrayName);
+  return getFormControlWithIndex(form, index, eventDirectionKey, arrayName);
 }
 
 // EventPlayType
@@ -567,7 +567,7 @@ export function getEventPlayTypeFormControl(
   arrayName: string,
   index: number,
 ): FormControl | null | undefined {
-  return getFormControl(form, index, eventPlayTypeKey, arrayName);
+  return getFormControlWithIndex(form, index, eventPlayTypeKey, arrayName);
 }
 
 export function setPlayType(
@@ -595,7 +595,7 @@ export function getEventPlayResultFormControl(
   arrayName: string,
   index: number,
 ): FormControl | null | undefined {
-  return getFormControl(form, index, eventPlayResultKey, arrayName);
+  return getFormControlWithIndex(form, index, eventPlayResultKey, arrayName);
 }
 
 export function resetPlayResult(eventsArray: FormArray, index: number): void {
@@ -619,7 +619,7 @@ export function getEventScoreResultFormControl(
   arrayName: string,
   index: number,
 ): FormControl | null | undefined {
-  return getFormControl(form, index, eventScoreResultKey, arrayName);
+  return getFormControlWithIndex(form, index, eventScoreResultKey, arrayName);
 }
 
 export function resetScoreResult(eventsArray: FormArray, index: number): void {
@@ -643,7 +643,7 @@ export function getEventIsFumbleFormControl(
   arrayName: string,
   index: number,
 ): FormControl | null | undefined {
-  return getFormControl(form, index, eventIsFumbleKey, arrayName);
+  return getFormControlWithIndex(form, index, eventIsFumbleKey, arrayName);
 }
 
 // EventIsFumbleRecovered
@@ -663,7 +663,12 @@ export function getEventIsFumbleRecoveredFormControl(
   arrayName: string,
   index: number,
 ): FormControl | null | undefined {
-  return getFormControl(form, index, eventIsFumbleRecoveredKey, arrayName);
+  return getFormControlWithIndex(
+    form,
+    index,
+    eventIsFumbleRecoveredKey,
+    arrayName,
+  );
 }
 
 // EventRunPlayer
@@ -683,7 +688,7 @@ export function getEventRunPlayerFormControl(
   arrayName: string,
   index: number,
 ): FormControl | null | undefined {
-  return getFormControl(form, index, eventRunPlayerKey, arrayName);
+  return getFormControlWithIndex(form, index, eventRunPlayerKey, arrayName);
 }
 
 export function resetRunPlayer(eventsArray: FormArray, index: number): void {
@@ -707,7 +712,12 @@ export function getEventReceiverPlayerFormControl(
   arrayName: string,
   index: number,
 ): FormControl | null | undefined {
-  return getFormControl(form, index, eventReceiverPlayerKey, arrayName);
+  return getFormControlWithIndex(
+    form,
+    index,
+    eventReceiverPlayerKey,
+    arrayName,
+  );
 }
 
 export function resetReceiverPlayer(
@@ -734,7 +744,7 @@ export function getEventDroppedPlayerFormControl(
   arrayName: string,
   index: number,
 ): FormControl | null | undefined {
-  return getFormControl(form, index, eventDroppedPlayerKey, arrayName);
+  return getFormControlWithIndex(form, index, eventDroppedPlayerKey, arrayName);
 }
 
 export function resetDroppedPlayer(
@@ -761,7 +771,7 @@ export function getEventScorePlayerFormControl(
   arrayName: string,
   index: number,
 ): FormControl | null | undefined {
-  return getFormControl(form, index, eventScorePlayerKey, arrayName);
+  return getFormControlWithIndex(form, index, eventScorePlayerKey, arrayName);
 }
 
 export function resetScorePlayer(eventsArray: FormArray, index: number): void {
@@ -785,7 +795,12 @@ export function getEventDefenceScorePlayerFormControl(
   arrayName: string,
   index: number,
 ): FormControl | null | undefined {
-  return getFormControl(form, index, eventDefenceScorePlayerKey, arrayName);
+  return getFormControlWithIndex(
+    form,
+    index,
+    eventDefenceScorePlayerKey,
+    arrayName,
+  );
 }
 
 export function resetDefenceScorePlayer(
@@ -812,7 +827,7 @@ export function getEventKickPlayerFormControl(
   arrayName: string,
   index: number,
 ): FormControl | null | undefined {
-  return getFormControl(form, index, eventKickPlayerKey, arrayName);
+  return getFormControlWithIndex(form, index, eventKickPlayerKey, arrayName);
 }
 
 export function resetKickPlayer(eventsArray: FormArray, index: number): void {
@@ -836,7 +851,7 @@ export function getEventReturnPlayerFormControl(
   arrayName: string,
   index: number,
 ): FormControl | null | undefined {
-  return getFormControl(form, index, eventReturnPlayerKey, arrayName);
+  return getFormControlWithIndex(form, index, eventReturnPlayerKey, arrayName);
 }
 
 export function resetReturnPlayer(eventsArray: FormArray, index: number): void {
@@ -860,7 +875,7 @@ export function getEventKickOffPlayerFormControl(
   arrayName: string,
   index: number,
 ): FormControl | null | undefined {
-  return getFormControl(form, index, eventKickOffPlayerKey, arrayName);
+  return getFormControlWithIndex(form, index, eventKickOffPlayerKey, arrayName);
 }
 
 export function resetKickOffPlayer(
@@ -887,7 +902,7 @@ export function getEventPatOnePlayerFormControl(
   arrayName: string,
   index: number,
 ): FormControl | null | undefined {
-  return getFormControl(form, index, eventPatOnePlayerKey, arrayName);
+  return getFormControlWithIndex(form, index, eventPatOnePlayerKey, arrayName);
 }
 
 export function resetPatOnePlayer(eventsArray: FormArray, index: number): void {
@@ -911,7 +926,7 @@ export function getEventFlaggedPlayerFormControl(
   arrayName: string,
   index: number,
 ): FormControl | null | undefined {
-  return getFormControl(form, index, eventFlaggedPlayerKey, arrayName);
+  return getFormControlWithIndex(form, index, eventFlaggedPlayerKey, arrayName);
 }
 
 export function resetFlaggedPlayer(
@@ -938,7 +953,7 @@ export function getEventPuntPlayerFormControl(
   arrayName: string,
   index: number,
 ): FormControl | null | undefined {
-  return getFormControl(form, index, eventPuntPlayerKey, arrayName);
+  return getFormControlWithIndex(form, index, eventPuntPlayerKey, arrayName);
 }
 
 export function resetPuntPlayer(eventsArray: FormArray, index: number): void {
@@ -962,7 +977,7 @@ export function getEventTacklePlayerFormControl(
   arrayName: string,
   index: number,
 ): FormControl | null | undefined {
-  return getFormControl(form, index, eventTacklePlayerKey, arrayName);
+  return getFormControlWithIndex(form, index, eventTacklePlayerKey, arrayName);
 }
 
 export function resetTacklePlayer(eventsArray: FormArray, index: number): void {
@@ -986,7 +1001,12 @@ export function getEventAssistTacklePlayerFormControl(
   arrayName: string,
   index: number,
 ): FormControl | null | undefined {
-  return getFormControl(form, index, eventAssistTacklePlayerKey, arrayName);
+  return getFormControlWithIndex(
+    form,
+    index,
+    eventAssistTacklePlayerKey,
+    arrayName,
+  );
 }
 
 export function resetAssistTacklePlayer(
@@ -1013,7 +1033,12 @@ export function getEventDeflectedPlayerFormControl(
   arrayName: string,
   index: number,
 ): FormControl | null | undefined {
-  return getFormControl(form, index, eventDeflectedPlayerKey, arrayName);
+  return getFormControlWithIndex(
+    form,
+    index,
+    eventDeflectedPlayerKey,
+    arrayName,
+  );
 }
 
 export function resetDeflectedPlayer(
@@ -1040,7 +1065,12 @@ export function getEventInterceptedPlayerFormControl(
   arrayName: string,
   index: number,
 ): FormControl | null | undefined {
-  return getFormControl(form, index, eventInterceptedPlayerKey, arrayName);
+  return getFormControlWithIndex(
+    form,
+    index,
+    eventInterceptedPlayerKey,
+    arrayName,
+  );
 }
 
 export function resetInterceptedPlayer(
@@ -1067,7 +1097,7 @@ export function getEventSackPlayerFormControl(
   arrayName: string,
   index: number,
 ): FormControl | null | undefined {
-  return getFormControl(form, index, eventSackPlayerKey, arrayName);
+  return getFormControlWithIndex(form, index, eventSackPlayerKey, arrayName);
 }
 
 export function resetSackPlayer(eventsArray: FormArray, index: number): void {
@@ -1091,7 +1121,7 @@ export function getEventFumblePlayerFormControl(
   arrayName: string,
   index: number,
 ): FormControl | null | undefined {
-  return getFormControl(form, index, eventFumblePlayerKey, arrayName);
+  return getFormControlWithIndex(form, index, eventFumblePlayerKey, arrayName);
 }
 
 export function resetFumblePlayer(eventsArray: FormArray, index: number): void {
@@ -1115,7 +1145,12 @@ export function getEventFumbleRecoveredPlayerFormControl(
   arrayName: string,
   index: number,
 ): FormControl | null | undefined {
-  return getFormControl(form, index, eventFumbleRecoveredPlayerKey, arrayName);
+  return getFormControlWithIndex(
+    form,
+    index,
+    eventFumbleRecoveredPlayerKey,
+    arrayName,
+  );
 }
 
 export function resetFumbleRecoveredPlayer(

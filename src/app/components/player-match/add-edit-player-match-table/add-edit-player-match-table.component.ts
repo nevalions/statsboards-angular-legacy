@@ -31,7 +31,7 @@ import { TuiAvatarModule, TuiCheckboxLabeledModule } from '@taiga-ui/kit';
 import { environment } from '../../../../environments/environment';
 import {
   getArrayFormDataByIndexAndKey,
-  getFormControl,
+  getFormControlWithIndex,
   getFormDataByIndexAndKey,
 } from '../../../base/formHelpers';
 import { DialogService } from '../../../services/dialog.service';
@@ -555,7 +555,7 @@ export class AddEditPlayerMatchTableComponent implements OnChanges, OnInit {
   }
 
   protected readonly tuiAppFlat = TuiAppearance.Flat;
-  protected readonly getFormControl = getFormControl;
+  protected readonly getFormControl = getFormControlWithIndex;
   protected readonly getFormDataByIndexAndKey = getFormDataByIndexAndKey;
   backendUrl = environment.backendUrl;
 }

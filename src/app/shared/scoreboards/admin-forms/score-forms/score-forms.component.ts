@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 import { IMatchData } from '../../../../type/matchdata.type';
 import { MatchData } from '../../../../components/match/matchdata';
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe, NgIf, UpperCasePipe } from '@angular/common';
 import { Observable } from 'rxjs';
 import { IMatchFullDataWithScoreboard } from '../../../../type/match.type';
 import { ToggleVisibleButtonComponent } from '../../../ui/buttons/toggle-visible-button/toggle-visible-button.component';
@@ -26,11 +26,22 @@ import {
   TuiFieldErrorPipeModule,
   TuiInputModule,
   TuiInputNumberModule,
-  tuiInputNumberOptionsProvider,
 } from '@taiga-ui/kit';
 import { IncrementButtonComponent } from '../../../ui/buttons/increment-button/increment-button.component';
 import { AdminSubmitButtonComponent } from '../../../ui/buttons/admin-submit-button/admin-submit-button.component';
 import { Websocket } from '../../../../store/websocket/websocket';
+import {
+  eventBallOnKey,
+  eventQtrKey,
+  getBallOn,
+} from '../../../../components/match-event/football-event/football-event-helpers';
+import { InputNumberWithButtonsComponent } from '../input-number-with-buttons/input-number-with-buttons.component';
+import {
+  incrementNumberInFormGroup,
+  incrementOnBall,
+  onBallOnChange,
+} from '../../../../components/match-event/football-event/football-event-on-change-helpers';
+import { getFormDataByKey } from '../../../../base/formHelpers';
 
 @Component({
   selector: 'app-score-forms',
@@ -48,15 +59,17 @@ import { Websocket } from '../../../../store/websocket/websocket';
     IncrementButtonComponent,
     AdminSubmitButtonComponent,
     TuiInputModule,
+    InputNumberWithButtonsComponent,
+    UpperCasePipe,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [
-    tuiInputNumberOptionsProvider({
-      decimal: 'never',
-      step: 1,
-      min: 0,
-    }),
-  ],
+  // providers: [
+  //   tuiInputNumberOptionsProvider({
+  //     decimal: 'never',
+  //     step: 1,
+  //     min: 0,
+  //   }),
+  // ],
   templateUrl: './score-forms.component.html',
   styleUrl: './score-forms.component.less',
 })
@@ -127,4 +140,12 @@ export class ScoreFormsComponent implements OnChanges {
       }
     }
   }
+
+  protected readonly eventQtrKey = eventQtrKey;
+  protected readonly getBallOn = getBallOn;
+  protected readonly onBallOnChange = onBallOnChange;
+  protected readonly incrementOnBall = incrementOnBall;
+  protected readonly eventBallOnKey = eventBallOnKey;
+  protected readonly getFormDataByKey = getFormDataByKey;
+  protected readonly incrementNumberInFormGroup = incrementNumberInFormGroup;
 }

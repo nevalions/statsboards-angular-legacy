@@ -5,7 +5,7 @@ import {
   FormGroup,
 } from '@angular/forms';
 
-export function getFormControl(
+export function getFormControlWithIndex(
   form: FormGroup,
   index: number,
   controlKey: string,
@@ -44,7 +44,7 @@ export function logFormArrayControls(formArray: FormArray): void {
   });
 }
 
-export function logFormGroupControls(
+export function logFormGroupControlsWithIndex(
   formArray: FormArray,
   index: number,
 ): void {
@@ -74,10 +74,21 @@ export function getArrayFormDataByIndexAndKey<T>(
   index: number,
   key: string,
 ): any {
-  const playersArray = array as FormArray;
-  const playerFormGroup = playersArray.at(index);
-  if (playersArray && playerFormGroup) {
+  const formArray = array as FormArray;
+  const playerFormGroup = formArray.at(index);
+  if (formArray && playerFormGroup) {
     return playerFormGroup.get(`${key}${index}`)?.value;
+  } else {
+    return null;
+  }
+}
+
+export function getFormDataByKey<T>(
+  playerFormGroup: FormGroup | any,
+  key: string,
+): any {
+  if (playerFormGroup) {
+    return playerFormGroup.get(key)?.value;
   } else {
     return null;
   }
@@ -111,6 +122,19 @@ export function setArrayKeyIndexValue<T>(
   key: string,
 ): void {
   array.controls[index].get(key + index)?.setValue(selectedItem);
+}
+
+export function patchFormGroupKeyValue<T>(
+  formGroup: FormGroup,
+  selectedItem: T | null,
+  key: string,
+): void {
+  const control = formGroup.get(key);
+  if (control) {
+    control.patchValue(selectedItem);
+  } else {
+    console.error(`Control with key '${key}' not found in FormGroup`);
+  }
 }
 
 export function resetArrayKeyIndexValue(

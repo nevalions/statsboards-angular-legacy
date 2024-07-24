@@ -32,7 +32,7 @@ import { TuiAvatarModule } from '@taiga-ui/kit';
 import { environment } from '../../../../environments/environment';
 import {
   getArrayFormDataByIndexAndKey,
-  getFormControl,
+  getFormControlWithIndex,
   getFormDataByIndexAndKey,
 } from '../../../base/formHelpers';
 import { DialogService } from '../../../services/dialog.service';
@@ -555,7 +555,7 @@ export class AddEditPlayerToTeamTournamentTableComponent
     this.imageService.handleError(event);
   }
 
-  protected readonly getFormControl = getFormControl;
+  protected readonly getFormControl = getFormControlWithIndex;
   protected readonly getFormDataByIndexAndKey = getFormDataByIndexAndKey;
   backendUrl = environment.backendUrl;
   protected readonly calculateAge = calculateAge;

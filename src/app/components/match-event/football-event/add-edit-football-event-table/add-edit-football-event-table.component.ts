@@ -138,7 +138,7 @@ import {
   getQtrFormControl,
 } from '../football-event-helpers';
 import {
-  incrementNumber,
+  incrementNumberWithArrayAndIndex,
   incrementOnBall,
   onBallOnChange,
   onDownChange,
@@ -333,7 +333,7 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
 
     if (control && !control.disabled) {
       const value = control.value || 0;
-      const newValue = incrementNumber(
+      const newValue = incrementNumberWithArrayAndIndex(
         this.eventsArray,
         index,
         value,

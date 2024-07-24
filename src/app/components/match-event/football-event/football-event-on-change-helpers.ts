@@ -1,4 +1,4 @@
-import { FormArray, FormControl } from '@angular/forms';
+import { FormArray, FormControl, FormGroup } from '@angular/forms';
 import { IEnumObject } from '../../../type/base.type';
 import {
   IFootballEventWithPlayers,
@@ -30,7 +30,10 @@ import {
 } from './football-event-helpers';
 import { ITeam } from '../../../type/team.type';
 import { calculateDistance, isFirstDown } from './football-event-calc-helpers';
-import { setArrayKeyIndexValue } from '../../../base/formHelpers';
+import {
+  patchFormGroupKeyValue,
+  setArrayKeyIndexValue,
+} from '../../../base/formHelpers';
 
 export function onTeamChange(
   eventsArray: FormArray,
@@ -399,7 +402,21 @@ export function filterScoreResultsByType(
   }
 }
 
-export function incrementNumber(
+export function incrementNumberInFormGroup(
+  formGroup: FormGroup,
+  num: number,
+  step: number,
+  arrayKey: string,
+): number | null {
+  if (num !== undefined && num !== null) {
+    const newValue = num + step;
+    patchFormGroupKeyValue(formGroup, newValue, arrayKey);
+    return newValue;
+  }
+  return null;
+}
+
+export function incrementNumberWithArrayAndIndex(
   array: FormArray,
   index: number,
   num: number,

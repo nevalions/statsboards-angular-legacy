@@ -6,20 +6,19 @@ import {
   OnInit,
   SimpleChanges,
 } from '@angular/core';
-import { ITeam, ITeamTournament } from '../../../type/team.type';
+import { ITeam } from '../../../type/team.type';
 import {
   FormArray,
   FormBuilder,
   FormControl,
   FormGroup,
-  FormsModule,
   ReactiveFormsModule,
 } from '@angular/forms';
 import { DialogService } from '../../../services/dialog.service';
 import { TeamTournament } from '../../team-tournament/teamTournament';
 import {
   getArrayFormDataByIndexAndKey,
-  getFormControl,
+  getFormControlWithIndex,
   getFormDataByIndexAndKey,
 } from '../../../base/formHelpers';
 import { TuiTextfieldControllerModule } from '@taiga-ui/core';
@@ -174,6 +173,6 @@ export class AddEditTeamToTournamentTableComponent
     }
   }
 
-  protected readonly getFormControl = getFormControl;
+  protected readonly getFormControl = getFormControlWithIndex;
   protected readonly getFormDataByIndexAndKey = getFormDataByIndexAndKey;
 }
