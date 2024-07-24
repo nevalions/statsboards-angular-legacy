@@ -15,19 +15,19 @@
   </tui-input-number>
   <button
     appearance="icon"
-    icon="tuiIconPlus"
+    icon="tuiIconPlusCircleLarge"
     tuiIconButton
     class="increment-button"
-    [size]="'xs'"
+    [size]="'s'"
     (click)="incrementEventNumber(1)"
     [disabled]="control.disabled || isMaxValue()"
   ></button>
   <button
     appearance="icon"
-    icon="tuiIconMinus"
+    icon="tuiIconMinusCircleLarge"
     tuiIconButton
     class="decrement-button"
-    [size]="'xs'"
+    [size]="'s'"
     (click)="incrementEventNumber(-1)"
     [disabled]="control.disabled || isMinValue()"
   ></button>

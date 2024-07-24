@@ -134,20 +134,20 @@
                           @if ((getBallOn(eventsArray, i)); as number) {
                             <button
                               appearance="icon"
-                              icon="tuiIconPlus"
+                              icon="tuiIconPlusCircleLarge"
                               tuiIconButton
                               class="increment-button"
-                              [size]="'xs'"
+                              [size]="'s'"
                               (click)="incrementOnBall(control, eventsArray, i, number, 1, (fieldLength/2), eventBallOnKey)"
                               [disabled]="control.disabled"
                             >
                             </button>
                             <button
                               appearance="icon"
-                              icon="tuiIconMinus"
+                              icon="tuiIconMinusCircleLarge"
                               tuiIconButton
                               class="decrement-button"
-                              [size]="'xs'"
+                              [size]="'s'"
                               (click)="incrementOnBall(control, eventsArray, i, number, -1, (fieldLength/2), eventBallOnKey)"
                               [disabled]="control.disabled"
                             >-
