@@ -106,7 +106,14 @@
                 @if (getBallOnFormControl(this.eventForm, this.arrayName, i); as control) {
                   <div class="event-ballon-distance">
                     <div class="event-table-cell">
-                      <!--                      <label>Ball On</label>-->
+                      <div class="tui-text_h6" style="justify-self: center; align-self: center">
+                        @if ((getEventDistanceMoved(eventsArray, i)) ||
+                        (getEventDistanceMoved(eventsArray, i) === 0)) {
+                          Distance moved: {{ getEventDistanceMoved(eventsArray, i) }}
+                        }</div>
+                    </div>
+
+                    <div class="event-table-cell">
                       @if (match.match_data?.field_length; as fieldLength) {
                         <div class="input-number-with-buttons">
                           <tui-input-number
@@ -149,13 +156,7 @@
                         </div>
                       }
                     </div>
-                    <div class="event-table-cell">
-                      <div class="tui-text_h6" style="justify-self: center; align-self: center">
-                        @if ((getEventDistanceMoved(eventsArray, i)) ||
-                        (getEventDistanceMoved(eventsArray, i) === 0)) {
-                          Distance moved: {{ getEventDistanceMoved(eventsArray, i) }}
-                        }</div>
-                    </div>
+
                   </div>
                 }
 
