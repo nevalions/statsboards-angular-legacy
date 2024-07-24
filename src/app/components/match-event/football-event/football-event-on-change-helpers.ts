@@ -314,12 +314,14 @@ export function filterPlayResultsByType(
     case IFootballPlayType.Kickoff:
       return [
         IFootballPlayResult.None,
+        IFootballPlayResult.TouchBack,
         IFootballPlayResult.KickOffReturn,
         IFootballPlayResult.Flag,
       ];
     case IFootballPlayType.Punt:
       return [
         IFootballPlayResult.None,
+        IFootballPlayResult.TouchBack,
         IFootballPlayResult.PuntReturn,
         IFootballPlayResult.PuntBlocked,
         IFootballPlayResult.Flag,
