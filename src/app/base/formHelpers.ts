@@ -83,6 +83,19 @@ export function getArrayFormDataByIndexAndKey<T>(
   }
 }
 
+export function getFormControl<T>(
+  formGroup: FormGroup,
+  key: string,
+): FormControl | null {
+  if (formGroup && key) {
+    const control = formGroup.get(key);
+    if (control instanceof FormControl) {
+      return control as FormControl;
+    }
+  }
+  return null;
+}
+
 export function getFormDataByKey<T>(
   playerFormGroup: FormGroup | any,
   key: string,
@@ -106,7 +119,7 @@ export function getFormDataByIndexAndKey<T>(
   }
 }
 
-export function setArrayValue<T>(
+export function setArrayValueWithKeyIndex<T>(
   array: FormArray,
   index: number,
   selectedItem: T | null,
@@ -129,7 +142,7 @@ export function patchFormGroupKeyValue<T>(
   selectedItem: T | null,
   key: string,
 ): void {
-  const control = formGroup.get(key);
+  const control = getFormControl(formGroup, key);
   if (control) {
     control.patchValue(selectedItem);
   } else {

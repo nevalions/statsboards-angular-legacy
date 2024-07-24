@@ -17,43 +17,51 @@
         class="score-form"
         [formGroup]="scoreForm"
       >
-        <div class="input-number-with-buttons">
-          <tui-input-number
-            [tuiTextfieldSize]="'l'"
-            class="input-number"
-            [formControlName]="'scoreTeamA'"
-            [tuiTextfieldCleaner]="true"
+        @if (getFormControl(scoreForm, 'scoreTeamA'); as control) {
+          <app-simple-input-with-buttons
+            [label]="'Score Home'"
+            [control]="control"
             [min]="0"
-          >
-            {{ 'Ball On' | uppercase }}
-            <input
-              name="Score Home"
-              tuiTextfield
-            />
-          </tui-input-number>
-          @if (getFormDataByKey(scoreForm, 'scoreTeamA'); as num) {
-            <button
-              appearance="icon"
-              icon="tuiIconPlus"
-              tuiIconButton
-              class="increment-button"
-              [size]="'xs'"
-              [disabled]="scoreForm.disabled"
-              (click)="incrementNumberInFormGroup(scoreForm, num, 1, 'scoreTeamA')"
-            >
-            </button>
-            <button
-              appearance="icon"
-              icon="tuiIconMinus"
-              tuiIconButton
-              class="decrement-button"
-              [size]="'xs'"
-              [disabled]="scoreForm.disabled"
-              (click)="incrementNumberInFormGroup(scoreForm, num, 1, 'scoreTeamA')"
-            >-
-            </button>
-          }
-        </div>
+            [max]="100"
+          ></app-simple-input-with-buttons>
+        }
+        <!--        <div class="input-number-with-buttons">-->
+        <!--          <tui-input-number-->
+        <!--            [tuiTextfieldSize]="'l'"-->
+        <!--            class="input-number"-->
+        <!--            [formControlName]="'scoreTeamA'"-->
+        <!--            [tuiTextfieldCleaner]="true"-->
+        <!--            [min]="0"-->
+        <!--          >-->
+        <!--            {{ 'Score Home' | uppercase }}-->
+        <!--            <input-->
+        <!--              name="Score Home"-->
+        <!--              tuiTextfield-->
+        <!--            />-->
+        <!--          </tui-input-number>-->
+        <!--          @if (getFormDataByKey(scoreForm, 'scoreTeamA'); as num) {-->
+        <!--            <button-->
+        <!--              appearance="icon"-->
+        <!--              icon="tuiIconPlus"-->
+        <!--              tuiIconButton-->
+        <!--              class="increment-button"-->
+        <!--              [size]="'xs'"-->
+        <!--              [disabled]="scoreForm.disabled"-->
+        <!--              (click)="incrementNumberInFormGroup(scoreForm, num, 1, 'scoreTeamA')"-->
+        <!--            >-->
+        <!--            </button>-->
+        <!--            <button-->
+        <!--              appearance="icon"-->
+        <!--              icon="tuiIconMinus"-->
+        <!--              tuiIconButton-->
+        <!--              class="decrement-button"-->
+        <!--              [size]="'xs'"-->
+        <!--              [disabled]="scoreForm.disabled"-->
+        <!--              (click)="incrementNumberInFormGroup(scoreForm, num, 1, 'scoreTeamA')"-->
+        <!--            >- -->
+        <!--            </button>-->
+        <!--          }-->
+        <!--        </div>-->
 
         <!--        <tui-input-number-->
         <!--          class="score-form_team_input"-->

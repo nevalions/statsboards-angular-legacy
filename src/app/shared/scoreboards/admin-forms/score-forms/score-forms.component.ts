@@ -41,7 +41,8 @@ import {
   incrementOnBall,
   onBallOnChange,
 } from '../../../../components/match-event/football-event/football-event-on-change-helpers';
-import { getFormDataByKey } from '../../../../base/formHelpers';
+import { getFormControl, getFormDataByKey } from '../../../../base/formHelpers';
+import { SimpleInputWithButtonsComponent } from '../simple-input-with-buttons/simple-input-with-buttons.component';
 
 @Component({
   selector: 'app-score-forms',
@@ -61,6 +62,7 @@ import { getFormDataByKey } from '../../../../base/formHelpers';
     TuiInputModule,
     InputNumberWithButtonsComponent,
     UpperCasePipe,
+    SimpleInputWithButtonsComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   // providers: [
@@ -148,4 +150,5 @@ export class ScoreFormsComponent implements OnChanges {
   protected readonly eventBallOnKey = eventBallOnKey;
   protected readonly getFormDataByKey = getFormDataByKey;
   protected readonly incrementNumberInFormGroup = incrementNumberInFormGroup;
+  protected readonly getFormControl = getFormControl;
 }

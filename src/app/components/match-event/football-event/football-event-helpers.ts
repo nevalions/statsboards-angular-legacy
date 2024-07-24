@@ -5,7 +5,7 @@ import {
   getFormControlWithIndex,
   resetArrayKeyIndexValue,
   setArrayKeyIndexValue,
-  setArrayValue,
+  setArrayValueWithKeyIndex,
 } from '../../../base/formHelpers';
 import { IPlayerInMatchFullData } from '../../../type/player.type';
 import { ITeam } from '../../../type/team.type';
@@ -575,7 +575,7 @@ export function setPlayType(
   index: number,
   selectedType: IEnumObject,
 ): void {
-  setArrayValue(eventsArray, index, selectedType, eventPlayTypeKey);
+  setArrayValueWithKeyIndex(eventsArray, index, selectedType, eventPlayTypeKey);
 }
 
 // EventPlayResult
