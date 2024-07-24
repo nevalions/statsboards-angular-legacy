@@ -1,9 +1,9 @@
 <div class="input-number-with-buttons">
   <tui-input-number
-    [tuiTextfieldSize]="'l'"
+    [tuiTextfieldSize]="'m'"
     class="input-number"
     [formControl]="control"
-    [tuiTextfieldCleaner]="true"
+    [tuiTextfieldCleaner]="cleaner"
     [min]="min"
     [max]="max"
   >
@@ -19,7 +19,7 @@
     tuiIconButton
     class="increment-button"
     [size]="'xs'"
-    [disabled]="isMaxValue()"
+    [disabled]="isMaxValue() && !isCycle"
     (click)="increment()"
   >
   </button>
@@ -29,7 +29,7 @@
     tuiIconButton
     class="decrement-button"
     [size]="'xs'"
-    [disabled]="isMinValue()"
+    [disabled]="isMinValue() && !isCycle"
     (click)="decrement()"
   >
   </button>

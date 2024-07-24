@@ -22,80 +22,31 @@
             [label]="'Score Home'"
             [control]="control"
             [min]="0"
-            [max]="100"
+            [cleaner]="false"
           ></app-simple-input-with-buttons>
-        }
-        <!--        <div class="input-number-with-buttons">-->
-        <!--          <tui-input-number-->
-        <!--            [tuiTextfieldSize]="'l'"-->
-        <!--            class="input-number"-->
-        <!--            [formControlName]="'scoreTeamA'"-->
-        <!--            [tuiTextfieldCleaner]="true"-->
-        <!--            [min]="0"-->
-        <!--          >-->
-        <!--            {{ 'Score Home' | uppercase }}-->
-        <!--            <input-->
-        <!--              name="Score Home"-->
-        <!--              tuiTextfield-->
-        <!--            />-->
-        <!--          </tui-input-number>-->
-        <!--          @if (getFormDataByKey(scoreForm, 'scoreTeamA'); as num) {-->
-        <!--            <button-->
-        <!--              appearance="icon"-->
-        <!--              icon="tuiIconPlus"-->
-        <!--              tuiIconButton-->
-        <!--              class="increment-button"-->
-        <!--              [size]="'xs'"-->
-        <!--              [disabled]="scoreForm.disabled"-->
-        <!--              (click)="incrementNumberInFormGroup(scoreForm, num, 1, 'scoreTeamA')"-->
-        <!--            >-->
-        <!--            </button>-->
-        <!--            <button-->
-        <!--              appearance="icon"-->
-        <!--              icon="tuiIconMinus"-->
-        <!--              tuiIconButton-->
-        <!--              class="decrement-button"-->
-        <!--              [size]="'xs'"-->
-        <!--              [disabled]="scoreForm.disabled"-->
-        <!--              (click)="incrementNumberInFormGroup(scoreForm, num, 1, 'scoreTeamA')"-->
-        <!--            >- -->
-        <!--            </button>-->
-        <!--          }-->
-        <!--        </div>-->
 
-        <!--        <tui-input-number-->
-        <!--          class="score-form_team_input"-->
-        <!--          formControlName="scoreTeamA"-->
-        <!--        >Home:-->
-        <!--        </tui-input-number>-->
-        <!--        <tui-error-->
-        <!--          formControlName="scoreTeamA"-->
-        <!--          [error]="[] | tuiFieldError | async"-->
-        <!--        ></tui-error>-->
-        <app-admin-submit-button
-          [disabled]="disabled"
-          (click)="updateScoreTeam('a', data.match_data!)"
-        ></app-admin-submit-button>
+          <app-admin-submit-button
+            [disabled]="disabled"
+            (click)="updateScoreTeam('a', data.match_data!)"
+          ></app-admin-submit-button>
+        }
       </form>
 
       <form
         class="score-form"
         [formGroup]="scoreForm"
-      >
-        <tui-input-number
-          class="score-form_team_input"
-          formControlName="scoreTeamB"
-
-        >Away:
-        </tui-input-number>
-        <tui-error
-          formControlName="scoreTeamB"
-          [error]="[] | tuiFieldError | async"
-        ></tui-error>
+      >@if (getFormControl(scoreForm, 'scoreTeamB'); as control) {
+        <app-simple-input-with-buttons
+          [label]="'Score Away'"
+          [control]="control"
+          [min]="0"
+          [cleaner]="false"
+        ></app-simple-input-with-buttons>
         <app-admin-submit-button
           [disabled]="disabled"
           (click)="updateScoreTeam('b', data.match_data!)"
         ></app-admin-submit-button>
+      }
       </form>
     </div>
   </div>

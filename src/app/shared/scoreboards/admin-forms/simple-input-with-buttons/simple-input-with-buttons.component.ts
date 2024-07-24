@@ -23,6 +23,8 @@ export class SimpleInputWithButtonsComponent {
   @Input() key!: string;
   @Input() min: number = -1000;
   @Input() max: number = 1000;
+  @Input() isCycle: boolean = false;
+  @Input() cleaner: boolean = true;
 
   isMinValue(): boolean {
     return this.control.value <= this.min;
@@ -33,13 +35,21 @@ export class SimpleInputWithButtonsComponent {
   }
 
   increment(): void {
-    if (!this.isMaxValue()) {
+    if (this.isMaxValue()) {
+      if (this.isCycle) {
+        this.control.setValue(this.min);
+      }
+    } else {
       this.control.setValue(this.control.value + 1);
     }
   }
 
   decrement(): void {
-    if (!this.isMinValue()) {
+    if (this.isMinValue()) {
+      if (this.isCycle) {
+        this.control.setValue(this.max);
+      }
+    } else {
       this.control.setValue(this.control.value - 1);
     }
   }
