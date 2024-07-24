@@ -209,22 +209,6 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
   expandedStates: { [key: string]: boolean } = {};
   highestId: number | null = null;
 
-  // toggle(id: number): void {
-  //   console.log(id);
-  //   if (this.highestId === null || id > this.highestId) {
-  //     this.highestId = id;
-  //   }
-  //   this.expandedStates[id] = !this.expandedStates[id];
-  //   // Ensure the highest ID is always expanded
-  //   if (this.highestId !== null) {
-  //     this.expandedStates[this.highestId] = true;
-  //   }
-  // }
-  //
-  // isExpanded(id: number): boolean {
-  //   return this.expandedStates[id];
-  // }
-
   toggle(id: number): void {
     if (this.highestId === null || id > this.highestId) {
       this.highestId = id;
@@ -247,25 +231,6 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
   isExpanded(id: number): boolean {
     return this.expandedStates[id] || false;
   }
-
-  // toggle(id: string): void {
-  //   // console.log(id);
-  //   if (id) {
-  //     let str = id.toString();
-  //     if (this.expandedStates[str] === undefined) {
-  //       this.expandedStates[str] = true;
-  //     } else {
-  //       this.expandedStates[str] = !this.expandedStates[str];
-  //     }
-  //     // console.log(this.expandedStates);
-  //   }
-  // }
-  //
-  // isExpanded(id: string): boolean {
-  //   // console.log(this.expandedStates);
-  //   // console.log(this.expandedStates[id]);
-  //   return this.expandedStates[id];
-  // }
 
   eventPlayTypeOptions = Object.values(IFootballPlayType).map((type) => ({
     value: type,

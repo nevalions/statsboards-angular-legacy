@@ -170,11 +170,7 @@
                   </div>
                 }
 
-                <!--            @if (getEventId(eventsArray, i); as id) {-->
-                  <!--              <tui-expand [expanded]="isExpanded(id.toString())" class="expand">-->
-                  <!--                <ng-template tuiExpandContent>-->
-
-                  <!--EVENT QB-->
+                <!--EVENT QB-->
                 @if (getEventQbFormControl(this.eventForm, this.arrayName, i); as control) {
                   <div class="event-table-cell">
                     @if (getEventTeam(eventsArray, i); as selectedTeam) {
@@ -278,7 +274,6 @@
 
                 <!--EVENT RUN PLAYER-->
                 @if (getEventRunPlayerFormControl(this.eventForm, this.arrayName, i); as control) {
-                  <!--              <div class="event-table-cell">-->
                   @if (getEventTeam(eventsArray, i); as selectedTeam) {
                     @if (isPlayTypeWithIndex(eventFormGroup, i, eventPlayTypeKey, IFootballPlayType.Run) ||
                     getEventRunPlayer(eventsArray, i)) {
@@ -293,12 +288,10 @@
                       </div>
                     }
                   }
-                  <!--              </div>-->
                 }
 
                 <!--EVENT RECEIVER PLAYER-->
                 @if (getEventReceiverPlayerFormControl(this.eventForm, this.arrayName, i); as control) {
-                  <!--              <div class="event-table-cell">-->
                   @if (getEventTeam(eventsArray, i); as selectedTeam) {
                     @if (isPlayResult(eventFormGroup, i, eventPlayResultKey, IFootballPlayResult.PassCompleted) ||
                     getEventReceiverPlayer(eventsArray, i)) {
@@ -313,12 +306,10 @@
                       </div>
                     }
                   }
-                  <!--              </div>-->
                 }
 
                 <!--EVENT DROPPED PLAYER-->
                 @if (getEventDroppedPlayerFormControl(this.eventForm, this.arrayName, i); as control) {
-                  <!--              <div class="event-table-cell">-->
                   @if (getEventTeam(eventsArray, i); as selectedTeam) {
                     @if (isPlayResult(eventFormGroup, i, eventPlayResultKey, IFootballPlayResult.PassDropped) ||
                     getEventDroppedPlayer(eventsArray, i)) {
@@ -333,12 +324,10 @@
                       </div>
                     }
                   }
-                  <!--              </div>-->
                 }
 
                 <!--EVENT KICK PLAYER-->
                 @if (getEventKickPlayerFormControl(this.eventForm, this.arrayName, i); as control) {
-                  <!--              <div class="event-table-cell">-->
                   @if (getEventTeam(eventsArray, i); as selectedTeam) {
                     @if (isPlayTypeWithIndex(eventFormGroup, i, eventPlayTypeKey, IFootballPlayType.Kick) ||
                     getEventKickPlayer(eventsArray, i)) {
@@ -353,12 +342,10 @@
                       </div>
                     }
                   }
-                  <!--              </div>-->
                 }
 
                 <!--EVENT KICKOFF PLAYER-->
                 @if (getEventKickOffPlayerFormControl(this.eventForm, this.arrayName, i); as control) {
-                  <!--              <div class="event-table-cell">-->
                   @if (getEventTeam(eventsArray, i); as selectedTeam) {
                     @if (isPlayTypeWithIndex(eventFormGroup, i, eventPlayTypeKey, IFootballPlayType.Kickoff) ||
                     getEventKickOffPlayer(eventsArray, i)) {
@@ -373,12 +360,10 @@
                       </div>
                     }
                   }
-                  <!--              </div>-->
                 }
 
                 <!--EVENT PAT ONE PLAYER-->
                 @if (getEventPatOnePlayerFormControl(this.eventForm, this.arrayName, i); as control) {
-                  <!--              <div class="event-table-cell">-->
                   @if (getEventTeam(eventsArray, i); as selectedTeam) {
                     @if (isPlayTypeWithIndex(eventFormGroup, i, eventPlayTypeKey, IFootballPlayType.PatOne) ||
                     getEventPatOnePlayer(eventsArray, i)) {
@@ -393,12 +378,10 @@
                       </div>
                     }
                   }
-                  <!--              </div>-->
                 }
 
                 <!--EVENT PUNT PLAYER-->
                 @if (getEventPuntPlayerFormControl(this.eventForm, this.arrayName, i); as control) {
-                  <!--              <div class="event-table-cell">-->
                   @if (getEventTeam(eventsArray, i); as selectedTeam) {
                     @if (isPlayTypeWithIndex(eventFormGroup, i, eventPlayTypeKey, IFootballPlayType.Punt) ||
                     getEventPuntPlayer(eventsArray, i)) {
@@ -413,12 +396,10 @@
                       </div>
                     }
                   }
-                  <!--              </div>-->
                 }
 
                 <!--EVENT RETURN PLAYER-->
                 @if (getEventReturnPlayerFormControl(this.eventForm, this.arrayName, i); as control) {
-                  <!--              <div class="event-table-cell">-->
                   @if (getEventTeam(eventsArray, i); as selectedTeam) {
                     @if (isPlayTypeWithIndex(eventFormGroup, i, eventPlayTypeKey, IFootballPlayType.Punt) ||
                     isPlayTypeWithIndex(eventFormGroup, i, eventPlayTypeKey, IFootballPlayType.Kickoff) ||
@@ -434,12 +415,10 @@
                       </div>
                     }
                   }
-                  <!--              </div>-->
                 }
 
                 <!--EVENT SCORE PLAYER-->
                 @if (getEventScorePlayerFormControl(this.eventForm, this.arrayName, i); as control) {
-                  <!--              <div class="event-table-cell">-->
                   @if (getEventTeam(eventsArray, i); as selectedTeam) {
                     @if (getEventScoreResult(eventsArray, i)?.value === IFootballScoreResult.Td ||
                     getEventScoreResult(eventsArray, i)?.value === IFootballScoreResult.KickGood ||
@@ -457,12 +436,10 @@
                       </div>
                     }
                   }
-                  <!--              </div>-->
                 }
 
                 <!--EVENT DEFLECTED PLAYER-->
                 @if (getEventDeflectedPlayerFormControl(this.eventForm, this.arrayName, i); as control) {
-                  <!--              <div class="event-table-cell">-->
                   @if (getEventTeam(eventsArray, i); as selectedTeam) {
                     @if (isPlayResult(eventFormGroup, i, eventPlayResultKey, IFootballPlayResult.PassDeflected) ||
                     getEventDeflectedPlayer(eventsArray, i)) {
@@ -477,12 +454,10 @@
                       </div>
                     }
                   }
-                  <!--              </div>-->
                 }
 
                 <!--EVENT INTERCEPTED PLAYER-->
                 @if (getEventInterceptedPlayerFormControl(this.eventForm, this.arrayName, i); as control) {
-                  <!--              <div class="event-table-cell">-->
                   @if (getEventTeam(eventsArray, i); as selectedTeam) {
                     @if (isPlayResult(eventFormGroup, i, eventPlayResultKey, IFootballPlayResult.PassIntercepted) ||
                     getEventInterceptedPlayer(eventsArray, i)) {
@@ -497,12 +472,10 @@
                       </div>
                     }
                   }
-                  <!--              </div>-->
                 }
 
                 <!--EVENT SACK PLAYER-->
                 @if (getEventSackPlayerFormControl(this.eventForm, this.arrayName, i); as control) {
-                  <!--              <div class="event-table-cell">-->
                   @if (getEventTeam(eventsArray, i); as selectedTeam) {
                     @if (isPlayResult(eventFormGroup, i, eventPlayResultKey, IFootballPlayResult.Sack) &&
                     !isPlayResult(eventFormGroup, i, eventPlayResultKey, IFootballPlayResult.Flag) ||
@@ -518,7 +491,6 @@
                       </div>
                     }
                   }
-                  <!--              </div>-->
                 }
 
                 <!--EVENT SCORE RESULT-->
@@ -555,7 +527,6 @@
                     }
                   </div>
                   @if (getEventFumblePlayerFormControl(this.eventForm, this.arrayName, i); as control) {
-                    <!--                <div class="event-table-cell">-->
                     @if (getEventTeam(eventsArray, i); as selectedTeam) {
                       @if (!isPlayResult(eventFormGroup, i, eventPlayResultKey, IFootballPlayResult.Flag) &&
                       getEventIsFumble(eventsArray, i) ||
@@ -571,7 +542,6 @@
                         </div>
                       }
                     }
-                    <!--                </div>-->
                   }
                 </div>
 
@@ -594,7 +564,6 @@
                   </div>
                   <!--EVENT FUMBLE RECOVERED PLAYER-->
                   @if (getEventFumbleRecoveredPlayerFormControl(this.eventForm, this.arrayName, i); as control) {
-                    <!--                <div class="event-table-cell">-->
                     @if (!isPlayResult(eventFormGroup, i, eventPlayResultKey, IFootballPlayResult.Flag) &&
                     getEventIsFumbleRecovered(eventsArray, i) ||
                     getEventFumbleRecoveredPlayer(eventsArray, i)) {
@@ -608,13 +577,11 @@
                         </app-search-player-in-match-autocomplete>
                       </div>
                     }
-                    <!--                </div>-->
                   }
                 </div>
 
                 <!--EVENT TACKLE PLAYER-->
                 @if (getEventTacklePlayerFormControl(this.eventForm, this.arrayName, i); as control) {
-                  <!--              <div class="event-table-cell">-->
                   @if (getEventTeam(eventsArray, i); as selectedTeam) {
                     @if (!isPlayResult(eventFormGroup, i, eventPlayResultKey, IFootballPlayResult.Flag) &&
                     !isPlayResult(eventFormGroup, i, eventPlayResultKey, IFootballPlayResult.PassIncomplete) &&
@@ -638,12 +605,10 @@
                       </div>
                     }
                   }
-                  <!--              </div>-->
                 }
 
                 <!--EVENT ASSIST TACKLE PLAYER-->
                 @if (getEventAssistTacklePlayerFormControl(this.eventForm, this.arrayName, i); as control) {
-                  <!--              <div class="event-table-cell">-->
                   @if (getEventTeam(eventsArray, i); as selectedTeam) {
                     @if (!isPlayResult(eventFormGroup, i, eventPlayResultKey, IFootballPlayResult.Flag) &&
                     !isPlayResult(eventFormGroup, i, eventPlayResultKey, IFootballPlayResult.PassIncomplete) &&
@@ -667,12 +632,10 @@
                       </div>
                     }
                   }
-                  <!--              </div>-->
                 }
 
                 <!--EVENT DEFENCE SCORE PLAYER-->
                 @if (getEventDefenceScorePlayerFormControl(this.eventForm, this.arrayName, i); as control) {
-                  <!--              <div class="event-table-cell">-->
                   @if (getEventTeam(eventsArray, i); as selectedTeam) {
                     @if (getEventScoreResult(eventsArray, i)?.value === IFootballScoreResult.TdDefence ||
                     getEventScoreResult(eventsArray, i)?.value === IFootballScoreResult.PatOneReturn ||
@@ -691,12 +654,10 @@
                       </div>
                     }
                   }
-                  <!--              </div>-->
                 }
 
                 <!--EVENT FLAGGED PLAYER-->
                 @if (getEventFlaggedPlayerFormControl(this.eventForm, this.arrayName, i); as control) {
-                  <!--              <div class="event-table-cell">-->
                   @if (isPlayResult(eventFormGroup, i, eventPlayResultKey, IFootballPlayResult.Flag) ||
                   getEventFlaggedPlayer(eventsArray, i)) {
                     <div class="event-table-cell">
@@ -710,7 +671,6 @@
                       </app-search-player-in-match-autocomplete>
                     </div>
                   }
-                  <!--              </div>-->
                 }
 
 
