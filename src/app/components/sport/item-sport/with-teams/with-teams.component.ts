@@ -15,12 +15,7 @@ import { Sponsor } from '../../../adv/sponsor/sponsor';
 import { SponsorLine } from '../../../adv/sponsor-line/sponsorLine';
 import { Search } from '../../../../store/search/search';
 import { BaseSearchFormComponent } from '../../../../shared/ui/search/base-search-form/base-search-form.component';
-import {
-  FormControl,
-  FormGroup,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import {
   TuiDataListWrapperModule,
   TuiInputNumberModule,
@@ -28,7 +23,6 @@ import {
   TuiSelectModule,
 } from '@taiga-ui/kit';
 import { Pagination } from '../../../../store/pagination/pagination';
-import { debounceTime, distinctUntilChanged, take } from 'rxjs';
 import { BasePaginationComponent } from '../../../../shared/ui/pagination/base-pagination/base-pagination.component';
 
 @Component({
