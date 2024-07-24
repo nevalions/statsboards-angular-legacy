@@ -180,30 +180,6 @@ export function createNewEvent(
     }
   }
 
-  // if (lastEvent && lastEvent.play_result) {
-  //   if (lastEvent.play_result.value === IFootballPlayResult.TouchBack) {
-  //     if (match) {
-  //       const {
-  //         newEventBallOn,
-  //         newEventDown,
-  //         newEventDistance,
-  //         newEventTeam,
-  //         newEventQb,
-  //       } = handleTeamChangeOnTouchBack(match, lastEvent);
-  //     }
-  //     // if (match && match.teams_data?.team_a && match.teams_data?.team_b) {
-  //     //   const homeTeam = match.teams_data.team_a;
-  //     //   const awayTeam = match.teams_data.team_b;
-  //     //   if (lastEvent.offense_team?.id === homeTeam.id) {
-  //     //     newEventTeam = awayTeam;
-  //     //   } else if (lastEvent.offense_team?.id === awayTeam.id) {
-  //     //     newEventTeam = homeTeam;
-  //     //   }
-  //     //   newEventQb = null;
-  //     // }
-  //   }
-  // }
-
   return {
     id: null,
     event_number: newEventNumber,
