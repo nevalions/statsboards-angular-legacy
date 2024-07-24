@@ -74,10 +74,9 @@
                   </div>
                   @if (getEventNumberFormControl(this.eventForm, this.arrayName, i); as control) {
                     <div class="event-table-cell">
-                      <!--                      <label>Event Number</label>-->
                       <app-input-number-with-buttons
                         [control]="control"
-                        [label]="'event number'"
+                        [label]="'num'"
                         [index]="i"
                         [key]="eventNumberKey"
                         (numberChanged)="handleFieldChange($event)"
