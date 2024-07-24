@@ -34,7 +34,6 @@
         </div>
         <div class="time-inputs">
           @if (getFormControl(gameClockForm, 'gameTimeMinutes'); as control) {
-            <!--            {{ gameclock.gameclock_max ? gameclock.gameclock_max / 60 : 12 }}-->
             <app-simple-input-with-buttons
               [label]="'Min.'"
               [control]="control"
