@@ -1,6 +1,6 @@
 <div class="input-number-with-buttons">
   <tui-input-number
-    [tuiTextfieldSize]="'l'"
+    [tuiTextfieldSize]="'m'"
     class="input-number"
     [formControl]="control"
     [tuiTextfieldCleaner]="true"
@@ -9,7 +9,7 @@
   >
     {{ label | uppercase }}
     <input
-      name="event number"
+      name="{{ label }}"
       tuiTextfield
     />
   </tui-input-number>
@@ -21,8 +21,7 @@
     [size]="'xs'"
     (click)="incrementEventNumber(1)"
     [disabled]="control.disabled || isMaxValue()"
-  >+
-  </button>
+  ></button>
   <button
     appearance="icon"
     icon="tuiIconMinus"
@@ -31,8 +30,7 @@
     [size]="'xs'"
     (click)="incrementEventNumber(-1)"
     [disabled]="control.disabled || isMinValue()"
-  >-
-  </button>
+  ></button>
 </div>
 
 

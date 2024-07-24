@@ -164,6 +164,7 @@ import { IEnumObject } from '../../../../type/base.type';
 import { InputNumberWithButtonsComponent } from '../../../../shared/scoreboards/admin-forms/input-number-with-buttons/input-number-with-buttons.component';
 import { ButtonIconComponent } from '../../../../shared/ui/buttons/button-icon/button-icon.component';
 import { hexToRgba } from '../../../../base/helpers';
+import { SimpleInputWithButtonsComponent } from '../../../../shared/scoreboards/admin-forms/simple-input-with-buttons/simple-input-with-buttons.component';
 
 @Component({
   selector: 'app-add-edit-football-event-table',
@@ -187,6 +188,7 @@ import { hexToRgba } from '../../../../base/helpers';
     UpperCasePipe,
     TitleCasePipe,
     ButtonIconComponent,
+    SimpleInputWithButtonsComponent,
   ],
   templateUrl: './add-edit-football-event-table.component.html',
   styleUrl: './add-edit-football-event-table.component.less',
