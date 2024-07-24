@@ -1,15 +1,38 @@
 @if (control) {
-  <tui-combo-box
+  <tui-select
     [formControl]="control"
     [tuiTextfieldCleaner]="true"
   >
     {{ action | uppercase }} {{ placeholder | uppercase }}
-    <tui-data-list-wrapper
+    <tui-data-list
       *tuiDataList
-      [itemContent]="stringifyEnumObject | tuiStringifyContent"
-      [items]="enumObjects | tuiFilterByInput: matcherString"
-      (itemClick)="onSelected($event)"
     >
-    </tui-data-list-wrapper>
-  </tui-combo-box>
+      @for (item of enumObjects; track $index) {
+        @if (item) {
+          <button
+            tuiOption
+            [value]="item.label"
+            (click)="onSelected(item)">
+            {{ item.label | titlecase }}
+          </button>
+        }
+      }
+    </tui-data-list>
+  </tui-select>
 }
+
+<!--@if (control) {-->
+<!--  <tui-combo-box-->
+<!--    [formControl]="control"-->
+<!--    [tuiTextfieldCleaner]="true"-->
+<!--  >-->
+<!--    {{ action | uppercase }} {{ placeholder | uppercase }}-->
+<!--    <tui-data-list-wrapper-->
+<!--      *tuiDataList-->
+<!--      [itemContent]="stringifyEnumObject | tuiStringifyContent"-->
+<!--      [items]="enumObjects | tuiFilterByInput: matcherString"-->
+<!--      (itemClick)="onSelected($event)"-->
+<!--    >-->
+<!--    </tui-data-list-wrapper>-->
+<!--  </tui-combo-box>-->
+<!--}-->

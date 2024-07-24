@@ -153,7 +153,12 @@ import {
   TuiTextfieldControllerModule,
 } from '@taiga-ui/core';
 import { NgForOf, TitleCasePipe, UpperCasePipe } from '@angular/common';
-import { TuiInputNumberModule, TuiToggleModule } from '@taiga-ui/kit';
+import {
+  TuiDataListWrapperModule,
+  TuiInputNumberModule,
+  TuiSelectModule,
+  TuiToggleModule,
+} from '@taiga-ui/kit';
 import { TuiFocusableModule, TuiValueChangesModule } from '@taiga-ui/cdk';
 import { SelectTeamInMatchComponent } from '../../../../shared/ui/select/select-team-in-match/select-team-in-match.component';
 import { SearchPlayerInMatchAutocompleteComponent } from '../../../../shared/ui/search/search-player-in-match-autocomplete/search-player-in-match-autocomplete.component';
@@ -189,6 +194,8 @@ import { SimpleInputWithButtonsComponent } from '../../../../shared/scoreboards/
     TitleCasePipe,
     ButtonIconComponent,
     SimpleInputWithButtonsComponent,
+    TuiDataListWrapperModule,
+    TuiSelectModule,
   ],
   templateUrl: './add-edit-football-event-table.component.html',
   styleUrl: './add-edit-football-event-table.component.less',

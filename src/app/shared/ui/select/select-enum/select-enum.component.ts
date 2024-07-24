@@ -4,13 +4,17 @@ import {
   TuiDataListWrapperModule,
   TuiFilterByInputPipeModule,
   tuiItemsHandlersProvider,
+  TuiSelectModule,
   TuiStringifyContentPipeModule,
 } from '@taiga-ui/kit';
 import { stringifyEnumObject, toTitleCase } from '../../../../base/helpers';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { IEnumObject } from '../../../../type/base.type';
-import { UpperCasePipe } from '@angular/common';
-import { TuiTextfieldControllerModule } from '@taiga-ui/core';
+import { TitleCasePipe, UpperCasePipe } from '@angular/common';
+import {
+  TuiDataListModule,
+  TuiTextfieldControllerModule,
+} from '@taiga-ui/core';
 
 @Component({
   selector: 'app-select-enum',
@@ -23,6 +27,9 @@ import { TuiTextfieldControllerModule } from '@taiga-ui/core';
     TuiFilterByInputPipeModule,
     UpperCasePipe,
     TuiTextfieldControllerModule,
+    TuiDataListModule,
+    TuiSelectModule,
+    TitleCasePipe,
   ],
   providers: [
     tuiItemsHandlersProvider({

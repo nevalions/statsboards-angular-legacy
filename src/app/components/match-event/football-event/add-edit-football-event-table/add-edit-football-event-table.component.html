@@ -163,7 +163,6 @@
                 @if (getEventTeamFormControl(this.eventForm, this.arrayName, i); as control) {
                   <div class="event-table-cell">
                     @if (match && match.teams_data && match.teams_data.team_a && match.teams_data.team_b) {
-                      <!--                      <label>Offence Team</label>-->
                       <app-select-team-in-match
                         [placeholder]="'offence team'"
                         [teamsList]="[match.teams_data.team_a, match.teams_data.team_b]"
