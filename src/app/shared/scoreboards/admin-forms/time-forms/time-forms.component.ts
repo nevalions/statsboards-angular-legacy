@@ -104,6 +104,10 @@ export class TimeFormsComponent implements OnChanges {
 
   private initGameClockForm(): FormGroup {
     const time = this.gameclock?.gameclock;
+    let max_minutes;
+    if (this.gameclock?.gameclock_max) {
+      max_minutes = Math.floor(this.gameclock?.gameclock_max / 60);
+    }
 
     if (time) {
       let gameMinutes = Math.floor(time / 60);
@@ -117,6 +121,10 @@ export class TimeFormsComponent implements OnChanges {
           gameSeconds,
           [Validators.min(0), Validators.max(59)],
         ),
+        maxMinutes: new FormControl<number | null | undefined>(max_minutes, [
+          Validators.min(0),
+          Validators.max(60),
+        ]),
       });
     } else {
       return new FormGroup({
@@ -126,6 +134,10 @@ export class TimeFormsComponent implements OnChanges {
         gameTimeSeconds: new FormControl<number | null | undefined>(null, [
           Validators.min(0),
           Validators.max(59),
+        ]),
+        maxMinutes: new FormControl<number | null | undefined>(null, [
+          Validators.min(0),
+          Validators.max(60),
         ]),
       });
     }
@@ -164,6 +176,26 @@ export class TimeFormsComponent implements OnChanges {
       if (minutes >= 0 && seconds >= 0) {
         const time: number = minutes * 60 + seconds;
         const updatedGameclock = { ...gameclock, gameclock: time };
+        this.gameclockData.updateGameclock(updatedGameclock);
+      }
+    }
+  }
+
+  saveMaxGameClock(gameclock: IGameclock) {
+    // console.log(gameclock);
+    if (!gameclock) return;
+    this.websocket.checkConnection();
+
+    if (this.gameClockForm.valid) {
+      const formValue = this.gameClockForm.getRawValue();
+      // console.log(formValue);
+
+      const maxMinutes = Number(formValue.maxMinutes);
+      if (maxMinutes) {
+        const updatedGameclock = {
+          ...gameclock,
+          gameclock_max: maxMinutes * 60,
+        };
         this.gameclockData.updateGameclock(updatedGameclock);
       }
     }

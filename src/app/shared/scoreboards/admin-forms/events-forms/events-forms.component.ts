@@ -25,6 +25,8 @@ import { IMatchData } from '../../../../type/matchdata.type';
 import { Websocket } from '../../../../store/websocket/websocket';
 import { MatchData } from '../../../../components/match/matchdata';
 import { FootballEvent } from '../../../../components/match-event/football-event/football-event';
+import { SimpleInputWithButtonsComponent } from '../simple-input-with-buttons/simple-input-with-buttons.component';
+import { getFormControl } from '../../../../base/formHelpers';
 
 @Component({
   selector: 'app-events-forms',
@@ -42,6 +44,7 @@ import { FootballEvent } from '../../../../components/match-event/football-event
     UpperCasePipe,
     TitleCasePipe,
     DecimalPipe,
+    SimpleInputWithButtonsComponent,
   ],
   templateUrl: './events-forms.component.html',
   styleUrl: './events-forms.component.less',
@@ -115,4 +118,6 @@ export class EventsFormsComponent implements OnChanges {
       }
     }
   }
+
+  protected readonly getFormControl = getFormControl;
 }

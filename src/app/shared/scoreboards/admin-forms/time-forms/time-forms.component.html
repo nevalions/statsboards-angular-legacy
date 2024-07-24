@@ -16,13 +16,30 @@
         class="game-time-form"
         [formGroup]="gameClockForm"
       >
+        <div class="max-minutes">
+          @if (getFormControl(gameClockForm, 'maxMinutes'); as control) {
+            <app-simple-input-with-buttons
+              [label]="'Max Minutes'"
+              [control]="control"
+              [max]="60"
+              [min]="0"
+              [cleaner]="false"
+            ></app-simple-input-with-buttons>
+            <app-admin-submit-button
+              [action]="'save max minutes'"
+              [disabled]="disabled"
+              (click)="saveMaxGameClock(gameclock)"
+            ></app-admin-submit-button>
+          }
+        </div>
         <div class="time-inputs">
           @if (getFormControl(gameClockForm, 'gameTimeMinutes'); as control) {
+            <!--            {{ gameclock.gameclock_max ? gameclock.gameclock_max / 60 : 12 }}-->
             <app-simple-input-with-buttons
               [label]="'Min.'"
               [control]="control"
               [min]="0"
-              [max]="12"
+              [max]="gameclock.gameclock_max ? gameclock.gameclock_max / 60 : 12"
               [isCycle]="true"
               [cleaner]="false"
             ></app-simple-input-with-buttons>
@@ -37,17 +54,7 @@
               [cleaner]="false"
             ></app-simple-input-with-buttons>
           }
-          <!--          <tui-input-number-->
-          <!--            class="game-timer-input"-->
-          <!--            formControlName="gameTimeMinutes"-->
-          <!--          > Min.-->
-          <!--          </tui-input-number>-->
 
-          <!--          <tui-input-number-->
-          <!--            class="game-timer-input"-->
-          <!--            formControlName="gameTimeSeconds"-->
-          <!--          > Sec.-->
-          <!--          </tui-input-number>-->
         </div>
 
         <div class="time-inputs-save-btn">

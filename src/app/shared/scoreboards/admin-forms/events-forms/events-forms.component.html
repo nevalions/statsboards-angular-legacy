@@ -56,19 +56,30 @@
         class="field-form"
         [formGroup]="fieldForm"
       >
-        <tui-input-number
-          class="field-form-input"
-          formControlName="fieldLength"
-        >FIELD LENGTH: EVEN NUMBERS ONLY
-        </tui-input-number>
-        <tui-error
-          formControlName="fieldLength"
-          [error]="[] | tuiFieldError | async"
-        ></tui-error>
-        <app-admin-submit-button
-          [disabled]="disabled"
-          (click)="updateFieldLength(data.match_data!)"
-        ></app-admin-submit-button>
+        @if (getFormControl(fieldForm, 'fieldLength'); as control) {
+          <app-simple-input-with-buttons
+            [label]="'Field Length'"
+            [control]="control"
+            [max]="120"
+            [min]="50"
+            [isCycle]="true"
+            [cleaner]="false"
+          ></app-simple-input-with-buttons>
+          <app-admin-submit-button
+            [disabled]="disabled"
+            (click)="updateFieldLength(data.match_data!)"
+          ></app-admin-submit-button>
+        }
+        <!--        <tui-input-number-->
+        <!--          class="field-form-input"-->
+        <!--          formControlName="fieldLength"-->
+        <!--        >FIELD LENGTH: EVEN NUMBERS ONLY-->
+        <!--        </tui-input-number>-->
+        <!--        <tui-error-->
+        <!--          formControlName="fieldLength"-->
+        <!--          [error]="[] | tuiFieldError | async"-->
+        <!--        ></tui-error>-->
+
       </form>
 
       <app-add-edit-football-event-table
