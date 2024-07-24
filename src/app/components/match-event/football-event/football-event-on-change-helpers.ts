@@ -34,6 +34,7 @@ import {
   patchFormGroupKeyValue,
   setArrayKeyIndexValue,
 } from '../../../base/formHelpers';
+import { IMatchWithFullData } from '../../../type/match.type';
 
 export function onTeamChange(
   eventsArray: FormArray,
@@ -477,4 +478,49 @@ export function incrementOnBall(
   // Set the new value in the array
   setArrayKeyIndexValue(array, index, newValue, arrayKey);
   return newValue;
+}
+
+export function handleBasicTeamChange(
+  match: IMatchWithFullData | null,
+  lastEvent: IFootballEventWithPlayers,
+): { newEventTeam: ITeam | null; newEventQb: any } {
+  let newEventTeam: ITeam | null = null;
+  let newEventQb = null;
+
+  if (match && match.teams_data?.team_a && match.teams_data?.team_b) {
+    const homeTeam = match.teams_data.team_a;
+    const awayTeam = match.teams_data.team_b;
+    if (lastEvent.offense_team?.id === homeTeam.id) {
+      newEventTeam = awayTeam;
+    } else if (lastEvent.offense_team?.id === awayTeam.id) {
+      newEventTeam = homeTeam;
+    }
+  }
+
+  return { newEventTeam, newEventQb };
+}
+
+export function handleTeamChangeOnTouchBack(
+  match: IMatchWithFullData | null,
+  lastEvent: IFootballEventWithPlayers,
+): {
+  newEventBallOn: number;
+  newEventDown: number;
+  newEventDistance: number;
+  newEventTeam: ITeam | null;
+  newEventQb: any;
+} {
+  const { newEventTeam, newEventQb } = handleBasicTeamChange(match, lastEvent);
+
+  const newEventBallOn = -20;
+  const newEventDown = 1;
+  const newEventDistance = 10;
+
+  return {
+    newEventBallOn,
+    newEventDown,
+    newEventDistance,
+    newEventTeam,
+    newEventQb,
+  };
 }

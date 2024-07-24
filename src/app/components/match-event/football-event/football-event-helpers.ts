@@ -15,6 +15,7 @@ import {
   IFootballPlayResult,
 } from '../../../type/football-event.type';
 import { IMatchWithFullData } from '../../../type/match.type';
+import { handleTeamChangeOnTouchBack } from './football-event-on-change-helpers';
 
 export const eventIdKey = 'eventId';
 export const eventNumberKey = 'eventNumber';
@@ -161,21 +162,47 @@ export function createNewEvent(
 
   if (lastEvent && lastEvent.play_result) {
     if (lastEvent.play_result.value === IFootballPlayResult.TouchBack) {
-      newEventBallOn = -20;
-      newEventDown = 1;
-      newEventDistance = 10;
-      if (match && match.teams_data?.team_a && match.teams_data?.team_b) {
-        const homeTeam = match.teams_data.team_a;
-        const awayTeam = match.teams_data.team_b;
-        if (lastEvent.offense_team?.id === homeTeam.id) {
-          newEventTeam = awayTeam;
-        } else if (lastEvent.offense_team === awayTeam.id) {
-          newEventTeam = homeTeam;
-        }
-        newEventQb = null;
+      if (match) {
+        const {
+          newEventBallOn: newBallOn,
+          newEventDown: newDown,
+          newEventDistance: newDistance,
+          newEventTeam: newTeam,
+          newEventQb: newQb,
+        } = handleTeamChangeOnTouchBack(match, lastEvent);
+
+        newEventBallOn = newBallOn;
+        newEventDown = newDown;
+        newEventDistance = newDistance;
+        newEventTeam = newTeam;
+        newEventQb = newQb;
       }
     }
   }
+
+  // if (lastEvent && lastEvent.play_result) {
+  //   if (lastEvent.play_result.value === IFootballPlayResult.TouchBack) {
+  //     if (match) {
+  //       const {
+  //         newEventBallOn,
+  //         newEventDown,
+  //         newEventDistance,
+  //         newEventTeam,
+  //         newEventQb,
+  //       } = handleTeamChangeOnTouchBack(match, lastEvent);
+  //     }
+  //     // if (match && match.teams_data?.team_a && match.teams_data?.team_b) {
+  //     //   const homeTeam = match.teams_data.team_a;
+  //     //   const awayTeam = match.teams_data.team_b;
+  //     //   if (lastEvent.offense_team?.id === homeTeam.id) {
+  //     //     newEventTeam = awayTeam;
+  //     //   } else if (lastEvent.offense_team?.id === awayTeam.id) {
+  //     //     newEventTeam = homeTeam;
+  //     //   }
+  //     //   newEventQb = null;
+  //     // }
+  //   }
+  // }
 
   return {
     id: null,
