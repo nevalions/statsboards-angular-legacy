@@ -117,7 +117,6 @@ export class TimeFormsComponent implements OnChanges {
       time = 0;
     }
 
-    // if (time && time >= 0 && max_minutes && max_minutes >= 0) {
     let gameMinutes = Math.floor(time / 60);
     let gameSeconds = time % 60;
     return new FormGroup({
@@ -133,21 +132,6 @@ export class TimeFormsComponent implements OnChanges {
         Validators.max(60),
       ]),
     });
-    // } else {
-    //   return new FormGroup({
-    //     gameTimeMinutes: new FormControl<number | null | undefined>(0, [
-    //       Validators.min(0),
-    //     ]),
-    //     gameTimeSeconds: new FormControl<number | null | undefined>(0, [
-    //       Validators.min(0),
-    //       Validators.max(59),
-    //     ]),
-    //     maxMinutes: new FormControl<number | null | undefined>(max_minutes, [
-    //       Validators.min(0),
-    //       Validators.max(60),
-    //     ]),
-    //   });
-    // }
   }
 
   private initPlayClockForm(): FormGroup {
@@ -210,7 +194,11 @@ export class TimeFormsComponent implements OnChanges {
 
   resetGameClock() {
     this.websocket.checkConnection();
-    this.gameclockData.resetGameClock(720);
+    if (this.gameclock?.gameclock_max) {
+      this.gameclockData.resetGameClock(this.gameclock?.gameclock_max);
+    } else {
+      this.gameclockData.resetGameClock(3600);
+    }
   }
 
   startPlayClock(sec: number) {
