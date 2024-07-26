@@ -68,6 +68,7 @@ export class EventsFormsComponent implements OnChanges {
   flagYardsTeamA$ = this.footballEvent.flagYardsTeamA$;
   flagYardsTeamB$ = this.footballEvent.flagYardsTeamB$;
   allQuarterbacksTeamA$ = this.footballEvent.allQuarterbacksTeamA$;
+  allOffenceTeamA$ = this.footballEvent.allOffenceTeamA$;
 
   fieldForm: FormGroup;
 

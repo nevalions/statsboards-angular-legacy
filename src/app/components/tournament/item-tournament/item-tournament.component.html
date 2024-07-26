@@ -82,7 +82,7 @@
 
             @if (matchesInTournament$ | async; as items) {
               <div class="one_col_container">
-                <form [formGroup]="formWeek" style="padding: 10px">
+                <form [formGroup]="formWeek">
                   @if (getFormControl(formWeek, 'matchWeekSearch'); as control) {
                     <app-simple-input-with-buttons
                       [label]="'Search by WEEK'"
@@ -92,13 +92,6 @@
                       (tuiValueChanges)="onSearchByWeek($event)"
                     ></app-simple-input-with-buttons>
                   }
-                  <!--                  <tui-input-number-->
-                  <!--                    [tuiTextfieldCleaner]="true"-->
-                  <!--                    formControlName="matchWeekSearch"-->
-                  <!--                    (tuiValueChanges)="onSearchByWeek($event)"-->
-                  <!--                  >-->
-                  <!--                    Search by WEEK-->
-                  <!--                  </tui-input-number>-->
                 </form>
 
                 <app-base-search-form

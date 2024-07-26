@@ -14,6 +14,7 @@ import {
 } from './store/reducers';
 import { footballEventActions } from './store/actions';
 import {
+  selectAllPlayersWithOffenseStatsTeamA,
   selectAllQuarterbacksWithStatsTeamA,
   selectFootballEventsWithPlayers,
   selectOverallFlagYardsForTeamA,
@@ -25,7 +26,10 @@ import {
   selectOverallRunDistanceForTeamA,
   selectOverallRunDistanceForTeamB,
 } from './store/selectors';
-import { IPlayerInMatchFullDataWithQbStats } from '../../../type/player.type';
+import {
+  IPlayerInMatchFullDataWithOffenceStats,
+  IPlayerInMatchFullDataWithQbStats,
+} from '../../../type/player.type';
 
 @Injectable({
   providedIn: 'root',
@@ -51,6 +55,9 @@ export class FootballEvent {
 
   // qb
   allQuarterbacksTeamA$: Observable<IPlayerInMatchFullDataWithQbStats[]>;
+
+  //offence
+  allOffenceTeamA$: Observable<IPlayerInMatchFullDataWithOffenceStats[]>;
 
   constructor(private store: Store<AppState>) {
     this.footballEvent$ = this.store.select(selectCurrentFootballEvent);
@@ -93,6 +100,10 @@ export class FootballEvent {
     // qb
     this.allQuarterbacksTeamA$ = this.store.select(
       selectAllQuarterbacksWithStatsTeamA,
+    );
+    //offence
+    this.allOffenceTeamA$ = this.store.select(
+      selectAllPlayersWithOffenseStatsTeamA,
     );
   }
 

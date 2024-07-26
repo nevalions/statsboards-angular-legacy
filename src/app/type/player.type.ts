@@ -64,12 +64,32 @@ export interface IQBStats {
   run_yards: number;
 }
 
+export interface IOffenceStats {
+  id: number;
+  pass_attempts: number;
+  pass_received: number;
+  pass_yards: number;
+  pass_td: number;
+  run_attempts: number;
+  run_yards: number;
+  run_td: number;
+  fumble: number;
+}
+
 export interface IPlayerInMatchFullDataWithQbStats {
   match_player: IPlayerInMatch;
   player_team_tournament?: IPlayerInTeamTournament | null;
   person?: IPerson | null;
   position?: IPosition | null;
   qb_stats: IQBStats | null;
+}
+
+export interface IPlayerInMatchFullDataWithOffenceStats {
+  match_player: IPlayerInMatch;
+  player_team_tournament?: IPlayerInTeamTournament | null;
+  person?: IPerson | null;
+  position?: IPosition | null;
+  off_stats: IOffenceStats | null;
 }
 
 export interface IRoster {
