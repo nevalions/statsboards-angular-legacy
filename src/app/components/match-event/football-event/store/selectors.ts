@@ -432,7 +432,7 @@ export const selectOffenseStatsTeamA = createSelector(
           event.play_type?.value === IFootballPlayType.Run &&
           event.play_result?.value !== IFootballPlayResult.Flag
         ) {
-          if (event.play_result?.value === IFootballPlayResult.PassCompleted) {
+          if (event.play_result?.value === IFootballPlayResult.Run) {
             if (event.run_player?.match_player.id === playerId) {
               offenseStats[playerId].run_attempts++;
               if (event.distance_moved) {
