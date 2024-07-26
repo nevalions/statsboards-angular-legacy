@@ -15,7 +15,9 @@ import {
 import { footballEventActions } from './store/actions';
 import {
   selectAllPlayersWithOffenseStatsTeamA,
+  selectAllPlayersWithOffenseStatsTeamB,
   selectAllQuarterbacksWithStatsTeamA,
+  selectAllQuarterbacksWithStatsTeamB,
   selectFootballEventsWithPlayers,
   selectOverallFlagYardsForTeamA,
   selectOverallFlagYardsForTeamB,
@@ -55,9 +57,11 @@ export class FootballEvent {
 
   // qb
   allQuarterbacksTeamA$: Observable<IPlayerInMatchFullDataWithQbStats[]>;
+  allQuarterbacksTeamB$: Observable<IPlayerInMatchFullDataWithQbStats[]>;
 
   //offence
   allOffenceTeamA$: Observable<IPlayerInMatchFullDataWithOffenceStats[]>;
+  allOffenceTeamB$: Observable<IPlayerInMatchFullDataWithOffenceStats[]>;
 
   constructor(private store: Store<AppState>) {
     this.footballEvent$ = this.store.select(selectCurrentFootballEvent);
@@ -101,9 +105,15 @@ export class FootballEvent {
     this.allQuarterbacksTeamA$ = this.store.select(
       selectAllQuarterbacksWithStatsTeamA,
     );
+    this.allQuarterbacksTeamB$ = this.store.select(
+      selectAllQuarterbacksWithStatsTeamB,
+    );
     //offence
     this.allOffenceTeamA$ = this.store.select(
       selectAllPlayersWithOffenseStatsTeamA,
+    );
+    this.allOffenceTeamB$ = this.store.select(
+      selectAllPlayersWithOffenseStatsTeamB,
     );
   }
 

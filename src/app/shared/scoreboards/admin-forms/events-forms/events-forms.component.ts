@@ -27,6 +27,9 @@ import { MatchData } from '../../../../components/match/matchdata';
 import { FootballEvent } from '../../../../components/match-event/football-event/football-event';
 import { SimpleInputWithButtonsComponent } from '../simple-input-with-buttons/simple-input-with-buttons.component';
 import { getFormControl } from '../../../../base/formHelpers';
+import { SimpleFootballMatchTeamStatsComponent } from '../../../ui/events/football-stats/simple-football-match-team-stats/simple-football-match-team-stats.component';
+import { SimpleFootballQbStatsComponent } from '../../../ui/events/football-stats/simple-football-qb-stats/simple-football-qb-stats.component';
+import { SimpleFootballOffenceStatsComponent } from '../../../ui/events/football-stats/simple-football-offence-stats/simple-football-offence-stats.component';
 
 @Component({
   selector: 'app-events-forms',
@@ -45,6 +48,9 @@ import { getFormControl } from '../../../../base/formHelpers';
     TitleCasePipe,
     DecimalPipe,
     SimpleInputWithButtonsComponent,
+    SimpleFootballMatchTeamStatsComponent,
+    SimpleFootballQbStatsComponent,
+    SimpleFootballOffenceStatsComponent,
   ],
   templateUrl: './events-forms.component.html',
   styleUrl: './events-forms.component.less',
@@ -68,7 +74,9 @@ export class EventsFormsComponent implements OnChanges {
   flagYardsTeamA$ = this.footballEvent.flagYardsTeamA$;
   flagYardsTeamB$ = this.footballEvent.flagYardsTeamB$;
   allQuarterbacksTeamA$ = this.footballEvent.allQuarterbacksTeamA$;
+  allQuarterbacksTeamB$ = this.footballEvent.allQuarterbacksTeamB$;
   allOffenceTeamA$ = this.footballEvent.allOffenceTeamA$;
+  allOffenceTeamB$ = this.footballEvent.allOffenceTeamB$;
 
   fieldForm: FormGroup;
 

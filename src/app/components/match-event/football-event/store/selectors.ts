@@ -3,6 +3,7 @@ import {
   IPlayerInMatchFullData,
   IPlayerInMatchFullDataWithOffenceStats,
   IPlayerInMatchFullDataWithQbStats,
+  IQBStats,
 } from '../../../../type/player.type';
 import { createSelector } from '@ngrx/store';
 import { selectAllMatchFootballEvents } from './reducers';
@@ -15,6 +16,7 @@ import {
 } from '../../../../type/football-event.type';
 import { selectCurrentMatchWithFullData } from '../../../match-with-full-data/store/reducers';
 import { computeDistance } from '../football-event-calc-helpers';
+import { IMatchWithFullData } from '../../../../type/match.type';
 
 export function getMatchPlayerById(
   players: IPlayerInMatchFullData[],
@@ -270,24 +272,26 @@ export const selectQuarterbackStats = createSelector(
     events: IFootballEventWithPlayers[],
   ): Record<
     number,
-    {
-      passes: number;
-      passes_completed: number;
-      pass_yards: number;
-      run_attempts: number;
-      run_yards: number;
-    }
+    IQBStats
+    // {
+    //   passes: number;
+    //   passes_completed: number;
+    //   pass_yards: number;
+    //   run_attempts: number;
+    //   run_yards: number;
+    // }
   > => {
     // Create an object to store the count of passes and completed passes per quarterback
     const qbStats: Record<
       number,
-      {
-        passes: number;
-        passes_completed: number;
-        pass_yards: number;
-        run_attempts: number;
-        run_yards: number;
-      }
+      IQBStats
+      // {
+      //   passes: number;
+      //   passes_completed: number;
+      //   pass_yards: number;
+      //   run_attempts: number;
+      //   run_yards: number;
+      // }
     > = {};
 
     events.forEach((event) => {
@@ -298,6 +302,7 @@ export const selectQuarterbackStats = createSelector(
         const qbId = event.event_qb.match_player.id;
         if (!qbStats[qbId]) {
           qbStats[qbId] = {
+            id: qbId,
             passes: 0,
             passes_completed: 0,
             pass_yards: 0,
@@ -341,50 +346,109 @@ export const selectQuarterbackStats = createSelector(
   },
 );
 
-// Selector to get all quarterbacks for team A and include their stats
-export const selectAllQuarterbacksWithStatsTeamA = createSelector(
-  selectFootballEventsWithPlayers,
-  selectCurrentMatchWithFullData,
-  selectQuarterbackStats,
-  (events, match, qbStats): IPlayerInMatchFullDataWithQbStats[] => {
-    const teamId = match?.match.team_a_id;
-    if (!teamId) {
-      return [];
-    }
+const selectAllQuarterbacksWithStats = (
+  teamIdSelector: (match: IMatchWithFullData) => number | undefined,
+) =>
+  createSelector(
+    selectFootballEventsWithPlayers,
+    selectCurrentMatchWithFullData,
+    selectQuarterbackStats,
+    (events, match, qbStats): IPlayerInMatchFullDataWithQbStats[] => {
+      if (!match || !match.id) {
+        return [];
+      }
 
-    // Deduplicate and get all quarterbacks for team A
-    const qbs = events
-      .filter(
-        (event) =>
-          event.event_qb &&
-          event.offense_team?.id === teamId &&
-          event.event_qb.match_player.id,
-      )
-      .map((event) => event.event_qb!)
-      .reduce((uniqueQbs, qb) => {
-        if (!uniqueQbs.some((q) => q.match_player.id === qb.match_player.id)) {
-          uniqueQbs.push(qb);
-        }
-        return uniqueQbs;
-      }, [] as IPlayerInMatchFullData[]);
+      const teamId = teamIdSelector(match);
+      if (!teamId) {
+        return [];
+      }
+      // Deduplicate and get all quarterbacks for the team
+      const qbs = events
+        .filter(
+          (event) =>
+            event.event_qb &&
+            event.offense_team?.id === teamId &&
+            event.event_qb.match_player.id,
+        )
+        .map((event) => event.event_qb!)
+        .reduce((uniqueQbs, qb) => {
+          if (
+            !uniqueQbs.some((q) => q.match_player.id === qb.match_player.id)
+          ) {
+            uniqueQbs.push(qb);
+          }
+          return uniqueQbs;
+        }, [] as IPlayerInMatchFullData[]);
 
-    // Map to IPlayerInMatchFullDataWithQbStats
-    return qbs.map((qb) => ({
-      ...qb,
-      qb_stats: {
-        id: qb.match_player.id!,
-        passes: qbStats[qb.match_player.id!]?.passes || 0,
-        passes_completed: qbStats[qb.match_player.id!]?.passes_completed || 0,
-        pass_yards: qbStats[qb.match_player.id!]?.pass_yards || 0,
-        run_attempts: qbStats[qb.match_player.id!]?.run_attempts || 0,
-        run_yards: qbStats[qb.match_player.id!]?.run_yards || 0,
-      },
-    }));
-  },
-);
+      // Map to IPlayerInMatchFullDataWithQbStats
+      return qbs.map((qb) => ({
+        ...qb,
+        qb_stats: {
+          id: qb.match_player.id!,
+          passes: qbStats[qb.match_player.id!]?.passes || 0,
+          passes_completed: qbStats[qb.match_player.id!]?.passes_completed || 0,
+          pass_yards: qbStats[qb.match_player.id!]?.pass_yards || 0,
+          run_attempts: qbStats[qb.match_player.id!]?.run_attempts || 0,
+          run_yards: qbStats[qb.match_player.id!]?.run_yards || 0,
+        },
+      }));
+    },
+  );
+
+export const selectAllQuarterbacksWithStatsTeamA =
+  selectAllQuarterbacksWithStats(
+    (match: IMatchWithFullData) => match.match.team_a_id,
+  );
+
+export const selectAllQuarterbacksWithStatsTeamB =
+  selectAllQuarterbacksWithStats(
+    (match: IMatchWithFullData) => match.match.team_b_id,
+  );
+
+// // Selector to get all quarterbacks for team A and include their stats
+// export const selectAllQuarterbacksWithStatsTeamA = createSelector(
+//   selectFootballEventsWithPlayers,
+//   selectCurrentMatchWithFullData,
+//   selectQuarterbackStats,
+//   (events, match, qbStats): IPlayerInMatchFullDataWithQbStats[] => {
+//     const teamId = match?.match.team_a_id;
+//     if (!teamId) {
+//       return [];
+//     }
+//
+//     // Deduplicate and get all quarterbacks for team A
+//     const qbs = events
+//       .filter(
+//         (event) =>
+//           event.event_qb &&
+//           event.offense_team?.id === teamId &&
+//           event.event_qb.match_player.id,
+//       )
+//       .map((event) => event.event_qb!)
+//       .reduce((uniqueQbs, qb) => {
+//         if (!uniqueQbs.some((q) => q.match_player.id === qb.match_player.id)) {
+//           uniqueQbs.push(qb);
+//         }
+//         return uniqueQbs;
+//       }, [] as IPlayerInMatchFullData[]);
+//
+//     // Map to IPlayerInMatchFullDataWithQbStats
+//     return qbs.map((qb) => ({
+//       ...qb,
+//       qb_stats: {
+//         id: qb.match_player.id!,
+//         passes: qbStats[qb.match_player.id!]?.passes || 0,
+//         passes_completed: qbStats[qb.match_player.id!]?.passes_completed || 0,
+//         pass_yards: qbStats[qb.match_player.id!]?.pass_yards || 0,
+//         run_attempts: qbStats[qb.match_player.id!]?.run_attempts || 0,
+//         run_yards: qbStats[qb.match_player.id!]?.run_yards || 0,
+//       },
+//     }));
+//   },
+// );
 
 //Offence
-export const selectOffenseStatsTeamA = createSelector(
+export const selectOffenseStats = createSelector(
   selectFootballEventsWithPlayers,
   (events: IFootballEventWithPlayers[]): Record<number, IOffenceStats> => {
     const offenseStats: Record<number, IOffenceStats> = {};
@@ -456,53 +520,173 @@ export const selectOffenseStatsTeamA = createSelector(
   },
 );
 
-export const selectAllPlayersWithOffenseStatsTeamA = createSelector(
-  selectFootballEventsWithPlayers,
-  selectCurrentMatchWithFullData,
-  selectOffenseStatsTeamA,
-  (events, match, offenseStats): IPlayerInMatchFullDataWithOffenceStats[] => {
-    const teamId = match?.match.team_a_id;
-    if (!teamId) {
-      return [];
-    }
+const selectAllPlayersWithOffenseStats = (
+  teamIdSelector: (match: IMatchWithFullData) => number | undefined,
+) =>
+  createSelector(
+    selectFootballEventsWithPlayers,
+    selectCurrentMatchWithFullData,
+    selectOffenseStats,
+    (events, match, offenseStats): IPlayerInMatchFullDataWithOffenceStats[] => {
+      if (!match || !match.id) {
+        return [];
+      }
 
-    // Deduplicate and get all offensive players for team A
-    const players = events
-      .filter(
-        (event) =>
-          (event.run_player || event.pass_received_player) &&
-          event.offense_team?.id === teamId,
-      )
-      .map((event) => event.run_player || event.pass_received_player)
-      .reduce((uniquePlayers, player) => {
-        if (
-          !uniquePlayers.some(
-            (p) => p.match_player.id === player?.match_player.id,
-          )
-        ) {
-          if (player) {
-            uniquePlayers.push(player);
+      const teamId = teamIdSelector(match);
+      if (!teamId) {
+        return [];
+      }
+
+      // Deduplicate and get all offensive players for the team
+      const players = events
+        .filter(
+          (event) =>
+            (event.run_player || event.pass_received_player) &&
+            event.offense_team?.id === teamId,
+        )
+        .map((event) => event.run_player || event.pass_received_player)
+        .reduce((uniquePlayers, player) => {
+          if (
+            !uniquePlayers.some(
+              (p) => p.match_player.id === player?.match_player.id,
+            )
+          ) {
+            if (player) {
+              uniquePlayers.push(player);
+            }
           }
-        }
-        return uniquePlayers;
-      }, [] as IPlayerInMatchFullData[]);
+          return uniquePlayers;
+        }, [] as IPlayerInMatchFullData[]);
 
-    // Map to IPlayerInMatchFullDataWithOffenceStats
-    return players.map((player) => ({
-      ...player,
-      off_stats: {
-        id: player.match_player.id!,
-        pass_attempts:
-          offenseStats[player.match_player.id!]?.pass_attempts || 0,
-        pass_received:
-          offenseStats[player.match_player.id!]?.pass_received || 0,
-        pass_yards: offenseStats[player.match_player.id!]?.pass_yards || 0,
-        pass_td: offenseStats[player.match_player.id!]?.pass_td || 0,
-        run_attempts: offenseStats[player.match_player.id!]?.run_attempts || 0,
-        run_yards: offenseStats[player.match_player.id!]?.run_yards || 0,
-        run_td: offenseStats[player.match_player.id!]?.run_td || 0,
-        fumble: offenseStats[player.match_player.id!]?.fumble || 0,
-      },
-    }));
-  },
-);
+      // Map to IPlayerInMatchFullDataWithOffenceStats
+      return players.map((player) => ({
+        ...player,
+        off_stats: {
+          id: player.match_player.id!,
+          pass_attempts:
+            offenseStats[player.match_player.id!]?.pass_attempts || 0,
+          pass_received:
+            offenseStats[player.match_player.id!]?.pass_received || 0,
+          pass_yards: offenseStats[player.match_player.id!]?.pass_yards || 0,
+          pass_td: offenseStats[player.match_player.id!]?.pass_td || 0,
+          run_attempts:
+            offenseStats[player.match_player.id!]?.run_attempts || 0,
+          run_yards: offenseStats[player.match_player.id!]?.run_yards || 0,
+          run_td: offenseStats[player.match_player.id!]?.run_td || 0,
+          fumble: offenseStats[player.match_player.id!]?.fumble || 0,
+        },
+      }));
+    },
+  );
+
+export const selectAllPlayersWithOffenseStatsTeamA =
+  selectAllPlayersWithOffenseStats(
+    (match: IMatchWithFullData) => match.match.team_a_id,
+  );
+
+export const selectAllPlayersWithOffenseStatsTeamB =
+  selectAllPlayersWithOffenseStats(
+    (match: IMatchWithFullData) => match.match.team_b_id,
+  );
+
+// export const selectAllPlayersWithOffenseStatsTeamA = createSelector(
+//   selectFootballEventsWithPlayers,
+//   selectCurrentMatchWithFullData,
+//   selectOffenseStats,
+//   (events, match, offenseStats): IPlayerInMatchFullDataWithOffenceStats[] => {
+//     const teamId = match?.match.team_a_id;
+//     if (!teamId) {
+//       return [];
+//     }
+//
+//     // Deduplicate and get all offensive players for team A
+//     const players = events
+//       .filter(
+//         (event) =>
+//           (event.run_player || event.pass_received_player) &&
+//           event.offense_team?.id === teamId,
+//       )
+//       .map((event) => event.run_player || event.pass_received_player)
+//       .reduce((uniquePlayers, player) => {
+//         if (
+//           !uniquePlayers.some(
+//             (p) => p.match_player.id === player?.match_player.id,
+//           )
+//         ) {
+//           if (player) {
+//             uniquePlayers.push(player);
+//           }
+//         }
+//         return uniquePlayers;
+//       }, [] as IPlayerInMatchFullData[]);
+//
+//     // Map to IPlayerInMatchFullDataWithOffenceStats
+//     return players.map((player) => ({
+//       ...player,
+//       off_stats: {
+//         id: player.match_player.id!,
+//         pass_attempts:
+//           offenseStats[player.match_player.id!]?.pass_attempts || 0,
+//         pass_received:
+//           offenseStats[player.match_player.id!]?.pass_received || 0,
+//         pass_yards: offenseStats[player.match_player.id!]?.pass_yards || 0,
+//         pass_td: offenseStats[player.match_player.id!]?.pass_td || 0,
+//         run_attempts: offenseStats[player.match_player.id!]?.run_attempts || 0,
+//         run_yards: offenseStats[player.match_player.id!]?.run_yards || 0,
+//         run_td: offenseStats[player.match_player.id!]?.run_td || 0,
+//         fumble: offenseStats[player.match_player.id!]?.fumble || 0,
+//       },
+//     }));
+//   },
+// );
+//
+// export const selectAllPlayersWithOffenseStatsTeamB = createSelector(
+//   selectFootballEventsWithPlayers,
+//   selectCurrentMatchWithFullData,
+//   selectOffenseStats,
+//   (events, match, offenseStats): IPlayerInMatchFullDataWithOffenceStats[] => {
+//     const teamId = match?.match.team_b_id;
+//     if (!teamId) {
+//       return [];
+//     }
+//
+//     // Deduplicate and get all offensive players for team A
+//     const players = events
+//       .filter(
+//         (event) =>
+//           (event.run_player || event.pass_received_player) &&
+//           event.offense_team?.id === teamId,
+//       )
+//       .map((event) => event.run_player || event.pass_received_player)
+//       .reduce((uniquePlayers, player) => {
+//         if (
+//           !uniquePlayers.some(
+//             (p) => p.match_player.id === player?.match_player.id,
+//           )
+//         ) {
+//           if (player) {
+//             uniquePlayers.push(player);
+//           }
+//         }
+//         return uniquePlayers;
+//       }, [] as IPlayerInMatchFullData[]);
+//
+//     // Map to IPlayerInMatchFullDataWithOffenceStats
+//     return players.map((player) => ({
+//       ...player,
+//       off_stats: {
+//         id: player.match_player.id!,
+//         pass_attempts:
+//           offenseStats[player.match_player.id!]?.pass_attempts || 0,
+//         pass_received:
+//           offenseStats[player.match_player.id!]?.pass_received || 0,
+//         pass_yards: offenseStats[player.match_player.id!]?.pass_yards || 0,
+//         pass_td: offenseStats[player.match_player.id!]?.pass_td || 0,
+//         run_attempts: offenseStats[player.match_player.id!]?.run_attempts || 0,
+//         run_yards: offenseStats[player.match_player.id!]?.run_yards || 0,
+//         run_td: offenseStats[player.match_player.id!]?.run_td || 0,
+//         fumble: offenseStats[player.match_player.id!]?.fumble || 0,
+//       },
+//     }));
+//   },
+// );

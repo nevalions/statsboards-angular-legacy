@@ -1,0 +1,25 @@
+@if (offence) {
+  @for (player of offence; track player.match_player.id) {
+    <p>
+      {{ player.position?.title | uppercase }}:
+      #{{ player.match_player.match_number }}
+      {{ player.person?.first_name | titlecase }}
+      {{ player.person?.second_name | titlecase }}
+      <br>
+      (PASS ATT: {{ player.off_stats?.pass_attempts }}/{{ player.off_stats?.pass_received }},
+      PASS YDS: {{ player.off_stats?.pass_yards }},
+      PASS TD: {{ player.off_stats?.pass_td }},
+      <br>
+      RUN ATT: {{ player.off_stats?.run_attempts }},
+      RUN YDS: {{ player.off_stats?.run_yards }},
+      AVG RUN YDS:
+      @if (player.off_stats?.run_attempts && player.off_stats?.run_yards) {
+        {{ player.off_stats!.run_yards / player.off_stats!.run_attempts | number:'1.0-1' }},
+      } @else {
+        0,
+      }
+      RUN TD: {{ player.off_stats?.run_td }},
+      TD: {{ (player.off_stats?.pass_td ?? 0) + (player.off_stats?.run_td ?? 0) }})
+    </p>
+  }
+}

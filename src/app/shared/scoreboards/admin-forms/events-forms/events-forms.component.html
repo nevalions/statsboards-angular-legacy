@@ -10,66 +10,103 @@
 >
   <div style="display: grid; grid-template-columns: 50% 50%">
     <div>
-      <p class="tui-text_h6">{{ data?.teams_data?.team_a?.title | uppercase }} STATS</p>
-      <p>Offence Yards: {{ offenceDistanceForTeamA$ | async }}</p>
-      <p>Run Yards: {{ runDistanceForTeamA$ | async }}</p>
-      <p>Pass Yards: {{ passDistanceForTeamA$ | async }}</p>
-      <p>Flag Yards: {{ flagYardsTeamA$ | async }}</p>
-      @if (allQuarterbacksTeamA$ | async; as qbs) {
-        @for (qb of qbs; track qb.match_player.id) {
-          <p>
-            QB:
-            #{{ qb.match_player.match_number }}
-            {{ qb.person?.first_name | titlecase }}
-            {{ qb.person?.second_name | titlecase }}
-            (PASS ATT: {{ qb.qb_stats?.passes }}/{{ qb.qb_stats?.passes_completed }},
-            PASS YDS: {{ qb.qb_stats?.pass_yards }},
-            PASS%: @if (qb.qb_stats?.passes_completed && qb.qb_stats?.passes) {
-            {{ qb.qb_stats!.passes_completed / qb.qb_stats!.passes * 100 | number:'1.0-1' }},
-          } @else {
-            0,
-          }
-            RUN ATT: {{ qb.qb_stats?.run_attempts }},
-            RUN YDS: {{ qb.qb_stats?.run_yards }},
-            AVG RUN YDS:
-            @if (qb.qb_stats?.run_attempts && qb.qb_stats?.run_yards) {
-              {{ qb.qb_stats!.run_yards / qb.qb_stats!.run_attempts | number:'1.0-1' }},
-            } @else {
-              0,
-            })
-          </p>
-        }
-      }
-      @if (allOffenceTeamA$ | async; as offence) {
-        @for (player of offence; track player.match_player.id) {
-          <p>
-            {{ player.position?.title | uppercase }}:
-            #{{ player.match_player.match_number }}
-            {{ player.person?.first_name | titlecase }}
-            {{ player.person?.second_name | titlecase }}
-            (PASS ATT: {{ player.off_stats?.pass_attempts }}/{{ player.off_stats?.pass_received }},
-            PASS YDS: {{ player.off_stats?.pass_yards }},
-            PASS TD: {{ player.off_stats?.pass_td }},
-            RUN ATT: {{ player.off_stats?.run_attempts }},
-            RUN YDS: {{ player.off_stats?.run_yards }},
-            AVG RUN YDS:
-            @if (player.off_stats?.run_attempts && player.off_stats?.run_yards) {
-              {{ player.off_stats!.run_yards / player.off_stats!.run_attempts | number:'1.0-1' }},
-            } @else {
-              0,
-            }
-            RUN TD: {{ player.off_stats?.run_td }},
-            TD: {{ (player.off_stats?.pass_td ?? 0) + (player.off_stats?.run_td ?? 0) }})
-          </p>
-        }
-      }
+      <app-simple-football-match-team-stats
+        [teamTitle]="data?.teams_data?.team_a?.title"
+        [runDistance]="runDistanceForTeamA$ | async"
+        [passDistance]="passDistanceForTeamA$ | async"
+        [offenceDistance]="offenceDistanceForTeamA$ | async"
+        [flagYards]="flagYardsTeamA$ | async"
+      ></app-simple-football-match-team-stats>
+
+      <!--      <p class="tui-text_h6">{{ data?.teams_data?.team_a?.title | uppercase }} STATS</p>-->
+      <!--      <p>Offence Yards: {{ offenceDistanceForTeamA$ | async }}</p>-->
+      <!--      <p>Run Yards: {{ runDistanceForTeamA$ | async }}</p>-->
+      <!--      <p>Pass Yards: {{ passDistanceForTeamA$ | async }}</p>-->
+      <!--      <p>Flag Yards: {{ flagYardsTeamA$ | async }}</p>-->
+
+
+      <app-simple-football-qb-stats
+        [qbs]="allQuarterbacksTeamA$ | async"
+      ></app-simple-football-qb-stats>
+
+      <!--      @if (allQuarterbacksTeamA$ | async; as qbs) {-->
+      <!--        @for (qb of qbs; track qb.match_player.id) {-->
+      <!--          <p>-->
+      <!--            QB:-->
+      <!--            #{{ qb.match_player.match_number }}-->
+      <!--            {{ qb.person?.first_name | titlecase }}-->
+      <!--            {{ qb.person?.second_name | titlecase }}-->
+      <!--            <br>-->
+      <!--            (PASS ATT: {{ qb.qb_stats?.passes }}/{{ qb.qb_stats?.passes_completed }},-->
+      <!--            PASS YDS: {{ qb.qb_stats?.pass_yards }},-->
+      <!--            PASS%: @if (qb.qb_stats?.passes_completed && qb.qb_stats?.passes) {-->
+      <!--            {{ qb.qb_stats!.passes_completed / qb.qb_stats!.passes * 100 | number:'1.0-1' }},-->
+      <!--          } @else {-->
+      <!--            0,-->
+      <!--          }-->
+      <!--            <br>-->
+      <!--            RUN ATT: {{ qb.qb_stats?.run_attempts }},-->
+      <!--            RUN YDS: {{ qb.qb_stats?.run_yards }},-->
+      <!--            AVG RUN YDS:-->
+      <!--            @if (qb.qb_stats?.run_attempts && qb.qb_stats?.run_yards) {-->
+      <!--              {{ qb.qb_stats!.run_yards / qb.qb_stats!.run_attempts | number:'1.0-1' }},-->
+      <!--            } @else {-->
+      <!--              0,-->
+      <!--            }-->
+      <!--          </p>-->
+      <!--        }-->
+      <!--      }-->
+      <app-simple-football-offence-stats
+        [offence]="allOffenceTeamA$ | async"
+      ></app-simple-football-offence-stats>
+
+      <!--      @if (allOffenceTeamA$ | async; as offence) {-->
+      <!--        @for (player of offence; track player.match_player.id) {-->
+      <!--          <p>-->
+      <!--            {{ player.position?.title | uppercase }}:-->
+      <!--            #{{ player.match_player.match_number }}-->
+      <!--            {{ player.person?.first_name | titlecase }}-->
+      <!--            {{ player.person?.second_name | titlecase }}-->
+      <!--            <br>-->
+      <!--            (PASS ATT: {{ player.off_stats?.pass_attempts }}/{{ player.off_stats?.pass_received }},-->
+      <!--            PASS YDS: {{ player.off_stats?.pass_yards }},-->
+      <!--            PASS TD: {{ player.off_stats?.pass_td }},-->
+      <!--            <br>-->
+      <!--            RUN ATT: {{ player.off_stats?.run_attempts }},-->
+      <!--            RUN YDS: {{ player.off_stats?.run_yards }},-->
+      <!--            AVG RUN YDS:-->
+      <!--            @if (player.off_stats?.run_attempts && player.off_stats?.run_yards) {-->
+      <!--              {{ player.off_stats!.run_yards / player.off_stats!.run_attempts | number:'1.0-1' }},-->
+      <!--            } @else {-->
+      <!--              0,-->
+      <!--            }-->
+      <!--            RUN TD: {{ player.off_stats?.run_td }},-->
+      <!--            TD: {{ (player.off_stats?.pass_td ?? 0) + (player.off_stats?.run_td ?? 0) }})-->
+      <!--          </p>-->
+      <!--        }-->
+      <!--      }-->
     </div>
     <div>
-      <p class="tui-text_h6">{{ data?.teams_data?.team_b?.title | uppercase }} STATS</p>
-      <p>Offence Yards: {{ offenceDistanceForTeamB$ | async }}</p>
-      <p>Run Yards: {{ runDistanceForTeamB$ | async }}</p>
-      <p>Pass Yards: {{ passDistanceForTeamB$ | async }}</p>
-      <p>Flag Yards: {{ flagYardsTeamB$ | async }}</p>
+      <app-simple-football-match-team-stats
+        [teamTitle]="data?.teams_data?.team_b?.title"
+        [runDistance]="runDistanceForTeamB$ | async"
+        [passDistance]="passDistanceForTeamB$ | async"
+        [offenceDistance]="offenceDistanceForTeamB$ | async"
+        [flagYards]="flagYardsTeamB$ | async"
+      ></app-simple-football-match-team-stats>
+
+      <app-simple-football-qb-stats
+        [qbs]="allQuarterbacksTeamB$ | async"
+      ></app-simple-football-qb-stats>
+
+      <app-simple-football-offence-stats
+        [offence]="allOffenceTeamB$ | async"
+      ></app-simple-football-offence-stats>
+      <!--      <p class="tui-text_h6">{{ data?.teams_data?.team_b?.title | uppercase }} STATS</p>-->
+      <!--      <p>Offence Yards: {{ offenceDistanceForTeamB$ | async }}</p>-->
+      <!--      <p>Run Yards: {{ runDistanceForTeamB$ | async }}</p>-->
+      <!--      <p>Pass Yards: {{ passDistanceForTeamB$ | async }}</p>-->
+      <!--      <p>Flag Yards: {{ flagYardsTeamB$ | async }}</p>-->
     </div>
 
   </div>
