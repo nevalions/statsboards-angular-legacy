@@ -1,35 +1,28 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { stringifyEnumObject, toTitleCase } from '../../../../base/helpers';
 import {
   TuiComboBoxModule,
   TuiDataListWrapperModule,
   TuiFilterByInputPipeModule,
   tuiItemsHandlersProvider,
-  TuiSelectModule,
   TuiStringifyContentPipeModule,
 } from '@taiga-ui/kit';
-import { stringifyEnumObject, toTitleCase } from '../../../../base/helpers';
+import { UpperCasePipe } from '@angular/common';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { IEnumObject } from '../../../../type/base.type';
-import { TitleCasePipe, UpperCasePipe } from '@angular/common';
-import {
-  TuiDataListModule,
-  TuiTextfieldControllerModule,
-} from '@taiga-ui/core';
+import { TuiTextfieldControllerModule } from '@taiga-ui/core';
 
 @Component({
-  selector: 'app-select-enum',
+  selector: 'app-search-enum',
   standalone: true,
   imports: [
     TuiComboBoxModule,
-    ReactiveFormsModule,
     TuiDataListWrapperModule,
-    TuiStringifyContentPipeModule,
     TuiFilterByInputPipeModule,
+    TuiStringifyContentPipeModule,
     UpperCasePipe,
+    ReactiveFormsModule,
     TuiTextfieldControllerModule,
-    TuiDataListModule,
-    TuiSelectModule,
-    TitleCasePipe,
   ],
   providers: [
     tuiItemsHandlersProvider({
@@ -41,10 +34,10 @@ import {
       },
     }),
   ],
-  templateUrl: './select-enum.component.html',
-  styleUrl: './select-enum.component.less',
+  templateUrl: './search-enum.component.html',
+  styleUrl: './search-enum.component.less',
 })
-export class SelectEnumComponent {
+export class SearchEnumComponent {
   @Input() control!: FormControl;
   @Input() action: string = 'select';
   @Input() placeholder: string = 'item';
@@ -56,25 +49,24 @@ export class SelectEnumComponent {
     this.itemSelected.emit(item);
   }
 
-  //
-  // readonly matcherString = (
-  //   item: IEnumObject | string,
-  //   search: string,
-  // ): boolean => {
-  //   if (!item) {
-  //     return false;
-  //   }
-  //
-  //   if (typeof item === 'object' && 'value' in item) {
-  //     return item.value.toLowerCase().startsWith(search.toLowerCase());
-  //   }
-  //
-  //   if (typeof item === 'string') {
-  //     return item.toLowerCase().startsWith(search.toLowerCase());
-  //   }
-  //
-  //   return false;
-  // };
-  //
-  // protected readonly stringifyEnumObject = stringifyEnumObject;
+  readonly matcherString = (
+    item: IEnumObject | string,
+    search: string,
+  ): boolean => {
+    if (!item) {
+      return false;
+    }
+
+    if (typeof item === 'object' && 'value' in item) {
+      return item.value.toLowerCase().startsWith(search.toLowerCase());
+    }
+
+    if (typeof item === 'string') {
+      return item.toLowerCase().startsWith(search.toLowerCase());
+    }
+
+    return false;
+  };
+
+  protected readonly stringifyEnumObject = stringifyEnumObject;
 }

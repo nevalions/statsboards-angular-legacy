@@ -170,6 +170,8 @@ import { InputNumberWithButtonsComponent } from '../../../../shared/scoreboards/
 import { ButtonIconComponent } from '../../../../shared/ui/buttons/button-icon/button-icon.component';
 import { hexToRgba } from '../../../../base/helpers';
 import { SimpleInputWithButtonsComponent } from '../../../../shared/scoreboards/admin-forms/simple-input-with-buttons/simple-input-with-buttons.component';
+import { SearchEnumComponent } from '../../../../shared/ui/search/search-enum/search-enum.component';
+import { DeviceDetectorService } from 'ngx-device-detector';
 
 @Component({
   selector: 'app-add-edit-football-event-table',
@@ -196,6 +198,7 @@ import { SimpleInputWithButtonsComponent } from '../../../../shared/scoreboards/
     SimpleInputWithButtonsComponent,
     TuiDataListWrapperModule,
     TuiSelectModule,
+    SearchEnumComponent,
   ],
   templateUrl: './add-edit-football-event-table.component.html',
   styleUrl: './add-edit-football-event-table.component.less',
@@ -209,6 +212,8 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
 
   @Input() min: number = 1;
   @Input() step: number = 1;
+
+  isMobile: boolean = false;
 
   eventForm!: FormGroup;
   arrayName = 'events';
@@ -359,7 +364,10 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
     private footballEvent: FootballEvent,
     private fb: FormBuilder,
     private dialogService: DialogService,
+    private deviceService: DeviceDetectorService,
   ) {
+    this.isMobile =
+      this.deviceService.isMobile() || this.deviceService.isTablet();
     this.eventForm = this.fb.group({
       events: this.fb.array([]),
     });
