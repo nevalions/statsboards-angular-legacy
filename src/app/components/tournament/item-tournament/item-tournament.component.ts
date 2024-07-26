@@ -51,6 +51,8 @@ import { TournamentAddEditFormComponent } from '../tournament-add-edit-form/tour
 import { calculateAgeStats } from '../../../base/helpers';
 import { Match } from '../../match/match';
 import { ParseButtonComponent } from '../../../shared/ui/buttons/parse-button/parse-button.component';
+import { SimpleInputWithButtonsComponent } from '../../../shared/scoreboards/admin-forms/simple-input-with-buttons/simple-input-with-buttons.component';
+import { getFormControl } from '../../../base/formHelpers';
 
 @Component({
   selector: 'app-item-tournament',
@@ -79,15 +81,16 @@ import { ParseButtonComponent } from '../../../shared/ui/buttons/parse-button/pa
     DecimalPipe,
     TitleCasePipe,
     ParseButtonComponent,
+    SimpleInputWithButtonsComponent,
   ],
   templateUrl: './item-tournament.component.html',
   styleUrl: './item-tournament.component.less',
-  providers: [
-    tuiInputNumberOptionsProvider({
-      decimal: 'never',
-      step: 1,
-    }),
-  ],
+  // providers: [
+  //   tuiInputNumberOptionsProvider({
+  //     decimal: 'never',
+  //     step: 1,
+  //   }),
+  // ],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.Default,
 })
@@ -173,8 +176,15 @@ export class ItemTournamentComponent {
     this.pagination.resetCurrentPage();
   }
 
-  onSearchByWeek(searchTerm: string | null) {
-    this.search.searchMatchByWeek(searchTerm);
+  onSearchByWeek(event: { matchWeekSearch: number } | null) {
+    if (event) {
+      const searchTerm = event.matchWeekSearch;
+      // console.log(searchTerm);
+      // console.log(typeof searchTerm);
+      this.search.searchMatchByWeek(searchTerm.toString());
+    } else {
+      console.log('No search term provided.');
+    }
     this.pagination.resetCurrentPage();
   }
 
@@ -209,4 +219,5 @@ export class ItemTournamentComponent {
   protected readonly url = urlWithProtocol;
   protected readonly TuiAppearance = TuiAppearance;
   protected readonly calculateAgeStats = calculateAgeStats;
+  protected readonly getFormControl = getFormControl;
 }
