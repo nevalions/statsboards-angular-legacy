@@ -4,6 +4,7 @@ import {
   IFootballEventWithPlayers,
   IFootballPlayResult,
   IFootballPlayType,
+  ITeamFootballMatchStats,
 } from '../../../../type/football-event.type';
 import { createSelector } from '@ngrx/store';
 import { selectCurrentMatchWithFullData } from '../../../match-with-full-data/store/reducers';
@@ -131,6 +132,103 @@ export const selectOverallFlagYardsForTeamB = createSelector(
   },
 );
 
+export function countDownAttempts(
+  eventsWithPlayers: IFootballEventWithPlayers[],
+  teamId: number | undefined,
+): { thirdDownAttempts: number; fourthDownAttempts: number } {
+  let thirdDownAttempts = 0;
+  let fourthDownAttempts = 0;
+
+  if (!teamId) return { thirdDownAttempts, fourthDownAttempts };
+
+  eventsWithPlayers.forEach((event) => {
+    if (event.offense_team?.id === teamId && event.event_down) {
+      if (event.event_down === 3) {
+        thirdDownAttempts++;
+      } else if (event.event_down === 4) {
+        fourthDownAttempts++;
+      }
+    }
+  });
+
+  return { thirdDownAttempts, fourthDownAttempts };
+}
+
+// export function countDownConversions(
+//   eventsWithPlayers: IFootballEventWithPlayers[],
+//   teamId: number | undefined,
+// ): { thirdDownConversions: number; fourthDownConversions: number } {
+//   let thirdDownConversions = 0;
+//   let fourthDownConversions = 0;
+//
+//   if (!teamId) return { thirdDownConversions, fourthDownConversions };
+//
+//   eventsWithPlayers.forEach((event, index) => {
+//     const nextEvent = eventsWithPlayers[index + 1];
+//
+//     if (
+//       event.offense_team?.id === teamId &&
+//       nextEvent &&
+//       nextEvent.offense_team?.id === teamId &&
+//       event.event_down &&
+//       nextEvent.event_down === 1
+//     ) {
+//       if (event.event_down === 3) {
+//         thirdDownConversions++;
+//       } else if (event.event_down === 4) {
+//         fourthDownConversions++;
+//       }
+//     }
+//   });
+//
+//   return { thirdDownConversions, fourthDownConversions };
+// }
+
+function calculateFootballDownStats(
+  eventsWithPlayers: IFootballEventWithPlayers[],
+  teamId: number | undefined,
+): Partial<ITeamFootballMatchStats> {
+  if (!teamId) return {};
+
+  let thirdDownAttempts = 0;
+  let thirdDownConversions = 0;
+  let fourthDownAttempts = 0;
+  let fourthDownConversions = 0;
+
+  eventsWithPlayers.forEach((event, index) => {
+    if (event.offense_team?.id === teamId && event.event_down) {
+      const nextEvent = eventsWithPlayers[index + 1];
+
+      if (event.event_down === 3) {
+        thirdDownAttempts++;
+        if (
+          nextEvent &&
+          nextEvent.event_down === 1 &&
+          nextEvent.offense_team?.id === teamId
+        ) {
+          thirdDownConversions++;
+        }
+      } else if (event.event_down === 4) {
+        fourthDownAttempts++;
+        if (
+          nextEvent &&
+          nextEvent.event_down === 1 &&
+          nextEvent.offense_team?.id === teamId
+        ) {
+          fourthDownConversions++;
+        }
+      }
+    }
+  });
+
+  return {
+    third_down_attempts: thirdDownAttempts,
+    third_down_conversions: thirdDownConversions,
+    fourth_down_attempts: fourthDownAttempts,
+    fourth_down_conversions: fourthDownConversions,
+  };
+}
+
 // Selector for Team A with Stats
 export const selectFootballTeamAWithStats = createSelector(
   selectCurrentMatchWithFullData,
@@ -138,17 +236,24 @@ export const selectFootballTeamAWithStats = createSelector(
   selectOverallPassDistanceForTeamA,
   selectOverallRunDistanceForTeamA,
   selectOverallFlagYardsForTeamA,
+  selectFootballEventsWithPlayers,
   (
     match,
     offenceYards,
     passYards,
     runYards,
     flagYards,
+    eventsWithPlayers,
   ): IFootballTeamWithStats | null => {
     const teamA = match?.teams_data?.team_a;
     if (!teamA) {
       return null;
     }
+
+    const downStats = calculateFootballDownStats(eventsWithPlayers, teamA.id!);
+
+    // const { thirdDownConversions, fourthDownConversions } =
+    //   countDownConversions(eventsWithPlayers, teamA.id!);
 
     return {
       ...teamA,
@@ -158,6 +263,7 @@ export const selectFootballTeamAWithStats = createSelector(
         pass_yards: passYards,
         run_yards: runYards,
         flag_yards: flagYards,
+        ...downStats,
       },
     };
   },
@@ -170,17 +276,24 @@ export const selectFootballTeamBWithStats = createSelector(
   selectOverallPassDistanceForTeamB,
   selectOverallRunDistanceForTeamB,
   selectOverallFlagYardsForTeamB,
+  selectFootballEventsWithPlayers,
   (
     match,
     offenceYards,
     passYards,
     runYards,
     flagYards,
+    eventsWithPlayers,
   ): IFootballTeamWithStats | null => {
     const teamB = match?.teams_data?.team_b;
     if (!teamB) {
       return null;
     }
+
+    const downStats = calculateFootballDownStats(eventsWithPlayers, teamB.id!);
+
+    // const { thirdDownConversions, fourthDownConversions } =
+    //   countDownConversions(eventsWithPlayers, teamB.id!);
 
     return {
       ...teamB,
@@ -190,6 +303,7 @@ export const selectFootballTeamBWithStats = createSelector(
         pass_yards: passYards,
         run_yards: runYards,
         flag_yards: flagYards,
+        ...downStats,
       },
     };
   },

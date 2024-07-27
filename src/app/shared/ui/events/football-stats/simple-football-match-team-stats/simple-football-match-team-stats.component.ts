@@ -12,12 +12,5 @@ import { IFootballTeamWithStats } from '../../../../../type/team.type';
 export class SimpleFootballMatchTeamStatsComponent {
   @Input() teamWithStats: IFootballTeamWithStats | null | undefined = null;
 
-  @Input() teamTitle: string | undefined | null = 'team';
-
-  @Input() runDistance: number | undefined | null = 0;
-  @Input() passDistance: number | undefined | null = 0;
-  @Input() offenceDistance: number | undefined | null = 0;
-  @Input() flagYards: number | undefined | null = 0;
-
   constructor() {}
 }

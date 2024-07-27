@@ -155,6 +155,10 @@ export interface ITeamFootballMatchStats {
   pass_yards: number;
   run_yards: number;
   flag_yards: number;
+  third_down_attempts?: number | undefined;
+  third_down_conversions?: number | undefined;
+  fourth_down_attempts?: number | undefined;
+  fourth_down_conversions?: number | undefined;
 }
 
 export interface IQBStats {
