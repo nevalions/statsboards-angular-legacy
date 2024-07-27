@@ -159,6 +159,7 @@ export interface ITeamFootballMatchStats {
   third_down_conversions?: number | undefined;
   fourth_down_attempts?: number | undefined;
   fourth_down_conversions?: number | undefined;
+  first_down_gained?: number | undefined;
 }
 
 export interface IQBStats {

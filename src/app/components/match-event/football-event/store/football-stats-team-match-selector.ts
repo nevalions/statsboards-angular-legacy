@@ -132,28 +132,6 @@ export const selectOverallFlagYardsForTeamB = createSelector(
   },
 );
 
-export function countDownAttempts(
-  eventsWithPlayers: IFootballEventWithPlayers[],
-  teamId: number | undefined,
-): { thirdDownAttempts: number; fourthDownAttempts: number } {
-  let thirdDownAttempts = 0;
-  let fourthDownAttempts = 0;
-
-  if (!teamId) return { thirdDownAttempts, fourthDownAttempts };
-
-  eventsWithPlayers.forEach((event) => {
-    if (event.offense_team?.id === teamId && event.event_down) {
-      if (event.event_down === 3) {
-        thirdDownAttempts++;
-      } else if (event.event_down === 4) {
-        fourthDownAttempts++;
-      }
-    }
-  });
-
-  return { thirdDownAttempts, fourthDownAttempts };
-}
-
 // Selector for Team A with Stats
 export const selectFootballTeamAWithStats = createSelector(
   selectCurrentMatchWithFullData,

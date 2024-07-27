@@ -141,28 +141,47 @@ export function calculateFootballDownStats(
   let thirdDownConversions = 0;
   let fourthDownAttempts = 0;
   let fourthDownConversions = 0;
+  let firstDownGained = 0;
+  let isNewDrive = true;
 
   eventsWithPlayers.forEach((event, index) => {
-    if (event.offense_team?.id === teamId && event.event_down) {
+    if (event.offense_team?.id === teamId) {
       const nextEvent = eventsWithPlayers[index + 1];
 
-      if (event.event_down === 3) {
-        thirdDownAttempts++;
-        if (
-          nextEvent &&
-          nextEvent.event_down === 1 &&
-          nextEvent.offense_team?.id === teamId
-        ) {
-          thirdDownConversions++;
+      if (event.event_down) {
+        if (event.event_down === 3) {
+          thirdDownAttempts++;
+          if (
+            nextEvent &&
+            nextEvent.event_down === 1 &&
+            nextEvent.offense_team?.id === teamId
+          ) {
+            thirdDownConversions++;
+          }
+        } else if (event.event_down === 4) {
+          fourthDownAttempts++;
+          if (
+            nextEvent &&
+            nextEvent.event_down === 1 &&
+            nextEvent.offense_team?.id === teamId
+          ) {
+            fourthDownConversions++;
+          }
         }
-      } else if (event.event_down === 4) {
-        fourthDownAttempts++;
+
         if (
+          event.event_down === 1 &&
           nextEvent &&
-          nextEvent.event_down === 1 &&
           nextEvent.offense_team?.id === teamId
         ) {
-          fourthDownConversions++;
+          if (!isNewDrive) {
+            firstDownGained++;
+          }
+          isNewDrive = false;
+        }
+
+        if (nextEvent && nextEvent.offense_team?.id !== teamId) {
+          isNewDrive = true;
         }
       }
     }
@@ -173,5 +192,6 @@ export function calculateFootballDownStats(
     third_down_conversions: thirdDownConversions,
     fourth_down_attempts: fourthDownAttempts,
     fourth_down_conversions: fourthDownConversions,
+    first_down_gained: firstDownGained,
   };
 }
