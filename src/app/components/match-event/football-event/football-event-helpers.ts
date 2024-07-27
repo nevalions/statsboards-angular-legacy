@@ -165,6 +165,29 @@ export function createNewEvent(
   }
 
   if (lastEvent && lastEvent.play_result) {
+    if (
+      (lastEvent.play_result.value === IFootballPlayResult.PuntReturn ||
+        lastEvent.play_result.value === IFootballPlayResult.KickOffReturn) &&
+      !lastEvent.is_fumble
+    ) {
+      if (match) {
+        const {
+          newEventBallOn: newBallOn,
+          newEventDown: newDown,
+          newEventDistance: newDistance,
+          newEventTeam: newTeam,
+          newEventQb: newQb,
+        } = handleTeamChangeOnTouchBack(match, lastEvent);
+
+        newEventDown = newDown;
+        newEventDistance = newDistance;
+        newEventTeam = newTeam;
+        newEventQb = newQb;
+      }
+    }
+  }
+
+  if (lastEvent && lastEvent.play_result) {
     if (lastEvent.play_result.value === IFootballPlayResult.TouchBack) {
       if (match) {
         const {

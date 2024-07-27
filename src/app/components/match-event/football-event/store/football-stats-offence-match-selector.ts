@@ -10,8 +10,8 @@ import {
   IPlayerInMatchFullDataWithOffenceStats,
 } from '../../../../type/player.type';
 import {
-  calculateOffencePassDistanceAndFumbleAndTd,
-  calculateOffenceRunDistanceAndFumbleAndTd,
+  calculateFootballOffencePassDistanceAndFumbleAndTd,
+  calculateFootballOffenceRunDistanceAndFumbleAndTd,
 } from '../football-event-stats-calc-helpers';
 import { IMatchWithFullData } from '../../../../type/match.type';
 import { selectCurrentMatchWithFullData } from '../../../match-with-full-data/store/reducers';
@@ -40,14 +40,14 @@ export const selectOffenseStats = createSelector(
           };
         }
 
-        calculateOffencePassDistanceAndFumbleAndTd(
+        calculateFootballOffencePassDistanceAndFumbleAndTd(
           event,
           playerId,
           offenseStats,
         );
 
         // Calculate run distance
-        calculateOffenceRunDistanceAndFumbleAndTd(
+        calculateFootballOffenceRunDistanceAndFumbleAndTd(
           event,
           playerId,
           offenseStats,

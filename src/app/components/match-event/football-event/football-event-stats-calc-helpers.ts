@@ -65,7 +65,7 @@ export function calculateQbPassDistanceAndTd(
   }
 }
 
-export function calculateOffenceRunDistanceAndFumbleAndTd(
+export function calculateFootballOffenceRunDistanceAndFumbleAndTd(
   event: IFootballEventWithPlayers,
   playerId: number,
   stats: Record<number, IOffenceStats>,
@@ -93,7 +93,7 @@ export function calculateOffenceRunDistanceAndFumbleAndTd(
   }
 }
 
-export function calculateOffencePassDistanceAndFumbleAndTd(
+export function calculateFootballOffencePassDistanceAndFumbleAndTd(
   event: IFootballEventWithPlayers,
   playerId: number,
   stats: Record<number, IOffenceStats>,

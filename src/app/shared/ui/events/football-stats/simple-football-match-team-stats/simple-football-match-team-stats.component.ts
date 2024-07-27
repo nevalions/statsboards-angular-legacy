@@ -11,6 +11,4 @@ import { IFootballTeamWithStats } from '../../../../../type/team.type';
 })
 export class SimpleFootballMatchTeamStatsComponent {
   @Input() teamWithStats: IFootballTeamWithStats | null | undefined = null;
-
-  constructor() {}
 }

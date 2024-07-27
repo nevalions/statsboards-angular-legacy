@@ -65,15 +65,6 @@ export class EventsFormsComponent implements OnChanges {
   @Input() homePlayersInMatch: IPlayerInMatchFullData[] | null = [];
   @Input() awayPlayersInMatch: IPlayerInMatchFullData[] | null = [];
 
-  runDistanceForTeamA$ = this.footballEvent.runDistanceForTeamA$;
-  runDistanceForTeamB$ = this.footballEvent.runDistanceForTeamB$;
-  passDistanceForTeamA$ = this.footballEvent.passDistanceForTeamA$;
-  passDistanceForTeamB$ = this.footballEvent.passDistanceForTeamB$;
-  offenceDistanceForTeamA$ = this.footballEvent.overallOffenceDistanceForTeamA$;
-  offenceDistanceForTeamB$ = this.footballEvent.overallOffenceDistanceForTeamB$;
-  flagYardsTeamA$ = this.footballEvent.flagYardsTeamA$;
-  flagYardsTeamB$ = this.footballEvent.flagYardsTeamB$;
-
   teamAWithStats = this.footballEvent.footballTeamAWithStats$;
   teamBWithStats = this.footballEvent.footballTeamBWithStats$;
 
