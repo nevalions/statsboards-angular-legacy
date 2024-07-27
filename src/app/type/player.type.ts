@@ -60,8 +60,10 @@ export interface IQBStats {
   passes: number;
   passes_completed: number;
   pass_yards: number;
+  pass_td: number;
   run_attempts: number;
   run_yards: number;
+  run_td: number;
   fumble: number;
   interception: number;
 }

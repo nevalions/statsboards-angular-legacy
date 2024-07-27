@@ -301,20 +301,29 @@ export const selectOverallOffenceDistanceForTeamB = createSelector(
 );
 
 // FLAGS
+export function calculateOverallFlagYards(
+  eventsWithPlayers: IFootballEventWithPlayers[],
+  teamId: number | undefined,
+): number {
+  if (!teamId) return 0;
+
+  return eventsWithPlayers.reduce((totalDistance, event) => {
+    if (
+      event.offense_team?.id === teamId &&
+      event.play_result?.value === IFootballPlayResult.Flag
+    ) {
+      return totalDistance + (event.distance_moved || 0);
+    }
+    return totalDistance;
+  }, 0);
+}
+
 export const selectOverallFlagYardsForTeamA = createSelector(
   selectFootballEventsWithPlayers,
   selectCurrentMatchWithFullData,
   (eventsWithPlayers: IFootballEventWithPlayers[], match): number => {
     const teamId = match?.match.team_a_id;
-    return eventsWithPlayers.reduce((totalDistance, event) => {
-      // console.log('teamId', teamId, totalDistance, event.play_result?.value);
-      if (event.offense_team?.id === teamId && event.play_result) {
-        if (event.play_result.value === IFootballPlayResult.Flag) {
-          return totalDistance + (event.distance_moved || 0);
-        }
-      }
-      return totalDistance;
-    }, 0);
+    return calculateOverallFlagYards(eventsWithPlayers, teamId);
   },
 );
 
@@ -323,16 +332,165 @@ export const selectOverallFlagYardsForTeamB = createSelector(
   selectCurrentMatchWithFullData,
   (eventsWithPlayers: IFootballEventWithPlayers[], match): number => {
     const teamId = match?.match.team_b_id;
-    return eventsWithPlayers.reduce((totalDistance, event) => {
-      if (event.offense_team?.id === teamId && event.play_result) {
-        if (event.play_result.value === IFootballPlayResult.Flag) {
-          return totalDistance + (event.distance_moved || 0);
-        }
-      }
-      return totalDistance;
-    }, 0);
+    return calculateOverallFlagYards(eventsWithPlayers, teamId);
   },
 );
+
+// export const selectOverallFlagYardsForTeamA = createSelector(
+//   selectFootballEventsWithPlayers,
+//   selectCurrentMatchWithFullData,
+//   (eventsWithPlayers: IFootballEventWithPlayers[], match): number => {
+//     const teamId = match?.match.team_a_id;
+//     return eventsWithPlayers.reduce((totalDistance, event) => {
+//       // console.log('teamId', teamId, totalDistance, event.play_result?.value);
+//       if (event.offense_team?.id === teamId && event.play_result) {
+//         if (event.play_result.value === IFootballPlayResult.Flag) {
+//           return totalDistance + (event.distance_moved || 0);
+//         }
+//       }
+//       return totalDistance;
+//     }, 0);
+//   },
+// );
+//
+// export const selectOverallFlagYardsForTeamB = createSelector(
+//   selectFootballEventsWithPlayers,
+//   selectCurrentMatchWithFullData,
+//   (eventsWithPlayers: IFootballEventWithPlayers[], match): number => {
+//     const teamId = match?.match.team_b_id;
+//     return eventsWithPlayers.reduce((totalDistance, event) => {
+//       if (event.offense_team?.id === teamId && event.play_result) {
+//         if (event.play_result.value === IFootballPlayResult.Flag) {
+//           return totalDistance + (event.distance_moved || 0);
+//         }
+//       }
+//       return totalDistance;
+//     }, 0);
+//   },
+// );
+
+export function calculateQbRunDistanceAndFumbleAndTd(
+  event: IFootballEventWithPlayers,
+  playerId: number,
+  stats: Record<number, IQBStats>,
+): void {
+  if (
+    event.play_type?.value === IFootballPlayType.Run &&
+    event.play_result?.value !== IFootballPlayResult.Flag
+  ) {
+    if (event.run_player?.match_player.id === playerId) {
+      stats[playerId].run_attempts++;
+      if (!event.is_fumble) {
+        if (event.distance_moved) {
+          stats[playerId].run_yards += event.distance_moved;
+        }
+        if (event.score_result?.value === IFootballScoreResult.Td) {
+          stats[playerId].run_td++;
+        }
+      } else {
+        stats[playerId].fumble++;
+        if (event.distance_on_offence) {
+          stats[playerId].run_yards += event.distance_on_offence;
+        }
+      }
+    }
+  }
+}
+
+export function calculateQbPassDistanceAndTd(
+  event: IFootballEventWithPlayers,
+  playerId: number,
+  stats: Record<number, IQBStats>,
+): void {
+  if (
+    event.play_type?.value === IFootballPlayType.Pass &&
+    event.play_result?.value !== IFootballPlayResult.Flag
+  ) {
+    stats[playerId].passes++;
+
+    if (event.play_result?.value === IFootballPlayResult.PassCompleted) {
+      stats[playerId].passes_completed++;
+      if (!event.is_fumble) {
+        if (event.distance_moved) {
+          stats[playerId].pass_yards += event.distance_moved;
+        }
+        if (event.score_result?.value === IFootballScoreResult.Td) {
+          stats[playerId].pass_td++;
+        }
+      } else {
+        if (event.distance_on_offence) {
+          stats[playerId].pass_yards += event.distance_on_offence;
+        }
+      }
+    }
+  }
+}
+
+export function calculateOffenceRunDistanceAndFumbleAndTd(
+  event: IFootballEventWithPlayers,
+  playerId: number,
+  stats: Record<number, IOffenceStats>,
+): void {
+  if (
+    event.play_type?.value === IFootballPlayType.Run &&
+    event.play_result?.value !== IFootballPlayResult.Flag
+  ) {
+    if (event.run_player?.match_player.id === playerId) {
+      stats[playerId].run_attempts++;
+      if (!event.is_fumble) {
+        if (event.distance_moved) {
+          stats[playerId].run_yards += event.distance_moved;
+        }
+        if (event.score_result?.value === IFootballScoreResult.Td) {
+          stats[playerId].run_td++;
+        }
+      } else {
+        stats[playerId].fumble++;
+        if (event.distance_on_offence) {
+          stats[playerId].run_yards += event.distance_on_offence;
+        }
+      }
+    }
+  }
+}
+
+export function calculateOffencePassDistanceAndFumbleAndTd(
+  event: IFootballEventWithPlayers,
+  playerId: number,
+  stats: Record<number, IOffenceStats>,
+): void {
+  if (
+    event.play_type?.value === IFootballPlayType.Pass &&
+    event.play_result?.value !== IFootballPlayResult.Flag
+  ) {
+    if (
+      event.pass_received_player?.match_player.id === playerId &&
+      event.play_result?.value === IFootballPlayResult.PassCompleted
+    ) {
+      stats[playerId].pass_attempts++;
+      stats[playerId].pass_received++;
+      if (!event.is_fumble) {
+        if (event.distance_moved) {
+          stats[playerId].pass_yards += event.distance_moved;
+        }
+        if (event.score_result?.value === IFootballScoreResult.Td) {
+          stats[playerId].pass_td++;
+        }
+      } else {
+        stats[playerId].fumble++;
+        if (event.distance_on_offence) {
+          stats[playerId].pass_yards += event.distance_on_offence;
+        }
+      }
+    } else if (
+      event.play_result?.value === IFootballPlayResult.PassIncomplete ||
+      event.play_result?.value === IFootballPlayResult.PassDropped ||
+      event.play_result?.value === IFootballPlayResult.PassDeflected
+    ) {
+      stats[playerId].pass_attempts++;
+    }
+  }
+}
 
 //QB
 export const selectQuarterbackStats = createSelector(
@@ -349,52 +507,74 @@ export const selectQuarterbackStats = createSelector(
             passes: 0,
             passes_completed: 0,
             pass_yards: 0,
+            pass_td: 0,
             run_attempts: 0,
             run_yards: 0,
+            run_td: 0,
             fumble: 0,
             interception: 0,
           };
         }
 
-        if (
-          event.play_type?.value === IFootballPlayType.Pass &&
-          event.play_result?.value !== IFootballPlayResult.Flag
-        ) {
-          qbStats[qbId].passes++;
+        // if (
+        //   event.play_type?.value === IFootballPlayType.Pass &&
+        //   event.play_result?.value !== IFootballPlayResult.Flag
+        // ) {
+        //   qbStats[qbId].passes++;
+        //
+        //   if (event.play_result?.value === IFootballPlayResult.PassCompleted) {
+        //     qbStats[qbId].passes_completed++;
+        //     if (!event.is_fumble) {
+        //       if (event.distance_moved) {
+        //         qbStats[qbId].pass_yards += event.distance_moved;
+        //       }
+        //       if (event.score_result?.value === IFootballScoreResult.Td) {
+        //         qbStats[qbId].pass_td++;
+        //       }
+        //     } else {
+        //       if (event.distance_on_offence) {
+        //         qbStats[qbId].pass_yards += event.distance_on_offence;
+        //       }
+        //     }
+        //   }
+        // }
 
-          if (event.play_result?.value === IFootballPlayResult.PassCompleted) {
-            qbStats[qbId].passes_completed++;
-            if (event.distance_moved) {
-              qbStats[qbId].pass_yards += event.distance_moved;
-            }
-          }
-        }
+        // Calculate qb run distance
+        calculateQbPassDistanceAndTd(event, qbId, qbStats);
+        // Calculate qb run distance
+        calculateQbRunDistanceAndFumbleAndTd(event, qbId, qbStats);
 
-        if (
-          event.play_type?.value === IFootballPlayType.Run &&
-          event.play_result?.value !== IFootballPlayResult.Flag
-        ) {
-          if (event.run_player?.match_player.id === qbId) {
-            // console.log('run player ok', event.run_player, qbStats[qbId]);
-            qbStats[qbId].run_attempts++;
-            if (event.distance_moved) {
-              qbStats[qbId].run_yards += event.distance_moved;
-            }
-          }
-        }
+        // if (
+        //   event.play_type?.value === IFootballPlayType.Run &&
+        //   event.play_result?.value !== IFootballPlayResult.Flag
+        // ) {
+        //   if (event.run_player?.match_player.id === qbId) {
+        //     // console.log('run player ok', event.run_player, qbStats[qbId]);
+        //     qbStats[qbId].run_attempts++;
+        //     if (!event.is_fumble) {
+        //       if (event.distance_moved) {
+        //         qbStats[qbId].run_yards += event.distance_moved;
+        //       }
+        //     } else {
+        //       if (event.distance_on_offence) {
+        //         qbStats[qbId].run_yards += event.distance_on_offence;
+        //       }
+        //     }
+        //   }
+        // }
 
         // Process interception
         if (event.play_result?.value === IFootballPlayResult.PassIntercepted) {
           qbStats[qbId].interception++;
         }
-        // Process fumbles
-        if (
-          event.is_fumble &&
-          event.event_qb?.match_player.id === qbId &&
-          event.run_player?.match_player.id === qbId
-        ) {
-          qbStats[qbId].fumble++;
-        }
+        // // Process fumbles
+        // if (
+        //   event.is_fumble &&
+        //   event.event_qb?.match_player.id === qbId &&
+        //   event.run_player?.match_player.id === qbId
+        // ) {
+        //   qbStats[qbId].fumble++;
+        // }
       }
     });
 
@@ -444,8 +624,10 @@ const selectAllQuarterbacksWithStats = (
           passes: qbStats[qb.match_player.id!]?.passes || 0,
           passes_completed: qbStats[qb.match_player.id!]?.passes_completed || 0,
           pass_yards: qbStats[qb.match_player.id!]?.pass_yards || 0,
+          pass_td: qbStats[qb.match_player.id!]?.pass_td || 0,
           run_attempts: qbStats[qb.match_player.id!]?.run_attempts || 0,
           run_yards: qbStats[qb.match_player.id!]?.run_yards || 0,
+          run_td: qbStats[qb.match_player.id!]?.run_td || 0,
           fumble: qbStats[qb.match_player.id!]?.fumble || 0,
           interception: qbStats[qb.match_player.id!]?.interception || 0,
         },
@@ -488,46 +670,59 @@ export const selectOffenseStats = createSelector(
           };
         }
 
-        // Process passing plays
-        if (
-          event.play_type?.value === IFootballPlayType.Pass &&
-          event.play_result?.value !== IFootballPlayResult.Flag
-        ) {
-          offenseStats[playerId].pass_attempts++;
+        // // Process passing plays
+        // if (
+        //   event.play_type?.value === IFootballPlayType.Pass &&
+        //   event.play_result?.value !== IFootballPlayResult.Flag
+        // ) {
+        //   offenseStats[playerId].pass_attempts++;
+        //
+        //   if (event.play_result?.value === IFootballPlayResult.PassCompleted) {
+        //     offenseStats[playerId].pass_received++;
+        //     if (event.distance_moved) {
+        //       offenseStats[playerId].pass_yards += event.distance_moved;
+        //     }
+        //   }
+        //   if (event.score_result?.value === IFootballScoreResult.Td) {
+        //     offenseStats[playerId].pass_td++;
+        //   }
+        // }
 
-          if (event.play_result?.value === IFootballPlayResult.PassCompleted) {
-            offenseStats[playerId].pass_received++;
-            if (event.distance_moved) {
-              offenseStats[playerId].pass_yards += event.distance_moved;
-            }
-          }
-          if (event.score_result?.value === IFootballScoreResult.Td) {
-            offenseStats[playerId].pass_td++;
-          }
-        }
+        calculateOffencePassDistanceAndFumbleAndTd(
+          event,
+          playerId,
+          offenseStats,
+        );
 
-        // Process running plays
-        if (
-          event.play_type?.value === IFootballPlayType.Run &&
-          event.play_result?.value !== IFootballPlayResult.Flag
-        ) {
-          if (event.play_result?.value === IFootballPlayResult.Run) {
-            if (event.run_player?.match_player.id === playerId) {
-              offenseStats[playerId].run_attempts++;
-              if (event.distance_moved) {
-                offenseStats[playerId].run_yards += event.distance_moved;
-              }
-              if (event.score_result?.value === IFootballScoreResult.Td) {
-                offenseStats[playerId].run_td++;
-              }
+        // Calculate run distance
+        calculateOffenceRunDistanceAndFumbleAndTd(
+          event,
+          playerId,
+          offenseStats,
+        );
 
-              // Process fumbles
-              if (event.is_fumble) {
-                offenseStats[playerId].fumble++;
-              }
-            }
-          }
-        }
+        // // Process running plays
+        // if (
+        //   event.play_type?.value === IFootballPlayType.Run &&
+        //   event.play_result?.value !== IFootballPlayResult.Flag
+        // ) {
+        //   if (event.play_result?.value === IFootballPlayResult.Run) {
+        //     if (event.run_player?.match_player.id === playerId) {
+        //       offenseStats[playerId].run_attempts++;
+        //       if (event.distance_moved) {
+        //         offenseStats[playerId].run_yards += event.distance_moved;
+        //       }
+        //       if (event.score_result?.value === IFootballScoreResult.Td) {
+        //         offenseStats[playerId].run_td++;
+        //       }
+        //
+        //       // Process fumbles
+        //       if (event.is_fumble) {
+        //         offenseStats[playerId].fumble++;
+        //       }
+        //     }
+        //   }
+        // }
       }
     });
 

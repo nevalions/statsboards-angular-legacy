@@ -13,6 +13,7 @@
     } @else {
       0,
     }
+      PASS TD THROWN: {{ qb.qb_stats?.pass_td }},
       <br>
       RUN ATT: {{ qb.qb_stats?.run_attempts }},
       RUN YDS: {{ qb.qb_stats?.run_yards }},
@@ -22,6 +23,7 @@
       } @else {
         0,
       }
+      RUN TD: {{ qb.qb_stats?.run_td }},
       INT: {{ qb.qb_stats?.interception }},
       FUMBLE: {{ qb.qb_stats?.fumble }})
     </p>
