@@ -831,5 +831,4 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
   protected readonly eventDistanceOnOffenceKey = eventDistanceOnOffenceKey;
   protected readonly getEventDown = getEventDown;
   protected readonly getEventDistance = getEventDistance;
-  protected readonly onRunPlayTypeChange = onRunPlayTypeChange;
 }

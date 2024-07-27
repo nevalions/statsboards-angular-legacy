@@ -7,7 +7,7 @@ import {
   TuiSelectModule,
   TuiStringifyContentPipeModule,
 } from '@taiga-ui/kit';
-import { stringifyEnumObject, toTitleCase } from '../../../../base/helpers';
+import { toTitleCase } from '../../../../base/helpers';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { IEnumObject } from '../../../../type/base.type';
 import { TitleCasePipe, UpperCasePipe } from '@angular/common';
@@ -55,26 +55,4 @@ export class SelectEnumComponent {
     this.control.setValue(item);
     this.itemSelected.emit(item);
   }
-
-  //
-  // readonly matcherString = (
-  //   item: IEnumObject | string,
-  //   search: string,
-  // ): boolean => {
-  //   if (!item) {
-  //     return false;
-  //   }
-  //
-  //   if (typeof item === 'object' && 'value' in item) {
-  //     return item.value.toLowerCase().startsWith(search.toLowerCase());
-  //   }
-  //
-  //   if (typeof item === 'string') {
-  //     return item.toLowerCase().startsWith(search.toLowerCase());
-  //   }
-  //
-  //   return false;
-  // };
-  //
-  // protected readonly stringifyEnumObject = stringifyEnumObject;
 }
