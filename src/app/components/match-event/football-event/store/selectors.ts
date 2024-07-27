@@ -12,11 +12,16 @@ import {
   IFootballEventWithPlayers,
   IFootballPlayResult,
   IFootballPlayType,
-  IFootballScoreResult,
 } from '../../../../type/football-event.type';
 import { selectCurrentMatchWithFullData } from '../../../match-with-full-data/store/reducers';
 import { computeDistance } from '../football-event-calc-helpers';
 import { IMatchWithFullData } from '../../../../type/match.type';
+import {
+  calculateOffencePassDistanceAndFumbleAndTd,
+  calculateOffenceRunDistanceAndFumbleAndTd,
+  calculateQbPassDistanceAndTd,
+  calculateQbRunDistanceAndFumbleAndTd,
+} from '../football-event-stats-calc-helpers';
 
 export function getMatchPlayerById(
   players: IPlayerInMatchFullData[],
@@ -195,95 +200,6 @@ export const selectOverallPassDistanceForTeamB = selectOverallDistanceForTeam(
   IFootballPlayResult.PassCompleted,
 );
 
-//
-// export const selectOverallRunDistanceForTeamA = createSelector(
-//   selectFootballEventsWithPlayers,
-//   selectCurrentMatchWithFullData,
-//   (eventsWithPlayers: IFootballEventWithPlayers[], match): number => {
-//     const teamId = match?.match.team_a_id;
-//     // console.log('teamId', teamId);
-//     return eventsWithPlayers.reduce((totalDistance, event) => {
-//       // console.log(
-//       //   'totalDistance',
-//       //   totalDistance,
-//       //   event.play_type,
-//       //   IFootballPlayType.Run,
-//       // );
-//       if (event.offense_team?.id === teamId && event.play_type) {
-//         if (
-//           event.play_type.value === IFootballPlayType.Run &&
-//           event.play_result?.value === IFootballPlayResult.Run
-//         ) {
-//           // console.log(event.play_type, IFootballPlayType.Run);
-//           return totalDistance + (event.distance_moved || 0);
-//         }
-//       }
-//       return totalDistance;
-//     }, 0);
-//   },
-// );
-//
-// export const selectOverallRunDistanceForTeamB = createSelector(
-//   selectFootballEventsWithPlayers,
-//   selectCurrentMatchWithFullData,
-//   (eventsWithPlayers: IFootballEventWithPlayers[], match): number => {
-//     const teamId = match?.match.team_b_id;
-//     return eventsWithPlayers.reduce((totalDistance, event) => {
-//       if (event.offense_team?.id === teamId && event.play_type) {
-//         if (
-//           event.play_type.value === IFootballPlayType.Run &&
-//           event.play_result?.value === IFootballPlayResult.Run
-//         ) {
-//           return totalDistance + (event.distance_moved || 0);
-//         }
-//       }
-//       return totalDistance;
-//     }, 0);
-//   },
-// );
-//
-// export const selectOverallPassDistanceForTeamA = createSelector(
-//   selectFootballEventsWithPlayers,
-//   selectCurrentMatchWithFullData,
-//   (eventsWithPlayers: IFootballEventWithPlayers[], match): number => {
-//     const teamId = match?.match.team_a_id;
-//     return eventsWithPlayers.reduce((totalDistance, event) => {
-//       if (event.offense_team?.id === teamId && event.play_type) {
-//         if (
-//           event.play_type.value === IFootballPlayType.Pass &&
-//           event.play_result?.value === IFootballPlayResult.PassCompleted
-//         ) {
-//           return totalDistance + (event.distance_moved || 0);
-//         }
-//       }
-//       return totalDistance;
-//     }, 0);
-//   },
-// );
-//
-// export const selectOverallPassDistanceForTeamB = createSelector(
-//   selectFootballEventsWithPlayers,
-//   selectCurrentMatchWithFullData,
-//   (eventsWithPlayers: IFootballEventWithPlayers[], match): number => {
-//     const teamId = match?.match.team_b_id;
-//     return eventsWithPlayers.reduce((totalDistance, event) => {
-//       if (
-//         event.offense_team?.id === teamId &&
-//         event.play_type &&
-//         event.play_result
-//       ) {
-//         if (
-//           event.play_type.value === IFootballPlayType.Pass &&
-//           event.play_result?.value === IFootballPlayResult.PassCompleted
-//         ) {
-//           return totalDistance + (event.distance_moved || 0);
-//         }
-//       }
-//       return totalDistance;
-//     }, 0);
-//   },
-// );
-
 export const selectOverallOffenceDistanceForTeamA = createSelector(
   selectOverallRunDistanceForTeamA,
   selectOverallPassDistanceForTeamA,
@@ -336,161 +252,128 @@ export const selectOverallFlagYardsForTeamB = createSelector(
   },
 );
 
-// export const selectOverallFlagYardsForTeamA = createSelector(
-//   selectFootballEventsWithPlayers,
-//   selectCurrentMatchWithFullData,
-//   (eventsWithPlayers: IFootballEventWithPlayers[], match): number => {
-//     const teamId = match?.match.team_a_id;
-//     return eventsWithPlayers.reduce((totalDistance, event) => {
-//       // console.log('teamId', teamId, totalDistance, event.play_result?.value);
-//       if (event.offense_team?.id === teamId && event.play_result) {
-//         if (event.play_result.value === IFootballPlayResult.Flag) {
-//           return totalDistance + (event.distance_moved || 0);
+// export function calculateQbRunDistanceAndFumbleAndTd(
+//   event: IFootballEventWithPlayers,
+//   playerId: number,
+//   stats: Record<number, IQBStats>,
+// ): void {
+//   if (
+//     event.play_type?.value === IFootballPlayType.Run &&
+//     event.play_result?.value !== IFootballPlayResult.Flag
+//   ) {
+//     if (event.run_player?.match_player.id === playerId) {
+//       stats[playerId].run_attempts++;
+//       if (!event.is_fumble) {
+//         if (event.distance_moved) {
+//           stats[playerId].run_yards += event.distance_moved;
+//         }
+//         if (event.score_result?.value === IFootballScoreResult.Td) {
+//           stats[playerId].run_td++;
+//         }
+//       } else {
+//         stats[playerId].fumble++;
+//         if (event.distance_on_offence) {
+//           stats[playerId].run_yards += event.distance_on_offence;
 //         }
 //       }
-//       return totalDistance;
-//     }, 0);
-//   },
-// );
+//     }
+//   }
+// }
 //
-// export const selectOverallFlagYardsForTeamB = createSelector(
-//   selectFootballEventsWithPlayers,
-//   selectCurrentMatchWithFullData,
-//   (eventsWithPlayers: IFootballEventWithPlayers[], match): number => {
-//     const teamId = match?.match.team_b_id;
-//     return eventsWithPlayers.reduce((totalDistance, event) => {
-//       if (event.offense_team?.id === teamId && event.play_result) {
-//         if (event.play_result.value === IFootballPlayResult.Flag) {
-//           return totalDistance + (event.distance_moved || 0);
+// export function calculateQbPassDistanceAndTd(
+//   event: IFootballEventWithPlayers,
+//   playerId: number,
+//   stats: Record<number, IQBStats>,
+// ): void {
+//   if (
+//     event.play_type?.value === IFootballPlayType.Pass &&
+//     event.play_result?.value !== IFootballPlayResult.Flag
+//   ) {
+//     stats[playerId].passes++;
+//
+//     if (event.play_result?.value === IFootballPlayResult.PassCompleted) {
+//       stats[playerId].passes_completed++;
+//       if (!event.is_fumble) {
+//         if (event.distance_moved) {
+//           stats[playerId].pass_yards += event.distance_moved;
+//         }
+//         if (event.score_result?.value === IFootballScoreResult.Td) {
+//           stats[playerId].pass_td++;
+//         }
+//       } else {
+//         if (event.distance_on_offence) {
+//           stats[playerId].pass_yards += event.distance_on_offence;
 //         }
 //       }
-//       return totalDistance;
-//     }, 0);
-//   },
-// );
-
-export function calculateQbRunDistanceAndFumbleAndTd(
-  event: IFootballEventWithPlayers,
-  playerId: number,
-  stats: Record<number, IQBStats>,
-): void {
-  if (
-    event.play_type?.value === IFootballPlayType.Run &&
-    event.play_result?.value !== IFootballPlayResult.Flag
-  ) {
-    if (event.run_player?.match_player.id === playerId) {
-      stats[playerId].run_attempts++;
-      if (!event.is_fumble) {
-        if (event.distance_moved) {
-          stats[playerId].run_yards += event.distance_moved;
-        }
-        if (event.score_result?.value === IFootballScoreResult.Td) {
-          stats[playerId].run_td++;
-        }
-      } else {
-        stats[playerId].fumble++;
-        if (event.distance_on_offence) {
-          stats[playerId].run_yards += event.distance_on_offence;
-        }
-      }
-    }
-  }
-}
-
-export function calculateQbPassDistanceAndTd(
-  event: IFootballEventWithPlayers,
-  playerId: number,
-  stats: Record<number, IQBStats>,
-): void {
-  if (
-    event.play_type?.value === IFootballPlayType.Pass &&
-    event.play_result?.value !== IFootballPlayResult.Flag
-  ) {
-    stats[playerId].passes++;
-
-    if (event.play_result?.value === IFootballPlayResult.PassCompleted) {
-      stats[playerId].passes_completed++;
-      if (!event.is_fumble) {
-        if (event.distance_moved) {
-          stats[playerId].pass_yards += event.distance_moved;
-        }
-        if (event.score_result?.value === IFootballScoreResult.Td) {
-          stats[playerId].pass_td++;
-        }
-      } else {
-        if (event.distance_on_offence) {
-          stats[playerId].pass_yards += event.distance_on_offence;
-        }
-      }
-    }
-  }
-}
-
-export function calculateOffenceRunDistanceAndFumbleAndTd(
-  event: IFootballEventWithPlayers,
-  playerId: number,
-  stats: Record<number, IOffenceStats>,
-): void {
-  if (
-    event.play_type?.value === IFootballPlayType.Run &&
-    event.play_result?.value !== IFootballPlayResult.Flag
-  ) {
-    if (event.run_player?.match_player.id === playerId) {
-      stats[playerId].run_attempts++;
-      if (!event.is_fumble) {
-        if (event.distance_moved) {
-          stats[playerId].run_yards += event.distance_moved;
-        }
-        if (event.score_result?.value === IFootballScoreResult.Td) {
-          stats[playerId].run_td++;
-        }
-      } else {
-        stats[playerId].fumble++;
-        if (event.distance_on_offence) {
-          stats[playerId].run_yards += event.distance_on_offence;
-        }
-      }
-    }
-  }
-}
-
-export function calculateOffencePassDistanceAndFumbleAndTd(
-  event: IFootballEventWithPlayers,
-  playerId: number,
-  stats: Record<number, IOffenceStats>,
-): void {
-  if (
-    event.play_type?.value === IFootballPlayType.Pass &&
-    event.play_result?.value !== IFootballPlayResult.Flag
-  ) {
-    if (
-      event.pass_received_player?.match_player.id === playerId &&
-      event.play_result?.value === IFootballPlayResult.PassCompleted
-    ) {
-      stats[playerId].pass_attempts++;
-      stats[playerId].pass_received++;
-      if (!event.is_fumble) {
-        if (event.distance_moved) {
-          stats[playerId].pass_yards += event.distance_moved;
-        }
-        if (event.score_result?.value === IFootballScoreResult.Td) {
-          stats[playerId].pass_td++;
-        }
-      } else {
-        stats[playerId].fumble++;
-        if (event.distance_on_offence) {
-          stats[playerId].pass_yards += event.distance_on_offence;
-        }
-      }
-    } else if (
-      event.play_result?.value === IFootballPlayResult.PassIncomplete ||
-      event.play_result?.value === IFootballPlayResult.PassDropped ||
-      event.play_result?.value === IFootballPlayResult.PassDeflected
-    ) {
-      stats[playerId].pass_attempts++;
-    }
-  }
-}
+//     }
+//   }
+// }
+//
+// export function calculateOffenceRunDistanceAndFumbleAndTd(
+//   event: IFootballEventWithPlayers,
+//   playerId: number,
+//   stats: Record<number, IOffenceStats>,
+// ): void {
+//   if (
+//     event.play_type?.value === IFootballPlayType.Run &&
+//     event.play_result?.value !== IFootballPlayResult.Flag
+//   ) {
+//     if (event.run_player?.match_player.id === playerId) {
+//       stats[playerId].run_attempts++;
+//       if (!event.is_fumble) {
+//         if (event.distance_moved) {
+//           stats[playerId].run_yards += event.distance_moved;
+//         }
+//         if (event.score_result?.value === IFootballScoreResult.Td) {
+//           stats[playerId].run_td++;
+//         }
+//       } else {
+//         stats[playerId].fumble++;
+//         if (event.distance_on_offence) {
+//           stats[playerId].run_yards += event.distance_on_offence;
+//         }
+//       }
+//     }
+//   }
+// }
+//
+// export function calculateOffencePassDistanceAndFumbleAndTd(
+//   event: IFootballEventWithPlayers,
+//   playerId: number,
+//   stats: Record<number, IOffenceStats>,
+// ): void {
+//   if (
+//     event.play_type?.value === IFootballPlayType.Pass &&
+//     event.play_result?.value !== IFootballPlayResult.Flag
+//   ) {
+//     if (
+//       event.pass_received_player?.match_player.id === playerId &&
+//       event.play_result?.value === IFootballPlayResult.PassCompleted
+//     ) {
+//       stats[playerId].pass_attempts++;
+//       stats[playerId].pass_received++;
+//       if (!event.is_fumble) {
+//         if (event.distance_moved) {
+//           stats[playerId].pass_yards += event.distance_moved;
+//         }
+//         if (event.score_result?.value === IFootballScoreResult.Td) {
+//           stats[playerId].pass_td++;
+//         }
+//       } else {
+//         stats[playerId].fumble++;
+//         if (event.distance_on_offence) {
+//           stats[playerId].pass_yards += event.distance_on_offence;
+//         }
+//       }
+//     } else if (
+//       event.play_result?.value === IFootballPlayResult.PassIncomplete ||
+//       event.play_result?.value === IFootballPlayResult.PassDropped ||
+//       event.play_result?.value === IFootballPlayResult.PassDeflected
+//     ) {
+//       stats[playerId].pass_attempts++;
+//     }
+//   }
+// }
 
 //QB
 export const selectQuarterbackStats = createSelector(
@@ -516,65 +399,15 @@ export const selectQuarterbackStats = createSelector(
           };
         }
 
-        // if (
-        //   event.play_type?.value === IFootballPlayType.Pass &&
-        //   event.play_result?.value !== IFootballPlayResult.Flag
-        // ) {
-        //   qbStats[qbId].passes++;
-        //
-        //   if (event.play_result?.value === IFootballPlayResult.PassCompleted) {
-        //     qbStats[qbId].passes_completed++;
-        //     if (!event.is_fumble) {
-        //       if (event.distance_moved) {
-        //         qbStats[qbId].pass_yards += event.distance_moved;
-        //       }
-        //       if (event.score_result?.value === IFootballScoreResult.Td) {
-        //         qbStats[qbId].pass_td++;
-        //       }
-        //     } else {
-        //       if (event.distance_on_offence) {
-        //         qbStats[qbId].pass_yards += event.distance_on_offence;
-        //       }
-        //     }
-        //   }
-        // }
-
         // Calculate qb run distance
         calculateQbPassDistanceAndTd(event, qbId, qbStats);
         // Calculate qb run distance
         calculateQbRunDistanceAndFumbleAndTd(event, qbId, qbStats);
 
-        // if (
-        //   event.play_type?.value === IFootballPlayType.Run &&
-        //   event.play_result?.value !== IFootballPlayResult.Flag
-        // ) {
-        //   if (event.run_player?.match_player.id === qbId) {
-        //     // console.log('run player ok', event.run_player, qbStats[qbId]);
-        //     qbStats[qbId].run_attempts++;
-        //     if (!event.is_fumble) {
-        //       if (event.distance_moved) {
-        //         qbStats[qbId].run_yards += event.distance_moved;
-        //       }
-        //     } else {
-        //       if (event.distance_on_offence) {
-        //         qbStats[qbId].run_yards += event.distance_on_offence;
-        //       }
-        //     }
-        //   }
-        // }
-
         // Process interception
         if (event.play_result?.value === IFootballPlayResult.PassIntercepted) {
           qbStats[qbId].interception++;
         }
-        // // Process fumbles
-        // if (
-        //   event.is_fumble &&
-        //   event.event_qb?.match_player.id === qbId &&
-        //   event.run_player?.match_player.id === qbId
-        // ) {
-        //   qbStats[qbId].fumble++;
-        // }
       }
     });
 
@@ -670,24 +503,6 @@ export const selectOffenseStats = createSelector(
           };
         }
 
-        // // Process passing plays
-        // if (
-        //   event.play_type?.value === IFootballPlayType.Pass &&
-        //   event.play_result?.value !== IFootballPlayResult.Flag
-        // ) {
-        //   offenseStats[playerId].pass_attempts++;
-        //
-        //   if (event.play_result?.value === IFootballPlayResult.PassCompleted) {
-        //     offenseStats[playerId].pass_received++;
-        //     if (event.distance_moved) {
-        //       offenseStats[playerId].pass_yards += event.distance_moved;
-        //     }
-        //   }
-        //   if (event.score_result?.value === IFootballScoreResult.Td) {
-        //     offenseStats[playerId].pass_td++;
-        //   }
-        // }
-
         calculateOffencePassDistanceAndFumbleAndTd(
           event,
           playerId,
@@ -700,29 +515,6 @@ export const selectOffenseStats = createSelector(
           playerId,
           offenseStats,
         );
-
-        // // Process running plays
-        // if (
-        //   event.play_type?.value === IFootballPlayType.Run &&
-        //   event.play_result?.value !== IFootballPlayResult.Flag
-        // ) {
-        //   if (event.play_result?.value === IFootballPlayResult.Run) {
-        //     if (event.run_player?.match_player.id === playerId) {
-        //       offenseStats[playerId].run_attempts++;
-        //       if (event.distance_moved) {
-        //         offenseStats[playerId].run_yards += event.distance_moved;
-        //       }
-        //       if (event.score_result?.value === IFootballScoreResult.Td) {
-        //         offenseStats[playerId].run_td++;
-        //       }
-        //
-        //       // Process fumbles
-        //       if (event.is_fumble) {
-        //         offenseStats[playerId].fumble++;
-        //       }
-        //     }
-        //   }
-        // }
       }
     });
 
