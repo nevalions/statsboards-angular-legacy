@@ -75,6 +75,7 @@ export interface IFootballEvent {
   event_qb?: number | null;
   event_down?: number | null;
   event_distance?: number | null;
+  distance_on_offence?: number | null;
 
   event_hash?: string | null;
   play_direction?: string | null;
@@ -117,6 +118,7 @@ export interface IFootballEventWithPlayers {
   event_qb?: IPlayerInMatchFullData | null;
   event_down?: number | null;
   event_distance?: number | null;
+  distance_on_offence?: number | null;
 
   event_hash?: IEnumObject | null;
   play_direction?: IEnumObject | null;

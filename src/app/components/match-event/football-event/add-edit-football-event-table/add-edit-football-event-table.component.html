@@ -114,10 +114,27 @@
                   <div class="event-ballon-distance">
                     <div class="event-table-cell">
                       <div class="tui-text_h6" style="justify-self: center; align-self: center">
-                        @if ((getEventDistanceMoved(eventsArray, i)) ||
-                        (getEventDistanceMoved(eventsArray, i) === 0)) {
-                          Distance moved: {{ getEventDistanceMoved(eventsArray, i) }}
-                        }</div>
+                        @if (getEventDistanceOnOffenceFormControl(this.eventForm, this.arrayName, i); as control) {
+                          @if (getEventIsFumble(eventsArray, i)) {
+                            <div class="event-table-cell">
+                              <app-input-number-with-buttons
+                                [control]="control"
+                                [label]="'offence distance passed'"
+                                [index]="i"
+                                [min]="-110"
+                                [max]="110"
+                                [key]="eventDistanceOnOffenceKey"
+                                (numberChanged)="handleFieldChange($event)"
+                              ></app-input-number-with-buttons>
+                            </div>
+                          } @else {
+                            @if ((getEventDistanceMoved(eventsArray, i)) ||
+                            (getEventDistanceMoved(eventsArray, i) === 0)) {
+                              Distance moved: {{ getEventDistanceMoved(eventsArray, i) }}
+                            }
+                          }
+                        }
+                      </div>
                     </div>
 
                     <div class="event-table-cell">

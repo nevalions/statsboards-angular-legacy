@@ -151,9 +151,17 @@ const selectOverallDistanceForTeam = (
         ) {
           if (
             event.play_type.value === playType &&
-            event.play_result.value === playResult
+            event.play_result.value === playResult &&
+            !event.is_fumble
           ) {
             return totalDistance + (event.distance_moved || 0);
+          } else if (
+            event.play_type.value === playType &&
+            event.play_result.value === playResult &&
+            event.is_fumble
+          ) {
+            // console.log('is fumble', event);
+            return totalDistance + (event.distance_on_offence || 0);
           }
         }
         return totalDistance;

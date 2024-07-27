@@ -22,6 +22,7 @@ export const eventNumberKey = 'eventNumber';
 export const eventQtrKey = 'eventQtr';
 export const eventBallOnKey = 'eventBallOn';
 export const eventDistanceMovedKey = 'eventDistanceMoved';
+export const eventDistanceOnOffenceKey = 'eventDistanceOnOffence';
 export const eventTeamKey = 'eventTeam';
 export const eventQbKey = 'eventQb';
 export const eventDownKey = 'eventDown';
@@ -63,6 +64,8 @@ export const eventTeam = (index: number) => eventTeamKey + index;
 export const eventQb = (index: number) => eventQbKey + index;
 export const eventDown = (index: number) => eventDownKey + index;
 export const eventDistance = (index: number) => eventDistanceKey + index;
+export const eventDistanceOnOffence = (index: number) =>
+  eventDistanceOnOffenceKey + index;
 export const eventHash = (index: number) => eventHashKey + index;
 export const eventDirection = (index: number) => eventDirectionKey + index;
 export const eventPlayType = (index: number) => eventPlayTypeKey + index;
@@ -117,6 +120,7 @@ export function createNewEvent(
   let newEventBallOn: number | null = null;
   let newEventDown: number | null;
   let newEventDistance: number | null;
+  let newEventDistanceOnOffence: number | null;
   let newEventIsFumble: boolean | null = false;
   let newEventIsFumbleRecovered: boolean | null = false;
 
@@ -208,6 +212,7 @@ export function extractEventData(
   const eventQtr = getQtr(eventsArray, index);
   const eventBallOn = getBallOn(eventsArray, index);
   const eventDistanceMoved = getEventDistanceMoved(eventsArray, index);
+  const eventDistanceOnOffence = getEventDistanceOnOffence(eventsArray, index);
   const eventTeam = getEventTeam(eventsArray, index);
   const eventQb = getEventQb(eventsArray, index);
   const eventDown = getEventDown(eventsArray, index);
@@ -263,6 +268,12 @@ export function extractEventData(
 
   if (eventBallOn !== undefined) {
     newEventData.ball_on = eventBallOn;
+  }
+
+  if (eventDistanceOnOffence || eventDistanceOnOffence === 0) {
+    newEventData.distance_on_offence = eventDistanceOnOffence;
+  } else {
+    newEventData.distance_on_offence = 0;
   }
 
   if (eventTeam) {
@@ -435,6 +446,44 @@ export function setDistanceMoved(
     index,
     selectedItem,
     eventDistanceMovedKey,
+  );
+}
+
+// EventDistanceOnOffence
+export function getEventDistanceOnOffence(
+  eventsArray: FormArray,
+  index: number,
+): number | null | undefined {
+  return getArrayFormDataByIndexAndKey<number>(
+    eventsArray,
+    index,
+    eventDistanceOnOffenceKey,
+  );
+}
+
+export function getEventDistanceOnOffenceFormControl(
+  form: FormGroup,
+  arrayName: string,
+  index: number,
+): FormControl | null | undefined {
+  return getFormControlWithIndex(
+    form,
+    index,
+    eventDistanceOnOffenceKey,
+    arrayName,
+  );
+}
+
+export function setDistanceOnOffence(
+  eventsArray: FormArray,
+  index: number,
+  selectedItem: number,
+): void {
+  setArrayKeyIndexValue(
+    eventsArray,
+    index,
+    selectedItem,
+    eventDistanceOnOffenceKey,
   );
 }
 

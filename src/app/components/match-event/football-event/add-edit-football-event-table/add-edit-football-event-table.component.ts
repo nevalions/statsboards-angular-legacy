@@ -43,6 +43,8 @@ import {
   eventDistance,
   eventDistanceKey,
   eventDistanceMoved,
+  eventDistanceOnOffence,
+  eventDistanceOnOffenceKey,
   eventDown,
   eventDownKey,
   eventDroppedPlayer,
@@ -88,6 +90,8 @@ import {
   getEventDirectionFormControl,
   getEventDistanceFormControl,
   getEventDistanceMoved,
+  getEventDistanceOnOffence,
+  getEventDistanceOnOffenceFormControl,
   getEventDownFormControl,
   getEventDroppedPlayer,
   getEventDroppedPlayerFormControl,
@@ -354,6 +358,12 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
           this.arrayName,
           index,
         );
+      case eventDistanceOnOffenceKey:
+        return this.getEventDistanceOnOffenceFormControl(
+          this.eventForm,
+          this.arrayName,
+          index,
+        );
 
       default:
         return null;
@@ -406,6 +416,7 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
     const controlEventQtr = eventQtr(index);
     const controlEventBallOn = eventBallOn(index);
     const controlEventDistanceMoved = eventDistanceMoved(index);
+    const controlEventDistanceOnOffence = eventDistanceOnOffence(index);
 
     const controlEventTeam = eventTeam(index);
     const controlEventQb = eventQb(index);
@@ -448,6 +459,9 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
       [controlEventQtr]: new FormControl(event.event_qtr),
       [controlEventBallOn]: new FormControl(event.ball_on),
       [controlEventDistanceMoved]: new FormControl(event.distance_moved),
+      [controlEventDistanceOnOffence]: new FormControl(
+        event.distance_on_offence,
+      ),
       [controlEventTeam]: new FormControl(event.offense_team),
       [controlEventQb]: new FormControl(event.event_qb),
       [controlEventDown]: new FormControl(event.event_down),
@@ -807,4 +821,8 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
   protected readonly getEventPlayResult = getEventPlayResult;
   protected readonly tuiAppFlat = TuiAppearance.Flat;
   protected readonly hexToRgba = hexToRgba;
+  protected readonly getEventDistanceOnOffence = getEventDistanceOnOffence;
+  protected readonly getEventDistanceOnOffenceFormControl =
+    getEventDistanceOnOffenceFormControl;
+  protected readonly eventDistanceOnOffenceKey = eventDistanceOnOffenceKey;
 }
