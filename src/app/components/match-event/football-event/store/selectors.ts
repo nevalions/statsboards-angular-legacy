@@ -3,6 +3,7 @@ import { createSelector } from '@ngrx/store';
 import { selectAllMatchFootballEvents } from './reducers';
 import { selectAllPlayersInMatchFullData } from '../../../player-match/store/reducers';
 import {
+  IFootballEvent,
   IFootballEventWithPlayers,
   IFootballPlayResult,
   IFootballPlayType,
@@ -20,6 +21,42 @@ export function getMatchPlayerById(
   return players.find((player) => player.match_player.id === playerId) || null;
 }
 
+export function calculateDistanceMoved(
+  event: IFootballEvent,
+  nextEvent: IFootballEvent | undefined,
+  fieldLength: number,
+): number | null {
+  if (
+    nextEvent &&
+    nextEvent.ball_on !== undefined &&
+    event.ball_on !== undefined &&
+    nextEvent.ball_on !== null &&
+    event.ball_on !== null &&
+    event.offense_team &&
+    nextEvent.offense_team &&
+    event.play_type &&
+    event.play_result &&
+    (event.play_type === IFootballPlayType.Pass ||
+      event.play_type === IFootballPlayType.Run) &&
+    event.play_result !== IFootballPlayResult.Flag &&
+    (event.play_result === IFootballPlayResult.PassCompleted ||
+      event.play_result === IFootballPlayResult.Run)
+  ) {
+    if (event.offense_team === nextEvent.offense_team) {
+      return computeDistance(nextEvent.ball_on, event.ball_on, fieldLength / 2);
+    } else if (nextEvent.ball_on === fieldLength / 2) {
+      return computeDistance(nextEvent.ball_on, event.ball_on, fieldLength / 2);
+    } else {
+      return computeDistance(
+        -nextEvent.ball_on,
+        event.ball_on,
+        fieldLength / 2,
+      );
+    }
+  }
+  return null;
+}
+
 export const selectFootballEventsWithPlayers = createSelector(
   selectAllMatchFootballEvents,
   selectAllPlayersInMatchFullData,
@@ -31,51 +68,56 @@ export const selectFootballEventsWithPlayers = createSelector(
 
     return footballEvents.map((event, index) => {
       const nextEvent = footballEvents[index + 1];
+      const distanceMoved = calculateDistanceMoved(
+        event,
+        nextEvent,
+        fieldLength,
+      );
 
-      let distanceMoved: number | null = null;
-
-      if (
-        nextEvent &&
-        nextEvent.ball_on !== undefined &&
-        event.ball_on !== undefined &&
-        nextEvent.ball_on !== null &&
-        event.ball_on !== null &&
-        event.offense_team &&
-        nextEvent.offense_team &&
-        event.play_type &&
-        event.play_result
-      ) {
-        if (
-          event.play_type === IFootballPlayType.Pass ||
-          event.play_type === IFootballPlayType.Run
-        )
-          if (event.play_result !== IFootballPlayResult.Flag) {
-            {
-              if (event.offense_team === nextEvent.offense_team) {
-                distanceMoved = computeDistance(
-                  nextEvent.ball_on,
-                  event.ball_on,
-                  fieldLength / 2,
-                );
-              } else if (
-                event.offense_team !== nextEvent.offense_team &&
-                nextEvent.ball_on === fieldLength / 2
-              ) {
-                distanceMoved = computeDistance(
-                  nextEvent.ball_on,
-                  event.ball_on,
-                  fieldLength / 2,
-                );
-              } else if (event.offense_team !== nextEvent.offense_team) {
-                distanceMoved = computeDistance(
-                  -nextEvent.ball_on,
-                  event.ball_on,
-                  fieldLength / 2,
-                );
-              }
-            }
-          }
-      }
+      // let distanceMoved: number | null = null;
+      //
+      // if (
+      //   nextEvent &&
+      //   nextEvent.ball_on !== undefined &&
+      //   event.ball_on !== undefined &&
+      //   nextEvent.ball_on !== null &&
+      //   event.ball_on !== null &&
+      //   event.offense_team &&
+      //   nextEvent.offense_team &&
+      //   event.play_type &&
+      //   event.play_result
+      // ) {
+      //   if (
+      //     event.play_type === IFootballPlayType.Pass ||
+      //     event.play_type === IFootballPlayType.Run
+      //   )
+      //     if (event.play_result !== IFootballPlayResult.Flag) {
+      //       {
+      //         if (event.offense_team === nextEvent.offense_team) {
+      //           distanceMoved = computeDistance(
+      //             nextEvent.ball_on,
+      //             event.ball_on,
+      //             fieldLength / 2,
+      //           );
+      //         } else if (
+      //           event.offense_team !== nextEvent.offense_team &&
+      //           nextEvent.ball_on === fieldLength / 2
+      //         ) {
+      //           distanceMoved = computeDistance(
+      //             nextEvent.ball_on,
+      //             event.ball_on,
+      //             fieldLength / 2,
+      //           );
+      //         } else if (event.offense_team !== nextEvent.offense_team) {
+      //           distanceMoved = computeDistance(
+      //             -nextEvent.ball_on,
+      //             event.ball_on,
+      //             fieldLength / 2,
+      //           );
+      //         }
+      //       }
+      //     }
+      // }
 
       return {
         ...event,

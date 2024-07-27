@@ -37,6 +37,9 @@
                     @if (getBallOn(eventsArray, i); as ballOn) {
                       <div class="event-short-view">BallOn: {{ ballOn }}&nbsp;</div>
                     }
+                    <div
+                      class="event-short-view">{{ getEventDown(eventsArray, i) }}&nbsp;&&nbsp;{{ getEventDistance(eventsArray, i) }}
+                    </div>
                     @if (getEventPlayType(eventsArray, i); as playType) {
                       <div class="event-short-view">{{ playType.value | uppercase }}&nbsp;</div>
                     }

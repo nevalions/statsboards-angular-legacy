@@ -88,10 +88,12 @@ import {
   getEventDeflectedPlayer,
   getEventDeflectedPlayerFormControl,
   getEventDirectionFormControl,
+  getEventDistance,
   getEventDistanceFormControl,
   getEventDistanceMoved,
   getEventDistanceOnOffence,
   getEventDistanceOnOffenceFormControl,
+  getEventDown,
   getEventDownFormControl,
   getEventDroppedPlayer,
   getEventDroppedPlayerFormControl,
@@ -825,4 +827,6 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
   protected readonly getEventDistanceOnOffenceFormControl =
     getEventDistanceOnOffenceFormControl;
   protected readonly eventDistanceOnOffenceKey = eventDistanceOnOffenceKey;
+  protected readonly getEventDown = getEventDown;
+  protected readonly getEventDistance = getEventDistance;
 }
