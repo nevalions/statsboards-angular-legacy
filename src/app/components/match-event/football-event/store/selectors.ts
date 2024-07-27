@@ -2,7 +2,11 @@ import { IPlayerInMatchFullData } from '../../../../type/player.type';
 import { createSelector } from '@ngrx/store';
 import { selectAllMatchFootballEvents } from './reducers';
 import { selectAllPlayersInMatchFullData } from '../../../player-match/store/reducers';
-import { IFootballEventWithPlayers } from '../../../../type/football-event.type';
+import {
+  IFootballEventWithPlayers,
+  IFootballPlayResult,
+  IFootballPlayType,
+} from '../../../../type/football-event.type';
 import { selectCurrentMatchWithFullData } from '../../../match-with-full-data/store/reducers';
 import { computeDistance } from '../football-event-calc-helpers';
 
@@ -35,13 +39,42 @@ export const selectFootballEventsWithPlayers = createSelector(
         nextEvent.ball_on !== undefined &&
         event.ball_on !== undefined &&
         nextEvent.ball_on !== null &&
-        event.ball_on !== null
+        event.ball_on !== null &&
+        event.offense_team &&
+        nextEvent.offense_team &&
+        event.play_type &&
+        event.play_result
       ) {
-        distanceMoved = computeDistance(
-          nextEvent.ball_on,
-          event.ball_on,
-          fieldLength / 2,
-        );
+        if (
+          event.play_type === IFootballPlayType.Pass ||
+          event.play_type === IFootballPlayType.Run
+        )
+          if (event.play_result !== IFootballPlayResult.Flag) {
+            {
+              if (event.offense_team === nextEvent.offense_team) {
+                distanceMoved = computeDistance(
+                  nextEvent.ball_on,
+                  event.ball_on,
+                  fieldLength / 2,
+                );
+              } else if (
+                event.offense_team !== nextEvent.offense_team &&
+                nextEvent.ball_on === fieldLength / 2
+              ) {
+                distanceMoved = computeDistance(
+                  nextEvent.ball_on,
+                  event.ball_on,
+                  fieldLength / 2,
+                );
+              } else if (event.offense_team !== nextEvent.offense_team) {
+                distanceMoved = computeDistance(
+                  -nextEvent.ball_on,
+                  event.ball_on,
+                  fieldLength / 2,
+                );
+              }
+            }
+          }
       }
 
       return {
