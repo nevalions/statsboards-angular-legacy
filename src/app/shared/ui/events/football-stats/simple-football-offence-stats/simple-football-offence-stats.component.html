@@ -19,7 +19,8 @@
         0,
       }
       RUN TD: {{ player.off_stats?.run_td }},
-      TD: {{ (player.off_stats?.pass_td ?? 0) + (player.off_stats?.run_td ?? 0) }})
+      TD: {{ (player.off_stats?.pass_td ?? 0) + (player.off_stats?.run_td ?? 0) }},
+      FUMBLE: {{ player.off_stats?.fumble }})
     </p>
   }
 }

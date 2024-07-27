@@ -62,6 +62,8 @@ export interface IQBStats {
   pass_yards: number;
   run_attempts: number;
   run_yards: number;
+  fumble: number;
+  interception: number;
 }
 
 export interface IOffenceStats {

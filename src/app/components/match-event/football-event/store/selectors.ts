@@ -126,94 +126,155 @@ export const selectFootballEventsWithPlayers = createSelector(
 );
 
 // STATS OFFENCE
-
-export const selectOverallRunDistanceForTeamA = createSelector(
-  selectFootballEventsWithPlayers,
-  selectCurrentMatchWithFullData,
-  (eventsWithPlayers: IFootballEventWithPlayers[], match): number => {
-    const teamId = match?.match.team_a_id;
-    // console.log('teamId', teamId);
-    return eventsWithPlayers.reduce((totalDistance, event) => {
-      // console.log(
-      //   'totalDistance',
-      //   totalDistance,
-      //   event.play_type,
-      //   IFootballPlayType.Run,
-      // );
-      if (event.offense_team?.id === teamId && event.play_type) {
-        if (
-          event.play_type.value === IFootballPlayType.Run &&
-          event.play_result?.value === IFootballPlayResult.Run
-        ) {
-          // console.log(event.play_type, IFootballPlayType.Run);
-          return totalDistance + (event.distance_moved || 0);
-        }
+const selectOverallDistanceForTeam = (
+  teamIdSelector: (match: IMatchWithFullData) => number | undefined,
+  playType: IFootballPlayType,
+  playResult: IFootballPlayResult,
+) =>
+  createSelector(
+    selectFootballEventsWithPlayers,
+    selectCurrentMatchWithFullData,
+    (eventsWithPlayers: IFootballEventWithPlayers[], match): number => {
+      if (!match || !match.id) {
+        return 0;
       }
-      return totalDistance;
-    }, 0);
-  },
+      const teamId = teamIdSelector(match);
+      if (!teamId) {
+        return 0;
+      }
+
+      return eventsWithPlayers.reduce((totalDistance, event) => {
+        if (
+          event.offense_team?.id === teamId &&
+          event.play_type &&
+          event.play_result
+        ) {
+          if (
+            event.play_type.value === playType &&
+            event.play_result.value === playResult
+          ) {
+            return totalDistance + (event.distance_moved || 0);
+          }
+        }
+        return totalDistance;
+      }, 0);
+    },
+  );
+
+// Selectors for overall run distance
+export const selectOverallRunDistanceForTeamA = selectOverallDistanceForTeam(
+  (match) => match?.match.team_a_id,
+  IFootballPlayType.Run,
+  IFootballPlayResult.Run,
 );
 
-export const selectOverallRunDistanceForTeamB = createSelector(
-  selectFootballEventsWithPlayers,
-  selectCurrentMatchWithFullData,
-  (eventsWithPlayers: IFootballEventWithPlayers[], match): number => {
-    const teamId = match?.match.team_b_id;
-    return eventsWithPlayers.reduce((totalDistance, event) => {
-      if (event.offense_team?.id === teamId && event.play_type) {
-        if (
-          event.play_type.value === IFootballPlayType.Run &&
-          event.play_result?.value === IFootballPlayResult.Run
-        ) {
-          return totalDistance + (event.distance_moved || 0);
-        }
-      }
-      return totalDistance;
-    }, 0);
-  },
+export const selectOverallRunDistanceForTeamB = selectOverallDistanceForTeam(
+  (match) => match?.match.team_b_id,
+  IFootballPlayType.Run,
+  IFootballPlayResult.Run,
 );
 
-export const selectOverallPassDistanceForTeamA = createSelector(
-  selectFootballEventsWithPlayers,
-  selectCurrentMatchWithFullData,
-  (eventsWithPlayers: IFootballEventWithPlayers[], match): number => {
-    const teamId = match?.match.team_a_id;
-    return eventsWithPlayers.reduce((totalDistance, event) => {
-      if (event.offense_team?.id === teamId && event.play_type) {
-        if (
-          event.play_type.value === IFootballPlayType.Pass &&
-          event.play_result?.value === IFootballPlayResult.PassCompleted
-        ) {
-          return totalDistance + (event.distance_moved || 0);
-        }
-      }
-      return totalDistance;
-    }, 0);
-  },
+// Selectors for overall pass distance
+export const selectOverallPassDistanceForTeamA = selectOverallDistanceForTeam(
+  (match) => match?.match.team_a_id,
+  IFootballPlayType.Pass,
+  IFootballPlayResult.PassCompleted,
 );
 
-export const selectOverallPassDistanceForTeamB = createSelector(
-  selectFootballEventsWithPlayers,
-  selectCurrentMatchWithFullData,
-  (eventsWithPlayers: IFootballEventWithPlayers[], match): number => {
-    const teamId = match?.match.team_b_id;
-    return eventsWithPlayers.reduce((totalDistance, event) => {
-      if (
-        event.offense_team?.id === teamId &&
-        event.play_type &&
-        event.play_result
-      ) {
-        if (
-          event.play_type.value === IFootballPlayType.Pass &&
-          event.play_result?.value === IFootballPlayResult.PassCompleted
-        ) {
-          return totalDistance + (event.distance_moved || 0);
-        }
-      }
-      return totalDistance;
-    }, 0);
-  },
+export const selectOverallPassDistanceForTeamB = selectOverallDistanceForTeam(
+  (match) => match?.match.team_b_id,
+  IFootballPlayType.Pass,
+  IFootballPlayResult.PassCompleted,
 );
+
+//
+// export const selectOverallRunDistanceForTeamA = createSelector(
+//   selectFootballEventsWithPlayers,
+//   selectCurrentMatchWithFullData,
+//   (eventsWithPlayers: IFootballEventWithPlayers[], match): number => {
+//     const teamId = match?.match.team_a_id;
+//     // console.log('teamId', teamId);
+//     return eventsWithPlayers.reduce((totalDistance, event) => {
+//       // console.log(
+//       //   'totalDistance',
+//       //   totalDistance,
+//       //   event.play_type,
+//       //   IFootballPlayType.Run,
+//       // );
+//       if (event.offense_team?.id === teamId && event.play_type) {
+//         if (
+//           event.play_type.value === IFootballPlayType.Run &&
+//           event.play_result?.value === IFootballPlayResult.Run
+//         ) {
+//           // console.log(event.play_type, IFootballPlayType.Run);
+//           return totalDistance + (event.distance_moved || 0);
+//         }
+//       }
+//       return totalDistance;
+//     }, 0);
+//   },
+// );
+//
+// export const selectOverallRunDistanceForTeamB = createSelector(
+//   selectFootballEventsWithPlayers,
+//   selectCurrentMatchWithFullData,
+//   (eventsWithPlayers: IFootballEventWithPlayers[], match): number => {
+//     const teamId = match?.match.team_b_id;
+//     return eventsWithPlayers.reduce((totalDistance, event) => {
+//       if (event.offense_team?.id === teamId && event.play_type) {
+//         if (
+//           event.play_type.value === IFootballPlayType.Run &&
+//           event.play_result?.value === IFootballPlayResult.Run
+//         ) {
+//           return totalDistance + (event.distance_moved || 0);
+//         }
+//       }
+//       return totalDistance;
+//     }, 0);
+//   },
+// );
+//
+// export const selectOverallPassDistanceForTeamA = createSelector(
+//   selectFootballEventsWithPlayers,
+//   selectCurrentMatchWithFullData,
+//   (eventsWithPlayers: IFootballEventWithPlayers[], match): number => {
+//     const teamId = match?.match.team_a_id;
+//     return eventsWithPlayers.reduce((totalDistance, event) => {
+//       if (event.offense_team?.id === teamId && event.play_type) {
+//         if (
+//           event.play_type.value === IFootballPlayType.Pass &&
+//           event.play_result?.value === IFootballPlayResult.PassCompleted
+//         ) {
+//           return totalDistance + (event.distance_moved || 0);
+//         }
+//       }
+//       return totalDistance;
+//     }, 0);
+//   },
+// );
+//
+// export const selectOverallPassDistanceForTeamB = createSelector(
+//   selectFootballEventsWithPlayers,
+//   selectCurrentMatchWithFullData,
+//   (eventsWithPlayers: IFootballEventWithPlayers[], match): number => {
+//     const teamId = match?.match.team_b_id;
+//     return eventsWithPlayers.reduce((totalDistance, event) => {
+//       if (
+//         event.offense_team?.id === teamId &&
+//         event.play_type &&
+//         event.play_result
+//       ) {
+//         if (
+//           event.play_type.value === IFootballPlayType.Pass &&
+//           event.play_result?.value === IFootballPlayResult.PassCompleted
+//         ) {
+//           return totalDistance + (event.distance_moved || 0);
+//         }
+//       }
+//       return totalDistance;
+//     }, 0);
+//   },
+// );
 
 export const selectOverallOffenceDistanceForTeamA = createSelector(
   selectOverallRunDistanceForTeamA,
@@ -268,37 +329,11 @@ export const selectOverallFlagYardsForTeamB = createSelector(
 //QB
 export const selectQuarterbackStats = createSelector(
   selectFootballEventsWithPlayers,
-  (
-    events: IFootballEventWithPlayers[],
-  ): Record<
-    number,
-    IQBStats
-    // {
-    //   passes: number;
-    //   passes_completed: number;
-    //   pass_yards: number;
-    //   run_attempts: number;
-    //   run_yards: number;
-    // }
-  > => {
-    // Create an object to store the count of passes and completed passes per quarterback
-    const qbStats: Record<
-      number,
-      IQBStats
-      // {
-      //   passes: number;
-      //   passes_completed: number;
-      //   pass_yards: number;
-      //   run_attempts: number;
-      //   run_yards: number;
-      // }
-    > = {};
+  (events: IFootballEventWithPlayers[]): Record<number, IQBStats> => {
+    const qbStats: Record<number, IQBStats> = {};
 
     events.forEach((event) => {
-      if (
-        // event.play_type?.value === IFootballPlayType.Pass &&
-        event.event_qb?.match_player.id
-      ) {
+      if (event.event_qb?.match_player.id) {
         const qbId = event.event_qb.match_player.id;
         if (!qbStats[qbId]) {
           qbStats[qbId] = {
@@ -308,6 +343,8 @@ export const selectQuarterbackStats = createSelector(
             pass_yards: 0,
             run_attempts: 0,
             run_yards: 0,
+            fumble: 0,
+            interception: 0,
           };
         }
 
@@ -315,10 +352,8 @@ export const selectQuarterbackStats = createSelector(
           event.play_type?.value === IFootballPlayType.Pass &&
           event.play_result?.value !== IFootballPlayResult.Flag
         ) {
-          // Increment the total pass count for the quarterback
           qbStats[qbId].passes++;
 
-          // Increment the completed pass count if the pass was completed
           if (event.play_result?.value === IFootballPlayResult.PassCompleted) {
             qbStats[qbId].passes_completed++;
             if (event.distance_moved) {
@@ -338,6 +373,19 @@ export const selectQuarterbackStats = createSelector(
               qbStats[qbId].run_yards += event.distance_moved;
             }
           }
+        }
+
+        // Process interception
+        if (event.play_result?.value === IFootballPlayResult.PassIntercepted) {
+          qbStats[qbId].interception++;
+        }
+        // Process fumbles
+        if (
+          event.is_fumble &&
+          event.event_qb?.match_player.id === qbId &&
+          event.run_player?.match_player.id === qbId
+        ) {
+          qbStats[qbId].fumble++;
         }
       }
     });
@@ -390,6 +438,8 @@ const selectAllQuarterbacksWithStats = (
           pass_yards: qbStats[qb.match_player.id!]?.pass_yards || 0,
           run_attempts: qbStats[qb.match_player.id!]?.run_attempts || 0,
           run_yards: qbStats[qb.match_player.id!]?.run_yards || 0,
+          fumble: qbStats[qb.match_player.id!]?.fumble || 0,
+          interception: qbStats[qb.match_player.id!]?.interception || 0,
         },
       }));
     },
@@ -405,48 +455,6 @@ export const selectAllQuarterbacksWithStatsTeamB =
     (match: IMatchWithFullData) => match.match.team_b_id,
   );
 
-// // Selector to get all quarterbacks for team A and include their stats
-// export const selectAllQuarterbacksWithStatsTeamA = createSelector(
-//   selectFootballEventsWithPlayers,
-//   selectCurrentMatchWithFullData,
-//   selectQuarterbackStats,
-//   (events, match, qbStats): IPlayerInMatchFullDataWithQbStats[] => {
-//     const teamId = match?.match.team_a_id;
-//     if (!teamId) {
-//       return [];
-//     }
-//
-//     // Deduplicate and get all quarterbacks for team A
-//     const qbs = events
-//       .filter(
-//         (event) =>
-//           event.event_qb &&
-//           event.offense_team?.id === teamId &&
-//           event.event_qb.match_player.id,
-//       )
-//       .map((event) => event.event_qb!)
-//       .reduce((uniqueQbs, qb) => {
-//         if (!uniqueQbs.some((q) => q.match_player.id === qb.match_player.id)) {
-//           uniqueQbs.push(qb);
-//         }
-//         return uniqueQbs;
-//       }, [] as IPlayerInMatchFullData[]);
-//
-//     // Map to IPlayerInMatchFullDataWithQbStats
-//     return qbs.map((qb) => ({
-//       ...qb,
-//       qb_stats: {
-//         id: qb.match_player.id!,
-//         passes: qbStats[qb.match_player.id!]?.passes || 0,
-//         passes_completed: qbStats[qb.match_player.id!]?.passes_completed || 0,
-//         pass_yards: qbStats[qb.match_player.id!]?.pass_yards || 0,
-//         run_attempts: qbStats[qb.match_player.id!]?.run_attempts || 0,
-//         run_yards: qbStats[qb.match_player.id!]?.run_yards || 0,
-//       },
-//     }));
-//   },
-// );
-
 //Offence
 export const selectOffenseStats = createSelector(
   selectFootballEventsWithPlayers,
@@ -454,7 +462,6 @@ export const selectOffenseStats = createSelector(
     const offenseStats: Record<number, IOffenceStats> = {};
 
     events.forEach((event) => {
-      // Check if the event has an offensive player and valid player ID
       const playerId =
         event.run_player?.match_player.id ||
         event.pass_received_player?.match_player.id;
@@ -505,13 +512,13 @@ export const selectOffenseStats = createSelector(
               if (event.score_result?.value === IFootballScoreResult.Td) {
                 offenseStats[playerId].run_td++;
               }
+
+              // Process fumbles
+              if (event.is_fumble) {
+                offenseStats[playerId].fumble++;
+              }
             }
           }
-        }
-
-        // Process fumbles
-        if (event.play_result?.value === 'Fumble') {
-          offenseStats[playerId].fumble++;
         }
       }
     });
@@ -588,105 +595,3 @@ export const selectAllPlayersWithOffenseStatsTeamB =
   selectAllPlayersWithOffenseStats(
     (match: IMatchWithFullData) => match.match.team_b_id,
   );
-
-// export const selectAllPlayersWithOffenseStatsTeamA = createSelector(
-//   selectFootballEventsWithPlayers,
-//   selectCurrentMatchWithFullData,
-//   selectOffenseStats,
-//   (events, match, offenseStats): IPlayerInMatchFullDataWithOffenceStats[] => {
-//     const teamId = match?.match.team_a_id;
-//     if (!teamId) {
-//       return [];
-//     }
-//
-//     // Deduplicate and get all offensive players for team A
-//     const players = events
-//       .filter(
-//         (event) =>
-//           (event.run_player || event.pass_received_player) &&
-//           event.offense_team?.id === teamId,
-//       )
-//       .map((event) => event.run_player || event.pass_received_player)
-//       .reduce((uniquePlayers, player) => {
-//         if (
-//           !uniquePlayers.some(
-//             (p) => p.match_player.id === player?.match_player.id,
-//           )
-//         ) {
-//           if (player) {
-//             uniquePlayers.push(player);
-//           }
-//         }
-//         return uniquePlayers;
-//       }, [] as IPlayerInMatchFullData[]);
-//
-//     // Map to IPlayerInMatchFullDataWithOffenceStats
-//     return players.map((player) => ({
-//       ...player,
-//       off_stats: {
-//         id: player.match_player.id!,
-//         pass_attempts:
-//           offenseStats[player.match_player.id!]?.pass_attempts || 0,
-//         pass_received:
-//           offenseStats[player.match_player.id!]?.pass_received || 0,
-//         pass_yards: offenseStats[player.match_player.id!]?.pass_yards || 0,
-//         pass_td: offenseStats[player.match_player.id!]?.pass_td || 0,
-//         run_attempts: offenseStats[player.match_player.id!]?.run_attempts || 0,
-//         run_yards: offenseStats[player.match_player.id!]?.run_yards || 0,
-//         run_td: offenseStats[player.match_player.id!]?.run_td || 0,
-//         fumble: offenseStats[player.match_player.id!]?.fumble || 0,
-//       },
-//     }));
-//   },
-// );
-//
-// export const selectAllPlayersWithOffenseStatsTeamB = createSelector(
-//   selectFootballEventsWithPlayers,
-//   selectCurrentMatchWithFullData,
-//   selectOffenseStats,
-//   (events, match, offenseStats): IPlayerInMatchFullDataWithOffenceStats[] => {
-//     const teamId = match?.match.team_b_id;
-//     if (!teamId) {
-//       return [];
-//     }
-//
-//     // Deduplicate and get all offensive players for team A
-//     const players = events
-//       .filter(
-//         (event) =>
-//           (event.run_player || event.pass_received_player) &&
-//           event.offense_team?.id === teamId,
-//       )
-//       .map((event) => event.run_player || event.pass_received_player)
-//       .reduce((uniquePlayers, player) => {
-//         if (
-//           !uniquePlayers.some(
-//             (p) => p.match_player.id === player?.match_player.id,
-//           )
-//         ) {
-//           if (player) {
-//             uniquePlayers.push(player);
-//           }
-//         }
-//         return uniquePlayers;
-//       }, [] as IPlayerInMatchFullData[]);
-//
-//     // Map to IPlayerInMatchFullDataWithOffenceStats
-//     return players.map((player) => ({
-//       ...player,
-//       off_stats: {
-//         id: player.match_player.id!,
-//         pass_attempts:
-//           offenseStats[player.match_player.id!]?.pass_attempts || 0,
-//         pass_received:
-//           offenseStats[player.match_player.id!]?.pass_received || 0,
-//         pass_yards: offenseStats[player.match_player.id!]?.pass_yards || 0,
-//         pass_td: offenseStats[player.match_player.id!]?.pass_td || 0,
-//         run_attempts: offenseStats[player.match_player.id!]?.run_attempts || 0,
-//         run_yards: offenseStats[player.match_player.id!]?.run_yards || 0,
-//         run_td: offenseStats[player.match_player.id!]?.run_td || 0,
-//         fumble: offenseStats[player.match_player.id!]?.fumble || 0,
-//       },
-//     }));
-//   },
-// );

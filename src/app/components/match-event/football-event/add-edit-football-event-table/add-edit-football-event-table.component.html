@@ -43,8 +43,16 @@
                     @if (getEventPlayResult(eventsArray, i); as playResult) {
                       <div
                         class="event-short-view"
-                        [style]="{ 'background-color': playResult.value === 'flag' ? '#D7BB69FF' : 'transparent' }">
+                        [style]="{ 'background-color': getBackgroundColor(playResult)}"
+                      >
                         {{ playResult.value | uppercase }}&nbsp;
+                      </div>
+                    }
+                    @if (getEventIsFumble(eventsArray, i); as isFumble) {
+                      <div
+                        class="event-short-view"
+                        [style]="{ 'background-color': isFumble ? '#ee88d2' : 'transparent' }">
+                        {{ 'Fumble' | uppercase }}&nbsp;
                       </div>
                     }
                     @if (getEventScoreResult(eventsArray, i); as scoreResult) {

@@ -360,6 +360,17 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
     }
   }
 
+  getBackgroundColor(playResult: IEnumObject): string {
+    switch (playResult.value) {
+      case IFootballPlayResult.Flag:
+        return '#D7BB69FF';
+      case IFootballPlayResult.PassIntercepted:
+        return '#ee88d2';
+      default:
+        return 'transparent';
+    }
+  }
+
   constructor(
     private footballEvent: FootballEvent,
     private fb: FormBuilder,
