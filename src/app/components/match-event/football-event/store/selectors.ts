@@ -74,51 +74,6 @@ export const selectFootballEventsWithPlayers = createSelector(
         fieldLength,
       );
 
-      // let distanceMoved: number | null = null;
-      //
-      // if (
-      //   nextEvent &&
-      //   nextEvent.ball_on !== undefined &&
-      //   event.ball_on !== undefined &&
-      //   nextEvent.ball_on !== null &&
-      //   event.ball_on !== null &&
-      //   event.offense_team &&
-      //   nextEvent.offense_team &&
-      //   event.play_type &&
-      //   event.play_result
-      // ) {
-      //   if (
-      //     event.play_type === IFootballPlayType.Pass ||
-      //     event.play_type === IFootballPlayType.Run
-      //   )
-      //     if (event.play_result !== IFootballPlayResult.Flag) {
-      //       {
-      //         if (event.offense_team === nextEvent.offense_team) {
-      //           distanceMoved = computeDistance(
-      //             nextEvent.ball_on,
-      //             event.ball_on,
-      //             fieldLength / 2,
-      //           );
-      //         } else if (
-      //           event.offense_team !== nextEvent.offense_team &&
-      //           nextEvent.ball_on === fieldLength / 2
-      //         ) {
-      //           distanceMoved = computeDistance(
-      //             nextEvent.ball_on,
-      //             event.ball_on,
-      //             fieldLength / 2,
-      //           );
-      //         } else if (event.offense_team !== nextEvent.offense_team) {
-      //           distanceMoved = computeDistance(
-      //             -nextEvent.ball_on,
-      //             event.ball_on,
-      //             fieldLength / 2,
-      //           );
-      //         }
-      //       }
-      //     }
-      // }
-
       return {
         ...event,
         distance_moved: distanceMoved,
