@@ -13,12 +13,12 @@ import {
   selectFootballEventIsSubmitting,
 } from './store/reducers';
 import { footballEventActions } from './store/actions';
+import { selectFootballEventsWithPlayers } from './store/selectors';
 import {
-  selectAllPlayersWithOffenseStatsTeamA,
-  selectAllPlayersWithOffenseStatsTeamB,
-  selectAllQuarterbacksWithStatsTeamA,
-  selectAllQuarterbacksWithStatsTeamB,
-  selectFootballEventsWithPlayers,
+  IPlayerInMatchFullDataWithOffenceStats,
+  IPlayerInMatchFullDataWithQbStats,
+} from '../../../type/player.type';
+import {
   selectOverallFlagYardsForTeamA,
   selectOverallFlagYardsForTeamB,
   selectOverallOffenceDistanceForTeamA,
@@ -27,11 +27,15 @@ import {
   selectOverallPassDistanceForTeamB,
   selectOverallRunDistanceForTeamA,
   selectOverallRunDistanceForTeamB,
-} from './store/selectors';
+} from './store/football-stats-team-match-selector';
 import {
-  IPlayerInMatchFullDataWithOffenceStats,
-  IPlayerInMatchFullDataWithQbStats,
-} from '../../../type/player.type';
+  selectAllQuarterbacksWithStatsTeamA,
+  selectAllQuarterbacksWithStatsTeamB,
+} from './store/football-stats-qb-match-selector';
+import {
+  selectAllPlayersWithOffenseStatsTeamA,
+  selectAllPlayersWithOffenseStatsTeamB,
+} from './store/football-stats-offence-match-selector';
 
 @Injectable({
   providedIn: 'root',
