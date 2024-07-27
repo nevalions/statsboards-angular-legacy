@@ -150,6 +150,7 @@ import {
   onDownChange,
   onPlayResultChange,
   onPlayTypeChange,
+  onRunPlayTypeChange,
   onTeamChange,
 } from '../football-event-on-change-helpers';
 import {
@@ -269,6 +270,7 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
       this.setFilteredPlayResults.bind(this),
       this.setFilteredScoreResults.bind(this),
     );
+    onRunPlayTypeChange(eventsArray, selectedType, index);
   }
 
   handlePlayResultChange(
@@ -829,4 +831,5 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
   protected readonly eventDistanceOnOffenceKey = eventDistanceOnOffenceKey;
   protected readonly getEventDown = getEventDown;
   protected readonly getEventDistance = getEventDistance;
+  protected readonly onRunPlayTypeChange = onRunPlayTypeChange;
 }

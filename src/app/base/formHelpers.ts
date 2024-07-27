@@ -134,6 +134,7 @@ export function setArrayKeyIndexValue<T>(
   selectedItem: T | null,
   key: string,
 ): void {
+  console.log('selectedItem SET', selectedItem);
   array.controls[index].get(key + index)?.setValue(selectedItem);
 }
 

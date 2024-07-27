@@ -26,6 +26,7 @@ import {
   resetTacklePlayer,
   setDistance,
   setDown,
+  setPlayResult,
   setPlayType,
 } from './football-event-helpers';
 import { ITeam } from '../../../type/team.type';
@@ -71,6 +72,23 @@ export function onDownChange(
     setDistance(eventsArray, index, 10);
   }
   setDown(eventsArray, index, down);
+}
+
+export function onRunPlayTypeChange(
+  eventsArray: FormArray,
+  eventPlayType: IEnumObject | null | undefined,
+  index: number,
+): void {
+  if (eventsArray && eventPlayType && index) {
+    // console.log('eventPlayType on RUNPLAY', eventPlayType);
+    if (eventPlayType && eventPlayType.value === IFootballPlayType.Run) {
+      // console.log('runPlayType', eventPlayType);
+      setPlayResult(eventsArray, index, {
+        value: IFootballPlayResult.Run,
+        label: IFootballPlayResult.Run,
+      });
+    }
+  }
 }
 
 export function onBallOnChange(

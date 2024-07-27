@@ -694,6 +694,14 @@ export function getEventPlayResultFormControl(
   return getFormControlWithIndex(form, index, eventPlayResultKey, arrayName);
 }
 
+export function setPlayResult(
+  eventsArray: FormArray,
+  index: number,
+  selectedItem: IEnumObject,
+): void {
+  setArrayKeyIndexValue(eventsArray, index, selectedItem, eventPlayResultKey);
+}
+
 export function resetPlayResult(eventsArray: FormArray, index: number): void {
   resetArrayKeyIndexValue(eventsArray, index, eventPlayResultKey);
 }

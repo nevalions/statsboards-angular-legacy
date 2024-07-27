@@ -45,6 +45,7 @@ export class SearchEnumComponent {
   @Output() itemSelected = new EventEmitter<IEnumObject>();
 
   onSelected(item: IEnumObject): void {
+    // console.log('item on select', item);
     this.control.setValue(item);
     this.itemSelected.emit(item);
   }
