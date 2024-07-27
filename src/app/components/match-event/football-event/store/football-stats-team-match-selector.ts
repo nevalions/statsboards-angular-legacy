@@ -4,12 +4,12 @@ import {
   IFootballEventWithPlayers,
   IFootballPlayResult,
   IFootballPlayType,
-  ITeamFootballMatchStats,
 } from '../../../../type/football-event.type';
 import { createSelector } from '@ngrx/store';
 import { selectCurrentMatchWithFullData } from '../../../match-with-full-data/store/reducers';
 import { selectFootballEventsWithPlayers } from './selectors';
 import { IFootballTeamWithStats } from '../../../../type/team.type';
+import { calculateFootballDownStats } from '../football-event-stats-calc-helpers';
 
 const selectOverallDistanceForTeam = (
   teamIdSelector: (match: IMatchWithFullData) => number | undefined,
@@ -154,81 +154,6 @@ export function countDownAttempts(
   return { thirdDownAttempts, fourthDownAttempts };
 }
 
-// export function countDownConversions(
-//   eventsWithPlayers: IFootballEventWithPlayers[],
-//   teamId: number | undefined,
-// ): { thirdDownConversions: number; fourthDownConversions: number } {
-//   let thirdDownConversions = 0;
-//   let fourthDownConversions = 0;
-//
-//   if (!teamId) return { thirdDownConversions, fourthDownConversions };
-//
-//   eventsWithPlayers.forEach((event, index) => {
-//     const nextEvent = eventsWithPlayers[index + 1];
-//
-//     if (
-//       event.offense_team?.id === teamId &&
-//       nextEvent &&
-//       nextEvent.offense_team?.id === teamId &&
-//       event.event_down &&
-//       nextEvent.event_down === 1
-//     ) {
-//       if (event.event_down === 3) {
-//         thirdDownConversions++;
-//       } else if (event.event_down === 4) {
-//         fourthDownConversions++;
-//       }
-//     }
-//   });
-//
-//   return { thirdDownConversions, fourthDownConversions };
-// }
-
-function calculateFootballDownStats(
-  eventsWithPlayers: IFootballEventWithPlayers[],
-  teamId: number | undefined,
-): Partial<ITeamFootballMatchStats> {
-  if (!teamId) return {};
-
-  let thirdDownAttempts = 0;
-  let thirdDownConversions = 0;
-  let fourthDownAttempts = 0;
-  let fourthDownConversions = 0;
-
-  eventsWithPlayers.forEach((event, index) => {
-    if (event.offense_team?.id === teamId && event.event_down) {
-      const nextEvent = eventsWithPlayers[index + 1];
-
-      if (event.event_down === 3) {
-        thirdDownAttempts++;
-        if (
-          nextEvent &&
-          nextEvent.event_down === 1 &&
-          nextEvent.offense_team?.id === teamId
-        ) {
-          thirdDownConversions++;
-        }
-      } else if (event.event_down === 4) {
-        fourthDownAttempts++;
-        if (
-          nextEvent &&
-          nextEvent.event_down === 1 &&
-          nextEvent.offense_team?.id === teamId
-        ) {
-          fourthDownConversions++;
-        }
-      }
-    }
-  });
-
-  return {
-    third_down_attempts: thirdDownAttempts,
-    third_down_conversions: thirdDownConversions,
-    fourth_down_attempts: fourthDownAttempts,
-    fourth_down_conversions: fourthDownConversions,
-  };
-}
-
 // Selector for Team A with Stats
 export const selectFootballTeamAWithStats = createSelector(
   selectCurrentMatchWithFullData,
@@ -249,11 +174,7 @@ export const selectFootballTeamAWithStats = createSelector(
     if (!teamA) {
       return null;
     }
-
     const downStats = calculateFootballDownStats(eventsWithPlayers, teamA.id!);
-
-    // const { thirdDownConversions, fourthDownConversions } =
-    //   countDownConversions(eventsWithPlayers, teamA.id!);
 
     return {
       ...teamA,
@@ -291,9 +212,6 @@ export const selectFootballTeamBWithStats = createSelector(
     }
 
     const downStats = calculateFootballDownStats(eventsWithPlayers, teamB.id!);
-
-    // const { thirdDownConversions, fourthDownConversions } =
-    //   countDownConversions(eventsWithPlayers, teamB.id!);
 
     return {
       ...teamB,

@@ -5,6 +5,7 @@ import {
   IFootballScoreResult,
   IOffenceStats,
   IQBStats,
+  ITeamFootballMatchStats,
 } from '../../../type/football-event.type';
 
 export function calculateQbRunDistanceAndFumbleAndTd(
@@ -128,4 +129,49 @@ export function calculateOffencePassDistanceAndFumbleAndTd(
       stats[playerId].pass_attempts++;
     }
   }
+}
+
+export function calculateFootballDownStats(
+  eventsWithPlayers: IFootballEventWithPlayers[],
+  teamId: number | undefined,
+): Partial<ITeamFootballMatchStats> {
+  if (!teamId) return {};
+
+  let thirdDownAttempts = 0;
+  let thirdDownConversions = 0;
+  let fourthDownAttempts = 0;
+  let fourthDownConversions = 0;
+
+  eventsWithPlayers.forEach((event, index) => {
+    if (event.offense_team?.id === teamId && event.event_down) {
+      const nextEvent = eventsWithPlayers[index + 1];
+
+      if (event.event_down === 3) {
+        thirdDownAttempts++;
+        if (
+          nextEvent &&
+          nextEvent.event_down === 1 &&
+          nextEvent.offense_team?.id === teamId
+        ) {
+          thirdDownConversions++;
+        }
+      } else if (event.event_down === 4) {
+        fourthDownAttempts++;
+        if (
+          nextEvent &&
+          nextEvent.event_down === 1 &&
+          nextEvent.offense_team?.id === teamId
+        ) {
+          fourthDownConversions++;
+        }
+      }
+    }
+  });
+
+  return {
+    third_down_attempts: thirdDownAttempts,
+    third_down_conversions: thirdDownConversions,
+    fourth_down_attempts: fourthDownAttempts,
+    fourth_down_conversions: fourthDownConversions,
+  };
 }
