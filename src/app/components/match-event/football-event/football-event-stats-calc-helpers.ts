@@ -144,48 +144,39 @@ export function calculateFootballDownStats(
   let firstDownGained = 0;
   let isNewDrive = true;
 
-  eventsWithPlayers.forEach((event, index) => {
+  for (let i = 0; i < eventsWithPlayers.length; i++) {
+    const event = eventsWithPlayers[i];
+    const prevEvent = eventsWithPlayers[i - 1];
+
     if (event.offense_team?.id === teamId) {
-      const nextEvent = eventsWithPlayers[index + 1];
-
-      if (event.event_down) {
-        if (event.event_down === 3) {
-          thirdDownAttempts++;
-          if (
-            nextEvent &&
-            nextEvent.event_down === 1 &&
-            nextEvent.offense_team?.id === teamId
-          ) {
-            thirdDownConversions++;
+      if (prevEvent && prevEvent.offense_team?.id === teamId) {
+        if (prevEvent.event_down) {
+          if (prevEvent.event_down === 3) {
+            thirdDownAttempts++;
+            if (event.event_down === 1) {
+              thirdDownConversions++;
+            }
+          } else if (prevEvent.event_down === 4) {
+            fourthDownAttempts++;
+            if (event.event_down === 1) {
+              fourthDownConversions++;
+            }
           }
-        } else if (event.event_down === 4) {
-          fourthDownAttempts++;
-          if (
-            nextEvent &&
-            nextEvent.event_down === 1 &&
-            nextEvent.offense_team?.id === teamId
-          ) {
-            fourthDownConversions++;
-          }
-        }
-
-        if (
-          event.event_down === 1 &&
-          nextEvent &&
-          nextEvent.offense_team?.id === teamId
-        ) {
-          if (!isNewDrive) {
-            firstDownGained++;
-          }
-          isNewDrive = false;
-        }
-
-        if (nextEvent && nextEvent.offense_team?.id !== teamId) {
-          isNewDrive = true;
         }
       }
+
+      if (event.event_down === 1) {
+        if (!isNewDrive) {
+          firstDownGained++;
+        }
+        isNewDrive = false;
+      }
+
+      if (prevEvent && prevEvent.offense_team?.id !== teamId) {
+        isNewDrive = true;
+      }
     }
-  });
+  }
 
   return {
     third_down_attempts: thirdDownAttempts,
