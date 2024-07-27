@@ -11,12 +11,15 @@
   <div style="display: grid; grid-template-columns: 50% 50%">
     <div>
       <app-simple-football-match-team-stats
-        [teamTitle]="data?.teams_data?.team_a?.title"
-        [runDistance]="runDistanceForTeamA$ | async"
-        [passDistance]="passDistanceForTeamA$ | async"
-        [offenceDistance]="offenceDistanceForTeamA$ | async"
-        [flagYards]="flagYardsTeamA$ | async"
+        [teamWithStats]="teamAWithStats | async"
       ></app-simple-football-match-team-stats>
+      <!--      <app-simple-football-match-team-stats-->
+      <!--        [teamTitle]="data?.teams_data?.team_a?.title"-->
+      <!--        [runDistance]="runDistanceForTeamA$ | async"-->
+      <!--        [passDistance]="passDistanceForTeamA$ | async"-->
+      <!--        [offenceDistance]="offenceDistanceForTeamA$ | async"-->
+      <!--        [flagYards]="flagYardsTeamA$ | async"-->
+      <!--      ></app-simple-football-match-team-stats>-->
 
       <app-simple-football-qb-stats
         [qbs]="allQuarterbacksTeamA$ | async"
@@ -28,12 +31,15 @@
     </div>
     <div>
       <app-simple-football-match-team-stats
-        [teamTitle]="data?.teams_data?.team_b?.title"
-        [runDistance]="runDistanceForTeamB$ | async"
-        [passDistance]="passDistanceForTeamB$ | async"
-        [offenceDistance]="offenceDistanceForTeamB$ | async"
-        [flagYards]="flagYardsTeamB$ | async"
+        [teamWithStats]="teamBWithStats | async"
       ></app-simple-football-match-team-stats>
+      <!--      <app-simple-football-match-team-stats-->
+      <!--        [teamTitle]="data?.teams_data?.team_b?.title"-->
+      <!--        [runDistance]="runDistanceForTeamB$ | async"-->
+      <!--        [passDistance]="passDistanceForTeamB$ | async"-->
+      <!--        [offenceDistance]="offenceDistanceForTeamB$ | async"-->
+      <!--        [flagYards]="flagYardsTeamB$ | async"-->
+      <!--      ></app-simple-football-match-team-stats>-->
 
       <app-simple-football-qb-stats
         [qbs]="allQuarterbacksTeamB$ | async"

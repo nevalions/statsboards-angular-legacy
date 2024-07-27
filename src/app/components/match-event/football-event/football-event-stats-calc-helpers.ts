@@ -3,8 +3,9 @@ import {
   IFootballPlayResult,
   IFootballPlayType,
   IFootballScoreResult,
+  IOffenceStats,
+  IQBStats,
 } from '../../../type/football-event.type';
-import { IOffenceStats, IQBStats } from '../../../type/player.type';
 
 export function calculateQbRunDistanceAndFumbleAndTd(
   event: IFootballEventWithPlayers,

@@ -149,6 +149,39 @@ export interface IFootballEventWithPlayers {
   punt_player?: IPlayerInMatchFullData | null;
 }
 
+export interface ITeamFootballMatchStats {
+  id: number;
+  offence_yards: number;
+  pass_yards: number;
+  run_yards: number;
+  flag_yards: number;
+}
+
+export interface IQBStats {
+  id: number;
+  passes: number;
+  passes_completed: number;
+  pass_yards: number;
+  pass_td: number;
+  run_attempts: number;
+  run_yards: number;
+  run_td: number;
+  fumble: number;
+  interception: number;
+}
+
+export interface IOffenceStats {
+  id: number;
+  pass_attempts: number;
+  pass_received: number;
+  pass_yards: number;
+  pass_td: number;
+  run_attempts: number;
+  run_yards: number;
+  run_td: number;
+  fumble: number;
+}
+
 export const eventHashOptions: IEnumObject[] = Object.entries(IEventHash).map(
   ([key, value]) => ({
     value: value,

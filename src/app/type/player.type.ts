@@ -1,6 +1,7 @@
 import { IPerson } from './person.type';
 import { IPosition } from './position.type';
 import { ITeam } from './team.type';
+import { IOffenceStats, IQBStats } from './football-event.type';
 
 export interface IPlayer {
   id?: number | null;
@@ -53,31 +54,6 @@ export interface IPlayerInMatchFullData {
   player_team_tournament?: IPlayerInTeamTournament | null;
   person?: IPerson | null;
   position?: IPosition | null;
-}
-
-export interface IQBStats {
-  id: number;
-  passes: number;
-  passes_completed: number;
-  pass_yards: number;
-  pass_td: number;
-  run_attempts: number;
-  run_yards: number;
-  run_td: number;
-  fumble: number;
-  interception: number;
-}
-
-export interface IOffenceStats {
-  id: number;
-  pass_attempts: number;
-  pass_received: number;
-  pass_yards: number;
-  pass_td: number;
-  run_attempts: number;
-  run_yards: number;
-  run_td: number;
-  fumble: number;
 }
 
 export interface IPlayerInMatchFullDataWithQbStats {

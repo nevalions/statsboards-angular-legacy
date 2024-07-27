@@ -3,11 +3,11 @@ import { selectFootballEventsWithPlayers } from './selectors';
 import {
   IFootballEventWithPlayers,
   IFootballPlayResult,
+  IQBStats,
 } from '../../../../type/football-event.type';
 import {
   IPlayerInMatchFullData,
   IPlayerInMatchFullDataWithQbStats,
-  IQBStats,
 } from '../../../../type/player.type';
 import {
   calculateQbPassDistanceAndTd,

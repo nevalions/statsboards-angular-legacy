@@ -1,9 +1,11 @@
 //Offence
 import { createSelector } from '@ngrx/store';
 import { selectFootballEventsWithPlayers } from './selectors';
-import { IFootballEventWithPlayers } from '../../../../type/football-event.type';
 import {
+  IFootballEventWithPlayers,
   IOffenceStats,
+} from '../../../../type/football-event.type';
+import {
   IPlayerInMatchFullData,
   IPlayerInMatchFullDataWithOffenceStats,
 } from '../../../../type/player.type';

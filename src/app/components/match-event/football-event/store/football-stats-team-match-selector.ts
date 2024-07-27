@@ -8,6 +8,7 @@ import {
 import { createSelector } from '@ngrx/store';
 import { selectCurrentMatchWithFullData } from '../../../match-with-full-data/store/reducers';
 import { selectFootballEventsWithPlayers } from './selectors';
+import { IFootballTeamWithStats } from '../../../../type/team.type';
 
 const selectOverallDistanceForTeam = (
   teamIdSelector: (match: IMatchWithFullData) => number | undefined,
@@ -127,5 +128,69 @@ export const selectOverallFlagYardsForTeamB = createSelector(
   (eventsWithPlayers: IFootballEventWithPlayers[], match): number => {
     const teamId = match?.match.team_b_id;
     return calculateOverallFlagYards(eventsWithPlayers, teamId);
+  },
+);
+
+// Selector for Team A with Stats
+export const selectFootballTeamAWithStats = createSelector(
+  selectCurrentMatchWithFullData,
+  selectOverallOffenceDistanceForTeamA,
+  selectOverallPassDistanceForTeamA,
+  selectOverallRunDistanceForTeamA,
+  selectOverallFlagYardsForTeamA,
+  (
+    match,
+    offenceYards,
+    passYards,
+    runYards,
+    flagYards,
+  ): IFootballTeamWithStats | null => {
+    const teamA = match?.teams_data?.team_a;
+    if (!teamA) {
+      return null;
+    }
+
+    return {
+      ...teamA,
+      match_stats: {
+        id: teamA.id!,
+        offence_yards: offenceYards,
+        pass_yards: passYards,
+        run_yards: runYards,
+        flag_yards: flagYards,
+      },
+    };
+  },
+);
+
+// Selector for Team B with Stats
+export const selectFootballTeamBWithStats = createSelector(
+  selectCurrentMatchWithFullData,
+  selectOverallOffenceDistanceForTeamB,
+  selectOverallPassDistanceForTeamB,
+  selectOverallRunDistanceForTeamB,
+  selectOverallFlagYardsForTeamB,
+  (
+    match,
+    offenceYards,
+    passYards,
+    runYards,
+    flagYards,
+  ): IFootballTeamWithStats | null => {
+    const teamB = match?.teams_data?.team_b;
+    if (!teamB) {
+      return null;
+    }
+
+    return {
+      ...teamB,
+      match_stats: {
+        id: teamB.id!,
+        offence_yards: offenceYards,
+        pass_yards: passYards,
+        run_yards: runYards,
+        flag_yards: flagYards,
+      },
+    };
   },
 );

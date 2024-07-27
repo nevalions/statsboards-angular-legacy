@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { UpperCasePipe } from '@angular/common';
+import { IFootballTeamWithStats } from '../../../../../type/team.type';
 
 @Component({
   selector: 'app-simple-football-match-team-stats',
@@ -9,6 +10,8 @@ import { UpperCasePipe } from '@angular/common';
   styleUrl: './simple-football-match-team-stats.component.less',
 })
 export class SimpleFootballMatchTeamStatsComponent {
+  @Input() teamWithStats: IFootballTeamWithStats | null | undefined = null;
+
   @Input() teamTitle: string | undefined | null = 'team';
 
   @Input() runDistance: number | undefined | null = 0;

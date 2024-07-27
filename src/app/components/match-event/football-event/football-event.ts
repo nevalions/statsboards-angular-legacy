@@ -19,6 +19,8 @@ import {
   IPlayerInMatchFullDataWithQbStats,
 } from '../../../type/player.type';
 import {
+  selectFootballTeamAWithStats,
+  selectFootballTeamBWithStats,
   selectOverallFlagYardsForTeamA,
   selectOverallFlagYardsForTeamB,
   selectOverallOffenceDistanceForTeamA,
@@ -36,6 +38,7 @@ import {
   selectAllPlayersWithOffenseStatsTeamA,
   selectAllPlayersWithOffenseStatsTeamB,
 } from './store/football-stats-offence-match-selector';
+import { IFootballTeamWithStats } from '../../../type/team.type';
 
 @Injectable({
   providedIn: 'root',
@@ -58,6 +61,10 @@ export class FootballEvent {
   // flag
   flagYardsTeamA$: Observable<number>;
   flagYardsTeamB$: Observable<number>;
+
+  // teams with stats
+  footballTeamAWithStats$: Observable<IFootballTeamWithStats | null>;
+  footballTeamBWithStats$: Observable<IFootballTeamWithStats | null>;
 
   // qb
   allQuarterbacksTeamA$: Observable<IPlayerInMatchFullDataWithQbStats[]>;
@@ -105,6 +112,14 @@ export class FootballEvent {
     // flag
     this.flagYardsTeamA$ = this.store.select(selectOverallFlagYardsForTeamA);
     this.flagYardsTeamB$ = this.store.select(selectOverallFlagYardsForTeamB);
+    // teams with stats
+    this.footballTeamAWithStats$ = this.store.select(
+      selectFootballTeamAWithStats,
+    );
+    this.footballTeamBWithStats$ = this.store.select(
+      selectFootballTeamBWithStats,
+    );
+
     // qb
     this.allQuarterbacksTeamA$ = this.store.select(
       selectAllQuarterbacksWithStatsTeamA,

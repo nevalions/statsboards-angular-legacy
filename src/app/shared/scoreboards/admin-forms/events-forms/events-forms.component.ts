@@ -73,6 +73,10 @@ export class EventsFormsComponent implements OnChanges {
   offenceDistanceForTeamB$ = this.footballEvent.overallOffenceDistanceForTeamB$;
   flagYardsTeamA$ = this.footballEvent.flagYardsTeamA$;
   flagYardsTeamB$ = this.footballEvent.flagYardsTeamB$;
+
+  teamAWithStats = this.footballEvent.footballTeamAWithStats$;
+  teamBWithStats = this.footballEvent.footballTeamBWithStats$;
+
   allQuarterbacksTeamA$ = this.footballEvent.allQuarterbacksTeamA$;
   allQuarterbacksTeamB$ = this.footballEvent.allQuarterbacksTeamB$;
   allOffenceTeamA$ = this.footballEvent.allOffenceTeamA$;
