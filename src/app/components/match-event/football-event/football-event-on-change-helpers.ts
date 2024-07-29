@@ -27,6 +27,7 @@ import {
   setDown,
   setPlayResult,
   setPlayType,
+  setScorePlayer,
 } from './football-event-helpers';
 import { ITeam } from '../../../type/team.type';
 import { calculateDistance, isFirstDown } from './football-event-calc-helpers';
@@ -35,6 +36,7 @@ import {
   setArrayKeyIndexValue,
 } from '../../../base/formHelpers';
 import { IMatchWithFullData } from '../../../type/match.type';
+import { IPlayerInMatchFullData } from '../../../type/player.type';
 
 export function onTeamChange(
   eventsArray: FormArray,
@@ -95,6 +97,26 @@ export function onPatOnePlayTypeChange(
   if (eventsArray && eventPlayType && index) {
     if (eventPlayType && eventPlayType === IFootballPlayType.PatOne) {
       setPlayResult(eventsArray, index, IFootballPlayResult.PatOne);
+    }
+  }
+}
+
+export function onOffenceTdScore(
+  eventsArray: FormArray,
+  index: number,
+  eventScoreResult: IFootballScoreResult | null | undefined,
+  eventPlayType: IFootballPlayType | null | undefined,
+  eventReceiver: IPlayerInMatchFullData | null | undefined,
+  eventRusher: IPlayerInMatchFullData | null | undefined,
+): void {
+  if (eventsArray && index && eventScoreResult) {
+    if (eventScoreResult === IFootballScoreResult.Td) {
+      if (eventPlayType === IFootballPlayType.Pass && eventReceiver) {
+        setScorePlayer(eventsArray, index, eventReceiver);
+      }
+      if (eventPlayType === IFootballPlayType.Run && eventRusher) {
+        setScorePlayer(eventsArray, index, eventRusher);
+      }
     }
   }
 }
@@ -353,6 +375,16 @@ export function filterPlayResultsByType(
       return [];
   }
 }
+
+// export function onScoreResultChange(
+//   eventsArray: FormArray,
+//   selectedResult: IFootballScoreResult | null = null,
+//   index: number,
+// ): void {
+//   if (selectedResult) {
+//     resetScoreResult()
+//   }
+// }
 
 export function filterScoreResultsByType(
   scoreResult: IFootballPlayType | undefined | null,

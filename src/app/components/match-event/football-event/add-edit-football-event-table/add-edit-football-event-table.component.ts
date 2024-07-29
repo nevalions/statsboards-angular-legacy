@@ -150,6 +150,7 @@ import {
   incrementOnBall,
   onBallOnChange,
   onDownChange,
+  onOffenceTdScore,
   onPatOnePlayTypeChange,
   onPlayResultChange,
   onPlayTypeChange,
@@ -257,6 +258,40 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
     index: number,
   ): void {
     onPlayResultChange(eventsArray, selectedResult, index);
+  }
+
+  handleScoreResultChange(
+    eventsArray: FormArray,
+    index: number,
+    eventScoreResult: IFootballScoreResult | undefined | null,
+    eventPlayType: IFootballPlayType | undefined | null,
+    eventReceiver: IPlayerInMatchFullData | undefined | null,
+    eventRusher: IPlayerInMatchFullData | undefined | null,
+  ): void {
+    if (eventsArray && index && eventScoreResult) {
+      if (eventPlayType) {
+        if (eventReceiver) {
+          onOffenceTdScore(
+            eventsArray,
+            index,
+            eventScoreResult,
+            eventPlayType,
+            eventReceiver,
+            null,
+          );
+        }
+        if (eventRusher) {
+          onOffenceTdScore(
+            eventsArray,
+            index,
+            eventScoreResult,
+            eventPlayType,
+            null,
+            eventRusher,
+          );
+        }
+      }
+    }
   }
 
   get eventsArray(): FormArray {

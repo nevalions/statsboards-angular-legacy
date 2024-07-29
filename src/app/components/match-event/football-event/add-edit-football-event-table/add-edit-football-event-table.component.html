@@ -611,12 +611,14 @@
                           [control]="control"
                           [placeholder]="'score result'"
                           [stringList]="filterScoreResultsByType(getEventPlayType(eventsArray, i))"
+                          (itemSelected)="handleScoreResultChange(eventsArray, i, getEventScoreResult(eventsArray, i), getEventPlayType(eventsArray, i), getEventReceiverPlayer(eventsArray,i), getEventRunPlayer(eventsArray, i))"
                         ></app-select-list-of-strings>
                       } @else {
                         <app-search-list-of-strings
                           [control]="control"
                           [placeholder]="'score result'"
                           [stringList]="filterScoreResultsByType(getEventPlayType(eventsArray, i))"
+                          (itemSelected)="handleScoreResultChange(eventsArray, i, getEventScoreResult(eventsArray, i), getEventPlayType(eventsArray, i), getEventReceiverPlayer(eventsArray,i), getEventRunPlayer(eventsArray, i))"
                         ></app-search-list-of-strings>
                       }
                     </div>

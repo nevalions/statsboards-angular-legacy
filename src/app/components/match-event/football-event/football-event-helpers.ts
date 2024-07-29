@@ -123,9 +123,6 @@ export function createNewEvent(
   let newEventDown: number | null;
   let newEventDistance: number | null;
   let newEventPlayType: IFootballPlayType | null = null;
-  let newEventDistanceOnOffence: number | null;
-  let newEventIsFumble: boolean | null = false;
-  let newEventIsFumbleRecovered: boolean | null = false;
 
   if (lastEvent && lastEvent.event_number) {
     newEventNumber = lastEvent.event_number + 1;
@@ -170,6 +167,7 @@ export function createNewEvent(
   if (newEventPlayType === IFootballPlayType.Kickoff) {
     newEventDistance = null;
     newEventPlayType = null;
+    newEventQb = null;
   }
 
   if (lastEvent && lastEvent.play_result) {
@@ -257,14 +255,6 @@ export function createNewEvent(
     is_fumble: false,
     is_fumble_recovered: false,
   };
-}
-
-export function getPlayTypeByEnumValue(
-  value: string,
-): IFootballPlayType | null {
-  return (
-    Object.values(IFootballPlayType).find((type) => type === value) || null
-  );
 }
 
 export function extractEventData(
@@ -919,6 +909,14 @@ export function getEventScorePlayerFormControl(
   index: number,
 ): FormControl | null | undefined {
   return getFormControlWithIndex(form, index, eventScorePlayerKey, arrayName);
+}
+
+export function setScorePlayer(
+  eventsArray: FormArray,
+  index: number,
+  selectedItem: IPlayerInMatchFullData | null | undefined,
+): void {
+  setArrayKeyIndexValue(eventsArray, index, selectedItem, eventScorePlayerKey);
 }
 
 export function resetScorePlayer(eventsArray: FormArray, index: number): void {
