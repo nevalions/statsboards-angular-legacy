@@ -144,17 +144,16 @@ import {
   getQtrFormControl,
 } from '../football-event-helpers';
 import {
+  changePlayResultOnPlayTypeChange,
   filterPlayResultsByType,
   filterScoreResultsByType,
   incrementNumberWithArrayAndIndex,
   incrementOnBall,
   onBallOnChange,
   onDownChange,
-  onOffenceTdScore,
-  onPatOnePlayTypeChange,
+  onOffenceScore,
   onPlayResultChange,
   onPlayTypeChange,
-  onRunPlayTypeChange,
   onTeamChange,
 } from '../football-event-on-change-helpers';
 import {
@@ -248,8 +247,7 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
     index: number,
   ): void {
     onPlayTypeChange(eventsArray, selectedType, index);
-    onRunPlayTypeChange(eventsArray, selectedType, index);
-    onPatOnePlayTypeChange(eventsArray, selectedType, index);
+    changePlayResultOnPlayTypeChange(eventsArray, index);
   }
 
   handlePlayResultChange(
@@ -260,37 +258,9 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
     onPlayResultChange(eventsArray, selectedResult, index);
   }
 
-  handleScoreResultChange(
-    eventsArray: FormArray,
-    index: number,
-    eventScoreResult: IFootballScoreResult | undefined | null,
-    eventPlayType: IFootballPlayType | undefined | null,
-    eventReceiver: IPlayerInMatchFullData | undefined | null,
-    eventRusher: IPlayerInMatchFullData | undefined | null,
-  ): void {
-    if (eventsArray && index && eventScoreResult) {
-      if (eventPlayType) {
-        if (eventReceiver) {
-          onOffenceTdScore(
-            eventsArray,
-            index,
-            eventScoreResult,
-            eventPlayType,
-            eventReceiver,
-            null,
-          );
-        }
-        if (eventRusher) {
-          onOffenceTdScore(
-            eventsArray,
-            index,
-            eventScoreResult,
-            eventPlayType,
-            null,
-            eventRusher,
-          );
-        }
-      }
+  handleScoreResultChange(eventsArray: FormArray, index: number): void {
+    if (eventsArray && index) {
+      onOffenceScore(eventsArray, index);
     }
   }
 

@@ -7,6 +7,12 @@ import {
 } from '../../../type/football-event.type';
 import {
   getEventDown,
+  getEventKickPlayer,
+  getEventPlayType,
+  getEventReceiverPlayer,
+  getEventReturnPlayer,
+  getEventRunPlayer,
+  getEventScoreResult,
   resetAssistTacklePlayer,
   resetDeflectedPlayer,
   resetDroppedPlayer,
@@ -21,6 +27,7 @@ import {
   resetReturnPlayer,
   resetRunPlayer,
   resetSackPlayer,
+  resetScorePlayer,
   resetScoreResult,
   resetTacklePlayer,
   setDistance,
@@ -75,48 +82,74 @@ export function onDownChange(
   setDown(eventsArray, index, down);
 }
 
-export function onRunPlayTypeChange(
+export function changePlayResultOnPlayTypeChange(
   eventsArray: FormArray,
-  eventPlayType: IFootballPlayType | null | undefined,
   index: number,
 ): void {
-  if (eventsArray && eventPlayType && index) {
-    // console.log('eventPlayType on RUNPLAY', eventPlayType);
-    if (eventPlayType && eventPlayType === IFootballPlayType.Run) {
-      // console.log('runPlayType', eventPlayType);
+  if (eventsArray && index) {
+    const playType = getEventPlayType(eventsArray, index);
+    if (playType === IFootballPlayType.Run) {
       setPlayResult(eventsArray, index, IFootballPlayResult.Run);
     }
-  }
-}
-
-export function onPatOnePlayTypeChange(
-  eventsArray: FormArray,
-  eventPlayType: IFootballPlayType | null | undefined,
-  index: number,
-): void {
-  if (eventsArray && eventPlayType && index) {
-    if (eventPlayType && eventPlayType === IFootballPlayType.PatOne) {
+    if (playType === IFootballPlayType.PatOne) {
       setPlayResult(eventsArray, index, IFootballPlayResult.PatOne);
+    }
+    if (playType === IFootballPlayType.Kick) {
+      setPlayResult(eventsArray, index, IFootballPlayResult.Kick);
     }
   }
 }
 
-export function onOffenceTdScore(
-  eventsArray: FormArray,
-  index: number,
-  eventScoreResult: IFootballScoreResult | null | undefined,
-  eventPlayType: IFootballPlayType | null | undefined,
-  eventReceiver: IPlayerInMatchFullData | null | undefined,
-  eventRusher: IPlayerInMatchFullData | null | undefined,
-): void {
+export function onOffenceScore(eventsArray: FormArray, index: number): void {
+  const eventScoreResult: IFootballScoreResult | null | undefined =
+    getEventScoreResult(eventsArray, index);
+  const eventPlayType: IFootballPlayType | null | undefined = getEventPlayType(
+    eventsArray,
+    index,
+  );
+  const eventReceiver: IPlayerInMatchFullData | null | undefined =
+    getEventReceiverPlayer(eventsArray, index);
+  const eventRusher: IPlayerInMatchFullData | null | undefined =
+    getEventRunPlayer(eventsArray, index);
+  const eventKicker: IPlayerInMatchFullData | null | undefined =
+    getEventKickPlayer(eventsArray, index);
+  const eventReturner: IPlayerInMatchFullData | null | undefined =
+    getEventReturnPlayer(eventsArray, index);
+  if (!eventScoreResult) {
+    resetScorePlayer(eventsArray, index);
+  }
   if (eventsArray && index && eventScoreResult) {
-    if (eventScoreResult === IFootballScoreResult.Td) {
-      if (eventPlayType === IFootballPlayType.Pass && eventReceiver) {
+    if (
+      eventScoreResult === IFootballScoreResult.Td ||
+      eventScoreResult === IFootballScoreResult.PatTwoGood ||
+      eventPlayType === IFootballPlayType.Punt
+    ) {
+      if (
+        eventPlayType === IFootballPlayType.Pass &&
+        getEventReceiverPlayer(eventsArray, index)
+      ) {
         setScorePlayer(eventsArray, index, eventReceiver);
       }
       if (eventPlayType === IFootballPlayType.Run && eventRusher) {
         setScorePlayer(eventsArray, index, eventRusher);
       }
+      if (eventPlayType === IFootballPlayType.Kickoff && eventReturner) {
+        setScorePlayer(eventsArray, index, eventReturner);
+      }
+      if (eventPlayType === IFootballPlayType.Punt && eventReturner) {
+        setScorePlayer(eventsArray, index, eventReturner);
+      }
+    }
+  }
+  if (
+    eventScoreResult === IFootballScoreResult.KickGood ||
+    eventScoreResult === IFootballScoreResult.PatOneGood
+  ) {
+    if (
+      (eventKicker && eventPlayType === IFootballPlayType.Kick) ||
+      IFootballPlayType.PatOne
+    ) {
+      setScorePlayer(eventsArray, index, eventKicker);
     }
   }
 }
@@ -174,6 +207,7 @@ export function onPlayTypeChange(
         resetReturnPlayer(eventsArray, index);
         resetPatOnePlayer(eventsArray, index);
         resetPuntPlayer(eventsArray, index);
+        resetScorePlayer(eventsArray, index);
         break;
       case IFootballPlayType.Run.toLowerCase():
         resetPuntPlayer(eventsArray, index);
@@ -186,6 +220,7 @@ export function onPlayTypeChange(
         resetKickOffPlayer(eventsArray, index);
         resetPatOnePlayer(eventsArray, index);
         resetPuntPlayer(eventsArray, index);
+        resetScorePlayer(eventsArray, index);
         break;
       case IFootballPlayType.Kick.toLowerCase():
         resetPuntPlayer(eventsArray, index);
@@ -199,6 +234,7 @@ export function onPlayTypeChange(
         resetReturnPlayer(eventsArray, index);
         resetPatOnePlayer(eventsArray, index);
         resetPuntPlayer(eventsArray, index);
+        resetScorePlayer(eventsArray, index);
         break;
       case IFootballPlayType.PatOne.toLowerCase():
         resetPuntPlayer(eventsArray, index);
@@ -212,6 +248,7 @@ export function onPlayTypeChange(
         resetKickOffPlayer(eventsArray, index);
         resetReturnPlayer(eventsArray, index);
         resetPuntPlayer(eventsArray, index);
+        resetScorePlayer(eventsArray, index);
         break;
       case IFootballPlayType.Kickoff.toLowerCase():
         resetPuntPlayer(eventsArray, index);
@@ -224,6 +261,7 @@ export function onPlayTypeChange(
         resetKickPlayer(eventsArray, index);
         resetPatOnePlayer(eventsArray, index);
         resetPuntPlayer(eventsArray, index);
+        resetScorePlayer(eventsArray, index);
         break;
       case IFootballPlayType.Punt.toLowerCase():
         resetRunPlayer(eventsArray, index);
@@ -235,6 +273,7 @@ export function onPlayTypeChange(
         resetSackPlayer(eventsArray, index);
         resetKickOffPlayer(eventsArray, index);
         resetPatOnePlayer(eventsArray, index);
+        resetScorePlayer(eventsArray, index);
     }
     setPlayType(eventsArray, index, selectedType);
   } else {
@@ -251,6 +290,7 @@ export function onPlayTypeChange(
     resetKickOffPlayer(eventsArray, index);
     resetPatOnePlayer(eventsArray, index);
     resetPuntPlayer(eventsArray, index);
+    resetScorePlayer(eventsArray, index);
 
     setPlayType(eventsArray, index, selectedType);
   }
