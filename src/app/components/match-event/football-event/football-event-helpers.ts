@@ -1,5 +1,4 @@
 import { FormArray, FormControl, FormGroup } from '@angular/forms';
-import { IEnumObject } from '../../../type/base.type';
 import {
   getArrayFormDataByIndexAndKey,
   getFormControlWithIndex,
@@ -644,17 +643,6 @@ export function getEventHash(
   );
 }
 
-export function getEventHashEnum(
-  eventsArray: FormArray,
-  index: number,
-): IEnumObject | null | undefined {
-  return getArrayFormDataByIndexAndKey<number>(
-    eventsArray,
-    index,
-    eventHashKey,
-  );
-}
-
 export function getEventHashFormControl(
   form: FormGroup,
   arrayName: string,
@@ -668,17 +656,6 @@ export function getEventDirection(
   eventsArray: FormArray,
   index: number,
 ): IEventDirection | null | undefined {
-  return getArrayFormDataByIndexAndKey<number>(
-    eventsArray,
-    index,
-    eventDirectionKey,
-  );
-}
-
-export function getEventDirectionEnum(
-  eventsArray: FormArray,
-  index: number,
-): IEnumObject | null | undefined {
   return getArrayFormDataByIndexAndKey<number>(
     eventsArray,
     index,
@@ -708,31 +685,12 @@ export function getEventPlayType(
   return playType;
 }
 
-export function getEventPlayTypeEnum(
-  eventsArray: FormArray,
-  index: number,
-): IEnumObject | null | undefined {
-  return getArrayFormDataByIndexAndKey<number>(
-    eventsArray,
-    index,
-    eventPlayTypeKey,
-  );
-}
-
 export function getEventPlayTypeFormControl(
   form: FormGroup,
   arrayName: string,
   index: number,
 ): FormControl | null | undefined {
   return getFormControlWithIndex(form, index, eventPlayTypeKey, arrayName);
-}
-
-export function setPlayTypeEnum(
-  eventsArray: FormArray,
-  index: number,
-  selectedType: IEnumObject,
-): void {
-  setArrayValueWithKeyIndex(eventsArray, index, selectedType, eventPlayTypeKey);
 }
 
 export function setPlayType(
@@ -748,17 +706,6 @@ export function getEventPlayResult(
   eventsArray: FormArray,
   index: number,
 ): IFootballPlayResult | null | undefined {
-  return getArrayFormDataByIndexAndKey<number>(
-    eventsArray,
-    index,
-    eventPlayResultKey,
-  );
-}
-
-export function getEventPlayResultEnum(
-  eventsArray: FormArray,
-  index: number,
-): IEnumObject | null | undefined {
   return getArrayFormDataByIndexAndKey<number>(
     eventsArray,
     index,
@@ -782,14 +729,6 @@ export function setPlayResult(
   setArrayKeyIndexValue(eventsArray, index, selectedItem, eventPlayResultKey);
 }
 
-export function setPlayResultEnum(
-  eventsArray: FormArray,
-  index: number,
-  selectedItem: IEnumObject,
-): void {
-  setArrayKeyIndexValue(eventsArray, index, selectedItem, eventPlayResultKey);
-}
-
 export function resetPlayResult(eventsArray: FormArray, index: number): void {
   resetArrayKeyIndexValue(eventsArray, index, eventPlayResultKey);
 }
@@ -799,17 +738,6 @@ export function getEventScoreResult(
   eventsArray: FormArray,
   index: number,
 ): IFootballScoreResult | null | undefined {
-  return getArrayFormDataByIndexAndKey<number>(
-    eventsArray,
-    index,
-    eventScoreResultKey,
-  );
-}
-
-export function getEventScoreResultEnum(
-  eventsArray: FormArray,
-  index: number,
-): IEnumObject | null | undefined {
   return getArrayFormDataByIndexAndKey<number>(
     eventsArray,
     index,

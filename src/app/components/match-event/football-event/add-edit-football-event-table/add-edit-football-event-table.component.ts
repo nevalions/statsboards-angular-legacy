@@ -215,8 +215,6 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
   eventForm!: FormGroup;
   arrayName = 'events';
   newEventCount = 0;
-  // eventFilteredPlayResultOptions: IEnumObject[] = [];
-  // eventFilteredScoreResultOptions: IEnumObject[] = [];
   expandedStates: { [key: string]: boolean } = {};
   highestId: number | null = null;
 
@@ -243,27 +241,6 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
     return this.expandedStates[id] || false;
   }
 
-  // eventPlayTypeOptions = Object.values(IFootballPlayType).map((type) => ({
-  //   value: type,
-  //   label: type,
-  // }));
-
-  // handlePlayTypeChangeOnEnum(
-  //   eventsArray: FormArray,
-  //   selectedType: IEnumObject,
-  //   index: number,
-  // ): void {
-  //   onPlayTypeChangeEnum(
-  //     eventsArray,
-  //     selectedType,
-  //     index,
-  //     this.setFilteredPlayResults.bind(this),
-  //     this.setFilteredScoreResults.bind(this),
-  //   );
-  //   onRunPlayTypeChangeEnum(eventsArray, selectedType, index);
-  //   onPatOnePlayTypeChangeEnum(eventsArray, selectedType, index);
-  // }
-
   handlePlayTypeChange(
     eventsArray: FormArray,
     selectedType: IFootballPlayType | undefined | null,
@@ -281,38 +258,6 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
   ): void {
     onPlayResultChange(eventsArray, selectedResult, index);
   }
-
-  // handlePlayResultChangeEnum(
-  //   eventsArray: FormArray,
-  //   selectedResult: IEnumObject,
-  //   index: number,
-  // ): void {
-  //   onPlayResultChangeEnum(eventsArray, selectedResult, index);
-  // }
-  //
-  // setFilteredPlayResults(results: IEnumObject[]): void {
-  //   this.eventFilteredPlayResultOptions = results;
-  // }
-  //
-  // setFilteredScoreResults(results: IEnumObject[]): void {
-  //   this.eventFilteredScoreResultOptions = results;
-  // }
-  //
-  // setEnumFilteredPlayResults(results: IFootballPlayResult[]): void {
-  //   const enums: IEnumObject[] = results.map((result) => ({
-  //     value: result,
-  //     label: result,
-  //   }));
-  //   this.eventFilteredPlayResultOptions = enums;
-  // }
-  //
-  // setEnumFilteredScoreResults(results: IFootballScoreResult[]): void {
-  //   const enums: IEnumObject[] = results.map((result) => ({
-  //     value: result,
-  //     label: result,
-  //   }));
-  //   this.eventFilteredPlayResultOptions = enums;
-  // }
 
   get eventsArray(): FormArray {
     return this.eventForm.get(this.arrayName) as FormArray;
@@ -406,17 +351,6 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
         return 'transparent';
     }
   }
-
-  // getBackgroundColorEnum(playResult: IEnumObject): string {
-  //   switch (playResult.value) {
-  //     case IFootballPlayResult.Flag:
-  //       return '#D7BB69FF';
-  //     case IFootballPlayResult.PassIntercepted:
-  //       return '#ee88d2';
-  //     default:
-  //       return 'transparent';
-  //   }
-  // }
 
   constructor(
     private footballEvent: FootballEvent,

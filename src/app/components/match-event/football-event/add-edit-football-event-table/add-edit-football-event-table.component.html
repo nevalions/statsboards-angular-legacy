@@ -260,22 +260,12 @@
                           [placeholder]="'hash'"
                           [stringList]="eventHashOptions"
                         ></app-select-list-of-strings>
-                        <!--                        <app-select-enum-->
-                          <!--                          [control]="control"-->
-                          <!--                          [placeholder]="'hash'"-->
-                          <!--                          [enumObjects]="eventHashOptions"-->
-                          <!--                        ></app-select-enum>-->
                       } @else {
                         <app-search-list-of-strings
                           [control]="control"
                           [placeholder]="'hash'"
                           [stringList]="eventHashOptions"
                         ></app-search-list-of-strings>
-                        <!--                        <app-search-enum-->
-                          <!--                          [control]="control"-->
-                          <!--                          [placeholder]="'hash'"-->
-                          <!--                          [enumObjects]="eventHashOptions"-->
-                          <!--                        ></app-search-enum>-->
                       }
 
                     </div>
@@ -289,22 +279,12 @@
                           [placeholder]="'direction'"
                           [stringList]="eventDirectionOptions"
                         ></app-select-list-of-strings>
-                        <!--                        <app-select-enum-->
-                          <!--                          [control]="control"-->
-                          <!--                          [placeholder]="'direction'"-->
-                          <!--                          [enumObjects]="eventDirectionOptions"-->
-                          <!--                        ></app-select-enum>-->
                       } @else {
                         <app-search-list-of-strings
                           [control]="control"
                           [placeholder]="'direction'"
                           [stringList]="eventDirectionOptions"
                         ></app-search-list-of-strings>
-                        <!--                        <app-search-enum-->
-                          <!--                          [control]="control"-->
-                          <!--                          [placeholder]="'direction'"-->
-                          <!--                          [enumObjects]="eventDirectionOptions"-->
-                          <!--                        ></app-search-enum>-->
                       }
                     </div>
                   }
@@ -312,7 +292,6 @@
 
                 <!--EVENT PLAY TYPE-->
                 @if (getEventPlayTypeFormControl(this.eventForm, this.arrayName, i); as control) {
-                  <!--                  @if (getEventPlayType(eventsArray, i); as playType) {-->
                   <div class="event-table-cell">
                     @if (isMobile) {
                       <app-select-list-of-strings
@@ -321,32 +300,6 @@
                         [stringList]="eventPlayTypeOptions"
                         (itemSelected)="handlePlayTypeChange(eventsArray, getEventPlayType(eventsArray, i) ,i)"
                       ></app-select-list-of-strings>
-                      <!--                        <app-select-enum-->
-                        <!--                          [control]="control"-->
-                        <!--                          [placeholder]="'play type'"-->
-                        <!--                          [enumObjects]="eventPlayTypeOptions"-->
-                        <!--                          (itemSelected)="handlePlayTypeChange(eventsArray, $event, i)"-->
-                        <!--                        ></app-select-enum>-->
-                        <!--                      <tui-select-->
-                        <!--                        [formControl]="control"-->
-                        <!--                        [tuiTextfieldCleaner]="true"-->
-                        <!--                      >-->
-                        <!--                        {{ 'select' | uppercase }} {{ 'playtype'  | uppercase }}-->
-                        <!--                        <tui-data-list-->
-                        <!--                          *tuiDataList-->
-                        <!--                        >-->
-                        <!--                          @for (item of eventPlayTypeOptions; track $index) {-->
-                        <!--                            @if (item) {-->
-                        <!--                              <button-->
-                        <!--                                tuiOption-->
-                        <!--                                [value]="item"-->
-                        <!--                                (click)="handlePlayTypeChange(eventsArray, getEventPlayType(eventsArray, i) ,i)">-->
-                        <!--                                {{ item | titlecase }}-->
-                        <!--                              </button>-->
-                        <!--                            }-->
-                        <!--                          }-->
-                        <!--                        </tui-data-list>-->
-                        <!--                      </tui-select>-->
                     } @else {
                       <app-search-list-of-strings
                         [control]="control"
@@ -354,12 +307,6 @@
                         [stringList]="eventPlayTypeOptions"
                         (itemSelected)="handlePlayTypeChange(eventsArray, getEventPlayType(eventsArray, i) ,i)"
                       ></app-search-list-of-strings>
-                      <!--                      <app-search-enum-->
-                        <!--                        [control]="control"-->
-                        <!--                        [placeholder]="'play type'"-->
-                        <!--                        [enumObjects]="filterPlayResultsByType(getEventPlayType(eventsArray, i))"-->
-                        <!--                        (itemSelected)="handlePlayTypeChange(eventsArray, getEventPlayType(eventsArray, i), i)"-->
-                        <!--                      ></app-search-enum>-->
                     }
                   </div>
 
@@ -375,44 +322,12 @@
                         [stringList]="filterPlayResultsByType(getEventPlayType(eventsArray, i))"
                         (itemSelected)="handlePlayResultChange(eventsArray, getEventPlayResult(eventsArray, i) ,i)"
                       ></app-select-list-of-strings>
-                      <!--                      <tui-select-->
-                        <!--                        [formControl]="control"-->
-                        <!--                        [tuiTextfieldCleaner]="true"-->
-                        <!--                      >-->
-                        <!--                        {{ 'select' | uppercase }} {{ 'playtype'  | uppercase }}-->
-                        <!--                        <tui-data-list-->
-                        <!--                          *tuiDataList-->
-                        <!--                        >-->
-                        <!--                          @for (item of filterPlayResultsByType(getEventPlayType(eventsArray, i)); track $index) {-->
-                        <!--                            @if (item) {-->
-                        <!--                              <button-->
-                        <!--                                tuiOption-->
-                        <!--                                [value]="item"-->
-                        <!--                                (click)="handlePlayResultChange(eventsArray, getEventPlayResult(eventsArray, i) ,i)">-->
-                        <!--                                {{ item | titlecase }}-->
-                        <!--                              </button>-->
-                        <!--                            }-->
-                        <!--                          }-->
-                        <!--                        </tui-data-list>-->
-                        <!--                      </tui-select>-->
-                        <!--                      <app-select-enum-->
-                        <!--                        [control]="control"-->
-                        <!--                        [placeholder]="'play result'"-->
-                        <!--                        [enumObjects]="eventFilteredPlayResultOptions"-->
-                        <!--                        (itemSelected)="handlePlayResultChange(eventsArray, $event, i)"-->
-                        <!--                      ></app-select-enum>-->
                     } @else {
                       <app-search-list-of-strings
                         [control]="control"
                         [placeholder]="'play result'"
                         [stringList]="filterPlayResultsByType(getEventPlayType(eventsArray, i))"
                       ></app-search-list-of-strings>
-                      <!--                      <app-search-enum-->
-                        <!--                        [control]="control"-->
-                        <!--                        [placeholder]="'play result'"-->
-                        <!--                        [enumObjects]="filterPlayResultsByType(getEventPlayType(eventsArray, i))"-->
-                        <!--                        (itemSelected)="handlePlayResultChange(eventsArray, $event, i)"-->
-                        <!--                      ></app-search-enum>-->
                     }
                   </div>
                 }
@@ -697,22 +612,12 @@
                           [placeholder]="'score result'"
                           [stringList]="filterScoreResultsByType(getEventPlayType(eventsArray, i))"
                         ></app-select-list-of-strings>
-                        <!--                        <app-select-enum-->
-                          <!--                          [control]="control"-->
-                          <!--                          [placeholder]="'score result'"-->
-                          <!--                          [enumObjects]="eventFilteredScoreResultOptions"-->
-                          <!--                        ></app-select-enum>-->
                       } @else {
                         <app-search-list-of-strings
                           [control]="control"
                           [placeholder]="'score result'"
                           [stringList]="filterScoreResultsByType(getEventPlayType(eventsArray, i))"
                         ></app-search-list-of-strings>
-                        <!--                        <app-search-enum-->
-                          <!--                          [control]="control"-->
-                          <!--                          [placeholder]="'score result'"-->
-                          <!--                          [enumObjects]="eventFilteredScoreResultOptions"-->
-                          <!--                        ></app-search-enum>-->
                       }
                     </div>
                   }
