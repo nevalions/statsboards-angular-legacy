@@ -141,9 +141,12 @@ import {
   getEventTacklePlayerFormControl,
   getEventTeam,
   getEventTeamFormControl,
+  getPlayTypeByEnumValue,
   getQtrFormControl,
 } from '../football-event-helpers';
 import {
+  filterPlayResultsByType,
+  filterScoreResultsByType,
   incrementNumberWithArrayAndIndex,
   incrementOnBall,
   onBallOnChange,
@@ -291,8 +294,62 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
     this.eventFilteredScoreResultOptions = results;
   }
 
+  setEnumFilteredPlayResults(results: IFootballPlayResult[]): void {
+    const enums: IEnumObject[] = results.map((result) => ({
+      value: result,
+      label: result,
+    }));
+    this.eventFilteredPlayResultOptions = enums;
+  }
+
+  setEnumFilteredScoreResults(results: IFootballScoreResult[]): void {
+    const enums: IEnumObject[] = results.map((result) => ({
+      value: result,
+      label: result,
+    }));
+    this.eventFilteredPlayResultOptions = enums;
+  }
+
   get eventsArray(): FormArray {
     return this.eventForm.get(this.arrayName) as FormArray;
+  }
+
+  private updateFilteredResults(
+    index: number,
+    playType: IFootballPlayType,
+  ): void {
+    const filteredPlayResults = filterPlayResultsByType(playType);
+    const filteredScoreResults = filterScoreResultsByType(playType);
+
+    console.log(filteredPlayResults, filteredScoreResults);
+
+    this.setEnumFilteredPlayResults(filteredPlayResults);
+    this.setEnumFilteredScoreResults(filteredScoreResults);
+
+    // Set the filtered results in the form controls if necessary
+    const controlEventPlayResult = eventPlayResult(index);
+    const controlEventScoreResult = eventScoreResult(index);
+    const formGroup = this.eventsArray.at(index) as FormGroup;
+
+    if (
+      !filteredPlayResults.includes(
+        formGroup.get(controlEventPlayResult)?.value,
+      )
+    ) {
+      formGroup
+        .get(controlEventPlayResult)
+        ?.setValue(filteredPlayResults[0] || null);
+    }
+
+    if (
+      !filteredScoreResults.includes(
+        formGroup.get(controlEventScoreResult)?.value,
+      )
+    ) {
+      formGroup
+        .get(controlEventScoreResult)
+        ?.setValue(filteredScoreResults[0] || null);
+    }
   }
 
   private populateFormArray(): void {
@@ -304,19 +361,23 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
       // console.log('array', formArray);
       this.eventForm.setControl(this.arrayName, formArray);
 
+      // // Set filtered play results based on the initial values
+      // this.events.forEach((event, index) => {
+      //   if (event && event.play_type) {
+      //     console.log(event.play_type);
+      //     const playType = getPlayTypeByEnumValue(event.play_type?.value);
+      //     console.log(playType);
+      //     if (playType) {
+      //       this.updateFilteredResults(index, playType);
+      //     }
+      //   }
+      // });
+
       // Determine the ID of the last event and toggle its state
       if (this.events.length > 0) {
         const lastIndex = this.events.length - 1;
         this.toggle(lastIndex);
       }
-
-      // if (this.events.length > 0) {
-      //   const lastEventNumber =
-      //     this.events[this.events.length - 1].event_number;
-      //   if (lastEventNumber) {
-      //     this.toggle(lastEventNumber);
-      //   }
-      // }
     }
   }
 
@@ -516,6 +577,16 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
         event.fumble_recovered_player,
       ),
     });
+
+    // // Subscribe to changes in play type to update filtered results
+    // formGroup
+    //   .get(controlEventPlayType)
+    //   ?.valueChanges.subscribe((newPlayType) => {
+    //     const playType = getPlayTypeByEnumValue(newPlayType);
+    //     if (playType) {
+    //       this.updateFilteredResults(index, playType);
+    //     }
+    //   });
 
     // Disable the entire form group if event.id is not null
     if (event.id !== null && event.id !== undefined) {
