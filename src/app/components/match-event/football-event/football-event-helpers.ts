@@ -167,6 +167,11 @@ export function createNewEvent(
     newEventDistance = 10;
   }
 
+  if (newEventPlayType === IFootballPlayType.Kickoff) {
+    newEventDistance = null;
+    newEventPlayType = null;
+  }
+
   if (lastEvent && lastEvent.play_result) {
     if (match) {
       const {
@@ -219,6 +224,17 @@ export function createNewEvent(
         newEventDown = null;
         newEventDistance = null;
         newEventTeam = newTeam;
+        newEventPlayType = IFootballPlayType.Kickoff;
+      }
+
+      if (
+        lastEvent.offense_team &&
+        lastEvent.score_result === IFootballScoreResult.Safety
+      ) {
+        newEventBallOn = -20;
+        newEventDown = null;
+        newEventDistance = null;
+        newEventTeam = lastEvent.offense_team;
         newEventPlayType = IFootballPlayType.Kickoff;
       }
     }

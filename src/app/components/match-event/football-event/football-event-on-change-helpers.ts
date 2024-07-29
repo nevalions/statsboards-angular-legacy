@@ -141,7 +141,7 @@ export function onPlayTypeChange(
   }
   // console.log('selected type', selectedType);
   if (selectedType) {
-    console.log('selected type', selectedType);
+    // console.log('selected type', selectedType);
 
     switch (selectedType.toLowerCase()) {
       case IFootballPlayType.Pass.toLowerCase():
