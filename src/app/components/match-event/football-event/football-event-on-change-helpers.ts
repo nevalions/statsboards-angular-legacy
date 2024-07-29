@@ -416,16 +416,6 @@ export function filterPlayResultsByType(
   }
 }
 
-// export function onScoreResultChange(
-//   eventsArray: FormArray,
-//   selectedResult: IFootballScoreResult | null = null,
-//   index: number,
-// ): void {
-//   if (selectedResult) {
-//     resetScoreResult()
-//   }
-// }
-
 export function filterScoreResultsByType(
   scoreResult: IFootballPlayType | undefined | null,
 ): IFootballScoreResult[] {

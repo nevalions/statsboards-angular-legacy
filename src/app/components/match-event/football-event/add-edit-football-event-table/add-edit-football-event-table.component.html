@@ -98,7 +98,6 @@
                   <!--EVENT QTR-->
                   @if (getQtrFormControl(this.eventForm, this.arrayName, i); as control) {
                     <div class="event-table-cell">
-                      <!--                      <label>Qtr</label>-->
                       <app-input-number-with-buttons
                         [label]="'Qtr'"
                         [control]="control"
@@ -205,7 +204,6 @@
                 @if (getEventQbFormControl(this.eventForm, this.arrayName, i); as control) {
                   <div class="event-table-cell">
                     @if (getEventTeam(eventsArray, i); as selectedTeam) {
-                      <!--                      <label>QB</label>-->
                       <app-search-player-in-match-autocomplete
                         [action]="'select'"
                         [placeholder]="'qb'"
