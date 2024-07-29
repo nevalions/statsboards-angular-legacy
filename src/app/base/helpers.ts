@@ -10,8 +10,9 @@ export function hasTitle(item: any): item is { title: string } {
   return item != null && typeof item === 'object' && 'title' in item;
 }
 
-export function toTitleCase(str: string) {
-  if (str) {
+export function toTitleCase(str: any) {
+  if (str && typeof str === 'string') {
+    // console.log(str);
     return str
       .toLowerCase()
       .split(' ')
@@ -20,6 +21,10 @@ export function toTitleCase(str: string) {
   } else {
     return '';
   }
+}
+
+export function stringifyListOfStringsToTitle(item: string): string {
+  return toTitleCase(item.toString().trim());
 }
 
 export function stringifyNameSurname(item: IPerson): string {

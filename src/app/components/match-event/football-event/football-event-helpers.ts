@@ -10,6 +10,7 @@ import {
 import { IPlayerInMatchFullData } from '../../../type/player.type';
 import { ITeam } from '../../../type/team.type';
 import {
+  IEventDirection,
   IFootballEvent,
   IFootballEventWithPlayers,
   IFootballPlayResult,
@@ -122,7 +123,7 @@ export function createNewEvent(
   let newEventBallOn: number | null = null;
   let newEventDown: number | null;
   let newEventDistance: number | null;
-  let newEventPlayType: IEnumObject | null = null;
+  let newEventPlayType: IFootballPlayType | null = null;
   let newEventDistanceOnOffence: number | null;
   let newEventIsFumble: boolean | null = false;
   let newEventIsFumbleRecovered: boolean | null = false;
@@ -177,8 +178,8 @@ export function createNewEvent(
         newEventQb: newQb,
       } = handleTeamChangeOnTouchBack(match, lastEvent);
       if (
-        (lastEvent.play_result.value === IFootballPlayResult.PuntReturn ||
-          lastEvent.play_result.value === IFootballPlayResult.KickOffReturn) &&
+        (lastEvent.play_result === IFootballPlayResult.PuntReturn ||
+          lastEvent.play_result === IFootballPlayResult.KickOffReturn) &&
         !lastEvent.is_fumble
       ) {
         newEventDown = newDown;
@@ -187,7 +188,7 @@ export function createNewEvent(
         newEventQb = newQb;
       }
 
-      if (lastEvent.play_result.value === IFootballPlayResult.TouchBack) {
+      if (lastEvent.play_result === IFootballPlayResult.TouchBack) {
         newEventBallOn = newBallOn;
         newEventDown = newDown;
         newEventDistance = newDistance;
@@ -196,36 +197,30 @@ export function createNewEvent(
       }
 
       if (
-        lastEvent.play_result.value === IFootballPlayResult.Kick &&
-        (lastEvent.score_result?.value === IFootballScoreResult.KickGood ||
-          lastEvent.score_result?.value === IFootballScoreResult.KickMissed)
+        lastEvent.play_result === IFootballPlayResult.Kick &&
+        (lastEvent.score_result === IFootballScoreResult.KickGood ||
+          lastEvent.score_result === IFootballScoreResult.KickMissed)
       ) {
         newEventBallOn = -20;
         newEventDown = null;
         newEventDistance = null;
         newEventTeam = newTeam;
-        newEventPlayType = {
-          value: IFootballPlayType.Kickoff,
-          label: IFootballPlayType.Kickoff,
-        };
+        newEventPlayType = IFootballPlayType.Kickoff;
       }
 
       if (
-        lastEvent.score_result?.value === IFootballScoreResult.PatOneMissed ||
-        lastEvent.score_result?.value === IFootballScoreResult.PatOneGood ||
-        lastEvent.score_result?.value === IFootballScoreResult.PatOneReturn ||
-        lastEvent.score_result?.value === IFootballScoreResult.PatTwoMissed ||
-        lastEvent.score_result?.value === IFootballScoreResult.PatTwoGood ||
-        lastEvent.score_result?.value === IFootballScoreResult.PatTwoReturn
+        lastEvent.score_result === IFootballScoreResult.PatOneMissed ||
+        lastEvent.score_result === IFootballScoreResult.PatOneGood ||
+        lastEvent.score_result === IFootballScoreResult.PatOneReturn ||
+        lastEvent.score_result === IFootballScoreResult.PatTwoMissed ||
+        lastEvent.score_result === IFootballScoreResult.PatTwoGood ||
+        lastEvent.score_result === IFootballScoreResult.PatTwoReturn
       ) {
         newEventBallOn = -20;
         newEventDown = null;
         newEventDistance = null;
         newEventTeam = newTeam;
-        newEventPlayType = {
-          value: IFootballPlayType.Kickoff,
-          label: IFootballPlayType.Kickoff,
-        };
+        newEventPlayType = IFootballPlayType.Kickoff;
       }
     }
   }
@@ -344,32 +339,32 @@ export function extractEventData(
     newEventData.event_distance = eventDistance;
   }
 
-  if (eventHash && eventHash.value) {
-    newEventData.event_hash = eventHash.value.toLowerCase();
+  if (eventHash && eventHash) {
+    newEventData.event_hash = eventHash.toLowerCase();
   } else {
     newEventData.event_hash = null;
   }
 
-  if (eventDirection && eventDirection.value) {
-    newEventData.play_direction = eventDirection.value.toLowerCase();
+  if (eventDirection && eventDirection) {
+    newEventData.play_direction = eventDirection.toLowerCase();
   } else {
     newEventData.play_direction = null;
   }
 
-  if (eventPlayType && eventPlayType.value) {
-    newEventData.play_type = eventPlayType.value.toLowerCase();
+  if (eventPlayType && eventPlayType) {
+    newEventData.play_type = eventPlayType.toLowerCase();
   } else {
     newEventData.play_type = null;
   }
 
-  if (eventPlayResult && eventPlayResult.value) {
-    newEventData.play_result = eventPlayResult.value.toLowerCase();
+  if (eventPlayResult && eventPlayResult) {
+    newEventData.play_result = eventPlayResult.toLowerCase();
   } else {
     newEventData.play_result = null;
   }
 
-  if (eventScoreResult && eventScoreResult.value) {
-    newEventData.score_result = eventScoreResult.value.toLowerCase();
+  if (eventScoreResult && eventScoreResult) {
+    newEventData.score_result = eventScoreResult.toLowerCase();
   } else {
     newEventData.score_result = null;
   }
@@ -641,6 +636,17 @@ export function setDistance(
 export function getEventHash(
   eventsArray: FormArray,
   index: number,
+): IEventDirection | null | undefined {
+  return getArrayFormDataByIndexAndKey<number>(
+    eventsArray,
+    index,
+    eventHashKey,
+  );
+}
+
+export function getEventHashEnum(
+  eventsArray: FormArray,
+  index: number,
 ): IEnumObject | null | undefined {
   return getArrayFormDataByIndexAndKey<number>(
     eventsArray,
@@ -659,6 +665,17 @@ export function getEventHashFormControl(
 
 // EventDirection
 export function getEventDirection(
+  eventsArray: FormArray,
+  index: number,
+): IEventDirection | null | undefined {
+  return getArrayFormDataByIndexAndKey<number>(
+    eventsArray,
+    index,
+    eventDirectionKey,
+  );
+}
+
+export function getEventDirectionEnum(
   eventsArray: FormArray,
   index: number,
 ): IEnumObject | null | undefined {
@@ -681,6 +698,19 @@ export function getEventDirectionFormControl(
 export function getEventPlayType(
   eventsArray: FormArray,
   index: number,
+): IFootballPlayType | null | undefined {
+  const playType = getArrayFormDataByIndexAndKey<number>(
+    eventsArray,
+    index,
+    eventPlayTypeKey,
+  );
+  // console.log('playType', playType);
+  return playType;
+}
+
+export function getEventPlayTypeEnum(
+  eventsArray: FormArray,
+  index: number,
 ): IEnumObject | null | undefined {
   return getArrayFormDataByIndexAndKey<number>(
     eventsArray,
@@ -697,7 +727,7 @@ export function getEventPlayTypeFormControl(
   return getFormControlWithIndex(form, index, eventPlayTypeKey, arrayName);
 }
 
-export function setPlayType(
+export function setPlayTypeEnum(
   eventsArray: FormArray,
   index: number,
   selectedType: IEnumObject,
@@ -705,8 +735,27 @@ export function setPlayType(
   setArrayValueWithKeyIndex(eventsArray, index, selectedType, eventPlayTypeKey);
 }
 
+export function setPlayType(
+  eventsArray: FormArray,
+  index: number,
+  selectedType: IFootballPlayType,
+): void {
+  setArrayValueWithKeyIndex(eventsArray, index, selectedType, eventPlayTypeKey);
+}
+
 // EventPlayResult
 export function getEventPlayResult(
+  eventsArray: FormArray,
+  index: number,
+): IFootballPlayResult | null | undefined {
+  return getArrayFormDataByIndexAndKey<number>(
+    eventsArray,
+    index,
+    eventPlayResultKey,
+  );
+}
+
+export function getEventPlayResultEnum(
   eventsArray: FormArray,
   index: number,
 ): IEnumObject | null | undefined {
@@ -728,6 +777,14 @@ export function getEventPlayResultFormControl(
 export function setPlayResult(
   eventsArray: FormArray,
   index: number,
+  selectedItem: IFootballPlayResult,
+): void {
+  setArrayKeyIndexValue(eventsArray, index, selectedItem, eventPlayResultKey);
+}
+
+export function setPlayResultEnum(
+  eventsArray: FormArray,
+  index: number,
   selectedItem: IEnumObject,
 ): void {
   setArrayKeyIndexValue(eventsArray, index, selectedItem, eventPlayResultKey);
@@ -739,6 +796,17 @@ export function resetPlayResult(eventsArray: FormArray, index: number): void {
 
 // EventScoreResult
 export function getEventScoreResult(
+  eventsArray: FormArray,
+  index: number,
+): IFootballScoreResult | null | undefined {
+  return getArrayFormDataByIndexAndKey<number>(
+    eventsArray,
+    index,
+    eventScoreResultKey,
+  );
+}
+
+export function getEventScoreResultEnum(
   eventsArray: FormArray,
   index: number,
 ): IEnumObject | null | undefined {

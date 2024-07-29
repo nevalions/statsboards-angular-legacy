@@ -121,11 +121,11 @@ export interface IFootballEventWithPlayers {
   event_distance?: number | null;
   distance_on_offence?: number | null;
 
-  event_hash?: IEnumObject | null;
-  play_direction?: IEnumObject | null;
-  play_type?: IEnumObject | null;
-  play_result?: IEnumObject | null;
-  score_result?: IEnumObject | null;
+  event_hash?: IEventHash | null;
+  play_direction?: IEventDirection | null;
+  play_type?: IFootballPlayType | null;
+  play_result?: IFootballPlayResult | null;
+  score_result?: IFootballScoreResult | null;
 
   is_fumble?: boolean | null;
   is_fumble_recovered?: boolean | null;
@@ -188,14 +188,26 @@ export interface IOffenceStats {
   fumble: number;
 }
 
-export const eventHashOptions: IEnumObject[] = Object.entries(IEventHash).map(
-  ([key, value]) => ({
-    value: value,
-    label: key,
-  }),
+export const eventPlayTypeOptions: string[] = Object.entries(
+  IFootballPlayType,
+).map(([key, value]) => value);
+
+export const eventHashOptionsEnum: IEnumObject[] = Object.entries(
+  IEventHash,
+).map(([key, value]) => ({
+  value: value,
+  label: key,
+}));
+
+export const eventHashOptions: string[] = Object.entries(IEventHash).map(
+  ([key, value]) => value,
 );
 
-export const eventDirectionOptions: IEnumObject[] = Object.entries(
+export const eventDirectionOptions: string[] = Object.entries(
+  IEventDirection,
+).map(([key, value]) => value);
+
+export const eventDirectionOptionsEnum: IEnumObject[] = Object.entries(
   IEventDirection,
 ).map(([key, value]) => ({
   value: value,

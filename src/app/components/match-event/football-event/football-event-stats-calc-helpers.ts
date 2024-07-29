@@ -14,8 +14,8 @@ export function calculateQbRunDistanceAndFumbleAndTd(
   stats: Record<number, IQBStats>,
 ): void {
   if (
-    event.play_type?.value === IFootballPlayType.Run &&
-    event.play_result?.value !== IFootballPlayResult.Flag
+    event.play_type === IFootballPlayType.Run &&
+    event.play_result !== IFootballPlayResult.Flag
   ) {
     if (event.run_player?.match_player.id === playerId) {
       stats[playerId].run_attempts++;
@@ -23,7 +23,7 @@ export function calculateQbRunDistanceAndFumbleAndTd(
         if (event.distance_moved) {
           stats[playerId].run_yards += event.distance_moved;
         }
-        if (event.score_result?.value === IFootballScoreResult.Td) {
+        if (event.score_result === IFootballScoreResult.Td) {
           stats[playerId].run_td++;
         }
       } else {
@@ -42,18 +42,18 @@ export function calculateQbPassDistanceAndTd(
   stats: Record<number, IQBStats>,
 ): void {
   if (
-    event.play_type?.value === IFootballPlayType.Pass &&
-    event.play_result?.value !== IFootballPlayResult.Flag
+    event.play_type === IFootballPlayType.Pass &&
+    event.play_result !== IFootballPlayResult.Flag
   ) {
     stats[playerId].passes++;
 
-    if (event.play_result?.value === IFootballPlayResult.PassCompleted) {
+    if (event.play_result === IFootballPlayResult.PassCompleted) {
       stats[playerId].passes_completed++;
       if (!event.is_fumble) {
         if (event.distance_moved) {
           stats[playerId].pass_yards += event.distance_moved;
         }
-        if (event.score_result?.value === IFootballScoreResult.Td) {
+        if (event.score_result === IFootballScoreResult.Td) {
           stats[playerId].pass_td++;
         }
       } else {
@@ -71,8 +71,8 @@ export function calculateFootballOffenceRunDistanceAndFumbleAndTd(
   stats: Record<number, IOffenceStats>,
 ): void {
   if (
-    event.play_type?.value === IFootballPlayType.Run &&
-    event.play_result?.value !== IFootballPlayResult.Flag
+    event.play_type === IFootballPlayType.Run &&
+    event.play_result !== IFootballPlayResult.Flag
   ) {
     if (event.run_player?.match_player.id === playerId) {
       stats[playerId].run_attempts++;
@@ -80,7 +80,7 @@ export function calculateFootballOffenceRunDistanceAndFumbleAndTd(
         if (event.distance_moved) {
           stats[playerId].run_yards += event.distance_moved;
         }
-        if (event.score_result?.value === IFootballScoreResult.Td) {
+        if (event.score_result === IFootballScoreResult.Td) {
           stats[playerId].run_td++;
         }
       } else {
@@ -99,12 +99,12 @@ export function calculateFootballOffencePassDistanceAndFumbleAndTd(
   stats: Record<number, IOffenceStats>,
 ): void {
   if (
-    event.play_type?.value === IFootballPlayType.Pass &&
-    event.play_result?.value !== IFootballPlayResult.Flag
+    event.play_type === IFootballPlayType.Pass &&
+    event.play_result !== IFootballPlayResult.Flag
   ) {
     if (
       event.pass_received_player?.match_player.id === playerId &&
-      event.play_result?.value === IFootballPlayResult.PassCompleted
+      event.play_result === IFootballPlayResult.PassCompleted
     ) {
       stats[playerId].pass_attempts++;
       stats[playerId].pass_received++;
@@ -112,7 +112,7 @@ export function calculateFootballOffencePassDistanceAndFumbleAndTd(
         if (event.distance_moved) {
           stats[playerId].pass_yards += event.distance_moved;
         }
-        if (event.score_result?.value === IFootballScoreResult.Td) {
+        if (event.score_result === IFootballScoreResult.Td) {
           stats[playerId].pass_td++;
         }
       } else {
@@ -122,9 +122,9 @@ export function calculateFootballOffencePassDistanceAndFumbleAndTd(
         }
       }
     } else if (
-      event.play_result?.value === IFootballPlayResult.PassIncomplete ||
-      event.play_result?.value === IFootballPlayResult.PassDropped ||
-      event.play_result?.value === IFootballPlayResult.PassDeflected
+      event.play_result === IFootballPlayResult.PassIncomplete ||
+      event.play_result === IFootballPlayResult.PassDropped ||
+      event.play_result === IFootballPlayResult.PassDeflected
     ) {
       stats[playerId].pass_attempts++;
     }

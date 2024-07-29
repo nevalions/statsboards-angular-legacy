@@ -75,9 +75,11 @@ export function getArrayFormDataByIndexAndKey<T>(
   key: string,
 ): any {
   const formArray = array as FormArray;
-  const playerFormGroup = formArray.at(index);
-  if (formArray && playerFormGroup) {
-    return playerFormGroup.get(`${key}${index}`)?.value;
+  const formGroup = formArray.at(index);
+  // console.log(array, index, key);
+  if (formArray && formGroup) {
+    // console.log(formGroup.get(`${key}${index}`)?.value);
+    return formGroup.get(`${key}${index}`)?.value;
   } else {
     return null;
   }

@@ -9,6 +9,7 @@ import { IPlayerInMatchFullData } from '../../../../type/player.type';
 import {
   eventDirectionOptions,
   eventHashOptions,
+  eventPlayTypeOptions,
   IFootballEvent,
   IFootballEventWithPlayers,
   IFootballPlayResult,
@@ -91,7 +92,6 @@ import {
   getEventDistance,
   getEventDistanceFormControl,
   getEventDistanceMoved,
-  getEventDistanceOnOffence,
   getEventDistanceOnOffenceFormControl,
   getEventDown,
   getEventDownFormControl,
@@ -141,7 +141,6 @@ import {
   getEventTacklePlayerFormControl,
   getEventTeam,
   getEventTeamFormControl,
-  getPlayTypeByEnumValue,
   getQtrFormControl,
 } from '../football-event-helpers';
 import {
@@ -160,56 +159,43 @@ import {
 import {
   TuiAppearance,
   TuiButtonModule,
-  TuiExpandModule,
   TuiTextfieldControllerModule,
 } from '@taiga-ui/core';
+import { hexToRgba } from '../../../../base/helpers';
+import { DeviceDetectorService } from 'ngx-device-detector';
 import { NgForOf, TitleCasePipe, UpperCasePipe } from '@angular/common';
-import {
-  TuiDataListWrapperModule,
-  TuiInputNumberModule,
-  TuiSelectModule,
-  TuiToggleModule,
-} from '@taiga-ui/kit';
-import { TuiFocusableModule, TuiValueChangesModule } from '@taiga-ui/cdk';
+import { ButtonIconComponent } from '../../../../shared/ui/buttons/button-icon/button-icon.component';
+import { InputNumberWithButtonsComponent } from '../../../../shared/scoreboards/admin-forms/input-number-with-buttons/input-number-with-buttons.component';
+import { TuiInputNumberModule, TuiToggleModule } from '@taiga-ui/kit';
+import { TuiValueChangesModule } from '@taiga-ui/cdk';
 import { SelectTeamInMatchComponent } from '../../../../shared/ui/select/select-team-in-match/select-team-in-match.component';
 import { SearchPlayerInMatchAutocompleteComponent } from '../../../../shared/ui/search/search-player-in-match-autocomplete/search-player-in-match-autocomplete.component';
-import { SelectEnumComponent } from '../../../../shared/ui/select/select-enum/select-enum.component';
+import { SelectListOfStringsComponent } from '../../../../shared/ui/select/select-list-of-strings/select-list-of-strings.component';
+import { SearchListOfStringsComponent } from '../../../../shared/ui/search/search-list-of-strings/search-list-of-strings.component';
 import { ActionsButtonsComponent } from '../../../../shared/ui/buttons/actions-buttons/actions-buttons.component';
 import { AddButtonOnFinalTrComponent } from '../../../../shared/ui/buttons/add-button-on-final-tr/add-button-on-final-tr.component';
-import { IEnumObject } from '../../../../type/base.type';
-import { InputNumberWithButtonsComponent } from '../../../../shared/scoreboards/admin-forms/input-number-with-buttons/input-number-with-buttons.component';
-import { ButtonIconComponent } from '../../../../shared/ui/buttons/button-icon/button-icon.component';
-import { hexToRgba } from '../../../../base/helpers';
-import { SimpleInputWithButtonsComponent } from '../../../../shared/scoreboards/admin-forms/simple-input-with-buttons/simple-input-with-buttons.component';
-import { SearchEnumComponent } from '../../../../shared/ui/search/search-enum/search-enum.component';
-import { DeviceDetectorService } from 'ngx-device-detector';
 
 @Component({
   selector: 'app-add-edit-football-event-table',
   standalone: true,
   imports: [
     ReactiveFormsModule,
-    TuiTextfieldControllerModule,
     NgForOf,
+    ButtonIconComponent,
+    TitleCasePipe,
+    UpperCasePipe,
+    InputNumberWithButtonsComponent,
     TuiInputNumberModule,
+    TuiTextfieldControllerModule,
     TuiValueChangesModule,
+    TuiButtonModule,
     SelectTeamInMatchComponent,
     SearchPlayerInMatchAutocompleteComponent,
-    SelectEnumComponent,
+    SelectListOfStringsComponent,
+    SearchListOfStringsComponent,
     ActionsButtonsComponent,
     AddButtonOnFinalTrComponent,
-    TuiFocusableModule,
-    TuiButtonModule,
-    InputNumberWithButtonsComponent,
-    TuiExpandModule,
     TuiToggleModule,
-    UpperCasePipe,
-    TitleCasePipe,
-    ButtonIconComponent,
-    SimpleInputWithButtonsComponent,
-    TuiDataListWrapperModule,
-    TuiSelectModule,
-    SearchEnumComponent,
   ],
   templateUrl: './add-edit-football-event-table.component.html',
   styleUrl: './add-edit-football-event-table.component.less',
@@ -229,8 +215,8 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
   eventForm!: FormGroup;
   arrayName = 'events';
   newEventCount = 0;
-  eventFilteredPlayResultOptions: IEnumObject[] = [];
-  eventFilteredScoreResultOptions: IEnumObject[] = [];
+  // eventFilteredPlayResultOptions: IEnumObject[] = [];
+  // eventFilteredScoreResultOptions: IEnumObject[] = [];
   expandedStates: { [key: string]: boolean } = {};
   highestId: number | null = null;
 
@@ -257,99 +243,79 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
     return this.expandedStates[id] || false;
   }
 
-  eventPlayTypeOptions = Object.values(IFootballPlayType).map((type) => ({
-    value: type,
-    label: type,
-  }));
+  // eventPlayTypeOptions = Object.values(IFootballPlayType).map((type) => ({
+  //   value: type,
+  //   label: type,
+  // }));
+
+  // handlePlayTypeChangeOnEnum(
+  //   eventsArray: FormArray,
+  //   selectedType: IEnumObject,
+  //   index: number,
+  // ): void {
+  //   onPlayTypeChangeEnum(
+  //     eventsArray,
+  //     selectedType,
+  //     index,
+  //     this.setFilteredPlayResults.bind(this),
+  //     this.setFilteredScoreResults.bind(this),
+  //   );
+  //   onRunPlayTypeChangeEnum(eventsArray, selectedType, index);
+  //   onPatOnePlayTypeChangeEnum(eventsArray, selectedType, index);
+  // }
 
   handlePlayTypeChange(
     eventsArray: FormArray,
-    selectedType: IEnumObject,
+    selectedType: IFootballPlayType | undefined | null,
     index: number,
   ): void {
-    onPlayTypeChange(
-      eventsArray,
-      selectedType,
-      index,
-      this.setFilteredPlayResults.bind(this),
-      this.setFilteredScoreResults.bind(this),
-    );
+    onPlayTypeChange(eventsArray, selectedType, index);
     onRunPlayTypeChange(eventsArray, selectedType, index);
     onPatOnePlayTypeChange(eventsArray, selectedType, index);
   }
 
   handlePlayResultChange(
     eventsArray: FormArray,
-    selectedResult: IEnumObject,
+    selectedResult: IFootballPlayResult | undefined | null,
     index: number,
   ): void {
     onPlayResultChange(eventsArray, selectedResult, index);
   }
 
-  setFilteredPlayResults(results: IEnumObject[]): void {
-    this.eventFilteredPlayResultOptions = results;
-  }
-
-  setFilteredScoreResults(results: IEnumObject[]): void {
-    this.eventFilteredScoreResultOptions = results;
-  }
-
-  setEnumFilteredPlayResults(results: IFootballPlayResult[]): void {
-    const enums: IEnumObject[] = results.map((result) => ({
-      value: result,
-      label: result,
-    }));
-    this.eventFilteredPlayResultOptions = enums;
-  }
-
-  setEnumFilteredScoreResults(results: IFootballScoreResult[]): void {
-    const enums: IEnumObject[] = results.map((result) => ({
-      value: result,
-      label: result,
-    }));
-    this.eventFilteredPlayResultOptions = enums;
-  }
+  // handlePlayResultChangeEnum(
+  //   eventsArray: FormArray,
+  //   selectedResult: IEnumObject,
+  //   index: number,
+  // ): void {
+  //   onPlayResultChangeEnum(eventsArray, selectedResult, index);
+  // }
+  //
+  // setFilteredPlayResults(results: IEnumObject[]): void {
+  //   this.eventFilteredPlayResultOptions = results;
+  // }
+  //
+  // setFilteredScoreResults(results: IEnumObject[]): void {
+  //   this.eventFilteredScoreResultOptions = results;
+  // }
+  //
+  // setEnumFilteredPlayResults(results: IFootballPlayResult[]): void {
+  //   const enums: IEnumObject[] = results.map((result) => ({
+  //     value: result,
+  //     label: result,
+  //   }));
+  //   this.eventFilteredPlayResultOptions = enums;
+  // }
+  //
+  // setEnumFilteredScoreResults(results: IFootballScoreResult[]): void {
+  //   const enums: IEnumObject[] = results.map((result) => ({
+  //     value: result,
+  //     label: result,
+  //   }));
+  //   this.eventFilteredPlayResultOptions = enums;
+  // }
 
   get eventsArray(): FormArray {
     return this.eventForm.get(this.arrayName) as FormArray;
-  }
-
-  private updateFilteredResults(
-    index: number,
-    playType: IFootballPlayType,
-  ): void {
-    const filteredPlayResults = filterPlayResultsByType(playType);
-    const filteredScoreResults = filterScoreResultsByType(playType);
-
-    console.log(filteredPlayResults, filteredScoreResults);
-
-    this.setEnumFilteredPlayResults(filteredPlayResults);
-    this.setEnumFilteredScoreResults(filteredScoreResults);
-
-    // Set the filtered results in the form controls if necessary
-    const controlEventPlayResult = eventPlayResult(index);
-    const controlEventScoreResult = eventScoreResult(index);
-    const formGroup = this.eventsArray.at(index) as FormGroup;
-
-    if (
-      !filteredPlayResults.includes(
-        formGroup.get(controlEventPlayResult)?.value,
-      )
-    ) {
-      formGroup
-        .get(controlEventPlayResult)
-        ?.setValue(filteredPlayResults[0] || null);
-    }
-
-    if (
-      !filteredScoreResults.includes(
-        formGroup.get(controlEventScoreResult)?.value,
-      )
-    ) {
-      formGroup
-        .get(controlEventScoreResult)
-        ?.setValue(filteredScoreResults[0] || null);
-    }
   }
 
   private populateFormArray(): void {
@@ -360,18 +326,6 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
       const formArray = this.fb.array(eventFormArray);
       // console.log('array', formArray);
       this.eventForm.setControl(this.arrayName, formArray);
-
-      // // Set filtered play results based on the initial values
-      // this.events.forEach((event, index) => {
-      //   if (event && event.play_type) {
-      //     console.log(event.play_type);
-      //     const playType = getPlayTypeByEnumValue(event.play_type?.value);
-      //     console.log(playType);
-      //     if (playType) {
-      //       this.updateFilteredResults(index, playType);
-      //     }
-      //   }
-      // });
 
       // Determine the ID of the last event and toggle its state
       if (this.events.length > 0) {
@@ -442,8 +396,8 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
     }
   }
 
-  getBackgroundColor(playResult: IEnumObject): string {
-    switch (playResult.value) {
+  getBackgroundColor(playResult: IFootballPlayResult): string {
+    switch (playResult) {
       case IFootballPlayResult.Flag:
         return '#D7BB69FF';
       case IFootballPlayResult.PassIntercepted:
@@ -452,6 +406,17 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
         return 'transparent';
     }
   }
+
+  // getBackgroundColorEnum(playResult: IEnumObject): string {
+  //   switch (playResult.value) {
+  //     case IFootballPlayResult.Flag:
+  //       return '#D7BB69FF';
+  //     case IFootballPlayResult.PassIntercepted:
+  //       return '#ee88d2';
+  //     default:
+  //       return 'transparent';
+  //   }
+  // }
 
   constructor(
     private footballEvent: FootballEvent,
@@ -577,16 +542,6 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
         event.fumble_recovered_player,
       ),
     });
-
-    // // Subscribe to changes in play type to update filtered results
-    // formGroup
-    //   .get(controlEventPlayType)
-    //   ?.valueChanges.subscribe((newPlayType) => {
-    //     const playType = getPlayTypeByEnumValue(newPlayType);
-    //     if (playType) {
-    //       this.updateFilteredResults(index, playType);
-    //     }
-    //   });
 
     // Disable the entire form group if event.id is not null
     if (event.id !== null && event.id !== undefined) {
@@ -729,17 +684,6 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
     return [...homePlayers, ...awayPlayers];
   }
 
-  // isPlayType(
-  //   playType: IFootballPlayType,
-  //   playTypeCompare: IFootballPlayType,
-  // ): boolean {
-  //   console.log(playType, playTypeCompare);
-  //   if (playType && playTypeCompare) {
-  //     return playType === playTypeCompare;
-  //   }
-  //   return false;
-  // }
-
   isPlayTypeWithIndex(
     formGroup: FormGroup | any,
     index: number,
@@ -747,57 +691,39 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
     playTypeEnum: IFootballPlayType,
   ): boolean {
     const playType = getFormDataByIndexAndKey(formGroup, index, key);
-
-    if (!playType || !playType.value) {
+    if (!playType) {
       // console.log('No play type found');
       return false;
     }
-    //
-    // console.log('playtype', playType);
-    // console.log('playtype Value', playType.value);
-    // console.log('playtypeEnum', playTypeEnum);
-
-    return playType.value === playTypeEnum;
+    return playType === playTypeEnum;
   }
 
-  isPlayResult(
+  isPlayResultWithIndex(
     formGroup: FormGroup | any,
     index: number,
     key: string,
     playResultEnum: IFootballPlayResult,
   ): boolean {
     const playResult = getFormDataByIndexAndKey(formGroup, index, key);
-
-    if (!playResult || !playResult.value) {
+    if (!playResult) {
       // console.log('No play result found');
       return false;
     }
-    //
-    // console.log('playresult', playResult);
-    // console.log('playresult Value', playResult.value);
-    // console.log('playresultEnum', playResultEnum);
-
-    return playResult.value === playResultEnum;
+    return playResult === playResultEnum;
   }
 
-  isScoreResult(
+  isScoreResultWithIndex(
     formGroup: FormGroup | any,
     index: number,
     key: string,
     scoreResultEnum: IFootballScoreResult,
   ): boolean {
     const scoreResult = getFormDataByIndexAndKey(formGroup, index, key);
-
-    if (!scoreResult || !scoreResult.value) {
+    if (!scoreResult) {
       // console.log('No score result found');
       return false;
     }
-    //
-    // console.log('playresult', playResult);
-    // console.log('playresult Value', playResult.value);
-    // console.log('playresultEnum', playResultEnum);
-
-    return scoreResult.value === scoreResultEnum;
+    return scoreResult === scoreResultEnum;
   }
 
   protected readonly IFootballPlayType = IFootballPlayType;
@@ -831,7 +757,6 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
     getEventPuntPlayerFormControl;
   protected readonly eventNumberKey = eventNumberKey;
   protected readonly eventQtrKey = eventQtrKey;
-  protected readonly eventBallOn = eventBallOn;
   protected readonly eventBallOnKey = eventBallOnKey;
   protected readonly eventDistanceKey = eventDistanceKey;
   protected readonly eventDownKey = eventDownKey;
@@ -901,14 +826,16 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
   protected readonly getBallOn = getBallOn;
   protected readonly eventScoreResultKey = eventScoreResultKey;
   protected readonly getEventDistanceMoved = getEventDistanceMoved;
-  protected readonly getEventPlayType = getEventPlayType;
   protected readonly getEventPlayResult = getEventPlayResult;
   protected readonly tuiAppFlat = TuiAppearance.Flat;
   protected readonly hexToRgba = hexToRgba;
-  protected readonly getEventDistanceOnOffence = getEventDistanceOnOffence;
   protected readonly getEventDistanceOnOffenceFormControl =
     getEventDistanceOnOffenceFormControl;
   protected readonly eventDistanceOnOffenceKey = eventDistanceOnOffenceKey;
   protected readonly getEventDown = getEventDown;
   protected readonly getEventDistance = getEventDistance;
+  protected readonly filterPlayResultsByType = filterPlayResultsByType;
+  protected readonly getEventPlayType = getEventPlayType;
+  protected readonly eventPlayTypeOptions = eventPlayTypeOptions;
+  protected readonly filterScoreResultsByType = filterScoreResultsByType;
 }

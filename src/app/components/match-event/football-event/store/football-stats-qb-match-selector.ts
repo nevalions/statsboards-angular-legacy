@@ -45,7 +45,7 @@ export const selectQuarterbackStats = createSelector(
         calculateQbRunDistanceAndFumbleAndTd(event, qbId, qbStats);
 
         // Process interception
-        if (event.play_result?.value === IFootballPlayResult.PassIntercepted) {
+        if (event.play_result === IFootballPlayResult.PassIntercepted) {
           qbStats[qbId].interception++;
         }
       }

@@ -41,14 +41,14 @@
                       class="event-short-view">{{ getEventDown(eventsArray, i) }}&nbsp;&&nbsp;{{ getEventDistance(eventsArray, i) }}
                     </div>
                     @if (getEventPlayType(eventsArray, i); as playType) {
-                      <div class="event-short-view">{{ playType.value | uppercase }}&nbsp;</div>
+                      <div class="event-short-view">{{ playType | titlecase }}&nbsp;</div>
                     }
                     @if (getEventPlayResult(eventsArray, i); as playResult) {
                       <div
                         class="event-short-view"
                         [style]="{ 'background-color': getBackgroundColor(playResult)}"
                       >
-                        {{ playResult.value | uppercase }}&nbsp;
+                        {{ playResult | titlecase }}&nbsp;
                       </div>
                     }
                     @if (getEventIsFumble(eventsArray, i); as isFumble) {
@@ -62,7 +62,7 @@
                       <div
                         class="event-short-view"
                         [style]="{ 'background-color': '#e08383' }">
-                        {{ scoreResult.value | uppercase }}&nbsp;
+                        {{ scoreResult | uppercase }}&nbsp;
                       </div>
                     }
 
@@ -255,17 +255,27 @@
                   @if (getEventHashFormControl(this.eventForm, this.arrayName, i); as control) {
                     <div class="event-table-cell">
                       @if (isMobile) {
-                        <app-select-enum
+                        <app-select-list-of-strings
                           [control]="control"
                           [placeholder]="'hash'"
-                          [enumObjects]="eventHashOptions"
-                        ></app-select-enum>
+                          [stringList]="eventHashOptions"
+                        ></app-select-list-of-strings>
+                        <!--                        <app-select-enum-->
+                          <!--                          [control]="control"-->
+                          <!--                          [placeholder]="'hash'"-->
+                          <!--                          [enumObjects]="eventHashOptions"-->
+                          <!--                        ></app-select-enum>-->
                       } @else {
-                        <app-search-enum
+                        <app-search-list-of-strings
                           [control]="control"
                           [placeholder]="'hash'"
-                          [enumObjects]="eventHashOptions"
-                        ></app-search-enum>
+                          [stringList]="eventHashOptions"
+                        ></app-search-list-of-strings>
+                        <!--                        <app-search-enum-->
+                          <!--                          [control]="control"-->
+                          <!--                          [placeholder]="'hash'"-->
+                          <!--                          [enumObjects]="eventHashOptions"-->
+                          <!--                        ></app-search-enum>-->
                       }
 
                     </div>
@@ -274,17 +284,27 @@
                   @if (getEventDirectionFormControl(this.eventForm, this.arrayName, i); as control) {
                     <div class="event-table-cell">
                       @if (isMobile) {
-                        <app-select-enum
+                        <app-select-list-of-strings
                           [control]="control"
                           [placeholder]="'direction'"
-                          [enumObjects]="eventDirectionOptions"
-                        ></app-select-enum>
+                          [stringList]="eventDirectionOptions"
+                        ></app-select-list-of-strings>
+                        <!--                        <app-select-enum-->
+                          <!--                          [control]="control"-->
+                          <!--                          [placeholder]="'direction'"-->
+                          <!--                          [enumObjects]="eventDirectionOptions"-->
+                          <!--                        ></app-select-enum>-->
                       } @else {
-                        <app-search-enum
+                        <app-search-list-of-strings
                           [control]="control"
                           [placeholder]="'direction'"
-                          [enumObjects]="eventDirectionOptions"
-                        ></app-search-enum>
+                          [stringList]="eventDirectionOptions"
+                        ></app-search-list-of-strings>
+                        <!--                        <app-search-enum-->
+                          <!--                          [control]="control"-->
+                          <!--                          [placeholder]="'direction'"-->
+                          <!--                          [enumObjects]="eventDirectionOptions"-->
+                          <!--                        ></app-search-enum>-->
                       }
                     </div>
                   }
@@ -292,42 +312,107 @@
 
                 <!--EVENT PLAY TYPE-->
                 @if (getEventPlayTypeFormControl(this.eventForm, this.arrayName, i); as control) {
+                  <!--                  @if (getEventPlayType(eventsArray, i); as playType) {-->
                   <div class="event-table-cell">
                     @if (isMobile) {
-                      <app-select-enum
+                      <app-select-list-of-strings
                         [control]="control"
                         [placeholder]="'play type'"
-                        [enumObjects]="eventPlayTypeOptions"
-                        (itemSelected)="handlePlayTypeChange(eventsArray, $event, i)"
-                      ></app-select-enum>
+                        [stringList]="eventPlayTypeOptions"
+                        (itemSelected)="handlePlayTypeChange(eventsArray, getEventPlayType(eventsArray, i) ,i)"
+                      ></app-select-list-of-strings>
+                      <!--                        <app-select-enum-->
+                        <!--                          [control]="control"-->
+                        <!--                          [placeholder]="'play type'"-->
+                        <!--                          [enumObjects]="eventPlayTypeOptions"-->
+                        <!--                          (itemSelected)="handlePlayTypeChange(eventsArray, $event, i)"-->
+                        <!--                        ></app-select-enum>-->
+                        <!--                      <tui-select-->
+                        <!--                        [formControl]="control"-->
+                        <!--                        [tuiTextfieldCleaner]="true"-->
+                        <!--                      >-->
+                        <!--                        {{ 'select' | uppercase }} {{ 'playtype'  | uppercase }}-->
+                        <!--                        <tui-data-list-->
+                        <!--                          *tuiDataList-->
+                        <!--                        >-->
+                        <!--                          @for (item of eventPlayTypeOptions; track $index) {-->
+                        <!--                            @if (item) {-->
+                        <!--                              <button-->
+                        <!--                                tuiOption-->
+                        <!--                                [value]="item"-->
+                        <!--                                (click)="handlePlayTypeChange(eventsArray, getEventPlayType(eventsArray, i) ,i)">-->
+                        <!--                                {{ item | titlecase }}-->
+                        <!--                              </button>-->
+                        <!--                            }-->
+                        <!--                          }-->
+                        <!--                        </tui-data-list>-->
+                        <!--                      </tui-select>-->
                     } @else {
-                      <app-search-enum
+                      <app-search-list-of-strings
                         [control]="control"
                         [placeholder]="'play type'"
-                        [enumObjects]="eventPlayTypeOptions"
-                        (itemSelected)="handlePlayTypeChange(eventsArray, $event, i)"
-                      ></app-search-enum>
+                        [stringList]="eventPlayTypeOptions"
+                        (itemSelected)="handlePlayTypeChange(eventsArray, getEventPlayType(eventsArray, i) ,i)"
+                      ></app-search-list-of-strings>
+                      <!--                      <app-search-enum-->
+                        <!--                        [control]="control"-->
+                        <!--                        [placeholder]="'play type'"-->
+                        <!--                        [enumObjects]="filterPlayResultsByType(getEventPlayType(eventsArray, i))"-->
+                        <!--                        (itemSelected)="handlePlayTypeChange(eventsArray, getEventPlayType(eventsArray, i), i)"-->
+                        <!--                      ></app-search-enum>-->
                     }
                   </div>
+
                 }
 
                 <!--EVENT PLAY RESULT-->
                 @if (getEventPlayResultFormControl(this.eventForm, this.arrayName, i); as control) {
                   <div class="event-table-cell">
                     @if (isMobile) {
-                      <app-select-enum
+                      <app-select-list-of-strings
                         [control]="control"
                         [placeholder]="'play result'"
-                        [enumObjects]="eventFilteredPlayResultOptions"
-                        (itemSelected)="handlePlayResultChange(eventsArray, $event, i)"
-                      ></app-select-enum>
+                        [stringList]="filterPlayResultsByType(getEventPlayType(eventsArray, i))"
+                        (itemSelected)="handlePlayResultChange(eventsArray, getEventPlayResult(eventsArray, i) ,i)"
+                      ></app-select-list-of-strings>
+                      <!--                      <tui-select-->
+                        <!--                        [formControl]="control"-->
+                        <!--                        [tuiTextfieldCleaner]="true"-->
+                        <!--                      >-->
+                        <!--                        {{ 'select' | uppercase }} {{ 'playtype'  | uppercase }}-->
+                        <!--                        <tui-data-list-->
+                        <!--                          *tuiDataList-->
+                        <!--                        >-->
+                        <!--                          @for (item of filterPlayResultsByType(getEventPlayType(eventsArray, i)); track $index) {-->
+                        <!--                            @if (item) {-->
+                        <!--                              <button-->
+                        <!--                                tuiOption-->
+                        <!--                                [value]="item"-->
+                        <!--                                (click)="handlePlayResultChange(eventsArray, getEventPlayResult(eventsArray, i) ,i)">-->
+                        <!--                                {{ item | titlecase }}-->
+                        <!--                              </button>-->
+                        <!--                            }-->
+                        <!--                          }-->
+                        <!--                        </tui-data-list>-->
+                        <!--                      </tui-select>-->
+                        <!--                      <app-select-enum-->
+                        <!--                        [control]="control"-->
+                        <!--                        [placeholder]="'play result'"-->
+                        <!--                        [enumObjects]="eventFilteredPlayResultOptions"-->
+                        <!--                        (itemSelected)="handlePlayResultChange(eventsArray, $event, i)"-->
+                        <!--                      ></app-select-enum>-->
                     } @else {
-                      <app-search-enum
+                      <app-search-list-of-strings
                         [control]="control"
                         [placeholder]="'play result'"
-                        [enumObjects]="eventFilteredPlayResultOptions"
-                        (itemSelected)="handlePlayResultChange(eventsArray, $event, i)"
-                      ></app-search-enum>
+                        [stringList]="filterPlayResultsByType(getEventPlayType(eventsArray, i))"
+                      ></app-search-list-of-strings>
+                      <!--                      <app-search-enum-->
+                        <!--                        [control]="control"-->
+                        <!--                        [placeholder]="'play result'"-->
+                        <!--                        [enumObjects]="filterPlayResultsByType(getEventPlayType(eventsArray, i))"-->
+                        <!--                        (itemSelected)="handlePlayResultChange(eventsArray, $event, i)"-->
+                        <!--                      ></app-search-enum>-->
                     }
                   </div>
                 }
@@ -352,7 +437,7 @@
                 <!--EVENT RECEIVER PLAYER-->
                 @if (getEventReceiverPlayerFormControl(this.eventForm, this.arrayName, i); as control) {
                   @if (getEventTeam(eventsArray, i); as selectedTeam) {
-                    @if (isPlayResult(eventFormGroup, i, eventPlayResultKey, IFootballPlayResult.PassCompleted) ||
+                    @if (isPlayResultWithIndex(eventFormGroup, i, eventPlayResultKey, IFootballPlayResult.PassCompleted) ||
                     getEventReceiverPlayer(eventsArray, i)) {
                       <div class="event-table-cell">
                         <app-search-player-in-match-autocomplete
@@ -369,7 +454,7 @@
                 <!--EVENT DROPPED PLAYER-->
                 @if (getEventDroppedPlayerFormControl(this.eventForm, this.arrayName, i); as control) {
                   @if (getEventTeam(eventsArray, i); as selectedTeam) {
-                    @if (isPlayResult(eventFormGroup, i, eventPlayResultKey, IFootballPlayResult.PassDropped) ||
+                    @if (isPlayResultWithIndex(eventFormGroup, i, eventPlayResultKey, IFootballPlayResult.PassDropped) ||
                     getEventDroppedPlayer(eventsArray, i)) {
                       <div class="event-table-cell">
                         <!--                        <label>Dropped Player</label>-->
@@ -457,7 +542,7 @@
                   @if (getEventTeam(eventsArray, i); as selectedTeam) {
                     @if (isPlayTypeWithIndex(eventFormGroup, i, eventPlayTypeKey, IFootballPlayType.Punt) ||
                     isPlayTypeWithIndex(eventFormGroup, i, eventPlayTypeKey, IFootballPlayType.Kickoff) &&
-                    !isPlayResult(eventFormGroup, i, eventPlayResultKey, IFootballPlayResult.TouchBack) ||
+                    !isPlayResultWithIndex(eventFormGroup, i, eventPlayResultKey, IFootballPlayResult.TouchBack) ||
                     getEventReturnPlayer(eventsArray, i)) {
                       <div class="event-table-cell">
                         <app-search-player-in-match-autocomplete
@@ -474,15 +559,15 @@
                 <!--EVENT TACKLE PLAYER-->
                 @if (getEventTacklePlayerFormControl(this.eventForm, this.arrayName, i); as control) {
                   @if (getEventTeam(eventsArray, i); as selectedTeam) {
-                    @if (!isPlayResult(eventFormGroup, i, eventPlayResultKey, IFootballPlayResult.Flag) &&
-                    !isPlayResult(eventFormGroup, i, eventPlayResultKey, IFootballPlayResult.PassIncomplete) &&
-                    !isPlayResult(eventFormGroup, i, eventPlayResultKey, IFootballPlayResult.PassDeflected) &&
-                    !isPlayResult(eventFormGroup, i, eventPlayResultKey, IFootballPlayResult.PassDropped) &&
-                    !isScoreResult(eventFormGroup, i, eventScoreResultKey, IFootballScoreResult.Td) &&
-                    !isScoreResult(eventFormGroup, i, eventScoreResultKey, IFootballScoreResult.TdDefence) &&
-                    !isScoreResult(eventFormGroup, i, eventScoreResultKey, IFootballScoreResult.KickGood) &&
-                    !isScoreResult(eventFormGroup, i, eventScoreResultKey, IFootballScoreResult.PuntTdReturn) &&
-                    !isPlayResult(eventFormGroup, i, eventPlayResultKey, IFootballPlayResult.TouchBack)
+                    @if (!isPlayResultWithIndex(eventFormGroup, i, eventPlayResultKey, IFootballPlayResult.Flag) &&
+                    !isPlayResultWithIndex(eventFormGroup, i, eventPlayResultKey, IFootballPlayResult.PassIncomplete) &&
+                    !isPlayResultWithIndex(eventFormGroup, i, eventPlayResultKey, IFootballPlayResult.PassDeflected) &&
+                    !isPlayResultWithIndex(eventFormGroup, i, eventPlayResultKey, IFootballPlayResult.PassDropped) &&
+                    !isScoreResultWithIndex(eventFormGroup, i, eventScoreResultKey, IFootballScoreResult.Td) &&
+                    !isScoreResultWithIndex(eventFormGroup, i, eventScoreResultKey, IFootballScoreResult.TdDefence) &&
+                    !isScoreResultWithIndex(eventFormGroup, i, eventScoreResultKey, IFootballScoreResult.KickGood) &&
+                    !isScoreResultWithIndex(eventFormGroup, i, eventScoreResultKey, IFootballScoreResult.PuntTdReturn) &&
+                    !isPlayResultWithIndex(eventFormGroup, i, eventPlayResultKey, IFootballPlayResult.TouchBack)
                     ||
                     getEventTacklePlayer(eventsArray, i)) {
                       <div class="event-table-cell">
@@ -501,15 +586,15 @@
                 <!--EVENT ASSIST TACKLE PLAYER-->
                 @if (getEventAssistTacklePlayerFormControl(this.eventForm, this.arrayName, i); as control) {
                   @if (getEventTeam(eventsArray, i); as selectedTeam) {
-                    @if (!isPlayResult(eventFormGroup, i, eventPlayResultKey, IFootballPlayResult.Flag) &&
-                    !isPlayResult(eventFormGroup, i, eventPlayResultKey, IFootballPlayResult.PassIncomplete) &&
-                    !isPlayResult(eventFormGroup, i, eventPlayResultKey, IFootballPlayResult.PassDeflected) &&
-                    !isPlayResult(eventFormGroup, i, eventPlayResultKey, IFootballPlayResult.PassDropped) &&
-                    !isScoreResult(eventFormGroup, i, eventScoreResultKey, IFootballScoreResult.Td) &&
-                    !isScoreResult(eventFormGroup, i, eventScoreResultKey, IFootballScoreResult.TdDefence) &&
-                    !isScoreResult(eventFormGroup, i, eventScoreResultKey, IFootballScoreResult.KickGood) &&
-                    !isScoreResult(eventFormGroup, i, eventScoreResultKey, IFootballScoreResult.PuntTdReturn) &&
-                    !isPlayResult(eventFormGroup, i, eventPlayResultKey, IFootballPlayResult.TouchBack)
+                    @if (!isPlayResultWithIndex(eventFormGroup, i, eventPlayResultKey, IFootballPlayResult.Flag) &&
+                    !isPlayResultWithIndex(eventFormGroup, i, eventPlayResultKey, IFootballPlayResult.PassIncomplete) &&
+                    !isPlayResultWithIndex(eventFormGroup, i, eventPlayResultKey, IFootballPlayResult.PassDeflected) &&
+                    !isPlayResultWithIndex(eventFormGroup, i, eventPlayResultKey, IFootballPlayResult.PassDropped) &&
+                    !isScoreResultWithIndex(eventFormGroup, i, eventScoreResultKey, IFootballScoreResult.Td) &&
+                    !isScoreResultWithIndex(eventFormGroup, i, eventScoreResultKey, IFootballScoreResult.TdDefence) &&
+                    !isScoreResultWithIndex(eventFormGroup, i, eventScoreResultKey, IFootballScoreResult.KickGood) &&
+                    !isScoreResultWithIndex(eventFormGroup, i, eventScoreResultKey, IFootballScoreResult.PuntTdReturn) &&
+                    !isPlayResultWithIndex(eventFormGroup, i, eventPlayResultKey, IFootballPlayResult.TouchBack)
                     ||
                     getEventAssistTacklePlayer(eventsArray, i)) {
                       <div class="event-table-cell">
@@ -528,10 +613,10 @@
                 <!--EVENT SCORE PLAYER-->
                 @if (getEventScorePlayerFormControl(this.eventForm, this.arrayName, i); as control) {
                   @if (getEventTeam(eventsArray, i); as selectedTeam) {
-                    @if (getEventScoreResult(eventsArray, i)?.value === IFootballScoreResult.Td ||
-                    getEventScoreResult(eventsArray, i)?.value === IFootballScoreResult.KickGood ||
-                    getEventScoreResult(eventsArray, i)?.value === IFootballScoreResult.PatOneGood ||
-                    getEventScoreResult(eventsArray, i)?.value === IFootballScoreResult.PatTwoGood ||
+                    @if (getEventScoreResult(eventsArray, i) === IFootballScoreResult.Td ||
+                    getEventScoreResult(eventsArray, i) === IFootballScoreResult.KickGood ||
+                    getEventScoreResult(eventsArray, i) === IFootballScoreResult.PatOneGood ||
+                    getEventScoreResult(eventsArray, i) === IFootballScoreResult.PatTwoGood ||
                     getEventScorePlayer(eventsArray, i)) {
                       <div class="event-table-cell">
                         <app-search-player-in-match-autocomplete
@@ -548,7 +633,7 @@
                 <!--EVENT DEFLECTED PLAYER-->
                 @if (getEventDeflectedPlayerFormControl(this.eventForm, this.arrayName, i); as control) {
                   @if (getEventTeam(eventsArray, i); as selectedTeam) {
-                    @if (isPlayResult(eventFormGroup, i, eventPlayResultKey, IFootballPlayResult.PassDeflected) ||
+                    @if (isPlayResultWithIndex(eventFormGroup, i, eventPlayResultKey, IFootballPlayResult.PassDeflected) ||
                     getEventDeflectedPlayer(eventsArray, i)) {
                       <div class="event-table-cell">
                         <app-search-player-in-match-autocomplete
@@ -565,7 +650,7 @@
                 <!--EVENT INTERCEPTED PLAYER-->
                 @if (getEventInterceptedPlayerFormControl(this.eventForm, this.arrayName, i); as control) {
                   @if (getEventTeam(eventsArray, i); as selectedTeam) {
-                    @if (isPlayResult(eventFormGroup, i, eventPlayResultKey, IFootballPlayResult.PassIntercepted) ||
+                    @if (isPlayResultWithIndex(eventFormGroup, i, eventPlayResultKey, IFootballPlayResult.PassIntercepted) ||
                     getEventInterceptedPlayer(eventsArray, i)) {
                       <div class="event-table-cell">
                         <app-search-player-in-match-autocomplete
@@ -582,8 +667,8 @@
                 <!--EVENT SACK PLAYER-->
                 @if (getEventSackPlayerFormControl(this.eventForm, this.arrayName, i); as control) {
                   @if (getEventTeam(eventsArray, i); as selectedTeam) {
-                    @if (isPlayResult(eventFormGroup, i, eventPlayResultKey, IFootballPlayResult.Sack) &&
-                    !isPlayResult(eventFormGroup, i, eventPlayResultKey, IFootballPlayResult.Flag) ||
+                    @if (isPlayResultWithIndex(eventFormGroup, i, eventPlayResultKey, IFootballPlayResult.Sack) &&
+                    !isPlayResultWithIndex(eventFormGroup, i, eventPlayResultKey, IFootballPlayResult.Flag) ||
                     getEventSackPlayer(eventsArray, i)) {
                       <div class="event-table-cell">
                         <app-search-player-in-match-autocomplete
@@ -599,25 +684,35 @@
 
                 <!--EVENT SCORE RESULT-->
                 @if (getEventScoreResultFormControl(this.eventForm, this.arrayName, i); as control) {
-                  @if (!isPlayResult(eventFormGroup, i, eventPlayResultKey, IFootballPlayResult.PassIncomplete) &&
-                  !isPlayResult(eventFormGroup, i, eventPlayResultKey, IFootballPlayResult.PassDeflected) &&
-                  !isPlayResult(eventFormGroup, i, eventPlayResultKey, IFootballPlayResult.PassDropped) &&
-                  !isPlayResult(eventFormGroup, i, eventPlayResultKey, IFootballPlayResult.PassIntercepted) &&
-                  !isPlayResult(eventFormGroup, i, eventPlayResultKey, IFootballPlayResult.Flag) &&
-                  !isPlayResult(eventFormGroup, i, eventPlayResultKey, IFootballPlayResult.TouchBack)) {
+                  @if (!isPlayResultWithIndex(eventFormGroup, i, eventPlayResultKey, IFootballPlayResult.PassIncomplete) &&
+                  !isPlayResultWithIndex(eventFormGroup, i, eventPlayResultKey, IFootballPlayResult.PassDeflected) &&
+                  !isPlayResultWithIndex(eventFormGroup, i, eventPlayResultKey, IFootballPlayResult.PassDropped) &&
+                  !isPlayResultWithIndex(eventFormGroup, i, eventPlayResultKey, IFootballPlayResult.PassIntercepted) &&
+                  !isPlayResultWithIndex(eventFormGroup, i, eventPlayResultKey, IFootballPlayResult.Flag) &&
+                  !isPlayResultWithIndex(eventFormGroup, i, eventPlayResultKey, IFootballPlayResult.TouchBack)) {
                     <div class="event-table-cell">
                       @if (isMobile) {
-                        <app-select-enum
+                        <app-select-list-of-strings
                           [control]="control"
                           [placeholder]="'score result'"
-                          [enumObjects]="eventFilteredScoreResultOptions"
-                        ></app-select-enum>
+                          [stringList]="filterScoreResultsByType(getEventPlayType(eventsArray, i))"
+                        ></app-select-list-of-strings>
+                        <!--                        <app-select-enum-->
+                          <!--                          [control]="control"-->
+                          <!--                          [placeholder]="'score result'"-->
+                          <!--                          [enumObjects]="eventFilteredScoreResultOptions"-->
+                          <!--                        ></app-select-enum>-->
                       } @else {
-                        <app-search-enum
+                        <app-search-list-of-strings
                           [control]="control"
                           [placeholder]="'score result'"
-                          [enumObjects]="eventFilteredScoreResultOptions"
-                        ></app-search-enum>
+                          [stringList]="filterScoreResultsByType(getEventPlayType(eventsArray, i))"
+                        ></app-search-list-of-strings>
+                        <!--                        <app-search-enum-->
+                          <!--                          [control]="control"-->
+                          <!--                          [placeholder]="'score result'"-->
+                          <!--                          [enumObjects]="eventFilteredScoreResultOptions"-->
+                          <!--                        ></app-search-enum>-->
                       }
                     </div>
                   }
@@ -627,7 +722,7 @@
                   <div class="event-is-fumble">
                     <!--EVENT IS FUMBLE-->
                     @if (getEventIsFumbleFormControl(this.eventForm, this.arrayName, i); as control) {
-                      @if (!isPlayResult(eventFormGroup, i, eventPlayResultKey, IFootballPlayResult.Flag)) {
+                      @if (!isPlayResultWithIndex(eventFormGroup, i, eventPlayResultKey, IFootballPlayResult.Flag)) {
                         <div class="event-table-cell">
                           <label>Is Fumble?</label>
                           <tui-toggle
@@ -640,7 +735,7 @@
                   </div>
                   @if (getEventFumblePlayerFormControl(this.eventForm, this.arrayName, i); as control) {
                     @if (getEventTeam(eventsArray, i); as selectedTeam) {
-                      @if (!isPlayResult(eventFormGroup, i, eventPlayResultKey, IFootballPlayResult.Flag) &&
+                      @if (!isPlayResultWithIndex(eventFormGroup, i, eventPlayResultKey, IFootballPlayResult.Flag) &&
                       getEventIsFumble(eventsArray, i) ||
                       getEventFumblePlayer(eventsArray, i)) {
                         <div class="event-table-cell">
@@ -660,7 +755,7 @@
                   <div class="event-is-fumble">
                     <!--EVENT IS FUMBLE RECOVERED-->
                     @if (getEventIsFumbleRecoveredFormControl(this.eventForm, this.arrayName, i); as control) {
-                      @if (!isPlayResult(eventFormGroup, i, eventPlayResultKey, IFootballPlayResult.Flag)) {
+                      @if (!isPlayResultWithIndex(eventFormGroup, i, eventPlayResultKey, IFootballPlayResult.Flag)) {
                         @if (getEventIsFumble(eventsArray, i)) {
                           <div class="event-table-cell">
                             <label>Is Fumble Recovered?</label>
@@ -675,7 +770,7 @@
                   </div>
                   <!--EVENT FUMBLE RECOVERED PLAYER-->
                   @if (getEventFumbleRecoveredPlayerFormControl(this.eventForm, this.arrayName, i); as control) {
-                    @if (!isPlayResult(eventFormGroup, i, eventPlayResultKey, IFootballPlayResult.Flag) &&
+                    @if (!isPlayResultWithIndex(eventFormGroup, i, eventPlayResultKey, IFootballPlayResult.Flag) &&
                     getEventIsFumbleRecovered(eventsArray, i) ||
                     getEventFumbleRecoveredPlayer(eventsArray, i)) {
                       <div class="event-table-cell">
@@ -693,11 +788,11 @@
                 <!--EVENT DEFENCE SCORE PLAYER-->
                 @if (getEventDefenceScorePlayerFormControl(this.eventForm, this.arrayName, i); as control) {
                   @if (getEventTeam(eventsArray, i); as selectedTeam) {
-                    @if (getEventScoreResult(eventsArray, i)?.value === IFootballScoreResult.TdDefence ||
-                    getEventScoreResult(eventsArray, i)?.value === IFootballScoreResult.PatOneReturn ||
-                    getEventScoreResult(eventsArray, i)?.value === IFootballScoreResult.PatTwoReturn ||
-                    getEventScoreResult(eventsArray, i)?.value === IFootballScoreResult.KickOffTdReturn ||
-                    getEventScoreResult(eventsArray, i)?.value === IFootballScoreResult.PuntTdReturn ||
+                    @if (getEventScoreResult(eventsArray, i) === IFootballScoreResult.TdDefence ||
+                    getEventScoreResult(eventsArray, i) === IFootballScoreResult.PatOneReturn ||
+                    getEventScoreResult(eventsArray, i) === IFootballScoreResult.PatTwoReturn ||
+                    getEventScoreResult(eventsArray, i) === IFootballScoreResult.KickOffTdReturn ||
+                    getEventScoreResult(eventsArray, i) === IFootballScoreResult.PuntTdReturn ||
                     getEventDefenceScorePlayer(eventsArray, i)) {
                       <div class="event-table-cell">
                         <app-search-player-in-match-autocomplete
@@ -713,7 +808,7 @@
 
                 <!--EVENT FLAGGED PLAYER-->
                 @if (getEventFlaggedPlayerFormControl(this.eventForm, this.arrayName, i); as control) {
-                  @if (isPlayResult(eventFormGroup, i, eventPlayResultKey, IFootballPlayResult.Flag) ||
+                  @if (isPlayResultWithIndex(eventFormGroup, i, eventPlayResultKey, IFootballPlayResult.Flag) ||
                   getEventFlaggedPlayer(eventsArray, i)) {
                     <div class="event-table-cell" style="background-color:#d7bb69">
                       <app-search-player-in-match-autocomplete

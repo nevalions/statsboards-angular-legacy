@@ -123,20 +123,14 @@ export const selectFootballEventsWithPlayers = createSelector(
         pat_one_player: getMatchPlayerById(matchPlayers, event.pat_one_player),
         flagged_player: getMatchPlayerById(matchPlayers, event.flagged_player),
         punt_player: getMatchPlayerById(matchPlayers, event.punt_player),
-        event_hash: event.event_hash
-          ? { value: event.event_hash.toLowerCase() }
-          : null,
+        event_hash: event.event_hash ? event.event_hash.toLowerCase() : null,
         play_direction: event.play_direction
-          ? { value: event.play_direction.toLowerCase() }
+          ? event.play_direction.toLowerCase()
           : null,
-        play_type: event.play_type
-          ? { value: event.play_type.toLowerCase() }
-          : null,
-        play_result: event.play_result
-          ? { value: event.play_result.toLowerCase() }
-          : null,
+        play_type: event.play_type ? event.play_type.toLowerCase() : null,
+        play_result: event.play_result ? event.play_result.toLowerCase() : null,
         score_result: event.score_result
-          ? { value: event.score_result.toLowerCase() }
+          ? event.score_result.toLowerCase()
           : null,
       } as IFootballEventWithPlayers;
     });

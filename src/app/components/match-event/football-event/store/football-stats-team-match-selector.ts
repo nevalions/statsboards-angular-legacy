@@ -35,14 +35,14 @@ const selectOverallDistanceForTeam = (
           event.play_result
         ) {
           if (
-            event.play_type.value === playType &&
-            event.play_result.value === playResult &&
+            event.play_type === playType &&
+            event.play_result === playResult &&
             !event.is_fumble
           ) {
             return totalDistance + (event.distance_moved || 0);
           } else if (
-            event.play_type.value === playType &&
-            event.play_result.value === playResult &&
+            event.play_type === playType &&
+            event.play_result === playResult &&
             event.is_fumble
           ) {
             // console.log('is fumble', event);
@@ -106,7 +106,7 @@ export function calculateOverallFlagYards(
   return eventsWithPlayers.reduce((totalDistance, event) => {
     if (
       event.offense_team?.id === teamId &&
-      event.play_result?.value === IFootballPlayResult.Flag
+      event.play_result === IFootballPlayResult.Flag
     ) {
       return totalDistance + (event.distance_moved || 0);
     }

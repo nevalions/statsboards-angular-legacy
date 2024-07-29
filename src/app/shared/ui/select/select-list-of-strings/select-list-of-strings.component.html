@@ -1,0 +1,22 @@
+@if (control) {
+  <tui-select
+    [formControl]="control"
+    [tuiTextfieldCleaner]="true"
+  >
+    {{ action | uppercase }} {{ placeholder | uppercase }}
+    <tui-data-list
+      *tuiDataList
+    >
+      @for (item of stringList; track $index) {
+        @if (item) {
+          <button
+            tuiOption
+            [value]="item"
+            (click)="onSelected(item)">
+            {{ item | titlecase }}
+          </button>
+        }
+      }
+    </tui-data-list>
+  </tui-select>
+}

@@ -1,5 +1,4 @@
 import { FormArray, FormControl, FormGroup } from '@angular/forms';
-import { IEnumObject } from '../../../type/base.type';
 import {
   IFootballEventWithPlayers,
   IFootballPlayResult,
@@ -76,35 +75,72 @@ export function onDownChange(
 
 export function onRunPlayTypeChange(
   eventsArray: FormArray,
-  eventPlayType: IEnumObject | null | undefined,
+  eventPlayType: IFootballPlayType | null | undefined,
   index: number,
 ): void {
   if (eventsArray && eventPlayType && index) {
     // console.log('eventPlayType on RUNPLAY', eventPlayType);
-    if (eventPlayType && eventPlayType.value === IFootballPlayType.Run) {
+    if (eventPlayType && eventPlayType === IFootballPlayType.Run) {
       // console.log('runPlayType', eventPlayType);
-      setPlayResult(eventsArray, index, {
-        value: IFootballPlayResult.Run,
-        label: IFootballPlayResult.Run,
-      });
+      setPlayResult(eventsArray, index, IFootballPlayResult.Run);
     }
   }
 }
 
 export function onPatOnePlayTypeChange(
   eventsArray: FormArray,
-  eventPlayType: IEnumObject | null | undefined,
+  eventPlayType: IFootballPlayType | null | undefined,
   index: number,
 ): void {
   if (eventsArray && eventPlayType && index) {
-    if (eventPlayType && eventPlayType.value === IFootballPlayType.PatOne) {
-      setPlayResult(eventsArray, index, {
-        value: IFootballPlayResult.PatOne,
-        label: IFootballPlayResult.PatOne,
-      });
+    if (eventPlayType && eventPlayType === IFootballPlayType.PatOne) {
+      setPlayResult(eventsArray, index, IFootballPlayResult.PatOne);
     }
   }
 }
+
+// export function onRunPlayTypeChangeEnum(
+//   eventsArray: FormArray,
+//   eventPlayType: IFootballPlayType | null | undefined,
+//   index: number,
+// ): void {
+//   if (eventsArray && eventPlayType && index) {
+//     // console.log('eventPlayType on RUNPLAY', eventPlayType);
+//     if (eventPlayType && eventPlayType === IFootballPlayType.Run) {
+//       // console.log('runPlayType', eventPlayType);
+//       setPlayResult(eventsArray, index, {
+//         value: IFootballPlayResult.Run,
+//         label: IFootballPlayResult.Run,
+//       });
+//     }
+//   }
+// }
+
+// export function onRunPlayTypeChangeEnum(
+//   eventsArray: FormArray,
+//   eventPlayType: IEnumObject | null | undefined,
+//   index: number,
+// ): void {
+//   if (eventsArray && eventPlayType && index) {
+//     // console.log('eventPlayType on RUNPLAY', eventPlayType);
+//     if (eventPlayType && eventPlayType.value === IFootballPlayType.Run) {
+//       // console.log('runPlayType', eventPlayType);
+//       setPlayResult(eventsArray, index, IFootballPlayResult.Run);
+//     }
+//   }
+// }
+
+// export function onPatOnePlayTypeChangeEnum(
+//   eventsArray: FormArray,
+//   eventPlayType: IEnumObject | null | undefined,
+//   index: number,
+// ): void {
+//   if (eventsArray && eventPlayType && index) {
+//     if (eventPlayType && eventPlayType.value === IFootballPlayType.PatOne) {
+//       setPlayResult(eventsArray, index, IFootballPlayResult.PatOne);
+//     }
+//   }
+// }
 
 export function onBallOnChange(
   events: IFootballEventWithPlayers[] | null,
@@ -140,19 +176,17 @@ export function onBallOnChange(
 
 export function onPlayTypeChange(
   eventsArray: FormArray,
-  selectedType: IEnumObject,
+  selectedType: IFootballPlayType | null | undefined,
   index: number,
-  setFilteredPlayResults: (results: IEnumObject[]) => void,
-  setFilteredScoreResults: (results: IEnumObject[]) => void,
 ): void {
   if (!selectedType) {
     return;
   }
-  console.log('selected type', selectedType);
-  if (selectedType.value) {
-    console.log('selected type value', selectedType.value);
+  // console.log('selected type', selectedType);
+  if (selectedType) {
+    console.log('selected type', selectedType);
 
-    switch (selectedType.value.toLowerCase()) {
+    switch (selectedType.toLowerCase()) {
       case IFootballPlayType.Pass.toLowerCase():
         resetRunPlayer(eventsArray, index);
         resetPuntPlayer(eventsArray, index);
@@ -223,7 +257,6 @@ export function onPlayTypeChange(
         resetKickOffPlayer(eventsArray, index);
         resetPatOnePlayer(eventsArray, index);
     }
-
     setPlayType(eventsArray, index, selectedType);
   } else {
     // console.log('else play type');
@@ -239,43 +272,154 @@ export function onPlayTypeChange(
     resetKickOffPlayer(eventsArray, index);
     resetPatOnePlayer(eventsArray, index);
     resetPuntPlayer(eventsArray, index);
+
     setPlayType(eventsArray, index, selectedType);
   }
 
   resetPlayResult(eventsArray, index);
   resetScoreResult(eventsArray, index);
-
-  const filteredResults = filterPlayResultsByType(
-    selectedType.value as IFootballPlayType,
-  );
-  setFilteredPlayResults(
-    filteredResults.map((result) => ({
-      value: result,
-      label: result,
-    })),
-  );
-
-  const filteredScoreResults = filterScoreResultsByType(
-    selectedType.value as IFootballPlayType,
-  );
-  setFilteredScoreResults(
-    filteredScoreResults.map((result) => ({
-      value: result,
-      label: result,
-    })),
-  );
 }
+
+// export function onPlayTypeChangeEnum(
+//   eventsArray: FormArray,
+//   selectedType: IEnumObject,
+//   index: number,
+//   setFilteredPlayResults: (results: IEnumObject[]) => void,
+//   setFilteredScoreResults: (results: IEnumObject[]) => void,
+// ): void {
+//   if (!selectedType) {
+//     return;
+//   }
+//   console.log('selected type', selectedType);
+//   if (selectedType.value) {
+//     console.log('selected type value', selectedType.value);
+//
+//     switch (selectedType.value.toLowerCase()) {
+//       case IFootballPlayType.Pass.toLowerCase():
+//         resetRunPlayer(eventsArray, index);
+//         resetPuntPlayer(eventsArray, index);
+//         resetKickPlayer(eventsArray, index);
+//         resetKickOffPlayer(eventsArray, index);
+//         resetReturnPlayer(eventsArray, index);
+//         resetPatOnePlayer(eventsArray, index);
+//         resetPuntPlayer(eventsArray, index);
+//         break;
+//       case IFootballPlayType.Run.toLowerCase():
+//         resetPuntPlayer(eventsArray, index);
+//         resetReceiverPlayer(eventsArray, index);
+//         resetDeflectedPlayer(eventsArray, index);
+//         resetDroppedPlayer(eventsArray, index);
+//         resetInterceptedPlayer(eventsArray, index);
+//         resetSackPlayer(eventsArray, index);
+//         resetKickPlayer(eventsArray, index);
+//         resetKickOffPlayer(eventsArray, index);
+//         resetPatOnePlayer(eventsArray, index);
+//         resetPuntPlayer(eventsArray, index);
+//         break;
+//       case IFootballPlayType.Kick.toLowerCase():
+//         resetPuntPlayer(eventsArray, index);
+//         resetRunPlayer(eventsArray, index);
+//         resetReceiverPlayer(eventsArray, index);
+//         resetDroppedPlayer(eventsArray, index);
+//         resetDeflectedPlayer(eventsArray, index);
+//         resetInterceptedPlayer(eventsArray, index);
+//         resetSackPlayer(eventsArray, index);
+//         resetKickOffPlayer(eventsArray, index);
+//         resetReturnPlayer(eventsArray, index);
+//         resetPatOnePlayer(eventsArray, index);
+//         resetPuntPlayer(eventsArray, index);
+//         break;
+//       case IFootballPlayType.PatOne.toLowerCase():
+//         resetPuntPlayer(eventsArray, index);
+//         resetRunPlayer(eventsArray, index);
+//         resetReceiverPlayer(eventsArray, index);
+//         resetDroppedPlayer(eventsArray, index);
+//         resetDeflectedPlayer(eventsArray, index);
+//         resetInterceptedPlayer(eventsArray, index);
+//         resetSackPlayer(eventsArray, index);
+//         resetKickPlayer(eventsArray, index);
+//         resetKickOffPlayer(eventsArray, index);
+//         resetReturnPlayer(eventsArray, index);
+//         resetPuntPlayer(eventsArray, index);
+//         break;
+//       case IFootballPlayType.Kickoff.toLowerCase():
+//         resetPuntPlayer(eventsArray, index);
+//         resetRunPlayer(eventsArray, index);
+//         resetReceiverPlayer(eventsArray, index);
+//         resetDroppedPlayer(eventsArray, index);
+//         resetDeflectedPlayer(eventsArray, index);
+//         resetInterceptedPlayer(eventsArray, index);
+//         resetSackPlayer(eventsArray, index);
+//         resetKickPlayer(eventsArray, index);
+//         resetPatOnePlayer(eventsArray, index);
+//         resetPuntPlayer(eventsArray, index);
+//         break;
+//       case IFootballPlayType.Punt.toLowerCase():
+//         resetRunPlayer(eventsArray, index);
+//         resetReceiverPlayer(eventsArray, index);
+//         resetDroppedPlayer(eventsArray, index);
+//         resetKickPlayer(eventsArray, index);
+//         resetDeflectedPlayer(eventsArray, index);
+//         resetInterceptedPlayer(eventsArray, index);
+//         resetSackPlayer(eventsArray, index);
+//         resetKickOffPlayer(eventsArray, index);
+//         resetPatOnePlayer(eventsArray, index);
+//     }
+//     // setPlayType(eventsArray, index, selectedType);
+//     setPlayTypeEnum(eventsArray, index, selectedType);
+//   } else {
+//     // console.log('else play type');
+//     resetPuntPlayer(eventsArray, index);
+//     resetRunPlayer(eventsArray, index);
+//     resetReceiverPlayer(eventsArray, index);
+//     resetDeflectedPlayer(eventsArray, index);
+//     resetDroppedPlayer(eventsArray, index);
+//     resetKickPlayer(eventsArray, index);
+//     resetReturnPlayer(eventsArray, index);
+//     resetInterceptedPlayer(eventsArray, index);
+//     resetSackPlayer(eventsArray, index);
+//     resetKickOffPlayer(eventsArray, index);
+//     resetPatOnePlayer(eventsArray, index);
+//     resetPuntPlayer(eventsArray, index);
+//
+//     // setPlayType(eventsArray, index, selectedType);
+//     setPlayTypeEnum(eventsArray, index, selectedType);
+//   }
+//
+//   resetPlayResult(eventsArray, index);
+//   resetScoreResult(eventsArray, index);
+//
+//   const filteredResults = filterPlayResultsByType(
+//     selectedType.value as IFootballPlayType,
+//   );
+//   setFilteredPlayResults(
+//     filteredResults.map((result) => ({
+//       value: result,
+//       label: result,
+//     })),
+//   );
+//
+//   const filteredScoreResults = filterScoreResultsByType(
+//     selectedType.value as IFootballPlayType,
+//   );
+//   setFilteredScoreResults(
+//     filteredScoreResults.map((result) => ({
+//       value: result,
+//       label: result,
+//     })),
+//   );
+// }
 
 export function onPlayResultChange(
   eventsArray: FormArray,
-  selectedResult: IEnumObject | null = null,
+  selectedResult: IFootballPlayResult | null = null,
   index: number,
 ): void {
-  console.log('selected result', selectedResult);
-  if (selectedResult && selectedResult.value) {
-    console.log('selected result value', selectedResult.value);
+  // console.log('selected result', selectedResult);
+  if (selectedResult) {
+    // console.log('selected result value', selectedResult);
 
-    switch (selectedResult.value.toLowerCase()) {
+    switch (selectedResult.toLowerCase()) {
       case IFootballPlayResult.PassCompleted.toLowerCase():
         resetDeflectedPlayer(eventsArray, index);
         resetDroppedPlayer(eventsArray, index);
@@ -316,8 +460,58 @@ export function onPlayResultChange(
   }
 }
 
+// export function onPlayResultChangeEnum(
+//   eventsArray: FormArray,
+//   selectedResult: IEnumObject | null = null,
+//   index: number,
+// ): void {
+//   console.log('selected result', selectedResult);
+//   if (selectedResult && selectedResult.value) {
+//     console.log('selected result value', selectedResult.value);
+//
+//     switch (selectedResult.value.toLowerCase()) {
+//       case IFootballPlayResult.PassCompleted.toLowerCase():
+//         resetDeflectedPlayer(eventsArray, index);
+//         resetDroppedPlayer(eventsArray, index);
+//         resetInterceptedPlayer(eventsArray, index);
+//         resetSackPlayer(eventsArray, index);
+//         break;
+//       case IFootballPlayResult.PassDropped.toLowerCase():
+//         resetDeflectedPlayer(eventsArray, index);
+//         resetReceiverPlayer(eventsArray, index);
+//         resetInterceptedPlayer(eventsArray, index);
+//         resetSackPlayer(eventsArray, index);
+//         resetAssistTacklePlayer(eventsArray, index);
+//         resetTacklePlayer(eventsArray, index);
+//         break;
+//       case IFootballPlayResult.PassDeflected.toLowerCase():
+//         resetDroppedPlayer(eventsArray, index);
+//         resetReceiverPlayer(eventsArray, index);
+//         resetInterceptedPlayer(eventsArray, index);
+//         resetSackPlayer(eventsArray, index);
+//         resetAssistTacklePlayer(eventsArray, index);
+//         resetTacklePlayer(eventsArray, index);
+//         break;
+//       case IFootballPlayResult.PassIntercepted.toLowerCase():
+//         resetDroppedPlayer(eventsArray, index);
+//         resetReceiverPlayer(eventsArray, index);
+//         resetDeflectedPlayer(eventsArray, index);
+//         resetSackPlayer(eventsArray, index);
+//         resetAssistTacklePlayer(eventsArray, index);
+//         resetTacklePlayer(eventsArray, index);
+//         break;
+//       case IFootballPlayResult.Sack.toLowerCase():
+//         resetDroppedPlayer(eventsArray, index);
+//         resetReceiverPlayer(eventsArray, index);
+//         resetDeflectedPlayer(eventsArray, index);
+//         resetInterceptedPlayer(eventsArray, index);
+//         break;
+//     }
+//   }
+// }
+
 export function filterPlayResultsByType(
-  playType: IFootballPlayType,
+  playType: IFootballPlayType | undefined | null,
 ): IFootballPlayResult[] {
   // console.log('filterPlayResultsByType', playType);
   switch (playType) {
@@ -384,7 +578,7 @@ export function filterPlayResultsByType(
 }
 
 export function filterScoreResultsByType(
-  scoreResult: IFootballPlayType,
+  scoreResult: IFootballPlayType | undefined | null,
 ): IFootballScoreResult[] {
   // console.log('filterScoreResultsByType', scoreResult);
   switch (scoreResult) {

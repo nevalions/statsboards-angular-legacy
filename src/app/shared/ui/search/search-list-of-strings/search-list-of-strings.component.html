@@ -1,0 +1,15 @@
+@if (control) {
+  <tui-combo-box
+    [formControl]="control"
+    [tuiTextfieldCleaner]="true"
+  >
+    {{ action | uppercase }} {{ placeholder | uppercase }}
+    <tui-data-list-wrapper
+      *tuiDataList
+      [itemContent]="stringifyListOfStringsToTitle | tuiStringifyContent"
+      [items]="stringList | tuiFilterByInput: matcherString"
+      (itemClick)="onSelected($event)"
+    >
+    </tui-data-list-wrapper>
+  </tui-combo-box>
+}
