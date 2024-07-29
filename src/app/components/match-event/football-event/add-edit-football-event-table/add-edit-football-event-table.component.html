@@ -12,18 +12,18 @@
             [formGroupName]="i"
           >
             @if (getEventNumber(eventsArray, i); as id) {
-              @if (!isExpanded(id)) {
+              @if (!isExpanded(i)) {
                 @if (getEventTeam(eventsArray, i); as team) {
                   <div
                     style="display: flex; flex-direction: row; flex-wrap: wrap; padding: 5px">
                     <div
                       class="event-table-cell toggle"
-                      (click)="toggle(id)"
+                      (click)="toggle(i)"
                     >
                       <app-button-icon
                         [buttonAppear]="tuiAppFlat"
                         [buttonIcon]="
-                      isExpanded(id) ? 'tuiIconClose' : 'tuiIconMoreHorizontal'
+                      isExpanded(i) ? 'tuiIconClose' : 'tuiIconMoreHorizontal'
                     "
                         [buttonSize]="'m'"
                       ></app-button-icon>
@@ -73,12 +73,12 @@
                 <div class="event-num-qtr-row">
                   <div
                     class="event-table-cell toggle"
-                    (click)="toggle(id)"
+                    (click)="toggle(i)"
                   >
                     <app-button-icon
                       [buttonAppear]="tuiAppFlat"
                       [buttonIcon]="
-                      isExpanded(id) ? 'tuiIconClose' : 'tuiIconMoreHorizontal'
+                      isExpanded(i) ? 'tuiIconClose' : 'tuiIconMoreHorizontal'
                     "
                       [buttonSize]="'m'"
                     ></app-button-icon>

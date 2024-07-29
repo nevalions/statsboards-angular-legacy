@@ -306,12 +306,17 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
 
       // Determine the ID of the last event and toggle its state
       if (this.events.length > 0) {
-        const lastEventNumber =
-          this.events[this.events.length - 1].event_number;
-        if (lastEventNumber) {
-          this.toggle(lastEventNumber);
-        }
+        const lastIndex = this.events.length - 1;
+        this.toggle(lastIndex);
       }
+
+      // if (this.events.length > 0) {
+      //   const lastEventNumber =
+      //     this.events[this.events.length - 1].event_number;
+      //   if (lastEventNumber) {
+      //     this.toggle(lastEventNumber);
+      //   }
+      // }
     }
   }
 
@@ -408,6 +413,7 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['events'] && this.events) {
+      // console.log('change events');
       this.populateFormArray();
     }
   }
@@ -552,23 +558,24 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
           this.footballEvent.createFootballEvent(
             newEventData as IFootballEvent,
           );
-          if (newEventData.event_number) {
-            this.toggle(newEventData.event_number - 1);
+          if (this.events && this.events.length > 0) {
+            this.toggle(index - 1);
           }
         }
       } else if (action === 'edit') {
-        console.log('action', action);
+        // console.log('action', action);
         const updateEventData = extractEventData(this.eventsArray, index);
-        console.log('UPDATE EVENT WITH NEW DATA', updateEventData);
+        // console.log('UPDATE EVENT WITH NEW DATA', updateEventData);
         if (updateEventData) {
           if (updateEventData.id) {
             this.footballEvent.updateFootballEventKeyValue(
               updateEventData.id,
               updateEventData,
             );
-
-            if (updateEventData.event_number) {
-              this.toggle(updateEventData.event_number);
+            if (this.events) {
+              if (index && index < this.events.length) {
+                this.toggle(index);
+              }
             }
           }
         }
