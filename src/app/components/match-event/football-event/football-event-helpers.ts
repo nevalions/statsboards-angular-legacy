@@ -13,6 +13,8 @@ import {
   IFootballEvent,
   IFootballEventWithPlayers,
   IFootballPlayResult,
+  IFootballPlayType,
+  IFootballScoreResult,
 } from '../../../type/football-event.type';
 import { IMatchWithFullData } from '../../../type/match.type';
 import { handleTeamChangeOnTouchBack } from './football-event-on-change-helpers';
@@ -120,6 +122,7 @@ export function createNewEvent(
   let newEventBallOn: number | null = null;
   let newEventDown: number | null;
   let newEventDistance: number | null;
+  let newEventPlayType: IEnumObject | null = null;
   let newEventDistanceOnOffence: number | null;
   let newEventIsFumble: boolean | null = false;
   let newEventIsFumbleRecovered: boolean | null = false;
@@ -164,45 +167,76 @@ export function createNewEvent(
     newEventDistance = 10;
   }
 
-  if (lastEvent && lastEvent.play_result) {
-    if (
-      (lastEvent.play_result.value === IFootballPlayResult.PuntReturn ||
-        lastEvent.play_result.value === IFootballPlayResult.KickOffReturn) &&
-      !lastEvent.is_fumble
-    ) {
-      if (match) {
-        const {
-          newEventBallOn: newBallOn,
-          newEventDown: newDown,
-          newEventDistance: newDistance,
-          newEventTeam: newTeam,
-          newEventQb: newQb,
-        } = handleTeamChangeOnTouchBack(match, lastEvent);
-
-        newEventDown = newDown;
-        newEventDistance = newDistance;
+  if (lastEvent && lastEvent.score_result) {
+    if (match) {
+      const {
+        newEventBallOn: newBallOn,
+        newEventDown: newDown,
+        newEventDistance: newDistance,
+        newEventTeam: newTeam,
+        newEventQb: newQb,
+      } = handleTeamChangeOnTouchBack(match, lastEvent);
+      if (
+        lastEvent.score_result?.value === IFootballScoreResult.PatOneMissed ||
+        lastEvent.score_result?.value === IFootballScoreResult.PatOneGood ||
+        lastEvent.score_result?.value === IFootballScoreResult.PatOneReturn ||
+        lastEvent.score_result?.value === IFootballScoreResult.PatTwoMissed ||
+        lastEvent.score_result?.value === IFootballScoreResult.PatTwoGood ||
+        lastEvent.score_result?.value === IFootballScoreResult.PatTwoReturn
+      ) {
+        newEventBallOn = -20;
+        newEventDown = null;
+        newEventDistance = null;
         newEventTeam = newTeam;
-        newEventQb = newQb;
+        newEventPlayType = {
+          value: IFootballPlayType.Kickoff,
+          label: IFootballPlayType.Kickoff,
+        };
       }
     }
   }
 
   if (lastEvent && lastEvent.play_result) {
-    if (lastEvent.play_result.value === IFootballPlayResult.TouchBack) {
-      if (match) {
-        const {
-          newEventBallOn: newBallOn,
-          newEventDown: newDown,
-          newEventDistance: newDistance,
-          newEventTeam: newTeam,
-          newEventQb: newQb,
-        } = handleTeamChangeOnTouchBack(match, lastEvent);
+    if (match) {
+      const {
+        newEventBallOn: newBallOn,
+        newEventDown: newDown,
+        newEventDistance: newDistance,
+        newEventTeam: newTeam,
+        newEventQb: newQb,
+      } = handleTeamChangeOnTouchBack(match, lastEvent);
+      if (
+        (lastEvent.play_result.value === IFootballPlayResult.PuntReturn ||
+          lastEvent.play_result.value === IFootballPlayResult.KickOffReturn) &&
+        !lastEvent.is_fumble
+      ) {
+        newEventDown = newDown;
+        newEventDistance = newDistance;
+        newEventTeam = newTeam;
+        newEventQb = newQb;
+      }
 
+      if (lastEvent.play_result.value === IFootballPlayResult.TouchBack) {
         newEventBallOn = newBallOn;
         newEventDown = newDown;
         newEventDistance = newDistance;
         newEventTeam = newTeam;
         newEventQb = newQb;
+      }
+
+      if (
+        lastEvent.play_result.value === IFootballPlayResult.Kick &&
+        (lastEvent.score_result?.value === IFootballScoreResult.KickGood ||
+          lastEvent.score_result?.value === IFootballScoreResult.KickMissed)
+      ) {
+        newEventBallOn = -20;
+        newEventDown = null;
+        newEventDistance = null;
+        newEventTeam = newTeam;
+        newEventPlayType = {
+          value: IFootballPlayType.Kickoff,
+          label: IFootballPlayType.Kickoff,
+        };
       }
     }
   }
@@ -218,7 +252,7 @@ export function createNewEvent(
     event_distance: newEventDistance,
     event_hash: null,
     play_direction: null,
-    play_type: null,
+    play_type: newEventPlayType,
     play_result: null,
     score_result: null,
     is_fumble: false,
