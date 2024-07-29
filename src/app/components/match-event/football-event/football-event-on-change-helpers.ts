@@ -91,6 +91,21 @@ export function onRunPlayTypeChange(
   }
 }
 
+export function onPatOnePlayTypeChange(
+  eventsArray: FormArray,
+  eventPlayType: IEnumObject | null | undefined,
+  index: number,
+): void {
+  if (eventsArray && eventPlayType && index) {
+    if (eventPlayType && eventPlayType.value === IFootballPlayType.PatOne) {
+      setPlayResult(eventsArray, index, {
+        value: IFootballPlayResult.PatOne,
+        label: IFootballPlayResult.PatOne,
+      });
+    }
+  }
+}
+
 export function onBallOnChange(
   events: IFootballEventWithPlayers[] | null,
   eventsArray: FormArray,
@@ -304,7 +319,7 @@ export function onPlayResultChange(
 export function filterPlayResultsByType(
   playType: IFootballPlayType,
 ): IFootballPlayResult[] {
-  console.log('filterPlayResultsByType', playType);
+  // console.log('filterPlayResultsByType', playType);
   switch (playType) {
     case IFootballPlayType.Run:
       return [
@@ -345,6 +360,12 @@ export function filterPlayResultsByType(
         IFootballPlayResult.PuntBlocked,
         IFootballPlayResult.Flag,
       ];
+    case IFootballPlayType.PatOne:
+      return [
+        IFootballPlayResult.None,
+        IFootballPlayResult.PatOne,
+        IFootballPlayResult.Flag,
+      ];
     case IFootballPlayType.PatTwo:
       return [
         IFootballPlayResult.None,
@@ -365,7 +386,7 @@ export function filterPlayResultsByType(
 export function filterScoreResultsByType(
   scoreResult: IFootballPlayType,
 ): IFootballScoreResult[] {
-  console.log('filterScoreResultsByType', scoreResult);
+  // console.log('filterScoreResultsByType', scoreResult);
   switch (scoreResult) {
     case IFootballPlayType.Run:
       return [

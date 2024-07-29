@@ -148,6 +148,7 @@ import {
   incrementOnBall,
   onBallOnChange,
   onDownChange,
+  onPatOnePlayTypeChange,
   onPlayResultChange,
   onPlayTypeChange,
   onRunPlayTypeChange,
@@ -271,6 +272,7 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
       this.setFilteredScoreResults.bind(this),
     );
     onRunPlayTypeChange(eventsArray, selectedType, index);
+    onPatOnePlayTypeChange(eventsArray, selectedType, index);
   }
 
   handlePlayResultChange(

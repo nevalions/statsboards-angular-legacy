@@ -167,34 +167,34 @@ export function createNewEvent(
     newEventDistance = 10;
   }
 
-  if (lastEvent && lastEvent.score_result) {
-    if (match) {
-      const {
-        newEventBallOn: newBallOn,
-        newEventDown: newDown,
-        newEventDistance: newDistance,
-        newEventTeam: newTeam,
-        newEventQb: newQb,
-      } = handleTeamChangeOnTouchBack(match, lastEvent);
-      if (
-        lastEvent.score_result?.value === IFootballScoreResult.PatOneMissed ||
-        lastEvent.score_result?.value === IFootballScoreResult.PatOneGood ||
-        lastEvent.score_result?.value === IFootballScoreResult.PatOneReturn ||
-        lastEvent.score_result?.value === IFootballScoreResult.PatTwoMissed ||
-        lastEvent.score_result?.value === IFootballScoreResult.PatTwoGood ||
-        lastEvent.score_result?.value === IFootballScoreResult.PatTwoReturn
-      ) {
-        newEventBallOn = -20;
-        newEventDown = null;
-        newEventDistance = null;
-        newEventTeam = newTeam;
-        newEventPlayType = {
-          value: IFootballPlayType.Kickoff,
-          label: IFootballPlayType.Kickoff,
-        };
-      }
-    }
-  }
+  // if (lastEvent && lastEvent.score_result) {
+  //   if (match) {
+  //     const {
+  //       newEventBallOn: newBallOn,
+  //       newEventDown: newDown,
+  //       newEventDistance: newDistance,
+  //       newEventTeam: newTeam,
+  //       newEventQb: newQb,
+  //     } = handleTeamChangeOnTouchBack(match, lastEvent);
+  //     if (
+  //       lastEvent.score_result?.value === IFootballScoreResult.PatOneMissed ||
+  //       lastEvent.score_result?.value === IFootballScoreResult.PatOneGood ||
+  //       lastEvent.score_result?.value === IFootballScoreResult.PatOneReturn ||
+  //       lastEvent.score_result?.value === IFootballScoreResult.PatTwoMissed ||
+  //       lastEvent.score_result?.value === IFootballScoreResult.PatTwoGood ||
+  //       lastEvent.score_result?.value === IFootballScoreResult.PatTwoReturn
+  //     ) {
+  //       newEventBallOn = -20;
+  //       newEventDown = null;
+  //       newEventDistance = null;
+  //       newEventTeam = newTeam;
+  //       newEventPlayType = {
+  //         value: IFootballPlayType.Kickoff,
+  //         label: IFootballPlayType.Kickoff,
+  //       };
+  //     }
+  //   }
+  // }
 
   if (lastEvent && lastEvent.play_result) {
     if (match) {
@@ -228,6 +228,24 @@ export function createNewEvent(
         lastEvent.play_result.value === IFootballPlayResult.Kick &&
         (lastEvent.score_result?.value === IFootballScoreResult.KickGood ||
           lastEvent.score_result?.value === IFootballScoreResult.KickMissed)
+      ) {
+        newEventBallOn = -20;
+        newEventDown = null;
+        newEventDistance = null;
+        newEventTeam = newTeam;
+        newEventPlayType = {
+          value: IFootballPlayType.Kickoff,
+          label: IFootballPlayType.Kickoff,
+        };
+      }
+
+      if (
+        lastEvent.score_result?.value === IFootballScoreResult.PatOneMissed ||
+        lastEvent.score_result?.value === IFootballScoreResult.PatOneGood ||
+        lastEvent.score_result?.value === IFootballScoreResult.PatOneReturn ||
+        lastEvent.score_result?.value === IFootballScoreResult.PatTwoMissed ||
+        lastEvent.score_result?.value === IFootballScoreResult.PatTwoGood ||
+        lastEvent.score_result?.value === IFootballScoreResult.PatTwoReturn
       ) {
         newEventBallOn = -20;
         newEventDown = null;
