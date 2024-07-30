@@ -65,6 +65,22 @@ export function calculateQbPassDistanceAndTd(
   }
 }
 
+export function calculateQbRating(stats: IQBStats): number {
+  const { passes, pass_yards, pass_td, passes_completed, interception } = stats;
+
+  if (passes === 0) {
+    return 0; // Avoid division by zero
+  }
+
+  const qbRating =
+    (8.4 * pass_yards +
+      330 * pass_td +
+      100 * passes_completed -
+      200 * interception) /
+    passes;
+  return qbRating;
+}
+
 export function calculateFootballOffenceRunDistanceAndFumbleAndTd(
   event: IFootballEventWithPlayers,
   playerId: number,

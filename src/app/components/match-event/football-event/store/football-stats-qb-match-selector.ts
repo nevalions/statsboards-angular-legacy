@@ -11,6 +11,7 @@ import {
 } from '../../../../type/player.type';
 import {
   calculateQbPassDistanceAndTd,
+  calculateQbRating,
   calculateQbRunDistanceAndFumbleAndTd,
 } from '../football-event-stats-calc-helpers';
 import { IMatchWithFullData } from '../../../../type/match.type';
@@ -36,6 +37,7 @@ export const selectQuarterbackStats = createSelector(
             run_td: 0,
             fumble: 0,
             interception: 0,
+            qb_rating: 0,
           };
         }
 
@@ -48,6 +50,8 @@ export const selectQuarterbackStats = createSelector(
         if (event.play_result === IFootballPlayResult.PassIntercepted) {
           qbStats[qbId].interception++;
         }
+
+        qbStats[qbId].qb_rating = calculateQbRating(qbStats[qbId]);
       }
     });
 
@@ -103,6 +107,7 @@ const selectAllQuarterbacksWithStats = (
           run_td: qbStats[qb.match_player.id!]?.run_td || 0,
           fumble: qbStats[qb.match_player.id!]?.fumble || 0,
           interception: qbStats[qb.match_player.id!]?.interception || 0,
+          qb_rating: qbStats[qb.match_player.id!]?.qb_rating || 0,
         },
       }));
     },

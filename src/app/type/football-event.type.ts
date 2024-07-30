@@ -174,6 +174,7 @@ export interface IQBStats {
   run_td: number;
   fumble: number;
   interception: number;
+  qb_rating: number;
 }
 
 export interface IOffenceStats {
