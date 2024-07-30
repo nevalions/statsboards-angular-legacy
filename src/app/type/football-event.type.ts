@@ -169,9 +169,11 @@ export interface IQBStats {
   passes_completed: number;
   pass_yards: number;
   pass_td: number;
+  pass_avr: number;
   run_attempts: number;
   run_yards: number;
   run_td: number;
+  run_avr: number;
   fumble: number;
   interception: number;
   qb_rating: number;

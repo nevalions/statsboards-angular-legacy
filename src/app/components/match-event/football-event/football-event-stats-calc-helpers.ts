@@ -81,6 +81,28 @@ export function calculateQbRating(stats: IQBStats): number {
   return parseFloat(qbRating.toFixed(2));
 }
 
+export function calculatePassAvr(stats: IQBStats): number {
+  const { passes, passes_completed } = stats;
+
+  if (passes === 0) {
+    return 0; // Avoid division by zero
+  }
+
+  const passAvr = (passes_completed / passes) * 100;
+  return parseFloat(passAvr.toFixed(2));
+}
+
+export function calculateRunAvrQb(stats: IQBStats): number {
+  const { run_yards, run_attempts } = stats;
+
+  if (run_attempts === 0) {
+    return 0; // Avoid division by zero
+  }
+
+  const runPerAtt = run_yards / run_attempts;
+  return parseFloat(runPerAtt.toFixed(2));
+}
+
 export function calculateFootballOffenceRunDistanceAndFumbleAndTd(
   event: IFootballEventWithPlayers,
   playerId: number,

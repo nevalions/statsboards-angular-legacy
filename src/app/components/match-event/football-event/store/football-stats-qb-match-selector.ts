@@ -10,9 +10,11 @@ import {
   IPlayerInMatchFullDataWithQbStats,
 } from '../../../../type/player.type';
 import {
+  calculatePassAvr,
   calculateQbPassDistanceAndTd,
   calculateQbRating,
   calculateQbRunDistanceAndFumbleAndTd,
+  calculateRunAvrQb,
 } from '../football-event-stats-calc-helpers';
 import { IMatchWithFullData } from '../../../../type/match.type';
 import { selectCurrentMatchWithFullData } from '../../../match-with-full-data/store/reducers';
@@ -32,8 +34,10 @@ export const selectQuarterbackStats = createSelector(
             passes_completed: 0,
             pass_yards: 0,
             pass_td: 0,
+            pass_avr: 0,
             run_attempts: 0,
             run_yards: 0,
+            run_avr: 0,
             run_td: 0,
             fumble: 0,
             interception: 0,
@@ -52,6 +56,8 @@ export const selectQuarterbackStats = createSelector(
         }
 
         qbStats[qbId].qb_rating = calculateQbRating(qbStats[qbId]);
+        qbStats[qbId].pass_avr = calculatePassAvr(qbStats[qbId]);
+        qbStats[qbId].run_avr = calculateRunAvrQb(qbStats[qbId]);
       }
     });
 
@@ -101,10 +107,12 @@ const selectAllQuarterbacksWithStats = (
           passes: qbStats[qb.match_player.id!]?.passes || 0,
           passes_completed: qbStats[qb.match_player.id!]?.passes_completed || 0,
           pass_yards: qbStats[qb.match_player.id!]?.pass_yards || 0,
+          pass_avr: qbStats[qb.match_player.id!]?.pass_avr || 0,
           pass_td: qbStats[qb.match_player.id!]?.pass_td || 0,
           run_attempts: qbStats[qb.match_player.id!]?.run_attempts || 0,
           run_yards: qbStats[qb.match_player.id!]?.run_yards || 0,
           run_td: qbStats[qb.match_player.id!]?.run_td || 0,
+          run_avr: qbStats[qb.match_player.id!]?.run_avr || 0,
           fumble: qbStats[qb.match_player.id!]?.fumble || 0,
           interception: qbStats[qb.match_player.id!]?.interception || 0,
           qb_rating: qbStats[qb.match_player.id!]?.qb_rating || 0,
