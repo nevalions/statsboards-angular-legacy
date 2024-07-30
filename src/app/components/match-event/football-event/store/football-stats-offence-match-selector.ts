@@ -12,6 +12,7 @@ import {
 import {
   calculateFootballOffencePassDistanceAndFumbleAndTd,
   calculateFootballOffenceRunDistanceAndFumbleAndTd,
+  calculateRunAvrOffence,
 } from '../football-event-stats-calc-helpers';
 import { IMatchWithFullData } from '../../../../type/match.type';
 import { selectCurrentMatchWithFullData } from '../../../match-with-full-data/store/reducers';
@@ -35,6 +36,7 @@ export const selectOffenseStats = createSelector(
             pass_td: 0,
             run_attempts: 0,
             run_yards: 0,
+            run_avr: 0,
             run_td: 0,
             fumble: 0,
           };
@@ -51,6 +53,10 @@ export const selectOffenseStats = createSelector(
           event,
           playerId,
           offenseStats,
+        );
+
+        offenseStats[playerId].run_avr = calculateRunAvrOffence(
+          offenseStats[playerId],
         );
       }
     });
@@ -111,6 +117,7 @@ const selectAllPlayersWithOffenseStats = (
           run_attempts:
             offenseStats[player.match_player.id!]?.run_attempts || 0,
           run_yards: offenseStats[player.match_player.id!]?.run_yards || 0,
+          run_avr: offenseStats[player.match_player.id!]?.run_avr || 0,
           run_td: offenseStats[player.match_player.id!]?.run_td || 0,
           fumble: offenseStats[player.match_player.id!]?.fumble || 0,
         },

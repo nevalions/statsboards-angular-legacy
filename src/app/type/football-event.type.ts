@@ -187,6 +187,7 @@ export interface IOffenceStats {
   pass_td: number;
   run_attempts: number;
   run_yards: number;
+  run_avr: number;
   run_td: number;
   fumble: number;
 }

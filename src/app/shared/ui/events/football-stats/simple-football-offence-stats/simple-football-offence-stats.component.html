@@ -12,12 +12,7 @@
       <br>
       RUN ATT: {{ player.off_stats?.run_attempts }},
       RUN YDS: {{ player.off_stats?.run_yards }},
-      AVG RUN YDS:
-      @if (player.off_stats?.run_attempts && player.off_stats?.run_yards) {
-        {{ player.off_stats!.run_yards / player.off_stats!.run_attempts | number:'1.0-1' }},
-      } @else {
-        0,
-      }
+      AVG RUN YDS: {{ player.off_stats?.run_avr }},
       RUN TD: {{ player.off_stats?.run_td }},
       TD: {{ (player.off_stats?.pass_td ?? 0) + (player.off_stats?.run_td ?? 0) }},
       FUMBLE: {{ player.off_stats?.fumble }})

@@ -67,11 +67,9 @@ export function calculateQbPassDistanceAndTd(
 
 export function calculateQbRating(stats: IQBStats): number {
   const { passes, pass_yards, pass_td, passes_completed, interception } = stats;
-
   if (passes === 0) {
-    return 0; // Avoid division by zero
+    return 0;
   }
-
   const qbRating =
     (8.4 * pass_yards +
       330 * pass_td +
@@ -83,22 +81,18 @@ export function calculateQbRating(stats: IQBStats): number {
 
 export function calculatePassAvr(stats: IQBStats): number {
   const { passes, passes_completed } = stats;
-
   if (passes === 0) {
-    return 0; // Avoid division by zero
+    return 0;
   }
-
   const passAvr = (passes_completed / passes) * 100;
   return parseFloat(passAvr.toFixed(2));
 }
 
 export function calculateRunAvrQb(stats: IQBStats): number {
   const { run_yards, run_attempts } = stats;
-
   if (run_attempts === 0) {
-    return 0; // Avoid division by zero
+    return 0;
   }
-
   const runPerAtt = run_yards / run_attempts;
   return parseFloat(runPerAtt.toFixed(2));
 }
@@ -129,6 +123,15 @@ export function calculateFootballOffenceRunDistanceAndFumbleAndTd(
       }
     }
   }
+}
+
+export function calculateRunAvrOffence(stats: IOffenceStats): number {
+  const { run_yards, run_attempts } = stats;
+  if (run_attempts === 0) {
+    return 0;
+  }
+  const runPerAtt = run_yards / run_attempts;
+  return parseFloat(runPerAtt.toFixed(2));
 }
 
 export function calculateFootballOffencePassDistanceAndFumbleAndTd(

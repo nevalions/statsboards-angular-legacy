@@ -45,12 +45,9 @@ export const selectQuarterbackStats = createSelector(
           };
         }
 
-        // Calculate qb run distance
         calculateQbPassDistanceAndTd(event, qbId, qbStats);
-        // Calculate qb run distance
         calculateQbRunDistanceAndFumbleAndTd(event, qbId, qbStats);
 
-        // Process interception
         if (event.play_result === IFootballPlayResult.PassIntercepted) {
           qbStats[qbId].interception++;
         }
