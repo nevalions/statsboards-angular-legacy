@@ -78,7 +78,7 @@ export function calculateQbRating(stats: IQBStats): number {
       100 * passes_completed -
       200 * interception) /
     passes;
-  return qbRating;
+  return parseFloat(qbRating.toFixed(2));
 }
 
 export function calculateFootballOffenceRunDistanceAndFumbleAndTd(
