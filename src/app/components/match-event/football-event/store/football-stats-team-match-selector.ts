@@ -182,7 +182,7 @@ export const selectFootballTeamAWithStats = createSelector(
     let yardsPerAttempt;
 
     if (overalAttempts > 0) {
-      yardsPerAttempt = offenceYards / overalAttempts;
+      yardsPerAttempt = parseFloat((offenceYards / overalAttempts).toFixed(2));
     } else {
       yardsPerAttempt = 0;
     }
@@ -240,7 +240,7 @@ export const selectFootballTeamBWithStats = createSelector(
     let yardsPerAttempt;
 
     if (overalAttempts > 0) {
-      yardsPerAttempt = offenceYards / overalAttempts;
+      yardsPerAttempt = parseFloat((offenceYards / overalAttempts).toFixed(2));
     } else {
       yardsPerAttempt = 0;
     }
