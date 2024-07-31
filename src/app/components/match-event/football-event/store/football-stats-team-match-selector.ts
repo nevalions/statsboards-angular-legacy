@@ -54,6 +54,21 @@ const selectOverallDistanceForTeam = (
     },
   );
 
+const calculateAttempts = (
+  events: IFootballEventWithPlayers[],
+  teamId: number | undefined,
+  playType: IFootballPlayType,
+): number => {
+  if (!teamId) return 0;
+
+  return events.reduce((attempts, event) => {
+    if (event.offense_team?.id === teamId && event.play_type === playType) {
+      attempts++;
+    }
+    return attempts;
+  }, 0);
+};
+
 // Selectors for overall run distance
 export const selectOverallRunDistanceForTeamA = selectOverallDistanceForTeam(
   (match) => match?.match.team_a_id,
@@ -152,16 +167,37 @@ export const selectFootballTeamAWithStats = createSelector(
     if (!teamA) {
       return null;
     }
+    const runAttempts = calculateAttempts(
+      eventsWithPlayers,
+      teamA.id!,
+      IFootballPlayType.Run,
+    );
+    const passAttempts = calculateAttempts(
+      eventsWithPlayers,
+      teamA.id!,
+      IFootballPlayType.Pass,
+    );
     const downStats = calculateFootballDownStats(eventsWithPlayers, teamA.id!);
+    const overalAttempts = runAttempts + passAttempts;
+    let yardsPerAttempt;
+
+    if (overalAttempts > 0) {
+      yardsPerAttempt = offenceYards / overalAttempts;
+    } else {
+      yardsPerAttempt = 0;
+    }
 
     return {
       ...teamA,
       match_stats: {
         id: teamA.id!,
         offence_yards: offenceYards,
+        pass_att: passAttempts,
+        run_att: runAttempts,
         pass_yards: passYards,
         run_yards: runYards,
         flag_yards: flagYards,
+        avg_yards_per_att: yardsPerAttempt,
         ...downStats,
       },
     };
@@ -189,7 +225,25 @@ export const selectFootballTeamBWithStats = createSelector(
       return null;
     }
 
+    const runAttempts = calculateAttempts(
+      eventsWithPlayers,
+      teamB.id!,
+      IFootballPlayType.Run,
+    );
+    const passAttempts = calculateAttempts(
+      eventsWithPlayers,
+      teamB.id!,
+      IFootballPlayType.Pass,
+    );
     const downStats = calculateFootballDownStats(eventsWithPlayers, teamB.id!);
+    const overalAttempts = runAttempts + passAttempts;
+    let yardsPerAttempt;
+
+    if (overalAttempts > 0) {
+      yardsPerAttempt = offenceYards / overalAttempts;
+    } else {
+      yardsPerAttempt = 0;
+    }
 
     return {
       ...teamB,
@@ -199,6 +253,9 @@ export const selectFootballTeamBWithStats = createSelector(
         pass_yards: passYards,
         run_yards: runYards,
         flag_yards: flagYards,
+        pass_att: passAttempts,
+        run_att: runAttempts,
+        avg_yards_per_att: yardsPerAttempt,
         ...downStats,
       },
     };

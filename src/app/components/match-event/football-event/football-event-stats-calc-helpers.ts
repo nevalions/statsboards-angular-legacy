@@ -97,7 +97,7 @@ export function calculateRunAvrQb(stats: IQBStats): number {
   return parseFloat(runPerAtt.toFixed(2));
 }
 
-export function calculateFootballOffenceRunDistanceAndFumbleAndTd(
+export function calculateFootballOffencePlayerRunDistanceAndFumbleAndTd(
   event: IFootballEventWithPlayers,
   playerId: number,
   stats: Record<number, IOffenceStats>,
@@ -134,7 +134,7 @@ export function calculateRunAvrOffence(stats: IOffenceStats): number {
   return parseFloat(runPerAtt.toFixed(2));
 }
 
-export function calculateFootballOffencePassDistanceAndFumbleAndTd(
+export function calculateFootballOffencePlayerPassDistanceAndFumbleAndTd(
   event: IFootballEventWithPlayers,
   playerId: number,
   stats: Record<number, IOffenceStats>,

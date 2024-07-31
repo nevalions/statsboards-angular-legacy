@@ -35,6 +35,16 @@
                 }
               }
             }
+
+            @if (homeTeamWithStats$ | async; as team) {
+              @if (data.scoreboard_data?.is_home_match_team_lower || false) {
+                <app-team-match-lower-football-stats-display-flat
+                  [@dissolve]="homeTeamMatchStatsLowerVisibility ? 'visible' : 'invisible'"
+                  [teamColor]="data.scoreboard_data?.team_a_game_color!"
+                  [footballTeamWithStats]="team"
+                ></app-team-match-lower-football-stats-display-flat>
+              }
+            }
           </div>
           <div class="team-block">
             <div class="team_a-name">
@@ -106,6 +116,7 @@
           class="team_b-detail"
           [style.background-color]="hexToRgba(data.scoreboard_data?.team_b_game_color!, 0.8)">
           <div class="lower-area-team">
+
             @if (player$ | async; as player) {
               @if (player.player_team_tournament?.team_id === data.match.team_b_id) {
                 @if (data.scoreboard_data?.is_match_player_lower || false) {
@@ -116,6 +127,16 @@
                   ></app-player-match-lower-display-flat>
 
                 }
+              }
+            }
+
+            @if (awayTeamWithStats$ | async; as team) {
+              @if (data.scoreboard_data?.is_away_match_team_lower || false) {
+                <app-team-match-lower-football-stats-display-flat
+                  [@dissolve]="awayTeamMatchStatsLowerVisibility ? 'visible' : 'invisible'"
+                  [teamColor]="data.scoreboard_data?.team_b_game_color!"
+                  [footballTeamWithStats]="team"
+                ></app-team-match-lower-football-stats-display-flat>
               }
             }
           </div>

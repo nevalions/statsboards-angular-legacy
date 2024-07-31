@@ -10,6 +10,8 @@ export interface TeamState {
   currentTeam: ITeam | undefined | null;
   homeTeam: ITeam | undefined | null;
   awayTeam: ITeam | undefined | null;
+  // homeTeamWithFootballStats: IFootballTeamWithStats | undefined | null;
+  // awayTeamWithFootballStats: IFootballTeamWithStats | undefined | null;
   allTeams: ITeam[];
   allTeamsInSport: ITeam[];
   allTeamsInTournament: ITeam[];
@@ -26,6 +28,8 @@ const initialState: TeamState = {
   currentTeam: null,
   homeTeam: null,
   awayTeam: null,
+  // homeTeamWithFootballStats: null,
+  // awayTeamWithFootballStats: null,
   errors: null,
 };
 

@@ -22,6 +22,8 @@ import { ITournament } from '../../../type/tournament.type';
 import { PlayerMatchLowerDisplayFlatComponent } from '../player-match-lower-display-flat/player-match-lower-display-flat.component';
 import { PlayerInMatch } from '../../../components/player-match/player-match';
 import { hexToRgba } from '../../../base/helpers';
+import { FootballEvent } from '../../../components/match-event/football-event/football-event';
+import { TeamMatchLowerFootballStatsDisplayFlatComponent } from '../team-match-lower-football-stats-display-flat/team-match-lower-football-stats-display-flat.component';
 
 @Component({
   selector: 'app-scoreboard-display-flat',
@@ -31,6 +33,7 @@ import { hexToRgba } from '../../../base/helpers';
     UpperCasePipe,
     PlayerMatchLowerDisplayFlatComponent,
     AsyncPipe,
+    TeamMatchLowerFootballStatsDisplayFlatComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './scoreboard-display-flat.component.html',
@@ -49,6 +52,8 @@ export class ScoreboardDisplayFlatComponent
   @Input() playerLowerId: number | undefined | null = null;
 
   player$ = this.playerInMatch.selectSelectedPlayerInMatchLower$;
+  homeTeamWithStats$ = this.footballEvent.footballTeamAWithStats$;
+  awayTeamWithStats$ = this.footballEvent.footballTeamBWithStats$;
 
   // goal = 'touchdown';
   goal = 'ТАЧДАУН';
@@ -67,6 +72,8 @@ export class ScoreboardDisplayFlatComponent
   teamBTimeoutVisibility = 'invisible';
 
   playerLowerVisibility = 'invisible';
+  homeTeamMatchStatsLowerVisibility = 'invisible';
+  awayTeamMatchStatsLowerVisibility = 'invisible';
 
   teamAFontSize: string = '26px';
   teamBFontSize: string = '26px';
@@ -76,6 +83,7 @@ export class ScoreboardDisplayFlatComponent
     private elRef: ElementRef,
     private cd: ChangeDetectorRef,
     private imageService: ImageService,
+    private footballEvent: FootballEvent,
   ) {}
 
   ngAfterViewInit() {
@@ -104,6 +112,16 @@ export class ScoreboardDisplayFlatComponent
 
       this.playerLowerVisibility = currData.scoreboard_data
         ?.is_match_player_lower
+        ? 'visible'
+        : 'invisible';
+
+      this.homeTeamMatchStatsLowerVisibility = currData.scoreboard_data
+        ?.is_home_match_team_lower
+        ? 'visible'
+        : 'invisible';
+
+      this.awayTeamMatchStatsLowerVisibility = currData.scoreboard_data
+        ?.is_away_match_team_lower
         ? 'visible'
         : 'invisible';
 
@@ -173,19 +191,6 @@ export class ScoreboardDisplayFlatComponent
         !currData.scoreboard_data?.is_goal_team_b
           ? 'visible'
           : 'invisible';
-
-      // this.teamAVisibility = !currData.scoreboard_data?.is_goal_team_a
-      //   ? 'visible'
-      //   : 'invisible';
-      // this.teamBVisibility = !currData.scoreboard_data?.is_goal_team_b
-      //   ? 'visible'
-      //   : 'invisible';
-      // this.teamAGoalVisibility = currData.scoreboard_data?.is_timeout_team_a
-      //   ? 'visible'
-      //   : 'invisible';
-      // this.teamBGoalVisibility = currData.scoreboard_data?.is_timeout_team_b
-      //   ? 'visible'
-      //   : 'invisible';
     }
   }
 

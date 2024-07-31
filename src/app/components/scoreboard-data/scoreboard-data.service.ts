@@ -5,7 +5,6 @@ import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { BaseApiService } from '../../services/base.api.service';
 import { ErrorHandlingService } from '../../services/error.service';
-import {} from '../../type/match.type';
 import { IScoreboard } from '../../type/matchdata.type';
 
 @Injectable({
@@ -49,10 +48,10 @@ export class ScoreboardDataService extends BaseApiService<IScoreboard> {
     id: number | string,
     data: any,
   ): Observable<IScoreboard> {
-    // console.log(data);
+    console.log(data);
     return this.editItemKeyValue(id, data).pipe(
       tap((data) => {
-        // console.log(data);
+        console.log(data);
       }),
     );
   }

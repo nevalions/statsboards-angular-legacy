@@ -68,14 +68,6 @@ export class RosterFormsComponent implements OnChanges {
   toggleShowHomeOffenseRosterVisibility(scoreboardData: IScoreboard) {
     if (!scoreboardData) return;
     this.websocket.checkConnection();
-    // const updatedScoreboardData = {
-    //   ...scoreboardData,
-    //   is_team_a_start_offense: !scoreboardData.is_team_a_start_offense,
-    //   is_team_b_start_offense: false,
-    //   is_team_a_start_defense: false,
-    //   is_team_b_start_defense: false,
-    // };
-    // this.scoreboardData.updateScoreboardData(updatedScoreboardData);
     this.scoreboardData.updateScoreboardDataKeyValue(scoreboardData.id!, {
       is_team_a_start_offense: !scoreboardData.is_team_a_start_offense,
       is_team_b_start_offense: false,
@@ -87,14 +79,6 @@ export class RosterFormsComponent implements OnChanges {
   toggleShowAwayOffenseRosterVisibility(scoreboardData: IScoreboard) {
     if (!scoreboardData) return;
     this.websocket.checkConnection();
-    // const updatedScoreboardData = {
-    //   ...scoreboardData,
-    //   is_team_b_start_offense: !scoreboardData.is_team_b_start_offense,
-    //   is_team_a_start_offense: false,
-    //   is_team_a_start_defense: false,
-    //   is_team_b_start_defense: false,
-    // };
-    // this.scoreboardData.updateScoreboardData(updatedScoreboardData);
     this.scoreboardData.updateScoreboardDataKeyValue(scoreboardData.id!, {
       is_team_b_start_offense: !scoreboardData.is_team_b_start_offense,
       is_team_a_start_offense: false,
@@ -106,14 +90,6 @@ export class RosterFormsComponent implements OnChanges {
   toggleShowHomeDefenseRosterVisibility(scoreboardData: IScoreboard) {
     if (!scoreboardData) return;
     this.websocket.checkConnection();
-    // const updatedScoreboardData = {
-    //   ...scoreboardData,
-    //   is_team_a_start_defense: !scoreboardData.is_team_a_start_defense,
-    //   is_team_b_start_offense: false,
-    //   is_team_a_start_offense: false,
-    //   is_team_b_start_defense: false,
-    // };
-    // this.scoreboardData.updateScoreboardData(updatedScoreboardData);
     this.scoreboardData.updateScoreboardDataKeyValue(scoreboardData.id!, {
       is_team_a_start_defense: !scoreboardData.is_team_a_start_defense,
       is_team_b_start_offense: false,
@@ -125,14 +101,6 @@ export class RosterFormsComponent implements OnChanges {
   toggleShowAwayDefenseRosterVisibility(scoreboardData: IScoreboard) {
     if (!scoreboardData) return;
     this.websocket.checkConnection();
-    // const updatedScoreboardData = {
-    //   ...scoreboardData,
-    //   is_team_b_start_defense: !scoreboardData.is_team_b_start_defense,
-    //   is_team_b_start_offense: false,
-    //   is_team_a_start_offense: false,
-    //   is_team_a_start_defense: false,
-    // };
-    // this.scoreboardData.updateScoreboardData(updatedScoreboardData);
     this.scoreboardData.updateScoreboardDataKeyValue(scoreboardData.id!, {
       is_team_b_start_defense: !scoreboardData.is_team_b_start_defense,
       is_team_b_start_offense: false,
@@ -141,16 +109,84 @@ export class RosterFormsComponent implements OnChanges {
     });
   }
 
+  toggleHomeTeamFootballLowerVisibility(scoreboardData: IScoreboard) {
+    if (!scoreboardData) return;
+    this.websocket.checkConnection();
+    this.scoreboardData.updateScoreboardDataKeyValue(scoreboardData.id!, {
+      is_home_match_team_lower:
+        !scoreboardData.is_home_match_team_lower || false,
+      is_away_match_team_lower: false,
+      is_match_player_lower: false,
+    });
+  }
+
+  toggleAwayTeamFootballLowerVisibility(scoreboardData: IScoreboard) {
+    if (!scoreboardData) return;
+    this.websocket.checkConnection();
+    this.scoreboardData.updateScoreboardDataKeyValue(scoreboardData.id!, {
+      is_away_match_team_lower:
+        !scoreboardData.is_away_match_team_lower || false,
+      is_home_match_team_lower: false,
+      is_match_player_lower: false,
+    });
+  }
+
+  toggleBothTeamFootballLowerVisibility(scoreboardData: IScoreboard) {
+    if (!scoreboardData) return;
+    this.websocket.checkConnection();
+    if (
+      scoreboardData.is_home_match_team_lower &&
+      scoreboardData.is_away_match_team_lower
+    ) {
+      this.scoreboardData.updateScoreboardDataKeyValue(scoreboardData.id!, {
+        is_home_match_team_lower: false,
+        is_away_match_team_lower: false,
+        is_match_player_lower: false,
+      });
+    } else if (
+      !scoreboardData.is_home_match_team_lower &&
+      scoreboardData.is_away_match_team_lower
+    ) {
+      this.scoreboardData.updateScoreboardDataKeyValue(scoreboardData.id!, {
+        is_home_match_team_lower: true,
+        is_away_match_team_lower: true,
+        is_match_player_lower: false,
+      });
+    } else if (
+      scoreboardData.is_home_match_team_lower &&
+      !scoreboardData.is_away_match_team_lower
+    ) {
+      this.scoreboardData.updateScoreboardDataKeyValue(scoreboardData.id!, {
+        is_home_match_team_lower: true,
+        is_away_match_team_lower: true,
+        is_match_player_lower: false,
+      });
+    } else if (
+      !scoreboardData.is_home_match_team_lower &&
+      !scoreboardData.is_away_match_team_lower
+    ) {
+      this.scoreboardData.updateScoreboardDataKeyValue(scoreboardData.id!, {
+        is_home_match_team_lower: true,
+        is_away_match_team_lower: true,
+        is_match_player_lower: false,
+      });
+    }
+
+    // this.scoreboardData.updateScoreboardDataKeyValue(scoreboardData.id!, {
+    //   is_away_match_team_lower:
+    //     !scoreboardData.is_away_match_team_lower || false,
+    //   is_home_match_team_lower: false,
+    //   is_match_player_lower: false,
+    // });
+  }
+
   toggleShowMatchPlayerLowerVisibility(scoreboardData: IScoreboard) {
     if (!scoreboardData) return;
     this.websocket.checkConnection();
-    // const updatedScoreboardData = {
-    //   ...scoreboardData,
-    //   is_match_player_lower: !scoreboardData.is_match_player_lower,
-    // };
-    // this.scoreboardData.updateScoreboardData(updatedScoreboardData);
     this.scoreboardData.updateScoreboardDataKeyValue(scoreboardData.id!, {
       is_match_player_lower: !scoreboardData.is_match_player_lower,
+      is_home_match_team_lower: false,
+      is_away_match_team_lower: false,
     });
   }
 }

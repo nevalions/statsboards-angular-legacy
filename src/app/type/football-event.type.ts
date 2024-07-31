@@ -1,6 +1,5 @@
 import { ITeam } from './team.type';
 import { IPlayerInMatchFullData } from './player.type';
-import { IEnumObject } from './base.type';
 
 export enum IFootballPlayType {
   None = '',
@@ -153,6 +152,9 @@ export interface IFootballEventWithPlayers {
 export interface ITeamFootballMatchStats {
   id: number;
   offence_yards: number;
+  pass_att: number;
+  run_att: number;
+  avg_yards_per_att: number;
   pass_yards: number;
   run_yards: number;
   flag_yards: number;
@@ -196,13 +198,6 @@ export const eventPlayTypeOptions: string[] = Object.entries(
   IFootballPlayType,
 ).map(([key, value]) => value);
 
-export const eventHashOptionsEnum: IEnumObject[] = Object.entries(
-  IEventHash,
-).map(([key, value]) => ({
-  value: value,
-  label: key,
-}));
-
 export const eventHashOptions: string[] = Object.entries(IEventHash).map(
   ([key, value]) => value,
 );
@@ -210,10 +205,3 @@ export const eventHashOptions: string[] = Object.entries(IEventHash).map(
 export const eventDirectionOptions: string[] = Object.entries(
   IEventDirection,
 ).map(([key, value]) => value);
-
-export const eventDirectionOptionsEnum: IEnumObject[] = Object.entries(
-  IEventDirection,
-).map(([key, value]) => ({
-  value: value,
-  label: key,
-}));
