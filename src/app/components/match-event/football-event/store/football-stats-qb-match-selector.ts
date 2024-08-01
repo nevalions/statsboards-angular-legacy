@@ -140,11 +140,11 @@ export const selectLowerSelectedFootballQbStats = createSelector(
   ): IPlayerInMatchFullDataWithQbStats | null => {
     // console.log('qbSelectorWithStats HOME', qbsWithStatsHome, selectedQbId);
     const allQbs = [...qbsWithStatsHome, ...qbsWithStatsAway];
-    console.log('all qbs with stats', allQbs, selectedQbId);
+    // console.log('all qbs with stats', allQbs, selectedQbId);
     if (selectedQbId && allQbs.length > 0) {
       const qb = allQbs.find((q) => q.match_player.id === selectedQbId);
       if (qb) {
-        console.log('SELECTED qbSelectorWithStats', qb);
+        // console.log('SELECTED qbSelectorWithStats', qb);
         return qb;
       }
     }
