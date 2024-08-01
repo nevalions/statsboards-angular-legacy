@@ -70,6 +70,22 @@
 
     <span class="stats-span">QB FULL STATS</span>
 
+    <div class="team-players-select">
+      <app-select-qb-with-stats-lower
+        [selectedPlayer]="footballQbSelected$ | async"
+        [scoreboardId]="data.scoreboard_data?.id"
+        [qbPlayersWithStats]="(homeFootballQbWithStats$ | async) || []"
+      ></app-select-qb-with-stats-lower>
+    </div>
+
+    <div class="team-players-select">
+      <app-select-qb-with-stats-lower
+        [selectedPlayer]="footballQbSelected$ | async"
+        [scoreboardId]="data.scoreboard_data?.id"
+        [qbPlayersWithStats]="(awayFootballQbWithStats$ | async) || []"
+      ></app-select-qb-with-stats-lower>
+    </div>
+
     <div
       class="lower-btn-show"
       [style.grid-template-columns]="data.scoreboard_data?.is_football_qb_full_stats_lower ? '20% 80%' : '1fr'"
@@ -97,23 +113,23 @@
       }
     </div>
 
-    <div class="team-players-select">
-      <app-select-qb-with-stats-lower
-        [selectedPlayer]="footballQbSelected$ | async"
-        [scoreboardId]="data.scoreboard_data?.id"
-        [qbPlayersWithStats]="(homeFootballQbWithStats$ | async) || []"
-      ></app-select-qb-with-stats-lower>
-    </div>
-
-    <div class="team-players-select">
-      <app-select-qb-with-stats-lower
-        [selectedPlayer]="footballQbSelected$ | async"
-        [scoreboardId]="data.scoreboard_data?.id"
-        [qbPlayersWithStats]="(awayFootballQbWithStats$ | async) || []"
-      ></app-select-qb-with-stats-lower>
-    </div>
 
     <span class="stats-span">SIMPLE PLAYER LOWER</span>
+    <div class="team-players-select">
+      <app-select-player-lower
+        [selectedPlayer]="playerMatchSelected$ | async"
+        [scoreboardId]="data.scoreboard_data?.id"
+        [matchPlayers]="(homePlayersInMatch) || []"
+      ></app-select-player-lower>
+    </div>
+
+    <div class="team-players-select">
+      <app-select-player-lower
+        [selectedPlayer]="playerMatchSelected$ | async"
+        [scoreboardId]="data.scoreboard_data?.id"
+        [matchPlayers]="(awayPlayersInMatch) || []"
+      ></app-select-player-lower>
+    </div>
     <div
       class="lower-btn-show"
       [style.grid-template-columns]="data.scoreboard_data?.is_match_player_lower ? '20% 80%' : '1fr'"
@@ -141,21 +157,6 @@
       }
     </div>
 
-    <div class="team-players-select">
-      <app-select-player-lower
-        [selectedPlayer]="playerMatchSelected$ | async"
-        [scoreboardId]="data.scoreboard_data?.id"
-        [matchPlayers]="(homePlayersInMatch) || []"
-      ></app-select-player-lower>
-    </div>
-
-    <div class="team-players-select">
-      <app-select-player-lower
-        [selectedPlayer]="playerMatchSelected$ | async"
-        [scoreboardId]="data.scoreboard_data?.id"
-        [matchPlayers]="(awayPlayersInMatch) || []"
-      ></app-select-player-lower>
-    </div>
 
     <!--    <div class="team-players-select">-->
     <!--      <app-select-player-lower-->

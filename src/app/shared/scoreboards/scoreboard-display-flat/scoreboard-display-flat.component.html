@@ -25,7 +25,6 @@
           class="team_a-detail"
           [style.background-color]="hexToRgba(data.scoreboard_data?.team_a_game_color!, 0.8)">
           <div class="lower-area-team">
-            <!--            <span style="color: black">qb {{ footballQbLowerId }} {{ selectedFootballQbWithFullStats$ | async }}</span>-->
             @if (selectedFootballQbWithFullStats$ | async; as qb) {
               <div class="full-size-lower-offset">
                 @if (data.scoreboard_data?.is_football_qb_full_stats_lower || false) {
