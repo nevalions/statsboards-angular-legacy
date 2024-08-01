@@ -1,0 +1,26 @@
+<div
+  class="on-air-toggle"
+  [style.grid-template-columns]="isOnAir ? '20% 80%' : '1fr'"
+>
+  @if (buttonLabel) {
+    @if (isOnAir) {
+      <div
+        class="on-air"
+        style="padding: 10px; display: grid; justify-content: center; border-radius: 10px"
+        [class]="{'blinking': isOnAir}"
+      >ON AIR
+      </div>
+    }
+    <div>
+      <app-admin-down-button
+        [down]="isOnAir ? 'HIDE' : 'SHOW'"
+        [distance]="buttonLabel.toUpperCase()"
+        (click)="onButtonClick()"
+      ></app-admin-down-button>
+    </div>
+  } @else {
+    <app-admin-down-button
+      [distance]="'SELECT '+ item.toUpperCase()"
+    ></app-admin-down-button>
+  }
+</div>

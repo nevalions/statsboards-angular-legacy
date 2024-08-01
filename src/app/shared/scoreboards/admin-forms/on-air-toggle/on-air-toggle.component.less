@@ -1,0 +1,29 @@
+.on-air-toggle {
+  display: grid;
+  grid-template-columns: 1fr 80%;
+  justify-content: center;
+  grid-gap: 10px;
+}
+
+.on-air {
+  padding: 10px;
+  display: grid;
+  justify-content: center;
+  border-radius: 10px
+}
+
+@keyframes blink {
+  0% {
+    background-color: #ffffff; /* or transparent; if you want no color */
+  }
+  50% {
+    background-color: #8f1c1c; /* your blinking color */
+  }
+  100% {
+    background-color: #ffffff; /* or transparent; to restore original color */
+  }
+}
+
+.blinking {
+  animation: blink 2s ease-in-out infinite;
+}

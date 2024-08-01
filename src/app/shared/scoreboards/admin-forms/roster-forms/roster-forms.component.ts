@@ -18,11 +18,16 @@ import { ToggleVisibleButtonComponent } from '../../../ui/buttons/toggle-visible
 import { DownDistanceFormsComponent } from '../down-distance-forms/down-distance-forms.component';
 import { SelectPlayerToMatchComponent } from '../../../ui/select/select-player-to-match/select-player-to-match.component';
 import { SelectPlayerLowerComponent } from '../../../ui/select/select-player-lower/select-player-lower.component';
-import { IPlayerInMatchFullData } from '../../../../type/player.type';
+import {
+  IPlayerInMatchFullData,
+  IPlayerInMatchFullDataWithOffenceStats,
+  IPlayerInMatchFullDataWithQbStats,
+} from '../../../../type/player.type';
 import { PlayerInMatch } from '../../../../components/player-match/player-match';
 import { Websocket } from '../../../../store/websocket/websocket';
 import { FootballEvent } from '../../../../components/match-event/football-event/football-event';
 import { SelectQbWithStatsLowerComponent } from '../../../ui/select/select-qb-with-stats-lower/select-qb-with-stats-lower.component';
+import { OnAirToggleComponent } from '../on-air-toggle/on-air-toggle.component';
 
 @Component({
   selector: 'app-roster-forms',
@@ -40,6 +45,7 @@ import { SelectQbWithStatsLowerComponent } from '../../../ui/select/select-qb-wi
     SelectPlayerLowerComponent,
     UpperCasePipe,
     SelectQbWithStatsLowerComponent,
+    OnAirToggleComponent,
   ],
   templateUrl: './roster-forms.component.html',
   styleUrl: './roster-forms.component.less',
@@ -95,24 +101,6 @@ export class RosterFormsComponent implements OnChanges, OnInit {
   ngOnChanges(changes: SimpleChanges) {
     if (changes['data']) {
       this.loadLowerThirdsData();
-      // if (this.data && this.data.scoreboard_data) {
-      //   if (this.data.scoreboard_data.football_qb_full_stats_match_lower_id) {
-      //     this.playerInMatch.setQbFullStatsId(
-      //       this.data.scoreboard_data.football_qb_full_stats_match_lower_id,
-      //     );
-      //     this.playerInMatch.getQbFullStatsLowerSelect(
-      //       this.data.scoreboard_data.football_qb_full_stats_match_lower_id,
-      //     );
-      //   }
-      //   if (this.data.scoreboard_data.player_match_lower_id) {
-      //     this.playerInMatch.setPlayerIdSelect(
-      //       this.data.scoreboard_data.player_match_lower_id,
-      //     );
-      //     this.playerInMatch.getPlayerLowerSelect(
-      //       this.data.scoreboard_data.player_match_lower_id,
-      //     );
-      //   }
-      // }
     }
     if (changes['disabled']) {
     }
@@ -246,5 +234,19 @@ export class RosterFormsComponent implements OnChanges, OnInit {
       is_home_match_team_lower: false,
       is_away_match_team_lower: false,
     });
+  }
+
+  getFullName(
+    player:
+      | IPlayerInMatchFullData
+      | IPlayerInMatchFullDataWithQbStats
+      | IPlayerInMatchFullDataWithOffenceStats
+      | null
+      | undefined,
+  ): string {
+    if (player) {
+      return `${player.person?.first_name || ''} ${player.person?.second_name || ''}`;
+    }
+    return '';
   }
 }
