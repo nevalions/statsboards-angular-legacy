@@ -3,6 +3,7 @@ import { SortService } from '../../../services/sort.service';
 import {
   IPlayerInMatch,
   IPlayerInMatchFullData,
+  IPlayerInMatchFullDataWithQbStats,
 } from '../../../type/player.type';
 import { playerInMatchActions } from './actions';
 
@@ -11,6 +12,11 @@ export interface PlayerInMatchState {
   playerInMatchIsSubmitting: boolean;
   selectedPlayerInMatchId: number | undefined | null;
   selectedPlayerInMatchLower: IPlayerInMatchFullData | undefined | null;
+  selectedFootballQbInMatchId: number | undefined | null;
+  selectedFootballQbInMatchLower:
+    | IPlayerInMatchFullDataWithQbStats
+    | undefined
+    | null;
   currentPlayerInMatchId: number | undefined | null;
   currentPlayerInMatch: IPlayerInMatch | undefined | null;
   currentPlayerInMatchFullData: IPlayerInMatchFullData | undefined | null;
@@ -25,6 +31,8 @@ const initialState: PlayerInMatchState = {
   currentPlayerInMatchId: null,
   selectedPlayerInMatchId: null,
   selectedPlayerInMatchLower: null,
+  selectedFootballQbInMatchId: null,
+  selectedFootballQbInMatchLower: null,
   allPlayersInMatch: [],
   allPlayersInMatchFullData: [],
   currentPlayerInMatch: null,
@@ -274,6 +282,8 @@ const playerInMatchFeature = createFeature({
         errors: action,
       }),
     ),
+
+    //lower
     //set selected player id
     on(playerInMatchActions.setSelectedPlayerId, (state, action) => {
       return {
@@ -288,6 +298,7 @@ const playerInMatchFeature = createFeature({
         errors: action,
       };
     }),
+
     //set selected player lower id
     on(playerInMatchActions.setSelectedPlayerLower, (state, action) => {
       console.log(action.player);
@@ -303,6 +314,7 @@ const playerInMatchFeature = createFeature({
         errors: action,
       };
     }),
+
     // get selected player lower by id
     on(playerInMatchActions.getSelectedPlayerLowerById, (state) => ({
       ...state,
@@ -322,6 +334,61 @@ const playerInMatchFeature = createFeature({
       (state, action) => ({
         ...state,
         selectedPlayerInMatchLower: null,
+        playerInMatchIsLoading: false,
+        errors: action,
+      }),
+    ),
+
+    //set selected football qb id
+    on(playerInMatchActions.setSelectedFootballQbId, (state, action) => {
+      return {
+        ...state,
+        selectedFootballQbInMatchId: action.id,
+      };
+    }),
+    on(playerInMatchActions.setSelectedFootballQbIdFailure, (state, action) => {
+      return {
+        ...state,
+        selectedFootballQbInMatchId: null,
+        errors: action,
+      };
+    }),
+
+    //set selected football qb lower id
+    on(playerInMatchActions.setSelectedFootballQbLower, (state, action) => {
+      console.log(action.qb);
+      return {
+        ...state,
+        selectedFootballQbInMatchLower: action.qb,
+      };
+    }),
+    on(playerInMatchActions.setSelectedFootballQbIdFailure, (state, action) => {
+      return {
+        ...state,
+        selectedFootballQbInMatchLower: null,
+        errors: action,
+      };
+    }),
+
+    // get selected football qb lower by id
+    on(playerInMatchActions.getSelectedFootballQbLowerById, (state) => ({
+      ...state,
+      selectedFootballQbInMatchLower: null,
+      playerInMatchIsLoading: true,
+    })),
+    on(
+      playerInMatchActions.getSelectedFootballQbLowerByIdSuccessfully,
+      (state, action) => ({
+        ...state,
+        playerInMatchIsLoading: false,
+        selectedFootballQbInMatchLower: action.qb,
+      }),
+    ),
+    on(
+      playerInMatchActions.getSelectedFootballQbLowerByIdFailure,
+      (state, action) => ({
+        ...state,
+        selectedFootballQbInMatchLower: null,
         playerInMatchIsLoading: false,
         errors: action,
       }),
@@ -378,5 +445,7 @@ export const {
   selectCurrentPlayerInMatchFullData,
   selectAllPlayersInMatchFullData,
   selectSelectedPlayerInMatchLower,
+  selectSelectedFootballQbInMatchLower,
+  selectSelectedFootballQbInMatchId,
   selectParsedPlayersFromMatchEESL,
 } = playerInMatchFeature;

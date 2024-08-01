@@ -12,4 +12,5 @@ export class AdminDownButtonComponent {
   @Input() down: string = '';
   @Input() distance: string = '';
   @Input() disabled: boolean = false;
+  @Input() size: 'xs' | 's' | 'm' | 'l' | 'xl' = 'm';
 }

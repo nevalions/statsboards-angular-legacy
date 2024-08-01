@@ -2,6 +2,7 @@ import { createActionGroup, emptyProps, props } from '@ngrx/store';
 import {
   IPlayerInMatch,
   IPlayerInMatchFullData,
+  IPlayerInMatchFullDataWithQbStats,
 } from '../../../type/player.type';
 
 export const playerInMatchActions = createActionGroup({
@@ -79,6 +80,8 @@ export const playerInMatchActions = createActionGroup({
     }>(),
     'Delete by id failure': emptyProps(),
 
+    // lower
+    // simple player
     SetSelectedPlayerId: props<{ id: number }>(),
     'Set selected player id failure': emptyProps(),
 
@@ -90,6 +93,21 @@ export const playerInMatchActions = createActionGroup({
 
     SetSelectedPlayerLower: props<{ player: IPlayerInMatchFullData }>(),
     'Set selected player lower failure': emptyProps(),
+
+    // qb
+    SetSelectedFootballQbId: props<{ id: number }>(),
+    'Set selected football qb id failure': emptyProps(),
+
+    GetSelectedFootballQbLowerById: props<{ qbInMatchId: number }>(),
+    'Get selected football qb lower by id successfully': props<{
+      qb: IPlayerInMatchFullDataWithQbStats;
+    }>(),
+    'Get selected football qb lower by id failure': emptyProps(),
+
+    SetSelectedFootballQbLower: props<{
+      qb: IPlayerInMatchFullDataWithQbStats;
+    }>(),
+    'Set selected football qb lower failure': emptyProps(),
 
     ParsPlayersFromMatchEESL: emptyProps,
     'Parsed player from match EESL successfully': props<{

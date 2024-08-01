@@ -1,5 +1,11 @@
 import { AsyncPipe, NgIf, UpperCasePipe } from '@angular/common';
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnChanges,
+  OnInit,
+  SimpleChanges,
+} from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { TuiInputModule } from '@taiga-ui/kit';
 import { Observable } from 'rxjs';
@@ -15,6 +21,8 @@ import { SelectPlayerLowerComponent } from '../../../ui/select/select-player-low
 import { IPlayerInMatchFullData } from '../../../../type/player.type';
 import { PlayerInMatch } from '../../../../components/player-match/player-match';
 import { Websocket } from '../../../../store/websocket/websocket';
+import { FootballEvent } from '../../../../components/match-event/football-event/football-event';
+import { SelectQbWithStatsLowerComponent } from '../../../ui/select/select-qb-with-stats-lower/select-qb-with-stats-lower.component';
 
 @Component({
   selector: 'app-roster-forms',
@@ -31,11 +39,12 @@ import { Websocket } from '../../../../store/websocket/websocket';
     SelectPlayerToMatchComponent,
     SelectPlayerLowerComponent,
     UpperCasePipe,
+    SelectQbWithStatsLowerComponent,
   ],
   templateUrl: './roster-forms.component.html',
   styleUrl: './roster-forms.component.less',
 })
-export class RosterFormsComponent implements OnChanges {
+export class RosterFormsComponent implements OnChanges, OnInit {
   @Input() rosterFormsVisible$!: Observable<boolean>;
   @Input() data: IMatchFullDataWithScoreboard | undefined;
   @Input() homePlayersInMatch: IPlayerInMatchFullData[] | null = [];
@@ -44,13 +53,13 @@ export class RosterFormsComponent implements OnChanges {
   @Input() isMatchDataSubmitting$?: Observable<boolean>;
   @Input() disabled: boolean = false;
   playerMatchSelected$ = this.playerInMatch.selectSelectedPlayerInMatchLower$;
-
-  // homePlayersInMatch$: Observable<IPlayerInMatchFullData[]> =
-  //   this.playerInMatch.homeRoster$;
-  // awayPlayersInMatch$: Observable<IPlayerInMatchFullData[]> =
-  //   this.playerInMatch.awayRoster$;
+  footballQbSelected$ =
+    this.playerInMatch.selectSelectedFootballQbFullStatsInMatchLower$;
+  homeFootballQbWithStats$ = this.footballEvent.allQuarterbacksTeamA$;
+  awayFootballQbWithStats$ = this.footballEvent.allQuarterbacksTeamB$;
 
   constructor(
+    private footballEvent: FootballEvent,
     private scoreboardData: ScoreboardData,
     private playerInMatch: PlayerInMatch,
     private websocket: Websocket,
@@ -58,8 +67,52 @@ export class RosterFormsComponent implements OnChanges {
     playerInMatch.loadAllPlayersFullDataInMatch();
   }
 
+  private loadLowerThirdsData(): void {
+    if (this.data && this.data.scoreboard_data) {
+      if (this.data.scoreboard_data.football_qb_full_stats_match_lower_id) {
+        this.playerInMatch.setQbFullStatsId(
+          this.data.scoreboard_data.football_qb_full_stats_match_lower_id,
+        );
+        this.playerInMatch.getQbFullStatsLowerSelect(
+          this.data.scoreboard_data.football_qb_full_stats_match_lower_id,
+        );
+      }
+      if (this.data.scoreboard_data.player_match_lower_id) {
+        this.playerInMatch.setPlayerIdSelect(
+          this.data.scoreboard_data.player_match_lower_id,
+        );
+        this.playerInMatch.getPlayerLowerSelect(
+          this.data.scoreboard_data.player_match_lower_id,
+        );
+      }
+    }
+  }
+
+  ngOnInit() {
+    this.loadLowerThirdsData();
+  }
+
   ngOnChanges(changes: SimpleChanges) {
     if (changes['data']) {
+      this.loadLowerThirdsData();
+      // if (this.data && this.data.scoreboard_data) {
+      //   if (this.data.scoreboard_data.football_qb_full_stats_match_lower_id) {
+      //     this.playerInMatch.setQbFullStatsId(
+      //       this.data.scoreboard_data.football_qb_full_stats_match_lower_id,
+      //     );
+      //     this.playerInMatch.getQbFullStatsLowerSelect(
+      //       this.data.scoreboard_data.football_qb_full_stats_match_lower_id,
+      //     );
+      //   }
+      //   if (this.data.scoreboard_data.player_match_lower_id) {
+      //     this.playerInMatch.setPlayerIdSelect(
+      //       this.data.scoreboard_data.player_match_lower_id,
+      //     );
+      //     this.playerInMatch.getPlayerLowerSelect(
+      //       this.data.scoreboard_data.player_match_lower_id,
+      //     );
+      //   }
+      // }
     }
     if (changes['disabled']) {
     }
@@ -171,13 +224,18 @@ export class RosterFormsComponent implements OnChanges {
         is_match_player_lower: false,
       });
     }
+  }
 
-    // this.scoreboardData.updateScoreboardDataKeyValue(scoreboardData.id!, {
-    //   is_away_match_team_lower:
-    //     !scoreboardData.is_away_match_team_lower || false,
-    //   is_home_match_team_lower: false,
-    //   is_match_player_lower: false,
-    // });
+  toggleFootballQbFullStatsLowerVisibility(scoreboardData: IScoreboard) {
+    if (!scoreboardData) return;
+    this.websocket.checkConnection();
+    this.scoreboardData.updateScoreboardDataKeyValue(scoreboardData.id!, {
+      is_football_qb_full_stats_lower:
+        !scoreboardData.is_football_qb_full_stats_lower,
+      is_home_match_team_lower: false,
+      is_away_match_team_lower: false,
+      is_match_player_lower: false,
+    });
   }
 
   toggleShowMatchPlayerLowerVisibility(scoreboardData: IScoreboard) {

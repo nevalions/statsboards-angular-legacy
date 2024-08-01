@@ -110,6 +110,40 @@ export class PlayerInMatchEffects {
     { functional: true },
   );
 
+  // getSelectedFootballQbFullStatsLowerByIdEffect = createEffect(
+  //   () => {
+  //     return this.actions$.pipe(
+  //       ofType(playerInMatchActions.getSelectedFootballQbLowerById),
+  //       withLatestFrom(
+  //         this.store.pipe(select(selectLowerSelectedFootballQbStats)),
+  //       ),
+  //       switchMap(
+  //         ([action, qb]: [
+  //           { qbInMatchId: number },
+  //           IPlayerInMatchFullDataWithQbStats | null,
+  //         ]) => {
+  //           console.log('qb effect', action, qb);
+  //           if (qb) {
+  //             return of(
+  //               playerInMatchActions.getSelectedPlayerLowerByIdSuccessfully({
+  //                 player: qb,
+  //               }),
+  //             );
+  //           } else {
+  //             return of(
+  //               playerInMatchActions.getSelectedFootballQbLowerByIdFailure(),
+  //             );
+  //           }
+  //         },
+  //       ),
+  //       catchError(() =>
+  //         of(playerInMatchActions.getSelectedFootballQbLowerByIdFailure()),
+  //       ),
+  //     );
+  //   },
+  //   { functional: true },
+  // );
+
   updatePlayerInMatchEffect = createEffect(
     () => {
       return this.actions$.pipe(
@@ -155,27 +189,6 @@ export class PlayerInMatchEffects {
     },
     { functional: true },
   );
-
-  // getAllPlayersInMatchEffect = createEffect(
-  //   () => {
-  //     return this.actions$.pipe(
-  //       ofType(playerInMatchActions.getAll),
-  //       switchMap(() => {
-  //         return this.playerInMatchService.findAll().pipe(
-  //           map((playerInMatches: IPlayerInMatch[]) => {
-  //             return playerInMatchActions.getAllItemsSuccess({
-  //               playerInMatches,
-  //             });
-  //           }),
-  //           catchError(() => {
-  //             return of(playerInMatchActions.getAllItemsFailure());
-  //           }),
-  //         );
-  //       }),
-  //     );
-  //   },
-  //   { functional: true },
-  // );
 
   getAllPlayersInMatchEffect = createEffect(
     () => {

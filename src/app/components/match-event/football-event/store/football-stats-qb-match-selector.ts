@@ -18,6 +18,7 @@ import {
 } from '../football-event-stats-calc-helpers';
 import { IMatchWithFullData } from '../../../../type/match.type';
 import { selectCurrentMatchWithFullData } from '../../../match-with-full-data/store/reducers';
+import { selectSelectedFootballQbInMatchId } from '../../../player-match/store/reducers';
 
 export const selectQuarterbackStats = createSelector(
   selectFootballEventsWithPlayers,
@@ -127,3 +128,26 @@ export const selectAllQuarterbacksWithStatsTeamB =
   selectAllQuarterbacksWithStats(
     (match: IMatchWithFullData) => match.match.team_b_id,
   );
+
+export const selectLowerSelectedFootballQbStats = createSelector(
+  selectAllQuarterbacksWithStatsTeamA,
+  selectAllQuarterbacksWithStatsTeamB,
+  selectSelectedFootballQbInMatchId,
+  (
+    qbsWithStatsHome,
+    qbsWithStatsAway,
+    selectedQbId,
+  ): IPlayerInMatchFullDataWithQbStats | null => {
+    // console.log('qbSelectorWithStats HOME', qbsWithStatsHome, selectedQbId);
+    const allQbs = [...qbsWithStatsHome, ...qbsWithStatsAway];
+    console.log('all qbs with stats', allQbs, selectedQbId);
+    if (selectedQbId && allQbs.length > 0) {
+      const qb = allQbs.find((q) => q.match_player.id === selectedQbId);
+      if (qb) {
+        console.log('SELECTED qbSelectorWithStats', qb);
+        return qb;
+      }
+    }
+    return null;
+  },
+);

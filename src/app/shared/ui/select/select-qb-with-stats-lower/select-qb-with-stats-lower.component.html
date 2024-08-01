@@ -1,0 +1,42 @@
+@if (qbPlayersWithStats; as players) {
+  @if (players.length > 0) {
+    <div
+      style="padding: 10px"
+    >
+      <tui-select
+        [tuiDropdownLimitWidth]="'min'"
+        style="padding-top: 10px"
+        [formControl]="control"
+        [class]="{'highlighted-selector': isSelectedPlayerInMatch(selectedPlayer?.match_player?.id)}"
+      >
+        <tui-data-list *tuiDataList>
+          @for (qb of players;
+            track qb.match_player?.id) {
+            <button
+              tuiOption
+              [class]="{'highlighted-option': qb.match_player.id! === selectedPlayer?.match_player?.id}"
+              [value]="qb"
+              (click)="onSelect(qb)"
+            >
+              <b>{{ qb.match_player.id! === selectedPlayer?.match_player?.id ? 'SELECTED' : '' }}
+                &nbsp;</b>
+              <b>{{ qb.match_player.match_number }}</b> &nbsp;
+              {{ qb.person?.second_name | titlecase }}
+              {{ qb.person?.first_name | titlecase }}&nbsp;QB STATS
+            </button>
+          }
+        </tui-data-list>
+      </tui-select>
+    </div>
+  } @else {
+    <tui-select
+      [formControl]="control"
+      [tuiDropdownLimitWidth]="'min'"
+      style="padding-top: 10px"
+    >
+      <tui-data-list *tuiDataList>
+        <button tuiOption>NO QBs IN MATCH STATS</button>
+      </tui-data-list>
+    </tui-select>
+  }
+}

@@ -2,7 +2,11 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { AppState } from '../../store/appstate';
-import { IPlayerInMatch, IPlayerInMatchFullData } from '../../type/player.type';
+import {
+  IPlayerInMatch,
+  IPlayerInMatchFullData,
+  IPlayerInMatchFullDataWithQbStats,
+} from '../../type/player.type';
 import { playerInMatchActions } from './store/actions';
 import {
   selectAllPlayersInMatch,
@@ -35,6 +39,7 @@ import {
   selectHomeFootballStartWR,
   selectHomeTeamRoster,
 } from './store/selectors';
+import { selectLowerSelectedFootballQbStats } from '../match-event/football-event/store/football-stats-qb-match-selector';
 
 @Injectable({
   providedIn: 'root',
@@ -76,6 +81,12 @@ export class PlayerInMatch {
   selectSelectedPlayerInMatchLower$: Observable<
     IPlayerInMatchFullData | null | undefined
   >;
+
+  selectSelectedFootballQbFullStatsInMatchLower$: Observable<
+    IPlayerInMatchFullDataWithQbStats | null | undefined
+  >;
+
+  // selectLowerSelectedFootballQbStatsTeamA$: Observable<IPlayerInMatchFullDataWithQbStats> | null | undefined;
 
   constructor(private store: Store<AppState>) {
     this.playerInMatchIsLoading$ = this.store.select(
@@ -131,6 +142,9 @@ export class PlayerInMatch {
     this.awayFootballStartDB$ = this.store.select(selectAwayFootballStartDB);
 
     // lower
+    this.selectSelectedFootballQbFullStatsInMatchLower$ = this.store.select(
+      selectLowerSelectedFootballQbStats,
+    );
     this.selectSelectedPlayerInMatchLower$ = this.store.select(
       selectSelectedPlayerInMatchLower,
     );
@@ -166,9 +180,36 @@ export class PlayerInMatch {
     this.store.dispatch(playerInMatchActions.deleteById({ id }));
   }
 
-  onPlayerSelect(playerId: number): void {
+  setPlayerIdSelect(playerId: number): void {
+    if (playerId) {
+      this.store.dispatch(
+        playerInMatchActions.setSelectedPlayerId({ id: playerId }),
+      );
+    } else {
+      console.error('No player id');
+    }
+  }
+
+  setQbFullStatsId(playerId: number): void {
+    if (playerId) {
+      this.store.dispatch(
+        playerInMatchActions.setSelectedFootballQbId({ id: playerId }),
+      );
+    } else {
+      console.error('No Qb id');
+    }
+  }
+
+  onQbFullStatsLowerSelect(qb: IPlayerInMatchFullDataWithQbStats): void {
     this.store.dispatch(
-      playerInMatchActions.setSelectedPlayerId({ id: playerId }),
+      playerInMatchActions.setSelectedFootballQbLower({ qb }),
+    );
+  }
+
+  getQbFullStatsLowerSelect(qbInMatchId: number): void {
+    // console.log('qbInMatchId', qbInMatchId);
+    this.store.dispatch(
+      playerInMatchActions.getSelectedFootballQbLowerById({ qbInMatchId }),
     );
   }
 

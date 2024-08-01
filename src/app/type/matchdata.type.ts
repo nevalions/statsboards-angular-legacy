@@ -32,6 +32,8 @@ export interface IScoreboard {
   is_home_match_team_lower?: boolean;
   is_away_match_team_lower?: boolean;
 
+  is_football_qb_full_stats_lower?: boolean;
+  football_qb_full_stats_match_lower_id?: number | null;
   is_match_player_lower?: boolean;
   player_match_lower_id?: number | null;
 

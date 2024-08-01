@@ -1,36 +1,37 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { IPlayerInMatchFullData } from '../../../../type/player.type';
+import { IPlayerInMatchFullDataWithQbStats } from '../../../../type/player.type';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { tuiItemsHandlersProvider, TuiSelectModule } from '@taiga-ui/kit';
-import { TuiDataListModule, TuiDropdownModule } from '@taiga-ui/core';
-import { AsyncPipe, NgClass, TitleCasePipe } from '@angular/common';
-import { stringifyMatchPlayer } from '../../../../base/helpers';
 import { PlayerInMatch } from '../../../../components/player-match/player-match';
 import { ScoreboardData } from '../../../../components/scoreboard-data/scoreboard-data';
+import { TitleCasePipe } from '@angular/common';
+import { TuiDataListModule, TuiDropdownModule } from '@taiga-ui/core';
+import { tuiItemsHandlersProvider, TuiSelectModule } from '@taiga-ui/kit';
+import { stringifyMatchPlayer } from '../../../../base/helpers';
 
 @Component({
-  selector: 'app-select-player-lower',
+  selector: 'app-select-qb-with-stats-lower',
   standalone: true,
   imports: [
-    TuiSelectModule,
-    TuiDataListModule,
-    ReactiveFormsModule,
-    TuiDropdownModule,
     TitleCasePipe,
-    AsyncPipe,
-    NgClass,
+    TuiDataListModule,
+    TuiSelectModule,
+    TuiDropdownModule,
+    ReactiveFormsModule,
   ],
   providers: [
     tuiItemsHandlersProvider({
       stringify: stringifyMatchPlayer,
     }),
   ],
-  templateUrl: './select-player-lower.component.html',
-  styleUrl: './select-player-lower.component.less',
+  templateUrl: './select-qb-with-stats-lower.component.html',
+  styleUrl: './select-qb-with-stats-lower.component.less',
 })
-export class SelectPlayerLowerComponent implements OnChanges {
-  @Input() matchPlayers: IPlayerInMatchFullData[] = [];
-  @Input() selectedPlayer: IPlayerInMatchFullData | undefined | null = null;
+export class SelectQbWithStatsLowerComponent implements OnChanges {
+  @Input() qbPlayersWithStats: IPlayerInMatchFullDataWithQbStats[] = [];
+  @Input() selectedPlayer:
+    | IPlayerInMatchFullDataWithQbStats
+    | undefined
+    | null = null;
   @Input() scoreboardId: number | undefined | null = null;
   @Input() control: FormControl = new FormControl();
 
@@ -40,7 +41,7 @@ export class SelectPlayerLowerComponent implements OnChanges {
   ) {}
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['selectedPlayer'] || changes['matchPlayers']) {
+    if (changes['selectedPlayer'] || changes['qbPlayersWithStats']) {
       // console.log('selected player', this.selectedPlayer);
       if (
         this.selectedPlayer &&
@@ -59,16 +60,17 @@ export class SelectPlayerLowerComponent implements OnChanges {
     if (!selectedPlayerId) {
       return false;
     }
-    return this.matchPlayers.some(
+    // console.log('selectedPlayerId ', selectedPlayerId, this.qbPlayersWithStats);
+    return this.qbPlayersWithStats.some(
       (player) => player.match_player?.id === selectedPlayerId,
     );
   }
 
-  onSelect(player: IPlayerInMatchFullData) {
-    this.playerInMatch.onPlayerLowerSelect(player);
+  onSelect(player: IPlayerInMatchFullDataWithQbStats) {
+    this.playerInMatch.onQbFullStatsLowerSelect(player);
     if (this.scoreboardId && player.match_player.id) {
       this.scoreboardData.updateScoreboardDataKeyValue(this.scoreboardId, {
-        player_match_lower_id: player.match_player.id,
+        football_qb_full_stats_match_lower_id: player.match_player.id,
       });
     }
   }

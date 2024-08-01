@@ -9,6 +9,7 @@
     *ngIf="rosterFormsVisible$ | async"
     class="roster-forms"
   >
+    <span class="stats-span">TEAMS ROSTERS</span>
     <div class="roster-forms-btns">
       <app-admin-down-button
         [down]="data.scoreboard_data?.is_team_a_start_offense ? 'Hide' : 'Show'"
@@ -41,33 +42,78 @@
       ></app-admin-down-button>
     </div>
 
-    <div style="display: grid; grid-column: span 2; grid-template-columns: auto auto auto; grid-gap: 10px">
-      <div class="roster-forms-btns">
-        <app-admin-down-button
-          [down]="data.scoreboard_data?.is_home_match_team_lower ? 'Hide' : 'Show'"
-          [distance]="'HOME TEAM STATS'"
-          (click)="toggleHomeTeamFootballLowerVisibility(data.scoreboard_data!)"
-        ></app-admin-down-button>
-      </div>
+    <span class="stats-span">TEAMS STATS</span>
 
-      <div class="roster-forms-btns">
-        <app-admin-down-button
-          [down]="'Toggle'"
-          [distance]="'BOTH TEAMS STATS'"
-          (click)="toggleBothTeamFootballLowerVisibility(data.scoreboard_data!)"
-        ></app-admin-down-button>
-      </div>
-
-      <div class="roster-forms-btns">
-        <app-admin-down-button
-          [down]="data.scoreboard_data?.is_away_match_team_lower ? 'Hide' : 'Show'"
-          [distance]="'AWAY TEAM STATS'"
-          (click)="toggleAwayTeamFootballLowerVisibility(data.scoreboard_data!)"
-        ></app-admin-down-button>
-      </div>
+    <div class="roster-forms-btns">
+      <app-admin-down-button
+        [down]="data.scoreboard_data?.is_home_match_team_lower ? 'Hide' : 'Show'"
+        [distance]="'HOME TEAM STATS'"
+        (click)="toggleHomeTeamFootballLowerVisibility(data.scoreboard_data!)"
+      ></app-admin-down-button>
     </div>
 
+    <div class="roster-forms-btns">
+      <app-admin-down-button
+        [down]="data.scoreboard_data?.is_away_match_team_lower ? 'Hide' : 'Show'"
+        [distance]="'AWAY TEAM STATS'"
+        (click)="toggleAwayTeamFootballLowerVisibility(data.scoreboard_data!)"
+      ></app-admin-down-button>
+    </div>
 
+    <div class="roster-forms-btns" style="grid-column: span 2">
+      <app-admin-down-button
+        [down]="'Toggle'"
+        [distance]="'BOTH TEAMS STATS'"
+        (click)="toggleBothTeamFootballLowerVisibility(data.scoreboard_data!)"
+      ></app-admin-down-button>
+    </div>
+
+    <span class="stats-span">QB FULL STATS</span>
+
+    <div
+      class="lower-btn-show"
+      [style.grid-template-columns]="data.scoreboard_data?.is_football_qb_full_stats_lower ? '20% 80%' : '1fr'"
+    >
+      @if (footballQbSelected$ | async; as qb) {
+        @if (data.scoreboard_data?.is_football_qb_full_stats_lower || false) {
+          <div
+            class="on-air"
+            style="padding: 10px; display: grid; justify-content: center; border-radius: 10px"
+            [class]="{'blinking': data.scoreboard_data?.is_football_qb_full_stats_lower}"
+          >ON AIR
+          </div>
+        }
+        <div>
+          <app-admin-down-button
+            [down]="data.scoreboard_data?.is_football_qb_full_stats_lower ? 'HIDE' : 'SHOW'"
+            [distance]="'QB: ' + qb.person?.first_name + ' '+ qb.person?.second_name + ' lower' | uppercase"
+            (click)="toggleFootballQbFullStatsLowerVisibility(data.scoreboard_data!)"
+          ></app-admin-down-button>
+        </div>
+      } @else {
+        <app-admin-down-button
+          [distance]="'SELECT QB LOWER'"
+        ></app-admin-down-button>
+      }
+    </div>
+
+    <div class="team-players-select">
+      <app-select-qb-with-stats-lower
+        [selectedPlayer]="footballQbSelected$ | async"
+        [scoreboardId]="data.scoreboard_data?.id"
+        [qbPlayersWithStats]="(homeFootballQbWithStats$ | async) || []"
+      ></app-select-qb-with-stats-lower>
+    </div>
+
+    <div class="team-players-select">
+      <app-select-qb-with-stats-lower
+        [selectedPlayer]="footballQbSelected$ | async"
+        [scoreboardId]="data.scoreboard_data?.id"
+        [qbPlayersWithStats]="(awayFootballQbWithStats$ | async) || []"
+      ></app-select-qb-with-stats-lower>
+    </div>
+
+    <span class="stats-span">SIMPLE PLAYER LOWER</span>
     <div
       class="lower-btn-show"
       [style.grid-template-columns]="data.scoreboard_data?.is_match_player_lower ? '20% 80%' : '1fr'"

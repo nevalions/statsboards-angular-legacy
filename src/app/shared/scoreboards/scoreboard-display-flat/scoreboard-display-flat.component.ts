@@ -24,6 +24,7 @@ import { PlayerInMatch } from '../../../components/player-match/player-match';
 import { hexToRgba } from '../../../base/helpers';
 import { FootballEvent } from '../../../components/match-event/football-event/football-event';
 import { TeamMatchLowerFootballStatsDisplayFlatComponent } from '../team-match-lower-football-stats-display-flat/team-match-lower-football-stats-display-flat.component';
+import { FootballQbLowerStatsDisplayFlatComponent } from '../football-qb-lower-stats-display-flat/football-qb-lower-stats-display-flat.component';
 
 @Component({
   selector: 'app-scoreboard-display-flat',
@@ -34,6 +35,7 @@ import { TeamMatchLowerFootballStatsDisplayFlatComponent } from '../team-match-l
     PlayerMatchLowerDisplayFlatComponent,
     AsyncPipe,
     TeamMatchLowerFootballStatsDisplayFlatComponent,
+    FootballQbLowerStatsDisplayFlatComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './scoreboard-display-flat.component.html',
@@ -50,8 +52,12 @@ export class ScoreboardDisplayFlatComponent
   @Input() playClock: number | null = null;
   @Input() scoreboardDisplayClass: string = 'fullhd-scoreboard';
   @Input() playerLowerId: number | undefined | null = null;
+  @Input() footballQbLowerId: number | undefined | null = null;
 
   player$ = this.playerInMatch.selectSelectedPlayerInMatchLower$;
+  selectedFootballQbWithFullStats$ =
+    this.playerInMatch.selectSelectedFootballQbFullStatsInMatchLower$;
+
   homeTeamWithStats$ = this.footballEvent.footballTeamAWithStats$;
   awayTeamWithStats$ = this.footballEvent.footballTeamBWithStats$;
 
@@ -71,9 +77,11 @@ export class ScoreboardDisplayFlatComponent
   teamATimeoutVisibility = 'invisible';
   teamBTimeoutVisibility = 'invisible';
 
-  playerLowerVisibility = 'invisible';
   homeTeamMatchStatsLowerVisibility = 'invisible';
   awayTeamMatchStatsLowerVisibility = 'invisible';
+
+  footballQbMatchStatsLowerVisibility = 'invisible';
+  playerLowerVisibility = 'invisible';
 
   teamAFontSize: string = '26px';
   teamBFontSize: string = '26px';
@@ -93,14 +101,30 @@ export class ScoreboardDisplayFlatComponent
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['playerLowerId']) {
-      // console.log('change id');
+      // console.log('change lower playerId');
+      if (this.data && this.data.scoreboard_data) {
+        if (this.data.scoreboard_data.player_match_lower_id) {
+          this.playerInMatch.setPlayerIdSelect(
+            this.data.scoreboard_data.player_match_lower_id,
+          );
+          this.playerInMatch.getPlayerLowerSelect(
+            this.data.scoreboard_data.player_match_lower_id,
+          );
+        }
+      }
+    }
+    if (changes['footballQbLowerId']) {
+      // console.log('change lower qbId');
       if (
         this.data &&
         this.data.scoreboard_data &&
-        this.data.scoreboard_data.player_match_lower_id
+        this.data.scoreboard_data.football_qb_full_stats_match_lower_id
       ) {
-        this.playerInMatch.getPlayerLowerSelect(
-          this.data.scoreboard_data.player_match_lower_id,
+        this.playerInMatch.setQbFullStatsId(
+          this.data.scoreboard_data.football_qb_full_stats_match_lower_id,
+        );
+        this.playerInMatch.getQbFullStatsLowerSelect(
+          this.data.scoreboard_data.football_qb_full_stats_match_lower_id,
         );
       }
     }
@@ -122,6 +146,11 @@ export class ScoreboardDisplayFlatComponent
 
       this.awayTeamMatchStatsLowerVisibility = currData.scoreboard_data
         ?.is_away_match_team_lower
+        ? 'visible'
+        : 'invisible';
+
+      this.footballQbMatchStatsLowerVisibility = currData.scoreboard_data
+        ?.is_football_qb_full_stats_lower
         ? 'visible'
         : 'invisible';
 

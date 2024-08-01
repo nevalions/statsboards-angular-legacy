@@ -25,6 +25,25 @@
           class="team_a-detail"
           [style.background-color]="hexToRgba(data.scoreboard_data?.team_a_game_color!, 0.8)">
           <div class="lower-area-team">
+            <!--            <span style="color: black">qb {{ footballQbLowerId }} {{ selectedFootballQbWithFullStats$ | async }}</span>-->
+            @if (selectedFootballQbWithFullStats$ | async; as qb) {
+              <div class="full-size-lower-offset">
+                @if (data.scoreboard_data?.is_football_qb_full_stats_lower || false) {
+                  @if (qb.match_player.team_id === data.match.team_a_id) {
+                    <app-football-qb-lower-stats-display-flat
+                      [@dissolve]="footballQbMatchStatsLowerVisibility ? 'visible' : 'invisible'"
+                      [teamColor]="data.scoreboard_data?.team_a_game_color!"
+                    ></app-football-qb-lower-stats-display-flat>
+                  } @else if (qb.match_player.team_id === data.match.team_b_id) {
+                    <app-football-qb-lower-stats-display-flat
+                      [@dissolve]="footballQbMatchStatsLowerVisibility ? 'visible' : 'invisible'"
+                      [teamColor]="data.scoreboard_data?.team_b_game_color!"
+                    ></app-football-qb-lower-stats-display-flat>
+                  }
+                }
+              </div>
+            }
+
             @if (player$ | async; as player) {
               @if (player.player_team_tournament?.team_id === data.match.team_a_id) {
                 @if (data.scoreboard_data?.is_match_player_lower || false) {
@@ -129,6 +148,12 @@
                 }
               }
             }
+
+            <!--            @if (homeQbsWithStats$ | async; as qbs) {-->
+            <!--              @if (data.scoreboard_data?.is_football_qb_full_stats_lower || false) {-->
+
+            <!--              }-->
+            <!--            }-->
 
             @if (awayTeamWithStats$ | async; as team) {
               @if (data.scoreboard_data?.is_away_match_team_lower || false) {

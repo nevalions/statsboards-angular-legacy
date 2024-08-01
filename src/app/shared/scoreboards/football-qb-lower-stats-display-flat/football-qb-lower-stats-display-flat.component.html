@@ -1,0 +1,23 @@
+@if (selectedFootballQbWithFullStats$ | async; as player) {
+  <div class="player-match" [style.background-color]="hexToRgba(teamColor, 0.8)">
+    <div class="player-match-photo">
+      <tui-avatar
+        size="xl"
+        class="player-match-avatar"
+        [rounded]="false"
+        [avatarUrl]="backendUrl + player.person?.person_photo_icon_url"
+        (error)="onImgError($event)"
+      ></tui-avatar>
+      <span class="player-match-number">
+        {{ player.match_player.match_number }}
+      </span>
+    </div>
+    <div class="player-match-name">
+      <span>{{ player.person?.first_name | uppercase }}</span>
+      <span>{{ player.person?.second_name | uppercase }}</span>
+    </div>
+    <div class="player-match-position">
+      {{ 'QB STATS' }}
+    </div>
+  </div>
+}
