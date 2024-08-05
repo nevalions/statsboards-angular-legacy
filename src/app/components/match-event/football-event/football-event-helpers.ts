@@ -173,6 +173,7 @@ export function createNewEvent(
       newEventDown = null;
       newEventDistance = null;
       newEventBallOn = 3;
+      newEventQb = null;
     }
   }
 
