@@ -15,7 +15,9 @@
               @if (!isExpanded(i)) {
                 @if (getEventTeam(eventsArray, i); as team) {
                   <div
-                    style="display: flex; flex-direction: row; flex-wrap: wrap; padding: 5px">
+                    style="display: flex; flex-direction: row; flex-wrap: wrap; padding: 5px"
+                    [style.background-color]="isResultPlayerSelected(eventsArray, i)"
+                  >
                     <div
                       class="event-table-cell toggle"
                       (click)="toggle(i)"

@@ -357,6 +357,68 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
     }
   }
 
+  // backgroundColorNoRunPlayerSelected(
+  //   play_result: string | null,
+  //   player: IPlayerInMatchFullData | null,
+  // ): string {
+  //   if (play_result) {
+  //     if (
+  //       play_result === IFootballPlayResult.Run ||
+  //       play_result === IFootballPlayResult.PassCompleted
+  //     ) {
+  //       if (player === null) {
+  //         return '#ebd6a8';
+  //       }
+  //     }
+  //   }
+  //   return 'transparent';
+  // }
+
+  isResultPlayerSelected(eventsArray: FormArray, index: number): string {
+    const playType = getEventPlayType(eventsArray, index);
+    const result = getEventPlayResult(eventsArray, index);
+    const score = getEventScoreResult(eventsArray, index);
+    if (
+      result === IFootballPlayResult.Run &&
+      playType === IFootballPlayType.Run
+    ) {
+      const player = getEventRunPlayer(eventsArray, index);
+      if (!player) {
+        return '#ebd6a8';
+      }
+    }
+    if (result === IFootballPlayResult.PassCompleted) {
+      const player = getEventReceiverPlayer(eventsArray, index);
+      if (!player) {
+        return '#ebd6a8';
+      }
+    }
+    if (
+      score === IFootballScoreResult.Td ||
+      score === IFootballScoreResult.PatTwoGood
+    ) {
+      const player = getEventScorePlayer(eventsArray, index);
+      if (!player) {
+        return '#ebd6a8';
+      }
+    }
+
+    if (playType === IFootballPlayType.PatOne) {
+      const player = getEventPatOnePlayer(eventsArray, index);
+      if (!player) {
+        return '#ebd6a8';
+      }
+    }
+
+    if (score === IFootballScoreResult.TdDefence) {
+      const player = getEventDefenceScorePlayer(eventsArray, index);
+      if (!player) {
+        return '#ebd6a8';
+      }
+    }
+    return 'transparent';
+  }
+
   constructor(
     private footballEvent: FootballEvent,
     private fb: FormBuilder,

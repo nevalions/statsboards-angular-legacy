@@ -223,9 +223,6 @@ export function createNewEvent(
         (lastEvent.score_result === IFootballScoreResult.KickGood ||
           lastEvent.score_result === IFootballScoreResult.KickMissed)
       ) {
-        newEventBallOn = -35;
-        newEventDown = null;
-        newEventDistance = null;
         newEventTeam = newTeam;
         newEventPlayType = IFootballPlayType.Kickoff;
       }
@@ -238,9 +235,6 @@ export function createNewEvent(
         lastEvent.score_result === IFootballScoreResult.PatTwoGood ||
         lastEvent.score_result === IFootballScoreResult.PatTwoReturn
       ) {
-        newEventBallOn = -35;
-        newEventDown = null;
-        newEventDistance = null;
         newEventTeam = newTeam;
         newEventPlayType = IFootballPlayType.Kickoff;
       }
@@ -249,11 +243,15 @@ export function createNewEvent(
         lastEvent.offense_team &&
         lastEvent.score_result === IFootballScoreResult.Safety
       ) {
-        newEventBallOn = -35;
-        newEventDown = null;
-        newEventDistance = null;
         newEventTeam = lastEvent.offense_team;
         newEventPlayType = IFootballPlayType.Kickoff;
+      }
+
+      if (newEventPlayType === IFootballPlayType.Kickoff) {
+        newEventDown = null;
+        newEventDistance = null;
+        newEventQb = null;
+        newEventBallOn = -35;
       }
     }
   }
