@@ -505,9 +505,9 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
       this.events = [...this.events, newEvent];
       this.populateFormArray();
     } else {
-      console.log('create first football event');
+      // console.log('create first football event');
       const newEvent = createNewEvent(null, 0, this.match);
-      console.log('firs event', newEvent);
+      // console.log('firs event', newEvent);
       this.events = [newEvent];
       this.populateFormArray();
     }
