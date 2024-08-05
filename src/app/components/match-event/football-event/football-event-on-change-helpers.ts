@@ -223,6 +223,7 @@ export function onPlayTypeChange(
         resetScorePlayer(eventsArray, index);
         break;
       case IFootballPlayType.Kick.toLowerCase():
+        resetQb(eventsArray, index);
         resetPuntPlayer(eventsArray, index);
         resetRunPlayer(eventsArray, index);
         resetReceiverPlayer(eventsArray, index);
@@ -237,6 +238,7 @@ export function onPlayTypeChange(
         resetScorePlayer(eventsArray, index);
         break;
       case IFootballPlayType.PatOne.toLowerCase():
+        resetQb(eventsArray, index);
         resetPuntPlayer(eventsArray, index);
         resetRunPlayer(eventsArray, index);
         resetReceiverPlayer(eventsArray, index);
@@ -251,6 +253,7 @@ export function onPlayTypeChange(
         resetScorePlayer(eventsArray, index);
         break;
       case IFootballPlayType.Kickoff.toLowerCase():
+        resetQb(eventsArray, index);
         resetPuntPlayer(eventsArray, index);
         resetRunPlayer(eventsArray, index);
         resetReceiverPlayer(eventsArray, index);
@@ -264,6 +267,7 @@ export function onPlayTypeChange(
         resetScorePlayer(eventsArray, index);
         break;
       case IFootballPlayType.Punt.toLowerCase():
+        resetQb(eventsArray, index);
         resetRunPlayer(eventsArray, index);
         resetReceiverPlayer(eventsArray, index);
         resetDroppedPlayer(eventsArray, index);
