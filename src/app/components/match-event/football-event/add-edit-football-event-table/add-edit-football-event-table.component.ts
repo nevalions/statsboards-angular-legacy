@@ -491,7 +491,7 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
   }
 
   addNewEvent(): void {
-    if (this.events) {
+    if (this.events && this.events.length > 0) {
       const lastEvent = this.events[this.events.length - 1];
       if (lastEvent && lastEvent.id === null) {
         return;
@@ -503,6 +503,12 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
         this.match,
       );
       this.events = [...this.events, newEvent];
+      this.populateFormArray();
+    } else {
+      console.log('create first football event');
+      const newEvent = createNewEvent(null, 0, this.match);
+      console.log('firs event', newEvent);
+      this.events = [newEvent];
       this.populateFormArray();
     }
   }

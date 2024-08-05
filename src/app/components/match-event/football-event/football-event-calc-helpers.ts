@@ -48,32 +48,6 @@ export function isFirstDown(
   return null;
 }
 
-// export function computeDistance(
-//   previousBallOn: number,
-//   currentBallOn: number,
-//   max: number,
-// ): number {
-//   let calcDistance: number;
-//
-//   if (previousBallOn > 0 && currentBallOn > 0) {
-//     // Both in positive field
-//     calcDistance = previousBallOn - currentBallOn;
-//   } else if (previousBallOn < 0 && currentBallOn < 0) {
-//     // Both in negative field
-//     calcDistance = previousBallOn - currentBallOn;
-//   } else if (previousBallOn > 0 && currentBallOn < 0) {
-//     // Transition from positive to negative
-//     calcDistance = -(max - previousBallOn + max + currentBallOn);
-//   } else if (previousBallOn < 0 && currentBallOn > 0) {
-//     // Transition from negative to positive
-//     calcDistance = max + previousBallOn + max - currentBallOn;
-//   } else {
-//     throw new Error('Unexpected ball position');
-//   }
-//
-//   return calcDistance;
-// }
-
 export function computeDistance(
   nextEventBallOn: number,
   currentBallOn: number,

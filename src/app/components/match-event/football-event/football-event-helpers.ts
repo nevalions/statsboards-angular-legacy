@@ -111,7 +111,7 @@ export const eventFumbleRecoveredPlayer = (index: number) =>
   eventFumbleRecoveredPlayerKey + index;
 
 export function createNewEvent(
-  lastEvent: IFootballEventWithPlayers | undefined,
+  lastEvent: IFootballEventWithPlayers | null | undefined,
   newEventCount: number,
   match: IMatchWithFullData | undefined | null,
 ): Partial<IFootballEventWithPlayers> {
@@ -128,6 +128,7 @@ export function createNewEvent(
     newEventNumber = lastEvent.event_number + 1;
   } else {
     newEventNumber = 1;
+    newEventPlayType = IFootballPlayType.Kickoff;
   }
 
   if (lastEvent && lastEvent.event_qtr) {
@@ -166,8 +167,16 @@ export function createNewEvent(
 
   if (newEventPlayType === IFootballPlayType.Kickoff) {
     newEventDistance = null;
-    newEventPlayType = null;
+    newEventDown = null;
     newEventQb = null;
+    newEventBallOn = -35;
+  } else if (newEventPlayType === IFootballPlayType.PatOne) {
+    newEventDistance = null;
+    newEventDown = null;
+    newEventQb = null;
+    newEventBallOn = 3;
+  } else if (newEventPlayType === IFootballPlayType.PatTwo) {
+    newEventBallOn = 3;
   }
 
   if (lastEvent && lastEvent.play_result) {
@@ -203,7 +212,7 @@ export function createNewEvent(
         (lastEvent.score_result === IFootballScoreResult.KickGood ||
           lastEvent.score_result === IFootballScoreResult.KickMissed)
       ) {
-        newEventBallOn = -20;
+        newEventBallOn = -35;
         newEventDown = null;
         newEventDistance = null;
         newEventTeam = newTeam;
@@ -218,7 +227,7 @@ export function createNewEvent(
         lastEvent.score_result === IFootballScoreResult.PatTwoGood ||
         lastEvent.score_result === IFootballScoreResult.PatTwoReturn
       ) {
-        newEventBallOn = -20;
+        newEventBallOn = -35;
         newEventDown = null;
         newEventDistance = null;
         newEventTeam = newTeam;
@@ -229,7 +238,7 @@ export function createNewEvent(
         lastEvent.offense_team &&
         lastEvent.score_result === IFootballScoreResult.Safety
       ) {
-        newEventBallOn = -20;
+        newEventBallOn = -35;
         newEventDown = null;
         newEventDistance = null;
         newEventTeam = lastEvent.offense_team;
