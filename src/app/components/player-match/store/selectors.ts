@@ -26,7 +26,7 @@ export const selectHomeTeamRoster = createSelector(
   selectCurrentMatchWithFullData,
   (players, match) => {
     if (players && match) {
-      console.log(players, match);
+      // console.log(players, match);
       const homeRoster = players.filter(
         (player) => player.match_player.team_id === match.match.team_a_id,
       );
