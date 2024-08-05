@@ -374,6 +374,68 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
   //   return 'transparent';
   // }
 
+  isRunPlayerSelected(eventsArray: FormArray, index: number): string {
+    const playType = getEventPlayType(eventsArray, index);
+    const result = getEventPlayResult(eventsArray, index);
+    if (
+      result === IFootballPlayResult.Run &&
+      playType === IFootballPlayType.Run
+    ) {
+      const player = getEventRunPlayer(eventsArray, index);
+      if (!player) {
+        return '#ebd6a8';
+      }
+    }
+    return 'transparent';
+  }
+
+  isReceiverPlayerSelected(eventsArray: FormArray, index: number): string {
+    const result = getEventPlayResult(eventsArray, index);
+    if (result === IFootballPlayResult.PassCompleted) {
+      const player = getEventReceiverPlayer(eventsArray, index);
+      if (!player) {
+        return '#ebd6a8';
+      }
+    }
+    return 'transparent';
+  }
+
+  isScorePlayerSelected(eventsArray: FormArray, index: number): string {
+    const score = getEventScoreResult(eventsArray, index);
+    if (
+      score === IFootballScoreResult.Td ||
+      score === IFootballScoreResult.PatTwoGood
+    ) {
+      const player = getEventScorePlayer(eventsArray, index);
+      if (!player) {
+        return '#ebd6a8';
+      }
+    }
+    return 'transparent';
+  }
+
+  isPatOnePlayerSelected(eventsArray: FormArray, index: number): string {
+    const playType = getEventPlayType(eventsArray, index);
+    if (playType === IFootballPlayType.PatOne) {
+      const player = getEventPatOnePlayer(eventsArray, index);
+      if (!player) {
+        return '#ebd6a8';
+      }
+    }
+    return 'transparent';
+  }
+
+  isDefenceScorePlayerSelected(eventsArray: FormArray, index: number): string {
+    const score = getEventScoreResult(eventsArray, index);
+    if (score === IFootballScoreResult.TdDefence) {
+      const player = getEventDefenceScorePlayer(eventsArray, index);
+      if (!player) {
+        return '#ebd6a8';
+      }
+    }
+    return 'transparent';
+  }
+
   isResultPlayerSelected(eventsArray: FormArray, index: number): string {
     const playType = getEventPlayType(eventsArray, index);
     const result = getEventPlayResult(eventsArray, index);

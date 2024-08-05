@@ -337,7 +337,7 @@
                   @if (getEventTeam(eventsArray, i); as selectedTeam) {
                     @if (isPlayTypeWithIndex(eventFormGroup, i, eventPlayTypeKey, IFootballPlayType.Run) ||
                     getEventRunPlayer(eventsArray, i)) {
-                      <div class="event-table-cell">
+                      <div class="event-table-cell" [style.background-color]="isRunPlayerSelected(eventsArray, i)">
                         <app-search-player-in-match-autocomplete
                           [action]="'select'"
                           [placeholder]="'run player'"
@@ -354,7 +354,7 @@
                   @if (getEventTeam(eventsArray, i); as selectedTeam) {
                     @if (isPlayResultWithIndex(eventFormGroup, i, eventPlayResultKey, IFootballPlayResult.PassCompleted) ||
                     getEventReceiverPlayer(eventsArray, i)) {
-                      <div class="event-table-cell">
+                      <div class="event-table-cell" [style.background-color]="isReceiverPlayerSelected(eventsArray, i)">
                         <app-search-player-in-match-autocomplete
                           [action]="'select'"
                           [placeholder]="'receiver player'"
@@ -423,7 +423,7 @@
                   @if (getEventTeam(eventsArray, i); as selectedTeam) {
                     @if (isPlayTypeWithIndex(eventFormGroup, i, eventPlayTypeKey, IFootballPlayType.PatOne) ||
                     getEventPatOnePlayer(eventsArray, i)) {
-                      <div class="event-table-cell">
+                      <div class="event-table-cell" [style.background-color]="isPatOnePlayerSelected(eventsArray, i)">
                         <app-search-player-in-match-autocomplete
                           [action]="'select'"
                           [placeholder]="'pat one player'"
@@ -533,7 +533,7 @@
                     getEventScoreResult(eventsArray, i) === IFootballScoreResult.PatOneGood ||
                     getEventScoreResult(eventsArray, i) === IFootballScoreResult.PatTwoGood ||
                     getEventScorePlayer(eventsArray, i)) {
-                      <div class="event-table-cell">
+                      <div class="event-table-cell" [style.background-color]="isScorePlayerSelected(eventsArray, i)">
                         <app-search-player-in-match-autocomplete
                           [action]="'select'"
                           [placeholder]="'score player'"
@@ -701,7 +701,8 @@
                     getEventScoreResult(eventsArray, i) === IFootballScoreResult.KickOffTdReturn ||
                     getEventScoreResult(eventsArray, i) === IFootballScoreResult.PuntTdReturn ||
                     getEventDefenceScorePlayer(eventsArray, i)) {
-                      <div class="event-table-cell">
+                      <div class="event-table-cell"
+                           [style.background-color]="isDefenceScorePlayerSelected(eventsArray, i)">
                         <app-search-player-in-match-autocomplete
                           [action]="'select'"
                           [placeholder]="'defence score player'"
