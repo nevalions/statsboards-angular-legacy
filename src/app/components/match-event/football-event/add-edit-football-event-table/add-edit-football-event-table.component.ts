@@ -124,6 +124,7 @@ import {
   getEventPlayTypeFormControl,
   getEventPuntPlayer,
   getEventPuntPlayerFormControl,
+  getEventQb,
   getEventQbFormControl,
   getEventReceiverPlayer,
   getEventReceiverPlayerFormControl,
@@ -174,6 +175,29 @@ import { SelectListOfStringsComponent } from '../../../../shared/ui/select/selec
 import { SearchListOfStringsComponent } from '../../../../shared/ui/search/search-list-of-strings/search-list-of-strings.component';
 import { ActionsButtonsComponent } from '../../../../shared/ui/buttons/actions-buttons/actions-buttons.component';
 import { AddButtonOnFinalTrComponent } from '../../../../shared/ui/buttons/add-button-on-final-tr/add-button-on-final-tr.component';
+import {
+  isCautionColor,
+  isCautionColorResult,
+  isDefenceScorePlayerSelected,
+  isDeflectPlayerSelected,
+  isDroppedPlayerSelected,
+  isFlagPlayerSelected,
+  isInterceptedPlayerSelected,
+  isKickOffPlayerSelected,
+  isKickPlayerSelected,
+  isMaxCautionColor,
+  isPatOnePlayerSelected,
+  isPlayer,
+  isPuntPlayerSelected,
+  isQb,
+  isReceiverPlayerSelected,
+  isResultPlayerSelectedCautionColor,
+  isResultPlayerSelectedMaxCautionColor,
+  isReturnPlayerSelected,
+  isRunPlayerSelected,
+  isSackPlayerSelected,
+  isScorePlayerSelected,
+} from '../football-event-isPlayerSelected';
 
 @Component({
   selector: 'app-add-edit-football-event-table',
@@ -355,130 +379,6 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
       default:
         return 'transparent';
     }
-  }
-
-  // backgroundColorNoRunPlayerSelected(
-  //   play_result: string | null,
-  //   player: IPlayerInMatchFullData | null,
-  // ): string {
-  //   if (play_result) {
-  //     if (
-  //       play_result === IFootballPlayResult.Run ||
-  //       play_result === IFootballPlayResult.PassCompleted
-  //     ) {
-  //       if (player === null) {
-  //         return '#ebd6a8';
-  //       }
-  //     }
-  //   }
-  //   return 'transparent';
-  // }
-
-  isRunPlayerSelected(eventsArray: FormArray, index: number): string {
-    const playType = getEventPlayType(eventsArray, index);
-    const result = getEventPlayResult(eventsArray, index);
-    if (
-      result === IFootballPlayResult.Run &&
-      playType === IFootballPlayType.Run
-    ) {
-      const player = getEventRunPlayer(eventsArray, index);
-      if (!player) {
-        return '#ebd6a8';
-      }
-    }
-    return 'transparent';
-  }
-
-  isReceiverPlayerSelected(eventsArray: FormArray, index: number): string {
-    const result = getEventPlayResult(eventsArray, index);
-    if (result === IFootballPlayResult.PassCompleted) {
-      const player = getEventReceiverPlayer(eventsArray, index);
-      if (!player) {
-        return '#ebd6a8';
-      }
-    }
-    return 'transparent';
-  }
-
-  isScorePlayerSelected(eventsArray: FormArray, index: number): string {
-    const score = getEventScoreResult(eventsArray, index);
-    if (
-      score === IFootballScoreResult.Td ||
-      score === IFootballScoreResult.PatTwoGood
-    ) {
-      const player = getEventScorePlayer(eventsArray, index);
-      if (!player) {
-        return '#ebd6a8';
-      }
-    }
-    return 'transparent';
-  }
-
-  isPatOnePlayerSelected(eventsArray: FormArray, index: number): string {
-    const playType = getEventPlayType(eventsArray, index);
-    if (playType === IFootballPlayType.PatOne) {
-      const player = getEventPatOnePlayer(eventsArray, index);
-      if (!player) {
-        return '#ebd6a8';
-      }
-    }
-    return 'transparent';
-  }
-
-  isDefenceScorePlayerSelected(eventsArray: FormArray, index: number): string {
-    const score = getEventScoreResult(eventsArray, index);
-    if (score === IFootballScoreResult.TdDefence) {
-      const player = getEventDefenceScorePlayer(eventsArray, index);
-      if (!player) {
-        return '#ebd6a8';
-      }
-    }
-    return 'transparent';
-  }
-
-  isResultPlayerSelected(eventsArray: FormArray, index: number): string {
-    const playType = getEventPlayType(eventsArray, index);
-    const result = getEventPlayResult(eventsArray, index);
-    const score = getEventScoreResult(eventsArray, index);
-    if (
-      result === IFootballPlayResult.Run &&
-      playType === IFootballPlayType.Run
-    ) {
-      const player = getEventRunPlayer(eventsArray, index);
-      if (!player) {
-        return '#ebd6a8';
-      }
-    }
-    if (result === IFootballPlayResult.PassCompleted) {
-      const player = getEventReceiverPlayer(eventsArray, index);
-      if (!player) {
-        return '#ebd6a8';
-      }
-    }
-    if (
-      score === IFootballScoreResult.Td ||
-      score === IFootballScoreResult.PatTwoGood
-    ) {
-      const player = getEventScorePlayer(eventsArray, index);
-      if (!player) {
-        return '#ebd6a8';
-      }
-    }
-
-    if (playType === IFootballPlayType.PatOne) {
-      const player = getEventPatOnePlayer(eventsArray, index);
-      if (!player) {
-        return '#ebd6a8';
-      }
-    }
-
-    if (score === IFootballScoreResult.TdDefence) {
-      const player = getEventDefenceScorePlayer(eventsArray, index);
-      if (!player) {
-        return '#ebd6a8';
-      }
-    }
-    return 'transparent';
   }
 
   constructor(
@@ -907,4 +807,29 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
   protected readonly getEventPlayType = getEventPlayType;
   protected readonly eventPlayTypeOptions = eventPlayTypeOptions;
   protected readonly filterScoreResultsByType = filterScoreResultsByType;
+  protected readonly isRunPlayerSelected = isRunPlayerSelected;
+  protected readonly isReceiverPlayerSelected = isReceiverPlayerSelected;
+  protected readonly isPatOnePlayerSelected = isPatOnePlayerSelected;
+  protected readonly isScorePlayerSelected = isScorePlayerSelected;
+  protected readonly isDefenceScorePlayerSelected =
+    isDefenceScorePlayerSelected;
+  protected readonly isResultPlayerSelected =
+    isResultPlayerSelectedCautionColor;
+  protected readonly isCautionColor = isCautionColor;
+  protected readonly isMaxCautionColor = isMaxCautionColor;
+  protected readonly isQb = isQb;
+  protected readonly isDroppedPlayerSelected = isDroppedPlayerSelected;
+  protected readonly isKickPlayerSelected = isKickPlayerSelected;
+  protected readonly isKickOffPlayerSelected = isKickOffPlayerSelected;
+  protected readonly isPuntPlayerSelected = isPuntPlayerSelected;
+  protected readonly isReturnPlayerSelected = isReturnPlayerSelected;
+  protected readonly isDeflectPlayerSelected = isDeflectPlayerSelected;
+  protected readonly isInterceptedPlayerSelected = isInterceptedPlayerSelected;
+  protected readonly isSackPlayerSelected = isSackPlayerSelected;
+  protected readonly isFlagPlayerSelected = isFlagPlayerSelected;
+  protected readonly isResultPlayerSelectedMaxCautionColor =
+    isResultPlayerSelectedMaxCautionColor;
+  protected readonly getEventQb = getEventQb;
+  protected readonly isCautionColorResult = isCautionColorResult;
+  protected readonly isPlayer = isPlayer;
 }

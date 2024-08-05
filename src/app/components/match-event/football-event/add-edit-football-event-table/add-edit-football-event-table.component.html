@@ -16,7 +16,7 @@
                 @if (getEventTeam(eventsArray, i); as team) {
                   <div
                     style="display: flex; flex-direction: row; flex-wrap: wrap; padding: 5px"
-                    [style.background-color]="isResultPlayerSelected(eventsArray, i)"
+                    [style.background-color]="isCautionColorResult(eventsArray, i)"
                   >
                     <div
                       class="event-table-cell toggle"
@@ -39,6 +39,9 @@
                     @if (getBallOn(eventsArray, i); as ballOn) {
                       <div class="event-short-view">BallOn: {{ ballOn }}&nbsp;</div>
                     }
+                    <div class="event-short-view">
+                      QB: {{ isPlayer(getEventQb(eventsArray, i)) }}
+                    </div>
                     <div
                       class="event-short-view">{{ getEventDown(eventsArray, i) }}&nbsp;&&nbsp;{{ getEventDistance(eventsArray, i) }}
                     </div>
@@ -53,6 +56,11 @@
                         {{ playResult | titlecase }}&nbsp;
                       </div>
                     }
+                    <!--                    @if (isScorePlayerSelected(eventsArray, i)) {-->
+                    <!--                    <div class="event-short-view">-->
+                    <!--                      SCORE PLAYER: {{ isPlayer(getEventScorePlayer(eventsArray, i)) }}-->
+                    <!--                    </div>-->
+                    <!--                    }-->
                     @if (getEventIsFumble(eventsArray, i); as isFumble) {
                       <div
                         class="event-short-view"
@@ -204,7 +212,7 @@
 
                 <!--EVENT QB-->
                 @if (getEventQbFormControl(this.eventForm, this.arrayName, i); as control) {
-                  <div class="event-table-cell">
+                  <div class="event-table-cell" [style.background-color]="isMaxCautionColor(isQb(eventsArray, i))">
                     @if (getEventTeam(eventsArray, i); as selectedTeam) {
                       <app-search-player-in-match-autocomplete
                         [action]="'select'"
@@ -337,7 +345,8 @@
                   @if (getEventTeam(eventsArray, i); as selectedTeam) {
                     @if (isPlayTypeWithIndex(eventFormGroup, i, eventPlayTypeKey, IFootballPlayType.Run) ||
                     getEventRunPlayer(eventsArray, i)) {
-                      <div class="event-table-cell" [style.background-color]="isRunPlayerSelected(eventsArray, i)">
+                      <div class="event-table-cell"
+                           [style.background-color]="isCautionColor(isRunPlayerSelected(eventsArray, i))">
                         <app-search-player-in-match-autocomplete
                           [action]="'select'"
                           [placeholder]="'run player'"
@@ -371,8 +380,8 @@
                   @if (getEventTeam(eventsArray, i); as selectedTeam) {
                     @if (isPlayResultWithIndex(eventFormGroup, i, eventPlayResultKey, IFootballPlayResult.PassDropped) ||
                     getEventDroppedPlayer(eventsArray, i)) {
-                      <div class="event-table-cell">
-                        <!--                        <label>Dropped Player</label>-->
+                      <div class="event-table-cell"
+                           [style.background-color]="isCautionColor(isDroppedPlayerSelected(eventsArray, i))">
                         <app-search-player-in-match-autocomplete
                           [action]="'select'"
                           [placeholder]="'dropped player'"
@@ -389,7 +398,8 @@
                   @if (getEventTeam(eventsArray, i); as selectedTeam) {
                     @if (isPlayTypeWithIndex(eventFormGroup, i, eventPlayTypeKey, IFootballPlayType.Kick) ||
                     getEventKickPlayer(eventsArray, i)) {
-                      <div class="event-table-cell">
+                      <div class="event-table-cell"
+                           [style.background-color]="isCautionColor(isKickPlayerSelected(eventsArray, i))">
                         <app-search-player-in-match-autocomplete
                           [action]="'select'"
                           [placeholder]="'kick player'"
@@ -406,7 +416,8 @@
                   @if (getEventTeam(eventsArray, i); as selectedTeam) {
                     @if (isPlayTypeWithIndex(eventFormGroup, i, eventPlayTypeKey, IFootballPlayType.Kickoff) ||
                     getEventKickOffPlayer(eventsArray, i)) {
-                      <div class="event-table-cell">
+                      <div class="event-table-cell"
+                           [style.background-color]="isCautionColor(isKickOffPlayerSelected(eventsArray, i))">
                         <app-search-player-in-match-autocomplete
                           [action]="'select'"
                           [placeholder]="'kickoff player'"
@@ -423,7 +434,8 @@
                   @if (getEventTeam(eventsArray, i); as selectedTeam) {
                     @if (isPlayTypeWithIndex(eventFormGroup, i, eventPlayTypeKey, IFootballPlayType.PatOne) ||
                     getEventPatOnePlayer(eventsArray, i)) {
-                      <div class="event-table-cell" [style.background-color]="isPatOnePlayerSelected(eventsArray, i)">
+                      <div class="event-table-cell"
+                           [style.background-color]="isCautionColor(isPatOnePlayerSelected(eventsArray, i))">
                         <app-search-player-in-match-autocomplete
                           [action]="'select'"
                           [placeholder]="'pat one player'"
@@ -440,7 +452,8 @@
                   @if (getEventTeam(eventsArray, i); as selectedTeam) {
                     @if (isPlayTypeWithIndex(eventFormGroup, i, eventPlayTypeKey, IFootballPlayType.Punt) ||
                     getEventPuntPlayer(eventsArray, i)) {
-                      <div class="event-table-cell">
+                      <div class="event-table-cell"
+                           [style.background-color]="isCautionColor(isPuntPlayerSelected(eventsArray, i))">
                         <app-search-player-in-match-autocomplete
                           [action]="'select'"
                           [placeholder]="'punt player'"
@@ -459,7 +472,8 @@
                     isPlayTypeWithIndex(eventFormGroup, i, eventPlayTypeKey, IFootballPlayType.Kickoff) &&
                     !isPlayResultWithIndex(eventFormGroup, i, eventPlayResultKey, IFootballPlayResult.TouchBack) ||
                     getEventReturnPlayer(eventsArray, i)) {
-                      <div class="event-table-cell">
+                      <div class="event-table-cell"
+                           [style.background-color]="isCautionColor(isReturnPlayerSelected(eventsArray, i))">
                         <app-search-player-in-match-autocomplete
                           [action]="'select'"
                           [placeholder]="'return player'"
@@ -533,7 +547,8 @@
                     getEventScoreResult(eventsArray, i) === IFootballScoreResult.PatOneGood ||
                     getEventScoreResult(eventsArray, i) === IFootballScoreResult.PatTwoGood ||
                     getEventScorePlayer(eventsArray, i)) {
-                      <div class="event-table-cell" [style.background-color]="isScorePlayerSelected(eventsArray, i)">
+                      <div class="event-table-cell"
+                           [style.background-color]="isCautionColor(isScorePlayerSelected(eventsArray, i))">
                         <app-search-player-in-match-autocomplete
                           [action]="'select'"
                           [placeholder]="'score player'"
@@ -550,7 +565,8 @@
                   @if (getEventTeam(eventsArray, i); as selectedTeam) {
                     @if (isPlayResultWithIndex(eventFormGroup, i, eventPlayResultKey, IFootballPlayResult.PassDeflected) ||
                     getEventDeflectedPlayer(eventsArray, i)) {
-                      <div class="event-table-cell">
+                      <div class="event-table-cell"
+                           [style.background-color]="isCautionColor(isDeflectPlayerSelected(eventsArray, i))">
                         <app-search-player-in-match-autocomplete
                           [action]="'select'"
                           [placeholder]="'deflected player'"
@@ -567,7 +583,8 @@
                   @if (getEventTeam(eventsArray, i); as selectedTeam) {
                     @if (isPlayResultWithIndex(eventFormGroup, i, eventPlayResultKey, IFootballPlayResult.PassIntercepted) ||
                     getEventInterceptedPlayer(eventsArray, i)) {
-                      <div class="event-table-cell">
+                      <div class="event-table-cell"
+                           [style.background-color]="isCautionColor(isInterceptedPlayerSelected(eventsArray, i))">
                         <app-search-player-in-match-autocomplete
                           [action]="'select'"
                           [placeholder]="'intercepted player'"
@@ -585,7 +602,8 @@
                     @if (isPlayResultWithIndex(eventFormGroup, i, eventPlayResultKey, IFootballPlayResult.Sack) &&
                     !isPlayResultWithIndex(eventFormGroup, i, eventPlayResultKey, IFootballPlayResult.Flag) ||
                     getEventSackPlayer(eventsArray, i)) {
-                      <div class="event-table-cell">
+                      <div class="event-table-cell"
+                           [style.background-color]="isCautionColor(isSackPlayerSelected(eventsArray, i))">
                         <app-search-player-in-match-autocomplete
                           [action]="'select'"
                           [placeholder]="'sack player'"
@@ -702,7 +720,7 @@
                     getEventScoreResult(eventsArray, i) === IFootballScoreResult.PuntTdReturn ||
                     getEventDefenceScorePlayer(eventsArray, i)) {
                       <div class="event-table-cell"
-                           [style.background-color]="isDefenceScorePlayerSelected(eventsArray, i)">
+                           [style.background-color]="isCautionColor(isDefenceScorePlayerSelected(eventsArray, i))">
                         <app-search-player-in-match-autocomplete
                           [action]="'select'"
                           [placeholder]="'defence score player'"
@@ -718,7 +736,8 @@
                 @if (getEventFlaggedPlayerFormControl(this.eventForm, this.arrayName, i); as control) {
                   @if (isPlayResultWithIndex(eventFormGroup, i, eventPlayResultKey, IFootballPlayResult.Flag) ||
                   getEventFlaggedPlayer(eventsArray, i)) {
-                    <div class="event-table-cell" style="background-color:#d7bb69">
+                    <div class="event-table-cell"
+                         [style.background-color]="isCautionColor(isFlagPlayerSelected(eventsArray, i))">
                       <app-search-player-in-match-autocomplete
                         [action]="'select'"
                         [placeholder]="'flagged player'"

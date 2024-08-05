@@ -1,5 +1,12 @@
 import { BehaviorSubject, Observable } from 'rxjs';
 
+export enum ICautionColors {
+  Caution = '#ebd6a8',
+  MaxCaution = '#CF5F10FF',
+  MinCaution = '#BAE7F3FF',
+  Transparent = 'transparent',
+}
+
 export interface IEnumObject {
   value: string;
   label: string;
