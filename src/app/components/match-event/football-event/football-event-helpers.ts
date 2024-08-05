@@ -165,6 +165,17 @@ export function createNewEvent(
     newEventDistance = 10;
   }
 
+  if (lastEvent && lastEvent.score_result) {
+    if (
+      lastEvent.score_result === IFootballScoreResult.Td ||
+      lastEvent.score_result === IFootballScoreResult.TdDefence
+    ) {
+      newEventDown = null;
+      newEventDistance = null;
+      newEventBallOn = 3;
+    }
+  }
+
   if (newEventPlayType === IFootballPlayType.Kickoff) {
     newEventDistance = null;
     newEventDown = null;

@@ -7,6 +7,7 @@ import {
   IFootballEventWithPlayers,
   IFootballPlayResult,
   IFootballPlayType,
+  IFootballScoreResult,
 } from '../../../../type/football-event.type';
 import { selectCurrentMatchWithFullData } from '../../../match-with-full-data/store/reducers';
 import { computeDistance } from '../football-event-calc-helpers';
@@ -36,6 +37,8 @@ export function calculateDistanceMoved(
     nextEvent.offense_team &&
     event.play_type &&
     event.play_result &&
+    event.score_result !== IFootballScoreResult.Td &&
+    event.score_result !== IFootballScoreResult.TdDefence &&
     (event.play_type === IFootballPlayType.Pass ||
       event.play_type === IFootballPlayType.Run) &&
     event.play_result !== IFootballPlayResult.Flag &&
@@ -52,6 +55,16 @@ export function calculateDistanceMoved(
         event.ball_on,
         fieldLength / 2,
       );
+    }
+  }
+  if (
+    event &&
+    event.score_result &&
+    event.ball_on !== undefined &&
+    event.ball_on !== null
+  ) {
+    if (event.score_result === IFootballScoreResult.Td) {
+      return computeDistance(0, event.ball_on, fieldLength / 2);
     }
   }
   return null;

@@ -67,6 +67,10 @@ export function computeDistance(
   } else if (nextEventBallOn < 0 && currentBallOn > 0) {
     // Transition from negative to positive
     calcDistance = -(max - currentBallOn + max + nextEventBallOn);
+  } else if (nextEventBallOn === 0 && currentBallOn > 0) {
+    calcDistance = currentBallOn;
+  } else if (nextEventBallOn === 0 && currentBallOn < 0) {
+    calcDistance = max + currentBallOn + 50;
   } else {
     throw new Error('Unexpected ball position');
   }
