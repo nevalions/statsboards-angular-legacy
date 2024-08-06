@@ -53,7 +53,7 @@ export function isCautionColorResult(eventsArray: FormArray, index: number) {
   return false;
 }
 
-export function isQb(eventsArray: FormArray, index: number): boolean {
+export function noQbSelected(eventsArray: FormArray, index: number): boolean {
   const playType = getEventPlayType(eventsArray, index);
   if (
     playType === IFootballPlayType.Run ||
@@ -68,7 +68,7 @@ export function isQb(eventsArray: FormArray, index: number): boolean {
   return false;
 }
 
-export function isRunPlayerSelected(
+export function noRunPlayerSelected(
   eventsArray: FormArray,
   index: number,
 ): boolean {
@@ -86,7 +86,7 @@ export function isRunPlayerSelected(
   return false;
 }
 
-export function isReceiverPlayerSelected(
+export function noReceiverPlayerSelected(
   eventsArray: FormArray,
   index: number,
 ): boolean {
@@ -100,7 +100,7 @@ export function isReceiverPlayerSelected(
   return false;
 }
 
-export function isDroppedPlayerSelected(
+export function noDroppedPlayerSelected(
   eventsArray: FormArray,
   index: number,
 ): boolean {
@@ -114,7 +114,7 @@ export function isDroppedPlayerSelected(
   return false;
 }
 
-export function isScorePlayerSelected(
+export function noScorePlayerSelected(
   eventsArray: FormArray,
   index: number,
 ): boolean {
@@ -131,7 +131,7 @@ export function isScorePlayerSelected(
   return false;
 }
 
-export function isPatOnePlayerSelected(
+export function noPatOnePlayerSelected(
   eventsArray: FormArray,
   index: number,
 ): boolean {
@@ -145,7 +145,7 @@ export function isPatOnePlayerSelected(
   return false;
 }
 
-export function isReturnPlayerSelected(
+export function noReturnPlayerSelected(
   eventsArray: FormArray,
   index: number,
 ): boolean {
@@ -162,7 +162,7 @@ export function isReturnPlayerSelected(
   return false;
 }
 
-export function isPuntPlayerSelected(
+export function noPuntPlayerSelected(
   eventsArray: FormArray,
   index: number,
 ): boolean {
@@ -176,7 +176,7 @@ export function isPuntPlayerSelected(
   return false;
 }
 
-export function isFlagPlayerSelected(
+export function noFlagPlayerSelected(
   eventsArray: FormArray,
   index: number,
 ): boolean {
@@ -190,7 +190,7 @@ export function isFlagPlayerSelected(
   return false;
 }
 
-export function isSackPlayerSelected(
+export function noSackPlayerSelected(
   eventsArray: FormArray,
   index: number,
 ): boolean {
@@ -204,7 +204,7 @@ export function isSackPlayerSelected(
   return false;
 }
 
-export function isInterceptedPlayerSelected(
+export function noInterceptedPlayerSelected(
   eventsArray: FormArray,
   index: number,
 ): boolean {
@@ -218,7 +218,7 @@ export function isInterceptedPlayerSelected(
   return false;
 }
 
-export function isDeflectPlayerSelected(
+export function noDeflectPlayerSelected(
   eventsArray: FormArray,
   index: number,
 ): boolean {
@@ -232,7 +232,7 @@ export function isDeflectPlayerSelected(
   return false;
 }
 
-export function isKickPlayerSelected(
+export function noKickPlayerSelected(
   eventsArray: FormArray,
   index: number,
 ): boolean {
@@ -246,7 +246,7 @@ export function isKickPlayerSelected(
   return false;
 }
 
-export function isKickOffPlayerSelected(
+export function noKickOffPlayerSelected(
   eventsArray: FormArray,
   index: number,
 ): boolean {
@@ -260,7 +260,7 @@ export function isKickOffPlayerSelected(
   return false;
 }
 
-export function isDefenceScorePlayerSelected(
+export function noDefenceScorePlayerSelected(
   eventsArray: FormArray,
   index: number,
 ): boolean {
@@ -292,20 +292,20 @@ export function isResultPlayerSelectedCautionColor(
   index: number,
 ): boolean {
   return (
-    isRunPlayerSelected(eventsArray, index) ||
-    isReceiverPlayerSelected(eventsArray, index) ||
-    isDroppedPlayerSelected(eventsArray, index) ||
-    isScorePlayerSelected(eventsArray, index) ||
-    isPatOnePlayerSelected(eventsArray, index) ||
-    isReturnPlayerSelected(eventsArray, index) ||
-    isPuntPlayerSelected(eventsArray, index) ||
-    isFlagPlayerSelected(eventsArray, index) ||
-    isSackPlayerSelected(eventsArray, index) ||
-    isInterceptedPlayerSelected(eventsArray, index) ||
-    isDeflectPlayerSelected(eventsArray, index) ||
-    isKickPlayerSelected(eventsArray, index) ||
-    isKickOffPlayerSelected(eventsArray, index) ||
-    isDefenceScorePlayerSelected(eventsArray, index)
+    noRunPlayerSelected(eventsArray, index) ||
+    noReceiverPlayerSelected(eventsArray, index) ||
+    noDroppedPlayerSelected(eventsArray, index) ||
+    noScorePlayerSelected(eventsArray, index) ||
+    noPatOnePlayerSelected(eventsArray, index) ||
+    noReturnPlayerSelected(eventsArray, index) ||
+    noPuntPlayerSelected(eventsArray, index) ||
+    noFlagPlayerSelected(eventsArray, index) ||
+    noSackPlayerSelected(eventsArray, index) ||
+    noInterceptedPlayerSelected(eventsArray, index) ||
+    noDeflectPlayerSelected(eventsArray, index) ||
+    noKickPlayerSelected(eventsArray, index) ||
+    noKickOffPlayerSelected(eventsArray, index) ||
+    noDefenceScorePlayerSelected(eventsArray, index)
   );
 }
 
@@ -313,5 +313,5 @@ export function isResultPlayerSelectedMaxCautionColor(
   eventsArray: FormArray,
   index: number,
 ): boolean {
-  return isQb(eventsArray, index);
+  return noQbSelected(eventsArray, index);
 }

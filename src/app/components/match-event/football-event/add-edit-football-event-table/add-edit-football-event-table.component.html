@@ -56,11 +56,12 @@
                         {{ playResult | titlecase }}&nbsp;
                       </div>
                     }
-                    <!--                    @if (isScorePlayerSelected(eventsArray, i)) {-->
-                    <!--                    <div class="event-short-view">-->
-                    <!--                      SCORE PLAYER: {{ isPlayer(getEventScorePlayer(eventsArray, i)) }}-->
-                    <!--                    </div>-->
-                    <!--                    }-->
+                    @if (getEventScoreResult(eventsArray, i) === IFootballScoreResult.Td) {
+                      <div class="event-short-view"
+                           [style.background-color]="isMaxCautionColor(noScorePlayerSelected(eventsArray, i))">
+                        SCORE PLAYER: {{ isPlayer(getEventScorePlayer(eventsArray, i)) }}
+                      </div>
+                    }
                     @if (getEventIsFumble(eventsArray, i); as isFumble) {
                       <div
                         class="event-short-view"

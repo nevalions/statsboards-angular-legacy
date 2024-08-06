@@ -178,25 +178,23 @@ import { AddButtonOnFinalTrComponent } from '../../../../shared/ui/buttons/add-b
 import {
   isCautionColor,
   isCautionColorResult,
-  isDefenceScorePlayerSelected,
-  isDeflectPlayerSelected,
-  isDroppedPlayerSelected,
-  isFlagPlayerSelected,
-  isInterceptedPlayerSelected,
-  isKickOffPlayerSelected,
-  isKickPlayerSelected,
   isMaxCautionColor,
-  isPatOnePlayerSelected,
   isPlayer,
-  isPuntPlayerSelected,
-  isQb,
-  isReceiverPlayerSelected,
-  isResultPlayerSelectedCautionColor,
-  isResultPlayerSelectedMaxCautionColor,
-  isReturnPlayerSelected,
-  isRunPlayerSelected,
-  isSackPlayerSelected,
-  isScorePlayerSelected,
+  noDefenceScorePlayerSelected,
+  noDeflectPlayerSelected,
+  noDroppedPlayerSelected,
+  noFlagPlayerSelected,
+  noInterceptedPlayerSelected,
+  noKickOffPlayerSelected,
+  noKickPlayerSelected,
+  noPatOnePlayerSelected,
+  noPuntPlayerSelected,
+  noQbSelected,
+  noReceiverPlayerSelected,
+  noReturnPlayerSelected,
+  noRunPlayerSelected,
+  noSackPlayerSelected,
+  noScorePlayerSelected,
 } from '../football-event-isPlayerSelected';
 
 @Component({
@@ -807,29 +805,26 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
   protected readonly getEventPlayType = getEventPlayType;
   protected readonly eventPlayTypeOptions = eventPlayTypeOptions;
   protected readonly filterScoreResultsByType = filterScoreResultsByType;
-  protected readonly isRunPlayerSelected = isRunPlayerSelected;
-  protected readonly isReceiverPlayerSelected = isReceiverPlayerSelected;
-  protected readonly isPatOnePlayerSelected = isPatOnePlayerSelected;
-  protected readonly isScorePlayerSelected = isScorePlayerSelected;
+  protected readonly isRunPlayerSelected = noRunPlayerSelected;
+  protected readonly isReceiverPlayerSelected = noReceiverPlayerSelected;
+  protected readonly isPatOnePlayerSelected = noPatOnePlayerSelected;
+  protected readonly isScorePlayerSelected = noScorePlayerSelected;
   protected readonly isDefenceScorePlayerSelected =
-    isDefenceScorePlayerSelected;
-  protected readonly isResultPlayerSelected =
-    isResultPlayerSelectedCautionColor;
+    noDefenceScorePlayerSelected;
   protected readonly isCautionColor = isCautionColor;
   protected readonly isMaxCautionColor = isMaxCautionColor;
-  protected readonly isQb = isQb;
-  protected readonly isDroppedPlayerSelected = isDroppedPlayerSelected;
-  protected readonly isKickPlayerSelected = isKickPlayerSelected;
-  protected readonly isKickOffPlayerSelected = isKickOffPlayerSelected;
-  protected readonly isPuntPlayerSelected = isPuntPlayerSelected;
-  protected readonly isReturnPlayerSelected = isReturnPlayerSelected;
-  protected readonly isDeflectPlayerSelected = isDeflectPlayerSelected;
-  protected readonly isInterceptedPlayerSelected = isInterceptedPlayerSelected;
-  protected readonly isSackPlayerSelected = isSackPlayerSelected;
-  protected readonly isFlagPlayerSelected = isFlagPlayerSelected;
-  protected readonly isResultPlayerSelectedMaxCautionColor =
-    isResultPlayerSelectedMaxCautionColor;
+  protected readonly isQb = noQbSelected;
+  protected readonly isDroppedPlayerSelected = noDroppedPlayerSelected;
+  protected readonly isKickPlayerSelected = noKickPlayerSelected;
+  protected readonly isKickOffPlayerSelected = noKickOffPlayerSelected;
+  protected readonly isPuntPlayerSelected = noPuntPlayerSelected;
+  protected readonly isReturnPlayerSelected = noReturnPlayerSelected;
+  protected readonly isDeflectPlayerSelected = noDeflectPlayerSelected;
+  protected readonly isInterceptedPlayerSelected = noInterceptedPlayerSelected;
+  protected readonly isSackPlayerSelected = noSackPlayerSelected;
+  protected readonly isFlagPlayerSelected = noFlagPlayerSelected;
   protected readonly getEventQb = getEventQb;
   protected readonly isCautionColorResult = isCautionColorResult;
   protected readonly isPlayer = isPlayer;
+  protected readonly noScorePlayerSelected = noScorePlayerSelected;
 }
