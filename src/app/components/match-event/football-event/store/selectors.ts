@@ -44,6 +44,7 @@ export function calculateDistanceMoved(
       event.play_type === IFootballPlayType.Run) &&
     event.play_result !== IFootballPlayResult.Flag &&
     (event.play_result === IFootballPlayResult.PassCompleted ||
+      event.play_result === IFootballPlayResult.Sack ||
       event.play_result === IFootballPlayResult.Run)
   ) {
     if (event.offense_team === nextEvent.offense_team) {

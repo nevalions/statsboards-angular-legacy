@@ -194,12 +194,18 @@ export function calculateFootballDownStats(
         if (prevEvent.event_down) {
           if (prevEvent.event_down === 3) {
             thirdDownAttempts++;
-            if (event.event_down === 1) {
+            if (
+              event.event_down === 1 ||
+              event.score_result === IFootballScoreResult.Td
+            ) {
               thirdDownConversions++;
             }
           } else if (prevEvent.event_down === 4) {
             fourthDownAttempts++;
-            if (event.event_down === 1) {
+            if (
+              event.event_down === 1 ||
+              event.score_result === IFootballScoreResult.Td
+            ) {
               fourthDownConversions++;
             }
           }
