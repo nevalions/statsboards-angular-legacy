@@ -63,19 +63,85 @@
                     @if (isRunPlay(eventsArray, i)) {
                       <div class="event-short-view"
                            [style.background-color]="isMinCautionColor(noRunPlayerSelected(eventsArray, i))">
-                        RUN PLAYER: {{ isPlayer(getEventRunPlayer(eventsArray, i)) }}
+                        RUNNER: {{ isPlayer(getEventRunPlayer(eventsArray, i)) }}
                       </div>
                     }
                     @if (isPassCompletedPlay(eventsArray, i)) {
                       <div class="event-short-view"
                            [style.background-color]="isMinCautionColor(noReceiverPlayerSelected(eventsArray, i))">
-                        RECEIVER PLAYER: {{ isPlayer(getEventRunPlayer(eventsArray, i)) }}
+                        RECEIVER: {{ isPlayer(getEventReceiverPlayer(eventsArray, i)) }}
                       </div>
                     }
-                    @if (getEventScoreResult(eventsArray, i) === IFootballScoreResult.Td) {
+                    @if (isPassDroppedPlay(eventsArray, i)) {
+                      <div class="event-short-view"
+                           [style.background-color]="isMinCautionColor(noReceiverPlayerSelected(eventsArray, i))">
+                        DROPPED PLAYER: {{ isPlayer(getEventDroppedPlayer(eventsArray, i)) }}
+                      </div>
+                    }
+                    @if (isScoreTDPatTwoOffence(eventsArray, i)) {
                       <div class="event-short-view"
                            [style.background-color]="isMinCautionColor(noScorePlayerSelected(eventsArray, i))">
                         SCORE PLAYER: {{ isPlayer(getEventScorePlayer(eventsArray, i)) }}
+                      </div>
+                    }
+                    @if (isPatOnePlay(eventsArray, i)) {
+                      <div class="event-short-view"
+                           [style.background-color]="isMinCautionColor(noPatOnePlayerSelected(eventsArray, i))">
+                        PAT ONE PLAYER: {{ isPlayer(getEventPatOnePlayer(eventsArray, i)) }}
+                      </div>
+                    }
+                    @if (isReturnPlay(eventsArray, i)) {
+                      <div class="event-short-view"
+                           [style.background-color]="isMinCautionColor(noReturnPlayerSelected(eventsArray, i))">
+                        RETURNER: {{ isPlayer(getEventReturnPlayer(eventsArray, i)) }}
+                      </div>
+                    }
+                    @if (isPuntPlay(eventsArray, i)) {
+                      <div class="event-short-view"
+                           [style.background-color]="isMinCautionColor(noPuntPlayerSelected(eventsArray, i))">
+                        PUNTER: {{ isPlayer(getEventPuntPlayer(eventsArray, i)) }}
+                      </div>
+                    }
+                    @if (isFlagResult(eventsArray, i)) {
+                      <div class="event-short-view"
+                           [style.background-color]="isMinCautionColor(noFlagPlayerSelected(eventsArray, i))">
+                        FLAGGED: {{ isPlayer(getEventFlaggedPlayer(eventsArray, i)) }}
+                      </div>
+                    }
+                    @if (isSackResult(eventsArray, i)) {
+                      <div class="event-short-view"
+                           [style.background-color]="isMinCautionColor(noSackPlayerSelected(eventsArray, i))">
+                        SACK PLAYER: {{ isPlayer(getEventSackPlayer(eventsArray, i)) }}
+                      </div>
+                    }
+                    @if (isInterceptResult(eventsArray, i)) {
+                      <div class="event-short-view"
+                           [style.background-color]="isMinCautionColor(noInterceptedPlayerSelected(eventsArray, i))">
+                        INTERCEPT PLAYER: {{ isPlayer(getEventInterceptedPlayer(eventsArray, i)) }}
+                      </div>
+                    }
+                    @if (isDeflectResult(eventsArray, i)) {
+                      <div class="event-short-view"
+                           [style.background-color]="isMinCautionColor(noDeflectPlayerSelected(eventsArray, i))">
+                        DEFLECT PLAYER: {{ isPlayer(getEventDeflectedPlayer(eventsArray, i)) }}
+                      </div>
+                    }
+                    @if (isKickPlay(eventsArray, i)) {
+                      <div class="event-short-view"
+                           [style.background-color]="isMinCautionColor(noKickPlayerSelected(eventsArray, i))">
+                        KICKER: {{ isPlayer(getEventKickPlayer(eventsArray, i)) }}
+                      </div>
+                    }
+                    @if (isKickOffPlay(eventsArray, i)) {
+                      <div class="event-short-view"
+                           [style.background-color]="isMinCautionColor(noKickOffPlayerSelected(eventsArray, i))">
+                        KICKOFF PLAYER: {{ isPlayer(getEventKickOffPlayer(eventsArray, i)) }}
+                      </div>
+                    }
+                    @if (isDefenceScore(eventsArray, i)) {
+                      <div class="event-short-view"
+                           [style.background-color]="isMinCautionColor(noDefenceScorePlayerSelected(eventsArray, i))">
+                        DEFENCE SCORE PLAYER: {{ isPlayer(getEventDefenceScorePlayer(eventsArray, i)) }}
                       </div>
                     }
                     @if (getEventIsFumble(eventsArray, i); as isFumble) {

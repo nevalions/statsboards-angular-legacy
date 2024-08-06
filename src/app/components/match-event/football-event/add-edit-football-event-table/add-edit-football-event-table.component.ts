@@ -198,9 +198,21 @@ import {
   noScoreOffencePlayerSelected,
 } from '../football-event-isPlayerSelected-helper';
 import {
+  isDefenceScore,
+  isDeflectResult,
+  isFlagResult,
+  isInterceptResult,
+  isKickOffPlay,
+  isKickPlay,
   isPassCompletedPlay,
+  isPassDroppedPlay,
+  isPatOnePlay,
+  isPuntPlay,
   isQbPlay,
+  isReturnPlay,
   isRunPlay,
+  isSackResult,
+  isScoreTDPatTwoOffence,
 } from '../football-event-isPlayTypeOrResult-helper';
 
 @Component({
@@ -840,4 +852,27 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
   protected readonly isMinCautionColor = isMinCautionColor;
   protected readonly isPassCompletedPlay = isPassCompletedPlay;
   protected readonly noReceiverPlayerSelected = noReceiverPlayerSelected;
+  protected readonly isPassDroppedPlay = isPassDroppedPlay;
+  protected readonly isScoreTDPatTwoOffence = isScoreTDPatTwoOffence;
+  protected readonly noPatOnePlayerSelected = noPatOnePlayerSelected;
+  protected readonly isPatOnePlay = isPatOnePlay;
+  protected readonly noReturnPlayerSelected = noReturnPlayerSelected;
+  protected readonly isReturnPlay = isReturnPlay;
+  protected readonly isPuntPlay = isPuntPlay;
+  protected readonly noPuntPlayerSelected = noPuntPlayerSelected;
+  protected readonly isFlagResult = isFlagResult;
+  protected readonly noFlagPlayerSelected = noFlagPlayerSelected;
+  protected readonly isSackResult = isSackResult;
+  protected readonly noSackPlayerSelected = noSackPlayerSelected;
+  protected readonly noInterceptedPlayerSelected = noInterceptedPlayerSelected;
+  protected readonly isInterceptResult = isInterceptResult;
+  protected readonly isDeflectResult = isDeflectResult;
+  protected readonly noDeflectPlayerSelected = noDeflectPlayerSelected;
+  protected readonly isKickPlay = isKickPlay;
+  protected readonly noKickPlayerSelected = noKickPlayerSelected;
+  protected readonly isKickOffPlay = isKickOffPlay;
+  protected readonly noKickOffPlayerSelected = noKickOffPlayerSelected;
+  protected readonly isDefenceScore = isDefenceScore;
+  protected readonly noDefenceScorePlayerSelected =
+    noDefenceScorePlayerSelected;
 }

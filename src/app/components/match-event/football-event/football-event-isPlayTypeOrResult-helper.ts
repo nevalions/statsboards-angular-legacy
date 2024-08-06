@@ -81,3 +81,34 @@ export function isSackResult(eventsArray: FormArray, index: number): boolean {
   const playResult = getEventPlayResult(eventsArray, index);
   return playResult === IFootballPlayResult.Sack;
 }
+
+export function isInterceptResult(
+  eventsArray: FormArray,
+  index: number,
+): boolean {
+  const playResult = getEventPlayResult(eventsArray, index);
+  return playResult === IFootballPlayResult.PassIntercepted;
+}
+
+export function isDeflectResult(
+  eventsArray: FormArray,
+  index: number,
+): boolean {
+  const playResult = getEventPlayResult(eventsArray, index);
+  return playResult === IFootballPlayResult.PassDeflected;
+}
+
+export function isKickPlay(eventsArray: FormArray, index: number): boolean {
+  const playType = getEventPlayType(eventsArray, index);
+  return playType === IFootballPlayType.Kick;
+}
+
+export function isKickOffPlay(eventsArray: FormArray, index: number): boolean {
+  const playType = getEventPlayType(eventsArray, index);
+  return playType === IFootballPlayType.Kickoff;
+}
+
+export function isDefenceScore(eventsArray: FormArray, index: number): boolean {
+  const score = getEventScoreResult(eventsArray, index);
+  return score === IFootballScoreResult.TdDefence;
+}
