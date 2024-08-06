@@ -133,7 +133,7 @@ export function isTacklePossible(
   );
 }
 
-export function isOffenceScorePossible(
+export function isScorePossible(
   eventsArray: FormArray,
   index: number,
 ): boolean {
@@ -144,8 +144,7 @@ export function isOffenceScorePossible(
     playResult !== IFootballPlayResult.PassIncomplete &&
     playResult !== IFootballPlayResult.PassDeflected &&
     playResult !== IFootballPlayResult.PassDropped &&
-    playResult !== IFootballPlayResult.TouchBack &&
-    playResult !== IFootballPlayResult.PassIntercepted
+    playResult !== IFootballPlayResult.TouchBack
   );
 }
 
