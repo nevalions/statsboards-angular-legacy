@@ -229,6 +229,8 @@ export function createNewEvent(
       }
 
       if (lastEvent.score_result === IFootballScoreResult.KickMissed) {
+        newEventDown = 1;
+        newEventDistance = 10;
         newEventTeam = newTeam;
       }
 
