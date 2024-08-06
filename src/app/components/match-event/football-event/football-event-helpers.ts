@@ -190,6 +190,8 @@ export function createNewEvent(
     newEventQb = null;
     newEventBallOn = 3;
   } else if (newEventPlayType === IFootballPlayType.PatTwo) {
+    newEventDistance = null;
+    newEventDown = null;
     newEventBallOn = 3;
   }
 
