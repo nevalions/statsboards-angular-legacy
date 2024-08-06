@@ -171,12 +171,19 @@
               @if (getEventQbFormControl(this.eventForm, this.arrayName, i); as control) {
                 <div class="event-table-cell" [style.background-color]="isMaxCautionColor(isQb(eventsArray, i))">
                   @if (getEventTeam(eventsArray, i); as selectedTeam) {
-                    <app-search-player-in-match-autocomplete
-                      [action]="'select'"
-                      [placeholder]="'qb'"
-                      [players]="getPlayersForSelectedTeam(selectedTeam)"
-                      [control]="control">
-                    </app-search-player-in-match-autocomplete>
+                    @if (isMobile) {
+                      <app-select-player-in-match
+                        [players]="getPlayersForSelectedTeam(selectedTeam)"
+                        [control]="control"
+                      ></app-select-player-in-match>
+                    } @else {
+                      <app-search-player-in-match-autocomplete
+                        [action]="'select'"
+                        [placeholder]="'qb'"
+                        [players]="getPlayersForSelectedTeam(selectedTeam)"
+                        [control]="control">
+                      </app-search-player-in-match-autocomplete>
+                    }
                   }
                 </div>
               }
@@ -304,12 +311,19 @@
                   getEventRunPlayer(eventsArray, i)) {
                     <div class="event-table-cell"
                          [style.background-color]="isCautionColor(isRunPlayerSelected(eventsArray, i))">
-                      <app-search-player-in-match-autocomplete
-                        [action]="'select'"
-                        [placeholder]="'run player'"
-                        [players]="getPlayersForSelectedTeam(selectedTeam)"
-                        [control]="control">
-                      </app-search-player-in-match-autocomplete>
+                      @if (isMobile) {
+                        <app-select-player-in-match
+                          [players]="getPlayersForSelectedTeam(selectedTeam)"
+                          [control]="control"
+                        ></app-select-player-in-match>
+                      } @else {
+                        <app-search-player-in-match-autocomplete
+                          [action]="'select'"
+                          [placeholder]="'run player'"
+                          [players]="getPlayersForSelectedTeam(selectedTeam)"
+                          [control]="control">
+                        </app-search-player-in-match-autocomplete>
+                      }
                     </div>
                   }
                 }
@@ -321,12 +335,19 @@
                   @if (isPassCompletedPlay(eventsArray, i) ||
                   getEventReceiverPlayer(eventsArray, i)) {
                     <div class="event-table-cell" [style.background-color]="isReceiverPlayerSelected(eventsArray, i)">
-                      <app-search-player-in-match-autocomplete
-                        [action]="'select'"
-                        [placeholder]="'receiver player'"
-                        [players]="getPlayersForSelectedTeam(selectedTeam)"
-                        [control]="control">
-                      </app-search-player-in-match-autocomplete>
+                      @if (isMobile) {
+                        <app-select-player-in-match
+                          [players]="getPlayersForSelectedTeam(selectedTeam)"
+                          [control]="control"
+                        ></app-select-player-in-match>
+                      } @else {
+                        <app-search-player-in-match-autocomplete
+                          [action]="'select'"
+                          [placeholder]="'receiver player'"
+                          [players]="getPlayersForSelectedTeam(selectedTeam)"
+                          [control]="control">
+                        </app-search-player-in-match-autocomplete>
+                      }
                     </div>
                   }
                 }
@@ -339,12 +360,19 @@
                   getEventDroppedPlayer(eventsArray, i)) {
                     <div class="event-table-cell"
                          [style.background-color]="isCautionColor(isDroppedPlayerSelected(eventsArray, i))">
-                      <app-search-player-in-match-autocomplete
-                        [action]="'select'"
-                        [placeholder]="'dropped player'"
-                        [players]="getPlayersForSelectedTeam(selectedTeam)"
-                        [control]="control">
-                      </app-search-player-in-match-autocomplete>
+                      @if (isMobile) {
+                        <app-select-player-in-match
+                          [players]="getPlayersForSelectedTeam(selectedTeam)"
+                          [control]="control"
+                        ></app-select-player-in-match>
+                      } @else {
+                        <app-search-player-in-match-autocomplete
+                          [action]="'select'"
+                          [placeholder]="'dropped player'"
+                          [players]="getPlayersForSelectedTeam(selectedTeam)"
+                          [control]="control">
+                        </app-search-player-in-match-autocomplete>
+                      }
                     </div>
                   }
                 }
@@ -357,12 +385,19 @@
                   getEventKickPlayer(eventsArray, i)) {
                     <div class="event-table-cell"
                          [style.background-color]="isCautionColor(isKickPlayerSelected(eventsArray, i))">
-                      <app-search-player-in-match-autocomplete
-                        [action]="'select'"
-                        [placeholder]="'kick player'"
-                        [players]="getPlayersForSelectedTeam(selectedTeam)"
-                        [control]="control">
-                      </app-search-player-in-match-autocomplete>
+                      @if (isMobile) {
+                        <app-select-player-in-match
+                          [players]="getPlayersForSelectedTeam(selectedTeam)"
+                          [control]="control"
+                        ></app-select-player-in-match>
+                      } @else {
+                        <app-search-player-in-match-autocomplete
+                          [action]="'select'"
+                          [placeholder]="'kick player'"
+                          [players]="getPlayersForSelectedTeam(selectedTeam)"
+                          [control]="control">
+                        </app-search-player-in-match-autocomplete>
+                      }
                     </div>
                   }
                 }
@@ -375,12 +410,19 @@
                   getEventKickOffPlayer(eventsArray, i)) {
                     <div class="event-table-cell"
                          [style.background-color]="isCautionColor(isKickOffPlayerSelected(eventsArray, i))">
-                      <app-search-player-in-match-autocomplete
-                        [action]="'select'"
-                        [placeholder]="'kickoff player'"
-                        [players]="getPlayersForSelectedTeam(selectedTeam)"
-                        [control]="control">
-                      </app-search-player-in-match-autocomplete>
+                      @if (isMobile) {
+                        <app-select-player-in-match
+                          [players]="getPlayersForSelectedTeam(selectedTeam)"
+                          [control]="control"
+                        ></app-select-player-in-match>
+                      } @else {
+                        <app-search-player-in-match-autocomplete
+                          [action]="'select'"
+                          [placeholder]="'kickoff player'"
+                          [players]="getPlayersForSelectedTeam(selectedTeam)"
+                          [control]="control">
+                        </app-search-player-in-match-autocomplete>
+                      }
                     </div>
                   }
                 }
@@ -393,12 +435,19 @@
                   getEventPatOnePlayer(eventsArray, i)) {
                     <div class="event-table-cell"
                          [style.background-color]="isCautionColor(isPatOnePlayerSelected(eventsArray, i))">
-                      <app-search-player-in-match-autocomplete
-                        [action]="'select'"
-                        [placeholder]="'pat one player'"
-                        [players]="getPlayersForSelectedTeam(selectedTeam)"
-                        [control]="control">
-                      </app-search-player-in-match-autocomplete>
+                      @if (isMobile) {
+                        <app-select-player-in-match
+                          [players]="getPlayersForSelectedTeam(selectedTeam)"
+                          [control]="control"
+                        ></app-select-player-in-match>
+                      } @else {
+                        <app-search-player-in-match-autocomplete
+                          [action]="'select'"
+                          [placeholder]="'pat one player'"
+                          [players]="getPlayersForSelectedTeam(selectedTeam)"
+                          [control]="control">
+                        </app-search-player-in-match-autocomplete>
+                      }
                     </div>
                   }
                 }
@@ -411,12 +460,19 @@
                   getEventPuntPlayer(eventsArray, i)) {
                     <div class="event-table-cell"
                          [style.background-color]="isCautionColor(isPuntPlayerSelected(eventsArray, i))">
-                      <app-search-player-in-match-autocomplete
-                        [action]="'select'"
-                        [placeholder]="'punt player'"
-                        [players]="getPlayersForSelectedTeam(selectedTeam)"
-                        [control]="control">
-                      </app-search-player-in-match-autocomplete>
+                      @if (isMobile) {
+                        <app-select-player-in-match
+                          [players]="getPlayersForSelectedTeam(selectedTeam)"
+                          [control]="control"
+                        ></app-select-player-in-match>
+                      } @else {
+                        <app-search-player-in-match-autocomplete
+                          [action]="'select'"
+                          [placeholder]="'punt player'"
+                          [players]="getPlayersForSelectedTeam(selectedTeam)"
+                          [control]="control">
+                        </app-search-player-in-match-autocomplete>
+                      }
                     </div>
                   }
                 }
@@ -429,12 +485,19 @@
                   getEventReturnPlayer(eventsArray, i)) {
                     <div class="event-table-cell"
                          [style.background-color]="isCautionColor(isReturnPlayerSelected(eventsArray, i))">
-                      <app-search-player-in-match-autocomplete
-                        [action]="'select'"
-                        [placeholder]="'return player'"
-                        [players]="getDefencePlayersForTeam(selectedTeam)"
-                        [control]="control">
-                      </app-search-player-in-match-autocomplete>
+                      @if (isMobile) {
+                        <app-select-player-in-match
+                          [players]="getDefencePlayersForTeam(selectedTeam)"
+                          [control]="control"
+                        ></app-select-player-in-match>
+                      } @else {
+                        <app-search-player-in-match-autocomplete
+                          [action]="'select'"
+                          [placeholder]="'return player'"
+                          [players]="getDefencePlayersForTeam(selectedTeam)"
+                          [control]="control">
+                        </app-search-player-in-match-autocomplete>
+                      }
                     </div>
                   }
                 }
@@ -445,13 +508,20 @@
                 @if (getEventTeam(eventsArray, i); as selectedTeam) {
                   @if (isTacklePossible(eventsArray, i) || getEventTacklePlayer(eventsArray, i)) {
                     <div class="event-table-cell">
-                      <app-search-player-in-match-autocomplete
-                        [action]="'select'"
-                        [placeholder]="'tackle player'"
-                        [players]="getDefencePlayersForTeam(selectedTeam)"
-                        [control]="control"
-                      >
-                      </app-search-player-in-match-autocomplete>
+                      @if (isMobile) {
+                        <app-select-player-in-match
+                          [players]="getDefencePlayersForTeam(selectedTeam)"
+                          [control]="control"
+                        ></app-select-player-in-match>
+                      } @else {
+                        <app-search-player-in-match-autocomplete
+                          [action]="'select'"
+                          [placeholder]="'tackle player'"
+                          [players]="getDefencePlayersForTeam(selectedTeam)"
+                          [control]="control"
+                        >
+                        </app-search-player-in-match-autocomplete>
+                      }
                     </div>
                   }
                 }
@@ -462,13 +532,20 @@
                 @if (getEventTeam(eventsArray, i); as selectedTeam) {
                   @if (isTacklePossible(eventsArray, i) || getEventTacklePlayer(eventsArray, i)) {
                     <div class="event-table-cell">
-                      <app-search-player-in-match-autocomplete
-                        [action]="'select'"
-                        [placeholder]="'assist tackle player'"
-                        [players]="getDefencePlayersForTeam(selectedTeam)"
-                        [control]="control"
-                      >
-                      </app-search-player-in-match-autocomplete>
+                      @if (isMobile) {
+                        <app-select-player-in-match
+                          [players]="getDefencePlayersForTeam(selectedTeam)"
+                          [control]="control"
+                        ></app-select-player-in-match>
+                      } @else {
+                        <app-search-player-in-match-autocomplete
+                          [action]="'select'"
+                          [placeholder]="'assist tackle player'"
+                          [players]="getDefencePlayersForTeam(selectedTeam)"
+                          [control]="control"
+                        >
+                        </app-search-player-in-match-autocomplete>
+                      }
                     </div>
                   }
                 }
@@ -481,12 +558,19 @@
                   getEventScorePlayer(eventsArray, i)) {
                     <div class="event-table-cell"
                          [style.background-color]="isCautionColor(isScorePlayerSelected(eventsArray, i))">
-                      <app-search-player-in-match-autocomplete
-                        [action]="'select'"
-                        [placeholder]="'score player'"
-                        [players]="getPlayersForSelectedTeam(selectedTeam)"
-                        [control]="control">
-                      </app-search-player-in-match-autocomplete>
+                      @if (isMobile) {
+                        <app-select-player-in-match
+                          [players]="getPlayersForSelectedTeam(selectedTeam)"
+                          [control]="control"
+                        ></app-select-player-in-match>
+                      } @else {
+                        <app-search-player-in-match-autocomplete
+                          [action]="'select'"
+                          [placeholder]="'score player'"
+                          [players]="getPlayersForSelectedTeam(selectedTeam)"
+                          [control]="control">
+                        </app-search-player-in-match-autocomplete>
+                      }
                     </div>
                   }
                 }
@@ -499,12 +583,19 @@
                   getEventDeflectedPlayer(eventsArray, i)) {
                     <div class="event-table-cell"
                          [style.background-color]="isCautionColor(isDeflectPlayerSelected(eventsArray, i))">
-                      <app-search-player-in-match-autocomplete
-                        [action]="'select'"
-                        [placeholder]="'deflected player'"
-                        [players]="getDefencePlayersForTeam(selectedTeam)"
-                        [control]="control">
-                      </app-search-player-in-match-autocomplete>
+                      @if (isMobile) {
+                        <app-select-player-in-match
+                          [players]="getDefencePlayersForTeam(selectedTeam)"
+                          [control]="control"
+                        ></app-select-player-in-match>
+                      } @else {
+                        <app-search-player-in-match-autocomplete
+                          [action]="'select'"
+                          [placeholder]="'deflected player'"
+                          [players]="getDefencePlayersForTeam(selectedTeam)"
+                          [control]="control">
+                        </app-search-player-in-match-autocomplete>
+                      }
                     </div>
                   }
                 }
@@ -517,12 +608,19 @@
                   getEventInterceptedPlayer(eventsArray, i)) {
                     <div class="event-table-cell"
                          [style.background-color]="isCautionColor(isInterceptedPlayerSelected(eventsArray, i))">
-                      <app-search-player-in-match-autocomplete
-                        [action]="'select'"
-                        [placeholder]="'intercepted player'"
-                        [players]="getDefencePlayersForTeam(selectedTeam)"
-                        [control]="control">
-                      </app-search-player-in-match-autocomplete>
+                      @if (isMobile) {
+                        <app-select-player-in-match
+                          [players]="getDefencePlayersForTeam(selectedTeam)"
+                          [control]="control"
+                        ></app-select-player-in-match>
+                      } @else {
+                        <app-search-player-in-match-autocomplete
+                          [action]="'select'"
+                          [placeholder]="'intercepted player'"
+                          [players]="getDefencePlayersForTeam(selectedTeam)"
+                          [control]="control">
+                        </app-search-player-in-match-autocomplete>
+                      }
                     </div>
                   }
                 }
@@ -535,12 +633,19 @@
                   getEventSackPlayer(eventsArray, i)) {
                     <div class="event-table-cell"
                          [style.background-color]="isCautionColor(isSackPlayerSelected(eventsArray, i))">
-                      <app-search-player-in-match-autocomplete
-                        [action]="'select'"
-                        [placeholder]="'sack player'"
-                        [players]="getDefencePlayersForTeam(selectedTeam)"
-                        [control]="control">
-                      </app-search-player-in-match-autocomplete>
+                      @if (isMobile) {
+                        <app-select-player-in-match
+                          [players]="getDefencePlayersForTeam(selectedTeam)"
+                          [control]="control"
+                        ></app-select-player-in-match>
+                      } @else {
+                        <app-search-player-in-match-autocomplete
+                          [action]="'select'"
+                          [placeholder]="'sack player'"
+                          [players]="getDefencePlayersForTeam(selectedTeam)"
+                          [control]="control">
+                        </app-search-player-in-match-autocomplete>
+                      }
                     </div>
                   }
                 }
@@ -590,12 +695,19 @@
                     getEventIsFumble(eventsArray, i) ||
                     getEventFumblePlayer(eventsArray, i)) {
                       <div class="event-table-cell">
-                        <app-search-player-in-match-autocomplete
-                          [action]="'select'"
-                          [placeholder]="'forced player'"
-                          [players]="getDefencePlayersForTeam(selectedTeam)"
-                          [control]="control">
-                        </app-search-player-in-match-autocomplete>
+                        @if (isMobile) {
+                          <app-select-player-in-match
+                            [players]="getDefencePlayersForTeam(selectedTeam)"
+                            [control]="control"
+                          ></app-select-player-in-match>
+                        } @else {
+                          <app-search-player-in-match-autocomplete
+                            [action]="'select'"
+                            [placeholder]="'forced player'"
+                            [players]="getDefencePlayersForTeam(selectedTeam)"
+                            [control]="control">
+                          </app-search-player-in-match-autocomplete>
+                        }
                       </div>
                     }
                   }
@@ -625,12 +737,19 @@
                   getEventIsFumbleRecovered(eventsArray, i) ||
                   getEventFumbleRecoveredPlayer(eventsArray, i)) {
                     <div class="event-table-cell">
-                      <app-search-player-in-match-autocomplete
-                        [action]="'select'"
-                        [placeholder]="'recovered player'"
-                        [players]="getAllPlayers()"
-                        [control]="control">
-                      </app-search-player-in-match-autocomplete>
+                      @if (isMobile) {
+                        <app-select-player-in-match
+                          [players]="getAllPlayers()"
+                          [control]="control"
+                        ></app-select-player-in-match>
+                      } @else {
+                        <app-search-player-in-match-autocomplete
+                          [action]="'select'"
+                          [placeholder]="'recovered player'"
+                          [players]="getAllPlayers()"
+                          [control]="control">
+                        </app-search-player-in-match-autocomplete>
+                      }
                     </div>
                   }
                 }
@@ -643,12 +762,19 @@
                   getEventDefenceScorePlayer(eventsArray, i)) {
                     <div class="event-table-cell"
                          [style.background-color]="isCautionColor(isDefenceScorePlayerSelected(eventsArray, i))">
-                      <app-search-player-in-match-autocomplete
-                        [action]="'select'"
-                        [placeholder]="'defence score player'"
-                        [players]="getDefencePlayersForTeam(selectedTeam)"
-                        [control]="control">
-                      </app-search-player-in-match-autocomplete>
+                      @if (isMobile) {
+                        <app-select-player-in-match
+                          [players]="getDefencePlayersForTeam(selectedTeam)"
+                          [control]="control"
+                        ></app-select-player-in-match>
+                      } @else {
+                        <app-search-player-in-match-autocomplete
+                          [action]="'select'"
+                          [placeholder]="'defence score player'"
+                          [players]="getDefencePlayersForTeam(selectedTeam)"
+                          [control]="control">
+                        </app-search-player-in-match-autocomplete>
+                      }
                     </div>
                   }
                 }
@@ -660,13 +786,19 @@
                 getEventFlaggedPlayer(eventsArray, i)) {
                   <div class="event-table-cell"
                        [style.background-color]="isCautionColor(isFlagPlayerSelected(eventsArray, i))">
-                    <app-search-player-in-match-autocomplete
-                      [action]="'select'"
-                      [placeholder]="'flagged player'"
-                      [players]="getAllPlayers()"
-                      [control]="control"
-                    >
-                    </app-search-player-in-match-autocomplete>
+                    @if (isMobile) {
+                      <app-select-player-in-match
+                        [players]="getAllPlayers()"
+                        [control]="control"
+                      ></app-select-player-in-match>
+                    } @else {
+                      <app-search-player-in-match-autocomplete
+                        [action]="'select'"
+                        [placeholder]="'flagged player'"
+                        [players]="getAllPlayers()"
+                        [control]="control"
+                      ></app-search-player-in-match-autocomplete>
+                    }
                   </div>
                 }
               }

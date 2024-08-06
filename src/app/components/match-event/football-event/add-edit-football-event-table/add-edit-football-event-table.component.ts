@@ -65,7 +65,6 @@ import {
   eventPlayResult,
   eventPlayResultKey,
   eventPlayType,
-  eventPlayTypeKey,
   eventPuntPlayer,
   eventQb,
   eventQtr,
@@ -76,24 +75,20 @@ import {
   eventSackPlayer,
   eventScorePlayer,
   eventScoreResult,
-  eventScoreResultKey,
   eventTacklePlayer,
   eventTeam,
   extractEventData,
   getBallOn,
   getBallOnFormControl,
-  getEventAssistTacklePlayer,
   getEventAssistTacklePlayerFormControl,
   getEventDefenceScorePlayer,
   getEventDefenceScorePlayerFormControl,
   getEventDeflectedPlayer,
   getEventDeflectedPlayerFormControl,
   getEventDirectionFormControl,
-  getEventDistance,
   getEventDistanceFormControl,
   getEventDistanceMoved,
   getEventDistanceOnOffenceFormControl,
-  getEventDown,
   getEventDownFormControl,
   getEventDroppedPlayer,
   getEventDroppedPlayerFormControl,
@@ -124,7 +119,6 @@ import {
   getEventPlayTypeFormControl,
   getEventPuntPlayer,
   getEventPuntPlayerFormControl,
-  getEventQb,
   getEventQbFormControl,
   getEventReceiverPlayer,
   getEventReceiverPlayerFormControl,
@@ -136,7 +130,6 @@ import {
   getEventSackPlayerFormControl,
   getEventScorePlayer,
   getEventScorePlayerFormControl,
-  getEventScoreResult,
   getEventScoreResultFormControl,
   getEventTacklePlayer,
   getEventTacklePlayerFormControl,
@@ -179,8 +172,6 @@ import {
   isCautionColor,
   isCautionColorResult,
   isMaxCautionColor,
-  isMinCautionColor,
-  isPlayerSecondName,
   noDefenceScorePlayerSelected,
   noDeflectPlayerSelected,
   noDroppedPlayerSelected,
@@ -209,7 +200,6 @@ import {
   isPassDroppedPlay,
   isPatOnePlay,
   isPuntPlay,
-  isQbPlay,
   isReturnPlay,
   isRunPlay,
   isSackResult,
@@ -217,6 +207,7 @@ import {
   isTacklePossible,
 } from '../football-event-isPlayTypeOrResult-helper';
 import { FootballEventShortViewComponent } from './football-event-short-view/football-event-short-view.component';
+import { SelectPlayerInMatchComponent } from '../../../../shared/ui/select/select-player-in-match/select-player-in-match.component';
 
 @Component({
   selector: 'app-add-edit-football-event-table',
@@ -240,6 +231,7 @@ import { FootballEventShortViewComponent } from './football-event-short-view/foo
     AddButtonOnFinalTrComponent,
     TuiToggleModule,
     FootballEventShortViewComponent,
+    SelectPlayerInMatchComponent,
   ],
   templateUrl: './add-edit-football-event-table.component.html',
   styleUrl: './add-edit-football-event-table.component.less',
@@ -389,17 +381,6 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
         return null;
     }
   }
-
-  // getPlayTypeBackgroundColor(playResult: IFootballPlayResult): string {
-  //   switch (playResult) {
-  //     case IFootballPlayResult.Flag:
-  //       return '#D7BB69FF';
-  //     case IFootballPlayResult.PassIntercepted:
-  //       return '#ee88d2';
-  //     default:
-  //       return 'transparent';
-  //   }
-  // }
 
   constructor(
     private footballEvent: FootballEvent,
@@ -715,7 +696,6 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
     return scoreResult === scoreResultEnum;
   }
 
-  protected readonly IFootballPlayType = IFootballPlayType;
   protected readonly eventHashOptions = eventHashOptions;
   protected readonly getQtrFormControl = getQtrFormControl;
   protected readonly getEventNumberFormControl = getEventNumberFormControl;
@@ -749,7 +729,6 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
   protected readonly eventBallOnKey = eventBallOnKey;
   protected readonly eventDistanceKey = eventDistanceKey;
   protected readonly eventDownKey = eventDownKey;
-  protected readonly eventPlayTypeKey = eventPlayTypeKey;
   protected readonly eventPlayResultKey = eventPlayResultKey;
   protected readonly IFootballPlayResult = IFootballPlayResult;
   protected readonly getEventTacklePlayerFormControl =
@@ -773,7 +752,6 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
   protected readonly getEventSackPlayer = getEventSackPlayer;
   protected readonly getEventScoreResultFormControl =
     getEventScoreResultFormControl;
-  protected readonly getEventScoreResult = getEventScoreResult;
   protected readonly getEventDirectionFormControl =
     getEventDirectionFormControl;
   protected readonly eventDirectionOptions = eventDirectionOptions;
@@ -794,11 +772,9 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
   protected readonly getEventScorePlayer = getEventScorePlayer;
   protected readonly getEventDefenceScorePlayerFormControl =
     getEventDefenceScorePlayerFormControl;
-  protected readonly IFootballScoreResult = IFootballScoreResult;
   protected readonly getEventDefenceScorePlayer = getEventDefenceScorePlayer;
   protected readonly getEventAssistTacklePlayerFormControl =
     getEventAssistTacklePlayerFormControl;
-  protected readonly getEventAssistTacklePlayer = getEventAssistTacklePlayer;
   protected readonly getEventKickOffPlayerFormControl =
     getEventKickOffPlayerFormControl;
   protected readonly getEventKickOffPlayer = getEventKickOffPlayer;
@@ -813,7 +789,6 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
   protected readonly getEventFlaggedPlayer = getEventFlaggedPlayer;
   protected readonly incrementOnBall = incrementOnBall;
   protected readonly getBallOn = getBallOn;
-  protected readonly eventScoreResultKey = eventScoreResultKey;
   protected readonly getEventDistanceMoved = getEventDistanceMoved;
   protected readonly getEventPlayResult = getEventPlayResult;
   protected readonly tuiAppFlat = TuiAppearance.Flat;
@@ -821,8 +796,6 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
   protected readonly getEventDistanceOnOffenceFormControl =
     getEventDistanceOnOffenceFormControl;
   protected readonly eventDistanceOnOffenceKey = eventDistanceOnOffenceKey;
-  protected readonly getEventDown = getEventDown;
-  protected readonly getEventDistance = getEventDistance;
   protected readonly filterPlayResultsByType = filterPlayResultsByType;
   protected readonly getEventPlayType = getEventPlayType;
   protected readonly eventPlayTypeOptions = eventPlayTypeOptions;
@@ -845,40 +818,21 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
   protected readonly isInterceptedPlayerSelected = noInterceptedPlayerSelected;
   protected readonly isSackPlayerSelected = noSackPlayerSelected;
   protected readonly isFlagPlayerSelected = noFlagPlayerSelected;
-  protected readonly getEventQb = getEventQb;
-  protected readonly isCautionColorResult = isCautionColorResult;
-  protected readonly isPlayer = isPlayerSecondName;
-  protected readonly noScorePlayerSelected = noScoreOffencePlayerSelected;
-  protected readonly isQbPlay = isQbPlay;
-  protected readonly noQbSelected = noQbSelected;
-  protected readonly isRunPlay = isRunPlay;
-  protected readonly noRunPlayerSelected = noRunPlayerSelected;
-  protected readonly isMinCautionColor = isMinCautionColor;
-  protected readonly isPassCompletedPlay = isPassCompletedPlay;
-  protected readonly noReceiverPlayerSelected = noReceiverPlayerSelected;
-  protected readonly isPassDroppedPlay = isPassDroppedPlay;
-  protected readonly isScoreTDPatTwoOffence = isScoreTDPatTwoOffence;
-  protected readonly noPatOnePlayerSelected = noPatOnePlayerSelected;
-  protected readonly isPatOnePlay = isPatOnePlay;
-  protected readonly noReturnPlayerSelected = noReturnPlayerSelected;
-  protected readonly isReturnPlay = isReturnPlay;
-  protected readonly isPuntPlay = isPuntPlay;
-  protected readonly noPuntPlayerSelected = noPuntPlayerSelected;
-  protected readonly isFlagResult = isFlagResult;
-  protected readonly noFlagPlayerSelected = noFlagPlayerSelected;
-  protected readonly isSackResult = isSackResult;
-  protected readonly noSackPlayerSelected = noSackPlayerSelected;
-  protected readonly noInterceptedPlayerSelected = noInterceptedPlayerSelected;
-  protected readonly isInterceptResult = isInterceptResult;
-  protected readonly isDeflectResult = isDeflectResult;
-  protected readonly noDeflectPlayerSelected = noDeflectPlayerSelected;
-  protected readonly isKickPlay = isKickPlay;
-  protected readonly noKickPlayerSelected = noKickPlayerSelected;
-  protected readonly isKickOffPlay = isKickOffPlay;
-  protected readonly noKickOffPlayerSelected = noKickOffPlayerSelected;
-  protected readonly isDefenceScore = isDefenceScore;
-  protected readonly noDefenceScorePlayerSelected =
-    noDefenceScorePlayerSelected;
   protected readonly isTacklePossible = isTacklePossible;
   protected readonly isScorePossible = isOffenceScorePossible;
+  protected readonly isCautionColorResult = isCautionColorResult;
+  protected readonly isRunPlay = isRunPlay;
+  protected readonly isPassCompletedPlay = isPassCompletedPlay;
+  protected readonly isPassDroppedPlay = isPassDroppedPlay;
+  protected readonly isKickPlay = isKickPlay;
+  protected readonly isKickOffPlay = isKickOffPlay;
+  protected readonly isPatOnePlay = isPatOnePlay;
+  protected readonly isPuntPlay = isPuntPlay;
+  protected readonly isReturnPlay = isReturnPlay;
+  protected readonly isScoreTDPatTwoOffence = isScoreTDPatTwoOffence;
+  protected readonly isDeflectResult = isDeflectResult;
+  protected readonly isInterceptResult = isInterceptResult;
+  protected readonly isSackResult = isSackResult;
+  protected readonly isDefenceScore = isDefenceScore;
+  protected readonly isFlagResult = isFlagResult;
 }
