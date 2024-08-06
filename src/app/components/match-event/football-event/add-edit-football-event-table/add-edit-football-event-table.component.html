@@ -516,23 +516,43 @@
               @if (getEventTacklePlayerFormControl(this.eventForm, this.arrayName, i); as control) {
                 @if (getEventTeam(eventsArray, i); as selectedTeam) {
                   @if (isTacklePossible(eventsArray, i) || getEventTacklePlayer(eventsArray, i)) {
-                    <div class="event-table-cell">
-                      @if (isMobile) {
-                        <app-select-player-in-match
-                          [players]="getDefencePlayersForTeam(selectedTeam)"
-                          [control]="control"
-                          [placeholder]="'tackle player'"
-                        ></app-select-player-in-match>
-                      } @else {
-                        <app-search-player-in-match-autocomplete
-                          [action]="'select'"
-                          [placeholder]="'tackle player'"
-                          [players]="getDefencePlayersForTeam(selectedTeam)"
-                          [control]="control"
-                        >
-                        </app-search-player-in-match-autocomplete>
-                      }
-                    </div>
+                    @if (isReturnPlay(eventsArray, i)) {
+                      <div class="event-table-cell">
+                        @if (isMobile) {
+                          <app-select-player-in-match
+                            [players]="getPlayersForSelectedTeam(selectedTeam)"
+                            [control]="control"
+                            [placeholder]="'tackle player'"
+                          ></app-select-player-in-match>
+                        } @else {
+                          <app-search-player-in-match-autocomplete
+                            [action]="'select'"
+                            [placeholder]="'tackle player'"
+                            [players]="getPlayersForSelectedTeam(selectedTeam)"
+                            [control]="control"
+                          >
+                          </app-search-player-in-match-autocomplete>
+                        }
+                      </div>
+                    } @else {
+                      <div class="event-table-cell">
+                        @if (isMobile) {
+                          <app-select-player-in-match
+                            [players]="getDefencePlayersForTeam(selectedTeam)"
+                            [control]="control"
+                            [placeholder]="'tackle player'"
+                          ></app-select-player-in-match>
+                        } @else {
+                          <app-search-player-in-match-autocomplete
+                            [action]="'select'"
+                            [placeholder]="'tackle player'"
+                            [players]="getDefencePlayersForTeam(selectedTeam)"
+                            [control]="control"
+                          >
+                          </app-search-player-in-match-autocomplete>
+                        }
+                      </div>
+                    }
                   }
                 }
               }
