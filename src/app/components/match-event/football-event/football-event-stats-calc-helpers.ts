@@ -204,7 +204,7 @@ export function calculateFootballDownStats(
             fourthDownAttempts++;
             if (
               event.event_down === 1 ||
-              event.score_result === IFootballScoreResult.Td
+              prevEvent.score_result === IFootballScoreResult.Td
             ) {
               fourthDownConversions++;
             }
