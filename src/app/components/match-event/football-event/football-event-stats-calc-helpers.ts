@@ -189,6 +189,21 @@ export function calculateFootballDownStats(
     const event = eventsWithPlayers[i];
     const prevEvent = eventsWithPlayers[i - 1];
 
+    // console.log('event and prevevent', event, prevEvent);
+
+    if (
+      prevEvent &&
+      prevEvent.offense_team?.id === teamId &&
+      event &&
+      event.offense_team?.id !== teamId
+    ) {
+      // console.log('pervevent down', prevEvent.event_down);
+      if (prevEvent.event_down === 4) {
+        // console.log('plus 4th');
+        fourthDownAttempts++;
+      }
+    }
+
     if (event.offense_team?.id === teamId) {
       if (prevEvent && prevEvent.offense_team?.id === teamId) {
         if (prevEvent.event_down) {
@@ -209,10 +224,6 @@ export function calculateFootballDownStats(
               fourthDownConversions++;
             }
           }
-        }
-      } else if (event && event.offense_team?.id !== teamId) {
-        if (prevEvent.event_down === 4) {
-          fourthDownAttempts++;
         }
       }
 

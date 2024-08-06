@@ -165,6 +165,7 @@ export const selectFootballTeamAWithStats = createSelector(
   ): IFootballTeamWithStats | null => {
     const teamA = match?.teams_data?.team_a;
     if (!teamA) {
+      // console.error('No team');
       return null;
     }
     const runAttempts = calculateAttempts(
@@ -178,11 +179,11 @@ export const selectFootballTeamAWithStats = createSelector(
       IFootballPlayType.Pass,
     );
     const downStats = calculateFootballDownStats(eventsWithPlayers, teamA.id!);
-    const overalAttempts = runAttempts + passAttempts;
+    const overallAttempts = runAttempts + passAttempts;
     let yardsPerAttempt;
 
-    if (overalAttempts > 0) {
-      yardsPerAttempt = parseFloat((offenceYards / overalAttempts).toFixed(2));
+    if (overallAttempts > 0) {
+      yardsPerAttempt = parseFloat((offenceYards / overallAttempts).toFixed(2));
     } else {
       yardsPerAttempt = 0;
     }
@@ -222,6 +223,7 @@ export const selectFootballTeamBWithStats = createSelector(
   ): IFootballTeamWithStats | null => {
     const teamB = match?.teams_data?.team_b;
     if (!teamB) {
+      // console.error('No team');
       return null;
     }
 
@@ -236,11 +238,12 @@ export const selectFootballTeamBWithStats = createSelector(
       IFootballPlayType.Pass,
     );
     const downStats = calculateFootballDownStats(eventsWithPlayers, teamB.id!);
-    const overalAttempts = runAttempts + passAttempts;
+    // console.log('team b down stats', downStats);
+    const overallAttempts = runAttempts + passAttempts;
     let yardsPerAttempt;
 
-    if (overalAttempts > 0) {
-      yardsPerAttempt = parseFloat((offenceYards / overalAttempts).toFixed(2));
+    if (overallAttempts > 0) {
+      yardsPerAttempt = parseFloat((offenceYards / overallAttempts).toFixed(2));
     } else {
       yardsPerAttempt = 0;
     }
