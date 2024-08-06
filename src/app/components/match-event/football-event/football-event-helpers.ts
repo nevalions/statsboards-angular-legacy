@@ -155,6 +155,9 @@ export function createNewEvent(
     } else {
       newEventDown = lastEvent.event_down;
     }
+    if (lastEvent.play_result === IFootballPlayResult.Flag) {
+      newEventDown = lastEvent.event_down;
+    }
   } else {
     newEventDown = 1;
   }
