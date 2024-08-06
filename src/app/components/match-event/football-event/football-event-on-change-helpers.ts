@@ -13,6 +13,7 @@ import {
   getEventReturnPlayer,
   getEventRunPlayer,
   getEventScoreResult,
+  getEventTeam,
   resetAssistTacklePlayer,
   resetDeflectedPlayer,
   resetDroppedPlayer,
@@ -166,6 +167,8 @@ export function onBallOnChange(
   max: number,
 ): void {
   // console.log(events, eventsArray, ballOn, index);
+  const lastEventTeam = getEventTeam(eventsArray, index - 1);
+  const currentTeam = getEventTeam(eventsArray, index);
   const updatedDown = isFirstDown(events, ballOn, index, max);
   const currentDown = getEventDown(eventsArray, index);
 
@@ -173,18 +176,20 @@ export function onBallOnChange(
   // console.log('currentDown', currentDown);
 
   let updatedDistance;
-  if (updatedDown === 1 && currentDown !== 1) {
-    updatedDistance = 10;
-  } else {
-    updatedDistance = calculateDistance(events, ballOn, index, max);
-  }
+  if (lastEventTeam && currentTeam && lastEventTeam.id === currentTeam.id) {
+    if (updatedDown === 1 && currentDown !== 1) {
+      updatedDistance = 10;
+    } else {
+      updatedDistance = calculateDistance(events, ballOn, index, max);
+    }
 
-  if (updatedDistance) {
-    setDistance(eventsArray, index, updatedDistance);
-  }
+    if (updatedDistance) {
+      setDistance(eventsArray, index, updatedDistance);
+    }
 
-  if (updatedDown) {
-    setDown(eventsArray, index, updatedDown);
+    if (updatedDown) {
+      setDown(eventsArray, index, updatedDown);
+    }
   }
 
   // console.log(currentDown, updatedDown, updatedDown);
