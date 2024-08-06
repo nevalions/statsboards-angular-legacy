@@ -224,7 +224,6 @@ export function createNewEvent(
       }
 
       if (lastEvent.score_result === IFootballScoreResult.KickGood) {
-        // newEventTeam = newTeam;
         newEventPlayType = IFootballPlayType.Kickoff;
       }
 
