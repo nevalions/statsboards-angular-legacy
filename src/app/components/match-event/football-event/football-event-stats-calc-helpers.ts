@@ -196,7 +196,7 @@ export function calculateFootballDownStats(
             thirdDownAttempts++;
             if (
               event.event_down === 1 ||
-              event.score_result === IFootballScoreResult.Td
+              prevEvent.score_result === IFootballScoreResult.Td
             ) {
               thirdDownConversions++;
             }
@@ -209,6 +209,10 @@ export function calculateFootballDownStats(
               fourthDownConversions++;
             }
           }
+        }
+      } else if (prevEvent && prevEvent.offense_team?.id !== teamId) {
+        if (prevEvent.event_down === 4) {
+          fourthDownAttempts++;
         }
       }
 
