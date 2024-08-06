@@ -1,7 +1,11 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { IPlayerInMatchFullData } from '../../../../type/player.type';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { TuiDataListModule, TuiHostedDropdownModule } from '@taiga-ui/core';
+import {
+  TuiDataListModule,
+  TuiHostedDropdownModule,
+  TuiTextfieldControllerModule,
+} from '@taiga-ui/core';
 import { tuiItemsHandlersProvider, TuiSelectModule } from '@taiga-ui/kit';
 import { TitleCasePipe, UpperCasePipe } from '@angular/common';
 import { toTitleCase } from '../../../../base/helpers';
@@ -16,6 +20,7 @@ import { toTitleCase } from '../../../../base/helpers';
     ReactiveFormsModule,
     TitleCasePipe,
     UpperCasePipe,
+    TuiTextfieldControllerModule,
   ],
   providers: [
     tuiItemsHandlersProvider({
