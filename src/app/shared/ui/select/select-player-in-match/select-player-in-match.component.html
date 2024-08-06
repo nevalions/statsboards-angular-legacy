@@ -8,7 +8,7 @@
       [formControl]="control"
       [tuiDropdownLimitWidth]="'min'"
       style="padding-top: 10px"
-    >SELECT {{ placeholder }}
+    >SELECT {{ placeholder | uppercase }}
       <tui-data-list *tuiDataList>
         @for (player of players;
           track player.match_player?.id) {
