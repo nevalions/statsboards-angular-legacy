@@ -39,9 +39,13 @@
                     @if (getBallOn(eventsArray, i); as ballOn) {
                       <div class="event-short-view">BallOn: {{ ballOn }}&nbsp;</div>
                     }
-                    <div class="event-short-view">
-                      QB: {{ isPlayer(getEventQb(eventsArray, i)) }}
-                    </div>
+
+                    @if (isQbPlay(eventsArray, i)) {
+                      <div class="event-short-view"
+                           [style.background-color]="isMinCautionColor(noQbSelected(eventsArray, i))">
+                        QB: {{ isPlayer(getEventQb(eventsArray, i)) }}
+                      </div>
+                    }
                     <div
                       class="event-short-view">{{ getEventDown(eventsArray, i) }}&nbsp;&&nbsp;{{ getEventDistance(eventsArray, i) }}
                     </div>
@@ -56,9 +60,21 @@
                         {{ playResult | titlecase }}&nbsp;
                       </div>
                     }
+                    @if (isRunPlay(eventsArray, i)) {
+                      <div class="event-short-view"
+                           [style.background-color]="isMinCautionColor(noRunPlayerSelected(eventsArray, i))">
+                        RUN PLAYER: {{ isPlayer(getEventRunPlayer(eventsArray, i)) }}
+                      </div>
+                    }
+                    @if (isPassCompletedPlay(eventsArray, i)) {
+                      <div class="event-short-view"
+                           [style.background-color]="isMinCautionColor(noReceiverPlayerSelected(eventsArray, i))">
+                        RECEIVER PLAYER: {{ isPlayer(getEventRunPlayer(eventsArray, i)) }}
+                      </div>
+                    }
                     @if (getEventScoreResult(eventsArray, i) === IFootballScoreResult.Td) {
                       <div class="event-short-view"
-                           [style.background-color]="isMaxCautionColor(noScorePlayerSelected(eventsArray, i))">
+                           [style.background-color]="isMinCautionColor(noScorePlayerSelected(eventsArray, i))">
                         SCORE PLAYER: {{ isPlayer(getEventScorePlayer(eventsArray, i)) }}
                       </div>
                     }

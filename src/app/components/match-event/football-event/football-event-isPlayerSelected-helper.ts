@@ -26,10 +26,30 @@ import {
 } from '../../../type/football-event.type';
 import { ICautionColors } from '../../../type/base.type';
 import { IPlayerInMatchFullData } from '../../../type/player.type';
+import {
+  isFlagResult,
+  isPassCompletedPlay,
+  isPassDroppedPlay,
+  isPatOnePlay,
+  isPuntPlay,
+  isQbPlay,
+  isReturnPlay,
+  isRunPlay,
+  isSackResult,
+  isScoreTDPatTwoOffence,
+} from './football-event-isPlayTypeOrResult-helper';
 
 export function isCautionColor(bool: boolean) {
   if (bool) {
     return ICautionColors.Caution;
+  } else {
+    return ICautionColors.Transparent;
+  }
+}
+
+export function isMinCautionColor(bool: boolean) {
+  if (bool) {
+    return ICautionColors.MinCaution;
   } else {
     return ICautionColors.Transparent;
   }
@@ -54,12 +74,13 @@ export function isCautionColorResult(eventsArray: FormArray, index: number) {
 }
 
 export function noQbSelected(eventsArray: FormArray, index: number): boolean {
-  const playType = getEventPlayType(eventsArray, index);
-  if (
-    playType === IFootballPlayType.Run ||
-    playType === IFootballPlayType.Pass ||
-    playType === IFootballPlayType.PatTwo
-  ) {
+  // const playType = getEventPlayType(eventsArray, index);
+  // if (
+  //   playType === IFootballPlayType.Run ||
+  //   playType === IFootballPlayType.Pass ||
+  //   playType === IFootballPlayType.PatTwo
+  // ) {
+  if (isQbPlay(eventsArray, index)) {
     const player = getEventQb(eventsArray, index);
     if (!player) {
       return true;
@@ -72,12 +93,13 @@ export function noRunPlayerSelected(
   eventsArray: FormArray,
   index: number,
 ): boolean {
-  const playType = getEventPlayType(eventsArray, index);
-  const result = getEventPlayResult(eventsArray, index);
-  if (
-    result === IFootballPlayResult.Run &&
-    playType === IFootballPlayType.Run
-  ) {
+  // const playType = getEventPlayType(eventsArray, index);
+  // const result = getEventPlayResult(eventsArray, index);
+  // if (
+  //   result === IFootballPlayResult.Run &&
+  //   playType === IFootballPlayType.Run
+  // ) {
+  if (isRunPlay(eventsArray, index)) {
     const player = getEventRunPlayer(eventsArray, index);
     if (!player) {
       return true;
@@ -90,8 +112,9 @@ export function noReceiverPlayerSelected(
   eventsArray: FormArray,
   index: number,
 ): boolean {
-  const result = getEventPlayResult(eventsArray, index);
-  if (result === IFootballPlayResult.PassCompleted) {
+  // const result = getEventPlayResult(eventsArray, index);
+  // if (result === IFootballPlayResult.PassCompleted) {
+  if (isPassCompletedPlay(eventsArray, index)) {
     const player = getEventReceiverPlayer(eventsArray, index);
     if (!player) {
       return true;
@@ -104,8 +127,9 @@ export function noDroppedPlayerSelected(
   eventsArray: FormArray,
   index: number,
 ): boolean {
-  const result = getEventPlayResult(eventsArray, index);
-  if (result === IFootballPlayResult.PassDropped) {
+  // const result = getEventPlayResult(eventsArray, index);
+  // if (result === IFootballPlayResult.PassDropped) {
+  if (isPassDroppedPlay(eventsArray, index)) {
     const player = getEventDroppedPlayer(eventsArray, index);
     if (!player) {
       return true;
@@ -114,15 +138,16 @@ export function noDroppedPlayerSelected(
   return false;
 }
 
-export function noScorePlayerSelected(
+export function noScoreOffencePlayerSelected(
   eventsArray: FormArray,
   index: number,
 ): boolean {
-  const score = getEventScoreResult(eventsArray, index);
-  if (
-    score === IFootballScoreResult.Td ||
-    score === IFootballScoreResult.PatTwoGood
-  ) {
+  // const score = getEventScoreResult(eventsArray, index);
+  // if (
+  //   score === IFootballScoreResult.Td ||
+  //   score === IFootballScoreResult.PatTwoGood
+  // ) {
+  if (isScoreTDPatTwoOffence(eventsArray, index)) {
     const player = getEventScorePlayer(eventsArray, index);
     if (!player) {
       return true;
@@ -135,8 +160,9 @@ export function noPatOnePlayerSelected(
   eventsArray: FormArray,
   index: number,
 ): boolean {
-  const playType = getEventPlayType(eventsArray, index);
-  if (playType === IFootballPlayType.PatOne) {
+  // const playType = getEventPlayType(eventsArray, index);
+  // if (playType === IFootballPlayType.PatOne) {
+  if (isPatOnePlay(eventsArray, index)) {
     const player = getEventPatOnePlayer(eventsArray, index);
     if (!player) {
       return true;
@@ -149,11 +175,12 @@ export function noReturnPlayerSelected(
   eventsArray: FormArray,
   index: number,
 ): boolean {
-  const playResult = getEventPlayResult(eventsArray, index);
-  if (
-    playResult === IFootballPlayResult.PuntReturn ||
-    playResult === IFootballPlayResult.KickOffReturn
-  ) {
+  // const playResult = getEventPlayResult(eventsArray, index);
+  // if (
+  //   playResult === IFootballPlayResult.PuntReturn ||
+  //   playResult === IFootballPlayResult.KickOffReturn
+  // ) {
+  if (isReturnPlay(eventsArray, index)) {
     const player = getEventReturnPlayer(eventsArray, index);
     if (!player) {
       return true;
@@ -166,8 +193,9 @@ export function noPuntPlayerSelected(
   eventsArray: FormArray,
   index: number,
 ): boolean {
-  const playType = getEventPlayType(eventsArray, index);
-  if (playType === IFootballPlayType.Punt) {
+  // const playType = getEventPlayType(eventsArray, index);
+  // if (playType === IFootballPlayType.Punt) {
+  if (isPuntPlay(eventsArray, index)) {
     const player = getEventPuntPlayer(eventsArray, index);
     if (!player) {
       return true;
@@ -180,8 +208,9 @@ export function noFlagPlayerSelected(
   eventsArray: FormArray,
   index: number,
 ): boolean {
-  const playResult = getEventPlayResult(eventsArray, index);
-  if (playResult === IFootballPlayResult.Flag) {
+  if (isFlagResult(eventsArray, index)) {
+    // const playResult = getEventPlayResult(eventsArray, index);
+    // if (playResult === IFootballPlayResult.Flag) {
     const player = getEventFlaggedPlayer(eventsArray, index);
     if (!player) {
       return true;
@@ -194,8 +223,9 @@ export function noSackPlayerSelected(
   eventsArray: FormArray,
   index: number,
 ): boolean {
-  const playResult = getEventPlayResult(eventsArray, index);
-  if (playResult === IFootballPlayResult.Sack) {
+  // const playResult = getEventPlayResult(eventsArray, index);
+  // if (playResult === IFootballPlayResult.Sack) {
+  if (isSackResult(eventsArray, index)) {
     const player = getEventSackPlayer(eventsArray, index);
     if (!player) {
       return true;
@@ -274,7 +304,7 @@ export function noDefenceScorePlayerSelected(
   return false;
 }
 
-export function isPlayer(
+export function isPlayerSecondName(
   player: IPlayerInMatchFullData | null | undefined,
 ): string {
   // console.log(player);
@@ -295,7 +325,7 @@ export function isResultPlayerSelectedCautionColor(
     noRunPlayerSelected(eventsArray, index) ||
     noReceiverPlayerSelected(eventsArray, index) ||
     noDroppedPlayerSelected(eventsArray, index) ||
-    noScorePlayerSelected(eventsArray, index) ||
+    noScoreOffencePlayerSelected(eventsArray, index) ||
     noPatOnePlayerSelected(eventsArray, index) ||
     noReturnPlayerSelected(eventsArray, index) ||
     noPuntPlayerSelected(eventsArray, index) ||

@@ -179,7 +179,8 @@ import {
   isCautionColor,
   isCautionColorResult,
   isMaxCautionColor,
-  isPlayer,
+  isMinCautionColor,
+  isPlayerSecondName,
   noDefenceScorePlayerSelected,
   noDeflectPlayerSelected,
   noDroppedPlayerSelected,
@@ -194,8 +195,13 @@ import {
   noReturnPlayerSelected,
   noRunPlayerSelected,
   noSackPlayerSelected,
-  noScorePlayerSelected,
-} from '../football-event-isPlayerSelected';
+  noScoreOffencePlayerSelected,
+} from '../football-event-isPlayerSelected-helper';
+import {
+  isPassCompletedPlay,
+  isQbPlay,
+  isRunPlay,
+} from '../football-event-isPlayTypeOrResult-helper';
 
 @Component({
   selector: 'app-add-edit-football-event-table',
@@ -808,7 +814,7 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
   protected readonly isRunPlayerSelected = noRunPlayerSelected;
   protected readonly isReceiverPlayerSelected = noReceiverPlayerSelected;
   protected readonly isPatOnePlayerSelected = noPatOnePlayerSelected;
-  protected readonly isScorePlayerSelected = noScorePlayerSelected;
+  protected readonly isScorePlayerSelected = noScoreOffencePlayerSelected;
   protected readonly isDefenceScorePlayerSelected =
     noDefenceScorePlayerSelected;
   protected readonly isCautionColor = isCautionColor;
@@ -825,6 +831,13 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
   protected readonly isFlagPlayerSelected = noFlagPlayerSelected;
   protected readonly getEventQb = getEventQb;
   protected readonly isCautionColorResult = isCautionColorResult;
-  protected readonly isPlayer = isPlayer;
-  protected readonly noScorePlayerSelected = noScorePlayerSelected;
+  protected readonly isPlayer = isPlayerSecondName;
+  protected readonly noScorePlayerSelected = noScoreOffencePlayerSelected;
+  protected readonly isQbPlay = isQbPlay;
+  protected readonly noQbSelected = noQbSelected;
+  protected readonly isRunPlay = isRunPlay;
+  protected readonly noRunPlayerSelected = noRunPlayerSelected;
+  protected readonly isMinCautionColor = isMinCautionColor;
+  protected readonly isPassCompletedPlay = isPassCompletedPlay;
+  protected readonly noReceiverPlayerSelected = noReceiverPlayerSelected;
 }
