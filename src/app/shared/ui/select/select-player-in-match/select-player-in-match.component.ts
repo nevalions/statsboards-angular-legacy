@@ -43,6 +43,7 @@ import { toTitleCase } from '../../../../base/helpers';
 })
 export class SelectPlayerInMatchComponent {
   @Input() players: IPlayerInMatchFullData[] | null = [];
+  @Input() placeholder: string = 'item';
   @Input() control!: FormControl;
   @Output() playerSelect = new EventEmitter<IPlayerInMatchFullData>();
 

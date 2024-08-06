@@ -173,6 +173,7 @@
                   @if (getEventTeam(eventsArray, i); as selectedTeam) {
                     @if (isMobile) {
                       <app-select-player-in-match
+                        [placeholder]="'qb'"
                         [players]="getPlayersForSelectedTeam(selectedTeam)"
                         [control]="control"
                       ></app-select-player-in-match>
@@ -313,6 +314,7 @@
                          [style.background-color]="isCautionColor(isRunPlayerSelected(eventsArray, i))">
                       @if (isMobile) {
                         <app-select-player-in-match
+                          [placeholder]="'run player'"
                           [players]="getPlayersForSelectedTeam(selectedTeam)"
                           [control]="control"
                         ></app-select-player-in-match>
@@ -337,6 +339,7 @@
                     <div class="event-table-cell" [style.background-color]="isReceiverPlayerSelected(eventsArray, i)">
                       @if (isMobile) {
                         <app-select-player-in-match
+                          [placeholder]="'receiver player'"
                           [players]="getPlayersForSelectedTeam(selectedTeam)"
                           [control]="control"
                         ></app-select-player-in-match>
@@ -364,6 +367,7 @@
                         <app-select-player-in-match
                           [players]="getPlayersForSelectedTeam(selectedTeam)"
                           [control]="control"
+                          [placeholder]="'dropped player'"
                         ></app-select-player-in-match>
                       } @else {
                         <app-search-player-in-match-autocomplete
@@ -389,6 +393,7 @@
                         <app-select-player-in-match
                           [players]="getPlayersForSelectedTeam(selectedTeam)"
                           [control]="control"
+                          [placeholder]="'kick player'"
                         ></app-select-player-in-match>
                       } @else {
                         <app-search-player-in-match-autocomplete
@@ -414,6 +419,7 @@
                         <app-select-player-in-match
                           [players]="getPlayersForSelectedTeam(selectedTeam)"
                           [control]="control"
+                          [placeholder]="'kickoff player'"
                         ></app-select-player-in-match>
                       } @else {
                         <app-search-player-in-match-autocomplete
@@ -439,6 +445,7 @@
                         <app-select-player-in-match
                           [players]="getPlayersForSelectedTeam(selectedTeam)"
                           [control]="control"
+                          [placeholder]="'pat one player'"
                         ></app-select-player-in-match>
                       } @else {
                         <app-search-player-in-match-autocomplete
@@ -464,6 +471,7 @@
                         <app-select-player-in-match
                           [players]="getPlayersForSelectedTeam(selectedTeam)"
                           [control]="control"
+                          [placeholder]="'punt player'"
                         ></app-select-player-in-match>
                       } @else {
                         <app-search-player-in-match-autocomplete
@@ -489,6 +497,7 @@
                         <app-select-player-in-match
                           [players]="getDefencePlayersForTeam(selectedTeam)"
                           [control]="control"
+                          [placeholder]="'return player'"
                         ></app-select-player-in-match>
                       } @else {
                         <app-search-player-in-match-autocomplete
@@ -512,6 +521,7 @@
                         <app-select-player-in-match
                           [players]="getDefencePlayersForTeam(selectedTeam)"
                           [control]="control"
+                          [placeholder]="'tackle player'"
                         ></app-select-player-in-match>
                       } @else {
                         <app-search-player-in-match-autocomplete
@@ -536,6 +546,7 @@
                         <app-select-player-in-match
                           [players]="getDefencePlayersForTeam(selectedTeam)"
                           [control]="control"
+                          [placeholder]="'assist tackle player'"
                         ></app-select-player-in-match>
                       } @else {
                         <app-search-player-in-match-autocomplete
@@ -562,6 +573,7 @@
                         <app-select-player-in-match
                           [players]="getPlayersForSelectedTeam(selectedTeam)"
                           [control]="control"
+                          [placeholder]="'score player'"
                         ></app-select-player-in-match>
                       } @else {
                         <app-search-player-in-match-autocomplete
@@ -587,6 +599,7 @@
                         <app-select-player-in-match
                           [players]="getDefencePlayersForTeam(selectedTeam)"
                           [control]="control"
+                          [placeholder]="'deflected player'"
                         ></app-select-player-in-match>
                       } @else {
                         <app-search-player-in-match-autocomplete
@@ -612,6 +625,7 @@
                         <app-select-player-in-match
                           [players]="getDefencePlayersForTeam(selectedTeam)"
                           [control]="control"
+                          [placeholder]="'intercepted player'"
                         ></app-select-player-in-match>
                       } @else {
                         <app-search-player-in-match-autocomplete
@@ -637,6 +651,7 @@
                         <app-select-player-in-match
                           [players]="getDefencePlayersForTeam(selectedTeam)"
                           [control]="control"
+                          [placeholder]="'sack player'"
                         ></app-select-player-in-match>
                       } @else {
                         <app-search-player-in-match-autocomplete
@@ -699,6 +714,7 @@
                           <app-select-player-in-match
                             [players]="getDefencePlayersForTeam(selectedTeam)"
                             [control]="control"
+                            [placeholder]="'forced player'"
                           ></app-select-player-in-match>
                         } @else {
                           <app-search-player-in-match-autocomplete
@@ -741,6 +757,7 @@
                         <app-select-player-in-match
                           [players]="getAllPlayers()"
                           [control]="control"
+                          [placeholder]="'recovered player'"
                         ></app-select-player-in-match>
                       } @else {
                         <app-search-player-in-match-autocomplete
@@ -766,6 +783,7 @@
                         <app-select-player-in-match
                           [players]="getDefencePlayersForTeam(selectedTeam)"
                           [control]="control"
+                          [placeholder]="'defence score player'"
                         ></app-select-player-in-match>
                       } @else {
                         <app-search-player-in-match-autocomplete
@@ -790,6 +808,7 @@
                       <app-select-player-in-match
                         [players]="getAllPlayers()"
                         [control]="control"
+                        [placeholder]="'flagged player'"
                       ></app-select-player-in-match>
                     } @else {
                       <app-search-player-in-match-autocomplete
