@@ -20,11 +20,8 @@ export function isQbPlay(eventsArray: FormArray, index: number): boolean {
 }
 
 export function isRunPlay(eventsArray: FormArray, index: number): boolean {
-  const playType = getEventPlayType(eventsArray, index);
   const result = getEventPlayResult(eventsArray, index);
-  return (
-    result === IFootballPlayResult.Run && playType === IFootballPlayType.Run
-  );
+  return result === IFootballPlayResult.Run;
 }
 
 export function isPassCompletedPlay(
@@ -110,5 +107,60 @@ export function isKickOffPlay(eventsArray: FormArray, index: number): boolean {
 
 export function isDefenceScore(eventsArray: FormArray, index: number): boolean {
   const score = getEventScoreResult(eventsArray, index);
-  return score === IFootballScoreResult.TdDefence;
+  return (
+    score === IFootballScoreResult.TdDefence ||
+    score === IFootballScoreResult.PatOneReturn ||
+    score === IFootballScoreResult.PatTwoReturn ||
+    score === IFootballScoreResult.KickOffTdReturn ||
+    score === IFootballScoreResult.PuntTdReturn
+  );
 }
+
+export function isTacklePossible(
+  eventsArray: FormArray,
+  index: number,
+): boolean {
+  const playResult = getEventPlayResult(eventsArray, index);
+  const scoreResult = getEventScoreResult(eventsArray, index);
+
+  return (
+    playResult !== IFootballPlayResult.Flag &&
+    playResult !== IFootballPlayResult.PassIncomplete &&
+    playResult !== IFootballPlayResult.PassDeflected &&
+    playResult !== IFootballPlayResult.PassDropped &&
+    playResult !== IFootballPlayResult.TouchBack &&
+    !scoreResult
+  );
+}
+
+export function isOffenceScorePossible(
+  eventsArray: FormArray,
+  index: number,
+): boolean {
+  const playResult = getEventPlayResult(eventsArray, index);
+
+  return (
+    playResult !== IFootballPlayResult.Flag &&
+    playResult !== IFootballPlayResult.PassIncomplete &&
+    playResult !== IFootballPlayResult.PassDeflected &&
+    playResult !== IFootballPlayResult.PassDropped &&
+    playResult !== IFootballPlayResult.TouchBack &&
+    playResult !== IFootballPlayResult.PassIntercepted
+  );
+}
+
+// export function isDefenceScorePossible(
+//   eventsArray: FormArray,
+//   index: number,
+// ): boolean {
+//   const playResult = getEventPlayResult(eventsArray, index);
+//
+//   return (
+//     playResult !== IFootballPlayResult.Flag &&
+//     playResult !== IFootballPlayResult.PassIncomplete &&
+//     playResult !== IFootballPlayResult.PassDeflected &&
+//     playResult !== IFootballPlayResult.PassDropped &&
+//     playResult !== IFootballPlayResult.TouchBack &&
+//     playResult !== IFootballPlayResult.PassIntercepted
+//   );
+// }

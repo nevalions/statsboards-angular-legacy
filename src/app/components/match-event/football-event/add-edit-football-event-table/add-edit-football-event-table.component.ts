@@ -204,6 +204,7 @@ import {
   isInterceptResult,
   isKickOffPlay,
   isKickPlay,
+  isOffenceScorePossible,
   isPassCompletedPlay,
   isPassDroppedPlay,
   isPatOnePlay,
@@ -213,6 +214,7 @@ import {
   isRunPlay,
   isSackResult,
   isScoreTDPatTwoOffence,
+  isTacklePossible,
 } from '../football-event-isPlayTypeOrResult-helper';
 
 @Component({
@@ -875,4 +877,6 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
   protected readonly isDefenceScore = isDefenceScore;
   protected readonly noDefenceScorePlayerSelected =
     noDefenceScorePlayerSelected;
+  protected readonly isTacklePossible = isTacklePossible;
+  protected readonly isScorePossible = isOffenceScorePossible;
 }
