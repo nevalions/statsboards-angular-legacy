@@ -210,7 +210,7 @@ export function calculateFootballDownStats(
             }
           }
         }
-      } else if (prevEvent && prevEvent.offense_team?.id !== teamId) {
+      } else if (event && event.offense_team?.id !== teamId) {
         if (prevEvent.event_down === 4) {
           fourthDownAttempts++;
         }
