@@ -207,8 +207,8 @@ export function calculateFootballDownStats(
       }
 
       if (
-        event.event_down === 1 &&
-        prevEvent.play_result !== IFootballPlayResult.Flag
+        event.event_down === 1
+        // && prevEvent.play_result !== IFootballPlayResult.Flag
       ) {
         if (!isNewDrive) {
           firstDownGained++;

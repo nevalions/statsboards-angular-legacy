@@ -44,7 +44,6 @@ import {
 } from '../../../base/formHelpers';
 import { IMatchWithFullData } from '../../../type/match.type';
 import { IPlayerInMatchFullData } from '../../../type/player.type';
-import { isFlagResult } from './football-event-isPlayTypeOrResult-helper';
 
 export function onTeamChange(
   eventsArray: FormArray,
@@ -80,11 +79,11 @@ export function onDownChange(
     // console.log('first down on down change');
     setDistance(eventsArray, index, 10);
   }
-  if (previousDown && isFlagResult(eventsArray, index - 1)) {
-    setDown(eventsArray, index, previousDown);
-  } else {
-    setDown(eventsArray, index, down);
-  }
+  // if (previousDown && isFlagResult(eventsArray, index - 1)) {
+  //   setDown(eventsArray, index, previousDown);
+  // } else {
+  setDown(eventsArray, index, down);
+  // }
 }
 
 export function changePlayResultOnPlayTypeChange(
