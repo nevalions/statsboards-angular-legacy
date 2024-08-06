@@ -216,6 +216,7 @@ import {
   isScoreTDPatTwoOffence,
   isTacklePossible,
 } from '../football-event-isPlayTypeOrResult-helper';
+import { FootballEventShortViewComponent } from './football-event-short-view/football-event-short-view.component';
 
 @Component({
   selector: 'app-add-edit-football-event-table',
@@ -238,6 +239,7 @@ import {
     ActionsButtonsComponent,
     AddButtonOnFinalTrComponent,
     TuiToggleModule,
+    FootballEventShortViewComponent,
   ],
   templateUrl: './add-edit-football-event-table.component.html',
   styleUrl: './add-edit-football-event-table.component.less',
@@ -388,16 +390,16 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
     }
   }
 
-  getBackgroundColor(playResult: IFootballPlayResult): string {
-    switch (playResult) {
-      case IFootballPlayResult.Flag:
-        return '#D7BB69FF';
-      case IFootballPlayResult.PassIntercepted:
-        return '#ee88d2';
-      default:
-        return 'transparent';
-    }
-  }
+  // getPlayTypeBackgroundColor(playResult: IFootballPlayResult): string {
+  //   switch (playResult) {
+  //     case IFootballPlayResult.Flag:
+  //       return '#D7BB69FF';
+  //     case IFootballPlayResult.PassIntercepted:
+  //       return '#ee88d2';
+  //     default:
+  //       return 'transparent';
+  //   }
+  // }
 
   constructor(
     private footballEvent: FootballEvent,
