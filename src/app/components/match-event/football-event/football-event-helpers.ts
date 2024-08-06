@@ -218,13 +218,13 @@ export function createNewEvent(
         newEventQb = newQb;
       }
 
-      if (
-        lastEvent.play_result === IFootballPlayResult.Kick &&
-        (lastEvent.score_result === IFootballScoreResult.KickGood ||
-          lastEvent.score_result === IFootballScoreResult.KickMissed)
-      ) {
-        newEventTeam = newTeam;
+      if (lastEvent.score_result === IFootballScoreResult.KickGood) {
+        // newEventTeam = newTeam;
         newEventPlayType = IFootballPlayType.Kickoff;
+      }
+
+      if (lastEvent.score_result === IFootballScoreResult.KickMissed) {
+        newEventTeam = newTeam;
       }
 
       if (
@@ -235,7 +235,7 @@ export function createNewEvent(
         lastEvent.score_result === IFootballScoreResult.PatTwoGood ||
         lastEvent.score_result === IFootballScoreResult.PatTwoReturn
       ) {
-        newEventTeam = newTeam;
+        // newEventTeam = newTeam;
         newEventPlayType = IFootballPlayType.Kickoff;
       }
 
