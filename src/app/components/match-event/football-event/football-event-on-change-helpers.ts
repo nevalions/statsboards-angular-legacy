@@ -8,6 +8,7 @@ import {
 import {
   getEventDown,
   getEventKickPlayer,
+  getEventPlayResult,
   getEventPlayType,
   getEventReceiverPlayer,
   getEventReturnPlayer,
@@ -171,6 +172,7 @@ export function onBallOnChange(
   const currentTeam = getEventTeam(eventsArray, index);
   const updatedDown = isFirstDown(events, ballOn, index, max);
   const currentDown = getEventDown(eventsArray, index);
+  const lastEventResult = getEventPlayResult(eventsArray, index - 1);
 
   // console.log('updatedDown', updatedDown);
   // console.log('currentDown', currentDown);
@@ -187,7 +189,7 @@ export function onBallOnChange(
       setDistance(eventsArray, index, updatedDistance);
     }
 
-    if (updatedDown) {
+    if (updatedDown && lastEventResult !== IFootballPlayResult.Flag) {
       setDown(eventsArray, index, updatedDown);
     }
   }

@@ -232,7 +232,9 @@ export function calculateFootballDownStats(
         // && prevEvent.play_result !== IFootballPlayResult.Flag
       ) {
         if (!isNewDrive) {
-          firstDownGained++;
+          if (prevEvent && prevEvent.play_result !== IFootballPlayResult.Flag) {
+            firstDownGained++;
+          }
         }
         isNewDrive = false;
       }
