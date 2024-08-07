@@ -14,9 +14,9 @@ export function calculateQbRunDistanceAndFumbleAndTd(
   stats: Record<number, IQBStats>,
 ): void {
   if (
-    (event.play_type === IFootballPlayType.Run ||
-      event.play_result === IFootballPlayResult.Sack) &&
-    event.play_result !== IFootballPlayResult.Flag
+    event.play_type === IFootballPlayType.Run &&
+    // || event.play_result === IFootballPlayResult.Sack) &&
+    event.play_result === IFootballPlayResult.Run
   ) {
     if (event.run_player?.match_player.id === playerId) {
       stats[playerId].run_attempts++;
