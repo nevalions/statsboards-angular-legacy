@@ -37,9 +37,9 @@ export function calculateDistanceMoved(
     nextEvent.offense_team &&
     event.play_type &&
     event.play_result &&
-    // event.score_result !== IFootballScoreResult.Td &&
-    // event.score_result !== IFootballScoreResult.TdDefence &&
-    // event.score_result !== IFootballScoreResult.Safety &&
+    event.score_result !== IFootballScoreResult.Td &&
+    event.score_result !== IFootballScoreResult.TdDefence &&
+    event.score_result !== IFootballScoreResult.Safety &&
     (event.play_type === IFootballPlayType.Pass ||
       event.play_type === IFootballPlayType.Run) &&
     // event.play_result !== IFootballPlayResult.Flag &&
