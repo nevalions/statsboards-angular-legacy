@@ -181,8 +181,6 @@ export function createNewEvent(
     if (lastEvent.play_result === IFootballPlayResult.Flag) {
       newEventDown = lastEvent.event_down;
     }
-  } else {
-    newEventDown = 1;
   }
 
   if (
@@ -198,8 +196,6 @@ export function createNewEvent(
       newEventDown = 1;
       newEventDistance = 10;
     }
-  } else {
-    newEventDistance = 10;
   }
 
   if (lastEvent && lastEvent.score_result) {
