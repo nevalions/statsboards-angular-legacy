@@ -32,6 +32,7 @@ import {
   resetScorePlayer,
   resetScoreResult,
   resetTacklePlayer,
+  setBallMovedOn,
   setDistance,
   setDown,
   setPlayResult,
@@ -130,6 +131,9 @@ export function onOffenceScore(eventsArray: FormArray, index: number): void {
       eventScoreResult === IFootballScoreResult.PatTwoGood ||
       eventPlayType === IFootballPlayType.Punt
     ) {
+      if (eventScoreResult === IFootballScoreResult.Td) {
+        setBallMovedOn(eventsArray, index, 0);
+      }
       if (
         eventPlayType === IFootballPlayType.Pass &&
         getEventReceiverPlayer(eventsArray, index)
@@ -363,6 +367,23 @@ export function onPlayResultChange(
     }
   }
 }
+
+// export function onScoreChange(
+//   eventsArray: FormArray,
+//   selectedScore: IFootballScoreResult | null = null,
+//   index: number,
+// ): void {
+//   // console.log('selected result', selectedResult);
+//   if (selectedScore) {
+//     // console.log('selected result value', selectedResult);
+//
+//     switch (selectedScore.toLowerCase()) {
+//       case IFootballScoreResult.Td.toLowerCase():
+//         setBallMovedOn(eventsArray, index, 0);
+//         break;
+//     }
+//   }
+// }
 
 export function filterPlayResultsByType(
   playType: IFootballPlayType | undefined | null,
