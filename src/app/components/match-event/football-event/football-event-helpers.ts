@@ -124,9 +124,27 @@ export function createNewEvent(
   let newEventQb: IPlayerInMatchFullData | null = null;
   let newEventBallOn: number | null = null;
   let newEventBallMovedOn: number | null = null;
-  let newEventDown: number | null;
-  let newEventDistance: number | null;
+  let newEventDown: number | null = null;
+  let newEventDistance: number | null = null;
   let newEventPlayType: IFootballPlayType | null = null;
+  let compDistance: number | null = null;
+
+  if (
+    lastEvent &&
+    lastEvent.ball_on &&
+    lastEvent.ball_moved_to &&
+    lastEvent.event_distance &&
+    match &&
+    match.match_data &&
+    match.match_data.field_length
+  ) {
+    compDistance = computeDistanceForDownDistance(
+      lastEvent.ball_on,
+      lastEvent.ball_moved_to,
+      lastEvent.event_distance,
+      match.match_data.field_length / 2,
+    );
+  }
 
   if (lastEvent && lastEvent.event_number) {
     newEventNumber = lastEvent.event_number + 1;
@@ -168,21 +186,18 @@ export function createNewEvent(
   }
 
   if (
-    lastEvent &&
-    lastEvent.event_distance &&
-    lastEvent.ball_on &&
-    lastEvent.ball_moved_to &&
-    match &&
-    match.match_data &&
-    match.match_data.field_length
+    compDistance !== null &&
+    compDistance !== undefined &&
+    lastEvent?.event_distance
   ) {
+    // console.log('distance', compDistance, lastEvent.event_distance);
     // newEventDistance = lastEvent.event_distance;
-    newEventDistance = computeDistanceForDownDistance(
-      lastEvent.ball_on,
-      lastEvent.ball_moved_to,
-      lastEvent.event_distance,
-      match.match_data.field_length / 2,
-    );
+    if (compDistance > 0) {
+      newEventDistance = compDistance;
+    } else {
+      newEventDown = 1;
+      newEventDistance = 10;
+    }
   } else {
     newEventDistance = 10;
   }
