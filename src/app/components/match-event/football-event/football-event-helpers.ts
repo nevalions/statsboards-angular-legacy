@@ -18,11 +18,13 @@ import {
 } from '../../../type/football-event.type';
 import { IMatchWithFullData } from '../../../type/match.type';
 import { handleTeamChangeOnTouchBack } from './football-event-on-change-helpers';
+import { computeDistanceForDownDistance } from './football-event-calc-helpers';
 
 export const eventIdKey = 'eventId';
 export const eventNumberKey = 'eventNumber';
 export const eventQtrKey = 'eventQtr';
 export const eventBallOnKey = 'eventBallOn';
+export const eventBallMovedOnKey = 'eventBallMovedOn';
 export const eventDistanceMovedKey = 'eventDistanceMoved';
 export const eventDistanceOnOffenceKey = 'eventDistanceOnOffence';
 export const eventTeamKey = 'eventTeam';
@@ -60,6 +62,7 @@ export const eventId = (index: number) => eventIdKey + index;
 export const eventNumber = (index: number) => eventNumberKey + index;
 export const eventQtr = (index: number) => eventQtrKey + index;
 export const eventBallOn = (index: number) => eventBallOnKey + index;
+export const eventBallMovedOn = (index: number) => eventBallMovedOnKey + index;
 export const eventDistanceMoved = (index: number) =>
   eventDistanceMovedKey + index;
 export const eventTeam = (index: number) => eventTeamKey + index;
@@ -120,6 +123,7 @@ export function createNewEvent(
   let newEventTeam: ITeam | null = null;
   let newEventQb: IPlayerInMatchFullData | null = null;
   let newEventBallOn: number | null = null;
+  let newEventBallMovedOn: number | null = null;
   let newEventDown: number | null;
   let newEventDistance: number | null;
   let newEventPlayType: IFootballPlayType | null = null;
@@ -137,8 +141,9 @@ export function createNewEvent(
     newEventQtr = 1;
   }
 
-  if (lastEvent && lastEvent.ball_on) {
-    newEventBallOn = lastEvent.ball_on;
+  if (lastEvent && lastEvent.ball_moved_to) {
+    newEventBallOn = lastEvent.ball_moved_to;
+    newEventBallMovedOn = lastEvent.ball_moved_to;
   }
 
   if (lastEvent && lastEvent.offense_team) {
@@ -162,8 +167,22 @@ export function createNewEvent(
     newEventDown = 1;
   }
 
-  if (lastEvent && lastEvent.event_distance) {
-    newEventDistance = lastEvent.event_distance;
+  if (
+    lastEvent &&
+    lastEvent.event_distance &&
+    lastEvent.ball_on &&
+    lastEvent.ball_moved_to &&
+    match &&
+    match.match_data &&
+    match.match_data.field_length
+  ) {
+    // newEventDistance = lastEvent.event_distance;
+    newEventDistance = computeDistanceForDownDistance(
+      lastEvent.ball_on,
+      lastEvent.ball_moved_to,
+      lastEvent.event_distance,
+      match.match_data.field_length / 2,
+    );
   } else {
     newEventDistance = 10;
   }
@@ -267,6 +286,7 @@ export function createNewEvent(
     event_number: newEventNumber,
     event_qtr: newEventQtr,
     ball_on: newEventBallOn,
+    ball_moved_to: newEventBallMovedOn,
     offense_team: newEventTeam,
     event_qb: newEventQb,
     event_down: newEventDown,
@@ -289,6 +309,7 @@ export function extractEventData(
   const eventNumber = getEventNumber(eventsArray, index);
   const eventQtr = getQtr(eventsArray, index);
   const eventBallOn = getBallOn(eventsArray, index);
+  const eventBallMovedOn = getBallMovedOn(eventsArray, index);
   const eventDistanceMoved = getEventDistanceMoved(eventsArray, index);
   const eventDistanceOnOffence = getEventDistanceOnOffence(eventsArray, index);
   const eventTeam = getEventTeam(eventsArray, index);
@@ -346,6 +367,10 @@ export function extractEventData(
 
   if (eventBallOn !== undefined) {
     newEventData.ball_on = eventBallOn;
+  }
+
+  if (eventBallMovedOn !== undefined) {
+    newEventData.ball_moved_to = eventBallMovedOn;
   }
 
   if (eventDistanceOnOffence || eventDistanceOnOffence === 0) {
@@ -492,6 +517,42 @@ export function getBallOnFormControl(
   index: number,
 ): FormControl | null | undefined {
   return getFormControlWithIndex(form, index, eventBallOnKey, arrayName);
+}
+
+export function setBallOn(
+  eventsArray: FormArray,
+  index: number,
+  selectedItem: number,
+): void {
+  setArrayKeyIndexValue(eventsArray, index, selectedItem, eventBallOnKey);
+}
+
+// BallMovedOn
+export function getBallMovedOn(
+  eventsArray: FormArray,
+  index: number,
+): number | null | undefined {
+  return getArrayFormDataByIndexAndKey<number>(
+    eventsArray,
+    index,
+    eventBallMovedOnKey,
+  );
+}
+
+export function getBallMovedOnFormControl(
+  form: FormGroup,
+  arrayName: string,
+  index: number,
+): FormControl | null | undefined {
+  return getFormControlWithIndex(form, index, eventBallMovedOnKey, arrayName);
+}
+
+export function setBallMovedOn(
+  eventsArray: FormArray,
+  index: number,
+  selectedItem: number,
+): void {
+  setArrayKeyIndexValue(eventsArray, index, selectedItem, eventBallMovedOnKey);
 }
 
 // EventDistanceMoved

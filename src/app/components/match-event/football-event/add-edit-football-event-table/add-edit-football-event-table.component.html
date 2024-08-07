@@ -31,6 +31,7 @@
                 <app-football-event-short-view
                   [eventsArray]="eventsArray"
                   [i]="i"
+                  [maxFieldLength]="match.match_data?.field_length"
                 ></app-football-event-short-view>
 
               </div>
@@ -79,33 +80,34 @@
               </div>
 
               <!--BALL ON-->
-              @if (getBallOnFormControl(this.eventForm, this.arrayName, i); as control) {
-                <div class="event-ballon-distance">
-                  <div class="event-table-cell">
-                    <div class="tui-text_h6" style="justify-self: center; align-self: center">
-                      @if (getEventDistanceOnOffenceFormControl(this.eventForm, this.arrayName, i); as control) {
-                        @if (getEventIsFumble(eventsArray, i)) {
-                          <div class="event-table-cell">
-                            <app-input-number-with-buttons
-                              [control]="control"
-                              [label]="'offence distance passed'"
-                              [index]="i"
-                              [min]="-110"
-                              [max]="110"
-                              [key]="eventDistanceOnOffenceKey"
-                              (numberChanged)="handleFieldChange($event)"
-                            ></app-input-number-with-buttons>
-                          </div>
-                        } @else {
-                          @if ((getEventDistanceMoved(eventsArray, i)) ||
-                          (getEventDistanceMoved(eventsArray, i) === 0)) {
-                            Distance moved: {{ getEventDistanceMoved(eventsArray, i) }}
-                          }
-                        }
-                      }
-                    </div>
-                  </div>
-
+                <!--              @if (getBallOnFormControl(this.eventForm, this.arrayName, i); as control) {-->
+              <div class="event-ballon-distance">
+                <!--                  <div class="event-table-cell">-->
+                <!--                    <div class="tui-text_h6" style="justify-self: center; align-self: center">-->
+                <!--                      @if (getEventDistanceOnOffenceFormControl(this.eventForm, this.arrayName, i); as control) {-->
+                <!--                        @if (getEventIsFumble(eventsArray, i)) {-->
+                <!--                          <div class="event-table-cell">-->
+                <!--                            <app-input-number-with-buttons-->
+                <!--                              [size]="'l'"-->
+                <!--                              [control]="control"-->
+                <!--                              [label]="'dist passed'"-->
+                <!--                              [index]="i"-->
+                <!--                              [min]="-110"-->
+                <!--                              [max]="110"-->
+                <!--                              [key]="eventDistanceOnOffenceKey"-->
+                <!--                              (numberChanged)="handleFieldChange($event)"-->
+                <!--                            ></app-input-number-with-buttons>-->
+                <!--                          </div>-->
+                <!--                        } @else {-->
+                <!--                          @if ((getEventDistanceMoved(eventsArray, i)) ||-->
+                <!--                          (getEventDistanceMoved(eventsArray, i) === 0)) {-->
+                <!--                            Distance moved: {{ getEventDistanceMoved(eventsArray, i) }}-->
+                <!--                          }-->
+                <!--                        }-->
+                <!--                      }-->
+                <!--                    </div>-->
+                <!--                  </div>-->
+                @if (getBallOnFormControl(this.eventForm, this.arrayName, i); as control) {
                   <div class="event-table-cell">
                     @if (match.match_data?.field_length; as fieldLength) {
                       <div class="input-number-with-buttons">
@@ -149,9 +151,70 @@
                       </div>
                     }
                   </div>
-
-                </div>
-              }
+                  @if (getBallMovedOnFormControl(this.eventForm, this.arrayName, i); as control) {
+                    <div class="event-table-cell">
+                      @if (match.match_data?.field_length; as fieldLength) {
+                        <div class="input-number-with-buttons">
+                          <tui-input-number
+                            [tuiTextfieldSize]="'l'"
+                            class="input-number"
+                            [formControl]="control"
+                            [tuiTextfieldCleaner]="true"
+                            [min]="-49"
+                            [max]="50"
+                          >
+                            {{ 'Ball Moved On' | uppercase }}
+                            <input
+                              name="{{ 'Ball Moved On' | uppercase }}"
+                              tuiTextfield
+                            />
+                          </tui-input-number>
+                          @if (getBallMovedOn(eventsArray, i); as number) {
+                            <button
+                              appearance="icon"
+                              icon="tuiIconPlusCircleLarge"
+                              tuiIconButton
+                              class="increment-button"
+                              [size]="'s'"
+                              (click)="incrementOnBall(control, eventsArray, i, number, 1, (fieldLength/2), eventBallMovedOnKey)"
+                              [disabled]="control.disabled"
+                            >
+                            </button>
+                            <button
+                              appearance="icon"
+                              icon="tuiIconMinusCircleLarge"
+                              tuiIconButton
+                              class="decrement-button"
+                              [size]="'s'"
+                              (click)="incrementOnBall(control, eventsArray, i, number, -1, (fieldLength/2), eventBallMovedOnKey)"
+                              [disabled]="control.disabled"
+                            >-
+                            </button>
+                          }
+                        </div>
+                      }
+                    </div>
+                    <!--                  @if (getBallMovedOnFormControl(this.eventForm, this.arrayName, i); as control) {-->
+                      <!--                    <div class="event-table-cell">-->
+                      <!--                      <div class="tui-text_h6" style="justify-self: center; align-self: center">-->
+                      <!--                        <div class="event-table-cell">-->
+                      <!--                          <app-input-number-with-buttons-->
+                      <!--                            [size]="'l'"-->
+                      <!--                            [control]="control"-->
+                      <!--                            [label]="'dist passed'"-->
+                      <!--                            [index]="i"-->
+                      <!--                            [min]="-110"-->
+                      <!--                            [max]="110"-->
+                      <!--                            [key]="eventBallMovedOnKey"-->
+                      <!--                            (numberChanged)="handleFieldChange($event)"-->
+                      <!--                          ></app-input-number-with-buttons>-->
+                      <!--                        </div>-->
+                      <!--                      </div>-->
+                      <!--                    </div>-->
+                      <!--                  }-->
+                  }
+                }
+              </div>
 
               <!--EVENT TEAM-->
               @if (getEventTeamFormControl(this.eventForm, this.arrayName, i); as control) {

@@ -1,4 +1,8 @@
-import { IFootballEventWithPlayers } from '../../../type/football-event.type';
+import {
+  IFootballEvent,
+  IFootballEventWithPlayers,
+} from '../../../type/football-event.type';
+import { IMatchWithFullData } from '../../../type/match.type';
 
 export function isFirstDown(
   events: IFootballEventWithPlayers[] | null,
@@ -76,6 +80,29 @@ export function computeDistance(
   }
 
   return calcDistance;
+}
+
+export function calcDistanceFromEvent(
+  event: IFootballEvent | null | undefined,
+  match: IMatchWithFullData | null | undefined,
+): number | null {
+  if (
+    event &&
+    event.ball_on !== null &&
+    event.ball_on !== undefined &&
+    event.ball_moved_to !== undefined &&
+    event.ball_moved_to !== null &&
+    match &&
+    match.match_data &&
+    match.match_data.field_length
+  ) {
+    return computeDistance(
+      event.ball_moved_to,
+      event.ball_on,
+      match.match_data.field_length / 2,
+    );
+  }
+  return null;
 }
 
 export function computeDistanceForDownDistance(

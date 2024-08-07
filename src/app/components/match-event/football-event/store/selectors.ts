@@ -10,7 +10,10 @@ import {
   IFootballScoreResult,
 } from '../../../../type/football-event.type';
 import { selectCurrentMatchWithFullData } from '../../../match-with-full-data/store/reducers';
-import { computeDistance } from '../football-event-calc-helpers';
+import {
+  calcDistanceFromEvent,
+  computeDistance,
+} from '../football-event-calc-helpers';
 
 export function getMatchPlayerById(
   players: IPlayerInMatchFullData[],
@@ -84,11 +87,12 @@ export const selectFootballEventsWithPlayers = createSelector(
 
     return footballEvents.map((event, index) => {
       const nextEvent = footballEvents[index + 1];
-      const distanceMoved = calculateDistanceMoved(
-        event,
-        nextEvent,
-        fieldLength,
-      );
+      // const distanceMoved = calculateDistanceMoved(
+      //   event,
+      //   nextEvent,
+      //   fieldLength,
+      // );
+      const distanceMoved = calcDistanceFromEvent(event, match);
 
       return {
         ...event,

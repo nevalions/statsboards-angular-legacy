@@ -71,6 +71,7 @@ export interface IFootballEvent {
   event_number?: number | null;
   event_qtr?: number | null;
   ball_on?: number | null;
+  ball_moved_to?: number | null;
   offense_team?: number | null;
   event_qb?: number | null;
   event_down?: number | null;
@@ -113,6 +114,7 @@ export interface IFootballEventWithPlayers {
   event_number?: number | null;
   event_qtr?: number | null;
   ball_on?: number | null;
+  ball_moved_to?: number | null;
   distance_moved?: number | null;
   offense_team?: ITeam | null;
   event_qb?: IPlayerInMatchFullData | null;

@@ -22,6 +22,7 @@ import { IFootballEventWithPlayers } from '../../../../type/football-event.type'
   styleUrl: './input-number-with-buttons.component.less',
 })
 export class InputNumberWithButtonsComponent {
+  @Input() size: 's' | 'm' | 'l' = 'm';
   @Input() label: string = 'Item';
   @Input() control!: FormControl;
   @Input() index!: number;

@@ -37,6 +37,7 @@ import {
   noScoreOffencePlayerSelected,
 } from '../../football-event-isPlayerSelected-helper';
 import {
+  getBallMovedOn,
   getBallOn,
   getEventDefenceScorePlayer,
   getEventDeflectedPlayer,
@@ -67,6 +68,7 @@ import { hexToRgba } from '../../../../../base/helpers';
 import { TitleCasePipe, UpperCasePipe } from '@angular/common';
 import { FormArray } from '@angular/forms';
 import { IFootballPlayResult } from '../../../../../type/football-event.type';
+import { computeDistance } from '../../football-event-calc-helpers';
 
 @Component({
   selector: 'app-football-event-short-view',
@@ -78,6 +80,7 @@ import { IFootballPlayResult } from '../../../../../type/football-event.type';
 export class FootballEventShortViewComponent {
   @Input() eventsArray: FormArray | undefined | null;
   @Input() i: number | undefined | null;
+  @Input() maxFieldLength: number | undefined | null;
 
   getPlayTypeBackgroundColor(playResult: IFootballPlayResult): string {
     switch (playResult) {
@@ -150,4 +153,6 @@ export class FootballEventShortViewComponent {
   protected readonly getEventNumber = getEventNumber;
   protected readonly getEventTeam = getEventTeam;
   protected readonly isCautionColorResult = isCautionColorResult;
+  protected readonly getBallMovedOn = getBallMovedOn;
+  protected readonly computeDistance = computeDistance;
 }

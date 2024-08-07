@@ -36,6 +36,8 @@ import { DialogService } from '../../../../services/dialog.service';
 import {
   createNewEvent,
   eventAssistTacklePlayer,
+  eventBallMovedOn,
+  eventBallMovedOnKey,
   eventBallOn,
   eventBallOnKey,
   eventDefenceScorePlayer,
@@ -78,6 +80,8 @@ import {
   eventTacklePlayer,
   eventTeam,
   extractEventData,
+  getBallMovedOn,
+  getBallMovedOnFormControl,
   getBallOn,
   getBallOnFormControl,
   getEventAssistTacklePlayerFormControl,
@@ -358,6 +362,12 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
         return this.getQtrFormControl(this.eventForm, this.arrayName, index);
       case eventBallOnKey:
         return this.getBallOnFormControl(this.eventForm, this.arrayName, index);
+      case eventBallMovedOnKey:
+        return this.getBallMovedOnFormControl(
+          this.eventForm,
+          this.arrayName,
+          index,
+        );
       case eventDistanceKey:
         return this.getEventDistanceFormControl(
           this.eventForm,
@@ -417,6 +427,7 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
     const controlEventNumber = eventNumber(index);
     const controlEventQtr = eventQtr(index);
     const controlEventBallOn = eventBallOn(index);
+    const controlEventBallMoved = eventBallMovedOn(index);
     const controlEventDistanceMoved = eventDistanceMoved(index);
     const controlEventDistanceOnOffence = eventDistanceOnOffence(index);
 
@@ -460,6 +471,7 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
       [controlEventNumber]: new FormControl(event.event_number),
       [controlEventQtr]: new FormControl(event.event_qtr),
       [controlEventBallOn]: new FormControl(event.ball_on),
+      [controlEventBallMoved]: new FormControl(event.ball_moved_to),
       [controlEventDistanceMoved]: new FormControl(event.distance_moved),
       [controlEventDistanceOnOffence]: new FormControl(
         event.distance_on_offence,
@@ -835,4 +847,8 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
   protected readonly isDefenceScore = isDefenceScore;
   protected readonly isFlagResult = isFlagResult;
   protected readonly isScorePossible = isScorePossible;
+  protected readonly getBallMovedOnFormControl = getBallMovedOnFormControl;
+  protected readonly eventBallMovedOnKey = eventBallMovedOnKey;
+  protected readonly getBallMovedOn = getBallMovedOn;
+  protected readonly eventBallMovedOn = eventBallMovedOn;
 }

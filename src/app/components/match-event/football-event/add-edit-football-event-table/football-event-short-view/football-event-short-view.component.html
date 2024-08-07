@@ -17,15 +17,31 @@
       <div class="event-short-view">BallOn: {{ ballOn }}&nbsp;</div>
     }
 
+    @if (getBallMovedOn(eventsArray, i); as ballMovedOn) {
+      <div class="event-short-view">BallMovedOn: {{ ballMovedOn }}&nbsp;</div>
+    }
+
+    @if (getBallOn(eventsArray, i); as ballOn) {
+      @if (getBallMovedOn(eventsArray, i); as ballMovedOn) {
+        @if (maxFieldLength) {
+          <div class="event-short-view">Dist: {{ computeDistance(ballMovedOn, ballOn, maxFieldLength / 2) }}&nbsp;</div>
+        }
+      }
+    }
+
     @if (isQbPlay(eventsArray, i)) {
       <div class="event-short-view"
            [style.background-color]="isMinCautionColor(noQbSelected(eventsArray, i))">
         QB: {{ isPlayer(getEventQb(eventsArray, i)) }}
       </div>
     }
-    <div
-      class="event-short-view">{{ getEventDown(eventsArray, i) }}&nbsp;&&nbsp;{{ getEventDistance(eventsArray, i) }}
-    </div>
+    @if (getEventDown(eventsArray, i); as down) {
+      @if (getEventDistance(eventsArray, i); as dist) {
+        <div
+          class="event-short-view">{{ down }}&nbsp;&&nbsp;{{ dist }}
+        </div>
+      }
+    }
     @if (getEventPlayType(eventsArray, i); as playType) {
       <div class="event-short-view">{{ playType | titlecase }}&nbsp;</div>
     }
