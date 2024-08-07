@@ -37,15 +37,16 @@ export function calculateDistanceMoved(
     nextEvent.offense_team &&
     event.play_type &&
     event.play_result &&
-    event.score_result !== IFootballScoreResult.Td &&
-    event.score_result !== IFootballScoreResult.TdDefence &&
-    event.score_result !== IFootballScoreResult.Safety &&
+    // event.score_result !== IFootballScoreResult.Td &&
+    // event.score_result !== IFootballScoreResult.TdDefence &&
+    // event.score_result !== IFootballScoreResult.Safety &&
     (event.play_type === IFootballPlayType.Pass ||
       event.play_type === IFootballPlayType.Run) &&
-    event.play_result !== IFootballPlayResult.Flag &&
+    // event.play_result !== IFootballPlayResult.Flag &&
     (event.play_result === IFootballPlayResult.PassCompleted ||
       event.play_result === IFootballPlayResult.Sack ||
-      event.play_result === IFootballPlayResult.Run)
+      event.play_result === IFootballPlayResult.Run ||
+      event.play_result === IFootballPlayResult.Flag)
   ) {
     if (event.offense_team === nextEvent.offense_team) {
       return computeDistance(nextEvent.ball_on, event.ball_on, fieldLength / 2);
