@@ -276,6 +276,14 @@ export function createNewEvent(
         newEventPlayType = IFootballPlayType.Kickoff;
       }
 
+      if (lastEvent.score_result === IFootballScoreResult.TdDefence) {
+        newEventTeam = newTeam;
+        newEventBallOn = 3;
+        newEventDown = null;
+        newEventDistance = null;
+        newEventQb = null;
+      }
+
       if (
         lastEvent.offense_team &&
         lastEvent.score_result === IFootballScoreResult.Safety
