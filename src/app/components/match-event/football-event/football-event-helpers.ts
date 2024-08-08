@@ -279,6 +279,7 @@ export function createNewEvent(
       if (lastEvent.score_result === IFootballScoreResult.TdDefence) {
         newEventTeam = newTeam;
         newEventBallOn = 3;
+        newEventBallMovedOn = null;
         newEventDown = null;
         newEventDistance = null;
         newEventQb = null;
