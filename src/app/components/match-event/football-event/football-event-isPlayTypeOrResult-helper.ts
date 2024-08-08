@@ -1,14 +1,53 @@
 import { FormArray } from '@angular/forms';
 import {
+  getEventBallMovedOn,
+  getEventBallOn,
   getEventPlayResult,
   getEventPlayType,
   getEventScoreResult,
+  getEventTeam,
 } from './football-event-helpers';
 import {
   IFootballPlayResult,
   IFootballPlayType,
   IFootballScoreResult,
 } from '../../../type/football-event.type';
+
+export function isPrevBallMovedEqualCurrentBallOn(
+  eventArray: FormArray,
+  index: number,
+): boolean {
+  const currentTeam = getEventTeam(eventArray, index);
+  const prevTeam = getEventTeam(eventArray, index - 1);
+  const prevScoreResult = getEventScoreResult(eventArray, index - 1);
+  const currentBallOn = getEventBallOn(eventArray, index);
+  const prevBallMovedOn = getEventBallMovedOn(eventArray, index - 1);
+  if (currentBallOn === prevBallMovedOn) {
+    return true;
+  } else if (currentTeam?.id !== prevTeam?.id || prevScoreResult) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+export function isNextBallOnEqualCurrentBallMoved(
+  eventArray: FormArray,
+  index: number,
+): boolean {
+  const currentTeam = getEventTeam(eventArray, index);
+  const nextTeam = getEventTeam(eventArray, index + 1);
+  const currentScoreResult = getEventScoreResult(eventArray, index);
+  const currentBallMovedOn = getEventBallMovedOn(eventArray, index);
+  const nextBallOn = getEventBallOn(eventArray, index + 1);
+  if (currentBallMovedOn === nextBallOn) {
+    return true;
+  } else if (currentTeam?.id !== nextTeam?.id || currentScoreResult) {
+    return true;
+  } else {
+    return false;
+  }
+}
 
 export function isQbPlay(eventsArray: FormArray, index: number): boolean {
   const playType = getEventPlayType(eventsArray, index);

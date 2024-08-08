@@ -14,18 +14,24 @@
       </div>
     }
     @if (getBallOn(eventsArray, i); as ballOn) {
-      <div class="event-short-view">BallOn: {{ ballOn }}&nbsp;</div>
+      <div class="event-short-view"
+           [style.background-color]='isMinCautionColor(!isPrevBallMovedEqualCurrentBallOn(eventsArray, i))'>
+        BallOn: {{ ballOn }}&nbsp;
+      </div>
     }
 
-    @if (getBallMovedOn(eventsArray, i); as ballMovedOn) {
-      <div class="event-short-view">BallMovedOn: {{ ballMovedOn }}&nbsp;</div>
+    @if (getBallMovedOn(eventsArray, i) !== null && getBallMovedOn(eventsArray, i) !== undefined) {
+      <div class="event-short-view"
+           [style.background-color]='isMinCautionColor(!isNextBallOnEqualCurrentBallMoved(eventsArray, i))'>
+        BallMovedOn: {{ getBallMovedOn(eventsArray, i) }}&nbsp;
+      </div>
     }
 
     @if (getBallOn(eventsArray, i); as ballOn) {
-      @if (getBallMovedOn(eventsArray, i); as ballMovedOn) {
-        @if (maxFieldLength) {
-          <div class="event-short-view">Dist: {{ computeDistance(ballMovedOn, ballOn, maxFieldLength / 2) }}&nbsp;</div>
-        }
+      @if (maxFieldLength) {
+        <div class="event-short-view">
+          Dist: {{ computeDistance(getBallMovedOn(eventsArray, i), ballOn, maxFieldLength / 2) }}&nbsp;
+        </div>
       }
     }
 

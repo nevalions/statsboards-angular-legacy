@@ -6,9 +6,11 @@ import {
   isInterceptResult,
   isKickOffPlay,
   isKickPlay,
+  isNextBallOnEqualCurrentBallMoved,
   isPassCompletedPlay,
   isPassDroppedPlay,
   isPatOnePlay,
+  isPrevBallMovedEqualCurrentBallOn,
   isPuntPlay,
   isQbPlay,
   isReturnPlay,
@@ -157,4 +159,8 @@ export class FootballEventShortViewComponent {
   protected readonly getBallMovedOn = getEventBallMovedOn;
   protected readonly computeDistance = computeDistance;
   protected readonly isDistanceOrGoal = distanceOrGoal;
+  protected readonly isPrevBallMovedEqualCurrentBallOn =
+    isPrevBallMovedEqualCurrentBallOn;
+  protected readonly isNextBallOnEqualCurrentBallMoved =
+    isNextBallOnEqualCurrentBallMoved;
 }

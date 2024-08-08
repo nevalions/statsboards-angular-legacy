@@ -72,12 +72,6 @@ export function isCautionColorResult(eventsArray: FormArray, index: number) {
 }
 
 export function noQbSelected(eventsArray: FormArray, index: number): boolean {
-  // const playType = getEventPlayType(eventsArray, index);
-  // if (
-  //   playType === IFootballPlayType.Run ||
-  //   playType === IFootballPlayType.Pass ||
-  //   playType === IFootballPlayType.PatTwo
-  // ) {
   if (isQbPlay(eventsArray, index)) {
     const player = getEventQb(eventsArray, index);
     if (!player) {
@@ -91,12 +85,6 @@ export function noRunPlayerSelected(
   eventsArray: FormArray,
   index: number,
 ): boolean {
-  // const playType = getEventPlayType(eventsArray, index);
-  // const result = getEventPlayResult(eventsArray, index);
-  // if (
-  //   result === IFootballPlayResult.Run &&
-  //   playType === IFootballPlayType.Run
-  // ) {
   if (isRunPlay(eventsArray, index)) {
     const player = getEventRunPlayer(eventsArray, index);
     if (!player) {
@@ -110,8 +98,6 @@ export function noReceiverPlayerSelected(
   eventsArray: FormArray,
   index: number,
 ): boolean {
-  // const result = getEventPlayResult(eventsArray, index);
-  // if (result === IFootballPlayResult.PassCompleted) {
   if (isPassCompletedPlay(eventsArray, index)) {
     const player = getEventReceiverPlayer(eventsArray, index);
     if (!player) {

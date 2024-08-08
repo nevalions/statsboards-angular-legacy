@@ -53,33 +53,41 @@ export function isFirstDown(
 }
 
 export function computeDistance(
-  nextEventBallOn: number,
-  currentBallOn: number,
+  nextEventBallOn: number | undefined | null,
+  currentBallOn: number | undefined | null,
   max: number,
 ): number {
   let calcDistance: number;
 
-  if (nextEventBallOn > 0 && currentBallOn > 0) {
-    // Both in positive field
-    calcDistance = currentBallOn - nextEventBallOn;
-  } else if (nextEventBallOn < 0 && currentBallOn < 0) {
-    // Both in negative field
-    calcDistance = currentBallOn - nextEventBallOn;
-  } else if (nextEventBallOn > 0 && currentBallOn < 0) {
-    // Transition from positive to negative
-    calcDistance = max - nextEventBallOn + max + currentBallOn;
-  } else if (nextEventBallOn < 0 && currentBallOn > 0) {
-    // Transition from negative to positive
-    calcDistance = -(max - currentBallOn + max + nextEventBallOn);
-  } else if (nextEventBallOn === 0 && currentBallOn > 0) {
-    calcDistance = currentBallOn;
-  } else if (nextEventBallOn === 0 && currentBallOn < 0) {
-    calcDistance = max + currentBallOn + 50;
-  } else {
-    throw new Error('Unexpected ball position');
+  if (
+    nextEventBallOn !== undefined &&
+    nextEventBallOn !== null &&
+    currentBallOn !== undefined &&
+    currentBallOn !== null
+  ) {
+    if (nextEventBallOn > 0 && currentBallOn > 0) {
+      // Both in positive field
+      calcDistance = currentBallOn - nextEventBallOn;
+    } else if (nextEventBallOn < 0 && currentBallOn < 0) {
+      // Both in negative field
+      calcDistance = currentBallOn - nextEventBallOn;
+    } else if (nextEventBallOn > 0 && currentBallOn < 0) {
+      // Transition from positive to negative
+      calcDistance = max - nextEventBallOn + max + currentBallOn;
+    } else if (nextEventBallOn < 0 && currentBallOn > 0) {
+      // Transition from negative to positive
+      calcDistance = -(max - currentBallOn + max + nextEventBallOn);
+    } else if (nextEventBallOn === 0 && currentBallOn > 0) {
+      calcDistance = currentBallOn;
+    } else if (nextEventBallOn === 0 && currentBallOn < 0) {
+      calcDistance = max + currentBallOn + 50;
+    } else {
+      throw new Error('Unexpected ball position');
+    }
+    return calcDistance;
   }
 
-  return calcDistance;
+  return 0;
 }
 
 export function calcDistanceFromEvent(
