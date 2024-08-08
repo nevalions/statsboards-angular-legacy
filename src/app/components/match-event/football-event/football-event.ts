@@ -21,8 +21,8 @@ import {
 import {
   selectFootballTeamAWithStats,
   selectFootballTeamBWithStats,
-  selectOverallFlagYardsForTeamA,
-  selectOverallFlagYardsForTeamB,
+  selectOverallFlagOffenceYardsForTeamA,
+  selectOverallFlagOffenceYardsForTeamB,
   selectOverallOffenceDistanceForTeamA,
   selectOverallOffenceDistanceForTeamB,
   selectOverallPassDistanceForTeamA,
@@ -110,8 +110,12 @@ export class FootballEvent {
       selectOverallOffenceDistanceForTeamB,
     );
     // flag
-    this.flagYardsTeamA$ = this.store.select(selectOverallFlagYardsForTeamA);
-    this.flagYardsTeamB$ = this.store.select(selectOverallFlagYardsForTeamB);
+    this.flagYardsTeamA$ = this.store.select(
+      selectOverallFlagOffenceYardsForTeamA,
+    );
+    this.flagYardsTeamB$ = this.store.select(
+      selectOverallFlagOffenceYardsForTeamB,
+    );
     // teams with stats
     this.footballTeamAWithStats$ = this.store.select(
       selectFootballTeamAWithStats,
