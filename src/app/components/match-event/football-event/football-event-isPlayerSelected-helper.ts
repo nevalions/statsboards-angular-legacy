@@ -35,6 +35,7 @@ import {
   isSackResult,
   isScoreTDPatTwoOffence,
 } from './football-event-isPlayTypeOrResult-helper';
+import { IFootballPlayType } from '../../../type/football-event.type';
 
 export function isCautionColor(bool: boolean) {
   if (bool) {
@@ -317,6 +318,41 @@ export function isPlayerSecondName(
     return 'No Person'.toUpperCase();
   }
   return 'No Player'.toUpperCase();
+}
+
+export function isDistanceOrGoal(
+  dist: number | null | undefined,
+  ballOn: number | null | undefined,
+  playType: IFootballPlayType | null | undefined,
+): boolean {
+  if (dist && ballOn) {
+    if (
+      playType === IFootballPlayType.Run ||
+      playType === IFootballPlayType.Pass ||
+      playType === IFootballPlayType.Punt ||
+      playType === IFootballPlayType.Kick
+    ) {
+      if (ballOn > 0 && ballOn <= dist) {
+        return false;
+      }
+    }
+  }
+  return true;
+}
+
+export function distanceOrGoal(
+  dist: number | null | undefined,
+  ballOn: number | null | undefined,
+  playType: IFootballPlayType | null | undefined,
+): number | string | null {
+  if (dist && ballOn) {
+    if (isDistanceOrGoal(dist, ballOn, playType)) {
+      return dist;
+    } else {
+      return 'Goal';
+    }
+  }
+  return null;
 }
 
 export function isResultPlayerSelectedCautionColor(

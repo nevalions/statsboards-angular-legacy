@@ -40,6 +40,19 @@ export function isPassDroppedPlay(
   return result === IFootballPlayResult.PassDropped;
 }
 
+export function isScoreAvailable(
+  eventsArray: FormArray,
+  index: number,
+): boolean {
+  const playType = getEventPlayType(eventsArray, index);
+  return (
+    playType === IFootballPlayType.Run ||
+    playType === IFootballPlayType.Pass ||
+    playType === IFootballPlayType.Punt ||
+    playType === IFootballPlayType.Kick
+  );
+}
+
 export function isScoreTDPatTwoOffence(
   eventsArray: FormArray,
   index: number,

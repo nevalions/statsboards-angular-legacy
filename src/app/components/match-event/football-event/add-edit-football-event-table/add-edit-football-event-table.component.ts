@@ -80,16 +80,17 @@ import {
   eventTacklePlayer,
   eventTeam,
   extractEventData,
-  getBallMovedOn,
-  getBallMovedOnFormControl,
-  getBallOn,
-  getBallOnFormControl,
   getEventAssistTacklePlayerFormControl,
+  getEventBallMovedOn,
+  getEventBallMovedOnFormControl,
+  getEventBallOn,
+  getEventBallOnFormControl,
   getEventDefenceScorePlayer,
   getEventDefenceScorePlayerFormControl,
   getEventDeflectedPlayer,
   getEventDeflectedPlayerFormControl,
   getEventDirectionFormControl,
+  getEventDistance,
   getEventDistanceFormControl,
   getEventDistanceMoved,
   getEventDistanceOnOffenceFormControl,
@@ -175,6 +176,7 @@ import { AddButtonOnFinalTrComponent } from '../../../../shared/ui/buttons/add-b
 import {
   isCautionColor,
   isCautionColorResult,
+  isDistanceOrGoal,
   isMaxCautionColor,
   noDefenceScorePlayerSelected,
   noDeflectPlayerSelected,
@@ -711,7 +713,7 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
   protected readonly eventHashOptions = eventHashOptions;
   protected readonly getQtrFormControl = getQtrFormControl;
   protected readonly getEventNumberFormControl = getEventNumberFormControl;
-  protected readonly getBallOnFormControl = getBallOnFormControl;
+  protected readonly getBallOnFormControl = getEventBallOnFormControl;
   protected readonly getEventTeamFormControl = getEventTeamFormControl;
   protected readonly getEventQbFormControl = getEventQbFormControl;
   protected readonly getEventDownFormControl = getEventDownFormControl;
@@ -800,7 +802,7 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
     getEventFlaggedPlayerFormControl;
   protected readonly getEventFlaggedPlayer = getEventFlaggedPlayer;
   protected readonly incrementOnBall = incrementOnBall;
-  protected readonly getBallOn = getBallOn;
+  protected readonly getBallOn = getEventBallOn;
   protected readonly getEventDistanceMoved = getEventDistanceMoved;
   protected readonly getEventPlayResult = getEventPlayResult;
   protected readonly tuiAppFlat = TuiAppearance.Flat;
@@ -847,8 +849,11 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
   protected readonly isDefenceScore = isDefenceScore;
   protected readonly isFlagResult = isFlagResult;
   protected readonly isScorePossible = isScorePossible;
-  protected readonly getBallMovedOnFormControl = getBallMovedOnFormControl;
+  protected readonly getBallMovedOnFormControl = getEventBallMovedOnFormControl;
   protected readonly eventBallMovedOnKey = eventBallMovedOnKey;
-  protected readonly getBallMovedOn = getBallMovedOn;
+  protected readonly getBallMovedOn = getEventBallMovedOn;
   protected readonly eventBallMovedOn = eventBallMovedOn;
+  protected readonly isDistanceOrGoal = isDistanceOrGoal;
+  protected readonly getEventDistance = getEventDistance;
+  protected readonly getEventBallOn = getEventBallOn;
 }

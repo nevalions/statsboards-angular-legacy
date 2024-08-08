@@ -38,7 +38,7 @@
     @if (getEventDown(eventsArray, i); as down) {
       @if (getEventDistance(eventsArray, i); as dist) {
         <div
-          class="event-short-view">{{ down }}&nbsp;&&nbsp;{{ dist }}
+          class="event-short-view">{{ down }}&nbsp;&&nbsp;{{ isDistanceOrGoal(dist, getBallOn(eventsArray, i), getEventPlayType(eventsArray, i)) }}
         </div>
       }
     }

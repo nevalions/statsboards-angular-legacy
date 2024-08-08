@@ -32,9 +32,9 @@ import {
   resetScorePlayer,
   resetScoreResult,
   resetTacklePlayer,
-  setBallMovedOn,
   setDistance,
   setDown,
+  setEventBallMovedOn,
   setPlayResult,
   setPlayType,
   setScorePlayer,
@@ -133,7 +133,7 @@ export function onOffenceScore(eventsArray: FormArray, index: number): void {
       eventPlayType === IFootballPlayType.Punt
     ) {
       if (eventScoreResult === IFootballScoreResult.Td) {
-        setBallMovedOn(eventsArray, index, 0);
+        setEventBallMovedOn(eventsArray, index, 0);
       }
       if (
         eventPlayType === IFootballPlayType.Pass &&

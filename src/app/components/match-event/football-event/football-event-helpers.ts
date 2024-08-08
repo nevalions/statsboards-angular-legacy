@@ -319,8 +319,8 @@ export function extractEventData(
   const eventId = getEventId(eventsArray, index);
   const eventNumber = getEventNumber(eventsArray, index);
   const eventQtr = getQtr(eventsArray, index);
-  const eventBallOn = getBallOn(eventsArray, index);
-  const eventBallMovedOn = getBallMovedOn(eventsArray, index);
+  const eventBallOn = getEventBallOn(eventsArray, index);
+  const eventBallMovedOn = getEventBallMovedOn(eventsArray, index);
   const eventDistanceMoved = getEventDistanceMoved(eventsArray, index);
   const eventDistanceOnOffence = getEventDistanceOnOffence(eventsArray, index);
   const eventTeam = getEventTeam(eventsArray, index);
@@ -511,7 +511,7 @@ export function getQtrFormControl(
 }
 
 // BallOn
-export function getBallOn(
+export function getEventBallOn(
   eventsArray: FormArray,
   index: number,
 ): number | null | undefined {
@@ -522,7 +522,7 @@ export function getBallOn(
   );
 }
 
-export function getBallOnFormControl(
+export function getEventBallOnFormControl(
   form: FormGroup,
   arrayName: string,
   index: number,
@@ -530,7 +530,7 @@ export function getBallOnFormControl(
   return getFormControlWithIndex(form, index, eventBallOnKey, arrayName);
 }
 
-export function setBallOn(
+export function setEventBallOn(
   eventsArray: FormArray,
   index: number,
   selectedItem: number,
@@ -539,7 +539,7 @@ export function setBallOn(
 }
 
 // BallMovedOn
-export function getBallMovedOn(
+export function getEventBallMovedOn(
   eventsArray: FormArray,
   index: number,
 ): number | null | undefined {
@@ -550,7 +550,7 @@ export function getBallMovedOn(
   );
 }
 
-export function getBallMovedOnFormControl(
+export function getEventBallMovedOnFormControl(
   form: FormGroup,
   arrayName: string,
   index: number,
@@ -558,7 +558,7 @@ export function getBallMovedOnFormControl(
   return getFormControlWithIndex(form, index, eventBallMovedOnKey, arrayName);
 }
 
-export function setBallMovedOn(
+export function setEventBallMovedOn(
   eventsArray: FormArray,
   index: number,
   selectedItem: number,

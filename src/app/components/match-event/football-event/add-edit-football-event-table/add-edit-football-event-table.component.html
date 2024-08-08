@@ -270,18 +270,24 @@
                       ></app-input-number-with-buttons>
                     </div>
                   }
+
                   @if (getEventDistanceFormControl(this.eventForm, this.arrayName, i); as control) {
-                    <div class="event-distance">
-                      <app-input-number-with-buttons
-                        [label]="'Dist'"
-                        [control]="control"
-                        [index]="i"
-                        [key]="eventDistanceKey"
-                        [min]="1"
-                        [max]="100"
-                        (numberChanged)="handleFieldChange($event)"
-                      ></app-input-number-with-buttons>
-                    </div>
+                    @if (isDistanceOrGoal(
+                      getEventDistance(eventsArray, i), getEventBallOn(eventsArray, i), getEventPlayType(eventsArray, i))) {
+                      <div class="event-distance">
+                        <app-input-number-with-buttons
+                          [label]="'Dist'"
+                          [control]="control"
+                          [index]="i"
+                          [key]="eventDistanceKey"
+                          [min]="1"
+                          [max]="100"
+                          (numberChanged)="handleFieldChange($event)"
+                        ></app-input-number-with-buttons>
+                      </div>
+                    } @else {
+                      <span class="tui-text_h6">& GOAL</span>
+                    }
                   }
                 </div>
               </div>

@@ -18,6 +18,7 @@ import {
   isTacklePossible,
 } from '../../football-event-isPlayTypeOrResult-helper';
 import {
+  distanceOrGoal,
   isCautionColorResult,
   isMinCautionColor,
   isPlayerSecondName,
@@ -37,8 +38,8 @@ import {
   noScoreOffencePlayerSelected,
 } from '../../football-event-isPlayerSelected-helper';
 import {
-  getBallMovedOn,
-  getBallOn,
+  getEventBallMovedOn,
+  getEventBallOn,
   getEventDefenceScorePlayer,
   getEventDeflectedPlayer,
   getEventDistance,
@@ -100,7 +101,7 @@ export class FootballEventShortViewComponent {
   protected readonly getEventIsFumble = getEventIsFumble;
   protected readonly getEventDistance = getEventDistance;
   protected readonly isPassCompletedPlay = isPassCompletedPlay;
-  protected readonly getBallOn = getBallOn;
+  protected readonly getBallOn = getEventBallOn;
   protected readonly isPassDroppedPlay = isPassDroppedPlay;
   protected readonly noScorePlayerSelected = noScoreOffencePlayerSelected;
   protected readonly getEventKickOffPlayer = getEventKickOffPlayer;
@@ -153,6 +154,7 @@ export class FootballEventShortViewComponent {
   protected readonly getEventNumber = getEventNumber;
   protected readonly getEventTeam = getEventTeam;
   protected readonly isCautionColorResult = isCautionColorResult;
-  protected readonly getBallMovedOn = getBallMovedOn;
+  protected readonly getBallMovedOn = getEventBallMovedOn;
   protected readonly computeDistance = computeDistance;
+  protected readonly isDistanceOrGoal = distanceOrGoal;
 }

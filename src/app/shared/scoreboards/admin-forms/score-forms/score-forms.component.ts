@@ -33,7 +33,7 @@ import { Websocket } from '../../../../store/websocket/websocket';
 import {
   eventBallOnKey,
   eventQtrKey,
-  getBallOn,
+  getEventBallOn,
 } from '../../../../components/match-event/football-event/football-event-helpers';
 import { InputNumberWithButtonsComponent } from '../input-number-with-buttons/input-number-with-buttons.component';
 import {
@@ -144,7 +144,7 @@ export class ScoreFormsComponent implements OnChanges {
   }
 
   protected readonly eventQtrKey = eventQtrKey;
-  protected readonly getBallOn = getBallOn;
+  protected readonly getBallOn = getEventBallOn;
   protected readonly onBallOnChange = onBallOnChange;
   protected readonly incrementOnBall = incrementOnBall;
   protected readonly eventBallOnKey = eventBallOnKey;
