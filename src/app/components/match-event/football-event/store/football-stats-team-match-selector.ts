@@ -74,7 +74,8 @@ const selectFootballMatchTeamOverallRunDistance = (
             // console.log('team id', teamId);
             // const distance = calcDistanceFromEvent(event, match);
             if (
-              event.play_type === IFootballPlayType.Run &&
+              (event.play_type === IFootballPlayType.Run ||
+                event.play_type === IFootballPlayType.Pass) &&
               (event.play_result === IFootballPlayResult.Run ||
                 event.play_result === IFootballPlayResult.Sack)
             ) {

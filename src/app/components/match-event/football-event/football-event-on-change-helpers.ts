@@ -64,6 +64,7 @@ export function onTeamChange(
     // console.log('first down team change');
     setDown(eventsArray, index, 1);
     setDistance(eventsArray, index, 10);
+    //TODO reset onball
     resetQb(eventsArray, index);
   }
 }
