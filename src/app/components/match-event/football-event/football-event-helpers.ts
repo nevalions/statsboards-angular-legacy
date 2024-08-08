@@ -247,6 +247,7 @@ export function createNewEvent(
 
       if (lastEvent.play_result === IFootballPlayResult.TouchBack) {
         newEventBallOn = newBallOn;
+        newEventBallMovedOn = newBallOn;
         newEventDown = newDown;
         newEventDistance = newDistance;
         newEventTeam = newTeam;
