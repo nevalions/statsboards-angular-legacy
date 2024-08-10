@@ -744,9 +744,12 @@ export function handleTeamChangeOnDown(
       lastEvent.play_type === IFootballPlayType.Pass)
   ) {
     if (
-      lastEvent.distance_moved &&
-      lastEvent.event_distance &&
-      lastEvent.ball_moved_to &&
+      lastEvent.distance_moved !== null &&
+      lastEvent.distance_moved !== undefined &&
+      lastEvent.event_distance !== null &&
+      lastEvent.event_distance !== undefined &&
+      lastEvent.ball_moved_to !== undefined &&
+      lastEvent.ball_moved_to !== null &&
       lastEvent.distance_moved < lastEvent.event_distance
     ) {
       // console.log('change on down');
