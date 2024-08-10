@@ -142,7 +142,7 @@ const selectFootballMatchTeamOverallFlagDistanceOnOffence = (
             if (event.play_result === IFootballPlayResult.Flag) {
               // console.log('flag');
               if (event.distance_moved && event.distance_moved < 0) {
-                return eventFlagDistance + event.distance_moved;
+                return eventFlagDistance - event.distance_moved;
               }
             }
           }
