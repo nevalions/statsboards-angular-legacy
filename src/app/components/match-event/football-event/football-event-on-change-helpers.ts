@@ -6,7 +6,6 @@ import {
   IFootballScoreResult,
 } from '../../../type/football-event.type';
 import {
-  getEventBallKickedTo,
   getEventBallReturnedTo,
   getEventDown,
   getEventKickPlayer,
@@ -51,7 +50,6 @@ import {
 } from '../../../base/formHelpers';
 import { IMatchWithFullData } from '../../../type/match.type';
 import { IPlayerInMatchFullData } from '../../../type/player.type';
-import { timeout } from 'rxjs';
 
 export function onTeamChange(
   eventsArray: FormArray,
@@ -657,6 +655,69 @@ export function handleTeamChangeOnTouchBack(
   };
 }
 
+export function handleTeamChangeOnInterception(
+  match: IMatchWithFullData | null,
+  lastEvent: IFootballEventWithPlayers,
+): {
+  newEventBallOn: number | null;
+  newEventTeam: ITeam | null;
+} {
+  const { newEventTeam, newEventQb } = handleBasicTeamChange(match, lastEvent);
+  let newEventBallOn: number | null = null;
+  if (
+    lastEvent.ball_returned_to &&
+    lastEvent.play_result === IFootballPlayResult.PassIntercepted &&
+    !lastEvent.is_fumble
+  ) {
+    newEventBallOn = lastEvent.ball_returned_to;
+    return {
+      newEventBallOn,
+      newEventTeam,
+    };
+  }
+
+  return {
+    newEventBallOn,
+    newEventTeam,
+  };
+}
+
+export function handleTeamChangeOnFumble(
+  match: IMatchWithFullData | null,
+  lastEvent: IFootballEventWithPlayers,
+): {
+  newEventBallOn: number | null;
+  newEventTeam: ITeam | null;
+} {
+  let { newEventTeam, newEventQb } = handleBasicTeamChange(match, lastEvent);
+  let newEventBallOn: number | null = null;
+  if (
+    lastEvent.ball_returned_to &&
+    lastEvent.is_fumble &&
+    lastEvent.fumble_recovered_player?.match_player.team_id === newEventTeam?.id
+  ) {
+    newEventBallOn = lastEvent.ball_returned_to;
+    return {
+      newEventBallOn,
+      newEventTeam,
+    };
+  } else if (
+    lastEvent.offense_team &&
+    lastEvent.ball_returned_to &&
+    lastEvent.is_fumble &&
+    lastEvent.fumble_recovered_player?.match_player.team_id !== newEventTeam?.id
+  ) {
+    newEventBallOn = lastEvent.ball_returned_to;
+    newEventTeam = lastEvent.offense_team;
+    return { newEventBallOn, newEventTeam };
+  }
+
+  return {
+    newEventBallOn,
+    newEventTeam,
+  };
+}
+
 export function handleTeamChangeOnDown(
   match: IMatchWithFullData | null,
   lastEvent: IFootballEventWithPlayers,
@@ -688,7 +749,7 @@ export function handleTeamChangeOnDown(
       lastEvent.ball_moved_to &&
       lastEvent.distance_moved < lastEvent.event_distance
     ) {
-      console.log('change on down');
+      // console.log('change on down');
       newEventBallOn = -lastEvent.ball_moved_to;
       newEventDown = 1;
       newEventDistance = 10;
