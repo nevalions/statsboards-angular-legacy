@@ -3,27 +3,12 @@
     class="football-team-with-stats-match"
     [style.background-color]="hexToRgba(teamColor, 0.8)"
   >
-    <!--    <div class="header">-->
-    <!--      <div class="football-team-with-stats-match-title">-->
-    <!--        {{ 'Статистика Матча' | uppercase }}-->
-    <!--      </div>-->
-    <!--      &lt;!&ndash;      <div class="football-team-with-stats-match-logo">&ndash;&gt;-->
-    <!--      <tui-avatar-->
-    <!--        size="xl"-->
-    <!--        class="football-team-with-stats-match-avatar"-->
-    <!--        [rounded]="false"-->
-    <!--        [avatarUrl]="backendUrl + footballTeamWithStats.team_logo_web_url"-->
-    <!--        (error)="onImgError($event)"-->
-    <!--      ></tui-avatar>-->
-    <!--      &lt;!&ndash;      </div>&ndash;&gt;-->
-
-    <!--    </div>-->
     <div class="football-team-with-stats-match-stats">
       <span>Ярды: {{ footballTeamWithStats.match_stats?.offence_yards }}</span>
-      <span>Ярды пасс/вынос: {{ footballTeamWithStats.match_stats?.pass_yards }}
-        / {{ footballTeamWithStats.match_stats?.run_yards }}</span>
-      <span>Попытки пасс/вынос: {{ footballTeamWithStats.match_stats?.pass_att }}
-        / {{ footballTeamWithStats.match_stats?.run_att }} </span>
+      <span>Ярды вынос/пасс: {{ footballTeamWithStats.match_stats?.run_yards }}
+        / {{ footballTeamWithStats.match_stats?.pass_yards }}</span>
+      <span>Попытки вынос/пасс: {{ footballTeamWithStats.match_stats?.run_att }}
+        / {{ footballTeamWithStats.match_stats?.pass_att }}</span>
       <span>Ярды за попытку: {{ footballTeamWithStats.match_stats?.avg_yards_per_att }} </span>
       <span>Ярды на флаге: {{ footballTeamWithStats.match_stats?.flag_yards }}</span>
       <span>
