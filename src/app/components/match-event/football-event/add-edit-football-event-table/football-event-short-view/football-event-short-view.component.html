@@ -27,10 +27,21 @@
       </div>
     }
 
-    @if (getBallOn(eventsArray, i); as ballOn) {
+    @if (!isReturnPlay(eventsArray, i)) {
+      @if (getBallOn(eventsArray, i); as ballOn) {
+        @if (maxFieldLength) {
+          <div class="event-short-view">
+            Dist: {{ computeDistance(getBallMovedOn(eventsArray, i), ballOn, maxFieldLength / 2) }}&nbsp;
+          </div>
+        }
+      }
+    }
+
+    @if (isReturnPlay(eventsArray, i)) {
       @if (maxFieldLength) {
         <div class="event-short-view">
-          Dist: {{ computeDistance(getBallMovedOn(eventsArray, i), ballOn, maxFieldLength / 2) }}&nbsp;
+          Return
+          Dist: {{ computeDistanceOnReturn(getEventBallReturnedTo(eventsArray, i), getEventBallKickedTo(eventsArray, i), maxFieldLength / 2) }}&nbsp;
         </div>
       }
     }

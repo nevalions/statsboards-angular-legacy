@@ -80,10 +80,50 @@ export function computeDistance(
     } else if (nextEventBallOn === 0 && currentBallOn > 0) {
       calcDistance = currentBallOn;
     } else if (nextEventBallOn === 0 && currentBallOn < 0) {
-      calcDistance = max + currentBallOn + 50;
+      calcDistance = max + currentBallOn + max;
     } else {
       throw new Error('Unexpected ball position');
     }
+    return calcDistance;
+  }
+
+  return 0;
+}
+
+export function computeDistanceOnReturn(
+  returnedBallOn: number | undefined | null,
+  kickedBallOn: number | undefined | null,
+  max: number,
+): number {
+  let calcDistance: number;
+
+  if (
+    returnedBallOn !== undefined &&
+    returnedBallOn !== null &&
+    kickedBallOn !== undefined &&
+    kickedBallOn !== null
+  ) {
+    console.log('kick', returnedBallOn, kickedBallOn);
+    if (returnedBallOn > 0 && kickedBallOn > 0) {
+      // Both in positive field
+      calcDistance = returnedBallOn - kickedBallOn;
+    } else if (returnedBallOn < 0 && kickedBallOn < 0) {
+      // Both in negative field
+      calcDistance = returnedBallOn - kickedBallOn;
+    } else if (returnedBallOn > 0 && kickedBallOn < 0) {
+      // Transition from positive to negative
+      calcDistance = -(max - returnedBallOn + max + kickedBallOn);
+    } else if (returnedBallOn < 0 && kickedBallOn > 0) {
+      // Transition from negative to positive
+      calcDistance = max - kickedBallOn + max + returnedBallOn;
+    } else if (returnedBallOn === 0 && kickedBallOn > 0) {
+      calcDistance = max - kickedBallOn + max;
+    } else if (returnedBallOn === 0 && kickedBallOn < 0) {
+      calcDistance = -kickedBallOn;
+    } else {
+      throw new Error('Unexpected ball position');
+    }
+    console.log('calcDistance', calcDistance);
     return calcDistance;
   }
 

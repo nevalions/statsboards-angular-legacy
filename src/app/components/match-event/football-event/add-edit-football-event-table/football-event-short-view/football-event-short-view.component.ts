@@ -40,8 +40,10 @@ import {
   noScoreOffencePlayerSelected,
 } from '../../football-event-isPlayerSelected-helper';
 import {
+  getEventBallKickedTo,
   getEventBallMovedOn,
   getEventBallOn,
+  getEventBallReturnedTo,
   getEventDefenceScorePlayer,
   getEventDeflectedPlayer,
   getEventDistance,
@@ -71,7 +73,10 @@ import { hexToRgba } from '../../../../../base/helpers';
 import { TitleCasePipe, UpperCasePipe } from '@angular/common';
 import { FormArray } from '@angular/forms';
 import { IFootballPlayResult } from '../../../../../type/football-event.type';
-import { computeDistance } from '../../football-event-calc-helpers';
+import {
+  computeDistance,
+  computeDistanceOnReturn,
+} from '../../football-event-calc-helpers';
 
 @Component({
   selector: 'app-football-event-short-view',
@@ -163,4 +168,7 @@ export class FootballEventShortViewComponent {
     isPrevBallMovedEqualCurrentBallOn;
   protected readonly isNextBallOnEqualCurrentBallMoved =
     isNextBallOnEqualCurrentBallMoved;
+  protected readonly getEventBallKickedTo = getEventBallKickedTo;
+  protected readonly getEventBallReturnedTo = getEventBallReturnedTo;
+  protected readonly computeDistanceOnReturn = computeDistanceOnReturn;
 }
