@@ -274,17 +274,6 @@ export function createNewEvent(
           newEventBallOn = -lastEvent.ball_returned_to;
           newEventBallMovedOn = -lastEvent.ball_returned_to;
         }
-        // } else if (
-        //   lastEvent.play_result === IFootballPlayResult.PassIntercepted
-        // ) {
-        //   if (
-        //     lastEvent.ball_returned_to !== null &&
-        //     lastEvent.ball_returned_to !== undefined
-        //   ) {
-        //     newEventBallOn = -lastEvent.ball_returned_to;
-        //     newEventBallMovedOn = -lastEvent.ball_returned_to;
-        //     newEventTeam;
-        //   }
       }
 
       if (lastEvent.play_result === IFootballPlayResult.TouchBack) {
@@ -365,8 +354,10 @@ export function createNewEvent(
         //   lastEvent.event_distance,
         // );
         if (
-          lastEvent.distance_moved &&
-          lastEvent.event_distance &&
+          lastEvent.distance_moved !== null &&
+          lastEvent.distance_moved !== undefined &&
+          lastEvent.event_distance !== null &&
+          lastEvent.event_distance !== undefined &&
           lastEvent.distance_moved < lastEvent.event_distance
         ) {
           newEventTeam = newTeam;
