@@ -113,9 +113,9 @@
               </div>
 
               <!--BALL KICKED & BALL RETURN-->
-              <div class="event-ballon-distance">
-                @if (getEventBallKickedToFormControl(this.eventForm, this.arrayName, i); as control) {
-                  @if (isReturnPlayOrKickOut(eventsArray, i)) {
+              @if (getEventBallKickedToFormControl(this.eventForm, this.arrayName, i); as control) {
+                @if (isReturnPlayOrKickOut(eventsArray, i)) {
+                  <div class="event-ballon-distance">
                     <div class="event-table-cell">
                       @if (match.match_data?.field_length; as fieldLength) {
                         <app-input-numbers-with-increment-buttons
@@ -141,9 +141,43 @@
                         }
                       </div>
                     }
-                  }
+                  </div>
                 }
-              </div>
+              }
+
+              <!--BALL PICKED & BALL RETURN-->
+              @if (getEventBallPickedOnFormControl(this.eventForm, this.arrayName, i); as control) {
+                @if (isInterceptionOrFumble(eventsArray, i)) {
+                  <div class="event-ballon-distance">
+                    <div class="event-table-cell">
+                      @if (match.match_data?.field_length; as fieldLength) {
+                        <app-input-numbers-with-increment-buttons
+                          [label]="'Ball Picked'"
+                          [control]="control"
+                          [min]="-((fieldLength / 2) - 1)"
+                          [max]="fieldLength / 2"
+                          (incrementEvent)="incrementBallOnPosition(getEventBallPickedOn(eventsArray, i), $event, control, eventsArray, i, fieldLength, eventBallPickedOnKey)"
+                          (valueChanged)="onKickBallChange(eventsArray, i, $event)"
+                        ></app-input-numbers-with-increment-buttons>
+                      }
+                    </div>
+                    @if (getEventBallReturnedToFormControl(this.eventForm, this.arrayName, i); as control) {
+                      <div class="event-table-cell">
+                        @if (match.match_data?.field_length; as fieldLength) {
+                          <app-input-numbers-with-increment-buttons
+                            [label]="'Ball Returned'"
+                            [control]="control"
+                            [min]="-((fieldLength / 2) - 1)"
+                            [max]="fieldLength / 2"
+                            (incrementEvent)="incrementBallOnPosition(getEventBallReturnedTo(eventsArray, i), $event, control, eventsArray, i, fieldLength, eventBallReturnedToKey)"
+                          ></app-input-numbers-with-increment-buttons>
+                        }
+                      </div>
+                    }
+                  </div>
+                }
+              }
+
 
               <!--EVENT TEAM-->
               @if (getEventTeamFormControl(this.eventForm, this.arrayName, i); as control) {

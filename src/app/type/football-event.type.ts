@@ -73,6 +73,7 @@ export interface IFootballEvent {
   event_qtr?: number | null;
   ball_on?: number | null;
   ball_moved_to?: number | null;
+  ball_picked_on?: number | null;
   ball_kicked_to?: number | null;
   ball_returned_to?: number | null;
   offense_team?: number | null;
@@ -118,6 +119,7 @@ export interface IFootballEventWithPlayers {
   event_qtr?: number | null;
   ball_on?: number | null;
   ball_moved_to?: number | null;
+  ball_picked_on?: number | null;
   ball_kicked_to?: number | null;
   ball_returned_to?: number | null;
   distance_moved?: number | null;

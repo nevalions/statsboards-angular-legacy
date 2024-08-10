@@ -58,6 +58,27 @@
       }
     }
 
+    @if (isInterceptionOrFumble(eventsArray, i)) {
+      @if (maxFieldLength) {
+        @if (getEventBallPickedOn(eventsArray, i) !== null && getEventBallPickedOn(eventsArray, i) !== undefined) {
+          @if (getEventBallReturnedTo(eventsArray, i) !== null && getEventBallReturnedTo(eventsArray, i) !== undefined) {
+
+
+            <div class="event-short-view">
+              Return
+              Dist: {{ computeDistanceOnReturn(getEventBallReturnedTo(eventsArray, i), getEventBallPickedOn(eventsArray, i), maxFieldLength / 2) }}&nbsp;
+            </div>
+          } @else {
+            <div class="event-short-view" [style]="{ 'background-color': ICautionColors.MinCaution}">NO RETURNED BALL
+            </div>
+          }
+        } @else {
+          <div class="event-short-view" [style]="{ 'background-color': ICautionColors.MinCaution}">NO PICKED BALL
+          </div>
+        }
+      }
+    }
+
     @if (isQbPlay(eventsArray, i)) {
       <div class="event-short-view"
            [style.background-color]="isMinCautionColor(noQbSelected(eventsArray, i))">

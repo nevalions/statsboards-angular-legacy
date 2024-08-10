@@ -28,6 +28,7 @@ export const eventNumberKey = 'eventNumber';
 export const eventQtrKey = 'eventQtr';
 export const eventBallOnKey = 'eventBallOn';
 export const eventBallMovedOnKey = 'eventBallMovedOn';
+export const eventBallPickedOnKey = 'eventBallPickedOn';
 export const eventBallKickedToKey = 'eventBallKickedTo';
 export const eventBallReturnedToKey = 'eventBallReturnedTo';
 
@@ -69,6 +70,8 @@ export const eventNumber = (index: number) => eventNumberKey + index;
 export const eventQtr = (index: number) => eventQtrKey + index;
 export const eventBallOn = (index: number) => eventBallOnKey + index;
 export const eventBallMovedOn = (index: number) => eventBallMovedOnKey + index;
+export const eventBallPickedOn = (index: number) =>
+  eventBallPickedOnKey + index;
 export const eventBallKickedTo = (index: number) =>
   eventBallKickedToKey + index;
 export const eventBallReturnedTo = (index: number) =>
@@ -134,6 +137,7 @@ export function createNewEvent(
   let newEventQb: IPlayerInMatchFullData | null = null;
   let newEventBallOn: number | null = null;
   let newEventBallMovedOn: number | null = null;
+  let newEventBallPickedTo: number | null = null;
   let newEventBallKickedTo: number | null = null;
   let newEventBallReturnedTo: number | null = null;
   let newEventDown: number | null = null;
@@ -364,6 +368,7 @@ export function createNewEvent(
     event_qtr: newEventQtr,
     ball_on: newEventBallOn,
     ball_moved_to: newEventBallMovedOn,
+    ball_picked_on: newEventBallPickedTo,
     ball_kicked_to: newEventBallKickedTo,
     ball_returned_to: newEventBallReturnedTo,
     offense_team: newEventTeam,
@@ -389,6 +394,7 @@ export function extractEventData(
   const eventQtr = getQtr(eventsArray, index);
   const eventBallOn = getEventBallOn(eventsArray, index);
   const eventBallMovedOn = getEventBallMovedOn(eventsArray, index);
+  const eventBallPickedOn = getEventBallPickedOn(eventsArray, index);
   const eventBallKickedTo = getEventBallKickedTo(eventsArray, index);
   const eventBallReturnedTo = getEventBallReturnedTo(eventsArray, index);
   const eventDistanceMoved = getEventDistanceMoved(eventsArray, index);
@@ -452,6 +458,10 @@ export function extractEventData(
 
   if (eventBallMovedOn !== undefined) {
     newEventData.ball_moved_to = eventBallMovedOn;
+  }
+
+  if (eventBallPickedOn !== undefined) {
+    newEventData.ball_picked_on = eventBallPickedOn;
   }
 
   if (eventBallKickedTo !== undefined) {
@@ -649,6 +659,34 @@ export function resetEventBallMovedOn(
   index: number,
 ): void {
   resetArrayKeyIndexValue(eventsArray, index, eventBallMovedOnKey);
+}
+
+// EventBallPickedOn
+export function getEventBallPickedOn(
+  eventsArray: FormArray,
+  index: number,
+): number | null | undefined {
+  return getArrayFormDataByIndexAndKey<number>(
+    eventsArray,
+    index,
+    eventBallPickedOnKey,
+  );
+}
+
+export function getEventBallPickedOnFormControl(
+  form: FormGroup,
+  arrayName: string,
+  index: number,
+): FormControl | null | undefined {
+  return getFormControlWithIndex(form, index, eventBallPickedOnKey, arrayName);
+}
+
+export function setBallPickedOn(
+  eventsArray: FormArray,
+  index: number,
+  selectedItem: number,
+): void {
+  setArrayKeyIndexValue(eventsArray, index, selectedItem, eventBallPickedOnKey);
 }
 
 // EventBallKickedTo

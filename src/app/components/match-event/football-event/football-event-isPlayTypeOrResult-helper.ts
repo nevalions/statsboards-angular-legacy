@@ -2,6 +2,7 @@ import { FormArray } from '@angular/forms';
 import {
   getEventBallMovedOn,
   getEventBallOn,
+  getEventIsFumble,
   getEventPlayResult,
   getEventPlayType,
   getEventScoreResult,
@@ -125,6 +126,17 @@ export function isReturnPlayOrKickOut(
     playResult === IFootballPlayResult.PuntReturn ||
     playResult === IFootballPlayResult.KickOffReturn ||
     playResult === IFootballPlayResult.KickedOut
+  );
+}
+
+export function isInterceptionOrFumble(
+  eventsArray: FormArray,
+  index: number,
+): boolean {
+  const playResult = getEventPlayResult(eventsArray, index);
+  const isFumble = getEventIsFumble(eventsArray, index);
+  return (
+    isFumble === true || playResult === IFootballPlayResult.PassIntercepted
   );
 }
 

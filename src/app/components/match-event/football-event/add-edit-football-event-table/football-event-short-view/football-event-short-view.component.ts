@@ -3,6 +3,7 @@ import {
   isDefenceScore,
   isDeflectResult,
   isFlagResult,
+  isInterceptionOrFumble,
   isInterceptResult,
   isKickOffPlay,
   isKickPlay,
@@ -44,6 +45,7 @@ import {
   getEventBallKickedTo,
   getEventBallMovedOn,
   getEventBallOn,
+  getEventBallPickedOn,
   getEventBallReturnedTo,
   getEventDefenceScorePlayer,
   getEventDeflectedPlayer,
@@ -175,4 +177,6 @@ export class FootballEventShortViewComponent {
   protected readonly computeDistanceOnReturn = computeDistanceOnReturn;
   protected readonly isReturnPlayOrKickOut = isReturnPlayOrKickOut;
   protected readonly ICautionColors = ICautionColors;
+  protected readonly isInterceptionOrFumble = isInterceptionOrFumble;
+  protected readonly getEventBallPickedOn = getEventBallPickedOn;
 }

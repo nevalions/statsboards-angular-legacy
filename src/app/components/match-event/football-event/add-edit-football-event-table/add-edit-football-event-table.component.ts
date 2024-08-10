@@ -42,6 +42,8 @@ import {
   eventBallMovedOnKey,
   eventBallOn,
   eventBallOnKey,
+  eventBallPickedOn,
+  eventBallPickedOnKey,
   eventBallReturnedTo,
   eventBallReturnedToKey,
   eventDefenceScorePlayer,
@@ -91,6 +93,8 @@ import {
   getEventBallMovedOnFormControl,
   getEventBallOn,
   getEventBallOnFormControl,
+  getEventBallPickedOn,
+  getEventBallPickedOnFormControl,
   getEventBallReturnedTo,
   getEventBallReturnedToFormControl,
   getEventDefenceScorePlayer,
@@ -206,6 +210,7 @@ import {
   isDefenceScore,
   isDeflectResult,
   isFlagResult,
+  isInterceptionOrFumble,
   isInterceptResult,
   isKickOffPlay,
   isKickPlay,
@@ -405,6 +410,12 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
           this.arrayName,
           index,
         );
+      case eventBallPickedOnKey:
+        return this.getEventBallKickedToFormControl(
+          this.eventForm,
+          this.arrayName,
+          index,
+        );
       case eventBallKickedToKey:
         return getEventBallKickedToFormControl(
           this.eventForm,
@@ -477,6 +488,7 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
     const controlEventQtr = eventQtr(index);
     const controlEventBallOn = eventBallOn(index);
     const controlEventBallMoved = eventBallMovedOn(index);
+    const controlEventPickedOn = eventBallPickedOn(index);
     const controlEventKickedTo = eventBallKickedTo(index);
     const controlEventReturnTo = eventBallReturnedTo(index);
     const controlEventDistanceMoved = eventDistanceMoved(index);
@@ -523,6 +535,7 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
       [controlEventQtr]: new FormControl(event.event_qtr),
       [controlEventBallOn]: new FormControl(event.ball_on),
       [controlEventBallMoved]: new FormControl(event.ball_moved_to),
+      [controlEventPickedOn]: new FormControl(event.ball_picked_on),
       [controlEventKickedTo]: new FormControl(event.ball_kicked_to),
       [controlEventReturnTo]: new FormControl(event.ball_returned_to),
       [controlEventDistanceMoved]: new FormControl(event.distance_moved),
@@ -918,4 +931,9 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
   protected readonly eventBallReturnedToKey = eventBallReturnedToKey;
   protected readonly onKickBallChange = onKickBallChange;
   protected readonly isReturnPlayOrKickOut = isReturnPlayOrKickOut;
+  protected readonly getEventBallPickedOnFormControl =
+    getEventBallPickedOnFormControl;
+  protected readonly getEventBallPickedOn = getEventBallPickedOn;
+  protected readonly eventBallPickedOnKey = eventBallPickedOnKey;
+  protected readonly isInterceptionOrFumble = isInterceptionOrFumble;
 }
