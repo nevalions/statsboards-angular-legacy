@@ -214,6 +214,7 @@ import {
   isPatOnePlay,
   isPuntPlay,
   isReturnPlay,
+  isReturnPlayOrKickOut,
   isRunPlay,
   isSackResult,
   isScorePossible,
@@ -916,4 +917,5 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
   protected readonly getEventBallReturnedTo = getEventBallReturnedTo;
   protected readonly eventBallReturnedToKey = eventBallReturnedToKey;
   protected readonly onKickBallChange = onKickBallChange;
+  protected readonly isReturnPlayOrKickOut = isReturnPlayOrKickOut;
 }

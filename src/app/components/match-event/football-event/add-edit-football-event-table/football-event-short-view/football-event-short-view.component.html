@@ -27,7 +27,7 @@
       </div>
     }
 
-    @if (!isReturnPlay(eventsArray, i)) {
+    @if (!isReturnPlayOrKickOut(eventsArray, i)) {
       @if (getBallOn(eventsArray, i); as ballOn) {
         @if (maxFieldLength) {
           <div class="event-short-view">
@@ -37,12 +37,24 @@
       }
     }
 
-    @if (isReturnPlay(eventsArray, i)) {
+    @if (isReturnPlayOrKickOut(eventsArray, i)) {
       @if (maxFieldLength) {
-        <div class="event-short-view">
-          Return
-          Dist: {{ computeDistanceOnReturn(getEventBallReturnedTo(eventsArray, i), getEventBallKickedTo(eventsArray, i), maxFieldLength / 2) }}&nbsp;
-        </div>
+        @if (getEventBallKickedTo(eventsArray, i) !== null && getEventBallKickedTo(eventsArray, i) !== undefined) {
+          @if (getEventBallReturnedTo(eventsArray, i) !== null && getEventBallReturnedTo(eventsArray, i) !== undefined) {
+
+
+            <div class="event-short-view">
+              Return
+              Dist: {{ computeDistanceOnReturn(getEventBallReturnedTo(eventsArray, i), getEventBallKickedTo(eventsArray, i), maxFieldLength / 2) }}&nbsp;
+            </div>
+          } @else {
+            <div class="event-short-view" [style]="{ 'background-color': ICautionColors.MinCaution}">NO RETURNED BALL
+            </div>
+          }
+        } @else {
+          <div class="event-short-view" [style]="{ 'background-color': ICautionColors.MinCaution}">NO KICKED BALL
+          </div>
+        }
       }
     }
 

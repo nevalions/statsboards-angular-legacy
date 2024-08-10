@@ -116,6 +116,18 @@ export function isReturnPlay(eventsArray: FormArray, index: number): boolean {
   );
 }
 
+export function isReturnPlayOrKickOut(
+  eventsArray: FormArray,
+  index: number,
+): boolean {
+  const playResult = getEventPlayResult(eventsArray, index);
+  return (
+    playResult === IFootballPlayResult.PuntReturn ||
+    playResult === IFootballPlayResult.KickOffReturn ||
+    playResult === IFootballPlayResult.KickedOut
+  );
+}
+
 export function isPuntPlay(eventsArray: FormArray, index: number): boolean {
   const playType = getEventPlayType(eventsArray, index);
   return playType === IFootballPlayType.Punt;

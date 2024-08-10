@@ -159,11 +159,6 @@ export function noReturnPlayerSelected(
   eventsArray: FormArray,
   index: number,
 ): boolean {
-  // const playResult = getEventPlayResult(eventsArray, index);
-  // if (
-  //   playResult === IFootballPlayResult.PuntReturn ||
-  //   playResult === IFootballPlayResult.KickOffReturn
-  // ) {
   if (isReturnPlay(eventsArray, index)) {
     const player = getEventReturnPlayer(eventsArray, index);
     if (!player) {
@@ -177,8 +172,6 @@ export function noPuntPlayerSelected(
   eventsArray: FormArray,
   index: number,
 ): boolean {
-  // const playType = getEventPlayType(eventsArray, index);
-  // if (playType === IFootballPlayType.Punt) {
   if (isPuntPlay(eventsArray, index)) {
     const player = getEventPuntPlayer(eventsArray, index);
     if (!player) {
@@ -193,8 +186,6 @@ export function noFlagPlayerSelected(
   index: number,
 ): boolean {
   if (isFlagResult(eventsArray, index)) {
-    // const playResult = getEventPlayResult(eventsArray, index);
-    // if (playResult === IFootballPlayResult.Flag) {
     const player = getEventFlaggedPlayer(eventsArray, index);
     if (!player) {
       return true;
@@ -207,8 +198,6 @@ export function noSackPlayerSelected(
   eventsArray: FormArray,
   index: number,
 ): boolean {
-  // const playResult = getEventPlayResult(eventsArray, index);
-  // if (playResult === IFootballPlayResult.Sack) {
   if (isSackResult(eventsArray, index)) {
     const player = getEventSackPlayer(eventsArray, index);
     if (!player) {
@@ -222,8 +211,6 @@ export function noInterceptedPlayerSelected(
   eventsArray: FormArray,
   index: number,
 ): boolean {
-  // const playResult = getEventPlayResult(eventsArray, index);
-  // if (playResult === IFootballPlayResult.PassIntercepted) {
   if (isInterceptResult(eventsArray, index)) {
     const player = getEventInterceptedPlayer(eventsArray, index);
     if (!player) {
@@ -237,8 +224,6 @@ export function noDeflectPlayerSelected(
   eventsArray: FormArray,
   index: number,
 ): boolean {
-  // const playResult = getEventPlayResult(eventsArray, index);
-  // if (playResult === IFootballPlayResult.PassDeflected) {
   if (isDeflectResult(eventsArray, index)) {
     const player = getEventDeflectedPlayer(eventsArray, index);
     if (!player) {
@@ -252,8 +237,6 @@ export function noKickPlayerSelected(
   eventsArray: FormArray,
   index: number,
 ): boolean {
-  // const playType = getEventPlayType(eventsArray, index);
-  // if (playType === IFootballPlayType.Kick) {
   if (isKickPlay(eventsArray, index)) {
     const player = getEventKickPlayer(eventsArray, index);
     if (!player) {
@@ -267,8 +250,6 @@ export function noKickOffPlayerSelected(
   eventsArray: FormArray,
   index: number,
 ): boolean {
-  // const playType = getEventPlayType(eventsArray, index);
-  // if (playType === IFootballPlayType.Kickoff) {
   if (isKickOffPlay(eventsArray, index)) {
     const player = getEventKickOffPlayer(eventsArray, index);
     if (!player) {
@@ -282,8 +263,6 @@ export function noDefenceScorePlayerSelected(
   eventsArray: FormArray,
   index: number,
 ): boolean {
-  // const score = getEventScoreResult(eventsArray, index);
-  // if (score === IFootballScoreResult.TdDefence) {
   if (isDefenceScore(eventsArray, index)) {
     const player = getEventDefenceScorePlayer(eventsArray, index);
     if (!player) {

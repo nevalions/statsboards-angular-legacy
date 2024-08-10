@@ -115,7 +115,7 @@
               <!--BALL KICKED & BALL RETURN-->
               <div class="event-ballon-distance">
                 @if (getEventBallKickedToFormControl(this.eventForm, this.arrayName, i); as control) {
-                  @if (isReturnPlay(eventsArray, i)) {
+                  @if (isReturnPlayOrKickOut(eventsArray, i)) {
                     <div class="event-table-cell">
                       @if (match.match_data?.field_length; as fieldLength) {
                         <app-input-numbers-with-increment-buttons

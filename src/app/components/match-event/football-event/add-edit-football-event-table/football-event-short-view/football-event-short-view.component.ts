@@ -14,6 +14,7 @@ import {
   isPuntPlay,
   isQbPlay,
   isReturnPlay,
+  isReturnPlayOrKickOut,
   isRunPlay,
   isSackResult,
   isScoreTDPatTwoOffence,
@@ -77,6 +78,7 @@ import {
   computeDistance,
   computeDistanceOnReturn,
 } from '../../football-event-calc-helpers';
+import { ICautionColors } from '../../../../../type/base.type';
 
 @Component({
   selector: 'app-football-event-short-view',
@@ -171,4 +173,6 @@ export class FootballEventShortViewComponent {
   protected readonly getEventBallKickedTo = getEventBallKickedTo;
   protected readonly getEventBallReturnedTo = getEventBallReturnedTo;
   protected readonly computeDistanceOnReturn = computeDistanceOnReturn;
+  protected readonly isReturnPlayOrKickOut = isReturnPlayOrKickOut;
+  protected readonly ICautionColors = ICautionColors;
 }
