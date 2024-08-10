@@ -85,11 +85,13 @@ import {
   eventTeam,
   extractEventData,
   getEventAssistTacklePlayerFormControl,
+  getEventBallKickedTo,
   getEventBallKickedToFormControl,
   getEventBallMovedOn,
   getEventBallMovedOnFormControl,
   getEventBallOn,
   getEventBallOnFormControl,
+  getEventBallReturnedTo,
   getEventBallReturnedToFormControl,
   getEventDefenceScorePlayer,
   getEventDefenceScorePlayerFormControl,
@@ -902,4 +904,14 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
   protected readonly incrementBallPositionRelativeCenter =
     incrementBallPositionRelativeCenter;
   protected readonly getEventBallMovedOn = getEventBallMovedOn;
+  protected readonly IFootballPlayType = IFootballPlayType;
+  protected readonly getEventBallKickedTo = getEventBallKickedTo;
+  protected readonly getEventBallKickedToFormControl =
+    getEventBallKickedToFormControl;
+  protected readonly eventBallKickedTo = eventBallKickedTo;
+  protected readonly eventBallKickedToKey = eventBallKickedToKey;
+  protected readonly getEventBallReturnedToFormControl =
+    getEventBallReturnedToFormControl;
+  protected readonly getEventBallReturnedTo = getEventBallReturnedTo;
+  protected readonly eventBallReturnedToKey = eventBallReturnedToKey;
 }
