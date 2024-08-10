@@ -4,25 +4,26 @@
     [style.background-color]="hexToRgba(teamColor, 0.8)"
   >
     <div class="football-team-with-stats-match-stats">
-      <span>Ярды: {{ footballTeamWithStats.match_stats?.offence_yards }}</span>
-      <span>Ярды вынос/пасс: {{ footballTeamWithStats.match_stats?.run_yards }}
-        / {{ footballTeamWithStats.match_stats?.pass_yards }}</span>
-      <span>Попытки вынос/пасс: {{ footballTeamWithStats.match_stats?.run_att }}
-        / {{ footballTeamWithStats.match_stats?.pass_att }}</span>
-      <span>Ярды за попытку: {{ footballTeamWithStats.match_stats?.avg_yards_per_att }} </span>
-      <span>Ярды на флаге: {{ footballTeamWithStats.match_stats?.flag_yards }}</span>
+      <span>Ярды: {{ footballTeamWithStats.match_stats?.offence_yards || 0 }}</span>
+      <span>Ярды вынос/пасс: {{ footballTeamWithStats.match_stats?.run_yards || 0 }}
+        / {{ footballTeamWithStats.match_stats?.pass_yards || 0 }}</span>
+      <span>Попытки вынос/пасс: {{ footballTeamWithStats.match_stats?.run_att || 0 }}
+        / {{ footballTeamWithStats.match_stats?.pass_att || 0 }}</span>
+      <span>Ярды за попытку: {{ footballTeamWithStats.match_stats?.avg_yards_per_att || 0 }}</span>
+      <span>Ярдов потеряно: {{ footballTeamWithStats.match_stats?.lost_yards || 0 }}</span>
+      <span>Ярды на флаге: {{ footballTeamWithStats.match_stats?.flag_yards || 0 }}</span>
       <span>
-      Набор 1-го дауна: {{ footballTeamWithStats.match_stats?.first_down_gained }}
+      Набор 1-го дауна: {{ footballTeamWithStats.match_stats?.first_down_gained || 0 }}
     </span>
       <span>
       Реализация 3-го дауна: {{
-          footballTeamWithStats.match_stats?.third_down_conversions
-        }} / {{ footballTeamWithStats.match_stats?.third_down_attempts }}
+          footballTeamWithStats.match_stats?.third_down_conversions || 0
+        }} / {{ footballTeamWithStats.match_stats?.third_down_attempts || 0 }}
     </span>
       <span>
       Реализация 4-го дауна: {{
-          footballTeamWithStats.match_stats?.fourth_down_conversions
-        }} / {{ footballTeamWithStats.match_stats?.fourth_down_attempts }}
+          footballTeamWithStats.match_stats?.fourth_down_conversions || 0
+        }} / {{ footballTeamWithStats.match_stats?.fourth_down_attempts || 0 }}
     </span>
     </div>
   </div>

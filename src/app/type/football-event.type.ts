@@ -166,6 +166,7 @@ export interface ITeamFootballMatchStats {
   avg_yards_per_att: number;
   pass_yards: number;
   run_yards: number;
+  lost_yards: number;
   flag_yards: number;
   third_down_attempts?: number | undefined;
   third_down_conversions?: number | undefined;
