@@ -25,6 +25,8 @@ export class InputNumbersWithIncrementButtonsComponent {
   @Input() control!: FormControl;
   @Input() min: number = -1000;
   @Input() max: number = 1000;
+  @Input() plusOne: number = 1;
+  @Input() minusOne: number = -1;
 
   @Output() incrementEvent = new EventEmitter<number>();
   @Output() valueChanged = new EventEmitter<number>();

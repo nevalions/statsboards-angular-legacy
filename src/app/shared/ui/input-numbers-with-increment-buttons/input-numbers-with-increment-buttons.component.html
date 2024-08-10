@@ -17,7 +17,7 @@
     tuiIconButton
     class="increment-button"
     [size]="'s'"
-    (click)="increment(1)"
+    (click)="increment(plusOne)"
     [disabled]="control.disabled"
   >
   </button>
@@ -27,7 +27,7 @@
     tuiIconButton
     class="decrement-button"
     [size]="'s'"
-    (click)="increment(-1)"
+    (click)="increment(minusOne)"
     [disabled]="control.disabled"
   >
   </button>
