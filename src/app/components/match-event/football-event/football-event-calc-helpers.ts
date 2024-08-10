@@ -103,7 +103,7 @@ export function computeDistanceOnReturn(
     kickedBallOn !== undefined &&
     kickedBallOn !== null
   ) {
-    console.log('kick', returnedBallOn, kickedBallOn);
+    // console.log('kick', returnedBallOn, kickedBallOn);
     if (returnedBallOn > 0 && kickedBallOn > 0) {
       // Both in positive field
       calcDistance = returnedBallOn - kickedBallOn;
@@ -123,7 +123,7 @@ export function computeDistanceOnReturn(
     } else {
       throw new Error('Unexpected ball position');
     }
-    console.log('calcDistance', calcDistance);
+    // console.log('calcDistance', calcDistance);
     return calcDistance;
   }
 
