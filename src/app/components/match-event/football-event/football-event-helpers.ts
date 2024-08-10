@@ -259,7 +259,8 @@ export function createNewEvent(
       } = handleTeamChangeOnTouchBack(match, lastEvent);
       if (
         (lastEvent.play_result === IFootballPlayResult.PuntReturn ||
-          lastEvent.play_result === IFootballPlayResult.KickOffReturn) &&
+          lastEvent.play_result === IFootballPlayResult.KickOffReturn ||
+          lastEvent.play_result === IFootballPlayResult.KickedOut) &&
         !lastEvent.is_fumble
       ) {
         newEventDown = newDown;
