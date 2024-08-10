@@ -41,6 +41,7 @@ export enum IFootballPlayResult {
   KickBlocked = 'kick blocked',
   PuntReturn = 'punt return',
   PuntBlocked = 'punt blocked',
+  KickedOut = 'kick out',
   KickOffReturn = 'kickoff return',
   TouchBack = 'touchback',
   PatOne = 'Pat 1',
@@ -72,6 +73,8 @@ export interface IFootballEvent {
   event_qtr?: number | null;
   ball_on?: number | null;
   ball_moved_to?: number | null;
+  ball_kicked_to?: number | null;
+  ball_returned_to?: number | null;
   offense_team?: number | null;
   event_qb?: number | null;
   event_down?: number | null;
@@ -115,6 +118,8 @@ export interface IFootballEventWithPlayers {
   event_qtr?: number | null;
   ball_on?: number | null;
   ball_moved_to?: number | null;
+  ball_kicked_to?: number | null;
+  ball_returned_to?: number | null;
   distance_moved?: number | null;
   offense_team?: ITeam | null;
   event_qb?: IPlayerInMatchFullData | null;

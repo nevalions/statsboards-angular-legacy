@@ -25,6 +25,9 @@ export const eventNumberKey = 'eventNumber';
 export const eventQtrKey = 'eventQtr';
 export const eventBallOnKey = 'eventBallOn';
 export const eventBallMovedOnKey = 'eventBallMovedOn';
+export const eventBallKickedToKey = 'eventBallKickedTo';
+export const eventBallReturnedToKey = 'eventBallReturnedTo';
+
 export const eventDistanceMovedKey = 'eventDistanceMoved';
 export const eventDistanceOnOffenceKey = 'eventDistanceOnOffence';
 export const eventTeamKey = 'eventTeam';
@@ -63,6 +66,10 @@ export const eventNumber = (index: number) => eventNumberKey + index;
 export const eventQtr = (index: number) => eventQtrKey + index;
 export const eventBallOn = (index: number) => eventBallOnKey + index;
 export const eventBallMovedOn = (index: number) => eventBallMovedOnKey + index;
+export const eventBallKickedTo = (index: number) =>
+  eventBallKickedToKey + index;
+export const eventBallReturnedTo = (index: number) =>
+  eventBallReturnedToKey + index;
 export const eventDistanceMoved = (index: number) =>
   eventDistanceMovedKey + index;
 export const eventTeam = (index: number) => eventTeamKey + index;
@@ -124,6 +131,8 @@ export function createNewEvent(
   let newEventQb: IPlayerInMatchFullData | null = null;
   let newEventBallOn: number | null = null;
   let newEventBallMovedOn: number | null = null;
+  let newEventBallKickedTo: number | null = null;
+  let newEventBallReturnedTo: number | null = null;
   let newEventDown: number | null = null;
   let newEventDistance: number | null = null;
   let newEventPlayType: IFootballPlayType | null = null;
@@ -308,6 +317,8 @@ export function createNewEvent(
     event_qtr: newEventQtr,
     ball_on: newEventBallOn,
     ball_moved_to: newEventBallMovedOn,
+    ball_kicked_to: newEventBallKickedTo,
+    ball_returned_to: newEventBallReturnedTo,
     offense_team: newEventTeam,
     event_qb: newEventQb,
     event_down: newEventDown,
@@ -331,6 +342,8 @@ export function extractEventData(
   const eventQtr = getQtr(eventsArray, index);
   const eventBallOn = getEventBallOn(eventsArray, index);
   const eventBallMovedOn = getEventBallMovedOn(eventsArray, index);
+  const eventBallKickedTo = getEventBallKickedTo(eventsArray, index);
+  const eventBallReturnedTo = getEventBallReturnedTo(eventsArray, index);
   const eventDistanceMoved = getEventDistanceMoved(eventsArray, index);
   const eventDistanceOnOffence = getEventDistanceOnOffence(eventsArray, index);
   const eventTeam = getEventTeam(eventsArray, index);
@@ -392,6 +405,14 @@ export function extractEventData(
 
   if (eventBallMovedOn !== undefined) {
     newEventData.ball_moved_to = eventBallMovedOn;
+  }
+
+  if (eventBallKickedTo !== undefined) {
+    newEventData.ball_kicked_to = eventBallKickedTo;
+  }
+
+  if (eventBallReturnedTo !== undefined) {
+    newEventData.ball_returned_to = eventBallReturnedTo;
   }
 
   if (eventDistanceOnOffence || eventDistanceOnOffence === 0) {
@@ -576,6 +597,79 @@ export function setEventBallMovedOn(
   setArrayKeyIndexValue(eventsArray, index, selectedItem, eventBallMovedOnKey);
 }
 
+export function resetEventBallMovedOn(
+  eventsArray: FormArray,
+  index: number,
+): void {
+  resetArrayKeyIndexValue(eventsArray, index, eventBallMovedOnKey);
+}
+
+// EventBallKickedTo
+export function getEventBallKickedTo(
+  eventsArray: FormArray,
+  index: number,
+): number | null | undefined {
+  return getArrayFormDataByIndexAndKey<number>(
+    eventsArray,
+    index,
+    eventBallKickedToKey,
+  );
+}
+
+export function getEventBallKickedToFormControl(
+  form: FormGroup,
+  arrayName: string,
+  index: number,
+): FormControl | null | undefined {
+  return getFormControlWithIndex(form, index, eventBallKickedToKey, arrayName);
+}
+
+export function setBallKickedTo(
+  eventsArray: FormArray,
+  index: number,
+  selectedItem: number,
+): void {
+  setArrayKeyIndexValue(eventsArray, index, selectedItem, eventBallKickedToKey);
+}
+
+// EventBallReturnedTo
+export function getEventBallReturnedTo(
+  eventsArray: FormArray,
+  index: number,
+): number | null | undefined {
+  return getArrayFormDataByIndexAndKey<number>(
+    eventsArray,
+    index,
+    eventBallReturnedToKey,
+  );
+}
+
+export function getEventBallReturnedToFormControl(
+  form: FormGroup,
+  arrayName: string,
+  index: number,
+): FormControl | null | undefined {
+  return getFormControlWithIndex(
+    form,
+    index,
+    eventBallReturnedToKey,
+    arrayName,
+  );
+}
+
+export function setBallReturnedTo(
+  eventsArray: FormArray,
+  index: number,
+  selectedItem: number,
+): void {
+  setArrayKeyIndexValue(
+    eventsArray,
+    index,
+    selectedItem,
+    eventBallReturnedToKey,
+  );
+}
+
 // EventDistanceMoved
 export function getEventDistanceMoved(
   eventsArray: FormArray,
@@ -596,7 +690,7 @@ export function getEventDistanceMovedFormControl(
   return getFormControlWithIndex(form, index, eventDistanceMovedKey, arrayName);
 }
 
-export function setDistanceMoved(
+export function setEventDistanceMoved(
   eventsArray: FormArray,
   index: number,
   selectedItem: number,

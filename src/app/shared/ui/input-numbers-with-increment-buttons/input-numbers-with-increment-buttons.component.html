@@ -1,0 +1,34 @@
+<div class="input-number-with-buttons">
+  <tui-input-number
+    [tuiTextfieldSize]="size"
+    class="input-number"
+    [formControl]="control"
+    [tuiTextfieldCleaner]="true"
+    [min]="min"
+    [max]="max"
+    (tuiValueChanges)="onValueChange($event)"
+  >
+    {{ label | uppercase }}
+    <input name="{{ label | uppercase }}" tuiTextfield/>
+  </tui-input-number>
+  <button
+    appearance="icon"
+    [icon]="'tuiIconPlusCircleLarge'"
+    tuiIconButton
+    class="increment-button"
+    [size]="'s'"
+    (click)="increment(1)"
+    [disabled]="control.disabled"
+  >
+  </button>
+  <button
+    appearance="icon"
+    [icon]="'tuiIconMinusCircleLarge'"
+    tuiIconButton
+    class="decrement-button"
+    [size]="'s'"
+    (click)="increment(-1)"
+    [disabled]="control.disabled"
+  >
+  </button>
+</div>

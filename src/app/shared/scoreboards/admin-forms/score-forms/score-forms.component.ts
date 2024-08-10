@@ -38,7 +38,7 @@ import {
 import { InputNumberWithButtonsComponent } from '../input-number-with-buttons/input-number-with-buttons.component';
 import {
   incrementNumberInFormGroup,
-  incrementOnBall,
+  incrementBallPositionRelativeCenter,
   onBallOnChange,
 } from '../../../../components/match-event/football-event/football-event-on-change-helpers';
 import { getFormControl, getFormDataByKey } from '../../../../base/formHelpers';
@@ -146,7 +146,7 @@ export class ScoreFormsComponent implements OnChanges {
   protected readonly eventQtrKey = eventQtrKey;
   protected readonly getBallOn = getEventBallOn;
   protected readonly onBallOnChange = onBallOnChange;
-  protected readonly incrementOnBall = incrementOnBall;
+  protected readonly incrementOnBall = incrementBallPositionRelativeCenter;
   protected readonly eventBallOnKey = eventBallOnKey;
   protected readonly getFormDataByKey = getFormDataByKey;
   protected readonly incrementNumberInFormGroup = incrementNumberInFormGroup;

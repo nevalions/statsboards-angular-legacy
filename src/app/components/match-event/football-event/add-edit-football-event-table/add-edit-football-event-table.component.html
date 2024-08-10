@@ -85,87 +85,102 @@
                   <div class="event-table-cell">
                     @if (match.match_data?.field_length; as fieldLength) {
                       <div class="input-number-with-buttons">
-                        <tui-input-number
-                          [tuiTextfieldSize]="'l'"
-                          class="input-number"
-                          [formControl]="control"
-                          [tuiTextfieldCleaner]="true"
-                          [min]="-49"
-                          [max]="50"
-                          (tuiValueChanges)="onBallOnChange(events, eventsArray, $event, i, (fieldLength/2))"
-                        >
-                          {{ 'Ball On' | uppercase }}
-                          <input
-                            name="{{ 'Ball On' | uppercase }}"
-                            tuiTextfield
-                          />
-                        </tui-input-number>
-                        @if ((getBallOn(eventsArray, i)); as number) {
-                          <button
-                            appearance="icon"
-                            icon="tuiIconPlusCircleLarge"
-                            tuiIconButton
-                            class="increment-button"
-                            [size]="'s'"
-                            (click)="incrementOnBall(control, eventsArray, i, number, 1, (fieldLength/2), eventBallOnKey)"
-                            [disabled]="control.disabled"
-                          >
-                          </button>
-                          <button
-                            appearance="icon"
-                            icon="tuiIconMinusCircleLarge"
-                            tuiIconButton
-                            class="decrement-button"
-                            [size]="'s'"
-                            (click)="incrementOnBall(control, eventsArray, i, number, -1, (fieldLength/2), eventBallOnKey)"
-                            [disabled]="control.disabled"
-                          >-
-                          </button>
-                        }
+                        <app-input-numbers-with-increment-buttons
+                          [label]="'BallOn'"
+                          [control]="control"
+                          [min]="-((fieldLength / 2) - 1)"
+                          [max]="fieldLength / 2"
+                          (incrementEvent)="incrementBallOnPosition(getEventBallOn(eventsArray, i), $event, control, eventsArray, i, fieldLength, eventBallOnKey)"
+                          (valueChanged)="onBallOnChange(events, eventsArray, $event, i, (fieldLength/2))"
+                        ></app-input-numbers-with-increment-buttons>
+                        <!--                        <tui-input-number-->
+                        <!--                          [tuiTextfieldSize]="'l'"-->
+                        <!--                          class="input-number"-->
+                        <!--                          [formControl]="control"-->
+                        <!--                          [tuiTextfieldCleaner]="true"-->
+                        <!--                          [min]="-((fieldLength/2)-1)"-->
+                        <!--                          [max]="fieldLength/2"-->
+                        <!--                          (tuiValueChanges)="onBallOnChange(events, eventsArray, $event, i, (fieldLength/2))"-->
+                        <!--                        >-->
+                        <!--                          {{ 'Ball On' | uppercase }}-->
+                        <!--                          <input-->
+                        <!--                            name="{{ 'Ball On' | uppercase }}"-->
+                        <!--                            tuiTextfield-->
+                        <!--                          />-->
+                        <!--                        </tui-input-number>-->
+                        <!--                        @if ((getBallOn(eventsArray, i)); as number) {-->
+                        <!--                          <button-->
+                        <!--                            appearance="icon"-->
+                        <!--                            icon="tuiIconPlusCircleLarge"-->
+                        <!--                            tuiIconButton-->
+                        <!--                            class="increment-button"-->
+                        <!--                            [size]="'s'"-->
+                        <!--                            (click)="incrementBallPositionRelativeCenter(control, eventsArray, i, number, 1, (fieldLength/2), eventBallOnKey)"-->
+                        <!--                            [disabled]="control.disabled"-->
+                        <!--                          >-->
+                        <!--                          </button>-->
+                        <!--                          <button-->
+                        <!--                            appearance="icon"-->
+                        <!--                            icon="tuiIconMinusCircleLarge"-->
+                        <!--                            tuiIconButton-->
+                        <!--                            class="decrement-button"-->
+                        <!--                            [size]="'s'"-->
+                        <!--                            (click)="incrementBallPositionRelativeCenter(control, eventsArray, i, number, -1, (fieldLength/2), eventBallOnKey)"-->
+                        <!--                            [disabled]="control.disabled"-->
+                        <!--                          >- -->
+                        <!--                          </button>-->
+                        <!--                        }-->
                       </div>
                     }
                   </div>
                   @if (getBallMovedOnFormControl(this.eventForm, this.arrayName, i); as control) {
                     <div class="event-table-cell">
                       @if (match.match_data?.field_length; as fieldLength) {
-                        <div class="input-number-with-buttons">
-                          <tui-input-number
-                            [tuiTextfieldSize]="'l'"
-                            class="input-number"
-                            [formControl]="control"
-                            [tuiTextfieldCleaner]="true"
-                            [min]="-49"
-                            [max]="50"
-                          >
-                            {{ 'Ball Moved' | uppercase }}
-                            <input
-                              name="{{ 'Ball Moved' | uppercase }}"
-                              tuiTextfield
-                            />
-                          </tui-input-number>
-                          @if (getBallMovedOn(eventsArray, i); as number) {
-                            <button
-                              appearance="icon"
-                              icon="tuiIconPlusCircleLarge"
-                              tuiIconButton
-                              class="increment-button"
-                              [size]="'s'"
-                              (click)="incrementOnBall(control, eventsArray, i, number, 1, (fieldLength/2), eventBallMovedOnKey)"
-                              [disabled]="control.disabled"
-                            >
-                            </button>
-                            <button
-                              appearance="icon"
-                              icon="tuiIconMinusCircleLarge"
-                              tuiIconButton
-                              class="decrement-button"
-                              [size]="'s'"
-                              (click)="incrementOnBall(control, eventsArray, i, number, -1, (fieldLength/2), eventBallMovedOnKey)"
-                              [disabled]="control.disabled"
-                            >-
-                            </button>
-                          }
-                        </div>
+                        <app-input-numbers-with-increment-buttons
+                          [label]="'Ball Moved'"
+                          [control]="control"
+                          [min]="-((fieldLength / 2) - 1)"
+                          [max]="fieldLength / 2"
+                          (incrementEvent)="incrementBallOnPosition(getEventBallMovedOn(eventsArray, i), $event, control, eventsArray, i, fieldLength, eventBallMovedOnKey)"
+                        ></app-input-numbers-with-increment-buttons>
+                        <!--                        <div class="input-number-with-buttons">-->
+                          <!--                          <tui-input-number-->
+                          <!--                            [tuiTextfieldSize]="'l'"-->
+                          <!--                            class="input-number"-->
+                          <!--                            [formControl]="control"-->
+                          <!--                            [tuiTextfieldCleaner]="true"-->
+                          <!--                            [min]="-((fieldLength/2)-1)"-->
+                          <!--                            [max]="fieldLength/2"-->
+                          <!--                          >-->
+                          <!--                            {{ 'Ball Moved' | uppercase }}-->
+                          <!--                            <input-->
+                          <!--                              name="{{ 'Ball Moved' | uppercase }}"-->
+                          <!--                              tuiTextfield-->
+                          <!--                            />-->
+                          <!--                          </tui-input-number>-->
+                          <!--                          @if (getBallMovedOn(eventsArray, i); as number) {-->
+                          <!--                            <button-->
+                          <!--                              appearance="icon"-->
+                          <!--                              icon="tuiIconPlusCircleLarge"-->
+                          <!--                              tuiIconButton-->
+                          <!--                              class="increment-button"-->
+                          <!--                              [size]="'s'"-->
+                          <!--                              (click)="incrementBallPositionRelativeCenter(control, eventsArray, i, number, 1, (fieldLength/2), eventBallMovedOnKey)"-->
+                          <!--                              [disabled]="control.disabled"-->
+                          <!--                            >-->
+                          <!--                            </button>-->
+                          <!--                            <button-->
+                          <!--                              appearance="icon"-->
+                          <!--                              icon="tuiIconMinusCircleLarge"-->
+                          <!--                              tuiIconButton-->
+                          <!--                              class="decrement-button"-->
+                          <!--                              [size]="'s'"-->
+                          <!--                              (click)="incrementBallPositionRelativeCenter(control, eventsArray, i, number, -1, (fieldLength/2), eventBallMovedOnKey)"-->
+                          <!--                              [disabled]="control.disabled"-->
+                          <!--                            >- -->
+                          <!--                            </button>-->
+                          <!--                          }-->
+                          <!--                        </div>-->
                       }
                     </div>
                   }

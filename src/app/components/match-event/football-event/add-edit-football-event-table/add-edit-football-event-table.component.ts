@@ -36,10 +36,14 @@ import { DialogService } from '../../../../services/dialog.service';
 import {
   createNewEvent,
   eventAssistTacklePlayer,
+  eventBallKickedTo,
+  eventBallKickedToKey,
   eventBallMovedOn,
   eventBallMovedOnKey,
   eventBallOn,
   eventBallOnKey,
+  eventBallReturnedTo,
+  eventBallReturnedToKey,
   eventDefenceScorePlayer,
   eventDeflectedPlayer,
   eventDirection,
@@ -81,10 +85,12 @@ import {
   eventTeam,
   extractEventData,
   getEventAssistTacklePlayerFormControl,
+  getEventBallKickedToFormControl,
   getEventBallMovedOn,
   getEventBallMovedOnFormControl,
   getEventBallOn,
   getEventBallOnFormControl,
+  getEventBallReturnedToFormControl,
   getEventDefenceScorePlayer,
   getEventDefenceScorePlayerFormControl,
   getEventDeflectedPlayer,
@@ -92,7 +98,6 @@ import {
   getEventDirectionFormControl,
   getEventDistance,
   getEventDistanceFormControl,
-  getEventDistanceMoved,
   getEventDistanceOnOffenceFormControl,
   getEventDownFormControl,
   getEventDroppedPlayer,
@@ -146,8 +151,8 @@ import {
   changePlayResultOnPlayTypeChange,
   filterPlayResultsByType,
   filterScoreResultsByType,
+  incrementBallPositionRelativeCenter,
   incrementNumberWithArrayAndIndex,
-  incrementOnBall,
   onBallOnChange,
   onDownChange,
   onOffenceScore,
@@ -214,6 +219,7 @@ import {
 } from '../football-event-isPlayTypeOrResult-helper';
 import { FootballEventShortViewComponent } from './football-event-short-view/football-event-short-view.component';
 import { SelectPlayerInMatchComponent } from '../../../../shared/ui/select/select-player-in-match/select-player-in-match.component';
+import { InputNumbersWithIncrementButtonsComponent } from '../../../../shared/ui/input-numbers-with-increment-buttons/input-numbers-with-increment-buttons.component';
 
 @Component({
   selector: 'app-add-edit-football-event-table',
@@ -238,6 +244,7 @@ import { SelectPlayerInMatchComponent } from '../../../../shared/ui/select/selec
     TuiToggleModule,
     FootballEventShortViewComponent,
     SelectPlayerInMatchComponent,
+    InputNumbersWithIncrementButtonsComponent,
   ],
   templateUrl: './add-edit-football-event-table.component.html',
   styleUrl: './add-edit-football-event-table.component.less',
@@ -281,6 +288,30 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
 
   isExpanded(id: number): boolean {
     return this.expandedStates[id] || false;
+  }
+
+  incrementBallOnPosition(
+    ballOn: number | null | undefined,
+    step: number,
+    control: FormControl,
+    eventsArray: FormArray,
+    i: number,
+    fieldLength: number,
+    arrayKey: string,
+  ): void {
+    // const ballOn = getEventBallOn(eventsArray, i);
+    console.log('ball position', ballOn);
+    if (ballOn !== undefined && ballOn !== null) {
+      incrementBallPositionRelativeCenter(
+        control,
+        eventsArray,
+        i,
+        ballOn,
+        step,
+        fieldLength / 2,
+        arrayKey,
+      );
+    }
   }
 
   handlePlayTypeChange(
@@ -370,6 +401,18 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
           this.arrayName,
           index,
         );
+      case eventBallKickedToKey:
+        return getEventBallKickedToFormControl(
+          this.eventForm,
+          this.arrayName,
+          index,
+        );
+      case eventBallReturnedToKey:
+        return getEventBallReturnedToFormControl(
+          this.eventForm,
+          this.arrayName,
+          index,
+        );
       case eventDistanceKey:
         return this.getEventDistanceFormControl(
           this.eventForm,
@@ -430,6 +473,8 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
     const controlEventQtr = eventQtr(index);
     const controlEventBallOn = eventBallOn(index);
     const controlEventBallMoved = eventBallMovedOn(index);
+    const controlEventKickedTo = eventBallKickedTo(index);
+    const controlEventReturnTo = eventBallReturnedTo(index);
     const controlEventDistanceMoved = eventDistanceMoved(index);
     const controlEventDistanceOnOffence = eventDistanceOnOffence(index);
 
@@ -474,6 +519,8 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
       [controlEventQtr]: new FormControl(event.event_qtr),
       [controlEventBallOn]: new FormControl(event.ball_on),
       [controlEventBallMoved]: new FormControl(event.ball_moved_to),
+      [controlEventKickedTo]: new FormControl(event.ball_kicked_to),
+      [controlEventReturnTo]: new FormControl(event.ball_returned_to),
       [controlEventDistanceMoved]: new FormControl(event.distance_moved),
       [controlEventDistanceOnOffence]: new FormControl(
         event.distance_on_offence,
@@ -801,15 +848,12 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
   protected readonly getEventFlaggedPlayerFormControl =
     getEventFlaggedPlayerFormControl;
   protected readonly getEventFlaggedPlayer = getEventFlaggedPlayer;
-  protected readonly incrementOnBall = incrementOnBall;
   protected readonly getBallOn = getEventBallOn;
-  protected readonly getEventDistanceMoved = getEventDistanceMoved;
   protected readonly getEventPlayResult = getEventPlayResult;
   protected readonly tuiAppFlat = TuiAppearance.Flat;
   protected readonly hexToRgba = hexToRgba;
   protected readonly getEventDistanceOnOffenceFormControl =
     getEventDistanceOnOffenceFormControl;
-  protected readonly eventDistanceOnOffenceKey = eventDistanceOnOffenceKey;
   protected readonly filterPlayResultsByType = filterPlayResultsByType;
   protected readonly getEventPlayType = getEventPlayType;
   protected readonly eventPlayTypeOptions = eventPlayTypeOptions;
@@ -852,8 +896,10 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
   protected readonly getBallMovedOnFormControl = getEventBallMovedOnFormControl;
   protected readonly eventBallMovedOnKey = eventBallMovedOnKey;
   protected readonly getBallMovedOn = getEventBallMovedOn;
-  protected readonly eventBallMovedOn = eventBallMovedOn;
   protected readonly isDistanceOrGoal = isDistanceOrGoal;
   protected readonly getEventDistance = getEventDistance;
   protected readonly getEventBallOn = getEventBallOn;
+  protected readonly incrementBallPositionRelativeCenter =
+    incrementBallPositionRelativeCenter;
+  protected readonly getEventBallMovedOn = getEventBallMovedOn;
 }

@@ -18,6 +18,7 @@ import {
   resetAssistTacklePlayer,
   resetDeflectedPlayer,
   resetDroppedPlayer,
+  resetEventBallMovedOn,
   resetInterceptedPlayer,
   resetKickOffPlayer,
   resetKickPlayer,
@@ -64,7 +65,7 @@ export function onTeamChange(
     // console.log('first down team change');
     setDown(eventsArray, index, 1);
     setDistance(eventsArray, index, 10);
-    //TODO reset onball
+    resetEventBallMovedOn(eventsArray, index);
     resetQb(eventsArray, index);
   }
 }
@@ -413,6 +414,7 @@ export function filterPlayResultsByType(
         IFootballPlayResult.None,
         IFootballPlayResult.Kick,
         IFootballPlayResult.KickBlocked,
+        IFootballPlayResult.KickedOut,
         IFootballPlayResult.Flag,
       ];
     case IFootballPlayType.Kickoff:
@@ -428,6 +430,7 @@ export function filterPlayResultsByType(
         IFootballPlayResult.TouchBack,
         IFootballPlayResult.PuntReturn,
         IFootballPlayResult.PuntBlocked,
+        IFootballPlayResult.KickedOut,
         IFootballPlayResult.Flag,
       ];
     case IFootballPlayType.PatOne:
@@ -543,7 +546,7 @@ export function incrementNumberWithArrayAndIndex(
   return null;
 }
 
-export function incrementOnBall(
+export function incrementBallPositionRelativeCenter(
   control: FormControl,
   array: FormArray,
   index: number,
@@ -555,6 +558,7 @@ export function incrementOnBall(
   if (num === undefined || num === null) {
     return null;
   }
+  console.log('increment realativly', num, step, max);
 
   let newValue = num;
   let min = -(max - 1);
@@ -621,7 +625,7 @@ export function handleTeamChangeOnTouchBack(
 } {
   const { newEventTeam, newEventQb } = handleBasicTeamChange(match, lastEvent);
 
-  const newEventBallOn = -20;
+  const newEventBallOn = -35;
   const newEventDown = 1;
   const newEventDistance = 10;
 
