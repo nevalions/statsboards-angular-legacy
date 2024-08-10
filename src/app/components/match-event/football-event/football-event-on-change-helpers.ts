@@ -6,6 +6,8 @@ import {
   IFootballScoreResult,
 } from '../../../type/football-event.type';
 import {
+  getEventBallKickedTo,
+  getEventBallReturnedTo,
   getEventDown,
   getEventKickPlayer,
   getEventPlayResult,
@@ -33,6 +35,7 @@ import {
   resetScorePlayer,
   resetScoreResult,
   resetTacklePlayer,
+  setBallReturnedTo,
   setDistance,
   setDown,
   setEventBallMovedOn,
@@ -48,6 +51,7 @@ import {
 } from '../../../base/formHelpers';
 import { IMatchWithFullData } from '../../../type/match.type';
 import { IPlayerInMatchFullData } from '../../../type/player.type';
+import { timeout } from 'rxjs';
 
 export function onTeamChange(
   eventsArray: FormArray,
@@ -201,6 +205,21 @@ export function onBallOnChange(
   }
 
   // console.log(currentDown, updatedDown, updatedDown);
+}
+
+export function onKickBallChange(
+  eventsArray: FormArray,
+  index: number,
+  currentBallKickedTo: number,
+): void {
+  if (currentBallKickedTo !== null && currentBallKickedTo !== undefined) {
+    const currentBallReturnedTo = getEventBallReturnedTo(eventsArray, index);
+    setTimeout(() => {
+      if (currentBallReturnedTo === null) {
+        setBallReturnedTo(eventsArray, index, currentBallKickedTo);
+      }
+    }, 1000);
+  }
 }
 
 export function onPlayTypeChange(
@@ -558,7 +577,7 @@ export function incrementBallPositionRelativeCenter(
   if (num === undefined || num === null) {
     return null;
   }
-  console.log('increment realativly', num, step, max);
+  // console.log('increment realativly', num, step, max);
 
   let newValue = num;
   let min = -(max - 1);
@@ -636,4 +655,51 @@ export function handleTeamChangeOnTouchBack(
     newEventTeam,
     newEventQb,
   };
+}
+
+export function handleTeamChangeOnDown(
+  match: IMatchWithFullData | null,
+  lastEvent: IFootballEventWithPlayers,
+): {
+  newEventBallOn: number | null;
+  newEventDown: number | null;
+  newEventDistance: number | null;
+  newEventTeam: ITeam | null;
+} {
+  const { newEventTeam, newEventQb } = handleBasicTeamChange(match, lastEvent);
+  let newEventBallOn: number | null = null;
+  let newEventDown: number | null = null;
+  let newEventDistance: number | null = null;
+  // console.log(
+  //   'handleOnDownChange',
+  //   lastEvent.distance_moved,
+  //   lastEvent.event_distance,
+  //   lastEvent.event_down,
+  // );
+
+  if (
+    lastEvent.event_down === 4 &&
+    (lastEvent.play_type === IFootballPlayType.Run ||
+      lastEvent.play_type === IFootballPlayType.Pass)
+  ) {
+    if (
+      lastEvent.distance_moved &&
+      lastEvent.event_distance &&
+      lastEvent.ball_moved_to &&
+      lastEvent.distance_moved < lastEvent.event_distance
+    ) {
+      console.log('change on down');
+      newEventBallOn = -lastEvent.ball_moved_to;
+      newEventDown = 1;
+      newEventDistance = 10;
+
+      return {
+        newEventBallOn,
+        newEventDown,
+        newEventDistance,
+        newEventTeam,
+      };
+    }
+  }
+  return { newEventBallOn, newEventDown, newEventDistance, newEventTeam };
 }

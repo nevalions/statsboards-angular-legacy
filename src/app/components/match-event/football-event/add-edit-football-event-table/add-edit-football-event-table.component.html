@@ -124,6 +124,7 @@
                           [min]="-((fieldLength / 2) - 1)"
                           [max]="fieldLength / 2"
                           (incrementEvent)="incrementBallOnPosition(getEventBallKickedTo(eventsArray, i), $event, control, eventsArray, i, fieldLength, eventBallKickedToKey)"
+                          (valueChanged)="onKickBallChange(eventsArray, i, $event)"
                         ></app-input-numbers-with-increment-buttons>
                       }
                     </div>

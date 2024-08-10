@@ -17,7 +17,10 @@ import {
   IFootballScoreResult,
 } from '../../../type/football-event.type';
 import { IMatchWithFullData } from '../../../type/match.type';
-import { handleTeamChangeOnTouchBack } from './football-event-on-change-helpers';
+import {
+  handleTeamChangeOnDown,
+  handleTeamChangeOnTouchBack,
+} from './football-event-on-change-helpers';
 import { computeDistanceForDownDistance } from './football-event-calc-helpers';
 
 export const eventIdKey = 'eventId';
@@ -252,6 +255,14 @@ export function createNewEvent(
         newEventDistance = newDistance;
         newEventTeam = newTeam;
         newEventQb = newQb;
+
+        if (
+          lastEvent.ball_returned_to !== null &&
+          lastEvent.ball_returned_to !== undefined
+        ) {
+          newEventBallOn = -lastEvent.ball_returned_to;
+          newEventBallMovedOn = -lastEvent.ball_returned_to;
+        }
       }
 
       if (lastEvent.play_result === IFootballPlayResult.TouchBack) {
@@ -307,6 +318,42 @@ export function createNewEvent(
         newEventDistance = null;
         newEventQb = null;
         newEventBallOn = -35;
+      }
+    }
+  }
+
+  if (lastEvent && lastEvent.play_type) {
+    if (match) {
+      const {
+        newEventBallOn: newBallOn,
+        newEventDown: newDown,
+        newEventDistance: newDistance,
+        newEventTeam: newTeam,
+      } = handleTeamChangeOnDown(match, lastEvent);
+      // console.log('handleDict', newBallOn, newDown, newDistance, newTeam?.id);
+      // console.log('last and new event', lastEvent.offense_team?.id, newEventTeam?.id, lastEvent.event_down)
+      if (
+        lastEvent.event_down === 4 &&
+        (lastEvent.play_type === IFootballPlayType.Pass ||
+          lastEvent.play_type === IFootballPlayType.Run)
+      ) {
+        // console.log(
+        //   'last 4th down',
+        //   lastEvent.distance_moved,
+        //   lastEvent.event_distance,
+        // );
+        if (
+          lastEvent.distance_moved &&
+          lastEvent.event_distance &&
+          lastEvent.distance_moved < lastEvent.event_distance
+        ) {
+          newEventTeam = newTeam;
+          newEventBallOn = newBallOn;
+          newEventBallMovedOn = newBallOn;
+          newEventDown = newDown;
+          newEventDistance = newDistance;
+          newEventQb = null;
+        }
       }
     }
   }

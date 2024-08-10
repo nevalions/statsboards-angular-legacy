@@ -157,6 +157,7 @@ import {
   incrementNumberWithArrayAndIndex,
   onBallOnChange,
   onDownChange,
+  onKickBallChange,
   onOffenceScore,
   onPlayResultChange,
   onPlayTypeChange,
@@ -302,7 +303,7 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
     arrayKey: string,
   ): void {
     // const ballOn = getEventBallOn(eventsArray, i);
-    console.log('ball position', ballOn);
+    // console.log('ball position', ballOn);
     if (ballOn !== undefined && ballOn !== null) {
       incrementBallPositionRelativeCenter(
         control,
@@ -914,4 +915,5 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
     getEventBallReturnedToFormControl;
   protected readonly getEventBallReturnedTo = getEventBallReturnedTo;
   protected readonly eventBallReturnedToKey = eventBallReturnedToKey;
+  protected readonly onKickBallChange = onKickBallChange;
 }
