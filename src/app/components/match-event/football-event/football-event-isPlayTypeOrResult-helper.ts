@@ -214,14 +214,20 @@ export function isScorePossible(
   index: number,
 ): boolean {
   const playResult = getEventPlayResult(eventsArray, index);
-
-  return (
+  const playType = getEventPlayType(eventsArray, index);
+  if (playType === IFootballPlayType.PatTwo) {
+    return true;
+  }
+  if (
     playResult !== IFootballPlayResult.Flag &&
     playResult !== IFootballPlayResult.PassIncomplete &&
     playResult !== IFootballPlayResult.PassDeflected &&
     playResult !== IFootballPlayResult.PassDropped &&
     playResult !== IFootballPlayResult.TouchBack
-  );
+  ) {
+    return true;
+  }
+  return false;
 }
 
 // export function isDefenceScorePossible(
