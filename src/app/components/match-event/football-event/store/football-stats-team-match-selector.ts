@@ -11,48 +11,48 @@ import { selectFootballEventsWithPlayers } from './selectors';
 import { IFootballTeamWithStats } from '../../../../type/team.type';
 import { calculateFootballDownStats } from '../football-event-stats-calc-helpers';
 
-const selectOverallDistanceForTeam = (
-  teamIdSelector: (match: IMatchWithFullData) => number | undefined,
-  playType: IFootballPlayType,
-  playResult: IFootballPlayResult,
-) =>
-  createSelector(
-    selectFootballEventsWithPlayers,
-    selectCurrentMatchWithFullData,
-    (eventsWithPlayers: IFootballEventWithPlayers[], match): number => {
-      if (!match || !match.id) {
-        return 0;
-      }
-      const teamId = teamIdSelector(match);
-      if (!teamId) {
-        return 0;
-      }
-
-      return eventsWithPlayers.reduce((totalDistance, event) => {
-        if (
-          event.offense_team?.id === teamId &&
-          event.play_type &&
-          event.play_result
-        ) {
-          if (
-            event.play_type === playType &&
-            event.play_result === playResult &&
-            !event.is_fumble
-          ) {
-            return totalDistance + (event.distance_moved || 0);
-          } else if (
-            event.play_type === playType &&
-            event.play_result === playResult &&
-            event.is_fumble
-          ) {
-            // console.log('is fumble', event);
-            return totalDistance + (event.distance_on_offence || 0);
-          }
-        }
-        return totalDistance;
-      }, 0);
-    },
-  );
+// const selectOverallDistanceForTeam = (
+//   teamIdSelector: (match: IMatchWithFullData) => number | undefined,
+//   playType: IFootballPlayType,
+//   playResult: IFootballPlayResult,
+// ) =>
+//   createSelector(
+//     selectFootballEventsWithPlayers,
+//     selectCurrentMatchWithFullData,
+//     (eventsWithPlayers: IFootballEventWithPlayers[], match): number => {
+//       if (!match || !match.id) {
+//         return 0;
+//       }
+//       const teamId = teamIdSelector(match);
+//       if (!teamId) {
+//         return 0;
+//       }
+//
+//       return eventsWithPlayers.reduce((totalDistance, event) => {
+//         if (
+//           event.offense_team?.id === teamId &&
+//           event.play_type &&
+//           event.play_result
+//         ) {
+//           if (
+//             event.play_type === playType &&
+//             event.play_result === playResult &&
+//             !event.is_fumble
+//           ) {
+//             return totalDistance + (event.distance_moved || 0);
+//           } else if (
+//             event.play_type === playType &&
+//             event.play_result === playResult &&
+//             event.is_fumble
+//           ) {
+//             // console.log('is fumble', event);
+//             return totalDistance + (event.distance_on_offence || 0);
+//           }
+//         }
+//         return totalDistance;
+//       }, 0);
+//     },
+//   );
 
 const selectFootballMatchTeamOverallRunDistance = (
   teamIdSelector: (match: IMatchWithFullData) => number | undefined,
@@ -88,10 +88,10 @@ const selectFootballMatchTeamOverallRunDistance = (
                 //   );
                 //   return eventRunDistance + distance;
                 // }
-                console.log(
-                  'calc  distance_moved no fumble',
-                  eventRunDistance + (event.distance_moved || 0),
-                );
+                // console.log(
+                //   'calc  distance_moved no fumble',
+                //   eventRunDistance + (event.distance_moved || 0),
+                // );
                 return eventRunDistance + (event.distance_moved || 0);
               } else {
                 // if (distance !== null) {
@@ -101,10 +101,10 @@ const selectFootballMatchTeamOverallRunDistance = (
                 //   );
                 //   return eventRunDistance + distance;
                 // }
-                console.log(
-                  'calc distance_moved fumble',
-                  eventRunDistance + (event.distance_moved || 0),
-                );
+                // console.log(
+                //   'calc distance_moved fumble',
+                //   eventRunDistance + (event.distance_moved || 0),
+                // );
 
                 return eventRunDistance + (event.distance_moved || 0);
               }
@@ -191,7 +191,7 @@ const selectFootballMatchTeamOverallFlagDistanceOnOffence = (
         (eventFlagDistance: number, event: IFootballEventWithPlayers) => {
           if (event.offense_team?.id === teamId) {
             if (event.play_result === IFootballPlayResult.Flag) {
-              console.log('flag');
+              // console.log('flag');
               if (event.distance_moved && event.distance_moved < 0) {
                 return eventFlagDistance + event.distance_moved;
               }
