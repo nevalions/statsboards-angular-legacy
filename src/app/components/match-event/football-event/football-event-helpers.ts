@@ -384,7 +384,7 @@ export function createNewEvent(
     if (match) {
       const { newEventBallOn: newBallOn, newEventTeam: newTeam } =
         handleTeamChangeOnFumble(match, lastEvent);
-      if (lastEvent.is_fumble) {
+      if (lastEvent.is_fumble && !lastEvent.score_result) {
         if (
           lastEvent.fumble_recovered_player?.match_player.team_id !==
             lastEvent.offense_team?.id &&
@@ -419,7 +419,10 @@ export function createNewEvent(
     if (match) {
       const { newEventBallOn: newBallOn, newEventTeam: newTeam } =
         handleTeamChangeOnInterception(match, lastEvent);
-      if (lastEvent.play_result === IFootballPlayResult.PassIntercepted) {
+      if (
+        lastEvent.play_result === IFootballPlayResult.PassIntercepted &&
+        !lastEvent.score_result
+      ) {
         if (
           lastEvent.ball_returned_to !== null &&
           lastEvent.ball_returned_to !== undefined
