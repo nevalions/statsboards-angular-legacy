@@ -153,6 +153,42 @@ const selectFootballMatchTeamOverallFlagDistanceOnOffence = (
     },
   );
 
+const selectFootballMatchTeamTurnover = (
+  teamIdSelector: (match: IMatchWithFullData) => number | undefined,
+) =>
+  createSelector(
+    selectFootballEventsWithPlayers,
+    selectCurrentMatchWithFullData,
+    (events: IFootballEventWithPlayers[], match): number => {
+      if (!match || !match.id) {
+        return 0;
+      }
+      const teamId: number | undefined = teamIdSelector(match);
+      if (!teamId) {
+        return 0;
+      }
+      return events.reduce(
+        (teamTurnovers: number, event: IFootballEventWithPlayers) => {
+          if (event.offense_team?.id === teamId) {
+            if (event.play_result === IFootballPlayResult.PassIntercepted) {
+              // console.log('lose on int');
+              return ++teamTurnovers;
+            }
+            if (
+              event.is_fumble &&
+              event.fumble_recovered_player?.match_player.team_id !== teamId
+            ) {
+              // console.log('lose on fumble');
+              return ++teamTurnovers;
+            }
+          }
+          return teamTurnovers;
+        },
+        0,
+      );
+    },
+  );
+
 const selectFootballMatchTeamOverallFlagDistanceOnDefence = (
   teamIdSelector: (match: IMatchWithFullData) => number | undefined,
 ) =>
@@ -223,6 +259,14 @@ export const selectOverallLostDistanceForTeamA =
 export const selectOverallLostDistanceForTeamB =
   selectFootballMatchTeamOverallLostYards((match) => match?.match.team_b_id);
 
+// overall turnovers
+export const selectOverallTurnoversForTeamA = selectFootballMatchTeamTurnover(
+  (match) => match?.match.team_a_id,
+);
+export const selectOverallTurnoversForTeamB = selectFootballMatchTeamTurnover(
+  (match) => match?.match.team_b_id,
+);
+
 export const selectOverallOffenceDistanceForTeamA = createSelector(
   selectOverallRunDistanceForTeamA,
   selectOverallPassDistanceForTeamA,
@@ -269,6 +313,7 @@ export const selectFootballTeamAWithStats = createSelector(
   selectOverallLostDistanceForTeamA,
   selectOverallFlagOffenceYardsForTeamA,
   selectOverallFlagDefenceYardsForTeamA,
+  selectOverallTurnoversForTeamA,
   selectFootballEventsWithPlayers,
   (
     match,
@@ -278,6 +323,7 @@ export const selectFootballTeamAWithStats = createSelector(
     lostYards,
     flagYardsOffence,
     flagYardsDefence,
+    turnovers,
     eventsWithPlayers,
   ): IFootballTeamWithStats | null => {
     const teamA = match?.teams_data?.team_a;
@@ -320,6 +366,7 @@ export const selectFootballTeamAWithStats = createSelector(
         flag_yards: flagYards,
         avg_yards_per_att: yardsPerAttempt,
         ...downStats,
+        turnovers: turnovers,
       },
     };
   },
@@ -333,7 +380,8 @@ export const selectFootballTeamBWithStats = createSelector(
   selectOverallRunDistanceForTeamB,
   selectOverallLostDistanceForTeamB,
   selectOverallFlagOffenceYardsForTeamB,
-  selectOverallFlagOffenceYardsForTeamB,
+  selectOverallFlagDefenceYardsForTeamB,
+  selectOverallTurnoversForTeamB,
   selectFootballEventsWithPlayers,
   (
     match,
@@ -343,6 +391,7 @@ export const selectFootballTeamBWithStats = createSelector(
     lostYards,
     flagYardsOffence,
     flagYardsDefence,
+    turnovers,
     eventsWithPlayers,
   ): IFootballTeamWithStats | null => {
     const teamB = match?.teams_data?.team_b;
@@ -387,6 +436,7 @@ export const selectFootballTeamBWithStats = createSelector(
         run_att: runAttempts,
         avg_yards_per_att: yardsPerAttempt,
         ...downStats,
+        turnovers: turnovers,
       },
     };
   },
