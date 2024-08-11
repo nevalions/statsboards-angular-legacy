@@ -15,7 +15,6 @@ import { FormArray, FormControl } from '@angular/forms';
   imports: [TuiButtonModule, UpperCasePipe],
   templateUrl: './toggle-button.component.html',
   styleUrl: './toggle-button.component.less',
-  // encapsulation: ViewEncapsulation.None,
 })
 export class ToggleButtonComponent {
   @Input() eventsArray: FormArray | null | undefined = null;
@@ -36,6 +35,6 @@ export class ToggleButtonComponent {
   }
 
   getButtonAppearance(): string {
-    return this.currentEnumValue === this.buttonValue ? 'primary' : 'flat';
+    return this.currentEnumValue === this.buttonValue ? 'primary' : 'glass';
   }
 }
