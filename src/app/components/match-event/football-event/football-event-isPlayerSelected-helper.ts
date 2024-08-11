@@ -89,7 +89,7 @@ export function noBallMovedIsSelected(
 ): boolean {
   if (isBallMovePossible(eventsArray, index)) {
     const ballMovedOn = getEventBallMovedOn(eventsArray, index);
-    if (!ballMovedOn) {
+    if (ballMovedOn === null || ballMovedOn === undefined) {
       return true;
     }
   }
