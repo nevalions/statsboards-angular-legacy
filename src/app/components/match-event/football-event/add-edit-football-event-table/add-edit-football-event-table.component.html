@@ -261,11 +261,15 @@
 
 
               @if (getEventHashFormControl(this.eventForm, this.arrayName, i); as control) {
-                <app-football-events-hash-buttons
-                  [control]="control"
-                  [eventsArray]="eventsArray"
-                  [i]="i"
-                ></app-football-events-hash-buttons>
+                @if (!isKickOffPlay(eventsArray, i)) {
+                  <div class="event-table-cell">
+                    <app-football-events-hash-buttons
+                      [control]="control"
+                      [eventsArray]="eventsArray"
+                      [i]="i"
+                    ></app-football-events-hash-buttons>
+                  </div>
+                }
               }
 
 
@@ -383,13 +387,69 @@
                 }
               }
 
+              <!--EVENT PAT ONE PLAYER-->
+              @if (getEventPatOnePlayerFormControl(this.eventForm, this.arrayName, i); as control) {
+                @if (getEventTeam(eventsArray, i); as selectedTeam) {
+                  @if (isPatOnePlay(eventsArray, i) ||
+                  getEventPatOnePlayer(eventsArray, i)) {
+                    <div class="event-table-cell"
+                         [style.background-color]="isCautionColor(isPatOnePlayerSelected(eventsArray, i))">
+                      @if (isMobile) {
+                        <app-select-player-in-match
+                          [players]="getPlayersForSelectedTeam(selectedTeam)"
+                          [control]="control"
+                          [placeholder]="'pat one player'"
+                        ></app-select-player-in-match>
+                      } @else {
+                        <app-search-player-in-match-autocomplete
+                          [action]="'select'"
+                          [placeholder]="'pat one player'"
+                          [players]="getPlayersForSelectedTeam(selectedTeam)"
+                          [control]="control">
+                        </app-search-player-in-match-autocomplete>
+                      }
+                    </div>
+                  }
+                }
+              }
+
+              <!--EVENT PUNT PLAYER-->
+              @if (getEventPuntPlayerFormControl(this.eventForm, this.arrayName, i); as control) {
+                @if (getEventTeam(eventsArray, i); as selectedTeam) {
+                  @if (isPuntPlay(eventsArray, i) ||
+                  getEventPuntPlayer(eventsArray, i)) {
+                    <div class="event-table-cell"
+                         [style.background-color]="isCautionColor(isPuntPlayerSelected(eventsArray, i))">
+                      @if (isMobile) {
+                        <app-select-player-in-match
+                          [players]="getPlayersForSelectedTeam(selectedTeam)"
+                          [control]="control"
+                          [placeholder]="'punt player'"
+                        ></app-select-player-in-match>
+                      } @else {
+                        <app-search-player-in-match-autocomplete
+                          [action]="'select'"
+                          [placeholder]="'punt player'"
+                          [players]="getPlayersForSelectedTeam(selectedTeam)"
+                          [control]="control">
+                        </app-search-player-in-match-autocomplete>
+                      }
+                    </div>
+                  }
+                }
+              }
+
 
               @if (getEventHashFormControl(this.eventForm, this.arrayName, i); as control) {
-                <app-football-events-direction-buttons
-                  [control]="control"
-                  [eventsArray]="eventsArray"
-                  [i]="i"
-                ></app-football-events-direction-buttons>
+                @if (!isPatOnePlay(eventsArray, i) && !isKickPlay(eventsArray, i)) {
+                  <div class="event-table-cell">
+                    <app-football-events-direction-buttons
+                      [control]="control"
+                      [eventsArray]="eventsArray"
+                      [i]="i"
+                    ></app-football-events-direction-buttons>
+                  </div>
+                }
               }
 
 
@@ -482,58 +542,6 @@
                         <app-search-player-in-match-autocomplete
                           [action]="'select'"
                           [placeholder]="'dropped player'"
-                          [players]="getPlayersForSelectedTeam(selectedTeam)"
-                          [control]="control">
-                        </app-search-player-in-match-autocomplete>
-                      }
-                    </div>
-                  }
-                }
-              }
-
-              <!--EVENT PAT ONE PLAYER-->
-              @if (getEventPatOnePlayerFormControl(this.eventForm, this.arrayName, i); as control) {
-                @if (getEventTeam(eventsArray, i); as selectedTeam) {
-                  @if (isPatOnePlay(eventsArray, i) ||
-                  getEventPatOnePlayer(eventsArray, i)) {
-                    <div class="event-table-cell"
-                         [style.background-color]="isCautionColor(isPatOnePlayerSelected(eventsArray, i))">
-                      @if (isMobile) {
-                        <app-select-player-in-match
-                          [players]="getPlayersForSelectedTeam(selectedTeam)"
-                          [control]="control"
-                          [placeholder]="'pat one player'"
-                        ></app-select-player-in-match>
-                      } @else {
-                        <app-search-player-in-match-autocomplete
-                          [action]="'select'"
-                          [placeholder]="'pat one player'"
-                          [players]="getPlayersForSelectedTeam(selectedTeam)"
-                          [control]="control">
-                        </app-search-player-in-match-autocomplete>
-                      }
-                    </div>
-                  }
-                }
-              }
-
-              <!--EVENT PUNT PLAYER-->
-              @if (getEventPuntPlayerFormControl(this.eventForm, this.arrayName, i); as control) {
-                @if (getEventTeam(eventsArray, i); as selectedTeam) {
-                  @if (isPuntPlay(eventsArray, i) ||
-                  getEventPuntPlayer(eventsArray, i)) {
-                    <div class="event-table-cell"
-                         [style.background-color]="isCautionColor(isPuntPlayerSelected(eventsArray, i))">
-                      @if (isMobile) {
-                        <app-select-player-in-match
-                          [players]="getPlayersForSelectedTeam(selectedTeam)"
-                          [control]="control"
-                          [placeholder]="'punt player'"
-                        ></app-select-player-in-match>
-                      } @else {
-                        <app-search-player-in-match-autocomplete
-                          [action]="'select'"
-                          [placeholder]="'punt player'"
                           [players]="getPlayersForSelectedTeam(selectedTeam)"
                           [control]="control">
                         </app-search-player-in-match-autocomplete>
