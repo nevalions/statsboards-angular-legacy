@@ -642,7 +642,7 @@ export function handleTeamChangeOnTouchBack(
 } {
   const { newEventTeam, newEventQb } = handleBasicTeamChange(match, lastEvent);
 
-  const newEventBallOn = -35;
+  const newEventBallOn = -20;
   const newEventDown = 1;
   const newEventDistance = 10;
 
