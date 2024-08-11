@@ -10,6 +10,8 @@ import {
   eventDirectionOptions,
   eventHashOptions,
   eventPlayTypeOptions,
+  IEventDirection,
+  IEventHash,
   IFootballEvent,
   IFootballEventWithPlayers,
   IFootballPlayResult,
@@ -101,6 +103,7 @@ import {
   getEventDefenceScorePlayerFormControl,
   getEventDeflectedPlayer,
   getEventDeflectedPlayerFormControl,
+  getEventDirection,
   getEventDirectionFormControl,
   getEventDistance,
   getEventDistanceFormControl,
@@ -114,6 +117,7 @@ import {
   getEventFumblePlayerFormControl,
   getEventFumbleRecoveredPlayer,
   getEventFumbleRecoveredPlayerFormControl,
+  getEventHash,
   getEventHashFormControl,
   getEventInterceptedPlayer,
   getEventInterceptedPlayerFormControl,
@@ -152,6 +156,10 @@ import {
   getEventTeam,
   getEventTeamFormControl,
   getQtrFormControl,
+  setEventBallMovedOn,
+  setEventDirection,
+  setEventHash,
+  toggleFootballEnumValue,
 } from '../football-event-helpers';
 import {
   changePlayResultOnPlayTypeChange,
@@ -229,6 +237,9 @@ import {
 import { FootballEventShortViewComponent } from './football-event-short-view/football-event-short-view.component';
 import { SelectPlayerInMatchComponent } from '../../../../shared/ui/select/select-player-in-match/select-player-in-match.component';
 import { InputNumbersWithIncrementButtonsComponent } from '../../../../shared/ui/input-numbers-with-increment-buttons/input-numbers-with-increment-buttons.component';
+import { ToggleButtonComponent } from '../../../../shared/ui/buttons/toggle-button/toggle-button.component';
+import { FootballEventsDirectionButtonsComponent } from '../../../../shared/scoreboards/admin-forms/football-events-direction-buttons/football-events-direction-buttons.component';
+import { FootballEventsHashButtonsComponent } from '../../../../shared/scoreboards/admin-forms/football-events-hash-buttons/football-events-hash-buttons.component';
 
 @Component({
   selector: 'app-add-edit-football-event-table',
@@ -254,6 +265,9 @@ import { InputNumbersWithIncrementButtonsComponent } from '../../../../shared/ui
     FootballEventShortViewComponent,
     SelectPlayerInMatchComponent,
     InputNumbersWithIncrementButtonsComponent,
+    ToggleButtonComponent,
+    FootballEventsDirectionButtonsComponent,
+    FootballEventsHashButtonsComponent,
   ],
   templateUrl: './add-edit-football-event-table.component.html',
   styleUrl: './add-edit-football-event-table.component.less',
@@ -936,4 +950,9 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
   protected readonly getEventBallPickedOn = getEventBallPickedOn;
   protected readonly eventBallPickedOnKey = eventBallPickedOnKey;
   protected readonly isInterceptionOrFumble = isInterceptionOrFumble;
+  protected readonly IEventHash = IEventHash;
+  protected readonly getEventHash = getEventHash;
+  protected readonly toggleFootballEnumValue = toggleFootballEnumValue;
+  protected readonly IEventDirection = IEventDirection;
+  protected readonly getEventDirection = getEventDirection;
 }

@@ -244,3 +244,10 @@ export function calculateAgeStats(
     maxPlayer,
   };
 }
+
+export function isEnumValue<T extends { [key: string]: string | number }>(
+  enumObj: T,
+  value: string | null,
+): value is Extract<T[keyof T], string> {
+  return value !== null && Object.values(enumObj).includes(value);
+}

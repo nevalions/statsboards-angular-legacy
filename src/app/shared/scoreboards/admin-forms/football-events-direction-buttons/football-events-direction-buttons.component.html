@@ -1,0 +1,50 @@
+@if (control && eventsArray && i !== null && i !== undefined) {
+  <div class="event-hash-direction-buttons-five-col">
+    <span style="grid-column: span 5" class="tui-text_body-l">DIRECTION</span>
+    <app-toggle-button
+      [eventsArray]="eventsArray"
+      [index]="i"
+      [control]="control"
+      [buttonValue]="IEventDirection.LeftWide"
+      [label]="IEventDirection.LeftWide"
+      [currentEnumValue]="getEventDirection(eventsArray, i)?.toString()"
+      (toggle)="toggleFootballEnumValue($event, eventsArray, i, 'direction')"
+    ></app-toggle-button>
+    <app-toggle-button
+      [eventsArray]="eventsArray"
+      [index]="i"
+      [control]="control"
+      [buttonValue]="IEventDirection.Left"
+      [label]="IEventDirection.Left"
+      [currentEnumValue]="getEventDirection(eventsArray, i)?.toString()"
+      (toggle)="toggleFootballEnumValue($event, eventsArray, i, 'direction')"
+    ></app-toggle-button>
+    <app-toggle-button
+      [eventsArray]="eventsArray"
+      [index]="i"
+      [control]="control"
+      [buttonValue]="IEventDirection.Middle"
+      [label]="IEventDirection.Middle"
+      [currentEnumValue]="getEventDirection(eventsArray, i)?.toString()"
+      (toggle)="toggleFootballEnumValue($event, eventsArray, i, 'direction')"
+    ></app-toggle-button>
+    <app-toggle-button
+      [eventsArray]="eventsArray"
+      [index]="i"
+      [control]="control"
+      [buttonValue]="IEventDirection.Right"
+      [label]="IEventDirection.Right"
+      [currentEnumValue]="getEventDirection(eventsArray, i)?.toString()"
+      (toggle)="toggleFootballEnumValue($event, eventsArray, i, 'direction')"
+    ></app-toggle-button>
+    <app-toggle-button
+      [eventsArray]="eventsArray"
+      [index]="i"
+      [control]="control"
+      [buttonValue]="IEventDirection.RightWide"
+      [label]="IEventDirection.RightWide"
+      [currentEnumValue]="getEventDirection(eventsArray, i)?.toString()"
+      (toggle)="toggleFootballEnumValue($event, eventsArray, i, 'direction')"
+    ></app-toggle-button>
+  </div>
+}

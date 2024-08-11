@@ -259,47 +259,57 @@
                 </div>
               </div>
 
-              <!--EVENT HASH-->
-              <div class="event-hash-direction">
-                @if (getEventHashFormControl(this.eventForm, this.arrayName, i); as control) {
-                  <div class="event-table-cell">
-                    @if (isMobile) {
-                      <app-select-list-of-strings
-                        [control]="control"
-                        [placeholder]="'hash'"
-                        [stringList]="eventHashOptions"
-                      ></app-select-list-of-strings>
-                    } @else {
-                      <app-search-list-of-strings
-                        [control]="control"
-                        [placeholder]="'hash'"
-                        [stringList]="eventHashOptions"
-                      ></app-search-list-of-strings>
-                    }
 
-                  </div>
-                }
-                <!--EVENT PLAY DIRECTION-->
-                @if (getEventDirectionFormControl(this.eventForm, this.arrayName, i); as control) {
-                  <div class="event-table-cell">
-                    @if (isMobile) {
-                      <app-select-list-of-strings
-                        [control]="control"
-                        [placeholder]="'direction'"
-                        [stringList]="eventDirectionOptions"
-                      ></app-select-list-of-strings>
-                    } @else {
-                      <app-search-list-of-strings
-                        [control]="control"
-                        [placeholder]="'direction'"
-                        [stringList]="eventDirectionOptions"
-                      ></app-search-list-of-strings>
-                    }
-                  </div>
-                }
-              </div>
+              @if (getEventHashFormControl(this.eventForm, this.arrayName, i); as control) {
+                <app-football-events-hash-buttons
+                  [control]="control"
+                  [eventsArray]="eventsArray"
+                  [i]="i"
+                ></app-football-events-hash-buttons>
+              }
 
-              <!--EVENT PLAY TYPE-->
+
+              <!--              &lt;!&ndash;EVENT HASH&ndash;&gt;-->
+                <!--              <div class="event-hash-direction">-->
+                <!--                @if (getEventHashFormControl(this.eventForm, this.arrayName, i); as control) {-->
+                <!--                  <div class="event-table-cell">-->
+                <!--                    @if (isMobile) {-->
+                <!--                      <app-select-list-of-strings-->
+                <!--                        [control]="control"-->
+                <!--                        [placeholder]="'hash'"-->
+                <!--                        [stringList]="eventHashOptions"-->
+                <!--                      ></app-select-list-of-strings>-->
+                <!--                    } @else {-->
+                <!--                      <app-search-list-of-strings-->
+                <!--                        [control]="control"-->
+                <!--                        [placeholder]="'hash'"-->
+                <!--                        [stringList]="eventHashOptions"-->
+                <!--                      ></app-search-list-of-strings>-->
+                <!--                    }-->
+
+                <!--                  </div>-->
+                <!--                }-->
+                <!--                &lt;!&ndash;EVENT PLAY DIRECTION&ndash;&gt;-->
+                <!--                @if (getEventDirectionFormControl(this.eventForm, this.arrayName, i); as control) {-->
+                <!--                  <div class="event-table-cell">-->
+                <!--                    @if (isMobile) {-->
+                <!--                      <app-select-list-of-strings-->
+                <!--                        [control]="control"-->
+                <!--                        [placeholder]="'direction'"-->
+                <!--                        [stringList]="eventDirectionOptions"-->
+                <!--                      ></app-select-list-of-strings>-->
+                <!--                    } @else {-->
+                <!--                      <app-search-list-of-strings-->
+                <!--                        [control]="control"-->
+                <!--                        [placeholder]="'direction'"-->
+                <!--                        [stringList]="eventDirectionOptions"-->
+                <!--                      ></app-search-list-of-strings>-->
+                <!--                    }-->
+                <!--                  </div>-->
+                <!--                }-->
+                <!--              </div>-->
+
+                <!--EVENT PLAY TYPE-->
               @if (getEventPlayTypeFormControl(this.eventForm, this.arrayName, i); as control) {
                 <div class="event-table-cell">
                   @if (isMobile) {
@@ -372,6 +382,16 @@
                   }
                 }
               }
+
+
+              @if (getEventHashFormControl(this.eventForm, this.arrayName, i); as control) {
+                <app-football-events-direction-buttons
+                  [control]="control"
+                  [eventsArray]="eventsArray"
+                  [i]="i"
+                ></app-football-events-direction-buttons>
+              }
+
 
               <!--EVENT PLAY RESULT-->
               @if (getEventPlayResultFormControl(this.eventForm, this.arrayName, i); as control) {
@@ -470,8 +490,6 @@
                   }
                 }
               }
-
-
 
               <!--EVENT PAT ONE PLAYER-->
               @if (getEventPatOnePlayerFormControl(this.eventForm, this.arrayName, i); as control) {

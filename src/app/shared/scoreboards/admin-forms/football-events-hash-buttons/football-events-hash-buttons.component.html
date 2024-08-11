@@ -1,0 +1,32 @@
+@if (control && eventsArray && i !== null && i !== undefined) {
+  <div class="event-hash-direction-buttons-three-col">
+    <span style="grid-column: span 3" class="tui-text_body-l">HASH</span>
+    <app-toggle-button
+      [eventsArray]="eventsArray"
+      [index]="i"
+      [control]="control"
+      [buttonValue]="IEventHash.Left"
+      [label]="IEventHash.Left"
+      [currentEnumValue]="getEventHash(eventsArray, i)?.toString()"
+      (toggle)="toggleFootballEnumValue($event, eventsArray, i, 'hash')"
+    ></app-toggle-button>
+    <app-toggle-button
+      [eventsArray]="eventsArray"
+      [index]="i"
+      [control]="control"
+      [buttonValue]="IEventHash.Middle"
+      [label]="IEventHash.Middle"
+      [currentEnumValue]="getEventHash(eventsArray, i)?.toString()"
+      (toggle)="toggleFootballEnumValue($event, eventsArray, i, 'hash')"
+    ></app-toggle-button>
+    <app-toggle-button
+      [eventsArray]="eventsArray"
+      [index]="i"
+      [control]="control"
+      [buttonValue]="IEventHash.Right"
+      [label]="IEventHash.Right"
+      [currentEnumValue]="getEventHash(eventsArray, i)?.toString()"
+      (toggle)="toggleFootballEnumValue($event, eventsArray, i, 'hash')"
+    ></app-toggle-button>
+  </div>
+}

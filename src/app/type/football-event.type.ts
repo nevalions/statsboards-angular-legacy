@@ -19,13 +19,20 @@ export enum IEventHash {
   Right = 'right',
 }
 
+export enum IEventStrongSide {
+  None = '',
+  Left = 'liz',
+  Middle = 'bal',
+  Right = 'rip',
+}
+
 export enum IEventDirection {
   None = '',
-  LeftWide = 'left wide',
-  Left = 'left',
-  Middle = 'middle',
-  Right = 'right',
-  RightWide = 'right wide',
+  LeftWide = 'l wide',
+  Left = 'l',
+  Middle = 'mid',
+  Right = 'r',
+  RightWide = 'r wide',
 }
 
 export enum IFootballPlayResult {

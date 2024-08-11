@@ -10,6 +10,7 @@ import { IPlayerInMatchFullData } from '../../../type/player.type';
 import { ITeam } from '../../../type/team.type';
 import {
   IEventDirection,
+  IEventHash,
   IFootballEvent,
   IFootballEventWithPlayers,
   IFootballPlayResult,
@@ -24,6 +25,7 @@ import {
   handleTeamChangeOnTouchBack,
 } from './football-event-on-change-helpers';
 import { computeDistanceForDownDistance } from './football-event-calc-helpers';
+import { isEnumValue } from '../../../base/helpers';
 
 export const eventIdKey = 'eventId';
 export const eventNumberKey = 'eventNumber';
@@ -622,6 +624,26 @@ export function extractEventData(
   return newEventData;
 }
 
+export function toggleFootballEnumValue(
+  value: string,
+  eventsArray: FormArray,
+  index: number,
+  type: 'hash' | 'direction',
+): void {
+  if (type === 'hash') {
+    const currentHash = getEventHash(eventsArray, index);
+    setEventHash(eventsArray, index, currentHash === value ? null : value);
+  }
+  if (type === 'direction') {
+    const currentDirection = getEventDirection(eventsArray, index);
+    setEventDirection(
+      eventsArray,
+      index,
+      currentDirection === value ? null : value,
+    );
+  }
+}
+
 // EVENT ID
 export function getEventId(
   eventsArray: FormArray,
@@ -994,7 +1016,7 @@ export function setDistance(
 export function getEventHash(
   eventsArray: FormArray,
   index: number,
-): IEventDirection | null | undefined {
+): IEventHash | null | undefined {
   return getArrayFormDataByIndexAndKey<number>(
     eventsArray,
     index,
@@ -1008,6 +1030,18 @@ export function getEventHashFormControl(
   index: number,
 ): FormControl | null | undefined {
   return getFormControlWithIndex(form, index, eventHashKey, arrayName);
+}
+
+export function setEventHash(
+  eventsArray: FormArray,
+  index: number,
+  selectedItem: IEventHash | string | null,
+): void {
+  if (selectedItem && isEnumValue(IEventHash, selectedItem.toString())) {
+    setArrayKeyIndexValue(eventsArray, index, selectedItem, eventHashKey);
+  } else {
+    setArrayKeyIndexValue(eventsArray, index, null, eventHashKey);
+  }
 }
 
 // EventDirection
@@ -1028,6 +1062,18 @@ export function getEventDirectionFormControl(
   index: number,
 ): FormControl | null | undefined {
   return getFormControlWithIndex(form, index, eventDirectionKey, arrayName);
+}
+
+export function setEventDirection(
+  eventsArray: FormArray,
+  index: number,
+  selectedItem: IEventDirection | string | null,
+): void {
+  if (selectedItem && isEnumValue(IEventDirection, selectedItem.toString())) {
+    setArrayKeyIndexValue(eventsArray, index, selectedItem, eventDirectionKey);
+  } else {
+    setArrayKeyIndexValue(eventsArray, index, null, eventDirectionKey);
+  }
 }
 
 // EventPlayType

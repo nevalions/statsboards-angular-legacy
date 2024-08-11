@@ -1,0 +1,12 @@
+@if (control && eventsArray && index !== null && index !== undefined) {
+  <button
+    [appearance]="getButtonAppearance()"
+    [size]="'xs'"
+    tuiButton
+    [disabled]="control.disabled"
+    (click)="onToggle()"
+    style="width: 100%"
+  >
+    {{ label | uppercase }}
+  </button>
+}
