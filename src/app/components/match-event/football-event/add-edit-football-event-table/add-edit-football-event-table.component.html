@@ -321,103 +321,6 @@
 
               }
 
-              <!--EVENT PLAY RESULT-->
-              @if (getEventPlayResultFormControl(this.eventForm, this.arrayName, i); as control) {
-                <div class="event-table-cell">
-                  @if (isMobile) {
-                    <app-select-list-of-strings
-                      [control]="control"
-                      [placeholder]="'play result'"
-                      [stringList]="filterPlayResultsByType(getEventPlayType(eventsArray, i))"
-                      (itemSelected)="handlePlayResultChange(eventsArray, getEventPlayResult(eventsArray, i) ,i)"
-                    ></app-select-list-of-strings>
-                  } @else {
-                    <app-search-list-of-strings
-                      [control]="control"
-                      [placeholder]="'play result'"
-                      [stringList]="filterPlayResultsByType(getEventPlayType(eventsArray, i))"
-                    ></app-search-list-of-strings>
-                  }
-                </div>
-              }
-
-              <!--EVENT RUN PLAYER-->
-              @if (getEventRunPlayerFormControl(this.eventForm, this.arrayName, i); as control) {
-                @if (getEventTeam(eventsArray, i); as selectedTeam) {
-                  @if (isRunPlay(eventsArray, i) ||
-                  getEventRunPlayer(eventsArray, i)) {
-                    <div class="event-table-cell"
-                         [style.background-color]="isCautionColor(isRunPlayerSelected(eventsArray, i))">
-                      @if (isMobile) {
-                        <app-select-player-in-match
-                          [placeholder]="'run player'"
-                          [players]="getPlayersForSelectedTeam(selectedTeam)"
-                          [control]="control"
-                        ></app-select-player-in-match>
-                      } @else {
-                        <app-search-player-in-match-autocomplete
-                          [action]="'select'"
-                          [placeholder]="'run player'"
-                          [players]="getPlayersForSelectedTeam(selectedTeam)"
-                          [control]="control">
-                        </app-search-player-in-match-autocomplete>
-                      }
-                    </div>
-                  }
-                }
-              }
-
-              <!--EVENT RECEIVER PLAYER-->
-              @if (getEventReceiverPlayerFormControl(this.eventForm, this.arrayName, i); as control) {
-                @if (getEventTeam(eventsArray, i); as selectedTeam) {
-                  @if (isPassCompletedPlay(eventsArray, i) ||
-                  getEventReceiverPlayer(eventsArray, i)) {
-                    <div class="event-table-cell" [style.background-color]="isReceiverPlayerSelected(eventsArray, i)">
-                      @if (isMobile) {
-                        <app-select-player-in-match
-                          [placeholder]="'receiver player'"
-                          [players]="getPlayersForSelectedTeam(selectedTeam)"
-                          [control]="control"
-                        ></app-select-player-in-match>
-                      } @else {
-                        <app-search-player-in-match-autocomplete
-                          [action]="'select'"
-                          [placeholder]="'receiver player'"
-                          [players]="getPlayersForSelectedTeam(selectedTeam)"
-                          [control]="control">
-                        </app-search-player-in-match-autocomplete>
-                      }
-                    </div>
-                  }
-                }
-              }
-
-              <!--EVENT DROPPED PLAYER-->
-              @if (getEventDroppedPlayerFormControl(this.eventForm, this.arrayName, i); as control) {
-                @if (getEventTeam(eventsArray, i); as selectedTeam) {
-                  @if (isPassDroppedPlay(eventsArray, i) ||
-                  getEventDroppedPlayer(eventsArray, i)) {
-                    <div class="event-table-cell"
-                         [style.background-color]="isCautionColor(isDroppedPlayerSelected(eventsArray, i))">
-                      @if (isMobile) {
-                        <app-select-player-in-match
-                          [players]="getPlayersForSelectedTeam(selectedTeam)"
-                          [control]="control"
-                          [placeholder]="'dropped player'"
-                        ></app-select-player-in-match>
-                      } @else {
-                        <app-search-player-in-match-autocomplete
-                          [action]="'select'"
-                          [placeholder]="'dropped player'"
-                          [players]="getPlayersForSelectedTeam(selectedTeam)"
-                          [control]="control">
-                        </app-search-player-in-match-autocomplete>
-                      }
-                    </div>
-                  }
-                }
-              }
-
               <!--EVENT KICK PLAYER-->
               @if (getEventKickPlayerFormControl(this.eventForm, this.arrayName, i); as control) {
                 @if (getEventTeam(eventsArray, i); as selectedTeam) {
@@ -469,6 +372,106 @@
                   }
                 }
               }
+
+              <!--EVENT PLAY RESULT-->
+              @if (getEventPlayResultFormControl(this.eventForm, this.arrayName, i); as control) {
+                <div class="event-table-cell">
+                  @if (isMobile) {
+                    <app-select-list-of-strings
+                      [control]="control"
+                      [placeholder]="'play result'"
+                      [stringList]="filterPlayResultsByType(getEventPlayType(eventsArray, i))"
+                      (itemSelected)="handlePlayResultChange(eventsArray, getEventPlayResult(eventsArray, i) ,i)"
+                    ></app-select-list-of-strings>
+                  } @else {
+                    <app-search-list-of-strings
+                      [control]="control"
+                      [placeholder]="'play result'"
+                      [stringList]="filterPlayResultsByType(getEventPlayType(eventsArray, i))"
+                    ></app-search-list-of-strings>
+                  }
+                </div>
+              }
+
+              <!--EVENT RUN PLAYER-->
+              @if (getEventRunPlayerFormControl(this.eventForm, this.arrayName, i); as control) {
+                @if (getEventTeam(eventsArray, i); as selectedTeam) {
+                  @if (isRunPlay(eventsArray, i) ||
+                  getEventRunPlayer(eventsArray, i)) {
+                    <div class="event-table-cell"
+                         [style.background-color]="isCautionColor(isRunPlayerSelected(eventsArray, i))">
+                      @if (isMobile) {
+                        <app-select-player-in-match
+                          [placeholder]="'run player'"
+                          [players]="getPlayersForSelectedTeam(selectedTeam)"
+                          [control]="control"
+                        ></app-select-player-in-match>
+                      } @else {
+                        <app-search-player-in-match-autocomplete
+                          [action]="'select'"
+                          [placeholder]="'run player'"
+                          [players]="getPlayersForSelectedTeam(selectedTeam)"
+                          [control]="control">
+                        </app-search-player-in-match-autocomplete>
+                      }
+                    </div>
+                  }
+                }
+              }
+
+              <!--EVENT RECEIVER PLAYER-->
+              @if (getEventReceiverPlayerFormControl(this.eventForm, this.arrayName, i); as control) {
+                @if (getEventTeam(eventsArray, i); as selectedTeam) {
+                  @if (isPassCompletedPlay(eventsArray, i) ||
+                  getEventReceiverPlayer(eventsArray, i)) {
+                    <div class="event-table-cell"
+                         [style.background-color]="isCautionColor(isReceiverPlayerSelected(eventsArray, i))">
+                      @if (isMobile) {
+                        <app-select-player-in-match
+                          [placeholder]="'receiver player'"
+                          [players]="getPlayersForSelectedTeam(selectedTeam)"
+                          [control]="control"
+                        ></app-select-player-in-match>
+                      } @else {
+                        <app-search-player-in-match-autocomplete
+                          [action]="'select'"
+                          [placeholder]="'receiver player'"
+                          [players]="getPlayersForSelectedTeam(selectedTeam)"
+                          [control]="control">
+                        </app-search-player-in-match-autocomplete>
+                      }
+                    </div>
+                  }
+                }
+              }
+
+              <!--EVENT DROPPED PLAYER-->
+              @if (getEventDroppedPlayerFormControl(this.eventForm, this.arrayName, i); as control) {
+                @if (getEventTeam(eventsArray, i); as selectedTeam) {
+                  @if (isPassDroppedPlay(eventsArray, i) ||
+                  getEventDroppedPlayer(eventsArray, i)) {
+                    <div class="event-table-cell"
+                         [style.background-color]="isCautionColor(isDroppedPlayerSelected(eventsArray, i))">
+                      @if (isMobile) {
+                        <app-select-player-in-match
+                          [players]="getPlayersForSelectedTeam(selectedTeam)"
+                          [control]="control"
+                          [placeholder]="'dropped player'"
+                        ></app-select-player-in-match>
+                      } @else {
+                        <app-search-player-in-match-autocomplete
+                          [action]="'select'"
+                          [placeholder]="'dropped player'"
+                          [players]="getPlayersForSelectedTeam(selectedTeam)"
+                          [control]="control">
+                        </app-search-player-in-match-autocomplete>
+                      }
+                    </div>
+                  }
+                }
+              }
+
+
 
               <!--EVENT PAT ONE PLAYER-->
               @if (getEventPatOnePlayerFormControl(this.eventForm, this.arrayName, i); as control) {
