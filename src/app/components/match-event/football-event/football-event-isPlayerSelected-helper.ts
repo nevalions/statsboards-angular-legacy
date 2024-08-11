@@ -1,5 +1,6 @@
 import { FormArray } from '@angular/forms';
 import {
+  getEventBallMovedOn,
   getEventDefenceScorePlayer,
   getEventDeflectedPlayer,
   getEventDroppedPlayer,
@@ -19,6 +20,7 @@ import {
 import { ICautionColors } from '../../../type/base.type';
 import { IPlayerInMatchFullData } from '../../../type/player.type';
 import {
+  isBallMovePossible,
   isDefenceScore,
   isDeflectResult,
   isFlagResult,
@@ -81,6 +83,19 @@ export function noQbSelected(eventsArray: FormArray, index: number): boolean {
   return false;
 }
 
+export function noBallMovedIsSelected(
+  eventsArray: FormArray,
+  index: number,
+): boolean {
+  if (isBallMovePossible(eventsArray, index)) {
+    const ballMovedOn = getEventBallMovedOn(eventsArray, index);
+    if (!ballMovedOn) {
+      return true;
+    }
+  }
+  return false;
+}
+
 export function noRunPlayerSelected(
   eventsArray: FormArray,
   index: number,
@@ -111,8 +126,6 @@ export function noDroppedPlayerSelected(
   eventsArray: FormArray,
   index: number,
 ): boolean {
-  // const result = getEventPlayResult(eventsArray, index);
-  // if (result === IFootballPlayResult.PassDropped) {
   if (isPassDroppedPlay(eventsArray, index)) {
     const player = getEventDroppedPlayer(eventsArray, index);
     if (!player) {
@@ -126,11 +139,6 @@ export function noScoreOffencePlayerSelected(
   eventsArray: FormArray,
   index: number,
 ): boolean {
-  // const score = getEventScoreResult(eventsArray, index);
-  // if (
-  //   score === IFootballScoreResult.Td ||
-  //   score === IFootballScoreResult.PatTwoGood
-  // ) {
   if (isScoreTDPatTwoOffence(eventsArray, index)) {
     const player = getEventScorePlayer(eventsArray, index);
     if (!player) {
@@ -144,8 +152,6 @@ export function noPatOnePlayerSelected(
   eventsArray: FormArray,
   index: number,
 ): boolean {
-  // const playType = getEventPlayType(eventsArray, index);
-  // if (playType === IFootballPlayType.PatOne) {
   if (isPatOnePlay(eventsArray, index)) {
     const player = getEventPatOnePlayer(eventsArray, index);
     if (!player) {

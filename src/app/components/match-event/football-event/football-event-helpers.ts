@@ -11,6 +11,7 @@ import { ITeam } from '../../../type/team.type';
 import {
   IEventDirection,
   IEventHash,
+  IEventStrongSide,
   IFootballEvent,
   IFootballEventWithPlayers,
   IFootballPlayResult,
@@ -44,6 +45,7 @@ export const eventDownKey = 'eventDown';
 export const eventDistanceKey = 'eventDistance';
 export const eventHashKey = 'eventHash';
 export const eventDirectionKey = 'eventDirection';
+export const eventStrongSideKey = 'eventStrongSide';
 export const eventPlayTypeKey = 'eventPlayType';
 export const eventPlayResultKey = 'eventPlayResult';
 export const eventScoreResultKey = 'eventScoreResult';
@@ -90,6 +92,8 @@ export const eventDistanceOnOffence = (index: number) =>
   eventDistanceOnOffenceKey + index;
 export const eventHash = (index: number) => eventHashKey + index;
 export const eventDirection = (index: number) => eventDirectionKey + index;
+export const eventStrongSide = (index: number) => eventStrongSideKey + index;
+
 export const eventPlayType = (index: number) => eventPlayTypeKey + index;
 export const eventPlayResult = (index: number) => eventPlayResultKey + index;
 export const eventScoreResult = (index: number) => eventScoreResultKey + index;
@@ -146,6 +150,7 @@ export function createNewEvent(
   let newEventBallReturnedTo: number | null = null;
   let newEventDown: number | null = null;
   let newEventDistance: number | null = null;
+  let newEventHash: IEventHash | null = null;
   let newEventPlayType: IFootballPlayType | null = null;
   let compDistance: number | null = null;
 
@@ -432,6 +437,42 @@ export function createNewEvent(
     }
   }
 
+  if (
+    lastEvent &&
+    lastEvent.offense_team === newEventTeam &&
+    newEventPlayType !== IFootballPlayType.Kickoff
+  ) {
+    if (
+      lastEvent.play_result === IFootballPlayResult.Run ||
+      lastEvent.play_result === IFootballPlayResult.PassCompleted
+    ) {
+      if (lastEvent.play_direction === IEventDirection.LeftWide) {
+        newEventHash = IEventHash.Left;
+      }
+      if (lastEvent.play_direction === IEventDirection.RightWide) {
+        newEventHash = IEventHash.Right;
+      }
+      if (
+        lastEvent.event_hash === IEventHash.Left &&
+        lastEvent.play_direction === IEventDirection.Left
+      ) {
+        newEventHash = IEventHash.Left;
+      }
+      if (
+        lastEvent.event_hash === IEventHash.Right &&
+        lastEvent.play_direction === IEventDirection.Right
+      ) {
+        newEventHash = IEventHash.Right;
+      }
+      if (
+        lastEvent.event_hash === IEventHash.Middle &&
+        lastEvent.play_direction === IEventDirection.Middle
+      ) {
+        newEventHash = IEventHash.Middle;
+      }
+    }
+  }
+
   return {
     id: null,
     event_number: newEventNumber,
@@ -445,7 +486,7 @@ export function createNewEvent(
     event_qb: newEventQb,
     event_down: newEventDown,
     event_distance: newEventDistance,
-    event_hash: null,
+    event_hash: newEventHash,
     play_direction: null,
     play_type: newEventPlayType,
     play_result: null,
@@ -475,6 +516,7 @@ export function extractEventData(
   const eventDistance = getEventDistance(eventsArray, index);
   const eventHash = getEventHash(eventsArray, index);
   const eventDirection = getEventDirection(eventsArray, index);
+  const eventStrongSide = getEventStrongSide(eventsArray, index);
   const eventPlayType = getEventPlayType(eventsArray, index);
   const eventPlayResult = getEventPlayResult(eventsArray, index);
   const eventScoreResult = getEventScoreResult(eventsArray, index);
@@ -562,31 +604,37 @@ export function extractEventData(
     newEventData.event_distance = eventDistance;
   }
 
-  if (eventHash && eventHash) {
+  if (eventHash) {
     newEventData.event_hash = eventHash.toLowerCase();
   } else {
     newEventData.event_hash = null;
   }
 
-  if (eventDirection && eventDirection) {
+  if (eventDirection) {
     newEventData.play_direction = eventDirection.toLowerCase();
   } else {
     newEventData.play_direction = null;
   }
 
-  if (eventPlayType && eventPlayType) {
+  if (eventStrongSide) {
+    newEventData.event_strong_side = eventStrongSide.toLowerCase();
+  } else {
+    newEventData.event_strong_side = null;
+  }
+
+  if (eventPlayType) {
     newEventData.play_type = eventPlayType.toLowerCase();
   } else {
     newEventData.play_type = null;
   }
 
-  if (eventPlayResult && eventPlayResult) {
+  if (eventPlayResult) {
     newEventData.play_result = eventPlayResult.toLowerCase();
   } else {
     newEventData.play_result = null;
   }
 
-  if (eventScoreResult && eventScoreResult) {
+  if (eventScoreResult) {
     newEventData.score_result = eventScoreResult.toLowerCase();
   } else {
     newEventData.score_result = null;
@@ -628,7 +676,7 @@ export function toggleFootballEnumValue(
   value: string,
   eventsArray: FormArray,
   index: number,
-  type: 'hash' | 'direction',
+  type: 'hash' | 'direction' | 'strongSide',
 ): void {
   if (type === 'hash') {
     const currentHash = getEventHash(eventsArray, index);
@@ -637,6 +685,14 @@ export function toggleFootballEnumValue(
   if (type === 'direction') {
     const currentDirection = getEventDirection(eventsArray, index);
     setEventDirection(
+      eventsArray,
+      index,
+      currentDirection === value ? null : value,
+    );
+  }
+  if (type === 'strongSide') {
+    const currentDirection = getEventStrongSide(eventsArray, index);
+    setEventStrongSide(
       eventsArray,
       index,
       currentDirection === value ? null : value,
@@ -1073,6 +1129,38 @@ export function setEventDirection(
     setArrayKeyIndexValue(eventsArray, index, selectedItem, eventDirectionKey);
   } else {
     setArrayKeyIndexValue(eventsArray, index, null, eventDirectionKey);
+  }
+}
+
+// EventStrongSide
+export function getEventStrongSide(
+  eventsArray: FormArray,
+  index: number,
+): IEventDirection | null | undefined {
+  return getArrayFormDataByIndexAndKey<number>(
+    eventsArray,
+    index,
+    eventStrongSideKey,
+  );
+}
+
+export function getEventStrongSideFormControl(
+  form: FormGroup,
+  arrayName: string,
+  index: number,
+): FormControl | null | undefined {
+  return getFormControlWithIndex(form, index, eventStrongSideKey, arrayName);
+}
+
+export function setEventStrongSide(
+  eventsArray: FormArray,
+  index: number,
+  selectedItem: IEventStrongSide | string | null,
+): void {
+  if (selectedItem && isEnumValue(IEventStrongSide, selectedItem.toString())) {
+    setArrayKeyIndexValue(eventsArray, index, selectedItem, eventStrongSideKey);
+  } else {
+    setArrayKeyIndexValue(eventsArray, index, null, eventStrongSideKey);
   }
 }
 

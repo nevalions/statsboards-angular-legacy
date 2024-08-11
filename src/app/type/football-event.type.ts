@@ -22,7 +22,7 @@ export enum IEventHash {
 export enum IEventStrongSide {
   None = '',
   Left = 'liz',
-  Middle = 'bal',
+  Balance = 'balance',
   Right = 'rip',
 }
 
@@ -91,6 +91,7 @@ export interface IFootballEvent {
 
   event_hash?: string | null;
   play_direction?: string | null;
+  event_strong_side?: string | null;
   play_type?: string | null;
   play_result?: string | null;
   score_result?: string | null;
@@ -138,6 +139,7 @@ export interface IFootballEventWithPlayers {
 
   event_hash?: IEventHash | null;
   play_direction?: IEventDirection | null;
+  event_strong_side?: IEventStrongSide | null;
   play_type?: IFootballPlayType | null;
   play_result?: IFootballPlayResult | null;
   score_result?: IFootballScoreResult | null;

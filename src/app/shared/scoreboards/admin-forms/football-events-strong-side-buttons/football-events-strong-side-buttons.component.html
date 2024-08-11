@@ -1,0 +1,32 @@
+@if (control && eventsArray && i !== null && i !== undefined) {
+  <div class="event-hash-direction-buttons-three-col">
+    <span style="grid-column: span 3; text-align: center" class="tui-text_body-s">STRONG SIDE</span>
+    <app-toggle-button
+      [eventsArray]="eventsArray"
+      [index]="i"
+      [control]="control"
+      [buttonValue]="IEventStrongSide.Left"
+      [label]="IEventStrongSide.Left"
+      [currentEnumValue]="getEventStrongSide(eventsArray, i)?.toString()"
+      (toggle)="toggleFootballEnumValue($event, eventsArray, i, 'strongSide')"
+    ></app-toggle-button>
+    <app-toggle-button
+      [eventsArray]="eventsArray"
+      [index]="i"
+      [control]="control"
+      [buttonValue]="IEventStrongSide.Balance"
+      [label]="IEventStrongSide.Balance"
+      [currentEnumValue]="getEventStrongSide(eventsArray, i)?.toString()"
+      (toggle)="toggleFootballEnumValue($event, eventsArray, i, 'strongSide')"
+    ></app-toggle-button>
+    <app-toggle-button
+      [eventsArray]="eventsArray"
+      [index]="i"
+      [control]="control"
+      [buttonValue]="IEventStrongSide.Right"
+      [label]="IEventStrongSide.Right"
+      [currentEnumValue]="getEventStrongSide(eventsArray, i)?.toString()"
+      (toggle)="toggleFootballEnumValue($event, eventsArray, i, 'strongSide')"
+    ></app-toggle-button>
+  </div>
+}

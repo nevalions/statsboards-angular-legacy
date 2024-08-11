@@ -230,6 +230,16 @@ export function isScorePossible(
   return false;
 }
 
+export function isBallMovePossible(
+  eventsArray: FormArray,
+  index: number,
+): boolean {
+  if (isQbPlay(eventsArray, index) || isFlagResult(eventsArray, index)) {
+    return true;
+  }
+  return false;
+}
+
 // export function isDefenceScorePossible(
 //   eventsArray: FormArray,
 //   index: number,

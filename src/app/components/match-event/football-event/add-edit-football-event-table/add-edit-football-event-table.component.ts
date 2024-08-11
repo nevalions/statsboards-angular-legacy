@@ -12,6 +12,7 @@ import {
   eventPlayTypeOptions,
   IEventDirection,
   IEventHash,
+  IEventStrongSide,
   IFootballEvent,
   IFootballEventWithPlayers,
   IFootballPlayResult,
@@ -85,6 +86,7 @@ import {
   eventSackPlayer,
   eventScorePlayer,
   eventScoreResult,
+  eventStrongSide,
   eventTacklePlayer,
   eventTeam,
   extractEventData,
@@ -151,6 +153,7 @@ import {
   getEventScorePlayer,
   getEventScorePlayerFormControl,
   getEventScoreResultFormControl,
+  getEventStrongSideFormControl,
   getEventTacklePlayer,
   getEventTacklePlayerFormControl,
   getEventTeam,
@@ -198,6 +201,7 @@ import {
   isCautionColorResult,
   isDistanceOrGoal,
   isMaxCautionColor,
+  noBallMovedIsSelected,
   noDefenceScorePlayerSelected,
   noDeflectPlayerSelected,
   noDroppedPlayerSelected,
@@ -240,6 +244,7 @@ import { InputNumbersWithIncrementButtonsComponent } from '../../../../shared/ui
 import { ToggleButtonComponent } from '../../../../shared/ui/buttons/toggle-button/toggle-button.component';
 import { FootballEventsDirectionButtonsComponent } from '../../../../shared/scoreboards/admin-forms/football-events-direction-buttons/football-events-direction-buttons.component';
 import { FootballEventsHashButtonsComponent } from '../../../../shared/scoreboards/admin-forms/football-events-hash-buttons/football-events-hash-buttons.component';
+import { FootballEventsStrongSideButtonsComponent } from '../../../../shared/scoreboards/admin-forms/football-events-strong-side-buttons/football-events-strong-side-buttons.component';
 
 @Component({
   selector: 'app-add-edit-football-event-table',
@@ -268,6 +273,7 @@ import { FootballEventsHashButtonsComponent } from '../../../../shared/scoreboar
     ToggleButtonComponent,
     FootballEventsDirectionButtonsComponent,
     FootballEventsHashButtonsComponent,
+    FootballEventsStrongSideButtonsComponent,
   ],
   templateUrl: './add-edit-football-event-table.component.html',
   styleUrl: './add-edit-football-event-table.component.less',
@@ -516,6 +522,7 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
 
     const controlEventHash = eventHash(index);
     const controlEventDirection = eventDirection(index);
+    const controlEventStrongSide = eventStrongSide(index);
     const controlEventPlayType = eventPlayType(index);
     const controlEventPlayResult = eventPlayResult(index);
     const controlEventScoreResult = eventScoreResult(index);
@@ -562,6 +569,7 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
       [controlEventDistance]: new FormControl(event.event_distance),
       [controlEventHash]: new FormControl(event.event_hash),
       [controlEventDirection]: new FormControl(event.play_direction),
+      [controlEventStrongSide]: new FormControl(event.event_strong_side),
       [controlEventPlayType]: new FormControl(event.play_type),
       [controlEventPlayResult]: new FormControl(event.play_result),
       [controlEventScoreResult]: new FormControl(event.score_result),
@@ -955,4 +963,7 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
   protected readonly toggleFootballEnumValue = toggleFootballEnumValue;
   protected readonly IEventDirection = IEventDirection;
   protected readonly getEventDirection = getEventDirection;
+  protected readonly getEventStrongSideFormControl =
+    getEventStrongSideFormControl;
+  protected readonly noBallMovedIsSelected = noBallMovedIsSelected;
 }

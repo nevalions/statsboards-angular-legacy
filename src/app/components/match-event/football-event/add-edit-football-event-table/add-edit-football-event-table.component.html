@@ -79,6 +79,82 @@
                 }
               </div>
 
+              <!--EVENT TEAM-->
+              @if (getEventTeamFormControl(this.eventForm, this.arrayName, i); as control) {
+                <div class="event-table-cell">
+                  @if (match && match.teams_data && match.teams_data.team_a && match.teams_data.team_b) {
+                    <app-select-team-in-match
+                      [placeholder]="'offence team'"
+                      [teamsList]="[match.teams_data.team_a, match.teams_data.team_b]"
+                      [control]="control"
+                      (teamSelected)="onTeamChange(eventsArray, $event, i)"
+                    ></app-select-team-in-match>
+                  }
+                </div>
+              }
+
+              <!--EVENT QB-->
+              @if (getEventQbFormControl(this.eventForm, this.arrayName, i); as control) {
+                <div class="event-table-cell" [style.background-color]="isMaxCautionColor(isQb(eventsArray, i))">
+                  @if (getEventTeam(eventsArray, i); as selectedTeam) {
+                    @if (isMobile) {
+                      <app-select-player-in-match
+                        [placeholder]="'qb'"
+                        [players]="getPlayersForSelectedTeam(selectedTeam)"
+                        [control]="control"
+                      ></app-select-player-in-match>
+                    } @else {
+                      <app-search-player-in-match-autocomplete
+                        [action]="'select'"
+                        [placeholder]="'qb'"
+                        [players]="getPlayersForSelectedTeam(selectedTeam)"
+                        [control]="control">
+                      </app-search-player-in-match-autocomplete>
+                    }
+                  }
+                </div>
+              }
+
+              <!--EVENT DOWN-->
+              <div class="event-table-cell">
+                <div class="event-down-distance">
+                  @if (getEventDownFormControl(this.eventForm, this.arrayName, i); as control) {
+                    <div class="event-down">
+                      <app-input-number-with-buttons
+                        [label]="'down'"
+                        [control]="control"
+                        [index]="i"
+                        [key]="eventDownKey"
+                        [min]="1"
+                        [max]="4"
+                        [eventsArray]="eventsArray"
+                        (numberChanged)="handleFieldChange($event)"
+                        [onDownChange]="onDownChange"
+                      ></app-input-number-with-buttons>
+                    </div>
+                  }
+
+                  @if (getEventDistanceFormControl(this.eventForm, this.arrayName, i); as control) {
+                    @if (isDistanceOrGoal(
+                      getEventDistance(eventsArray, i), getEventBallOn(eventsArray, i), getEventPlayType(eventsArray, i))) {
+                      <div class="event-distance">
+                        <app-input-number-with-buttons
+                          [label]="'Dist'"
+                          [control]="control"
+                          [index]="i"
+                          [key]="eventDistanceKey"
+                          [min]="1"
+                          [max]="100"
+                          (numberChanged)="handleFieldChange($event)"
+                        ></app-input-number-with-buttons>
+                      </div>
+                    } @else {
+                      <span class="tui-text_h6">& GOAL</span>
+                    }
+                  }
+                </div>
+              </div>
+
               <!--BALL ON & BALL MOVED-->
               <div class="event-ballon-distance">
                 @if (getBallOnFormControl(this.eventForm, this.arrayName, i); as control) {
@@ -96,7 +172,8 @@
                   </div>
                   @if (getBallMovedOnFormControl(this.eventForm, this.arrayName, i); as control) {
                     @if (getEventPlayType(eventsArray, i) === IFootballPlayType.Pass || getEventPlayType(eventsArray, i) === IFootballPlayType.Run || getEventPlayResult(eventsArray, i) === IFootballPlayResult.Flag) {
-                      <div class="event-table-cell">
+                      <div class="event-table-cell"
+                           [style.background-color]="isCautionColor(noBallMovedIsSelected(eventsArray, i))">
                         @if (match.match_data?.field_length; as fieldLength) {
                           <app-input-numbers-with-increment-buttons
                             [label]="'Ball Moved'"
@@ -182,84 +259,7 @@
                 }
               }
 
-
-              <!--EVENT TEAM-->
-              @if (getEventTeamFormControl(this.eventForm, this.arrayName, i); as control) {
-                <div class="event-table-cell">
-                  @if (match && match.teams_data && match.teams_data.team_a && match.teams_data.team_b) {
-                    <app-select-team-in-match
-                      [placeholder]="'offence team'"
-                      [teamsList]="[match.teams_data.team_a, match.teams_data.team_b]"
-                      [control]="control"
-                      (teamSelected)="onTeamChange(eventsArray, $event, i)"
-                    ></app-select-team-in-match>
-                  }
-                </div>
-              }
-
-              <!--EVENT QB-->
-              @if (getEventQbFormControl(this.eventForm, this.arrayName, i); as control) {
-                <div class="event-table-cell" [style.background-color]="isMaxCautionColor(isQb(eventsArray, i))">
-                  @if (getEventTeam(eventsArray, i); as selectedTeam) {
-                    @if (isMobile) {
-                      <app-select-player-in-match
-                        [placeholder]="'qb'"
-                        [players]="getPlayersForSelectedTeam(selectedTeam)"
-                        [control]="control"
-                      ></app-select-player-in-match>
-                    } @else {
-                      <app-search-player-in-match-autocomplete
-                        [action]="'select'"
-                        [placeholder]="'qb'"
-                        [players]="getPlayersForSelectedTeam(selectedTeam)"
-                        [control]="control">
-                      </app-search-player-in-match-autocomplete>
-                    }
-                  }
-                </div>
-              }
-
-              <!--EVENT DOWN-->
-              <div class="event-table-cell">
-                <div class="event-down-distance">
-                  @if (getEventDownFormControl(this.eventForm, this.arrayName, i); as control) {
-                    <div class="event-down">
-                      <app-input-number-with-buttons
-                        [label]="'down'"
-                        [control]="control"
-                        [index]="i"
-                        [key]="eventDownKey"
-                        [min]="1"
-                        [max]="4"
-                        [eventsArray]="eventsArray"
-                        (numberChanged)="handleFieldChange($event)"
-                        [onDownChange]="onDownChange"
-                      ></app-input-number-with-buttons>
-                    </div>
-                  }
-
-                  @if (getEventDistanceFormControl(this.eventForm, this.arrayName, i); as control) {
-                    @if (isDistanceOrGoal(
-                      getEventDistance(eventsArray, i), getEventBallOn(eventsArray, i), getEventPlayType(eventsArray, i))) {
-                      <div class="event-distance">
-                        <app-input-number-with-buttons
-                          [label]="'Dist'"
-                          [control]="control"
-                          [index]="i"
-                          [key]="eventDistanceKey"
-                          [min]="1"
-                          [max]="100"
-                          (numberChanged)="handleFieldChange($event)"
-                        ></app-input-number-with-buttons>
-                      </div>
-                    } @else {
-                      <span class="tui-text_h6">& GOAL</span>
-                    }
-                  }
-                </div>
-              </div>
-
-
+              <!--HASH-->
               @if (getEventHashFormControl(this.eventForm, this.arrayName, i); as control) {
                 @if (!isKickOffPlay(eventsArray, i)) {
                   <div class="event-table-cell">
@@ -272,48 +272,20 @@
                 }
               }
 
+              <!--STRONG SIDE-->
+              @if (getEventStrongSideFormControl(this.eventForm, this.arrayName, i); as control) {
+                @if (!isKickOffPlay(eventsArray, i) && !isPatOnePlay(eventsArray, i) && !isKickPlay(eventsArray, i)) {
+                  <div class="event-table-cell">
+                    <app-football-events-strong-side-buttons
+                      [control]="control"
+                      [eventsArray]="eventsArray"
+                      [i]="i"
+                    ></app-football-events-strong-side-buttons>
+                  </div>
+                }
+              }
 
-              <!--              &lt;!&ndash;EVENT HASH&ndash;&gt;-->
-                <!--              <div class="event-hash-direction">-->
-                <!--                @if (getEventHashFormControl(this.eventForm, this.arrayName, i); as control) {-->
-                <!--                  <div class="event-table-cell">-->
-                <!--                    @if (isMobile) {-->
-                <!--                      <app-select-list-of-strings-->
-                <!--                        [control]="control"-->
-                <!--                        [placeholder]="'hash'"-->
-                <!--                        [stringList]="eventHashOptions"-->
-                <!--                      ></app-select-list-of-strings>-->
-                <!--                    } @else {-->
-                <!--                      <app-search-list-of-strings-->
-                <!--                        [control]="control"-->
-                <!--                        [placeholder]="'hash'"-->
-                <!--                        [stringList]="eventHashOptions"-->
-                <!--                      ></app-search-list-of-strings>-->
-                <!--                    }-->
-
-                <!--                  </div>-->
-                <!--                }-->
-                <!--                &lt;!&ndash;EVENT PLAY DIRECTION&ndash;&gt;-->
-                <!--                @if (getEventDirectionFormControl(this.eventForm, this.arrayName, i); as control) {-->
-                <!--                  <div class="event-table-cell">-->
-                <!--                    @if (isMobile) {-->
-                <!--                      <app-select-list-of-strings-->
-                <!--                        [control]="control"-->
-                <!--                        [placeholder]="'direction'"-->
-                <!--                        [stringList]="eventDirectionOptions"-->
-                <!--                      ></app-select-list-of-strings>-->
-                <!--                    } @else {-->
-                <!--                      <app-search-list-of-strings-->
-                <!--                        [control]="control"-->
-                <!--                        [placeholder]="'direction'"-->
-                <!--                        [stringList]="eventDirectionOptions"-->
-                <!--                      ></app-search-list-of-strings>-->
-                <!--                    }-->
-                <!--                  </div>-->
-                <!--                }-->
-                <!--              </div>-->
-
-                <!--EVENT PLAY TYPE-->
+              <!--EVENT PLAY TYPE-->
               @if (getEventPlayTypeFormControl(this.eventForm, this.arrayName, i); as control) {
                 <div class="event-table-cell">
                   @if (isMobile) {
@@ -439,7 +411,7 @@
                 }
               }
 
-
+              <!--DIRECTION-->
               @if (getEventHashFormControl(this.eventForm, this.arrayName, i); as control) {
                 @if (!isPatOnePlay(eventsArray, i) && !isKickPlay(eventsArray, i)) {
                   <div class="event-table-cell">
@@ -451,7 +423,6 @@
                   </div>
                 }
               }
-
 
               <!--EVENT PLAY RESULT-->
               @if (getEventPlayResultFormControl(this.eventForm, this.arrayName, i); as control) {
