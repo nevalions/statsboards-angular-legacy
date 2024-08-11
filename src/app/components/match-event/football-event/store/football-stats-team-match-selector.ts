@@ -142,6 +142,37 @@ const selectFootballMatchTeamOverallFlagDistanceOnOffence = (
             if (event.play_result === IFootballPlayResult.Flag) {
               // console.log('flag');
               if (event.distance_moved && event.distance_moved < 0) {
+                return eventFlagDistance + event.distance_moved;
+              }
+            }
+          }
+          return eventFlagDistance;
+        },
+        0,
+      );
+    },
+  );
+
+const selectFootballMatchTeamOverallFlagDistanceOnDefence = (
+  teamIdSelector: (match: IMatchWithFullData) => number | undefined,
+) =>
+  createSelector(
+    selectFootballEventsWithPlayers,
+    selectCurrentMatchWithFullData,
+    (events: IFootballEventWithPlayers[], match): number => {
+      if (!match || !match.id) {
+        return 0;
+      }
+      const teamId: number | undefined = teamIdSelector(match);
+      if (!teamId) {
+        return 0;
+      }
+      return events.reduce(
+        (eventFlagDistance: number, event: IFootballEventWithPlayers) => {
+          if (event.offense_team?.id && event.offense_team?.id !== teamId) {
+            if (event.play_result === IFootballPlayResult.Flag) {
+              // console.log('flag');
+              if (event.distance_moved && event.distance_moved > 0) {
                 return eventFlagDistance - event.distance_moved;
               }
             }
@@ -183,37 +214,6 @@ const selectFootballMatchTeamTurnover = (
             }
           }
           return teamTurnovers;
-        },
-        0,
-      );
-    },
-  );
-
-const selectFootballMatchTeamOverallFlagDistanceOnDefence = (
-  teamIdSelector: (match: IMatchWithFullData) => number | undefined,
-) =>
-  createSelector(
-    selectFootballEventsWithPlayers,
-    selectCurrentMatchWithFullData,
-    (events: IFootballEventWithPlayers[], match): number => {
-      if (!match || !match.id) {
-        return 0;
-      }
-      const teamId: number | undefined = teamIdSelector(match);
-      if (!teamId) {
-        return 0;
-      }
-      return events.reduce(
-        (eventFlagDistance: number, event: IFootballEventWithPlayers) => {
-          if (event.offense_team?.id && event.offense_team?.id !== teamId) {
-            if (event.play_result === IFootballPlayResult.Flag) {
-              // console.log('flag');
-              if (event.distance_moved && event.distance_moved > 0) {
-                return eventFlagDistance - event.distance_moved;
-              }
-            }
-          }
-          return eventFlagDistance;
         },
         0,
       );
