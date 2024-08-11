@@ -29,11 +29,11 @@ const selectFootballMatchTeamOverallLostYards = (
         (eventRunDistance: number, event: IFootballEventWithPlayers) => {
           if (event.offense_team?.id === teamId) {
             if (
-              (event.play_type === IFootballPlayType.Run ||
+              ((event.play_type === IFootballPlayType.Run ||
                 event.play_type === IFootballPlayType.Pass) &&
-              (event.play_result === IFootballPlayResult.Run ||
-                event.play_result === IFootballPlayResult.Sack ||
-                event.play_result === IFootballPlayResult.PassCompleted)
+                event.play_result === IFootballPlayResult.Run &&
+                event.is_fumble) ||
+              event.play_result === IFootballPlayResult.Sack
             ) {
               if (event.distance_moved && event.distance_moved < 0) {
                 return eventRunDistance - event.distance_moved;
