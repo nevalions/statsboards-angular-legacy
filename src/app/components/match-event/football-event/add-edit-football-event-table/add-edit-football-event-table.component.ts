@@ -202,17 +202,21 @@ import {
   isDistanceOrGoal,
   isMaxCautionColor,
   noBallMovedIsSelected,
+  noBallOnIsSelected,
   noDefenceScorePlayerSelected,
   noDeflectPlayerSelected,
   noDroppedPlayerSelected,
   noFlagPlayerSelected,
   noInterceptedPlayerSelected,
+  noKickBallToIsSelected,
   noKickOffPlayerSelected,
   noKickPlayerSelected,
   noPatOnePlayerSelected,
+  noPickBallOnIsSelected,
   noPuntPlayerSelected,
   noQbSelected,
   noReceiverPlayerSelected,
+  noReturnBallToIsSelected,
   noReturnPlayerSelected,
   noRunPlayerSelected,
   noSackPlayerSelected,
@@ -966,4 +970,8 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
   protected readonly getEventStrongSideFormControl =
     getEventStrongSideFormControl;
   protected readonly noBallMovedIsSelected = noBallMovedIsSelected;
+  protected readonly noKickBallToIsSelected = noKickBallToIsSelected;
+  protected readonly noReturnBallToIsSelected = noReturnBallToIsSelected;
+  protected readonly noPickBallOnIsSelected = noPickBallOnIsSelected;
+  protected readonly noBallOnIsSelected = noBallOnIsSelected;
 }

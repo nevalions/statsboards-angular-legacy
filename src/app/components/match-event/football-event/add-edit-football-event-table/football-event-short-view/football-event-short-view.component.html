@@ -13,18 +13,29 @@
       >{{ team.title | titlecase }}&nbsp;
       </div>
     }
-    @if (getBallOn(eventsArray, i); as ballOn) {
+    @if (getBallOn(eventsArray, i) !== null && getBallOn(eventsArray, i) !== undefined) {
       <div class="event-short-view"
            [style.background-color]='isMinCautionColor(!isPrevBallMovedEqualCurrentBallOn(eventsArray, i))'>
-        BallOn: {{ ballOn }}&nbsp;
+        BallOn: {{ getBallOn(eventsArray, i) }}&nbsp;
+      </div>
+    } @else {
+      <div class="event-short-view" [style.background-color]='isMaxCautionColor(noBallOnIsSelected(eventsArray, i))'>
+        No BallOn
       </div>
     }
 
-    @if (getBallMovedOn(eventsArray, i) !== null && getBallMovedOn(eventsArray, i) !== undefined) {
-      <div class="event-short-view"
-           [style.background-color]='isMinCautionColor(!isNextBallOnEqualCurrentBallMoved(eventsArray, i))'>
-        BallMovedOn: {{ getBallMovedOn(eventsArray, i) }}&nbsp;
-      </div>
+    @if (isBallMovePossible(eventsArray, i)) {
+      @if (getBallMovedOn(eventsArray, i) !== null && getBallMovedOn(eventsArray, i) !== undefined) {
+        <div class="event-short-view"
+             [style.background-color]='isMinCautionColor(!isNextBallOnEqualCurrentBallMoved(eventsArray, i))'>
+          BallMovedOn: {{ getBallMovedOn(eventsArray, i) }}&nbsp;
+        </div>
+      } @else {
+        <div class="event-short-view"
+             [style.background-color]='isMinCautionColor(noBallMovedIsSelected(eventsArray, i))'>
+          No BallMovedOn
+        </div>
+      }
     }
 
     @if (!isReturnPlayOrKickOut(eventsArray, i)) {

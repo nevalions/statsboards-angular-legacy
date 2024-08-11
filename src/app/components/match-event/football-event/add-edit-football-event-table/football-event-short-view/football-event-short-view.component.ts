@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import {
+  isBallMovePossible,
   isDefenceScore,
   isDeflectResult,
   isFlagResult,
@@ -24,8 +25,11 @@ import {
 import {
   distanceOrGoal,
   isCautionColorResult,
+  isMaxCautionColor,
   isMinCautionColor,
   isPlayerSecondName,
+  noBallMovedIsSelected,
+  noBallOnIsSelected,
   noDefenceScorePlayerSelected,
   noDeflectPlayerSelected,
   noFlagPlayerSelected,
@@ -179,4 +183,8 @@ export class FootballEventShortViewComponent {
   protected readonly ICautionColors = ICautionColors;
   protected readonly isInterceptionOrFumble = isInterceptionOrFumble;
   protected readonly getEventBallPickedOn = getEventBallPickedOn;
+  protected readonly isMaxCautionColor = isMaxCautionColor;
+  protected readonly noBallOnIsSelected = noBallOnIsSelected;
+  protected readonly isBallMovePossible = isBallMovePossible;
+  protected readonly noBallMovedIsSelected = noBallMovedIsSelected;
 }

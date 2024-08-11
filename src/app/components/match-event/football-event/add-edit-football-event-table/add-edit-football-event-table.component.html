@@ -158,7 +158,8 @@
               <!--BALL ON & BALL MOVED-->
               <div class="event-ballon-distance">
                 @if (getBallOnFormControl(this.eventForm, this.arrayName, i); as control) {
-                  <div class="event-table-cell">
+                  <div class="event-table-cell"
+                       [style.background-color]="isMaxCautionColor(noBallOnIsSelected(eventsArray, i))">
                     @if (match.match_data?.field_length; as fieldLength) {
                       <app-input-numbers-with-increment-buttons
                         [label]="'BallOn'"
@@ -193,7 +194,7 @@
               @if (getEventBallKickedToFormControl(this.eventForm, this.arrayName, i); as control) {
                 @if (isReturnPlayOrKickOut(eventsArray, i)) {
                   <div class="event-ballon-distance">
-                    <div class="event-table-cell">
+                    <div [style.background-color]="isCautionColor(noKickBallToIsSelected(eventsArray, i))">
                       @if (match.match_data?.field_length; as fieldLength) {
                         <app-input-numbers-with-increment-buttons
                           [label]="'Ball Kicked'"
@@ -206,7 +207,7 @@
                       }
                     </div>
                     @if (getEventBallReturnedToFormControl(this.eventForm, this.arrayName, i); as control) {
-                      <div class="event-table-cell">
+                      <div [style.background-color]="isCautionColor(noReturnBallToIsSelected(eventsArray, i))">
                         @if (match.match_data?.field_length; as fieldLength) {
                           <app-input-numbers-with-increment-buttons
                             [label]="'Ball Returned'"
@@ -228,7 +229,7 @@
               @if (getEventBallPickedOnFormControl(this.eventForm, this.arrayName, i); as control) {
                 @if (isInterceptionOrFumble(eventsArray, i)) {
                   <div class="event-ballon-distance">
-                    <div class="event-table-cell">
+                    <div [style.background-color]="isCautionColor(noPickBallOnIsSelected(eventsArray, i))">
                       @if (match.match_data?.field_length; as fieldLength) {
                         <app-input-numbers-with-increment-buttons
                           [label]="'Ball Picked'"
@@ -241,7 +242,7 @@
                       }
                     </div>
                     @if (getEventBallReturnedToFormControl(this.eventForm, this.arrayName, i); as control) {
-                      <div class="event-table-cell">
+                      <div [style.background-color]="isCautionColor(noReturnBallToIsSelected(eventsArray, i))">
                         @if (match.match_data?.field_length; as fieldLength) {
                           <app-input-numbers-with-increment-buttons
                             [label]="'Ball Returned'"

@@ -1,6 +1,9 @@
 import { FormArray } from '@angular/forms';
 import {
   getEventBallMovedOn,
+  getEventBallOn,
+  getEventBallPickedOn,
+  getEventBallReturnedTo,
   getEventDefenceScorePlayer,
   getEventDeflectedPlayer,
   getEventDroppedPlayer,
@@ -24,6 +27,7 @@ import {
   isDefenceScore,
   isDeflectResult,
   isFlagResult,
+  isInterceptionOrFumble,
   isInterceptResult,
   isKickOffPlay,
   isKickPlay,
@@ -33,6 +37,7 @@ import {
   isPuntPlay,
   isQbPlay,
   isReturnPlay,
+  isReturnPlayOrKickOut,
   isRunPlay,
   isSackResult,
   isScoreTDPatTwoOffence,
@@ -83,6 +88,17 @@ export function noQbSelected(eventsArray: FormArray, index: number): boolean {
   return false;
 }
 
+export function noBallOnIsSelected(
+  eventsArray: FormArray,
+  index: number,
+): boolean {
+  const ballOn = getEventBallOn(eventsArray, index);
+  if (ballOn === null || ballOn === undefined) {
+    return true;
+  }
+  return false;
+}
+
 export function noBallMovedIsSelected(
   eventsArray: FormArray,
   index: number,
@@ -90,6 +106,48 @@ export function noBallMovedIsSelected(
   if (isBallMovePossible(eventsArray, index)) {
     const ballMovedOn = getEventBallMovedOn(eventsArray, index);
     if (ballMovedOn === null || ballMovedOn === undefined) {
+      return true;
+    }
+  }
+  return false;
+}
+
+export function noKickBallToIsSelected(
+  eventsArray: FormArray,
+  index: number,
+): boolean {
+  if (isReturnPlayOrKickOut(eventsArray, index)) {
+    const ballPickedOn = getEventBallPickedOn(eventsArray, index);
+    if (ballPickedOn === null || ballPickedOn === undefined) {
+      return true;
+    }
+  }
+  return false;
+}
+
+export function noPickBallOnIsSelected(
+  eventsArray: FormArray,
+  index: number,
+): boolean {
+  if (isInterceptionOrFumble(eventsArray, index)) {
+    const ballPickedOn = getEventBallPickedOn(eventsArray, index);
+    if (ballPickedOn === null || ballPickedOn === undefined) {
+      return true;
+    }
+  }
+  return false;
+}
+
+export function noReturnBallToIsSelected(
+  eventsArray: FormArray,
+  index: number,
+): boolean {
+  if (
+    isInterceptionOrFumble(eventsArray, index) ||
+    isReturnPlayOrKickOut(eventsArray, index)
+  ) {
+    const ballPickedOn = getEventBallReturnedTo(eventsArray, index);
+    if (ballPickedOn === null || ballPickedOn === undefined) {
       return true;
     }
   }
