@@ -1,5 +1,6 @@
 import { FormArray } from '@angular/forms';
 import {
+  getEventBallKickedTo,
   getEventBallMovedOn,
   getEventBallOn,
   getEventBallPickedOn,
@@ -117,7 +118,7 @@ export function noKickBallToIsSelected(
   index: number,
 ): boolean {
   if (isReturnPlayOrKickOut(eventsArray, index)) {
-    const ballPickedOn = getEventBallPickedOn(eventsArray, index);
+    const ballPickedOn = getEventBallKickedTo(eventsArray, index);
     if (ballPickedOn === null || ballPickedOn === undefined) {
       return true;
     }
