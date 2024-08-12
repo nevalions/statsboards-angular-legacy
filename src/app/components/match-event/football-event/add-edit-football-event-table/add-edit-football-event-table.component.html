@@ -356,19 +356,6 @@
                 </div>
               }
 
-              <!--DIRECTION-->
-              @if (getEventHashFormControl(this.eventForm, this.arrayName, i); as control) {
-                @if (!isPatOnePlay(eventsArray, i) && !isKickPlay(eventsArray, i)) {
-                  <div class="event-table-cell">
-                    <app-football-events-direction-buttons
-                      [control]="control"
-                      [eventsArray]="eventsArray"
-                      [i]="i"
-                    ></app-football-events-direction-buttons>
-                  </div>
-                }
-              }
-
               <!--EVENT RUN PLAYER-->
               @if (getEventRunPlayerFormControl(this.eventForm, this.arrayName, i); as control) {
                 @if (getEventTeam(eventsArray, i); as selectedTeam) {
@@ -488,6 +475,19 @@
                       }
                     </div>
                   }
+                }
+              }
+
+              <!--DIRECTION-->
+              @if (getEventHashFormControl(this.eventForm, this.arrayName, i); as control) {
+                @if (!isPatOnePlay(eventsArray, i) && !isKickPlay(eventsArray, i)) {
+                  <div class="event-table-cell">
+                    <app-football-events-direction-buttons
+                      [control]="control"
+                      [eventsArray]="eventsArray"
+                      [i]="i"
+                    ></app-football-events-direction-buttons>
+                  </div>
                 }
               }
 
