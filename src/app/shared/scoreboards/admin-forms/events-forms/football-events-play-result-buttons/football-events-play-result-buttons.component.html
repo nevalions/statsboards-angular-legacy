@@ -1,7 +1,7 @@
 @if (control && eventsArray && i !== null && i !== undefined) {
   @if (isRunPlay(eventsArray, i)) {
     <div class="event-hash-direction-buttons-two-col">
-      <span style="grid-column: span 2; text-align: center" class="tui-text_body-s">PLAY RESULT</span>
+      <!--      <span style="grid-column: span 2; text-align: center" class="tui-text_body-s">PLAY RESULT</span>-->
       <app-toggle-button
         [eventsArray]="eventsArray"
         [index]="i"
@@ -23,7 +23,7 @@
     </div>
   } @else if (isPassPlay(eventsArray, i)) {
     <div class="event-hash-direction-buttons-three-col">
-      <span style="grid-column: span 3; text-align: center" class="tui-text_body-s">PLAY RESULT</span>
+      <!--      <span style="grid-column: span 3; text-align: center" class="tui-text_body-s">PLAY RESULT</span>-->
       <app-toggle-button
         [eventsArray]="eventsArray"
         [index]="i"
@@ -41,6 +41,67 @@
         [label]="IFootballPlayResult.PassIncomplete"
         [currentEnumValue]="getEventPlayResult(eventsArray, i)?.toString()"
         (toggle)="toggleFootballEnumValue($event, eventsArray, i, 'playResult')"
+      ></app-toggle-button>
+      <app-toggle-button
+        [eventsArray]="eventsArray"
+        [index]="i"
+        [control]="control"
+        [buttonValue]="IFootballPlayResult.Flag"
+        [label]="IFootballPlayResult.Flag"
+        [currentEnumValue]="getEventPlayResult(eventsArray, i)?.toString()"
+        (toggle)="toggleFootballEnumValue($event, eventsArray, i, 'playResult')"
+      ></app-toggle-button>
+    </div>
+  } @else if (isKickOffPlay(eventsArray, i)) {
+    <div class="event-hash-direction-buttons-three-col">
+      <!--      <span style="grid-column: span 3; text-align: center" class="tui-text_body-s">PLAY RESULT</span>-->
+      <app-toggle-button
+        [eventsArray]="eventsArray"
+        [index]="i"
+        [control]="control"
+        [buttonValue]="IFootballPlayResult.KickOffReturn"
+        [label]="IFootballPlayResult.KickOffReturn"
+        [currentEnumValue]="getEventPlayResult(eventsArray, i)?.toString()"
+        (toggle)="toggleFootballEnumValue($event, eventsArray, i, 'playResult')"
+      ></app-toggle-button>
+      <app-toggle-button
+        [eventsArray]="eventsArray"
+        [index]="i"
+        [control]="control"
+        [buttonValue]="IFootballPlayResult.TouchBack"
+        [label]="IFootballPlayResult.TouchBack"
+        [currentEnumValue]="getEventPlayResult(eventsArray, i)?.toString()"
+        (toggle)="toggleFootballEnumValue($event, eventsArray, i, 'playResult')"
+      ></app-toggle-button>
+      <app-toggle-button
+        [eventsArray]="eventsArray"
+        [index]="i"
+        [control]="control"
+        [buttonValue]="IFootballPlayResult.Flag"
+        [label]="IFootballPlayResult.Flag"
+        [currentEnumValue]="getEventPlayResult(eventsArray, i)?.toString()"
+        (toggle)="toggleFootballEnumValue($event, eventsArray, i, 'playResult')"
+      ></app-toggle-button>
+    </div>
+  } @else if (isPatOnePlay(eventsArray, i)) {
+    <div class="event-hash-direction-buttons-three-col">
+      <app-toggle-button
+        [eventsArray]="eventsArray"
+        [index]="i"
+        [control]="control"
+        [buttonValue]="IFootballScoreResult.PatOneGood"
+        [label]="IFootballScoreResult.PatOneGood"
+        [currentEnumValue]="getEventPlayResult(eventsArray, i)?.toString()"
+        (toggle)="toggleFootballEnumValue($event, eventsArray, i, 'scoreResult')"
+      ></app-toggle-button>
+      <app-toggle-button
+        [eventsArray]="eventsArray"
+        [index]="i"
+        [control]="control"
+        [buttonValue]="IFootballScoreResult.PatOneMissed"
+        [label]="IFootballScoreResult.PatOneMissed"
+        [currentEnumValue]="getEventPlayResult(eventsArray, i)?.toString()"
+        (toggle)="toggleFootballEnumValue($event, eventsArray, i, 'scoreResult')"
       ></app-toggle-button>
       <app-toggle-button
         [eventsArray]="eventsArray"

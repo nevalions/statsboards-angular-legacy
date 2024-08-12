@@ -433,6 +433,7 @@ export function filterPlayResultsByType(
         IFootballPlayResult.KickBlocked,
         IFootballPlayResult.KickedOut,
         IFootballPlayResult.Flag,
+        IFootballPlayResult.KickReturn,
       ];
     case IFootballPlayType.Kickoff:
       return [

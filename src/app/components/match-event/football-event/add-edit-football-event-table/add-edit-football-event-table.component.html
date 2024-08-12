@@ -156,108 +156,20 @@
               </div>
 
               <!--BALL ON & BALL MOVED-->
-              <div class="event-ballon-distance">
-                @if (getBallOnFormControl(this.eventForm, this.arrayName, i); as control) {
-                  <div class="event-table-cell"
-                       [style.background-color]="isMaxCautionColor(noBallOnIsSelected(eventsArray, i))">
-                    @if (match.match_data?.field_length; as fieldLength) {
-                      <app-input-numbers-with-increment-buttons
-                        [label]="'BallOn'"
-                        [control]="control"
-                        [min]="-((fieldLength / 2) - 1)"
-                        [max]="fieldLength / 2"
-                        (incrementEvent)="incrementBallOnPosition(getEventBallOn(eventsArray, i), $event, control, eventsArray, i, fieldLength, eventBallOnKey)"
-                        (valueChanged)="onBallOnChange(events, eventsArray, $event, i, (fieldLength/2))"
-                      ></app-input-numbers-with-increment-buttons>
-                    }
-                  </div>
-                  @if (getBallMovedOnFormControl(this.eventForm, this.arrayName, i); as control) {
-                    @if (getEventPlayType(eventsArray, i) === IFootballPlayType.Pass || getEventPlayType(eventsArray, i) === IFootballPlayType.Run || getEventPlayResult(eventsArray, i) === IFootballPlayResult.Flag) {
-                      <div class="event-table-cell"
-                           [style.background-color]="isCautionColor(noBallMovedIsSelected(eventsArray, i))">
-                        @if (match.match_data?.field_length; as fieldLength) {
-                          <app-input-numbers-with-increment-buttons
-                            [label]="'Ball Moved'"
-                            [control]="control"
-                            [min]="-((fieldLength / 2) - 1)"
-                            [max]="fieldLength / 2"
-                            (incrementEvent)="incrementBallOnPosition(getEventBallMovedOn(eventsArray, i), $event, control, eventsArray, i, fieldLength, eventBallMovedOnKey)"
-                          ></app-input-numbers-with-increment-buttons>
-                        }
-                      </div>
-                    }
+              @if (getBallOnFormControl(this.eventForm, this.arrayName, i); as control) {
+                <div class="event-table-cell"
+                     [style.background-color]="isMaxCautionColor(noBallOnIsSelected(eventsArray, i))">
+                  @if (match.match_data?.field_length; as fieldLength) {
+                    <app-input-numbers-with-increment-buttons
+                      [label]="'BallOn'"
+                      [control]="control"
+                      [min]="-((fieldLength / 2) - 1)"
+                      [max]="fieldLength / 2"
+                      (incrementEvent)="incrementBallOnPosition(getEventBallOn(eventsArray, i), $event, control, eventsArray, i, fieldLength, eventBallOnKey)"
+                      (valueChanged)="onBallOnChange(events, eventsArray, $event, i, (fieldLength/2))"
+                    ></app-input-numbers-with-increment-buttons>
                   }
-                }
-              </div>
-
-              <!--BALL KICKED & BALL RETURN-->
-              @if (getEventBallKickedToFormControl(this.eventForm, this.arrayName, i); as control) {
-                @if (isReturnPlayOrKickOut(eventsArray, i)) {
-                  <div class="event-ballon-distance">
-                    <div [style.background-color]="isCautionColor(noKickBallToIsSelected(eventsArray, i))">
-                      @if (match.match_data?.field_length; as fieldLength) {
-                        <app-input-numbers-with-increment-buttons
-                          [label]="'Ball Kicked'"
-                          [control]="control"
-                          [min]="-((fieldLength / 2) - 1)"
-                          [max]="fieldLength / 2"
-                          (incrementEvent)="incrementBallOnPosition(getEventBallKickedTo(eventsArray, i), $event, control, eventsArray, i, fieldLength, eventBallKickedToKey)"
-                          (valueChanged)="onKickBallChange(eventsArray, i, $event)"
-                        ></app-input-numbers-with-increment-buttons>
-                      }
-                    </div>
-                    @if (getEventBallReturnedToFormControl(this.eventForm, this.arrayName, i); as control) {
-                      <div [style.background-color]="isCautionColor(noReturnBallToIsSelected(eventsArray, i))">
-                        @if (match.match_data?.field_length; as fieldLength) {
-                          <app-input-numbers-with-increment-buttons
-                            [label]="'Ball Returned'"
-                            [control]="control"
-                            [min]="-((fieldLength / 2) - 1)"
-                            [max]="fieldLength / 2"
-                            (incrementEvent)="incrementBallOnPosition(getEventBallReturnedTo(eventsArray, i), $event, control, eventsArray, i, fieldLength, eventBallReturnedToKey)"
-                            [plusOne]="-1"
-                            [minusOne]="1"
-                          ></app-input-numbers-with-increment-buttons>
-                        }
-                      </div>
-                    }
-                  </div>
-                }
-              }
-
-              <!--BALL PICKED & BALL RETURN-->
-              @if (getEventBallPickedOnFormControl(this.eventForm, this.arrayName, i); as control) {
-                @if (isInterceptionOrFumble(eventsArray, i)) {
-                  <div class="event-ballon-distance">
-                    <div [style.background-color]="isCautionColor(noPickBallOnIsSelected(eventsArray, i))">
-                      @if (match.match_data?.field_length; as fieldLength) {
-                        <app-input-numbers-with-increment-buttons
-                          [label]="'Ball Picked'"
-                          [control]="control"
-                          [min]="-((fieldLength / 2) - 1)"
-                          [max]="fieldLength / 2"
-                          (incrementEvent)="incrementBallOnPosition(getEventBallPickedOn(eventsArray, i), $event, control, eventsArray, i, fieldLength, eventBallPickedOnKey)"
-                          (valueChanged)="onKickBallChange(eventsArray, i, $event)"
-                        ></app-input-numbers-with-increment-buttons>
-                      }
-                    </div>
-                    @if (getEventBallReturnedToFormControl(this.eventForm, this.arrayName, i); as control) {
-                      <div [style.background-color]="isCautionColor(noReturnBallToIsSelected(eventsArray, i))">
-                        @if (match.match_data?.field_length; as fieldLength) {
-                          <app-input-numbers-with-increment-buttons
-                            [label]="'Ball Returned'"
-                            [control]="control"
-                            [min]="-((fieldLength / 2) - 1)"
-                            [max]="fieldLength / 2"
-                            (incrementEvent)="incrementBallOnPosition(getEventBallReturnedTo(eventsArray, i), $event, control, eventsArray, i, fieldLength, eventBallReturnedToKey)"
-                            [plusOne]="-1"
-                            [minusOne]="1"
-                          ></app-input-numbers-with-increment-buttons>
-                        }
-                      </div>
-                    }
-                  </div>
-                }
+                </div>
               }
 
               <!--HASH-->
@@ -290,15 +202,11 @@
               @if (getEventPlayTypeFormControl(this.eventForm, this.arrayName, i); as control) {
                 <div class="event-table-cell">
                   @if (isMobile) {
-                    @if (!isKickOffPlay(eventsArray, i) && !isPatOnePlay(eventsArray, i) && !isKickPlay(eventsArray, i)) {
-                      <div class="event-table-cell">
-                        <app-football-events-play-type-buttons
-                          [control]="control"
-                          [eventsArray]="eventsArray"
-                          [i]="i"
-                        ></app-football-events-play-type-buttons>
-                      </div>
-                    }
+                    <app-football-events-play-type-buttons
+                      [control]="control"
+                      [eventsArray]="eventsArray"
+                      [i]="i"
+                    ></app-football-events-play-type-buttons>
                     <app-select-list-of-strings
                       [control]="control"
                       [placeholder]="'play type'"
@@ -421,6 +329,33 @@
                 }
               }
 
+              <!--EVENT PLAY RESULT-->
+              @if (getEventPlayResultFormControl(this.eventForm, this.arrayName, i); as control) {
+                <div class="event-table-cell">
+                  @if (isMobile) {
+                    <app-football-events-play-result-buttons
+                      [control]="control"
+                      [eventsArray]="eventsArray"
+                      [i]="i"
+                    ></app-football-events-play-result-buttons>
+                    @if (!isKickOffPlay(eventsArray, i)) {
+                      <app-select-list-of-strings
+                        [control]="control"
+                        [placeholder]="'play result'"
+                        [stringList]="filterPlayResultsByType(getEventPlayType(eventsArray, i))"
+                        (itemSelected)="handlePlayResultChange(eventsArray, getEventPlayResult(eventsArray, i) ,i)"
+                      ></app-select-list-of-strings>
+                    }
+                  } @else {
+                    <app-search-list-of-strings
+                      [control]="control"
+                      [placeholder]="'play result'"
+                      [stringList]="filterPlayResultsByType(getEventPlayType(eventsArray, i))"
+                    ></app-search-list-of-strings>
+                  }
+                </div>
+              }
+
               <!--DIRECTION-->
               @if (getEventHashFormControl(this.eventForm, this.arrayName, i); as control) {
                 @if (!isPatOnePlay(eventsArray, i) && !isKickPlay(eventsArray, i)) {
@@ -432,33 +367,6 @@
                     ></app-football-events-direction-buttons>
                   </div>
                 }
-              }
-
-              <!--EVENT PLAY RESULT-->
-              @if (getEventPlayResultFormControl(this.eventForm, this.arrayName, i); as control) {
-                <div class="event-table-cell">
-                  @if (isMobile) {
-                    <!--                    <div class="event-table-cell">-->
-                    <app-football-events-play-result-buttons
-                      [control]="control"
-                      [eventsArray]="eventsArray"
-                      [i]="i"
-                    ></app-football-events-play-result-buttons>
-                    <!--                    </div>-->
-                    <app-select-list-of-strings
-                      [control]="control"
-                      [placeholder]="'play result'"
-                      [stringList]="filterPlayResultsByType(getEventPlayType(eventsArray, i))"
-                      (itemSelected)="handlePlayResultChange(eventsArray, getEventPlayResult(eventsArray, i) ,i)"
-                    ></app-select-list-of-strings>
-                  } @else {
-                    <app-search-list-of-strings
-                      [control]="control"
-                      [placeholder]="'play result'"
-                      [stringList]="filterPlayResultsByType(getEventPlayType(eventsArray, i))"
-                    ></app-search-list-of-strings>
-                  }
-                </div>
               }
 
               <!--EVENT RUN PLAYER-->
@@ -539,6 +447,24 @@
                 }
               }
 
+              @if (getBallMovedOnFormControl(this.eventForm, this.arrayName, i); as control) {
+                @if (getEventPlayType(eventsArray, i) === IFootballPlayType.Pass || getEventPlayType(eventsArray, i) === IFootballPlayType.Run || getEventPlayResult(eventsArray, i) === IFootballPlayResult.Flag) {
+                  <div class="event-table-cell"
+                       [style.background-color]="isCautionColor(noBallMovedIsSelected(eventsArray, i))">
+                    @if (match.match_data?.field_length; as fieldLength) {
+                      <app-input-numbers-with-increment-buttons
+                        [label]="'Ball Moved'"
+                        [control]="control"
+                        [min]="-((fieldLength / 2) - 1)"
+                        [max]="fieldLength / 2"
+                        (incrementEvent)="incrementBallOnPosition(getEventBallMovedOn(eventsArray, i), $event, control, eventsArray, i, fieldLength, eventBallMovedOnKey)"
+                      ></app-input-numbers-with-increment-buttons>
+                    }
+                  </div>
+                }
+              }
+
+
               <!--EVENT RETURN PLAYER-->
               @if (getEventReturnPlayerFormControl(this.eventForm, this.arrayName, i); as control) {
                 @if (getEventTeam(eventsArray, i); as selectedTeam) {
@@ -562,6 +488,43 @@
                       }
                     </div>
                   }
+                }
+              }
+
+              <!--BALL KICKED & BALL RETURN-->
+              @if (getEventBallKickedToFormControl(this.eventForm, this.arrayName, i); as control) {
+                @if (isReturnPlayOrKickOut(eventsArray, i)) {
+                  <div class="event-ballon-distance">
+                    <div [style.background-color]="isCautionColor(noKickBallToIsSelected(eventsArray, i))">
+                      @if (match.match_data?.field_length; as fieldLength) {
+                        <app-input-numbers-with-increment-buttons
+                          [label]="'Ball Kicked'"
+                          [control]="control"
+                          [min]="-((fieldLength / 2) - 1)"
+                          [max]="fieldLength / 2"
+                          (incrementEvent)="incrementBallOnPosition(getEventBallKickedTo(eventsArray, i), $event, control, eventsArray, i, fieldLength, eventBallKickedToKey)"
+                          (valueChanged)="onKickBallChange(eventsArray, i, $event)"
+                          [plusOne]="-1"
+                          [minusOne]="1"
+                        ></app-input-numbers-with-increment-buttons>
+                      }
+                    </div>
+                    @if (getEventBallReturnedToFormControl(this.eventForm, this.arrayName, i); as control) {
+                      <div [style.background-color]="isCautionColor(noReturnBallToIsSelected(eventsArray, i))">
+                        @if (match.match_data?.field_length; as fieldLength) {
+                          <app-input-numbers-with-increment-buttons
+                            [label]="'Ball Returned'"
+                            [control]="control"
+                            [min]="-((fieldLength / 2) - 1)"
+                            [max]="fieldLength / 2"
+                            (incrementEvent)="incrementBallOnPosition(getEventBallReturnedTo(eventsArray, i), $event, control, eventsArray, i, fieldLength, eventBallReturnedToKey)"
+                            [plusOne]="-1"
+                            [minusOne]="1"
+                          ></app-input-numbers-with-increment-buttons>
+                        }
+                      </div>
+                    }
+                  </div>
                 }
               }
 
@@ -728,6 +691,41 @@
                       }
                     </div>
                   }
+                }
+              }
+
+              <!--BALL PICKED & BALL RETURN-->
+              @if (getEventBallPickedOnFormControl(this.eventForm, this.arrayName, i); as control) {
+                @if (isInterceptionOrFumble(eventsArray, i)) {
+                  <div class="event-ballon-distance">
+                    <div [style.background-color]="isCautionColor(noPickBallOnIsSelected(eventsArray, i))">
+                      @if (match.match_data?.field_length; as fieldLength) {
+                        <app-input-numbers-with-increment-buttons
+                          [label]="'Ball Picked'"
+                          [control]="control"
+                          [min]="-((fieldLength / 2) - 1)"
+                          [max]="fieldLength / 2"
+                          (incrementEvent)="incrementBallOnPosition(getEventBallPickedOn(eventsArray, i), $event, control, eventsArray, i, fieldLength, eventBallPickedOnKey)"
+                          (valueChanged)="onKickBallChange(eventsArray, i, $event)"
+                        ></app-input-numbers-with-increment-buttons>
+                      }
+                    </div>
+                    @if (getEventBallReturnedToFormControl(this.eventForm, this.arrayName, i); as control) {
+                      <div [style.background-color]="isCautionColor(noReturnBallToIsSelected(eventsArray, i))">
+                        @if (match && match.match_data?.field_length; as fieldLength) {
+                          <app-input-numbers-with-increment-buttons
+                            [label]="'Ball Returned'"
+                            [control]="control"
+                            [min]="-((fieldLength / 2) - 1)"
+                            [max]="fieldLength / 2"
+                            (incrementEvent)="incrementBallOnPosition(getEventBallReturnedTo(eventsArray, i), $event, control, eventsArray, i, fieldLength, eventBallReturnedToKey)"
+                            [plusOne]="-1"
+                            [minusOne]="1"
+                          ></app-input-numbers-with-increment-buttons>
+                        }
+                      </div>
+                    }
+                  </div>
                 }
               }
 

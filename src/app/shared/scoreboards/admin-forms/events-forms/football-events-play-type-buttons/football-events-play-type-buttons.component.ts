@@ -6,6 +6,10 @@ import {
   getEventPlayType,
   toggleFootballEnumValue,
 } from '../../../../../components/match-event/football-event/football-event-helpers';
+import {
+  isFourthDown,
+  isPreviousScoreTdOrDefenceTd,
+} from '../../../../../components/match-event/football-event/football-event-isPlayTypeOrResult-helper';
 
 @Component({
   selector: 'app-football-events-play-type-buttons',
@@ -21,4 +25,7 @@ export class FootballEventsPlayTypeButtonsComponent {
   protected readonly IFootballPlayType = IFootballPlayType;
   protected readonly getEventPlayType = getEventPlayType;
   protected readonly toggleFootballEnumValue = toggleFootballEnumValue;
+  protected readonly isPreviousScoreTdOrDefenceTd =
+    isPreviousScoreTdOrDefenceTd;
+  protected readonly isFourthDown = isFourthDown;
 }

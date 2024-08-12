@@ -675,7 +675,13 @@ export function toggleFootballEnumValue(
   value: string,
   eventsArray: FormArray,
   index: number,
-  type: 'hash' | 'direction' | 'strongSide' | 'playType' | 'playResult',
+  type:
+    | 'hash'
+    | 'direction'
+    | 'strongSide'
+    | 'playType'
+    | 'playResult'
+    | 'scoreResult',
 ): void {
   if (type === 'hash') {
     const currentHash = getEventHash(eventsArray, index);
@@ -711,6 +717,14 @@ export function toggleFootballEnumValue(
       eventsArray,
       index,
       currentPlayResult === value ? null : value,
+    );
+  }
+  if (type === 'scoreResult') {
+    const currentScoreResult = getEventScoreResult(eventsArray, index);
+    setEventScoreResult(
+      eventsArray,
+      index,
+      currentScoreResult === value ? null : value,
     );
   }
 }
@@ -1270,6 +1284,26 @@ export function getEventScoreResultFormControl(
   index: number,
 ): FormControl | null | undefined {
   return getFormControlWithIndex(form, index, eventScoreResultKey, arrayName);
+}
+
+export function setEventScoreResult(
+  eventsArray: FormArray,
+  index: number,
+  selectedItem: IFootballScoreResult | string | null,
+): void {
+  if (
+    selectedItem &&
+    isEnumValue(IFootballScoreResult, selectedItem.toString())
+  ) {
+    setArrayKeyIndexValue(
+      eventsArray,
+      index,
+      selectedItem,
+      eventScoreResultKey,
+    );
+  } else {
+    setArrayKeyIndexValue(eventsArray, index, null, eventScoreResultKey);
+  }
 }
 
 export function resetScoreResult(eventsArray: FormArray, index: number): void {

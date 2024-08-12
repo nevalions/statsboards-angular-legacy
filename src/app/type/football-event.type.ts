@@ -46,6 +46,7 @@ export enum IFootballPlayResult {
   Sack = 'sack',
   Kick = 'kick',
   KickBlocked = 'kick blocked',
+  KickReturn = 'kick return',
   PuntReturn = 'punt return',
   PuntBlocked = 'punt blocked',
   KickedOut = 'kick out',

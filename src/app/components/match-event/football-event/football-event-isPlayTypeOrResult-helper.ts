@@ -2,6 +2,7 @@ import { FormArray } from '@angular/forms';
 import {
   getEventBallMovedOn,
   getEventBallOn,
+  getEventDown,
   getEventIsFumble,
   getEventPlayResult,
   getEventPlayType,
@@ -121,16 +122,33 @@ export function isScoreTDPatTwoOffence(
   );
 }
 
+export function isPreviousScoreTdOrDefenceTd(
+  eventsArray: FormArray,
+  index: number,
+): boolean {
+  const score = getEventScoreResult(eventsArray, index - 1);
+  return (
+    score === IFootballScoreResult.Td ||
+    score === IFootballScoreResult.TdDefence
+  );
+}
+
 export function isPatOnePlay(eventsArray: FormArray, index: number): boolean {
   const playType = getEventPlayType(eventsArray, index);
   return playType === IFootballPlayType.PatOne;
+}
+
+export function isPatTwoPlay(eventsArray: FormArray, index: number): boolean {
+  const playType = getEventPlayType(eventsArray, index);
+  return playType === IFootballPlayType.PatTwo;
 }
 
 export function isReturnPlay(eventsArray: FormArray, index: number): boolean {
   const playResult = getEventPlayResult(eventsArray, index);
   return (
     playResult === IFootballPlayResult.PuntReturn ||
-    playResult === IFootballPlayResult.KickOffReturn
+    playResult === IFootballPlayResult.KickOffReturn ||
+    playResult === IFootballPlayResult.KickReturn
   );
 }
 
@@ -142,6 +160,7 @@ export function isReturnPlayOrKickOut(
   return (
     playResult === IFootballPlayResult.PuntReturn ||
     playResult === IFootballPlayResult.KickOffReturn ||
+    playResult === IFootballPlayResult.KickReturn ||
     playResult === IFootballPlayResult.KickedOut
   );
 }
@@ -232,7 +251,10 @@ export function isScorePossible(
 ): boolean {
   const playResult = getEventPlayResult(eventsArray, index);
   const playType = getEventPlayType(eventsArray, index);
-  if (playType === IFootballPlayType.PatTwo) {
+  if (
+    playType === IFootballPlayType.PatTwo &&
+    playResult !== IFootballPlayResult.Flag
+  ) {
     return true;
   }
   if (
@@ -257,18 +279,7 @@ export function isBallMovePossible(
   return false;
 }
 
-// export function isDefenceScorePossible(
-//   eventsArray: FormArray,
-//   index: number,
-// ): boolean {
-//   const playResult = getEventPlayResult(eventsArray, index);
-//
-//   return (
-//     playResult !== IFootballPlayResult.Flag &&
-//     playResult !== IFootballPlayResult.PassIncomplete &&
-//     playResult !== IFootballPlayResult.PassDeflected &&
-//     playResult !== IFootballPlayResult.PassDropped &&
-//     playResult !== IFootballPlayResult.TouchBack &&
-//     playResult !== IFootballPlayResult.PassIntercepted
-//   );
-// }
+export function isFourthDown(eventsArray: FormArray, index: number) {
+  const down = getEventDown(eventsArray, index);
+  return down === 4;
+}
