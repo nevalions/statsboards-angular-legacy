@@ -59,6 +59,8 @@ export function computeDistance(
 ): number {
   let calcDistance: number;
 
+  // console.log('computeDistance', nextEventBallOn, currentBallOn);
+
   if (
     nextEventBallOn !== undefined &&
     nextEventBallOn !== null &&
@@ -81,6 +83,8 @@ export function computeDistance(
       calcDistance = currentBallOn;
     } else if (nextEventBallOn === 0 && currentBallOn < 0) {
       calcDistance = max + currentBallOn + max;
+    } else if (currentBallOn === 0 && nextEventBallOn > 0) {
+      calcDistance = currentBallOn + nextEventBallOn;
     } else {
       throw new Error('Unexpected ball position');
     }
@@ -162,6 +166,8 @@ export function computeDistanceForDownDistance(
   let calcDistance: number;
   let newDistance: number;
 
+  // console.log(previousBallOn, currentBallOn);
+
   if (previousBallOn > 0 && currentBallOn > 0) {
     // Both in positive field
     calcDistance = previousBallOn - currentBallOn;
@@ -181,6 +187,21 @@ export function computeDistanceForDownDistance(
     // Transition from negative to positive
     const centerDistance = max + previousBallOn + max - currentBallOn;
     newDistance = previousEventDistance - centerDistance;
+    // console.log('Negative to positive:', newDistance);
+  } else if (previousBallOn === 0 && currentBallOn > 0) {
+    // Transition from negative to positive
+    newDistance = previousBallOn + currentBallOn;
+    // console.log('0 to positive:', newDistance);
+  } else if (previousBallOn === 0 && currentBallOn < 0) {
+    // Transition from negative to positive
+    newDistance = previousBallOn - currentBallOn;
+    // console.log('Negative to positive:', newDistance);
+  } else if (currentBallOn === 0 && previousBallOn === 0) {
+    // Transition from negative to positive
+    newDistance = currentBallOn + previousBallOn;
+  } else if (previousBallOn < 0 && currentBallOn === 0) {
+    // Transition from negative to positive???????
+    newDistance = 0;
     // console.log('Negative to positive:', newDistance);
   } else {
     throw new Error('Unexpected ball position');

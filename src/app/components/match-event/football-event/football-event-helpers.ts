@@ -137,6 +137,87 @@ export const eventFumblePlayer = (index: number) =>
 export const eventFumbleRecoveredPlayer = (index: number) =>
   eventFumbleRecoveredPlayerKey + index;
 
+export function createNewFlagEvent(
+  lastEvent: IFootballEventWithPlayers | null | undefined,
+  match: IMatchWithFullData | undefined | null,
+): Partial<IFootballEventWithPlayers> {
+  let newEventNumber: number | null;
+  let newEventQtr: number | null;
+  let newEventTeam: ITeam | null = null;
+  let newEventQb: IPlayerInMatchFullData | null = null;
+  let newEventBallOn: number | null = null;
+  let newEventBallMovedOn: number | null = null;
+  let newEventBallPickedTo: number | null = null;
+  let newEventBallKickedTo: number | null = null;
+  let newEventBallReturnedTo: number | null = null;
+  let newEventDown: number | null = null;
+  let newEventDistance: number | null = null;
+  let newEventHash: IEventHash | null = null;
+  let newEventPlayType = IFootballPlayType.Flag;
+  let newEventPlayResult = IFootballPlayResult.Flag;
+  let compDistance: number | null = null;
+
+  if (lastEvent && lastEvent.event_number) {
+    newEventNumber = lastEvent.event_number + 1;
+  } else {
+    newEventNumber = 1;
+  }
+
+  if (lastEvent && lastEvent.event_qtr) {
+    newEventQtr = lastEvent.event_qtr;
+  } else {
+    newEventQtr = 1;
+  }
+
+  if (
+    lastEvent &&
+    lastEvent.ball_moved_to &&
+    lastEvent.play_result !== IFootballPlayResult.PassIntercepted &&
+    lastEvent.is_fumble !== true
+  ) {
+    newEventBallOn = lastEvent.ball_moved_to;
+    newEventBallMovedOn = lastEvent.ball_moved_to;
+  }
+
+  if (lastEvent && lastEvent.offense_team) {
+    newEventTeam = lastEvent.offense_team;
+  }
+
+  if (lastEvent && lastEvent.event_qb) {
+    newEventQb = lastEvent.event_qb;
+  }
+
+  if (lastEvent && lastEvent.event_down) {
+    newEventDown = lastEvent.event_down;
+  }
+
+  if (lastEvent && lastEvent.event_distance) {
+    newEventDistance = lastEvent.event_distance;
+  }
+
+  return {
+    id: null,
+    event_number: newEventNumber,
+    event_qtr: newEventQtr,
+    ball_on: newEventBallOn,
+    ball_moved_to: newEventBallMovedOn,
+    ball_picked_on: newEventBallPickedTo,
+    ball_kicked_to: newEventBallKickedTo,
+    ball_returned_to: newEventBallReturnedTo,
+    offense_team: newEventTeam,
+    event_qb: newEventQb,
+    event_down: newEventDown,
+    event_distance: newEventDistance,
+    event_hash: newEventHash,
+    play_direction: null,
+    play_type: newEventPlayType,
+    play_result: newEventPlayResult,
+    score_result: null,
+    is_fumble: false,
+    is_fumble_recovered: false,
+  };
+}
+
 export function createNewEvent(
   lastEvent: IFootballEventWithPlayers | null | undefined,
   newEventCount: number,

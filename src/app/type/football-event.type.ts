@@ -10,6 +10,7 @@ export enum IFootballPlayType {
   Punt = 'punt',
   PatOne = 'pat 1',
   PatTwo = 'pat 2',
+  Flag = 'flag',
 }
 
 export enum IEventHash {

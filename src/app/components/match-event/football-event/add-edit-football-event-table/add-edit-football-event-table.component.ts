@@ -37,6 +37,7 @@ import { IMatchFullDataWithScoreboard } from '../../../../type/match.type';
 import { DialogService } from '../../../../services/dialog.service';
 import {
   createNewEvent,
+  createNewFlagEvent,
   eventAssistTacklePlayer,
   eventBallKickedTo,
   eventBallKickedToKey,
@@ -249,6 +250,8 @@ import { FootballEventsHashButtonsComponent } from '../../../../shared/scoreboar
 import { FootballEventsStrongSideButtonsComponent } from '../../../../shared/scoreboards/admin-forms/football-events-strong-side-buttons/football-events-strong-side-buttons.component';
 import { FootballEventsPlayTypeButtonsComponent } from '../../../../shared/scoreboards/admin-forms/events-forms/football-events-play-type-buttons/football-events-play-type-buttons.component';
 import { FootballEventsPlayResultButtonsComponent } from '../../../../shared/scoreboards/admin-forms/events-forms/football-events-play-result-buttons/football-events-play-result-buttons.component';
+import { calculateDistanceMoved } from '../store/selectors';
+import { computeDistance } from '../football-event-calc-helpers';
 
 @Component({
   selector: 'app-add-edit-football-event-table',
@@ -621,26 +624,46 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
     return formGroup;
   }
 
-  addNewEvent(): void {
+  addNewEvent(event: 'newEvent' | 'flag' = 'newEvent'): void {
     if (this.events && this.events.length > 0) {
-      const lastEvent = this.events[this.events.length - 1];
-      if (lastEvent && lastEvent.id === null) {
-        return;
+      if (event === 'newEvent') {
+        const lastEvent = this.events[this.events.length - 1];
+        if (lastEvent && lastEvent.id === null) {
+          return;
+        }
+        this.newEventCount++;
+        const newEvent = createNewEvent(
+          lastEvent,
+          this.newEventCount,
+          this.match,
+        );
+        this.events = [...this.events, newEvent];
+        this.populateFormArray();
       }
-      this.newEventCount++;
-      const newEvent = createNewEvent(
-        lastEvent,
-        this.newEventCount,
-        this.match,
-      );
-      this.events = [...this.events, newEvent];
-      this.populateFormArray();
+      if (event === 'flag') {
+        const lastEvent = this.events[this.events.length - 1];
+        if (lastEvent && lastEvent.id === null) {
+          return;
+        }
+        this.newEventCount++;
+        const newEvent = createNewFlagEvent(lastEvent, this.match);
+        this.events = [...this.events, newEvent];
+        this.populateFormArray();
+      }
     } else {
       // console.log('create first football event');
-      const newEvent = createNewEvent(null, 0, this.match);
-      // console.log('firs event', newEvent);
-      this.events = [newEvent];
-      this.populateFormArray();
+      if (event === 'newEvent') {
+        const newEvent = createNewEvent(null, 0, this.match);
+        // console.log('firs event', newEvent);
+        this.events = [newEvent];
+        this.populateFormArray();
+      }
+      if (event === 'flag') {
+        const newEvent = createNewFlagEvent(null, this.match);
+        // console.log('firs event', newEvent);
+        this.events = [newEvent];
+        this.populateFormArray();
+      }
     }
   }
 
@@ -978,4 +1001,6 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
   protected readonly noBallOnIsSelected = noBallOnIsSelected;
   protected readonly isQbPlay = isQbPlay;
   protected readonly isPassPlay = isPassPlay;
+  protected readonly calculateDistanceMoved = calculateDistanceMoved;
+  protected readonly computeDistance = computeDistance;
 }
