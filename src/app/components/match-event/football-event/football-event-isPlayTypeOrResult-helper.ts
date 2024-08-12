@@ -59,9 +59,26 @@ export function isQbPlay(eventsArray: FormArray, index: number): boolean {
   );
 }
 
-export function isRunPlay(eventsArray: FormArray, index: number): boolean {
+export function isRunPlayResult(
+  eventsArray: FormArray,
+  index: number,
+): boolean {
   const result = getEventPlayResult(eventsArray, index);
   return result === IFootballPlayResult.Run;
+}
+
+export function isRunPlay(eventsArray: FormArray, index: number): boolean {
+  const playType = getEventPlayType(eventsArray, index);
+  return (
+    playType === IFootballPlayType.Run || playType === IFootballPlayType.PatTwo
+  );
+}
+
+export function isPassPlay(eventsArray: FormArray, index: number): boolean {
+  const playType = getEventPlayType(eventsArray, index);
+  return (
+    playType === IFootballPlayType.Pass || playType === IFootballPlayType.PatTwo
+  );
 }
 
 export function isPassCompletedPlay(

@@ -1,0 +1,23 @@
+@if (control && eventsArray && i !== null && i !== undefined) {
+  <div class="event-hash-direction-buttons-two-col">
+    <span style="grid-column: span 2; text-align: center" class="tui-text_body-s">PLAY TYPE</span>
+    <app-toggle-button
+      [eventsArray]="eventsArray"
+      [index]="i"
+      [control]="control"
+      [buttonValue]="IFootballPlayType.Run"
+      [label]="IFootballPlayType.Run"
+      [currentEnumValue]="getEventPlayType(eventsArray, i)?.toString()"
+      (toggle)="toggleFootballEnumValue($event, eventsArray, i, 'playType')"
+    ></app-toggle-button>
+    <app-toggle-button
+      [eventsArray]="eventsArray"
+      [index]="i"
+      [control]="control"
+      [buttonValue]="IFootballPlayType.Pass"
+      [label]="IFootballPlayType.Pass"
+      [currentEnumValue]="getEventPlayType(eventsArray, i)?.toString()"
+      (toggle)="toggleFootballEnumValue($event, eventsArray, i, 'playType')"
+    ></app-toggle-button>
+  </div>
+}

@@ -39,7 +39,7 @@ import {
   isQbPlay,
   isReturnPlay,
   isReturnPlayOrKickOut,
-  isRunPlay,
+  isRunPlayResult,
   isSackResult,
   isScoreTDPatTwoOffence,
 } from './football-event-isPlayTypeOrResult-helper';
@@ -159,7 +159,7 @@ export function noRunPlayerSelected(
   eventsArray: FormArray,
   index: number,
 ): boolean {
-  if (isRunPlay(eventsArray, index)) {
+  if (isRunPlayResult(eventsArray, index)) {
     const player = getEventRunPlayer(eventsArray, index);
     if (!player) {
       return true;

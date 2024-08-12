@@ -290,6 +290,15 @@
               @if (getEventPlayTypeFormControl(this.eventForm, this.arrayName, i); as control) {
                 <div class="event-table-cell">
                   @if (isMobile) {
+                    @if (!isKickOffPlay(eventsArray, i) && !isPatOnePlay(eventsArray, i) && !isKickPlay(eventsArray, i)) {
+                      <div class="event-table-cell">
+                        <app-football-events-play-type-buttons
+                          [control]="control"
+                          [eventsArray]="eventsArray"
+                          [i]="i"
+                        ></app-football-events-play-type-buttons>
+                      </div>
+                    }
                     <app-select-list-of-strings
                       [control]="control"
                       [placeholder]="'play type'"
@@ -429,6 +438,13 @@
               @if (getEventPlayResultFormControl(this.eventForm, this.arrayName, i); as control) {
                 <div class="event-table-cell">
                   @if (isMobile) {
+                    <!--                    <div class="event-table-cell">-->
+                    <app-football-events-play-result-buttons
+                      [control]="control"
+                      [eventsArray]="eventsArray"
+                      [i]="i"
+                    ></app-football-events-play-result-buttons>
+                    <!--                    </div>-->
                     <app-select-list-of-strings
                       [control]="control"
                       [placeholder]="'play result'"

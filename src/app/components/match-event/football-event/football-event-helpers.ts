@@ -4,7 +4,6 @@ import {
   getFormControlWithIndex,
   resetArrayKeyIndexValue,
   setArrayKeyIndexValue,
-  setArrayValueWithKeyIndex,
 } from '../../../base/formHelpers';
 import { IPlayerInMatchFullData } from '../../../type/player.type';
 import { ITeam } from '../../../type/team.type';
@@ -676,7 +675,7 @@ export function toggleFootballEnumValue(
   value: string,
   eventsArray: FormArray,
   index: number,
-  type: 'hash' | 'direction' | 'strongSide',
+  type: 'hash' | 'direction' | 'strongSide' | 'playType' | 'playResult',
 ): void {
   if (type === 'hash') {
     const currentHash = getEventHash(eventsArray, index);
@@ -691,11 +690,27 @@ export function toggleFootballEnumValue(
     );
   }
   if (type === 'strongSide') {
-    const currentDirection = getEventStrongSide(eventsArray, index);
+    const currentStrongSide = getEventStrongSide(eventsArray, index);
     setEventStrongSide(
       eventsArray,
       index,
-      currentDirection === value ? null : value,
+      currentStrongSide === value ? null : value,
+    );
+  }
+  if (type === 'playType') {
+    const currentPlayType = getEventPlayType(eventsArray, index);
+    setEventPlayType(
+      eventsArray,
+      index,
+      currentPlayType === value ? null : value,
+    );
+  }
+  if (type === 'playResult') {
+    const currentPlayResult = getEventPlayResult(eventsArray, index);
+    setEventPlayResult(
+      eventsArray,
+      index,
+      currentPlayResult === value ? null : value,
     );
   }
 }
@@ -1186,12 +1201,16 @@ export function getEventPlayTypeFormControl(
   return getFormControlWithIndex(form, index, eventPlayTypeKey, arrayName);
 }
 
-export function setPlayType(
+export function setEventPlayType(
   eventsArray: FormArray,
   index: number,
-  selectedType: IFootballPlayType,
+  selectedType: IFootballPlayType | string | null,
 ): void {
-  setArrayValueWithKeyIndex(eventsArray, index, selectedType, eventPlayTypeKey);
+  if (selectedType && isEnumValue(IFootballPlayType, selectedType.toString())) {
+    setArrayKeyIndexValue(eventsArray, index, selectedType, eventPlayTypeKey);
+  } else {
+    setArrayKeyIndexValue(eventsArray, index, null, eventPlayTypeKey);
+  }
 }
 
 // EventPlayResult
@@ -1214,12 +1233,19 @@ export function getEventPlayResultFormControl(
   return getFormControlWithIndex(form, index, eventPlayResultKey, arrayName);
 }
 
-export function setPlayResult(
+export function setEventPlayResult(
   eventsArray: FormArray,
   index: number,
-  selectedItem: IFootballPlayResult,
+  selectedItem: IFootballPlayResult | string | null,
 ): void {
-  setArrayKeyIndexValue(eventsArray, index, selectedItem, eventPlayResultKey);
+  if (
+    selectedItem &&
+    isEnumValue(IFootballPlayResult, selectedItem.toString())
+  ) {
+    setArrayKeyIndexValue(eventsArray, index, selectedItem, eventPlayResultKey);
+  } else {
+    setArrayKeyIndexValue(eventsArray, index, null, eventPlayResultKey);
+  }
 }
 
 export function resetPlayResult(eventsArray: FormArray, index: number): void {

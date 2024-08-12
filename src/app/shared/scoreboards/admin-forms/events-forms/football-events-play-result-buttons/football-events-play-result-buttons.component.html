@@ -1,0 +1,56 @@
+@if (control && eventsArray && i !== null && i !== undefined) {
+  @if (isRunPlay(eventsArray, i)) {
+    <div class="event-hash-direction-buttons-two-col">
+      <span style="grid-column: span 2; text-align: center" class="tui-text_body-s">PLAY RESULT</span>
+      <app-toggle-button
+        [eventsArray]="eventsArray"
+        [index]="i"
+        [control]="control"
+        [buttonValue]="IFootballPlayResult.Run"
+        [label]="IFootballPlayResult.Run"
+        [currentEnumValue]="getEventPlayResult(eventsArray, i)?.toString()"
+        (toggle)="toggleFootballEnumValue($event, eventsArray, i, 'playResult')"
+      ></app-toggle-button>
+      <app-toggle-button
+        [eventsArray]="eventsArray"
+        [index]="i"
+        [control]="control"
+        [buttonValue]="IFootballPlayResult.Flag"
+        [label]="IFootballPlayResult.Flag"
+        [currentEnumValue]="getEventPlayResult(eventsArray, i)?.toString()"
+        (toggle)="toggleFootballEnumValue($event, eventsArray, i, 'playResult')"
+      ></app-toggle-button>
+    </div>
+  } @else if (isPassPlay(eventsArray, i)) {
+    <div class="event-hash-direction-buttons-three-col">
+      <span style="grid-column: span 3; text-align: center" class="tui-text_body-s">PLAY RESULT</span>
+      <app-toggle-button
+        [eventsArray]="eventsArray"
+        [index]="i"
+        [control]="control"
+        [buttonValue]="IFootballPlayResult.PassCompleted"
+        [label]="IFootballPlayResult.PassCompleted"
+        [currentEnumValue]="getEventPlayResult(eventsArray, i)?.toString()"
+        (toggle)="toggleFootballEnumValue($event, eventsArray, i, 'playResult')"
+      ></app-toggle-button>
+      <app-toggle-button
+        [eventsArray]="eventsArray"
+        [index]="i"
+        [control]="control"
+        [buttonValue]="IFootballPlayResult.PassIncomplete"
+        [label]="IFootballPlayResult.PassIncomplete"
+        [currentEnumValue]="getEventPlayResult(eventsArray, i)?.toString()"
+        (toggle)="toggleFootballEnumValue($event, eventsArray, i, 'playResult')"
+      ></app-toggle-button>
+      <app-toggle-button
+        [eventsArray]="eventsArray"
+        [index]="i"
+        [control]="control"
+        [buttonValue]="IFootballPlayResult.Flag"
+        [label]="IFootballPlayResult.Flag"
+        [currentEnumValue]="getEventPlayResult(eventsArray, i)?.toString()"
+        (toggle)="toggleFootballEnumValue($event, eventsArray, i, 'playResult')"
+      ></app-toggle-button>
+    </div>
+  }
+}

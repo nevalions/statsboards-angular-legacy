@@ -38,8 +38,8 @@ import {
   setDistance,
   setDown,
   setEventBallMovedOn,
-  setPlayResult,
-  setPlayType,
+  setEventPlayResult,
+  setEventPlayType,
   setScorePlayer,
 } from './football-event-helpers';
 import { ITeam } from '../../../type/team.type';
@@ -100,13 +100,13 @@ export function changePlayResultOnPlayTypeChange(
   if (eventsArray && index) {
     const playType = getEventPlayType(eventsArray, index);
     if (playType === IFootballPlayType.Run) {
-      setPlayResult(eventsArray, index, IFootballPlayResult.Run);
+      setEventPlayResult(eventsArray, index, IFootballPlayResult.Run);
     }
     if (playType === IFootballPlayType.PatOne) {
-      setPlayResult(eventsArray, index, IFootballPlayResult.PatOne);
+      setEventPlayResult(eventsArray, index, IFootballPlayResult.PatOne);
     }
     if (playType === IFootballPlayType.Kick) {
-      setPlayResult(eventsArray, index, IFootballPlayResult.Kick);
+      setEventPlayResult(eventsArray, index, IFootballPlayResult.Kick);
     }
   }
 }
@@ -313,7 +313,7 @@ export function onPlayTypeChange(
         resetPatOnePlayer(eventsArray, index);
         resetScorePlayer(eventsArray, index);
     }
-    setPlayType(eventsArray, index, selectedType);
+    setEventPlayType(eventsArray, index, selectedType);
   } else {
     // console.log('else play type');
     resetPuntPlayer(eventsArray, index);
@@ -330,7 +330,7 @@ export function onPlayTypeChange(
     resetPuntPlayer(eventsArray, index);
     resetScorePlayer(eventsArray, index);
 
-    setPlayType(eventsArray, index, selectedType);
+    setEventPlayType(eventsArray, index, selectedType);
   }
 
   resetPlayResult(eventsArray, index);

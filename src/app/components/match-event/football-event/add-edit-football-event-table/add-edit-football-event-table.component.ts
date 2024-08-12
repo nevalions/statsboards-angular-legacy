@@ -12,7 +12,6 @@ import {
   eventPlayTypeOptions,
   IEventDirection,
   IEventHash,
-  IEventStrongSide,
   IFootballEvent,
   IFootballEventWithPlayers,
   IFootballPlayResult,
@@ -159,9 +158,6 @@ import {
   getEventTeam,
   getEventTeamFormControl,
   getQtrFormControl,
-  setEventBallMovedOn,
-  setEventDirection,
-  setEventHash,
   toggleFootballEnumValue,
 } from '../football-event-helpers';
 import {
@@ -234,9 +230,10 @@ import {
   isPassDroppedPlay,
   isPatOnePlay,
   isPuntPlay,
+  isQbPlay,
   isReturnPlay,
   isReturnPlayOrKickOut,
-  isRunPlay,
+  isRunPlayResult,
   isSackResult,
   isScorePossible,
   isScoreTDPatTwoOffence,
@@ -249,6 +246,8 @@ import { ToggleButtonComponent } from '../../../../shared/ui/buttons/toggle-butt
 import { FootballEventsDirectionButtonsComponent } from '../../../../shared/scoreboards/admin-forms/football-events-direction-buttons/football-events-direction-buttons.component';
 import { FootballEventsHashButtonsComponent } from '../../../../shared/scoreboards/admin-forms/football-events-hash-buttons/football-events-hash-buttons.component';
 import { FootballEventsStrongSideButtonsComponent } from '../../../../shared/scoreboards/admin-forms/football-events-strong-side-buttons/football-events-strong-side-buttons.component';
+import { FootballEventsPlayTypeButtonsComponent } from '../../../../shared/scoreboards/admin-forms/events-forms/football-events-play-type-buttons/football-events-play-type-buttons.component';
+import { FootballEventsPlayResultButtonsComponent } from '../../../../shared/scoreboards/admin-forms/events-forms/football-events-play-result-buttons/football-events-play-result-buttons.component';
 
 @Component({
   selector: 'app-add-edit-football-event-table',
@@ -278,6 +277,8 @@ import { FootballEventsStrongSideButtonsComponent } from '../../../../shared/sco
     FootballEventsDirectionButtonsComponent,
     FootballEventsHashButtonsComponent,
     FootballEventsStrongSideButtonsComponent,
+    FootballEventsPlayTypeButtonsComponent,
+    FootballEventsPlayResultButtonsComponent,
   ],
   templateUrl: './add-edit-football-event-table.component.html',
   styleUrl: './add-edit-football-event-table.component.less',
@@ -921,7 +922,7 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
   protected readonly isFlagPlayerSelected = noFlagPlayerSelected;
   protected readonly isTacklePossible = isTacklePossible;
   protected readonly isCautionColorResult = isCautionColorResult;
-  protected readonly isRunPlay = isRunPlay;
+  protected readonly isRunPlay = isRunPlayResult;
   protected readonly isPassCompletedPlay = isPassCompletedPlay;
   protected readonly isPassDroppedPlay = isPassDroppedPlay;
   protected readonly isKickPlay = isKickPlay;
@@ -974,4 +975,5 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
   protected readonly noReturnBallToIsSelected = noReturnBallToIsSelected;
   protected readonly noPickBallOnIsSelected = noPickBallOnIsSelected;
   protected readonly noBallOnIsSelected = noBallOnIsSelected;
+  protected readonly isQbPlay = isQbPlay;
 }

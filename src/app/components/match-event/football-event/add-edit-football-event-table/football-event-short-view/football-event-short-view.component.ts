@@ -17,7 +17,7 @@ import {
   isQbPlay,
   isReturnPlay,
   isReturnPlayOrKickOut,
-  isRunPlay,
+  isRunPlayResult,
   isSackResult,
   isScoreTDPatTwoOffence,
   isTacklePossible,
@@ -126,7 +126,7 @@ export class FootballEventShortViewComponent {
     noDefenceScorePlayerSelected;
   protected readonly isReturnPlay = isReturnPlay;
   protected readonly getEventInterceptedPlayer = getEventInterceptedPlayer;
-  protected readonly isRunPlay = isRunPlay;
+  protected readonly isRunPlay = isRunPlayResult;
   protected readonly isTacklePossible = isTacklePossible;
   protected readonly isPuntPlay = isPuntPlay;
   protected readonly getEventScoreResult = getEventScoreResult;
