@@ -7,6 +7,7 @@ import {
 } from '../../../../../type/football-event.type';
 import {
   getEventPlayResult,
+  getEventScoreResult,
   toggleFootballEnumValue,
 } from '../../../../../components/match-event/football-event/football-event-helpers';
 import {
@@ -39,4 +40,5 @@ export class FootballEventsPlayResultButtonsComponent {
   protected readonly isPatTwoPlay = isPatTwoPlay;
   protected readonly isPuntPlay = isPuntPlay;
   protected readonly isKickOffPlay = isKickOffPlay;
+  protected readonly getEventScoreResult = getEventScoreResult;
 }

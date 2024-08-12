@@ -91,7 +91,7 @@
         [control]="control"
         [buttonValue]="IFootballScoreResult.PatOneGood"
         [label]="IFootballScoreResult.PatOneGood"
-        [currentEnumValue]="getEventPlayResult(eventsArray, i)?.toString()"
+        [currentEnumValue]="getEventScoreResult(eventsArray, i)?.toString()"
         (toggle)="toggleFootballEnumValue($event, eventsArray, i, 'scoreResult')"
       ></app-toggle-button>
       <app-toggle-button
@@ -100,7 +100,7 @@
         [control]="control"
         [buttonValue]="IFootballScoreResult.PatOneMissed"
         [label]="IFootballScoreResult.PatOneMissed"
-        [currentEnumValue]="getEventPlayResult(eventsArray, i)?.toString()"
+        [currentEnumValue]="getEventScoreResult(eventsArray, i)?.toString()"
         (toggle)="toggleFootballEnumValue($event, eventsArray, i, 'scoreResult')"
       ></app-toggle-button>
       <app-toggle-button
