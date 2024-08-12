@@ -434,6 +434,20 @@
                 }
               }
 
+              <!--DIRECTION-->
+              @if (getEventHashFormControl(this.eventForm, this.arrayName, i); as control) {
+                @if (!isPatOnePlay(eventsArray, i) && !isKickPlay(eventsArray, i)) {
+                  <div class="event-table-cell">
+                    <app-football-events-direction-buttons
+                      [control]="control"
+                      [eventsArray]="eventsArray"
+                      [i]="i"
+                    ></app-football-events-direction-buttons>
+                  </div>
+                }
+              }
+
+              <!--EVENT BALL MOVED-->
               @if (getBallMovedOnFormControl(this.eventForm, this.arrayName, i); as control) {
                 @if (getEventPlayType(eventsArray, i) === IFootballPlayType.Pass || getEventPlayType(eventsArray, i) === IFootballPlayType.Run || getEventPlayResult(eventsArray, i) === IFootballPlayResult.Flag) {
                   <div class="event-table-cell"
@@ -450,7 +464,6 @@
                   </div>
                 }
               }
-
 
               <!--EVENT RETURN PLAYER-->
               @if (getEventReturnPlayerFormControl(this.eventForm, this.arrayName, i); as control) {
@@ -475,19 +488,6 @@
                       }
                     </div>
                   }
-                }
-              }
-
-              <!--DIRECTION-->
-              @if (getEventHashFormControl(this.eventForm, this.arrayName, i); as control) {
-                @if (!isPatOnePlay(eventsArray, i) && !isKickPlay(eventsArray, i)) {
-                  <div class="event-table-cell">
-                    <app-football-events-direction-buttons
-                      [control]="control"
-                      [eventsArray]="eventsArray"
-                      [i]="i"
-                    ></app-football-events-direction-buttons>
-                  </div>
                 }
               }
 
