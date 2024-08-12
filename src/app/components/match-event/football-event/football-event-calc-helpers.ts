@@ -84,7 +84,7 @@ export function computeDistance(
     } else if (nextEventBallOn === 0 && currentBallOn < 0) {
       calcDistance = max + currentBallOn + max;
     } else if (currentBallOn === 0 && nextEventBallOn > 0) {
-      calcDistance = currentBallOn + nextEventBallOn;
+      calcDistance = currentBallOn - nextEventBallOn;
     } else {
       throw new Error('Unexpected ball position');
     }
