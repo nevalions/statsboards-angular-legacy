@@ -108,6 +108,9 @@ export function changePlayResultOnPlayTypeChange(
     if (playType === IFootballPlayType.Kick) {
       setEventPlayResult(eventsArray, index, IFootballPlayResult.Kick);
     }
+    if (playType === IFootballPlayType.Flag) {
+      setEventPlayResult(eventsArray, index, IFootballPlayResult.Flag);
+    }
   }
 }
 
@@ -409,6 +412,8 @@ export function filterPlayResultsByType(
 ): IFootballPlayResult[] {
   // console.log('filterPlayResultsByType', playType);
   switch (playType) {
+    case IFootballPlayType.Flag:
+      return [IFootballPlayResult.Flag];
     case IFootballPlayType.Run:
       return [
         IFootballPlayResult.None,
