@@ -1,7 +1,7 @@
 @if (control && eventsArray && i !== null && i !== undefined) {
   @if (isPreviousScoreTdOrDefenceTd(eventsArray, i)) {
     <div class="event-hash-direction-buttons-two-col">
-      <span style="grid-column: span 2; text-align: center" class="tui-text_body-s">PLAY TYPE</span>
+      <!--      <span style="grid-column: span 2; text-align: center" class="tui-text_body-s">PLAY TYPE</span>-->
       <app-toggle-button
         [eventsArray]="eventsArray"
         [index]="i"
@@ -23,7 +23,7 @@
     </div>
   } @else if (isFourthDown(eventsArray, i)) {
     <div class="event-hash-direction-buttons-four-col">
-      <span style="grid-column: span 4; text-align: center" class="tui-text_body-s">PLAY TYPE</span>
+      <!--      <span style="grid-column: span 4; text-align: center" class="tui-text_body-s">PLAY TYPE</span>-->
       <app-toggle-button
         [eventsArray]="eventsArray"
         [index]="i"
@@ -63,7 +63,7 @@
     </div>
   } @else {
     <div class="event-hash-direction-buttons-two-col">
-      <span style="grid-column: span 2; text-align: center" class="tui-text_body-s">PLAY TYPE</span>
+      <!--      <span style="grid-column: span 2; text-align: center" class="tui-text_body-s">PLAY TYPE</span>-->
       <app-toggle-button
         [eventsArray]="eventsArray"
         [index]="i"
