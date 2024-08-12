@@ -340,7 +340,7 @@
                       [eventsArray]="eventsArray"
                       [i]="i"
                     ></app-football-events-play-result-buttons>
-                    @if (!isKickOffPlay(eventsArray, i)) {
+                    @if (!isKickOffPlay(eventsArray, i) && !isPassPlay(eventsArray, i) && !isRunPlay(eventsArray, i)) {
                       <app-select-list-of-strings
                         [control]="control"
                         [placeholder]="'play result'"

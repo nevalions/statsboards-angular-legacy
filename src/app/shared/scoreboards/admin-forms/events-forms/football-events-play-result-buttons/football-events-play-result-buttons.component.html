@@ -22,7 +22,7 @@
       ></app-toggle-button>
     </div>
   } @else if (isPassPlay(eventsArray, i)) {
-    <div class="event-hash-direction-buttons-three-col">
+    <div class="event-hash-direction-buttons-three-col-three-rows">
       <!--      <span style="grid-column: span 3; text-align: center" class="tui-text_body-s">PLAY RESULT</span>-->
       <app-toggle-button
         [eventsArray]="eventsArray"
@@ -43,6 +43,43 @@
         (toggle)="toggleFootballEnumValue($event, eventsArray, i, 'playResult')"
       ></app-toggle-button>
       <app-toggle-button
+        [eventsArray]="eventsArray"
+        [index]="i"
+        [control]="control"
+        [buttonValue]="IFootballPlayResult.PassDropped"
+        [label]="IFootballPlayResult.PassDropped"
+        [currentEnumValue]="getEventPlayResult(eventsArray, i)?.toString()"
+        (toggle)="toggleFootballEnumValue($event, eventsArray, i, 'playResult')"
+      ></app-toggle-button>
+      <app-toggle-button
+        [eventsArray]="eventsArray"
+        [index]="i"
+        [control]="control"
+        [buttonValue]="IFootballPlayResult.PassDeflected"
+        [label]="IFootballPlayResult.PassDeflected"
+        [currentEnumValue]="getEventPlayResult(eventsArray, i)?.toString()"
+        (toggle)="toggleFootballEnumValue($event, eventsArray, i, 'playResult')"
+      ></app-toggle-button>
+      <app-toggle-button
+        [eventsArray]="eventsArray"
+        [index]="i"
+        [control]="control"
+        [buttonValue]="IFootballPlayResult.PassIntercepted"
+        [label]="IFootballPlayResult.PassIntercepted"
+        [currentEnumValue]="getEventPlayResult(eventsArray, i)?.toString()"
+        (toggle)="toggleFootballEnumValue($event, eventsArray, i, 'playResult')"
+      ></app-toggle-button>
+      <app-toggle-button
+        [eventsArray]="eventsArray"
+        [index]="i"
+        [control]="control"
+        [buttonValue]="IFootballPlayResult.Sack"
+        [label]="IFootballPlayResult.Sack"
+        [currentEnumValue]="getEventPlayResult(eventsArray, i)?.toString()"
+        (toggle)="toggleFootballEnumValue($event, eventsArray, i, 'playResult')"
+      ></app-toggle-button>
+      <app-toggle-button
+        style="grid-column: span 3"
         [eventsArray]="eventsArray"
         [index]="i"
         [control]="control"

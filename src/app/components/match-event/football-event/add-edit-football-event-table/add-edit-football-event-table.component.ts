@@ -228,6 +228,7 @@ import {
   isKickPlay,
   isPassCompletedPlay,
   isPassDroppedPlay,
+  isPassPlay,
   isPatOnePlay,
   isPuntPlay,
   isQbPlay,
@@ -976,4 +977,5 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
   protected readonly noPickBallOnIsSelected = noPickBallOnIsSelected;
   protected readonly noBallOnIsSelected = noBallOnIsSelected;
   protected readonly isQbPlay = isQbPlay;
+  protected readonly isPassPlay = isPassPlay;
 }
