@@ -26,6 +26,10 @@ import {
 } from './football-event-on-change-helpers';
 import { computeDistanceForDownDistance } from './football-event-calc-helpers';
 import { isEnumValue } from '../../../base/helpers';
+import {
+  isPatOnePlay,
+  isRunPlay,
+} from './football-event-isPlayTypeOrResult-helper';
 
 export const eventIdKey = 'eventId';
 export const eventNumberKey = 'eventNumber';
@@ -710,6 +714,12 @@ export function toggleFootballEnumValue(
       index,
       currentPlayType === value ? null : value,
     );
+    if (isPatOnePlay(eventsArray, index)) {
+      setEventPlayResult(eventsArray, index, IFootballPlayResult.PatOne);
+    }
+    if (isRunPlay(eventsArray, index)) {
+      setEventPlayResult(eventsArray, index, IFootballPlayResult.Run);
+    }
   }
   if (type === 'playResult') {
     const currentPlayResult = getEventPlayResult(eventsArray, index);
