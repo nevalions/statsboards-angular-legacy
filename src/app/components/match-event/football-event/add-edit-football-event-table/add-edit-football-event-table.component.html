@@ -202,11 +202,13 @@
               @if (getEventPlayTypeFormControl(this.eventForm, this.arrayName, i); as control) {
                 <div class="event-table-cell">
                   @if (isMobile) {
-                    <app-football-events-play-type-buttons
-                      [control]="control"
-                      [eventsArray]="eventsArray"
-                      [i]="i"
-                    ></app-football-events-play-type-buttons>
+                    @if (!isKickOffPlay(eventsArray, i)) {
+                      <app-football-events-play-type-buttons
+                        [control]="control"
+                        [eventsArray]="eventsArray"
+                        [i]="i"
+                      ></app-football-events-play-type-buttons>
+                    }
                     <app-select-list-of-strings
                       [control]="control"
                       [placeholder]="'play type'"
