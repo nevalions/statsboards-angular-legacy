@@ -36,8 +36,6 @@ import { ITeam } from '../../../../type/team.type';
 import { IMatchFullDataWithScoreboard } from '../../../../type/match.type';
 import { DialogService } from '../../../../services/dialog.service';
 import {
-  createNewEvent,
-  createNewFlagEvent,
   eventAssistTacklePlayer,
   eventBallKickedTo,
   eventBallKickedToKey,
@@ -89,7 +87,6 @@ import {
   eventStrongSide,
   eventTacklePlayer,
   eventTeam,
-  extractEventData,
   getEventAssistTacklePlayerFormControl,
   getEventBallKickedTo,
   getEventBallKickedToFormControl,
@@ -252,6 +249,11 @@ import { FootballEventsPlayTypeButtonsComponent } from '../../../../shared/score
 import { FootballEventsPlayResultButtonsComponent } from '../../../../shared/scoreboards/admin-forms/events-forms/football-events-play-result-buttons/football-events-play-result-buttons.component';
 import { calculateDistanceMoved } from '../store/selectors';
 import { computeDistance } from '../football-event-calc-helpers';
+import {
+  createNewEvent,
+  createNewFlagEvent,
+} from '../football-event-create-new-event-helper';
+import { extractEventData } from '../football-event-extract-event-data-helper';
 
 @Component({
   selector: 'app-add-edit-football-event-table',

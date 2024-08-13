@@ -24,9 +24,14 @@ export function isPrevBallMovedEqualCurrentBallOn(
   const prevScoreResult = getEventScoreResult(eventArray, index - 1);
   const currentBallOn = getEventBallOn(eventArray, index);
   const prevBallMovedOn = getEventBallMovedOn(eventArray, index - 1);
+  const prevPlayType = getEventPlayType(eventArray, index - 1);
   if (currentBallOn === prevBallMovedOn) {
     return true;
-  } else if (currentTeam?.id !== prevTeam?.id || prevScoreResult) {
+  } else if (
+    currentTeam?.id !== prevTeam?.id ||
+    prevScoreResult ||
+    prevPlayType === IFootballPlayType.Kickoff
+  ) {
     return true;
   } else {
     return false;
@@ -42,9 +47,14 @@ export function isNextBallOnEqualCurrentBallMoved(
   const currentScoreResult = getEventScoreResult(eventArray, index);
   const currentBallMovedOn = getEventBallMovedOn(eventArray, index);
   const nextBallOn = getEventBallOn(eventArray, index + 1);
+  const currentPlayType = getEventPlayType(eventArray, index);
   if (currentBallMovedOn === nextBallOn) {
     return true;
-  } else if (currentTeam?.id !== nextTeam?.id || currentScoreResult) {
+  } else if (
+    currentTeam?.id !== nextTeam?.id ||
+    currentScoreResult ||
+    currentPlayType === IFootballPlayType.Kickoff
+  ) {
     return true;
   } else {
     return false;

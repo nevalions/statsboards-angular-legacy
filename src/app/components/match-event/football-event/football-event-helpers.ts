@@ -11,20 +11,10 @@ import {
   IEventDirection,
   IEventHash,
   IEventStrongSide,
-  IFootballEvent,
-  IFootballEventWithPlayers,
   IFootballPlayResult,
   IFootballPlayType,
   IFootballScoreResult,
 } from '../../../type/football-event.type';
-import { IMatchWithFullData } from '../../../type/match.type';
-import {
-  handleTeamChangeOnDown,
-  handleTeamChangeOnFumble,
-  handleTeamChangeOnInterception,
-  handleTeamChangeOnTouchBack,
-} from './football-event-on-change-helpers';
-import { computeDistanceForDownDistance } from './football-event-calc-helpers';
 import { isEnumValue } from '../../../base/helpers';
 import {
   isPatOnePlay,
@@ -39,7 +29,7 @@ export const eventBallMovedOnKey = 'eventBallMovedOn';
 export const eventBallPickedOnKey = 'eventBallPickedOn';
 export const eventBallKickedToKey = 'eventBallKickedTo';
 export const eventBallReturnedToKey = 'eventBallReturnedTo';
-
+export const eventBallReturnedToOnFumbleKey = 'eventBallReturnedToOnFumble';
 export const eventDistanceMovedKey = 'eventDistanceMoved';
 export const eventDistanceOnOffenceKey = 'eventDistanceOnOffence';
 export const eventTeamKey = 'eventTeam';
@@ -85,6 +75,8 @@ export const eventBallKickedTo = (index: number) =>
   eventBallKickedToKey + index;
 export const eventBallReturnedTo = (index: number) =>
   eventBallReturnedToKey + index;
+export const eventBallReturnedToOnFumble = (index: number) =>
+  eventBallReturnedToOnFumbleKey + index;
 export const eventDistanceMoved = (index: number) =>
   eventDistanceMovedKey + index;
 export const eventTeam = (index: number) => eventTeamKey + index;
@@ -137,624 +129,624 @@ export const eventFumblePlayer = (index: number) =>
 export const eventFumbleRecoveredPlayer = (index: number) =>
   eventFumbleRecoveredPlayerKey + index;
 
-export function createNewFlagEvent(
-  lastEvent: IFootballEventWithPlayers | null | undefined,
-  match: IMatchWithFullData | undefined | null,
-): Partial<IFootballEventWithPlayers> {
-  let newEventNumber: number | null;
-  let newEventQtr: number | null;
-  let newEventTeam: ITeam | null = null;
-  let newEventQb: IPlayerInMatchFullData | null = null;
-  let newEventBallOn: number | null = null;
-  let newEventBallMovedOn: number | null = null;
-  let newEventBallPickedTo: number | null = null;
-  let newEventBallKickedTo: number | null = null;
-  let newEventBallReturnedTo: number | null = null;
-  let newEventDown: number | null = null;
-  let newEventDistance: number | null = null;
-  let newEventHash: IEventHash | null = null;
-  let newEventPlayType = IFootballPlayType.Flag;
-  let newEventPlayResult = IFootballPlayResult.Flag;
-  let compDistance: number | null = null;
+// export function createNewFlagEvent(
+//   lastEvent: IFootballEventWithPlayers | null | undefined,
+//   match: IMatchWithFullData | undefined | null,
+// ): Partial<IFootballEventWithPlayers> {
+//   let newEventNumber: number | null;
+//   let newEventQtr: number | null;
+//   let newEventTeam: ITeam | null = null;
+//   let newEventQb: IPlayerInMatchFullData | null = null;
+//   let newEventBallOn: number | null = null;
+//   let newEventBallMovedOn: number | null = null;
+//   let newEventBallPickedTo: number | null = null;
+//   let newEventBallKickedTo: number | null = null;
+//   let newEventBallReturnedTo: number | null = null;
+//   let newEventDown: number | null = null;
+//   let newEventDistance: number | null = null;
+//   let newEventHash: IEventHash | null = null;
+//   let newEventPlayType = IFootballPlayType.Flag;
+//   let newEventPlayResult = IFootballPlayResult.Flag;
+//   let compDistance: number | null = null;
+//
+//   if (lastEvent && lastEvent.event_number) {
+//     newEventNumber = lastEvent.event_number + 1;
+//   } else {
+//     newEventNumber = 1;
+//   }
+//
+//   if (lastEvent && lastEvent.event_qtr) {
+//     newEventQtr = lastEvent.event_qtr;
+//   } else {
+//     newEventQtr = 1;
+//   }
+//
+//   if (
+//     lastEvent &&
+//     lastEvent.ball_moved_to &&
+//     lastEvent.play_result !== IFootballPlayResult.PassIntercepted &&
+//     lastEvent.is_fumble !== true
+//   ) {
+//     newEventBallOn = lastEvent.ball_moved_to;
+//     newEventBallMovedOn = lastEvent.ball_moved_to;
+//   }
+//
+//   if (lastEvent && lastEvent.offense_team) {
+//     newEventTeam = lastEvent.offense_team;
+//   }
+//
+//   if (lastEvent && lastEvent.event_qb) {
+//     newEventQb = lastEvent.event_qb;
+//   }
+//
+//   if (lastEvent && lastEvent.event_down) {
+//     newEventDown = lastEvent.event_down;
+//   }
+//
+//   if (lastEvent && lastEvent.event_distance) {
+//     newEventDistance = lastEvent.event_distance;
+//   }
+//
+//   return {
+//     id: null,
+//     event_number: newEventNumber,
+//     event_qtr: newEventQtr,
+//     ball_on: newEventBallOn,
+//     ball_moved_to: newEventBallMovedOn,
+//     ball_picked_on: newEventBallPickedTo,
+//     ball_kicked_to: newEventBallKickedTo,
+//     ball_returned_to: newEventBallReturnedTo,
+//     offense_team: newEventTeam,
+//     event_qb: newEventQb,
+//     event_down: newEventDown,
+//     event_distance: newEventDistance,
+//     event_hash: newEventHash,
+//     play_direction: null,
+//     play_type: newEventPlayType,
+//     play_result: newEventPlayResult,
+//     score_result: null,
+//     is_fumble: false,
+//     is_fumble_recovered: false,
+//   };
+// }
 
-  if (lastEvent && lastEvent.event_number) {
-    newEventNumber = lastEvent.event_number + 1;
-  } else {
-    newEventNumber = 1;
-  }
+// export function createNewEvent(
+//   lastEvent: IFootballEventWithPlayers | null | undefined,
+//   newEventCount: number,
+//   match: IMatchWithFullData | undefined | null,
+// ): Partial<IFootballEventWithPlayers> {
+//   let newEventNumber: number | null;
+//   let newEventQtr: number | null;
+//   let newEventTeam: ITeam | null = null;
+//   let newEventQb: IPlayerInMatchFullData | null = null;
+//   let newEventBallOn: number | null = null;
+//   let newEventBallMovedOn: number | null = null;
+//   let newEventBallPickedTo: number | null = null;
+//   let newEventBallKickedTo: number | null = null;
+//   let newEventBallReturnedTo: number | null = null;
+//   let newEventDown: number | null = null;
+//   let newEventDistance: number | null = null;
+//   let newEventHash: IEventHash | null = null;
+//   let newEventPlayType: IFootballPlayType | null = null;
+//   let compDistance: number | null = null;
+//
+//   if (
+//     lastEvent &&
+//     lastEvent.ball_on &&
+//     lastEvent.ball_moved_to &&
+//     lastEvent.event_distance &&
+//     match &&
+//     match.match_data &&
+//     match.match_data.field_length
+//   ) {
+//     compDistance = computeDistanceForDownDistance(
+//       lastEvent.ball_on,
+//       lastEvent.ball_moved_to,
+//       lastEvent.event_distance,
+//       match.match_data.field_length / 2,
+//     );
+//   }
+//
+//   if (lastEvent && lastEvent.event_number) {
+//     newEventNumber = lastEvent.event_number + 1;
+//   } else {
+//     newEventNumber = 1;
+//     newEventPlayType = IFootballPlayType.Kickoff;
+//   }
+//
+//   if (lastEvent && lastEvent.event_qtr) {
+//     newEventQtr = lastEvent.event_qtr;
+//   } else {
+//     newEventQtr = 1;
+//   }
+//
+//   if (
+//     lastEvent &&
+//     lastEvent.ball_moved_to &&
+//     lastEvent.play_result !== IFootballPlayResult.PassIntercepted &&
+//     lastEvent.is_fumble !== true
+//   ) {
+//     newEventBallOn = lastEvent.ball_moved_to;
+//     newEventBallMovedOn = lastEvent.ball_moved_to;
+//   }
+//
+//   if (lastEvent && lastEvent.offense_team) {
+//     newEventTeam = lastEvent.offense_team;
+//   }
+//
+//   if (lastEvent && lastEvent.event_qb) {
+//     newEventQb = lastEvent.event_qb;
+//   }
+//
+//   if (lastEvent && lastEvent.event_down) {
+//     if (lastEvent.event_down < 4) {
+//       newEventDown = lastEvent.event_down + 1;
+//     } else {
+//       newEventDown = lastEvent.event_down;
+//     }
+//     if (lastEvent.play_result === IFootballPlayResult.Flag) {
+//       newEventDown = lastEvent.event_down;
+//     }
+//   }
+//
+//   if (
+//     compDistance !== null &&
+//     compDistance !== undefined &&
+//     lastEvent?.event_distance
+//   ) {
+//     // console.log('distance', compDistance, lastEvent.event_distance);
+//     // newEventDistance = lastEvent.event_distance;
+//     if (compDistance > 0) {
+//       newEventDistance = compDistance;
+//     } else {
+//       newEventDown = 1;
+//       newEventDistance = 10;
+//     }
+//   }
+//
+//   if (lastEvent && lastEvent.score_result) {
+//     if (
+//       lastEvent.score_result === IFootballScoreResult.Td ||
+//       lastEvent.score_result === IFootballScoreResult.TdDefence
+//     ) {
+//       newEventDown = null;
+//       newEventDistance = null;
+//       newEventBallOn = 3;
+//     }
+//   }
+//
+//   if (newEventPlayType === IFootballPlayType.Kickoff) {
+//     newEventDistance = null;
+//     newEventDown = null;
+//     newEventQb = null;
+//     newEventBallOn = -35;
+//   } else if (newEventPlayType === IFootballPlayType.PatOne) {
+//     newEventDistance = null;
+//     newEventDown = null;
+//     newEventQb = null;
+//     newEventBallOn = 3;
+//   } else if (newEventPlayType === IFootballPlayType.PatTwo) {
+//     newEventDistance = null;
+//     newEventDown = null;
+//     newEventBallOn = 3;
+//   }
+//
+//   if (lastEvent && lastEvent.play_result) {
+//     if (match) {
+//       const {
+//         newEventBallOn: newBallOn,
+//         newEventDown: newDown,
+//         newEventDistance: newDistance,
+//         newEventTeam: newTeam,
+//         newEventQb: newQb,
+//       } = handleTeamChangeOnTouchBack(match, lastEvent);
+//       if (
+//         (lastEvent.play_result === IFootballPlayResult.PuntReturn ||
+//           lastEvent.play_result === IFootballPlayResult.KickOffReturn ||
+//           lastEvent.play_result === IFootballPlayResult.KickedOut) &&
+//         !lastEvent.is_fumble
+//       ) {
+//         newEventDown = newDown;
+//         newEventDistance = newDistance;
+//         newEventTeam = newTeam;
+//         newEventQb = newQb;
+//
+//         if (
+//           lastEvent.ball_returned_to !== null &&
+//           lastEvent.ball_returned_to !== undefined
+//         ) {
+//           newEventBallOn = -lastEvent.ball_returned_to;
+//           newEventBallMovedOn = -lastEvent.ball_returned_to;
+//         }
+//       }
+//
+//       if (lastEvent.play_result === IFootballPlayResult.TouchBack) {
+//         newEventBallOn = newBallOn;
+//         newEventBallMovedOn = newBallOn;
+//         newEventDown = newDown;
+//         newEventDistance = newDistance;
+//         newEventTeam = newTeam;
+//         newEventQb = newQb;
+//       }
+//
+//       if (lastEvent.score_result === IFootballScoreResult.KickGood) {
+//         newEventPlayType = IFootballPlayType.Kickoff;
+//       }
+//
+//       if (lastEvent.score_result === IFootballScoreResult.KickMissed) {
+//         newEventDown = 1;
+//         newEventDistance = 10;
+//         newEventTeam = newTeam;
+//       }
+//
+//       if (
+//         lastEvent.score_result === IFootballScoreResult.PatOneMissed ||
+//         lastEvent.score_result === IFootballScoreResult.PatOneGood ||
+//         lastEvent.score_result === IFootballScoreResult.PatOneReturn ||
+//         lastEvent.score_result === IFootballScoreResult.PatTwoMissed ||
+//         lastEvent.score_result === IFootballScoreResult.PatTwoGood ||
+//         lastEvent.score_result === IFootballScoreResult.PatTwoReturn
+//       ) {
+//         // newEventTeam = newTeam;
+//         newEventPlayType = IFootballPlayType.Kickoff;
+//       }
+//
+//       if (lastEvent.score_result === IFootballScoreResult.TdDefence) {
+//         newEventTeam = newTeam;
+//         newEventBallOn = 3;
+//         newEventBallMovedOn = null;
+//         newEventDown = null;
+//         newEventDistance = null;
+//         newEventQb = null;
+//       }
+//
+//       if (
+//         lastEvent.offense_team &&
+//         lastEvent.score_result === IFootballScoreResult.Safety
+//       ) {
+//         newEventTeam = lastEvent.offense_team;
+//         newEventPlayType = IFootballPlayType.Kickoff;
+//       }
+//
+//       if (newEventPlayType === IFootballPlayType.Kickoff) {
+//         newEventDown = null;
+//         newEventDistance = null;
+//         newEventQb = null;
+//         newEventBallOn = -35;
+//       }
+//     }
+//   }
+//
+//   if (lastEvent && lastEvent.play_type) {
+//     if (match) {
+//       const {
+//         newEventBallOn: newBallOn,
+//         newEventDown: newDown,
+//         newEventDistance: newDistance,
+//         newEventTeam: newTeam,
+//       } = handleTeamChangeOnDown(match, lastEvent);
+//       // console.log('handleDict', newBallOn, newDown, newDistance, newTeam?.id);
+//       // console.log('last and new event', lastEvent.offense_team?.id, newEventTeam?.id, lastEvent.event_down)
+//       if (
+//         lastEvent.event_down === 4 &&
+//         (lastEvent.play_type === IFootballPlayType.Pass ||
+//           lastEvent.play_type === IFootballPlayType.Run)
+//       ) {
+//         // console.log(
+//         //   'last 4th down',
+//         //   lastEvent.distance_moved,
+//         //   lastEvent.event_distance,
+//         // );
+//         if (
+//           lastEvent.distance_moved !== null &&
+//           lastEvent.distance_moved !== undefined &&
+//           lastEvent.event_distance !== null &&
+//           lastEvent.event_distance !== undefined &&
+//           lastEvent.distance_moved < lastEvent.event_distance
+//         ) {
+//           newEventTeam = newTeam;
+//           newEventBallOn = newBallOn;
+//           newEventBallMovedOn = newBallOn;
+//           newEventDown = newDown;
+//           newEventDistance = newDistance;
+//           newEventQb = null;
+//         }
+//       }
+//     }
+//   }
+//
+//   if (lastEvent && lastEvent.play_result) {
+//     if (match) {
+//       const { newEventBallOn: newBallOn, newEventTeam: newTeam } =
+//         handleTeamChangeOnFumble(match, lastEvent);
+//       if (lastEvent.is_fumble && !lastEvent.score_result) {
+//         if (
+//           lastEvent.fumble_recovered_player?.match_player.team_id !==
+//             lastEvent.offense_team?.id &&
+//           lastEvent.offense_team?.id &&
+//           lastEvent.ball_returned_to !== null &&
+//           lastEvent.ball_returned_to !== undefined
+//         ) {
+//           newEventBallOn = -lastEvent.ball_returned_to;
+//           newEventBallMovedOn = -lastEvent.ball_returned_to;
+//           newEventTeam = newTeam;
+//           newEventDown = 1;
+//           newEventDistance = 10;
+//           newEventQb = null;
+//         }
+//         if (
+//           lastEvent.event_qb &&
+//           lastEvent.fumble_recovered_player?.match_player.team_id ===
+//             lastEvent.offense_team?.id &&
+//           lastEvent.offense_team?.id &&
+//           lastEvent.ball_returned_to !== null &&
+//           lastEvent.ball_returned_to !== undefined
+//         ) {
+//           newEventBallOn = lastEvent.ball_returned_to;
+//           newEventBallMovedOn = lastEvent.ball_returned_to;
+//           newEventQb = lastEvent.event_qb;
+//         }
+//       }
+//     }
+//   }
+//
+//   if (lastEvent && lastEvent.play_result) {
+//     if (match) {
+//       const { newEventBallOn: newBallOn, newEventTeam: newTeam } =
+//         handleTeamChangeOnInterception(match, lastEvent);
+//       if (
+//         lastEvent.play_result === IFootballPlayResult.PassIntercepted &&
+//         !lastEvent.score_result
+//       ) {
+//         if (
+//           lastEvent.ball_returned_to !== null &&
+//           lastEvent.ball_returned_to !== undefined
+//         ) {
+//           newEventBallOn = -lastEvent.ball_returned_to;
+//           newEventBallMovedOn = -lastEvent.ball_returned_to;
+//           newEventTeam = newTeam;
+//           newEventDown = 1;
+//           newEventDistance = 10;
+//           newEventQb = null;
+//         }
+//       }
+//     }
+//   }
+//
+//   if (
+//     lastEvent &&
+//     lastEvent.offense_team === newEventTeam &&
+//     newEventPlayType !== IFootballPlayType.Kickoff
+//   ) {
+//     if (
+//       lastEvent.play_result === IFootballPlayResult.Run ||
+//       lastEvent.play_result === IFootballPlayResult.PassCompleted
+//     ) {
+//       if (lastEvent.play_direction === IEventDirection.LeftWide) {
+//         newEventHash = IEventHash.Left;
+//       }
+//       if (lastEvent.play_direction === IEventDirection.RightWide) {
+//         newEventHash = IEventHash.Right;
+//       }
+//       if (
+//         lastEvent.event_hash === IEventHash.Left &&
+//         lastEvent.play_direction === IEventDirection.Left
+//       ) {
+//         newEventHash = IEventHash.Left;
+//       }
+//       if (
+//         lastEvent.event_hash === IEventHash.Right &&
+//         lastEvent.play_direction === IEventDirection.Right
+//       ) {
+//         newEventHash = IEventHash.Right;
+//       }
+//       if (
+//         lastEvent.event_hash === IEventHash.Middle &&
+//         lastEvent.play_direction === IEventDirection.Middle
+//       ) {
+//         newEventHash = IEventHash.Middle;
+//       }
+//     }
+//   }
+//
+//   return {
+//     id: null,
+//     event_number: newEventNumber,
+//     event_qtr: newEventQtr,
+//     ball_on: newEventBallOn,
+//     ball_moved_to: newEventBallMovedOn,
+//     ball_picked_on: newEventBallPickedTo,
+//     ball_kicked_to: newEventBallKickedTo,
+//     ball_returned_to: newEventBallReturnedTo,
+//     offense_team: newEventTeam,
+//     event_qb: newEventQb,
+//     event_down: newEventDown,
+//     event_distance: newEventDistance,
+//     event_hash: newEventHash,
+//     play_direction: null,
+//     play_type: newEventPlayType,
+//     play_result: null,
+//     score_result: null,
+//     is_fumble: false,
+//     is_fumble_recovered: false,
+//   };
+// }
 
-  if (lastEvent && lastEvent.event_qtr) {
-    newEventQtr = lastEvent.event_qtr;
-  } else {
-    newEventQtr = 1;
-  }
-
-  if (
-    lastEvent &&
-    lastEvent.ball_moved_to &&
-    lastEvent.play_result !== IFootballPlayResult.PassIntercepted &&
-    lastEvent.is_fumble !== true
-  ) {
-    newEventBallOn = lastEvent.ball_moved_to;
-    newEventBallMovedOn = lastEvent.ball_moved_to;
-  }
-
-  if (lastEvent && lastEvent.offense_team) {
-    newEventTeam = lastEvent.offense_team;
-  }
-
-  if (lastEvent && lastEvent.event_qb) {
-    newEventQb = lastEvent.event_qb;
-  }
-
-  if (lastEvent && lastEvent.event_down) {
-    newEventDown = lastEvent.event_down;
-  }
-
-  if (lastEvent && lastEvent.event_distance) {
-    newEventDistance = lastEvent.event_distance;
-  }
-
-  return {
-    id: null,
-    event_number: newEventNumber,
-    event_qtr: newEventQtr,
-    ball_on: newEventBallOn,
-    ball_moved_to: newEventBallMovedOn,
-    ball_picked_on: newEventBallPickedTo,
-    ball_kicked_to: newEventBallKickedTo,
-    ball_returned_to: newEventBallReturnedTo,
-    offense_team: newEventTeam,
-    event_qb: newEventQb,
-    event_down: newEventDown,
-    event_distance: newEventDistance,
-    event_hash: newEventHash,
-    play_direction: null,
-    play_type: newEventPlayType,
-    play_result: newEventPlayResult,
-    score_result: null,
-    is_fumble: false,
-    is_fumble_recovered: false,
-  };
-}
-
-export function createNewEvent(
-  lastEvent: IFootballEventWithPlayers | null | undefined,
-  newEventCount: number,
-  match: IMatchWithFullData | undefined | null,
-): Partial<IFootballEventWithPlayers> {
-  let newEventNumber: number | null;
-  let newEventQtr: number | null;
-  let newEventTeam: ITeam | null = null;
-  let newEventQb: IPlayerInMatchFullData | null = null;
-  let newEventBallOn: number | null = null;
-  let newEventBallMovedOn: number | null = null;
-  let newEventBallPickedTo: number | null = null;
-  let newEventBallKickedTo: number | null = null;
-  let newEventBallReturnedTo: number | null = null;
-  let newEventDown: number | null = null;
-  let newEventDistance: number | null = null;
-  let newEventHash: IEventHash | null = null;
-  let newEventPlayType: IFootballPlayType | null = null;
-  let compDistance: number | null = null;
-
-  if (
-    lastEvent &&
-    lastEvent.ball_on &&
-    lastEvent.ball_moved_to &&
-    lastEvent.event_distance &&
-    match &&
-    match.match_data &&
-    match.match_data.field_length
-  ) {
-    compDistance = computeDistanceForDownDistance(
-      lastEvent.ball_on,
-      lastEvent.ball_moved_to,
-      lastEvent.event_distance,
-      match.match_data.field_length / 2,
-    );
-  }
-
-  if (lastEvent && lastEvent.event_number) {
-    newEventNumber = lastEvent.event_number + 1;
-  } else {
-    newEventNumber = 1;
-    newEventPlayType = IFootballPlayType.Kickoff;
-  }
-
-  if (lastEvent && lastEvent.event_qtr) {
-    newEventQtr = lastEvent.event_qtr;
-  } else {
-    newEventQtr = 1;
-  }
-
-  if (
-    lastEvent &&
-    lastEvent.ball_moved_to &&
-    lastEvent.play_result !== IFootballPlayResult.PassIntercepted &&
-    lastEvent.is_fumble !== true
-  ) {
-    newEventBallOn = lastEvent.ball_moved_to;
-    newEventBallMovedOn = lastEvent.ball_moved_to;
-  }
-
-  if (lastEvent && lastEvent.offense_team) {
-    newEventTeam = lastEvent.offense_team;
-  }
-
-  if (lastEvent && lastEvent.event_qb) {
-    newEventQb = lastEvent.event_qb;
-  }
-
-  if (lastEvent && lastEvent.event_down) {
-    if (lastEvent.event_down < 4) {
-      newEventDown = lastEvent.event_down + 1;
-    } else {
-      newEventDown = lastEvent.event_down;
-    }
-    if (lastEvent.play_result === IFootballPlayResult.Flag) {
-      newEventDown = lastEvent.event_down;
-    }
-  }
-
-  if (
-    compDistance !== null &&
-    compDistance !== undefined &&
-    lastEvent?.event_distance
-  ) {
-    // console.log('distance', compDistance, lastEvent.event_distance);
-    // newEventDistance = lastEvent.event_distance;
-    if (compDistance > 0) {
-      newEventDistance = compDistance;
-    } else {
-      newEventDown = 1;
-      newEventDistance = 10;
-    }
-  }
-
-  if (lastEvent && lastEvent.score_result) {
-    if (
-      lastEvent.score_result === IFootballScoreResult.Td ||
-      lastEvent.score_result === IFootballScoreResult.TdDefence
-    ) {
-      newEventDown = null;
-      newEventDistance = null;
-      newEventBallOn = 3;
-    }
-  }
-
-  if (newEventPlayType === IFootballPlayType.Kickoff) {
-    newEventDistance = null;
-    newEventDown = null;
-    newEventQb = null;
-    newEventBallOn = -35;
-  } else if (newEventPlayType === IFootballPlayType.PatOne) {
-    newEventDistance = null;
-    newEventDown = null;
-    newEventQb = null;
-    newEventBallOn = 3;
-  } else if (newEventPlayType === IFootballPlayType.PatTwo) {
-    newEventDistance = null;
-    newEventDown = null;
-    newEventBallOn = 3;
-  }
-
-  if (lastEvent && lastEvent.play_result) {
-    if (match) {
-      const {
-        newEventBallOn: newBallOn,
-        newEventDown: newDown,
-        newEventDistance: newDistance,
-        newEventTeam: newTeam,
-        newEventQb: newQb,
-      } = handleTeamChangeOnTouchBack(match, lastEvent);
-      if (
-        (lastEvent.play_result === IFootballPlayResult.PuntReturn ||
-          lastEvent.play_result === IFootballPlayResult.KickOffReturn ||
-          lastEvent.play_result === IFootballPlayResult.KickedOut) &&
-        !lastEvent.is_fumble
-      ) {
-        newEventDown = newDown;
-        newEventDistance = newDistance;
-        newEventTeam = newTeam;
-        newEventQb = newQb;
-
-        if (
-          lastEvent.ball_returned_to !== null &&
-          lastEvent.ball_returned_to !== undefined
-        ) {
-          newEventBallOn = -lastEvent.ball_returned_to;
-          newEventBallMovedOn = -lastEvent.ball_returned_to;
-        }
-      }
-
-      if (lastEvent.play_result === IFootballPlayResult.TouchBack) {
-        newEventBallOn = newBallOn;
-        newEventBallMovedOn = newBallOn;
-        newEventDown = newDown;
-        newEventDistance = newDistance;
-        newEventTeam = newTeam;
-        newEventQb = newQb;
-      }
-
-      if (lastEvent.score_result === IFootballScoreResult.KickGood) {
-        newEventPlayType = IFootballPlayType.Kickoff;
-      }
-
-      if (lastEvent.score_result === IFootballScoreResult.KickMissed) {
-        newEventDown = 1;
-        newEventDistance = 10;
-        newEventTeam = newTeam;
-      }
-
-      if (
-        lastEvent.score_result === IFootballScoreResult.PatOneMissed ||
-        lastEvent.score_result === IFootballScoreResult.PatOneGood ||
-        lastEvent.score_result === IFootballScoreResult.PatOneReturn ||
-        lastEvent.score_result === IFootballScoreResult.PatTwoMissed ||
-        lastEvent.score_result === IFootballScoreResult.PatTwoGood ||
-        lastEvent.score_result === IFootballScoreResult.PatTwoReturn
-      ) {
-        // newEventTeam = newTeam;
-        newEventPlayType = IFootballPlayType.Kickoff;
-      }
-
-      if (lastEvent.score_result === IFootballScoreResult.TdDefence) {
-        newEventTeam = newTeam;
-        newEventBallOn = 3;
-        newEventBallMovedOn = null;
-        newEventDown = null;
-        newEventDistance = null;
-        newEventQb = null;
-      }
-
-      if (
-        lastEvent.offense_team &&
-        lastEvent.score_result === IFootballScoreResult.Safety
-      ) {
-        newEventTeam = lastEvent.offense_team;
-        newEventPlayType = IFootballPlayType.Kickoff;
-      }
-
-      if (newEventPlayType === IFootballPlayType.Kickoff) {
-        newEventDown = null;
-        newEventDistance = null;
-        newEventQb = null;
-        newEventBallOn = -35;
-      }
-    }
-  }
-
-  if (lastEvent && lastEvent.play_type) {
-    if (match) {
-      const {
-        newEventBallOn: newBallOn,
-        newEventDown: newDown,
-        newEventDistance: newDistance,
-        newEventTeam: newTeam,
-      } = handleTeamChangeOnDown(match, lastEvent);
-      // console.log('handleDict', newBallOn, newDown, newDistance, newTeam?.id);
-      // console.log('last and new event', lastEvent.offense_team?.id, newEventTeam?.id, lastEvent.event_down)
-      if (
-        lastEvent.event_down === 4 &&
-        (lastEvent.play_type === IFootballPlayType.Pass ||
-          lastEvent.play_type === IFootballPlayType.Run)
-      ) {
-        // console.log(
-        //   'last 4th down',
-        //   lastEvent.distance_moved,
-        //   lastEvent.event_distance,
-        // );
-        if (
-          lastEvent.distance_moved !== null &&
-          lastEvent.distance_moved !== undefined &&
-          lastEvent.event_distance !== null &&
-          lastEvent.event_distance !== undefined &&
-          lastEvent.distance_moved < lastEvent.event_distance
-        ) {
-          newEventTeam = newTeam;
-          newEventBallOn = newBallOn;
-          newEventBallMovedOn = newBallOn;
-          newEventDown = newDown;
-          newEventDistance = newDistance;
-          newEventQb = null;
-        }
-      }
-    }
-  }
-
-  if (lastEvent && lastEvent.play_result) {
-    if (match) {
-      const { newEventBallOn: newBallOn, newEventTeam: newTeam } =
-        handleTeamChangeOnFumble(match, lastEvent);
-      if (lastEvent.is_fumble && !lastEvent.score_result) {
-        if (
-          lastEvent.fumble_recovered_player?.match_player.team_id !==
-            lastEvent.offense_team?.id &&
-          lastEvent.offense_team?.id &&
-          lastEvent.ball_returned_to !== null &&
-          lastEvent.ball_returned_to !== undefined
-        ) {
-          newEventBallOn = -lastEvent.ball_returned_to;
-          newEventBallMovedOn = -lastEvent.ball_returned_to;
-          newEventTeam = newTeam;
-          newEventDown = 1;
-          newEventDistance = 10;
-          newEventQb = null;
-        }
-        if (
-          lastEvent.event_qb &&
-          lastEvent.fumble_recovered_player?.match_player.team_id ===
-            lastEvent.offense_team?.id &&
-          lastEvent.offense_team?.id &&
-          lastEvent.ball_returned_to !== null &&
-          lastEvent.ball_returned_to !== undefined
-        ) {
-          newEventBallOn = lastEvent.ball_returned_to;
-          newEventBallMovedOn = lastEvent.ball_returned_to;
-          newEventQb = lastEvent.event_qb;
-        }
-      }
-    }
-  }
-
-  if (lastEvent && lastEvent.play_result) {
-    if (match) {
-      const { newEventBallOn: newBallOn, newEventTeam: newTeam } =
-        handleTeamChangeOnInterception(match, lastEvent);
-      if (
-        lastEvent.play_result === IFootballPlayResult.PassIntercepted &&
-        !lastEvent.score_result
-      ) {
-        if (
-          lastEvent.ball_returned_to !== null &&
-          lastEvent.ball_returned_to !== undefined
-        ) {
-          newEventBallOn = -lastEvent.ball_returned_to;
-          newEventBallMovedOn = -lastEvent.ball_returned_to;
-          newEventTeam = newTeam;
-          newEventDown = 1;
-          newEventDistance = 10;
-          newEventQb = null;
-        }
-      }
-    }
-  }
-
-  if (
-    lastEvent &&
-    lastEvent.offense_team === newEventTeam &&
-    newEventPlayType !== IFootballPlayType.Kickoff
-  ) {
-    if (
-      lastEvent.play_result === IFootballPlayResult.Run ||
-      lastEvent.play_result === IFootballPlayResult.PassCompleted
-    ) {
-      if (lastEvent.play_direction === IEventDirection.LeftWide) {
-        newEventHash = IEventHash.Left;
-      }
-      if (lastEvent.play_direction === IEventDirection.RightWide) {
-        newEventHash = IEventHash.Right;
-      }
-      if (
-        lastEvent.event_hash === IEventHash.Left &&
-        lastEvent.play_direction === IEventDirection.Left
-      ) {
-        newEventHash = IEventHash.Left;
-      }
-      if (
-        lastEvent.event_hash === IEventHash.Right &&
-        lastEvent.play_direction === IEventDirection.Right
-      ) {
-        newEventHash = IEventHash.Right;
-      }
-      if (
-        lastEvent.event_hash === IEventHash.Middle &&
-        lastEvent.play_direction === IEventDirection.Middle
-      ) {
-        newEventHash = IEventHash.Middle;
-      }
-    }
-  }
-
-  return {
-    id: null,
-    event_number: newEventNumber,
-    event_qtr: newEventQtr,
-    ball_on: newEventBallOn,
-    ball_moved_to: newEventBallMovedOn,
-    ball_picked_on: newEventBallPickedTo,
-    ball_kicked_to: newEventBallKickedTo,
-    ball_returned_to: newEventBallReturnedTo,
-    offense_team: newEventTeam,
-    event_qb: newEventQb,
-    event_down: newEventDown,
-    event_distance: newEventDistance,
-    event_hash: newEventHash,
-    play_direction: null,
-    play_type: newEventPlayType,
-    play_result: null,
-    score_result: null,
-    is_fumble: false,
-    is_fumble_recovered: false,
-  };
-}
-
-export function extractEventData(
-  eventsArray: FormArray,
-  index: number,
-): Partial<IFootballEvent> {
-  const eventId = getEventId(eventsArray, index);
-  const eventNumber = getEventNumber(eventsArray, index);
-  const eventQtr = getQtr(eventsArray, index);
-  const eventBallOn = getEventBallOn(eventsArray, index);
-  const eventBallMovedOn = getEventBallMovedOn(eventsArray, index);
-  const eventBallPickedOn = getEventBallPickedOn(eventsArray, index);
-  const eventBallKickedTo = getEventBallKickedTo(eventsArray, index);
-  const eventBallReturnedTo = getEventBallReturnedTo(eventsArray, index);
-  const eventDistanceMoved = getEventDistanceMoved(eventsArray, index);
-  const eventDistanceOnOffence = getEventDistanceOnOffence(eventsArray, index);
-  const eventTeam = getEventTeam(eventsArray, index);
-  const eventQb = getEventQb(eventsArray, index);
-  const eventDown = getEventDown(eventsArray, index);
-  const eventDistance = getEventDistance(eventsArray, index);
-  const eventHash = getEventHash(eventsArray, index);
-  const eventDirection = getEventDirection(eventsArray, index);
-  const eventStrongSide = getEventStrongSide(eventsArray, index);
-  const eventPlayType = getEventPlayType(eventsArray, index);
-  const eventPlayResult = getEventPlayResult(eventsArray, index);
-  const eventScoreResult = getEventScoreResult(eventsArray, index);
-  const eventIsFumble = getEventIsFumble(eventsArray, index);
-  const eventIsFumbleRecovered = getEventIsFumbleRecovered(eventsArray, index);
-  const eventRunPlayer = getEventRunPlayer(eventsArray, index);
-  const eventReceiverPlayer = getEventReceiverPlayer(eventsArray, index);
-  const eventDroppedPlayer = getEventDroppedPlayer(eventsArray, index);
-  const eventScorePlayer = getEventScorePlayer(eventsArray, index);
-  const eventDefenceScorePlayer = getEventDefenceScorePlayer(
-    eventsArray,
-    index,
-  );
-  const eventKickOffPlayer = getEventKickOffPlayer(eventsArray, index);
-  const eventReturnPlayer = getEventReturnPlayer(eventsArray, index);
-  const eventPatOnePlayer = getEventPatOnePlayer(eventsArray, index);
-  const eventFlaggedPlayer = getEventFlaggedPlayer(eventsArray, index);
-  const eventKickPlayer = getEventKickPlayer(eventsArray, index);
-  const eventPuntPlayer = getEventPuntPlayer(eventsArray, index);
-  const eventTacklePlayer = getEventTacklePlayer(eventsArray, index);
-  const eventAssistTacklePlayer = getEventAssistTacklePlayer(
-    eventsArray,
-    index,
-  );
-  const eventDeflectedPlayer = getEventDeflectedPlayer(eventsArray, index);
-  const eventInterceptedPlayer = getEventInterceptedPlayer(eventsArray, index);
-  const eventSackPlayer = getEventSackPlayer(eventsArray, index);
-  const eventFumblePlayer = getEventFumblePlayer(eventsArray, index);
-  const eventFumbleRecoveredPlayer = getEventFumbleRecoveredPlayer(
-    eventsArray,
-    index,
-  );
-
-  const newEventData: Partial<IFootballEvent> = {};
-
-  if (eventId !== null && eventId !== undefined) {
-    newEventData.id = eventId;
-  }
-
-  if (eventNumber !== undefined) {
-    newEventData.event_number = eventNumber;
-  }
-
-  if (eventQtr !== undefined) {
-    newEventData.event_qtr = eventQtr;
-  }
-
-  if (eventBallOn !== undefined) {
-    newEventData.ball_on = eventBallOn;
-  }
-
-  if (eventBallMovedOn !== undefined) {
-    newEventData.ball_moved_to = eventBallMovedOn;
-  }
-
-  if (eventBallPickedOn !== undefined) {
-    newEventData.ball_picked_on = eventBallPickedOn;
-  }
-
-  if (eventBallKickedTo !== undefined) {
-    newEventData.ball_kicked_to = eventBallKickedTo;
-  }
-
-  if (eventBallReturnedTo !== undefined) {
-    newEventData.ball_returned_to = eventBallReturnedTo;
-  }
-
-  if (eventDistanceOnOffence || eventDistanceOnOffence === 0) {
-    newEventData.distance_on_offence = eventDistanceOnOffence;
-  } else {
-    newEventData.distance_on_offence = 0;
-  }
-
-  if (eventTeam) {
-    newEventData.offense_team = eventTeam.id;
-  }
-
-  newEventData.event_qb = eventQb?.match_player?.id ?? null;
-
-  if (eventDown !== undefined) {
-    newEventData.event_down = eventDown;
-  }
-
-  if (eventDistance !== undefined) {
-    newEventData.event_distance = eventDistance;
-  }
-
-  if (eventHash) {
-    newEventData.event_hash = eventHash.toLowerCase();
-  } else {
-    newEventData.event_hash = null;
-  }
-
-  if (eventDirection) {
-    newEventData.play_direction = eventDirection.toLowerCase();
-  } else {
-    newEventData.play_direction = null;
-  }
-
-  if (eventStrongSide) {
-    newEventData.event_strong_side = eventStrongSide.toLowerCase();
-  } else {
-    newEventData.event_strong_side = null;
-  }
-
-  if (eventPlayType) {
-    newEventData.play_type = eventPlayType.toLowerCase();
-  } else {
-    newEventData.play_type = null;
-  }
-
-  if (eventPlayResult) {
-    newEventData.play_result = eventPlayResult.toLowerCase();
-  } else {
-    newEventData.play_result = null;
-  }
-
-  if (eventScoreResult) {
-    newEventData.score_result = eventScoreResult.toLowerCase();
-  } else {
-    newEventData.score_result = null;
-  }
-
-  newEventData.is_fumble = eventIsFumble ?? false;
-  newEventData.is_fumble_recovered = eventIsFumbleRecovered ?? false;
-
-  newEventData.run_player = eventRunPlayer?.match_player?.id ?? null;
-  newEventData.pass_received_player =
-    eventReceiverPlayer?.match_player?.id ?? null;
-  newEventData.pass_dropped_player =
-    eventDroppedPlayer?.match_player?.id ?? null;
-  newEventData.score_player = eventScorePlayer?.match_player?.id ?? null;
-  newEventData.defence_score_player =
-    eventDefenceScorePlayer?.match_player?.id ?? null;
-  newEventData.kickoff_player = eventKickOffPlayer?.match_player?.id ?? null;
-  newEventData.return_player = eventReturnPlayer?.match_player?.id ?? null;
-  newEventData.pat_one_player = eventPatOnePlayer?.match_player?.id ?? null;
-  newEventData.flagged_player = eventFlaggedPlayer?.match_player?.id ?? null;
-  newEventData.kick_player = eventKickPlayer?.match_player?.id ?? null;
-  newEventData.punt_player = eventPuntPlayer?.match_player?.id ?? null;
-  newEventData.tackle_player = eventTacklePlayer?.match_player?.id ?? null;
-  newEventData.assist_tackle_player =
-    eventAssistTacklePlayer?.match_player?.id ?? null;
-  newEventData.pass_deflected_player =
-    eventDeflectedPlayer?.match_player?.id ?? null;
-  newEventData.pass_intercepted_player =
-    eventInterceptedPlayer?.match_player?.id ?? null;
-  newEventData.sack_player = eventSackPlayer?.match_player?.id ?? null;
-  newEventData.fumble_player = eventFumblePlayer?.match_player?.id ?? null;
-  newEventData.fumble_recovered_player =
-    eventFumbleRecoveredPlayer?.match_player?.id ?? null;
-
-  return newEventData;
-}
+// export function extractEventData(
+//   eventsArray: FormArray,
+//   index: number,
+// ): Partial<IFootballEvent> {
+//   const eventId = getEventId(eventsArray, index);
+//   const eventNumber = getEventNumber(eventsArray, index);
+//   const eventQtr = getQtr(eventsArray, index);
+//   const eventBallOn = getEventBallOn(eventsArray, index);
+//   const eventBallMovedOn = getEventBallMovedOn(eventsArray, index);
+//   const eventBallPickedOn = getEventBallPickedOn(eventsArray, index);
+//   const eventBallKickedTo = getEventBallKickedTo(eventsArray, index);
+//   const eventBallReturnedTo = getEventBallReturnedTo(eventsArray, index);
+//   const eventDistanceMoved = getEventDistanceMoved(eventsArray, index);
+//   const eventDistanceOnOffence = getEventDistanceOnOffence(eventsArray, index);
+//   const eventTeam = getEventTeam(eventsArray, index);
+//   const eventQb = getEventQb(eventsArray, index);
+//   const eventDown = getEventDown(eventsArray, index);
+//   const eventDistance = getEventDistance(eventsArray, index);
+//   const eventHash = getEventHash(eventsArray, index);
+//   const eventDirection = getEventDirection(eventsArray, index);
+//   const eventStrongSide = getEventStrongSide(eventsArray, index);
+//   const eventPlayType = getEventPlayType(eventsArray, index);
+//   const eventPlayResult = getEventPlayResult(eventsArray, index);
+//   const eventScoreResult = getEventScoreResult(eventsArray, index);
+//   const eventIsFumble = getEventIsFumble(eventsArray, index);
+//   const eventIsFumbleRecovered = getEventIsFumbleRecovered(eventsArray, index);
+//   const eventRunPlayer = getEventRunPlayer(eventsArray, index);
+//   const eventReceiverPlayer = getEventReceiverPlayer(eventsArray, index);
+//   const eventDroppedPlayer = getEventDroppedPlayer(eventsArray, index);
+//   const eventScorePlayer = getEventScorePlayer(eventsArray, index);
+//   const eventDefenceScorePlayer = getEventDefenceScorePlayer(
+//     eventsArray,
+//     index,
+//   );
+//   const eventKickOffPlayer = getEventKickOffPlayer(eventsArray, index);
+//   const eventReturnPlayer = getEventReturnPlayer(eventsArray, index);
+//   const eventPatOnePlayer = getEventPatOnePlayer(eventsArray, index);
+//   const eventFlaggedPlayer = getEventFlaggedPlayer(eventsArray, index);
+//   const eventKickPlayer = getEventKickPlayer(eventsArray, index);
+//   const eventPuntPlayer = getEventPuntPlayer(eventsArray, index);
+//   const eventTacklePlayer = getEventTacklePlayer(eventsArray, index);
+//   const eventAssistTacklePlayer = getEventAssistTacklePlayer(
+//     eventsArray,
+//     index,
+//   );
+//   const eventDeflectedPlayer = getEventDeflectedPlayer(eventsArray, index);
+//   const eventInterceptedPlayer = getEventInterceptedPlayer(eventsArray, index);
+//   const eventSackPlayer = getEventSackPlayer(eventsArray, index);
+//   const eventFumblePlayer = getEventFumblePlayer(eventsArray, index);
+//   const eventFumbleRecoveredPlayer = getEventFumbleRecoveredPlayer(
+//     eventsArray,
+//     index,
+//   );
+//
+//   const newEventData: Partial<IFootballEvent> = {};
+//
+//   if (eventId !== null && eventId !== undefined) {
+//     newEventData.id = eventId;
+//   }
+//
+//   if (eventNumber !== undefined) {
+//     newEventData.event_number = eventNumber;
+//   }
+//
+//   if (eventQtr !== undefined) {
+//     newEventData.event_qtr = eventQtr;
+//   }
+//
+//   if (eventBallOn !== undefined) {
+//     newEventData.ball_on = eventBallOn;
+//   }
+//
+//   if (eventBallMovedOn !== undefined) {
+//     newEventData.ball_moved_to = eventBallMovedOn;
+//   }
+//
+//   if (eventBallPickedOn !== undefined) {
+//     newEventData.ball_picked_on = eventBallPickedOn;
+//   }
+//
+//   if (eventBallKickedTo !== undefined) {
+//     newEventData.ball_kicked_to = eventBallKickedTo;
+//   }
+//
+//   if (eventBallReturnedTo !== undefined) {
+//     newEventData.ball_returned_to = eventBallReturnedTo;
+//   }
+//
+//   if (eventDistanceOnOffence || eventDistanceOnOffence === 0) {
+//     newEventData.distance_on_offence = eventDistanceOnOffence;
+//   } else {
+//     newEventData.distance_on_offence = 0;
+//   }
+//
+//   if (eventTeam) {
+//     newEventData.offense_team = eventTeam.id;
+//   }
+//
+//   newEventData.event_qb = eventQb?.match_player?.id ?? null;
+//
+//   if (eventDown !== undefined) {
+//     newEventData.event_down = eventDown;
+//   }
+//
+//   if (eventDistance !== undefined) {
+//     newEventData.event_distance = eventDistance;
+//   }
+//
+//   if (eventHash) {
+//     newEventData.event_hash = eventHash.toLowerCase();
+//   } else {
+//     newEventData.event_hash = null;
+//   }
+//
+//   if (eventDirection) {
+//     newEventData.play_direction = eventDirection.toLowerCase();
+//   } else {
+//     newEventData.play_direction = null;
+//   }
+//
+//   if (eventStrongSide) {
+//     newEventData.event_strong_side = eventStrongSide.toLowerCase();
+//   } else {
+//     newEventData.event_strong_side = null;
+//   }
+//
+//   if (eventPlayType) {
+//     newEventData.play_type = eventPlayType.toLowerCase();
+//   } else {
+//     newEventData.play_type = null;
+//   }
+//
+//   if (eventPlayResult) {
+//     newEventData.play_result = eventPlayResult.toLowerCase();
+//   } else {
+//     newEventData.play_result = null;
+//   }
+//
+//   if (eventScoreResult) {
+//     newEventData.score_result = eventScoreResult.toLowerCase();
+//   } else {
+//     newEventData.score_result = null;
+//   }
+//
+//   newEventData.is_fumble = eventIsFumble ?? false;
+//   newEventData.is_fumble_recovered = eventIsFumbleRecovered ?? false;
+//
+//   newEventData.run_player = eventRunPlayer?.match_player?.id ?? null;
+//   newEventData.pass_received_player =
+//     eventReceiverPlayer?.match_player?.id ?? null;
+//   newEventData.pass_dropped_player =
+//     eventDroppedPlayer?.match_player?.id ?? null;
+//   newEventData.score_player = eventScorePlayer?.match_player?.id ?? null;
+//   newEventData.defence_score_player =
+//     eventDefenceScorePlayer?.match_player?.id ?? null;
+//   newEventData.kickoff_player = eventKickOffPlayer?.match_player?.id ?? null;
+//   newEventData.return_player = eventReturnPlayer?.match_player?.id ?? null;
+//   newEventData.pat_one_player = eventPatOnePlayer?.match_player?.id ?? null;
+//   newEventData.flagged_player = eventFlaggedPlayer?.match_player?.id ?? null;
+//   newEventData.kick_player = eventKickPlayer?.match_player?.id ?? null;
+//   newEventData.punt_player = eventPuntPlayer?.match_player?.id ?? null;
+//   newEventData.tackle_player = eventTacklePlayer?.match_player?.id ?? null;
+//   newEventData.assist_tackle_player =
+//     eventAssistTacklePlayer?.match_player?.id ?? null;
+//   newEventData.pass_deflected_player =
+//     eventDeflectedPlayer?.match_player?.id ?? null;
+//   newEventData.pass_intercepted_player =
+//     eventInterceptedPlayer?.match_player?.id ?? null;
+//   newEventData.sack_player = eventSackPlayer?.match_player?.id ?? null;
+//   newEventData.fumble_player = eventFumblePlayer?.match_player?.id ?? null;
+//   newEventData.fumble_recovered_player =
+//     eventFumbleRecoveredPlayer?.match_player?.id ?? null;
+//
+//   return newEventData;
+// }
 
 export function toggleFootballEnumValue(
   value: string,
@@ -1018,6 +1010,44 @@ export function setBallReturnedTo(
     index,
     selectedItem,
     eventBallReturnedToKey,
+  );
+}
+
+// EventBallReturnedToOnFumble
+export function getEventBallReturnedToOnFumble(
+  eventsArray: FormArray,
+  index: number,
+): number | null | undefined {
+  return getArrayFormDataByIndexAndKey<number>(
+    eventsArray,
+    index,
+    eventBallReturnedToOnFumbleKey,
+  );
+}
+
+export function getEventBallReturnedToOnFumbleFormControl(
+  form: FormGroup,
+  arrayName: string,
+  index: number,
+): FormControl | null | undefined {
+  return getFormControlWithIndex(
+    form,
+    index,
+    eventBallReturnedToOnFumbleKey,
+    arrayName,
+  );
+}
+
+export function setBallReturnedToOnFumble(
+  eventsArray: FormArray,
+  index: number,
+  selectedItem: number,
+): void {
+  setArrayKeyIndexValue(
+    eventsArray,
+    index,
+    selectedItem,
+    eventBallReturnedToOnFumbleKey,
   );
 }
 
