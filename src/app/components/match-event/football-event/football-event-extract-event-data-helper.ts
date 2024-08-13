@@ -6,7 +6,9 @@ import {
   getEventBallMovedOn,
   getEventBallOn,
   getEventBallPickedOn,
+  getEventBallPickedOnFumble,
   getEventBallReturnedTo,
+  getEventBallReturnedToOnFumble,
   getEventDefenceScorePlayer,
   getEventDeflectedPlayer,
   getEventDirection,
@@ -55,6 +57,14 @@ export function extractEventData(
   const eventBallPickedOn = getEventBallPickedOn(eventsArray, index);
   const eventBallKickedTo = getEventBallKickedTo(eventsArray, index);
   const eventBallReturnedTo = getEventBallReturnedTo(eventsArray, index);
+  const eventBallPickedOnFumble = getEventBallPickedOnFumble(
+    eventsArray,
+    index,
+  );
+  const eventBallReturnedToOnFumble = getEventBallReturnedToOnFumble(
+    eventsArray,
+    index,
+  );
   const eventDistanceMoved = getEventDistanceMoved(eventsArray, index);
   const eventDistanceOnOffence = getEventDistanceOnOffence(eventsArray, index);
   const eventTeam = getEventTeam(eventsArray, index);
@@ -129,6 +139,14 @@ export function extractEventData(
 
   if (eventBallReturnedTo !== undefined) {
     newEventData.ball_returned_to = eventBallReturnedTo;
+  }
+
+  if (eventBallPickedOnFumble !== undefined) {
+    newEventData.ball_picked_on_fumble = eventBallPickedOnFumble;
+  }
+
+  if (eventBallReturnedToOnFumble !== undefined) {
+    newEventData.ball_returned_to_on_fumble = eventBallReturnedToOnFumble;
   }
 
   if (eventDistanceOnOffence || eventDistanceOnOffence === 0) {

@@ -85,6 +85,7 @@ export interface IFootballEvent {
   ball_picked_on?: number | null;
   ball_kicked_to?: number | null;
   ball_returned_to?: number | null;
+  ball_picked_on_fumble?: number | null;
   ball_returned_to_on_fumble?: number | null;
   offense_team?: number | null;
   event_qb?: number | null;
@@ -133,6 +134,7 @@ export interface IFootballEventWithPlayers {
   ball_picked_on?: number | null;
   ball_kicked_to?: number | null;
   ball_returned_to?: number | null;
+  ball_picked_on_fumble?: number | null;
   ball_returned_to_on_fumble?: number | null;
   distance_moved?: number | null;
   offense_team?: ITeam | null;

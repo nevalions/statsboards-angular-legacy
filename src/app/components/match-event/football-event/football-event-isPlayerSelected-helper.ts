@@ -4,7 +4,9 @@ import {
   getEventBallMovedOn,
   getEventBallOn,
   getEventBallPickedOn,
+  getEventBallPickedOnFumble,
   getEventBallReturnedTo,
+  getEventBallReturnedToOnFumble,
   getEventDefenceScorePlayer,
   getEventDeflectedPlayer,
   getEventDroppedPlayer,
@@ -28,6 +30,8 @@ import {
   isDefenceScore,
   isDeflectResult,
   isFlagResult,
+  isFumble,
+  isInterception,
   isInterceptionOrFumble,
   isInterceptResult,
   isKickOffPlay,
@@ -126,12 +130,25 @@ export function noKickBallToIsSelected(
   return false;
 }
 
-export function noPickBallOnIsSelected(
+export function noPickBallOnInterceptionIsSelected(
   eventsArray: FormArray,
   index: number,
 ): boolean {
-  if (isInterceptionOrFumble(eventsArray, index)) {
+  if (isInterception(eventsArray, index)) {
     const ballPickedOn = getEventBallPickedOn(eventsArray, index);
+    if (ballPickedOn === null || ballPickedOn === undefined) {
+      return true;
+    }
+  }
+  return false;
+}
+
+export function noPickBallOnFumbleIsSelected(
+  eventsArray: FormArray,
+  index: number,
+): boolean {
+  if (isFumble(eventsArray, index)) {
+    const ballPickedOn = getEventBallPickedOnFumble(eventsArray, index);
     if (ballPickedOn === null || ballPickedOn === undefined) {
       return true;
     }
@@ -148,6 +165,19 @@ export function noReturnBallToIsSelected(
     isReturnPlayOrKickOut(eventsArray, index)
   ) {
     const ballPickedOn = getEventBallReturnedTo(eventsArray, index);
+    if (ballPickedOn === null || ballPickedOn === undefined) {
+      return true;
+    }
+  }
+  return false;
+}
+
+export function noReturnBallToOnFumbleIsSelected(
+  eventsArray: FormArray,
+  index: number,
+): boolean {
+  if (isFumble(eventsArray, index)) {
+    const ballPickedOn = getEventBallReturnedToOnFumble(eventsArray, index);
     if (ballPickedOn === null || ballPickedOn === undefined) {
       return true;
     }

@@ -175,6 +175,16 @@ export function isReturnPlayOrKickOut(
   );
 }
 
+export function isFumble(eventsArray: FormArray, index: number): boolean {
+  const isFumble = getEventIsFumble(eventsArray, index);
+  return isFumble === true;
+}
+
+export function isInterception(eventsArray: FormArray, index: number): boolean {
+  const playResult = getEventPlayResult(eventsArray, index);
+  return playResult === IFootballPlayResult.PassIntercepted;
+}
+
 export function isInterceptionOrFumble(
   eventsArray: FormArray,
   index: number,

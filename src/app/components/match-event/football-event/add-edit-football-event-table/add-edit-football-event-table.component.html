@@ -704,9 +704,9 @@
 
               <!--BALL PICKED & BALL RETURN-->
               @if (getEventBallPickedOnFormControl(this.eventForm, this.arrayName, i); as control) {
-                @if (isInterceptionOrFumble(eventsArray, i)) {
+                @if (isInterception(eventsArray, i)) {
                   <div class="event-ballon-distance">
-                    <div [style.background-color]="isCautionColor(noPickBallOnIsSelected(eventsArray, i))">
+                    <div [style.background-color]="isCautionColor(noPickBallOnInterceptionIsSelected(eventsArray, i))">
                       @if (match.match_data?.field_length; as fieldLength) {
                         <app-input-numbers-with-increment-buttons
                           [label]="'Ball Picked'"
@@ -714,7 +714,6 @@
                           [min]="-((fieldLength / 2) - 1)"
                           [max]="fieldLength / 2"
                           (incrementEvent)="incrementBallOnPosition(getEventBallPickedOn(eventsArray, i), $event, control, eventsArray, i, fieldLength, eventBallPickedOnKey)"
-                          (valueChanged)="onKickBallChange(eventsArray, i, $event)"
                         ></app-input-numbers-with-increment-buttons>
                       }
                     </div>
@@ -868,6 +867,40 @@
                   }
                 }
               </div>
+
+              <!--BALL PICKED ON FUMBLE & BALL RETURN TO ON FUMBLE-->
+              @if (getEventBallPickedOnFumbleFormControl(this.eventForm, this.arrayName, i); as control) {
+                @if (isFumble(eventsArray, i)) {
+                  <div class="event-ballon-distance">
+                    <div [style.background-color]="isCautionColor(noPickBallOnFumbleIsSelected(eventsArray, i))">
+                      @if (match && match.match_data?.field_length; as fieldLength) {
+                        <app-input-numbers-with-increment-buttons
+                          [label]="'Ball Picked'"
+                          [control]="control"
+                          [min]="-((fieldLength / 2) - 1)"
+                          [max]="fieldLength / 2"
+                          (incrementEvent)="incrementBallOnPosition(getEventBallPickedOnFumble(eventsArray, i), $event, control, eventsArray, i, fieldLength, eventBallPickedOnKey)"
+                        ></app-input-numbers-with-increment-buttons>
+                      }
+                    </div>
+                    @if (getEventBallReturnedToOnFumbleFormControl(this.eventForm, this.arrayName, i); as control) {
+                      <div [style.background-color]="isCautionColor(noReturnBallToOnFumbleIsSelected(eventsArray, i))">
+                        @if (match && match.match_data?.field_length; as fieldLength) {
+                          <app-input-numbers-with-increment-buttons
+                            [label]="'Ball Returned'"
+                            [control]="control"
+                            [min]="-((fieldLength / 2) - 1)"
+                            [max]="fieldLength / 2"
+                            (incrementEvent)="incrementBallOnPosition(getEventBallReturnedToOnFumble(eventsArray, i), $event, control, eventsArray, i, fieldLength, eventBallReturnedToKey)"
+                            [plusOne]="-1"
+                            [minusOne]="1"
+                          ></app-input-numbers-with-increment-buttons>
+                        }
+                      </div>
+                    }
+                  </div>
+                }
+              }
 
               <!--EVENT DEFENCE SCORE PLAYER-->
               @if (getEventDefenceScorePlayerFormControl(this.eventForm, this.arrayName, i); as control) {

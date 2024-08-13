@@ -10,8 +10,6 @@ import {
   eventDirectionOptions,
   eventHashOptions,
   eventPlayTypeOptions,
-  IEventDirection,
-  IEventHash,
   IFootballEvent,
   IFootballEventWithPlayers,
   IFootballPlayResult,
@@ -44,9 +42,11 @@ import {
   eventBallOn,
   eventBallOnKey,
   eventBallPickedOn,
+  eventBallPickedOnFumble,
   eventBallPickedOnKey,
   eventBallReturnedTo,
   eventBallReturnedToKey,
+  eventBallReturnedToOnFumble,
   eventDefenceScorePlayer,
   eventDeflectedPlayer,
   eventDirection,
@@ -96,13 +96,16 @@ import {
   getEventBallOnFormControl,
   getEventBallPickedOn,
   getEventBallPickedOnFormControl,
+  getEventBallPickedOnFumble,
+  getEventBallPickedOnFumbleFormControl,
   getEventBallReturnedTo,
   getEventBallReturnedToFormControl,
+  getEventBallReturnedToOnFumble,
+  getEventBallReturnedToOnFumbleFormControl,
   getEventDefenceScorePlayer,
   getEventDefenceScorePlayerFormControl,
   getEventDeflectedPlayer,
   getEventDeflectedPlayerFormControl,
-  getEventDirection,
   getEventDirectionFormControl,
   getEventDistance,
   getEventDistanceFormControl,
@@ -116,7 +119,6 @@ import {
   getEventFumblePlayerFormControl,
   getEventFumbleRecoveredPlayer,
   getEventFumbleRecoveredPlayerFormControl,
-  getEventHash,
   getEventHashFormControl,
   getEventInterceptedPlayer,
   getEventInterceptedPlayerFormControl,
@@ -206,11 +208,13 @@ import {
   noKickOffPlayerSelected,
   noKickPlayerSelected,
   noPatOnePlayerSelected,
-  noPickBallOnIsSelected,
+  noPickBallOnFumbleIsSelected,
+  noPickBallOnInterceptionIsSelected,
   noPuntPlayerSelected,
   noQbSelected,
   noReceiverPlayerSelected,
   noReturnBallToIsSelected,
+  noReturnBallToOnFumbleIsSelected,
   noReturnPlayerSelected,
   noRunPlayerSelected,
   noSackPlayerSelected,
@@ -220,7 +224,8 @@ import {
   isDefenceScore,
   isDeflectResult,
   isFlagResult,
-  isInterceptionOrFumble,
+  isFumble,
+  isInterception,
   isInterceptResult,
   isKickOffPlay,
   isKickPlay,
@@ -229,7 +234,6 @@ import {
   isPassPlay,
   isPatOnePlay,
   isPuntPlay,
-  isQbPlay,
   isReturnPlay,
   isReturnPlayOrKickOut,
   isRunPlayResult,
@@ -247,12 +251,8 @@ import { FootballEventsHashButtonsComponent } from '../../../../shared/scoreboar
 import { FootballEventsStrongSideButtonsComponent } from '../../../../shared/scoreboards/admin-forms/football-events-strong-side-buttons/football-events-strong-side-buttons.component';
 import { FootballEventsPlayTypeButtonsComponent } from '../../../../shared/scoreboards/admin-forms/events-forms/football-events-play-type-buttons/football-events-play-type-buttons.component';
 import { FootballEventsPlayResultButtonsComponent } from '../../../../shared/scoreboards/admin-forms/events-forms/football-events-play-result-buttons/football-events-play-result-buttons.component';
-import { calculateDistanceMoved } from '../store/selectors';
 import { computeDistance } from '../football-event-calc-helpers';
-import {
-  createNewEvent,
-  createNewFlagEvent,
-} from '../football-event-create-new-event-helper';
+import { createNewEvent } from '../football-event-create-new-event-helper';
 import { extractEventData } from '../football-event-extract-event-data-helper';
 
 @Component({
@@ -522,6 +522,8 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
     const controlEventPickedOn = eventBallPickedOn(index);
     const controlEventKickedTo = eventBallKickedTo(index);
     const controlEventReturnTo = eventBallReturnedTo(index);
+    const controlEventPickedOnFumble = eventBallPickedOnFumble(index);
+    const controlEventReturnToOnFumble = eventBallReturnedToOnFumble(index);
     const controlEventDistanceMoved = eventDistanceMoved(index);
     const controlEventDistanceOnOffence = eventDistanceOnOffence(index);
 
@@ -570,6 +572,12 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
       [controlEventPickedOn]: new FormControl(event.ball_picked_on),
       [controlEventKickedTo]: new FormControl(event.ball_kicked_to),
       [controlEventReturnTo]: new FormControl(event.ball_returned_to),
+      [controlEventPickedOnFumble]: new FormControl(
+        event.ball_picked_on_fumble,
+      ),
+      [controlEventReturnToOnFumble]: new FormControl(
+        event.ball_returned_to_on_fumble,
+      ),
       [controlEventDistanceMoved]: new FormControl(event.distance_moved),
       [controlEventDistanceOnOffence]: new FormControl(
         event.distance_on_offence,
@@ -642,16 +650,16 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
         this.events = [...this.events, newEvent];
         this.populateFormArray();
       }
-      if (event === 'flag') {
-        const lastEvent = this.events[this.events.length - 1];
-        if (lastEvent && lastEvent.id === null) {
-          return;
-        }
-        this.newEventCount++;
-        const newEvent = createNewFlagEvent(lastEvent, this.match);
-        this.events = [...this.events, newEvent];
-        this.populateFormArray();
-      }
+      // if (event === 'flag') {
+      //   const lastEvent = this.events[this.events.length - 1];
+      //   if (lastEvent && lastEvent.id === null) {
+      //     return;
+      //   }
+      //   this.newEventCount++;
+      //   const newEvent = createNewFlagEvent(lastEvent, this.match);
+      //   this.events = [...this.events, newEvent];
+      //   this.populateFormArray();
+      // }
     } else {
       // console.log('create first football event');
       if (event === 'newEvent') {
@@ -660,12 +668,12 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
         this.events = [newEvent];
         this.populateFormArray();
       }
-      if (event === 'flag') {
-        const newEvent = createNewFlagEvent(null, this.match);
-        // console.log('firs event', newEvent);
-        this.events = [newEvent];
-        this.populateFormArray();
-      }
+      // if (event === 'flag') {
+      //   const newEvent = createNewFlagEvent(null, this.match);
+      //   // console.log('firs event', newEvent);
+      //   this.events = [newEvent];
+      //   this.populateFormArray();
+      // }
     }
   }
 
@@ -969,14 +977,11 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
   protected readonly isDistanceOrGoal = isDistanceOrGoal;
   protected readonly getEventDistance = getEventDistance;
   protected readonly getEventBallOn = getEventBallOn;
-  protected readonly incrementBallPositionRelativeCenter =
-    incrementBallPositionRelativeCenter;
   protected readonly getEventBallMovedOn = getEventBallMovedOn;
   protected readonly IFootballPlayType = IFootballPlayType;
   protected readonly getEventBallKickedTo = getEventBallKickedTo;
   protected readonly getEventBallKickedToFormControl =
     getEventBallKickedToFormControl;
-  protected readonly eventBallKickedTo = eventBallKickedTo;
   protected readonly eventBallKickedToKey = eventBallKickedToKey;
   protected readonly getEventBallReturnedToFormControl =
     getEventBallReturnedToFormControl;
@@ -988,21 +993,28 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
     getEventBallPickedOnFormControl;
   protected readonly getEventBallPickedOn = getEventBallPickedOn;
   protected readonly eventBallPickedOnKey = eventBallPickedOnKey;
-  protected readonly isInterceptionOrFumble = isInterceptionOrFumble;
-  protected readonly IEventHash = IEventHash;
-  protected readonly getEventHash = getEventHash;
   protected readonly toggleFootballEnumValue = toggleFootballEnumValue;
-  protected readonly IEventDirection = IEventDirection;
-  protected readonly getEventDirection = getEventDirection;
   protected readonly getEventStrongSideFormControl =
     getEventStrongSideFormControl;
   protected readonly noBallMovedIsSelected = noBallMovedIsSelected;
   protected readonly noKickBallToIsSelected = noKickBallToIsSelected;
   protected readonly noReturnBallToIsSelected = noReturnBallToIsSelected;
-  protected readonly noPickBallOnIsSelected = noPickBallOnIsSelected;
+  protected readonly noPickBallOnInterceptionIsSelected =
+    noPickBallOnInterceptionIsSelected;
   protected readonly noBallOnIsSelected = noBallOnIsSelected;
-  protected readonly isQbPlay = isQbPlay;
   protected readonly isPassPlay = isPassPlay;
-  protected readonly calculateDistanceMoved = calculateDistanceMoved;
   protected readonly computeDistance = computeDistance;
+  protected readonly getEventBallPickedOnFumbleFormControl =
+    getEventBallPickedOnFumbleFormControl;
+  protected readonly isFumble = isFumble;
+  protected readonly noPickBallOnFumbleIsSelected =
+    noPickBallOnFumbleIsSelected;
+  protected readonly getEventBallPickedOnFumble = getEventBallPickedOnFumble;
+  protected readonly noReturnBallToOnFumbleIsSelected =
+    noReturnBallToOnFumbleIsSelected;
+  protected readonly getEventBallReturnedToOnFumbleFormControl =
+    getEventBallReturnedToOnFumbleFormControl;
+  protected readonly getEventBallReturnedToOnFumble =
+    getEventBallReturnedToOnFumble;
+  protected readonly isInterception = isInterception;
 }
