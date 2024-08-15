@@ -3,6 +3,7 @@ import {
   isBallMovePossible,
   isDefenceScore,
   isDeflectResult,
+  isDownDistancePlay,
   isFlagResult,
   isInterceptionOrFumble,
   isInterceptResult,
@@ -187,4 +188,5 @@ export class FootballEventShortViewComponent {
   protected readonly noBallOnIsSelected = noBallOnIsSelected;
   protected readonly isBallMovePossible = isBallMovePossible;
   protected readonly noBallMovedIsSelected = noBallMovedIsSelected;
+  protected readonly isDownDistancePlay = isDownDistancePlay;
 }

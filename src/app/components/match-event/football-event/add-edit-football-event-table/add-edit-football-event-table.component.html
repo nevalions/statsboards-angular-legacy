@@ -119,7 +119,8 @@
 
               <!--EVENT DOWN-->
               <div class="event-table-cell">
-                <div class="event-down-distance">
+                <div class="event-down-distance"
+                     [style.background-color]="isMaxCautionColor(noDownSelected(eventsArray, i))">
                   @if (getEventDownFormControl(this.eventForm, this.arrayName, i); as control) {
                     <div class="event-down">
                       <app-input-number-with-buttons
@@ -139,7 +140,8 @@
                   @if (getEventDistanceFormControl(this.eventForm, this.arrayName, i); as control) {
                     @if (isDistanceOrGoal(
                       getEventDistance(eventsArray, i), getEventBallOn(eventsArray, i), getEventPlayType(eventsArray, i))) {
-                      <div class="event-distance">
+                      <div class="event-distance"
+                           [style.background-color]="isMaxCautionColor(noDistanceSelected(eventsArray, i))">
                         <app-input-number-with-buttons
                           [label]="'Dist'"
                           [control]="control"
@@ -709,7 +711,7 @@
                 @if (isInterception(eventsArray, i)) {
                   <div class="event-ballon-distance">
                     <div [style.background-color]="isCautionColor(noPickBallOnInterceptionIsSelected(eventsArray, i))">
-                      @if (match.match_data?.field_length; as fieldLength) {
+                      @if (match && match.match_data?.field_length; as fieldLength) {
                         <app-input-numbers-with-increment-buttons
                           [label]="'Ball Picked'"
                           [control]="control"

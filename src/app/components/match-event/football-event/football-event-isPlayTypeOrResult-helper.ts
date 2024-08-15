@@ -25,6 +25,7 @@ export function isPrevBallMovedEqualCurrentBallOn(
   const currentBallOn = getEventBallOn(eventArray, index);
   const prevBallMovedOn = getEventBallMovedOn(eventArray, index - 1);
   const prevPlayType = getEventPlayType(eventArray, index - 1);
+  const prevIsFumble = getEventIsFumble(eventArray, index - 1);
   if (currentBallOn === prevBallMovedOn) {
     return true;
   } else if (
@@ -32,6 +33,8 @@ export function isPrevBallMovedEqualCurrentBallOn(
     prevScoreResult ||
     prevPlayType === IFootballPlayType.Kickoff
   ) {
+    return true;
+  } else if (prevIsFumble === true) {
     return true;
   } else {
     return false;
@@ -48,12 +51,14 @@ export function isNextBallOnEqualCurrentBallMoved(
   const currentBallMovedOn = getEventBallMovedOn(eventArray, index);
   const nextBallOn = getEventBallOn(eventArray, index + 1);
   const currentPlayType = getEventPlayType(eventArray, index);
+  const currentIsFumble = getEventIsFumble(eventArray, index);
   if (currentBallMovedOn === nextBallOn) {
     return true;
   } else if (
     currentTeam?.id !== nextTeam?.id ||
     currentScoreResult ||
-    currentPlayType === IFootballPlayType.Kickoff
+    currentPlayType === IFootballPlayType.Kickoff ||
+    currentIsFumble === true
   ) {
     return true;
   } else {
@@ -67,6 +72,19 @@ export function isQbPlay(eventsArray: FormArray, index: number): boolean {
     playType === IFootballPlayType.Run ||
     playType === IFootballPlayType.Pass ||
     playType === IFootballPlayType.PatTwo
+  );
+}
+
+export function isDownDistancePlay(
+  eventsArray: FormArray,
+  index: number,
+): boolean {
+  const playType = getEventPlayType(eventsArray, index);
+  return (
+    playType === IFootballPlayType.Run ||
+    playType === IFootballPlayType.Pass ||
+    playType === IFootballPlayType.Punt ||
+    playType === IFootballPlayType.Kick
   );
 }
 

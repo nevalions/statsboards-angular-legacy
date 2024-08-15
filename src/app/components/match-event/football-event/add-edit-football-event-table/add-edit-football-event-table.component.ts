@@ -201,6 +201,8 @@ import {
   noBallOnIsSelected,
   noDefenceScorePlayerSelected,
   noDeflectPlayerSelected,
+  noDistanceSelected,
+  noDownSelected,
   noDroppedPlayerSelected,
   noFlagPlayerSelected,
   noInterceptedPlayerSelected,
@@ -1017,4 +1019,6 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
   protected readonly getEventBallReturnedToOnFumble =
     getEventBallReturnedToOnFumble;
   protected readonly isInterception = isInterception;
+  protected readonly noDownSelected = noDownSelected;
+  protected readonly noDistanceSelected = noDistanceSelected;
 }

@@ -44,12 +44,15 @@ export function determineNewEventQb(
 export function determineNewEventDown(
   lastEvent: IFootballEventWithPlayers | null | undefined,
 ): number | null {
+  console.log('last event down', lastEvent?.event_down);
   if (!lastEvent?.event_down) return null;
   if (lastEvent.play_result === IFootballPlayResult.Flag)
     return lastEvent.event_down;
-  return lastEvent.event_down < 4
-    ? lastEvent.event_down + 1
-    : lastEvent.event_down;
+  if (lastEvent.event_down < 4) {
+    console.log('new event down plus one', lastEvent?.event_down + 1);
+    return lastEvent.event_down + 1;
+  }
+  return lastEvent.event_down;
 }
 
 export function determineNewEventPlayType(
@@ -104,11 +107,17 @@ export function determineNewEventDownDistanceOnCompute(
   if (
     compDistance !== null &&
     compDistance !== undefined &&
-    lastEvent?.event_distance
+    lastEvent?.event_distance &&
+    lastEvent.event_down
   ) {
-    if (compDistance > 0) {
+    if (compDistance > 0 && lastEvent.event_down < 4) {
       return {
-        newEventDown: lastEvent.event_down ?? null,
+        newEventDown: lastEvent.event_down + 1,
+        newEventDistance: compDistance,
+      };
+    } else if (compDistance > 0 && lastEvent?.event_down === 4) {
+      return {
+        newEventDown: lastEvent.event_down,
         newEventDistance: compDistance,
       };
     } else {

@@ -926,6 +926,7 @@ export function handleTurnoverOnFumble(
   let newEventBallOn = eventTurnoverContext.newEventBallOn;
   let newEventBallMovedOn = eventTurnoverContext.newEventBallMovedOn;
   let newEventQb = eventTurnoverContext.newEventQb;
+  console.log('fumble');
 
   if (
     lastEvent.ball_returned_to_on_fumble &&
@@ -934,6 +935,11 @@ export function handleTurnoverOnFumble(
   ) {
     newEventBallOn = -lastEvent.ball_returned_to_on_fumble;
     newEventBallMovedOn = -lastEvent.ball_returned_to_on_fumble;
+    console.log(
+      'fumble recovered by defence',
+      newEventBallOn,
+      newEventBallMovedOn,
+    );
     return {
       newEventDown: 1,
       newEventDistance: 10,
@@ -949,7 +955,13 @@ export function handleTurnoverOnFumble(
     lastEvent.fumble_recovered_player?.match_player.team_id !== newEventTeam?.id
   ) {
     newEventBallOn = lastEvent.ball_returned_to_on_fumble;
+    newEventBallMovedOn = lastEvent.ball_returned_to_on_fumble;
     newEventTeam = lastEvent.offense_team;
+    console.log(
+      'fumble recovered by offence',
+      newEventBallOn,
+      newEventBallMovedOn,
+    );
     return {
       newEventDown: null, // computeDown
       newEventDistance: null, // computeDistance

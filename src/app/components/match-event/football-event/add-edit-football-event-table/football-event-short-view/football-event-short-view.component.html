@@ -101,6 +101,14 @@
         <div
           class="event-short-view">{{ down }}&nbsp;&&nbsp;{{ isDistanceOrGoal(dist, getBallOn(eventsArray, i), getEventPlayType(eventsArray, i)) }}
         </div>
+      } @else {
+        @if (isDownDistancePlay(eventsArray, i)) {
+          <div class="event-short-view" [style]="{ 'background-color': ICautionColors.MinCaution}">No Distance</div>
+        }
+      }
+    } @else {
+      @if (isDownDistancePlay(eventsArray, i)) {
+        <div class="event-short-view" [style]="{ 'background-color': ICautionColors.MinCaution}">No Down</div>
       }
     }
     @if (getEventPlayType(eventsArray, i); as playType) {

@@ -9,6 +9,8 @@ import {
   getEventBallReturnedToOnFumble,
   getEventDefenceScorePlayer,
   getEventDeflectedPlayer,
+  getEventDistance,
+  getEventDown,
   getEventDroppedPlayer,
   getEventFlaggedPlayer,
   getEventInterceptedPlayer,
@@ -29,6 +31,7 @@ import {
   isBallMovePossible,
   isDefenceScore,
   isDeflectResult,
+  isDownDistancePlay,
   isFlagResult,
   isFumble,
   isInterception,
@@ -86,6 +89,29 @@ export function isCautionColorResult(eventsArray: FormArray, index: number) {
 export function noQbSelected(eventsArray: FormArray, index: number): boolean {
   if (isQbPlay(eventsArray, index)) {
     const player = getEventQb(eventsArray, index);
+    if (!player) {
+      return true;
+    }
+  }
+  return false;
+}
+
+export function noDownSelected(eventsArray: FormArray, index: number): boolean {
+  if (isDownDistancePlay(eventsArray, index)) {
+    const player = getEventDown(eventsArray, index);
+    if (!player) {
+      return true;
+    }
+  }
+  return false;
+}
+
+export function noDistanceSelected(
+  eventsArray: FormArray,
+  index: number,
+): boolean {
+  if (isDownDistancePlay(eventsArray, index)) {
+    const player = getEventDistance(eventsArray, index);
     if (!player) {
       return true;
     }
