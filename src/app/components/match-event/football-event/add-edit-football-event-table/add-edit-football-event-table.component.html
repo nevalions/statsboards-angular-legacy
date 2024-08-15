@@ -204,6 +204,7 @@
 
               <!--EVENT PLAY TYPE-->
               @if (getEventPlayTypeFormControl(this.eventForm, this.arrayName, i); as control) {
+                <hr>
                 <div class="event-table-cell">
                   @if (isMobile) {
                     @if (!isKickOffPlay(eventsArray, i)) {
@@ -228,7 +229,7 @@
                     ></app-search-list-of-strings>
                   }
                 </div>
-
+                <hr>
               }
 
               <!--EVENT KICK PLAYER-->
@@ -337,6 +338,7 @@
 
               <!--EVENT PLAY RESULT-->
               @if (getEventPlayResultFormControl(this.eventForm, this.arrayName, i); as control) {
+                <hr>
                 <div class="event-table-cell">
                   @if (isMobile) {
                     <app-football-events-play-result-buttons
@@ -360,6 +362,7 @@
                     ></app-search-list-of-strings>
                   }
                 </div>
+                <hr>
               }
 
               <!--EVENT RUN PLAYER-->
