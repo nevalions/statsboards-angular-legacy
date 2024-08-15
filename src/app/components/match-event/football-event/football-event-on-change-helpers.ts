@@ -43,7 +43,11 @@ import {
   setScorePlayer,
 } from './football-event-helpers';
 import { ITeam } from '../../../type/team.type';
-import { calculateDistance, isFirstDown } from './football-event-calc-helpers';
+import {
+  calculateDistance,
+  isFirstDown,
+  isTenYardsPassed,
+} from './football-event-calc-helpers';
 import {
   patchFormGroupKeyValue,
   setArrayKeyIndexValue,
@@ -619,9 +623,8 @@ export function incrementBallPositionRelativeCenter(
 export function handleBasicTeamChange(
   match: IMatchWithFullData | null,
   lastEvent: IFootballEventWithPlayers,
-): { newEventTeam: ITeam | null; newEventQb: any } {
+): ITeam | null {
   let newEventTeam: ITeam | null = null;
-  let newEventQb = null;
 
   if (match && match.teams_data?.team_a && match.teams_data?.team_b) {
     const homeTeam = match.teams_data.team_a;
@@ -633,6 +636,26 @@ export function handleBasicTeamChange(
     }
   }
 
+  return newEventTeam;
+}
+
+export function handleBasicTeamAndQbChange(
+  match: IMatchWithFullData | null,
+  lastEvent: IFootballEventWithPlayers,
+): { newEventTeam: ITeam | null; newEventQb: IPlayerInMatchFullData | null } {
+  let newEventTeam = handleBasicTeamChange(match, lastEvent);
+  let newEventQb: IPlayerInMatchFullData | null = null;
+
+  // if (match && match.teams_data?.team_a && match.teams_data?.team_b) {
+  //   const homeTeam = match.teams_data.team_a;
+  //   const awayTeam = match.teams_data.team_b;
+  //   if (lastEvent.offense_team?.id === homeTeam.id) {
+  //     newEventTeam = awayTeam;
+  //   } else if (lastEvent.offense_team?.id === awayTeam.id) {
+  //     newEventTeam = homeTeam;
+  //   }
+  // }
+
   return { newEventTeam, newEventQb };
 }
 
@@ -640,13 +663,16 @@ export function handleTeamChangeOnTouchBack(
   match: IMatchWithFullData | null,
   lastEvent: IFootballEventWithPlayers,
 ): {
-  newEventBallOn: number;
-  newEventDown: number;
-  newEventDistance: number;
+  newEventBallOn: number | null;
+  newEventDown: number | null;
+  newEventDistance: number | null;
   newEventTeam: ITeam | null;
-  newEventQb: any;
+  newEventQb: IPlayerInMatchFullData | null;
 } {
-  const { newEventTeam, newEventQb } = handleBasicTeamChange(match, lastEvent);
+  const { newEventTeam, newEventQb } = handleBasicTeamAndQbChange(
+    match,
+    lastEvent,
+  );
 
   const newEventBallOn = -20;
   const newEventDown = 1;
@@ -661,6 +687,289 @@ export function handleTeamChangeOnTouchBack(
   };
 }
 
+export function handleTurnoverOnTouchBack(
+  lastEvent: IFootballEventWithPlayers,
+  match: IMatchWithFullData | null,
+): {
+  newEventDown: number | null;
+  newEventDistance: number | null;
+  newEventBallOn: number | null;
+  newEventBallMovedOn: number | null;
+  newEventTeam: ITeam | null;
+  newEventQb: IPlayerInMatchFullData | null;
+} {
+  let newEventTeam = handleBasicTeamChange(match, lastEvent);
+
+  return {
+    newEventDown: 1,
+    newEventDistance: 10,
+    newEventBallOn: -20,
+    newEventBallMovedOn: -20,
+    newEventTeam,
+    newEventQb: null,
+  };
+}
+
+export function handleTurnoverOnInterception(
+  match: IMatchWithFullData | null,
+  lastEvent: IFootballEventWithPlayers,
+  eventTurnoverContext: {
+    newEventDown: number | null;
+    newEventDistance: number | null;
+    newEventBallOn: number | null;
+    newEventBallMovedOn: number | null;
+    newEventQb: IPlayerInMatchFullData | null;
+  },
+): {
+  newEventDown: number | null;
+  newEventDistance: number | null;
+  newEventBallOn: number | null;
+  newEventBallMovedOn: number | null;
+  newEventTeam: ITeam | null;
+  newEventQb: IPlayerInMatchFullData | null;
+} {
+  let newEventTeam = handleBasicTeamChange(match, lastEvent);
+  let newEventDown = eventTurnoverContext.newEventDown;
+  let newEventDistance = eventTurnoverContext.newEventDistance;
+  let newEventBallOn = eventTurnoverContext.newEventBallOn;
+  let newEventBallMovedOn = eventTurnoverContext.newEventBallMovedOn;
+  let newEventQb = eventTurnoverContext.newEventQb;
+
+  if (lastEvent.play_result === IFootballPlayResult.PassIntercepted) {
+    if (lastEvent.ball_returned_to && !lastEvent.is_fumble) {
+      return {
+        newEventDown: 1,
+        newEventDistance: 10,
+        newEventBallOn: -lastEvent.ball_returned_to,
+        newEventBallMovedOn: -lastEvent.ball_returned_to,
+        newEventTeam,
+        newEventQb: null,
+      };
+    }
+    if (!lastEvent.is_fumble) {
+      return {
+        newEventDown: 1,
+        newEventDistance: 10,
+        newEventBallOn: null,
+        newEventBallMovedOn: null,
+        newEventTeam,
+        newEventQb: null,
+      };
+    }
+
+    if (lastEvent.is_fumble) {
+      return handleTurnoverOnFumble(match, lastEvent, eventTurnoverContext);
+    }
+  }
+
+  return {
+    newEventDown,
+    newEventDistance,
+    newEventBallOn,
+    newEventBallMovedOn,
+    newEventTeam,
+    newEventQb,
+  };
+}
+
+export function handleTurnoverOnReturn(
+  match: IMatchWithFullData | null,
+  lastEvent: IFootballEventWithPlayers,
+  eventTurnoverContext: {
+    newEventDown: number | null;
+    newEventDistance: number | null;
+    newEventBallOn: number | null;
+    newEventBallMovedOn: number | null;
+    newEventQb: IPlayerInMatchFullData | null;
+  },
+): {
+  newEventDown: number | null;
+  newEventDistance: number | null;
+  newEventBallOn: number | null;
+  newEventBallMovedOn: number | null;
+  newEventTeam: ITeam | null;
+  newEventQb: IPlayerInMatchFullData | null;
+} {
+  let newEventTeam = handleBasicTeamChange(match, lastEvent);
+  let newEventDown = eventTurnoverContext.newEventDown;
+  let newEventDistance = eventTurnoverContext.newEventDistance;
+  let newEventBallOn = eventTurnoverContext.newEventBallOn;
+  let newEventBallMovedOn = eventTurnoverContext.newEventBallMovedOn;
+  let newEventQb = eventTurnoverContext.newEventQb;
+
+  if (
+    lastEvent.play_result === IFootballPlayResult.PuntReturn ||
+    lastEvent.play_result === IFootballPlayResult.KickOffReturn ||
+    lastEvent.play_result === IFootballPlayResult.KickReturn ||
+    lastEvent.play_result === IFootballPlayResult.KickedOut
+  ) {
+    if (lastEvent.ball_returned_to && !lastEvent.is_fumble) {
+      return {
+        newEventDown: 1,
+        newEventDistance: 10,
+        newEventBallOn: -lastEvent.ball_returned_to,
+        newEventBallMovedOn: -lastEvent.ball_returned_to,
+        newEventTeam,
+        newEventQb: null,
+      };
+    }
+    if (!lastEvent.is_fumble) {
+      return {
+        newEventDown: 1,
+        newEventDistance: 10,
+        newEventBallOn: null,
+        newEventBallMovedOn: null,
+        newEventTeam,
+        newEventQb: null,
+      };
+    }
+
+    if (lastEvent.is_fumble) {
+      return handleTurnoverOnFumble(match, lastEvent, eventTurnoverContext);
+    }
+  }
+
+  return {
+    newEventDown,
+    newEventDistance,
+    newEventBallOn,
+    newEventBallMovedOn,
+    newEventTeam,
+    newEventQb,
+  };
+}
+
+export function handleTurnoverOnDown(
+  match: IMatchWithFullData | null,
+  lastEvent: IFootballEventWithPlayers,
+  eventTurnoverContext: {
+    newEventDown: number | null;
+    newEventDistance: number | null;
+    newEventBallOn: number | null;
+    newEventBallMovedOn: number | null;
+    newEventQb: IPlayerInMatchFullData | null;
+  },
+): {
+  newEventDown: number | null;
+  newEventDistance: number | null;
+  newEventBallOn: number | null;
+  newEventBallMovedOn: number | null;
+  newEventTeam: ITeam | null;
+  newEventQb: IPlayerInMatchFullData | null;
+} {
+  let newEventTeam = handleBasicTeamChange(match, lastEvent);
+  let newEventDown = eventTurnoverContext.newEventDown;
+  let newEventDistance = eventTurnoverContext.newEventDistance;
+  let newEventBallOn = eventTurnoverContext.newEventBallOn;
+  let newEventBallMovedOn = eventTurnoverContext.newEventBallMovedOn;
+  let newEventQb = eventTurnoverContext.newEventQb;
+
+  if (
+    !isTenYardsPassed(lastEvent) &&
+    lastEvent.event_down === 4 &&
+    (lastEvent.play_type === IFootballPlayType.Run ||
+      lastEvent.play_type === IFootballPlayType.Pass)
+  ) {
+    if (lastEvent.ball_moved_to) {
+      newEventBallOn = -lastEvent.ball_moved_to;
+      newEventDown = 1;
+      newEventDistance = 10;
+      return {
+        newEventBallOn,
+        newEventBallMovedOn: newEventBallOn,
+        newEventDown,
+        newEventDistance,
+        newEventTeam,
+        newEventQb: null,
+      };
+    }
+    return {
+      newEventBallOn: null,
+      newEventBallMovedOn: null,
+      newEventDown: 1,
+      newEventDistance: 10,
+      newEventQb: null,
+      newEventTeam,
+    };
+  }
+  return {
+    newEventDown,
+    newEventDistance,
+    newEventBallOn,
+    newEventBallMovedOn,
+    newEventTeam,
+    newEventQb,
+  };
+}
+
+export function handleTurnoverOnFumble(
+  match: IMatchWithFullData | null,
+  lastEvent: IFootballEventWithPlayers,
+  eventTurnoverContext: {
+    newEventDown: number | null;
+    newEventDistance: number | null;
+    newEventBallOn: number | null;
+    newEventBallMovedOn: number | null;
+    newEventQb: IPlayerInMatchFullData | null;
+  },
+): {
+  newEventDown: number | null;
+  newEventDistance: number | null;
+  newEventBallOn: number | null;
+  newEventBallMovedOn: number | null;
+  newEventTeam: ITeam | null;
+  newEventQb: IPlayerInMatchFullData | null;
+} {
+  let newEventTeam = handleBasicTeamChange(match, lastEvent);
+  let newEventDown = eventTurnoverContext.newEventDown;
+  let newEventDistance = eventTurnoverContext.newEventDistance;
+  let newEventBallOn = eventTurnoverContext.newEventBallOn;
+  let newEventBallMovedOn = eventTurnoverContext.newEventBallMovedOn;
+  let newEventQb = eventTurnoverContext.newEventQb;
+
+  if (
+    lastEvent.ball_returned_to_on_fumble &&
+    lastEvent.is_fumble &&
+    lastEvent.fumble_recovered_player?.match_player.team_id === newEventTeam?.id
+  ) {
+    newEventBallOn = -lastEvent.ball_returned_to_on_fumble;
+    newEventBallMovedOn = -lastEvent.ball_returned_to_on_fumble;
+    return {
+      newEventDown: 1,
+      newEventDistance: 10,
+      newEventBallOn,
+      newEventBallMovedOn,
+      newEventTeam,
+      newEventQb,
+    };
+  } else if (
+    lastEvent.offense_team &&
+    lastEvent.ball_returned_to_on_fumble &&
+    lastEvent.is_fumble &&
+    lastEvent.fumble_recovered_player?.match_player.team_id !== newEventTeam?.id
+  ) {
+    newEventBallOn = lastEvent.ball_returned_to_on_fumble;
+    newEventTeam = lastEvent.offense_team;
+    return {
+      newEventDown: null, // computeDown
+      newEventDistance: null, // computeDistance
+      newEventBallOn,
+      newEventBallMovedOn,
+      newEventTeam,
+      newEventQb,
+    };
+  }
+
+  return {
+    newEventDown,
+    newEventDistance,
+    newEventBallOn,
+    newEventBallMovedOn,
+    newEventTeam,
+    newEventQb,
+  };
+}
+
 export function handleTeamChangeOnInterception(
   match: IMatchWithFullData | null,
   lastEvent: IFootballEventWithPlayers,
@@ -668,7 +977,10 @@ export function handleTeamChangeOnInterception(
   newEventBallOn: number | null;
   newEventTeam: ITeam | null;
 } {
-  const { newEventTeam, newEventQb } = handleBasicTeamChange(match, lastEvent);
+  const { newEventTeam, newEventQb } = handleBasicTeamAndQbChange(
+    match,
+    lastEvent,
+  );
   let newEventBallOn: number | null = null;
   if (
     lastEvent.ball_returned_to &&
@@ -681,7 +993,6 @@ export function handleTeamChangeOnInterception(
       newEventTeam,
     };
   }
-
   return {
     newEventBallOn,
     newEventTeam,
@@ -695,7 +1006,10 @@ export function handleTeamChangeOnFumble(
   newEventBallOn: number | null;
   newEventTeam: ITeam | null;
 } {
-  let { newEventTeam, newEventQb } = handleBasicTeamChange(match, lastEvent);
+  let { newEventTeam, newEventQb } = handleBasicTeamAndQbChange(
+    match,
+    lastEvent,
+  );
   let newEventBallOn: number | null = null;
   if (
     lastEvent.ball_returned_to &&
@@ -733,17 +1047,13 @@ export function handleTeamChangeOnDown(
   newEventDistance: number | null;
   newEventTeam: ITeam | null;
 } {
-  const { newEventTeam, newEventQb } = handleBasicTeamChange(match, lastEvent);
+  const { newEventTeam, newEventQb } = handleBasicTeamAndQbChange(
+    match,
+    lastEvent,
+  );
   let newEventBallOn: number | null = null;
   let newEventDown: number | null = null;
   let newEventDistance: number | null = null;
-  // console.log(
-  //   'handleOnDownChange',
-  //   lastEvent.distance_moved,
-  //   lastEvent.event_distance,
-  //   lastEvent.event_down,
-  // );
-
   if (
     lastEvent.event_down === 4 &&
     (lastEvent.play_type === IFootballPlayType.Run ||

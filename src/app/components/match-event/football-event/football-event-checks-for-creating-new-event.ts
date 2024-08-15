@@ -1,4 +1,5 @@
 import {
+  IEventDirection,
   IEventHash,
   IFootballEventWithPlayers,
   IFootballPlayResult,
@@ -20,6 +21,12 @@ export function determineNewEventQtr(
   lastEvent: IFootballEventWithPlayers | null | undefined,
 ): number | null {
   return lastEvent?.event_qtr ?? 1;
+}
+
+export function determineNewEventDistance(
+  lastEvent: IFootballEventWithPlayers | null | undefined,
+): number | null {
+  return lastEvent?.event_distance ?? null;
 }
 
 export function determineNewEventTeam(
@@ -65,7 +72,7 @@ export function determineNewEventBallOn(
   return null;
 }
 
-export function computeCompDistance(
+export function computeEventDistance(
   lastEvent: IFootballEventWithPlayers | null | undefined,
   match: IMatchWithFullData | undefined | null,
 ): number | null {
@@ -90,50 +97,32 @@ export function computeCompDistance(
     : null;
 }
 
-// export function calculateNewEventDetails(
-//   lastEvent: IFootballEventWithPlayers | null,
-// ): {
-//   newEventNumber: number;
-//   newEventPlayType: IFootballPlayType | null;
-// } {
-//   if (lastEvent && lastEvent.event_number) {
-//     return {
-//       newEventNumber: lastEvent.event_number + 1,
-//       newEventPlayType: lastEvent.play_type,
-//     };
-//   } else {
-//     return {
-//       newEventNumber: 1,
-//       newEventPlayType: IFootballPlayType.Kickoff,
-//     };
-//   }
-// }
-
-export function computeDownDistance(
+export function determineNewEventDownDistanceOnCompute(
   lastEvent: IFootballEventWithPlayers | null | undefined,
-  match: IMatchWithFullData | undefined | null,
-): number | null {
+  compDistance: number | null,
+): { newEventDown: number | null; newEventDistance: number | null } {
   if (
-    lastEvent &&
-    match &&
-    lastEvent.ball_on &&
-    lastEvent.ball_moved_to &&
-    lastEvent.event_distance &&
-    match.match_data?.field_length
+    compDistance !== null &&
+    compDistance !== undefined &&
+    lastEvent?.event_distance
   ) {
-    return computeDistanceForDownDistance(
-      lastEvent.ball_on,
-      lastEvent.ball_moved_to,
-      lastEvent.event_distance,
-      match.match_data.field_length / 2,
-    );
+    if (compDistance > 0) {
+      return {
+        newEventDown: lastEvent.event_down ?? null,
+        newEventDistance: compDistance,
+      };
+    } else {
+      return { newEventDown: 1, newEventDistance: 10 };
+    }
   }
-  return null;
+  return {
+    newEventDown: lastEvent?.event_down ?? null,
+    newEventDistance: lastEvent?.event_distance ?? null,
+  };
 }
 
 export function handleScoringResults(
   lastEvent: IFootballEventWithPlayers | null | undefined,
-  match: IMatchWithFullData | undefined | null,
   eventContext: {
     newEventDown: number | null;
     newEventDistance: number | null;
@@ -143,7 +132,15 @@ export function handleScoringResults(
     newEventPlayType: IFootballPlayType | null;
     newEventQb: IPlayerInMatchFullData | null;
   },
-): void {
+): {
+  newEventDown: number | null;
+  newEventDistance: number | null;
+  newEventBallOn: number | null;
+  newEventBallMovedOn: number | null;
+  newEventTeam: ITeam | null;
+  newEventPlayType: IFootballPlayType | null;
+  newEventQb: IPlayerInMatchFullData | null;
+} {
   if (lastEvent?.score_result) {
     switch (lastEvent.score_result) {
       case IFootballScoreResult.Td:
@@ -152,13 +149,11 @@ export function handleScoringResults(
         eventContext.newEventDistance = null;
         eventContext.newEventBallOn = 3;
         break;
-      case IFootballScoreResult.KickGood:
-        eventContext.newEventPlayType = IFootballPlayType.Kickoff;
-        break;
       case IFootballScoreResult.KickMissed:
         eventContext.newEventDown = 1;
         eventContext.newEventDistance = 10;
         break;
+      case IFootballScoreResult.KickGood:
       case IFootballScoreResult.PatOneMissed:
       case IFootballScoreResult.PatOneGood:
       case IFootballScoreResult.PatOneReturn:
@@ -175,57 +170,86 @@ export function handleScoringResults(
         break;
     }
   }
+  return eventContext;
 }
 
 export function handlePlayTypeSpecifics(
   newEventPlayType: IFootballPlayType | null,
-  eventContext: {
+  playTypeChangeContext: {
     newEventDown: number | null;
     newEventDistance: number | null;
     newEventQb: IPlayerInMatchFullData | null;
     newEventBallOn: number | null;
   },
-): void {
+): {
+  newEventDown: number | null;
+  newEventDistance: number | null;
+  newEventQb: IPlayerInMatchFullData | null;
+  newEventBallOn: number | null;
+} {
   switch (newEventPlayType) {
     case IFootballPlayType.Kickoff:
-      eventContext.newEventDistance = null;
-      eventContext.newEventDown = null;
-      eventContext.newEventQb = null;
-      eventContext.newEventBallOn = -35;
+      // console.log('kickoff', newEventPlayType);
+      playTypeChangeContext.newEventDistance = null;
+      playTypeChangeContext.newEventDown = null;
+      playTypeChangeContext.newEventQb = null;
+      playTypeChangeContext.newEventBallOn = -35;
+      // console.log('kickoff new data', playTypeChangeContext);
       break;
     case IFootballPlayType.PatOne:
     case IFootballPlayType.PatTwo:
-      eventContext.newEventDistance = null;
-      eventContext.newEventDown = null;
-      eventContext.newEventQb = null;
-      eventContext.newEventBallOn = 3;
+      playTypeChangeContext.newEventDistance = null;
+      playTypeChangeContext.newEventDown = null;
+      playTypeChangeContext.newEventQb = null;
+      playTypeChangeContext.newEventBallOn = 3;
       break;
   }
+  return playTypeChangeContext;
 }
 
 export function handleEventHash(
   lastEvent: IFootballEventWithPlayers | null | undefined,
   newEventTeam: ITeam | null,
   newEventPlayType: IFootballPlayType | null,
-  newEventHash: IEventHash | null,
-): void {
-  const playDirection = lastEvent?.play_direction || null;
-
-  // if (lastEvent?.event_hash) {
-  //   if (
-  //     (playDirection === PlayDirection.LEFT_TO_RIGHT && lastEvent.event_hash === IEventHash.Left) ||
-  //     (playDirection === PlayDirection.RIGHT_TO_LEFT && lastEvent.event_hash === IEventHash.Right)
-  //   ) {
-  //     newEventHash = IEventHash.Left;
-  //   } else if (
-  //     (playDirection === PlayDirection.LEFT_TO_RIGHT && lastEvent.event_hash === IEventHash.Right) ||
-  //     (playDirection === PlayDirection.RIGHT_TO_LEFT && lastEvent.event_hash === IEventHash.Left)
-  //   ) {
-  //     newEventHash = IEventHash.Right;
-  //   } else {
-  //     newEventHash = IEventHash.Middle;
-  //   }
-  // }
+): IEventHash | null {
+  if (
+    lastEvent &&
+    lastEvent.offense_team === newEventTeam &&
+    newEventPlayType !== IFootballPlayType.Kickoff
+  ) {
+    if (
+      lastEvent.play_result === IFootballPlayResult.Run ||
+      lastEvent.play_result === IFootballPlayResult.PassCompleted
+    ) {
+      if (lastEvent.play_direction === IEventDirection.LeftWide) {
+        return IEventHash.Left;
+      }
+      if (lastEvent.play_direction === IEventDirection.RightWide) {
+        return IEventHash.Right;
+      }
+      if (
+        lastEvent.event_hash === IEventHash.Left &&
+        lastEvent.play_direction === IEventDirection.Left
+      ) {
+        return IEventHash.Left;
+      }
+      if (
+        lastEvent.event_hash === IEventHash.Right &&
+        lastEvent.play_direction === IEventDirection.Right
+      ) {
+        return IEventHash.Right;
+      }
+      if (
+        lastEvent.event_hash === IEventHash.Middle &&
+        lastEvent.play_direction === IEventDirection.Middle
+      ) {
+        return IEventHash.Middle;
+      }
+      return lastEvent.event_hash ?? null;
+    }
+    return lastEvent.event_hash ?? null;
+  }
+  return null;
 }
 
 export function isOffenseTeamRecoveryOnFumble(

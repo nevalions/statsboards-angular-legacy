@@ -30,10 +30,6 @@ export function isFirstDown(
           previousEvent.event_distance,
           max,
         );
-        // console.log('distance', distance);
-        // const calcDist = previousEvent.event_distance - distance;
-        // console.log('calcDist', calcDist);
-
         if (distance <= 0) {
           // console.log('calcDistLower 0');
           return 1;
@@ -50,6 +46,18 @@ export function isFirstDown(
     }
   }
   return null;
+}
+
+export function isTenYardsPassed(
+  lastEvent: IFootballEventWithPlayers,
+): boolean {
+  return (
+    lastEvent.distance_moved !== null &&
+    lastEvent.distance_moved !== undefined &&
+    lastEvent.event_distance !== null &&
+    lastEvent.event_distance !== undefined &&
+    lastEvent.distance_moved >= lastEvent.event_distance
+  );
 }
 
 export function computeDistance(
