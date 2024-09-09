@@ -319,7 +319,7 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
     if (this.expandedStates[str] === undefined) {
       this.expandedStates[str] = true;
     } else {
-      this.expandedStates[str] = !this.expandedStates[str];
+      this.expandedStates[this.highestId.toString()] = true;
     }
 
     // Ensure the highest ID is always expanded
