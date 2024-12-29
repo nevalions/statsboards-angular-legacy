@@ -1,15 +1,30 @@
-let protocol = 'https';
-let apiUrl = 'statsboard.ru';
+// let protocol = 'https';
+// let apiUrl = 'statsboard.ru';
+
+// export const environment = {
+//   production: true,
+//   currentYear: new Date().getFullYear(),
+//   currentSeasonId: 2,
+//   url: 'statsboard.ru',
+//   port: ':9000',
+//   angular_port: '',
+//   protocol: protocol,
+//   wsProtocol: 'wss',
+//   apiUrl: apiUrl,
+//   backendUrl: protocol + '://' + apiUrl,
+// };
+let protocol = 'http';
+let apiUrl = 'localhost:9000';
 
 export const environment = {
-  production: true,
+  production: false,
   currentYear: new Date().getFullYear(),
   currentSeasonId: 2,
-  url: 'statsboard.ru',
+  url: 'localhost',
   port: ':9000',
-  angular_port: '',
+  angular_port: ':4200',
   protocol: protocol,
-  wsProtocol: 'wss',
+  wsProtocol: 'ws',
   apiUrl: apiUrl,
   backendUrl: protocol + '://' + apiUrl,
 };
