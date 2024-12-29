@@ -13,7 +13,7 @@
 //   apiUrl: apiUrl,
 //   backendUrl: protocol + '://' + apiUrl,
 // };
-let protocol = 'http';
+let protocol = 'https';
 let apiUrl = 'localhost:9000';
 
 export const environment = {
@@ -22,7 +22,7 @@ export const environment = {
   currentSeasonId: 2,
   url: 'localhost',
   port: ':9000',
-  angular_port: ':4200',
+  angular_port: '',
   protocol: protocol,
   wsProtocol: 'ws',
   apiUrl: apiUrl,
