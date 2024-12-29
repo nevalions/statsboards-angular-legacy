@@ -13,11 +13,11 @@
 //   apiUrl: apiUrl,
 //   backendUrl: protocol + '://' + apiUrl,
 // };
-let protocol = 'https';
-let apiUrl = 'localhost:9000';
+let protocol = 'http';
+let apiUrl = '0.0.0.0:9000';
 
 export const environment = {
-  production: false,
+  production: true,
   currentYear: new Date().getFullYear(),
   currentSeasonId: 2,
   url: 'localhost',
