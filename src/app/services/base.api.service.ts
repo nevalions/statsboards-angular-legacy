@@ -148,7 +148,7 @@ export abstract class BaseApiService<T> {
   }
 
   editItemKeyValue(id: number | string, postData: any): Observable<T> {
-    // console.log(postData);
+    // console.log('POST DATA:', postData);
     return this.http.put<T>(`${this.endpoint}/${id}/`, postData).pipe(
       tap((items: T) => {
         console.log(

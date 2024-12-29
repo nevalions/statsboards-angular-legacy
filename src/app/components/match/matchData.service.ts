@@ -44,10 +44,10 @@ export class MatchDataService extends BaseApiService<IMatchData> {
     id: number | string,
     data: any,
   ): Observable<IMatchData> {
-    // console.log(data);
+    console.log('edit match data key value', data);
     return this.editItemKeyValue(id, data).pipe(
       tap((data) => {
-        // console.log(data);
+        console.log('edit match data key value response', data);
       }),
     );
   }
