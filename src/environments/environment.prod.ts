@@ -13,7 +13,7 @@
 //   apiUrl: apiUrl,
 //   backendUrl: protocol + '://' + apiUrl,
 // };
-let protocol = 'http';
+let protocol = 'https';
 let apiUrl = '0.0.0.0:9000';
 
 export const environment = {
