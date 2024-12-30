@@ -20,7 +20,7 @@ export const AuthInterceptor: HttpInterceptorFn = (
       headers: req.headers.set(`Authorization`, `Bearer ${token}`),
       url: `${serverProtocol}://${serverIP}/api/${req.url}`,
     });
-    console.log(`auth interceptor ${serverProtocol}://${serverIP}/api/${req.url}`)
+    // console.log(`auth interceptor ${serverProtocol}://${serverIP}/api/${req.url}`)
     return next(authReq);
   } else {
     const nonAuthReq: HttpRequest<any> = req.clone({
