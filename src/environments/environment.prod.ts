@@ -1,4 +1,4 @@
-let protocol = 'http';
+let protocol = 'https';
 let apiUrl = 'statsboard.ru';
 
 export const environment = {
