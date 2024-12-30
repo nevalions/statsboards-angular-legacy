@@ -11,5 +11,5 @@ export const environment = {
   protocol: protocol,
   wsProtocol: 'wss',
   apiUrl: apiUrl,
-  backendUrl: protocol + '://' + apiUrl + ':9000',
+  backendUrl: protocol + '://' + apiUrl,
 };
