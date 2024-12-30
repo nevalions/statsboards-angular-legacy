@@ -13,9 +13,6 @@ import { ISponsor } from '../../type/sponsor.type';
   providedIn: 'root',
 })
 export class TournamentService extends BaseApiService<ITournament> {
-  // private tournamentsSubject = new BehaviorSubject<ITournament[]>([]);
-  // public tournaments$ = this.tournamentsSubject.asObservable();
-
   constructor(
     http: HttpClient,
     private router: Router,

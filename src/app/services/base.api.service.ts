@@ -10,9 +10,6 @@ import { IPlayclock } from '../type/playclock.type';
   providedIn: 'root',
 })
 export abstract class BaseApiService<T> {
-  // private cache$: { [id: number]: Observable<T> } = {};
-  // private cache$ByFirstKeyValue: { [key: string]: Observable<any> } = {};
-
   protected constructor(
     protected endpoint: string,
     protected readonly http: HttpClient,
@@ -333,7 +330,7 @@ export abstract class BaseApiService<T> {
       .pipe(
         tap((items) =>
           console.log(
-            `Received Sport Year TOURNAMENTS /API/
+            `Received Sport Year TOURNAMENTS ${this.http} /API/
           ${firstItem}/${firstKey}/${firstValue}/${secondItem}/${secondKey}/${secondValue}/${optionalValue}
           \ndata:`,
             items,
