@@ -1,4 +1,4 @@
-let protocol = 'https';
+let protocol = 'http';
 let apiUrl = 'statsboard.ru';
 
 export const environment = {
@@ -11,5 +11,5 @@ export const environment = {
   protocol: protocol,
   wsProtocol: 'wss',
   apiUrl: apiUrl,
-  backendUrl: protocol + '://' + apiUrl,
+  backendUrl: protocol + '://' + apiUrl + ':9000',
 };

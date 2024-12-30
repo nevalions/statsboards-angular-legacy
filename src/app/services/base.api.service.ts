@@ -330,7 +330,7 @@ export abstract class BaseApiService<T> {
       .pipe(
         tap((items) =>
           console.log(
-            `Received Sport Year TOURNAMENTS ${this.http} /API/
+            `Received Sport Year TOURNAMENTS /API/
           ${firstItem}/${firstKey}/${firstValue}/${secondItem}/${secondKey}/${secondValue}/${optionalValue}
           \ndata:`,
             items,
