@@ -53,12 +53,12 @@ export class TournamentService extends BaseApiService<ITournament> {
       secondValue,
       optionalValue,
     ).pipe(
-      // tap((items) =>
-      //   console.log(
-      //     `Items fetched by findByValueAndSecondId: ID ${secondValue}`,
-      //     items,
-      //   ),
-      // ),
+      tap((items) =>
+        console.log(
+          `Items fetched by findByValueAndSecondId: ID ${secondValue}`,
+          items,
+        ),
+      ),
       map((data) => SortService.sort(data, 'title')),
     );
   }
