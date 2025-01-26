@@ -1,5 +1,11 @@
 version: '3.8'
 
+networks:
+  frontend-network:
+    external: true
+  backend-network:
+    external: true
+
 services:
   angular-frontend:
     container_name: statsboards-frontend
@@ -27,9 +33,3 @@ services:
     depends_on:
       - angular-frontend
     restart: always
-
-networks:
-  frontend-network:
-    driver: bridge
-  backend-network:
-    external: true
