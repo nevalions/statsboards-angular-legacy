@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   angular-frontend:
-    container_name: angular-frontend
+    container_name: statsboards-frontend
     image: node:22.12.0-slim
     working_dir: /app
     volumes:
@@ -12,7 +12,7 @@ services:
       sh -c "npm install && npm run build --prod"
 
   angular-static-server:
-    container_name: nginx-front-prod-container
+    container_name: statsboards-frontend-nginx-static-server
     build:
       context: ./
       dockerfile: Dockerfile.nginx
