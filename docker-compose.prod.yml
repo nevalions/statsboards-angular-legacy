@@ -25,9 +25,7 @@ services:
     volumes:
       - ./dist/statsboards-angular-legacy/browser:/usr/share/nginx/html
     ports:
-      - "8383:80"  # External mapping
-#    expose:
-#      - "80"       # Expose internal port
+      - "8383:80"
     networks:
       - frontend-network
       - backend-network
