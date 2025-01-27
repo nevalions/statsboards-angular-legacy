@@ -8,6 +8,9 @@ networks:
 
 services:
   angular-frontend:
+    labels:
+      logging: "promtail"
+      logging_jobname: "frontend_prod_logs"
     container_name: statsboards-frontend
     image: node:22.12.0-slim
     working_dir: /app
@@ -18,6 +21,9 @@ services:
       sh -c "npm install && npm run build --prod"
 
   angular-static-server:
+    labels:
+      logging: "promtail"
+      logging_jobname: "frontend_nginx_logs"
     container_name: statsboards-frontend-nginx-static-server
     build:
       context: ./

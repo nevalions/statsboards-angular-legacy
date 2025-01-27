@@ -1,5 +1,8 @@
 services:
   angular-frontend:
+    labels:
+      logging: "promtail"
+      logging_jobname: "frontend_dev_logs"
     container_name: statsboards-frontend-dev
     image: node:22.12.0-slim
     working_dir: /app
