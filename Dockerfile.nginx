@@ -6,6 +6,3 @@ RUN apk --no-cache add jq curl
 
 # Copy the Nginx config
 COPY ./nginx.conf /etc/nginx/conf.d/default.conf
-
-## Expose the necessary ports
-#EXPOSE 8383
