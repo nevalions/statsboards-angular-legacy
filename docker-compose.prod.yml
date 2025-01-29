@@ -38,7 +38,7 @@ services:
     depends_on:
       - angular-frontend
     healthcheck:
-      test: [ "CMD-SHELL", "curl -ks https://localhost/front-nginx-health | grep -q 'Front Nginx is running'" ]
+      test: [ "CMD-SHELL", "curl -ks --fail https://localhost/front-nginx-health | grep -q 'Front Nginx is running'" ]
       interval: 30s
       timeout: 5s
       retries: 3
