@@ -10,7 +10,7 @@ services:
   angular-frontend:
     labels:
       logging: "promtail"
-      logging_jobname: "frontend_prod_logs"
+      logging_jobname: "statsboards_frontend_prod_logs"
     container_name: statsboards-frontend
     image: node:22.12.0
     working_dir: /app
@@ -23,7 +23,7 @@ services:
   angular-static-server:
     labels:
       logging: "promtail"
-      logging_jobname: "frontend_nginx_logs"
+      logging_jobname: "statsboards_frontend_nginx_logs"
     container_name: statsboards-frontend-nginx-static-server
     build:
       context: ./
