@@ -1,7 +1,7 @@
 // let protocol = 'https';
 // let apiUrl = 'statsboard.ru';
 
-let protocol = 'http';
+let protocol = 'https';
 let apiUrl = '213.171.10.112';
 
 export const environment = {
