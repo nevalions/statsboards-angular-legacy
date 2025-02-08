@@ -9,7 +9,7 @@ export const environment = {
   currentYear: new Date().getFullYear(),
   currentSeasonId: 2,
   url: apiUrl,
-  port: ':9000',
+  port: '',
   // url: 'statsboard.ru',
   // port: ':9000',
   angular_port: '',
