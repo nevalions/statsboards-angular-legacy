@@ -41,6 +41,9 @@ export class MatchWithFullData {
     );
   }
 
+  loadPaginatedMatchesInTournament() {
+  }
+
   createMatch(match: IMatchWithFullData) {
     this.store.dispatch(matchWithFullDataActions.create({ request: match }));
   }

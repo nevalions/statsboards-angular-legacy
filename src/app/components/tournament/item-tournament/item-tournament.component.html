@@ -51,7 +51,7 @@
       ></app-tournament-add-edit-form>
 
       <app-parse-button
-        [isLoading]="(parsMatchIsLoading$|async)!"
+        [isLoading]="(parsMatchIsLoading$ | async)!"
         [appear]="TuiAppearance.Primary"
         [buttonSize]="'m'"
         [item]="'add matches from eesl'"
@@ -83,7 +83,10 @@
             @if (matchesInTournament$ | async; as items) {
               <div class="one_col_container">
                 <form [formGroup]="formWeek">
-                  @if (getFormControl(formWeek, 'matchWeekSearch'); as control) {
+                  @if (
+                    getFormControl(formWeek, "matchWeekSearch");
+                    as control
+                  ) {
                     <app-simple-input-with-buttons
                       [label]="'Search by WEEK'"
                       [control]="control"
@@ -145,8 +148,10 @@
             @if (sport$ | async; as sport) {
               @if (tournament$ | async; as tour) {
                 @if (teamsInTournament$ | async; as t) {
-                  @if (availableTeamsToAddToTournament$ | async;
-                    as availableTeams) {
+                  @if (
+                    availableTeamsToAddToTournament$ | async;
+                    as availableTeams
+                  ) {
                     <app-add-edit-team-to-tournament-table
                       [tournamentId]="tour.id!"
                       [teams]="t"
@@ -166,31 +171,74 @@
             @if (tournament$ | async; as tournament) {
               @if (paginatedTablePlayerInTeamTournament$ | async; as players) {
                 @if (allSportPlayersWithPerson$ | async; as playersInSports) {
-                  @if (allAvailablePlayersToAddInTournament$ | async;
-                    as availablePlayers) {
-                    @if (allPlayersInTournament$| async; as playersInTournament) {
+                  @if (
+                    allAvailablePlayersToAddInTournament$ | async;
+                    as availablePlayers
+                  ) {
+                    @if (
+                      allPlayersInTournament$ | async;
+                      as playersInTournament
+                    ) {
                       <span class="age-stats">
-                  Average age:
-                        {{ calculateAgeStats(playersInTournament)?.average | number:'1.0-0' }}
-                </span>
+                        Average age:
+                        {{
+                          calculateAgeStats(playersInTournament)?.average
+                            | number: "1.0-0"
+                        }}
+                      </span>
                       <span class="age-stats">
-                  Min age:
-                        {{ calculateAgeStats(playersInTournament)?.min?.years | number:'1.0-0' }} years
-                        {{ calculateAgeStats(playersInTournament)?.min?.days | number:'1.0-0' }} days
-                  <b>{{ calculateAgeStats(playersInTournament)?.minPlayer?.first_name | titlecase }}&nbsp;</b>
-                  <b>{{ calculateAgeStats(playersInTournament)?.minPlayer?.second_name | titlecase }}</b>
-                </span>
+                        Min age:
+                        {{
+                          calculateAgeStats(playersInTournament)?.min?.years
+                            | number: "1.0-0"
+                        }}
+                        years
+                        {{
+                          calculateAgeStats(playersInTournament)?.min?.days
+                            | number: "1.0-0"
+                        }}
+                        days
+                        <b
+                          >{{
+                            calculateAgeStats(playersInTournament)?.minPlayer
+                              ?.first_name | titlecase
+                          }}&nbsp;</b
+                        >
+                        <b>{{
+                          calculateAgeStats(playersInTournament)?.minPlayer
+                            ?.second_name | titlecase
+                        }}</b>
+                      </span>
                       <span class="age-stats">
-                  Max age:
-                        {{ calculateAgeStats(playersInTournament)?.max?.years | number:'1.0-0' }} years
-                        {{ calculateAgeStats(playersInTournament)?.max?.days | number:'1.0-0' }} days
-                  <b>{{ calculateAgeStats(playersInTournament)?.maxPlayer?.first_name | titlecase }}&nbsp;</b>
-                  <b>{{ calculateAgeStats(playersInTournament)?.maxPlayer?.second_name | titlecase }}</b>
-                </span>
+                        Max age:
+                        {{
+                          calculateAgeStats(playersInTournament)?.max?.years
+                            | number: "1.0-0"
+                        }}
+                        years
+                        {{
+                          calculateAgeStats(playersInTournament)?.max?.days
+                            | number: "1.0-0"
+                        }}
+                        days
+                        <b
+                          >{{
+                            calculateAgeStats(playersInTournament)?.maxPlayer
+                              ?.first_name | titlecase
+                          }}&nbsp;</b
+                        >
+                        <b>{{
+                          calculateAgeStats(playersInTournament)?.maxPlayer
+                            ?.second_name | titlecase
+                        }}</b>
+                      </span>
                       <span class="age-stats">
-                  Median age:
-                        {{ calculateAgeStats(playersInTournament)?.median | number:'1.0-0' }}
-                </span>
+                        Median age:
+                        {{
+                          calculateAgeStats(playersInTournament)?.median
+                            | number: "1.0-0"
+                        }}
+                      </span>
                       <app-add-edit-player-to-team-tournament-table
                         [deleteOrUpdate]="'delete'"
                         [sportId]="sport.id!"

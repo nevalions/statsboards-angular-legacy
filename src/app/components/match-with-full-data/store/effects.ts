@@ -240,5 +240,5 @@ export class MatchWithFullDataEffects {
     private actions$: Actions,
     private matchWithFullDataService: MatchWithFullDataService,
     private store: Store,
-  ) {}
+  ) { }
 }

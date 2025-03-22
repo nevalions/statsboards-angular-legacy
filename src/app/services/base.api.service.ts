@@ -289,6 +289,7 @@ export abstract class BaseApiService<T> {
       );
   }
 
+
   findByFirstKeyValue(
     firstItem: string,
     firstKey: string,
@@ -338,6 +339,30 @@ export abstract class BaseApiService<T> {
         ),
         catchError(this.errorHandlingService.handleError),
       );
+  }
+
+  getItemsByFirstAndSecondValueWithPagginationAndSort(
+    firstItem: string,
+    firstKey: string,
+    firstValue: any,
+    secondItem: string,
+    page: number,
+    items_per_page: number,
+    order_one: any,
+    order_two: any,
+  ): Observable<any> {
+    let finalEndpoint = `${firstItem}/${firstKey}/${firstValue}/${secondItem}/page/${page}/items_per_page/${items_per_page}/order_one/${order_one}/order_two/${order_two}`;
+
+    return this.http.get<any>(finalEndpoint).pipe(
+      tap((items) =>
+        console.log(
+          `Received /API/${finalEndpoint}` +
+            `\n data:`,
+          items,
+        ),
+      ),
+      catchError(this.errorHandlingService.handleError),
+    );
   }
 
   parsByFirstKeyValue(
