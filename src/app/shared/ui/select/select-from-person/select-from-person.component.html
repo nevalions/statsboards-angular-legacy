@@ -18,11 +18,11 @@
     let-data
   >
     <div class="template">
-      <tui-avatar
+      <tui-avatar [src]="backendUrl + data[avatarProperty]" [round]="false"
         *ngIf="avatarProperty"
-        size="xs"
+        size="s"
         class="avatar"
-        [avatarUrl]="backendUrl + data[avatarProperty]"
+       
       ></tui-avatar>
       <div class="name">{{ stringifyFn ? stringifyFn(data) : data.title }}</div>
     </div>

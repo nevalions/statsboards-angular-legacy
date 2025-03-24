@@ -1,13 +1,7 @@
+import { TuiTextfieldControllerModule, TuiComboBoxModule } from "@taiga-ui/legacy";
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import {
-  TuiComboBoxModule,
-  TuiDataListWrapperModule,
-  TuiFilterByInputPipeModule,
-  tuiItemsHandlersProvider,
-  TuiStringifyContentPipeModule,
-} from '@taiga-ui/kit';
-import { TuiTextfieldControllerModule } from '@taiga-ui/core';
+import { tuiItemsHandlersProvider, TuiDataListWrapper, TuiStringifyContentPipe, TuiFilterByInputPipe } from '@taiga-ui/kit';
 import { UpperCasePipe } from '@angular/common';
 import {
   stringifyListOfStringsToTitle,
@@ -22,9 +16,9 @@ import {
     ReactiveFormsModule,
     TuiTextfieldControllerModule,
     UpperCasePipe,
-    TuiDataListWrapperModule,
-    TuiFilterByInputPipeModule,
-    TuiStringifyContentPipeModule,
+    TuiDataListWrapper,
+    TuiFilterByInputPipe,
+    TuiStringifyContentPipe,
   ],
   providers: [
     tuiItemsHandlersProvider({

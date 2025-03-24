@@ -1,8 +1,8 @@
+import { TuiIslandDirective } from "@taiga-ui/legacy";
+import { TuiLoader } from "@taiga-ui/core";
 import { Component, Input } from '@angular/core';
 import { AsyncPipe, DatePipe, TitleCasePipe } from '@angular/common';
 import { IMatchWithFullData } from '../../../../type/match.type';
-import { TuiLoaderModule } from '@taiga-ui/core';
-import { TuiIslandModule } from '@taiga-ui/kit';
 import { Observable, of } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 
@@ -11,8 +11,8 @@ import { ActivatedRoute, Router } from '@angular/router';
   standalone: true,
   imports: [
     AsyncPipe,
-    TuiLoaderModule,
-    TuiIslandModule,
+    TuiLoader,
+    TuiIslandDirective,
     DatePipe,
     TitleCasePipe,
   ],

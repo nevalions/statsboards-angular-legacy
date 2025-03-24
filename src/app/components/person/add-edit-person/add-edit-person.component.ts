@@ -1,3 +1,4 @@
+import { TuiInputModule, TuiInputDateTimeModule, TuiInputNumberModule } from "@taiga-ui/legacy";
 import {
   Component,
   EventEmitter,
@@ -29,20 +30,12 @@ import {
   Validators,
 } from '@angular/forms';
 import { switchMap } from 'rxjs/operators';
-import {
-  TuiFieldErrorPipeModule,
-  TuiFileLike,
-  TuiFilesModule,
-  TuiInputDateTimeModule,
-  TuiInputFilesModule,
-  TuiInputModule,
-  TuiInputNumberModule,
-} from '@taiga-ui/kit';
+import { TuiFileLike, TuiFiles, TuiFieldErrorPipe, TuiFieldErrorContentPipe } from '@taiga-ui/kit';
 import { DateTimeService } from '../../../services/date-time.service';
 import { IPerson } from '../../../type/person.type';
 import { TuiDay, TuiTime } from '@taiga-ui/cdk';
 import { AsyncPipe, NgIf } from '@angular/common';
-import { TuiDialogModule, TuiErrorModule } from '@taiga-ui/core';
+import { TuiError, TuiDialog } from '@taiga-ui/core';
 import { CancelButtonInFormComponent } from '../../../shared/ui/buttons/cancel-button-in-form/cancel-button-in-form.component';
 import { CreateButtonInFormComponent } from '../../../shared/ui/buttons/create-button-in-form/create-button-in-form.component';
 import { UploadResizeImageResponse } from '../../../type/base.type';
@@ -53,15 +46,14 @@ import { UploadResizeImageResponse } from '../../../type/base.type';
   imports: [
     AsyncPipe,
     ReactiveFormsModule,
-    TuiDialogModule,
-    TuiErrorModule,
-    TuiFieldErrorPipeModule,
+    TuiDialog,
+    TuiError,
+    TuiFieldErrorPipe, TuiFieldErrorContentPipe,
     TuiInputDateTimeModule,
     TuiInputNumberModule,
     TuiInputModule,
     NgIf,
-    TuiFilesModule,
-    TuiInputFilesModule,
+    TuiFiles,
     CancelButtonInFormComponent,
     CreateButtonInFormComponent,
   ],

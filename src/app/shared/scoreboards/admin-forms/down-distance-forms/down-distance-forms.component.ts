@@ -1,3 +1,5 @@
+import { TuiInputModule, TuiInputNumberModule, TuiSelectModule } from "@taiga-ui/legacy";
+import { TuiButton } from "@taiga-ui/core";
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { AsyncPipe, NgIf } from '@angular/common';
 import { Observable } from 'rxjs';
@@ -7,14 +9,8 @@ import { IMatchData, IScoreboard } from '../../../../type/matchdata.type';
 import { ToggleVisibleButtonComponent } from '../../../ui/buttons/toggle-visible-button/toggle-visible-button.component';
 import { AdminSubmitButtonComponent } from '../../../ui/buttons/admin-submit-button/admin-submit-button.component';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import {
-  TuiDataListWrapperModule,
-  TuiInputModule,
-  TuiInputNumberModule,
-  TuiSelectModule,
-} from '@taiga-ui/kit';
+import { TuiDataListWrapper } from '@taiga-ui/kit';
 import { AdminDownButtonComponent } from '../../../ui/buttons/admin-down-button/admin-down-button.component';
-import { TuiButtonModule } from '@taiga-ui/core';
 import { ScoreboardData } from '../../../../components/scoreboard-data/scoreboard-data';
 import { Websocket } from '../../../../store/websocket/websocket';
 
@@ -30,9 +26,9 @@ import { Websocket } from '../../../../store/websocket/websocket';
     TuiInputNumberModule,
     TuiInputModule,
     TuiSelectModule,
-    TuiDataListWrapperModule,
+    TuiDataListWrapper,
     AdminDownButtonComponent,
-    TuiButtonModule,
+    TuiButton,
   ],
   templateUrl: './down-distance-forms.component.html',
   styleUrl: './down-distance-forms.component.less',

@@ -1,7 +1,8 @@
+import { TuiAvatar } from "@taiga-ui/kit";
+import { TuiIslandDirective } from "@taiga-ui/legacy";
 import { Component, Input } from '@angular/core';
 import { AsyncPipe, TitleCasePipe, UpperCasePipe } from '@angular/common';
-import { TuiAvatarModule, TuiIslandModule } from '@taiga-ui/kit';
-import { TuiLoaderModule, TuiSizeL, TuiSizeS } from '@taiga-ui/core';
+import { TuiSizeL, TuiSizeS, TuiLoader, TuiFallbackSrcPipe, TuiInitialsPipe } from '@taiga-ui/core';
 import { ITournament } from '../../../type/tournament.type';
 import { ActivatedRoute, Router } from '@angular/router';
 import { getTitleCase } from '../../../base/helpers';
@@ -12,11 +13,13 @@ import { environment } from '../../../../environments/environment';
   standalone: true,
   imports: [
     AsyncPipe,
-    TuiIslandModule,
-    TuiLoaderModule,
+    TuiIslandDirective,
+    TuiLoader,
     TitleCasePipe,
     UpperCasePipe,
-    TuiAvatarModule,
+    TuiAvatar,
+    TuiFallbackSrcPipe,
+    TuiInitialsPipe
   ],
   templateUrl: './island-list-of-tournaments.component.html',
   styleUrl: './island-list-of-tournaments.component.less',
@@ -36,7 +39,7 @@ export class IslandListOfTournamentsComponent {
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-  ) {}
+  ) { }
 
   navigateToTournamentItem(item: ITournament): void {
     let currentUrl = this.router.url.split('/');
@@ -45,6 +48,11 @@ export class IslandListOfTournamentsComponent {
     }
     currentUrl.push('tournament', item.id!.toString());
     this.router.navigate(currentUrl);
+  }
+
+  getInitialsText(item: any): string {
+    const text = item[this.titleProperty] || 'image';
+    return text?.toString() || '';
   }
 
   protected readonly getTitleCase = getTitleCase;

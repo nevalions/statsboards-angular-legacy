@@ -1,7 +1,7 @@
+import { TUI_ARROW } from "@taiga-ui/legacy";
 import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {SportComponent} from "../sport.component";
 import {DropDownMenuComponent} from "../../../shared/ui/dropdownmenu/dropdownmenu.component";
-import {TUI_ARROW} from "@taiga-ui/kit";
 
 @Component({
   selector: 'app-sport-dropdown',

@@ -1,13 +1,9 @@
+import { TuiSelectModule } from "@taiga-ui/legacy";
+import { TuiLet } from "@taiga-ui/cdk";
 import { Component, Input } from '@angular/core';
 import { AsyncPipe, NgIf, UpperCasePipe } from '@angular/common';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import {
-  TuiAvatarModule,
-  TuiDataListWrapperModule,
-  tuiItemsHandlersProvider,
-  TuiSelectModule,
-} from '@taiga-ui/kit';
-import { TuiLetModule } from '@taiga-ui/cdk';
+import { tuiItemsHandlersProvider, TuiDataListWrapper, TuiAvatar } from '@taiga-ui/kit';
 import { AnyObjectWithTitle } from '../../../../type/base.type';
 import { environment } from '../../../../../environments/environment';
 import { WithNullOptionPipe } from '../../../../pipes/with-null-option.pipe';
@@ -20,11 +16,11 @@ import { toTitleCase } from '../../../../base/helpers';
     AsyncPipe,
     FormsModule,
     ReactiveFormsModule,
-    TuiDataListWrapperModule,
-    TuiLetModule,
+    TuiDataListWrapper,
+    TuiLet,
     TuiSelectModule,
     UpperCasePipe,
-    TuiAvatarModule,
+    TuiAvatar,
     WithNullOptionPipe,
     NgIf,
   ],

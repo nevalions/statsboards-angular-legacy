@@ -1,6 +1,6 @@
+import { TuiLink } from "@taiga-ui/core";
 import {Component, Input} from '@angular/core';
 import {SportNavComponent} from "../sport/sport-nav/sport-nav.component";
-import {TuiLinkModule} from "@taiga-ui/core";
 import {RouterLink, RouterLinkActive} from "@angular/router";
 
 @Component({
@@ -8,7 +8,7 @@ import {RouterLink, RouterLinkActive} from "@angular/router";
   standalone: true,
   imports: [
     SportNavComponent,
-    TuiLinkModule,
+    TuiLink,
     RouterLink,
     RouterLinkActive
   ],

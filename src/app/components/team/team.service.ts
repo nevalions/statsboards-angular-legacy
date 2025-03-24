@@ -92,16 +92,16 @@ export class TeamService extends BaseApiService<ITeam> {
       .subscribe();
   }
 
-  deleteTeam(id: number): Observable<ITeam> {
-    return new Observable<any>((subscriber) => {
-      this.deleteItem(id).subscribe(() => {
-        const teamsFiltered: ITeam[] = this.teamsSubject.value.filter(
-          (t: ITeam): boolean => t.id !== id,
-        );
-        this.teamsSubject.next(teamsFiltered);
-        subscriber.next();
-        subscriber.complete();
-      });
-    });
-  }
+  // deleteTeam(id: number): Observable<ITeam> {
+  //   return new Observable<any>((subscriber) => {
+  //     this.deleteItem(id).subscribe(() => {
+  //       const teamsFiltered: ITeam[] = this.teamsSubject.value.filter(
+  //         (t: ITeam): boolean => t.id !== id,
+  //       );
+  //       this.teamsSubject.next(teamsFiltered);
+  //       subscriber.next();
+  //       subscriber.complete();
+  //     });
+  //   });
+  // }
 }

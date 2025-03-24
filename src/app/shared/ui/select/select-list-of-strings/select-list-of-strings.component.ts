@@ -1,11 +1,9 @@
+import { TuiTextfieldControllerModule, TuiSelectModule } from "@taiga-ui/legacy";
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { TitleCasePipe, UpperCasePipe } from '@angular/common';
-import {
-  TuiDataListModule,
-  TuiTextfieldControllerModule,
-} from '@taiga-ui/core';
-import { tuiItemsHandlersProvider, TuiSelectModule } from '@taiga-ui/kit';
+import { TuiDataList } from '@taiga-ui/core';
+import { tuiItemsHandlersProvider } from '@taiga-ui/kit';
 import { toTitleCase } from '../../../../base/helpers';
 
 @Component({
@@ -13,7 +11,7 @@ import { toTitleCase } from '../../../../base/helpers';
   standalone: true,
   imports: [
     TitleCasePipe,
-    TuiDataListModule,
+    TuiDataList,
     TuiSelectModule,
     UpperCasePipe,
     ReactiveFormsModule,

@@ -1,3 +1,4 @@
+import { TuiTextfieldControllerModule, TuiSelectModule } from "@taiga-ui/legacy";
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import {
   FormControl,
@@ -5,22 +6,17 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import {
-  TuiDataListWrapperModule,
-  TuiPaginationModule,
-  TuiSelectModule,
-} from '@taiga-ui/kit';
-import { TuiTextfieldControllerModule } from '@taiga-ui/core';
+import { TuiPagination, TuiDataListWrapper } from '@taiga-ui/kit';
 import { debounceTime, distinctUntilChanged } from 'rxjs';
 
 @Component({
   selector: 'app-base-pagination',
   standalone: true,
   imports: [
-    TuiPaginationModule,
+    TuiPagination,
     ReactiveFormsModule,
     TuiSelectModule,
-    TuiDataListWrapperModule,
+    TuiDataListWrapper,
     TuiTextfieldControllerModule,
   ],
   templateUrl: './base-pagination.component.html',

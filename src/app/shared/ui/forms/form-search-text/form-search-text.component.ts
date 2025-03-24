@@ -1,3 +1,5 @@
+import { TuiTextfieldControllerModule, TuiInputModule, TuiInputMonthRangeModule } from "@taiga-ui/legacy";
+import { TuiValueChanges } from "@taiga-ui/cdk";
 import {
   ChangeDetectionStrategy,
   Component,
@@ -5,7 +7,6 @@ import {
   OnInit,
 } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { TuiInputModule, TuiInputMonthRangeModule } from '@taiga-ui/kit';
 import { UpperCasePipe } from '@angular/common';
 import {
   debounceTime,
@@ -15,8 +16,6 @@ import {
   of,
   startWith,
 } from 'rxjs';
-import { TuiTextfieldControllerModule } from '@taiga-ui/core';
-import { TuiValueChangesModule } from '@taiga-ui/cdk';
 import { SearchListService } from '../../../../services/search-list.service';
 import { FilterStrategy } from '../../../../type/filter.type';
 
@@ -29,7 +28,7 @@ import { FilterStrategy } from '../../../../type/filter.type';
     TuiInputMonthRangeModule,
     UpperCasePipe,
     TuiTextfieldControllerModule,
-    TuiValueChangesModule,
+    TuiValueChanges,
   ],
   templateUrl: './form-search-text.component.html',
   styleUrl: './form-search-text.component.less',

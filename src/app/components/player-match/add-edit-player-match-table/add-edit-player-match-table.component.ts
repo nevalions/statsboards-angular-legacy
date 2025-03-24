@@ -1,3 +1,4 @@
+import { TuiTextfieldControllerModule } from "@taiga-ui/legacy";
 import {
   DatePipe,
   KeyValuePipe,
@@ -22,12 +23,8 @@ import {
   FormsModule,
   ReactiveFormsModule,
 } from '@angular/forms';
-import {
-  TuiAppearance,
-  TuiExpandModule,
-  TuiTextfieldControllerModule,
-} from '@taiga-ui/core';
-import { TuiAvatarModule, TuiCheckboxLabeledModule } from '@taiga-ui/kit';
+import { TuiAppearance, TuiExpand, TuiLabel } from '@taiga-ui/core';
+import { TuiAvatar, TuiCheckbox } from '@taiga-ui/kit';
 import { environment } from '../../../../environments/environment';
 import {
   getArrayFormDataByIndexAndKey,
@@ -59,7 +56,7 @@ import { PlayerInMatch } from '../player-match';
   styleUrl: './add-edit-player-match-table.component.less',
   imports: [
     KeyValuePipe,
-    TuiCheckboxLabeledModule,
+    TuiLabel,
     FormsModule,
     TuiTextfieldControllerModule,
     ReactiveFormsModule,
@@ -71,11 +68,12 @@ import { PlayerInMatch } from '../player-match';
     UpperCasePipe,
     ActionsButtonsComponent,
     DatePipe,
-    TuiAvatarModule,
-    TuiExpandModule,
+    TuiAvatar,
+    TuiExpand,
     AddButtonOnFinalTrComponent,
     SelectPlayerToMatchComponent,
     ButtonIconComponent,
+    TuiCheckbox
   ],
 })
 export class AddEditPlayerMatchTableComponent implements OnChanges, OnInit {
@@ -148,7 +146,7 @@ export class AddEditPlayerMatchTableComponent implements OnChanges, OnInit {
     private dialogService: DialogService,
     private fb: FormBuilder,
     private imageService: ImageService,
-  ) {}
+  ) { }
 
   ngOnInit() {
     if (this.side && this.players) {
@@ -554,7 +552,7 @@ export class AddEditPlayerMatchTableComponent implements OnChanges, OnInit {
     }
   }
 
-  protected readonly tuiAppFlat = TuiAppearance.Flat;
+  // protected readonly tuiAppFlat = TuiAppearance.Flat;
   protected readonly getFormControl = getFormControlWithIndex;
   protected readonly getFormDataByIndexAndKey = getFormDataByIndexAndKey;
   backendUrl = environment.backendUrl;

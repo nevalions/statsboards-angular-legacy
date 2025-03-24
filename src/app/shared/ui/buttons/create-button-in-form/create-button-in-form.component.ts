@@ -1,11 +1,11 @@
+import { TuiButton } from "@taiga-ui/core";
 import { Component, Input } from '@angular/core';
-import { TuiButtonModule } from '@taiga-ui/core';
 import { UpperCasePipe } from '@angular/common';
 
 @Component({
   selector: 'app-create-button-in-form',
   standalone: true,
-  imports: [TuiButtonModule, UpperCasePipe],
+  imports: [TuiButton, UpperCasePipe],
   templateUrl: './create-button-in-form.component.html',
   styleUrl: './create-button-in-form.component.less',
 })

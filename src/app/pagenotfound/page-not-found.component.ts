@@ -1,5 +1,5 @@
+import { TuiBlockStatus } from "@taiga-ui/layout";
 import {Component, OnInit} from '@angular/core';
-import {TuiBlockStatusModule} from "@taiga-ui/layout";
 import {NavigationStateError} from "../type/error.type";
 import {UpperCasePipe} from "@angular/common";
 
@@ -7,7 +7,7 @@ import {UpperCasePipe} from "@angular/common";
   selector: 'app-pagenotfound',
   standalone: true,
   imports: [
-    TuiBlockStatusModule,
+    TuiBlockStatus,
     UpperCasePipe
   ],
   templateUrl: './page-not-found.component.html',

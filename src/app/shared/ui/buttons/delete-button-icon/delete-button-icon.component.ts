@@ -1,12 +1,12 @@
+import { TuiButton } from "@taiga-ui/core";
 import { Component, inject, Input } from '@angular/core';
-import { TuiButtonModule } from '@taiga-ui/core';
 import { DialogService } from '../../../../services/dialog.service';
 import { UiTuiSizeType } from '../../../../type/ui.type';
 
 @Component({
   selector: 'app-delete-button-icon',
   standalone: true,
-  imports: [TuiButtonModule],
+  imports: [TuiButton],
   templateUrl: './delete-button-icon.component.html',
   styleUrl: './delete-button-icon.component.less',
 })
@@ -15,7 +15,7 @@ export class DeleteButtonIconComponent {
 
   @Input() buttonSize: UiTuiSizeType = 's';
   @Input() buttonClass: string = '';
-  @Input() buttonIcon = 'tuiIconClose';
+  @Input() buttonIcon = '@tui.x';
   @Input() dialogId: string = '';
 
   onButtonClick(dialogId: string) {

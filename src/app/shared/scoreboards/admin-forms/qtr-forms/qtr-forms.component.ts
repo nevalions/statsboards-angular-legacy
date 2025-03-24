@@ -1,3 +1,5 @@
+import { TuiSelectModule } from "@taiga-ui/legacy";
+import { TuiButton } from "@taiga-ui/core";
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { AsyncPipe, NgIf } from '@angular/common';
 import { Observable } from 'rxjs';
@@ -7,8 +9,7 @@ import { IMatchData, IScoreboard } from '../../../../type/matchdata.type';
 import { ToggleVisibleButtonComponent } from '../../../ui/buttons/toggle-visible-button/toggle-visible-button.component';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { AdminSubmitButtonComponent } from '../../../ui/buttons/admin-submit-button/admin-submit-button.component';
-import { TuiDataListWrapperModule, TuiSelectModule } from '@taiga-ui/kit';
-import { TuiButtonModule } from '@taiga-ui/core';
+import { TuiDataListWrapper } from '@taiga-ui/kit';
 import { ScoreboardData } from '../../../../components/scoreboard-data/scoreboard-data';
 import { Websocket } from '../../../../store/websocket/websocket';
 
@@ -22,8 +23,8 @@ import { Websocket } from '../../../../store/websocket/websocket';
     AdminSubmitButtonComponent,
     ReactiveFormsModule,
     TuiSelectModule,
-    TuiDataListWrapperModule,
-    TuiButtonModule,
+    TuiDataListWrapper,
+    TuiButton,
   ],
   templateUrl: './qtr-forms.component.html',
   styleUrl: './qtr-forms.component.less',

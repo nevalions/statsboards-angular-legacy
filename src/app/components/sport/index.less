@@ -1,27 +1,28 @@
 @import '../../../../node_modules/@taiga-ui/core/styles/taiga-ui-local.less';
 
 tui-app-bar {
-  box-shadow: var(--tui-shadow-navigation);
+  box-shadow: var(--tui-shadow-small);
   width: 20rem;
   margin-bottom: 1rem;
 }
 
 .color {
-  color: var(--tui-link);
+  color: var(--tui-text-action);
 }
 
 .gray {
   box-shadow: none;
-  background: var(--tui-base-02);
+  background: var(--tui-background-base-alt);
 }
 
 .black {
-  background: var(--tui-text-01);
-  color: var(--tui-warning-fill-night);
+  background: var(--tui-text-primary);
+// TOD: night variables have been removed. Use tuiTheme="dark" on an element to switch colors to dark theme
+  color: var(--tui-status-warning);
 }
 
 .white {
-  color: var(--tui-base-01);
+  color: var(--tui-background-base);
 }
 
 .reversed {

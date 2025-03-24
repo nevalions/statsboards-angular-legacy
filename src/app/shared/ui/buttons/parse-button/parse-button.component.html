@@ -1,16 +1,11 @@
+<!-- Taiga migration TODO: tuiButton "whiteblock-active" appearance is no longer available. Use 'appearance="outline-grayscale" tuiAppearanceMode="checked"' -->
 <tui-loader
   class="loader"
   [inheritColor]="true"
   [overlay]="true"
   [showLoader]="isLoading"
 >
-  <button
-    tuiButton
-    [appearance]="appear"
-    [class]="buttonClass"
-    [size]="buttonSize"
-    type="button"
-  >
+  <button tuiButton [class]="buttonClass" [size]="buttonSize" type="button">
     {{ item | uppercase }}
   </button>
 </tui-loader>

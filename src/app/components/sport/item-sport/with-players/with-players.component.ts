@@ -1,3 +1,5 @@
+import { TuiAvatar } from "@taiga-ui/kit";
+import { TuiIslandDirective } from "@taiga-ui/legacy";
 import { Component } from '@angular/core';
 import { Player } from '../../../player/player';
 import { Person } from '../../../person/person';
@@ -6,7 +8,6 @@ import { Sport } from '../../sport';
 import { AsyncPipe, TitleCasePipe, UpperCasePipe } from '@angular/common';
 import { EditButtonComponent } from '../../../../shared/ui/buttons/edit-button/edit-button.component';
 import { ListOfItemsIslandComponent } from '../../../../shared/ui/list/list-of-items-island/list-of-items-island.component';
-import { TuiAvatarModule, TuiIslandModule } from '@taiga-ui/kit';
 import { environment } from '../../../../../environments/environment';
 import { AddEditPlayerComponent } from '../../../player/add-edit-player/add-edit-player.component';
 import { ListOfPlayersComponent } from '../../../player/list-of-players/list-of-players.component';
@@ -23,9 +24,9 @@ import { BaseSearchFormComponent } from '../../../../shared/ui/search/base-searc
     UpperCasePipe,
     EditButtonComponent,
     ListOfItemsIslandComponent,
-    TuiIslandModule,
+    TuiIslandDirective,
     TitleCasePipe,
-    TuiAvatarModule,
+    TuiAvatar,
     AddEditPlayerComponent,
     ListOfPlayersComponent,
     BasePaginationComponent,

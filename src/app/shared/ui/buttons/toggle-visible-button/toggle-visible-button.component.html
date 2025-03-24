@@ -4,7 +4,7 @@
   size="m"
   type="button"
   (click)="toggleItemVisibility(formName)"
-  [icon]="(isVisible$ | async) ? 'tuiIconEyeOff' : 'tuiIconEye'"
+  [iconStart]="(isVisible$ | async) ? '@tui.eye-off' : '@tui.eye'"
 >
   {{ (isVisible$ | async) ? 'Hide' : 'Show' }} {{ buttonText }}
 </button>

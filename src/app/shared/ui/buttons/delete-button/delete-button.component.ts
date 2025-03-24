@@ -1,5 +1,5 @@
+import { TuiButton } from "@taiga-ui/core";
 import { Component, inject, Input } from '@angular/core';
-import { TuiButtonModule } from '@taiga-ui/core';
 import { UpperCasePipe } from '@angular/common';
 import { UiTuiSizeType } from '../../../../type/ui.type';
 import { DialogService } from '../../../../services/dialog.service';
@@ -7,7 +7,7 @@ import { DialogService } from '../../../../services/dialog.service';
 @Component({
   selector: 'app-delete-button',
   standalone: true,
-  imports: [TuiButtonModule, UpperCasePipe],
+  imports: [TuiButton, UpperCasePipe],
   templateUrl: './delete-button.component.html',
   styleUrl: './delete-button.component.less',
 })

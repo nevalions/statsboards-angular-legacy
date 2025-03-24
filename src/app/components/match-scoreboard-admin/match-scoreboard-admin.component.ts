@@ -1,10 +1,10 @@
+import { TuiLoader } from "@taiga-ui/core";
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 import { Observable } from 'rxjs';
 import { AsyncPipe, NgIf } from '@angular/common';
 import { IMatchFullDataWithScoreboard } from '../../type/match.type';
 import { Websocket } from '../../store/websocket/websocket';
-import { TuiLoaderModule } from '@taiga-ui/core';
 import { ScoreboardDisplayFlatComponent } from '../../shared/scoreboards/scoreboard-display-flat/scoreboard-display-flat.component';
 import { AllAdminFormsComponent } from '../../shared/scoreboards/admin-forms/all-admin-forms/all-admin-forms.component';
 import { IPlayclock } from '../../type/playclock.type';
@@ -19,7 +19,7 @@ import { Tournament } from '../tournament/tournament';
   standalone: true,
   imports: [
     AsyncPipe,
-    TuiLoaderModule,
+    TuiLoader,
     NgIf,
     ScoreboardDisplayFlatComponent,
     AllAdminFormsComponent,

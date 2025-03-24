@@ -1,3 +1,5 @@
+import { NG_EVENT_PLUGINS } from "@taiga-ui/event-plugins";
+import { TuiRoot } from "@taiga-ui/core";
 import {
   ApplicationConfig,
   importProvidersFrom,
@@ -9,8 +11,6 @@ import {
   withComponentInputBinding,
   withRouterConfig,
 } from '@angular/router';
-import { TuiRootModule } from '@taiga-ui/core';
-
 import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/http';
 import { provideEffects } from '@ngrx/effects';
 import { provideRouterStore, routerReducer } from '@ngrx/router-store';
@@ -42,7 +42,7 @@ export const appConfig: ApplicationConfig = {
       withComponentInputBinding(),
     ),
     provideHttpClient(withInterceptors([AuthInterceptor]), withFetch()),
-    importProvidersFrom(TuiRootModule),
+    importProvidersFrom(),
     provideStore({ router: routerReducer }),
     provideEffects(),
     provideRouterStore(),
@@ -58,5 +58,6 @@ export const appConfig: ApplicationConfig = {
       trace: false,
       traceLimit: 75,
     }),
-  ],
+        NG_EVENT_PLUGINS
+    ],
 };

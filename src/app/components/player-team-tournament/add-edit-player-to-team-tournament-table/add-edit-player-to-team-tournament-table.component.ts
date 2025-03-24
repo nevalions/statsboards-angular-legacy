@@ -1,3 +1,6 @@
+import { TuiTable } from "@taiga-ui/addon-table";
+import { TuiAvatar } from "@taiga-ui/kit";
+import { TuiTextfieldControllerModule } from "@taiga-ui/legacy";
 import {
   CdkFixedSizeVirtualScroll,
   CdkVirtualForOf,
@@ -26,9 +29,7 @@ import {
   FormGroup,
   ReactiveFormsModule,
 } from '@angular/forms';
-import { TuiTableModule } from '@taiga-ui/addon-table';
-import { TuiExpandModule, TuiTextfieldControllerModule } from '@taiga-ui/core';
-import { TuiAvatarModule } from '@taiga-ui/kit';
+import { TuiExpand, TuiFallbackSrcPipe, TuiInitialsPipe } from '@taiga-ui/core';
 import { environment } from '../../../../environments/environment';
 import {
   getArrayFormDataByIndexAndKey,
@@ -60,7 +61,7 @@ import { calculateAge } from '../../../base/helpers';
   imports: [
     TuiTextfieldControllerModule,
     ReactiveFormsModule,
-    TuiTableModule,
+    TuiTable,
     SelectPlayerToTeamTournamentComponent,
     UpperCasePipe,
     SelectPlayerNumberComponent,
@@ -75,11 +76,13 @@ import { calculateAge } from '../../../base/helpers';
     CdkFixedSizeVirtualScroll,
     NgForOf,
     TitleCasePipe,
-    TuiExpandModule,
+    TuiExpand,
     DatePipe,
-    TuiAvatarModule,
+    TuiAvatar,
     DecimalPipe,
-  ],
+      TuiFallbackSrcPipe,
+      TuiInitialsPipe
+],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './add-edit-player-to-team-tournament-table.component.html',
   styleUrl: './add-edit-player-to-team-tournament-table.component.less',

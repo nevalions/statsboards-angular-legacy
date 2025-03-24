@@ -1,7 +1,6 @@
-<div
-  style="display: flex; flex-direction: row; flex-wrap: wrap;"
-> @if (id) {
-  <!--  <tui-hosted-dropdown-->
+<div style="display: flex; flex-direction: row; flex-wrap: wrap">
+  @if (id) {
+    <!--  <tui-hosted-dropdown-->
     <!--    #dropdown-->
     <!--    [content]="content"-->
     <!--    [(tuiDropdownOpen)]="true"-->
@@ -9,7 +8,7 @@
     <!--  >-->
     <!--    <button-->
     <!--      appearance="flat"-->
-    <!--      icon="tuiIconMoreVertical"-->
+    <!--      icon="@tui.ellipsis-vertical"-->
     <!--      tuiIconButton-->
     <!--      type="button"-->
     <!--      [pseudoHover]="dropdown.open || null"-->
@@ -20,85 +19,77 @@
     <!--    let-activeZone-->
     <!--  >-->
 
-  @if (isEnabled) {
-    <app-button-icon
-      [buttonAppear]="TuiAppearance.Accent"
-      [buttonShape]="'rounded'"
-      [buttonSize]="'m'"
-      [buttonIcon]="'tuiIconX'"
-      [buttonClass]="'button-edit'"
-      (click)="edit()"
-    ></app-button-icon>
+    @if (isEnabled) {
+      <app-button-icon
+        [buttonShape]="'rounded'"
+        [buttonSize]="'m'"
+        [buttonIcon]="'@tui.x'"
+        [buttonClass]="'button-edit'"
+        (click)="edit()"
+      ></app-button-icon>
+    } @else {
+      <app-button-icon
+        [buttonShape]="'rounded'"
+        [buttonSize]="'m'"
+        [buttonIcon]="'@tui.pencil'"
+        [buttonClass]="'button-edit'"
+        (click)="edit()"
+      ></app-button-icon>
+    }
+    @if (isDataChanged) {
+      <app-button-icon
+        [buttonShape]="'rounded'"
+        [buttonSize]="'m'"
+        [buttonIcon]="'@tui.save'"
+        [buttonClass]="'button-update'"
+        (click)="submit('edit')"
+      ></app-button-icon>
+    }
+    @if (deleteOrUpdate == "deleteFromTeam" && !isDataChanged) {
+      <app-button-icon
+        [buttonShape]="'rounded'"
+        [buttonSize]="'m'"
+        [buttonIcon]="'@tui.trash'"
+        [buttonClass]="'button-remove'"
+        (click)="deleteDialog($event)"
+      ></app-button-icon>
+
+      <app-delete-dialog
+        [item]="item"
+        [dialogId]="'deleteDialogPlayer' + id"
+        (delete)="submit('deleteFromTeam')"
+      ></app-delete-dialog>
+    } @else if (deleteOrUpdate == "delete" && !isDataChanged) {
+      <app-button-icon
+        [buttonShape]="'rounded'"
+        [buttonSize]="'m'"
+        [buttonIcon]="'@tui.trash'"
+        [buttonClass]="'button-remove'"
+        (click)="deleteDialog($event)"
+      ></app-button-icon>
+
+      <app-delete-dialog
+        [item]="item"
+        [dialogId]="'deleteDialogPlayer' + id"
+        (delete)="delete(id)"
+      ></app-delete-dialog>
+    }
+    <!--  </ng-template>-->
   } @else {
     <app-button-icon
-      [buttonAppear]="TuiAppearance.Primary"
       [buttonShape]="'rounded'"
       [buttonSize]="'m'"
-      [buttonIcon]="'tuiIconEdit2'"
-      [buttonClass]="'button-edit'"
-      (click)="edit()"
+      [buttonIcon]="'@tui.save'"
+      [buttonClass]="'button-save-new'"
+      (click)="submit('add')"
+    ></app-button-icon>
+
+    <app-button-icon
+      [buttonShape]="'rounded'"
+      [buttonSize]="'m'"
+      [buttonIcon]="'@tui.x'"
+      [buttonClass]="'button-cancel'"
+      (click)="cancel()"
     ></app-button-icon>
   }
-  @if (isDataChanged) {
-    <app-button-icon
-      [buttonAppear]="'create'"
-      [buttonShape]="'rounded'"
-      [buttonSize]="'m'"
-      [buttonIcon]="'tuiIconSave'"
-      [buttonClass]="'button-update'"
-      (click)="submit('edit')"
-    ></app-button-icon>
-  }
-  @if (deleteOrUpdate == 'deleteFromTeam' && !isDataChanged) {
-    <app-button-icon
-      [buttonAppear]="TuiAppearance.Accent"
-      [buttonShape]="'rounded'"
-      [buttonSize]="'m'"
-      [buttonIcon]="'tuiIconTrash'"
-      [buttonClass]="'button-remove'"
-      (click)="deleteDialog($event)"
-    ></app-button-icon>
-
-    <app-delete-dialog
-      [item]="item"
-      [dialogId]="'deleteDialogPlayer'+id"
-      (delete)="submit('deleteFromTeam')"
-    ></app-delete-dialog>
-  } @else if (deleteOrUpdate == 'delete' && !isDataChanged) {
-    <app-button-icon
-      [buttonAppear]="TuiAppearance.Accent"
-      [buttonShape]="'rounded'"
-      [buttonSize]="'m'"
-      [buttonIcon]="'tuiIconTrash'"
-      [buttonClass]="'button-remove'"
-      (click)="deleteDialog($event)"
-    ></app-button-icon>
-
-    <app-delete-dialog
-      [item]="item"
-      [dialogId]="'deleteDialogPlayer'+id"
-      (delete)="delete(id)"
-    ></app-delete-dialog>
-
-  }
-  <!--  </ng-template>-->
-} @else {
-  <app-button-icon
-    [buttonAppear]="'create'"
-    [buttonShape]="'rounded'"
-    [buttonSize]="'m'"
-    [buttonIcon]="'tuiIconSave'"
-    [buttonClass]="'button-save-new'"
-    (click)="submit('add')"
-  ></app-button-icon>
-
-  <app-button-icon
-    [buttonAppear]="TuiAppearance.Accent"
-    [buttonShape]="'rounded'"
-    [buttonSize]="'m'"
-    [buttonIcon]="'tuiIconX'"
-    [buttonClass]="'button-cancel'"
-    (click)="cancel()"
-  ></app-button-icon>
-}
 </div>

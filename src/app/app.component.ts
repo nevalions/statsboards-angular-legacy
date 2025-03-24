@@ -1,11 +1,6 @@
-import {
-  TuiRootModule,
-  TuiDialogModule,
-  TuiAlertModule,
-  TuiLinkModule,
-  TuiLoaderModule,
-  TuiButtonModule,
-} from '@taiga-ui/core';
+import { TuiItem } from "@taiga-ui/cdk";
+import { TuiBreadcrumbs } from "@taiga-ui/kit";
+import { TuiRoot, TuiAlert, TuiLoader, TuiLink, TuiDialog, TuiButton } from '@taiga-ui/core';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -16,8 +11,6 @@ import { RouterLink, RouterOutlet } from '@angular/router';
 import { HeaderComponent } from './components/header/header.component';
 
 import { HomeComponent } from './components/home/home.component';
-import { TuiBreadcrumbsModule } from '@taiga-ui/kit';
-
 import { Observable } from 'rxjs';
 import { Breadcrumb } from './type/base.type';
 import { Store } from '@ngrx/store';
@@ -27,18 +20,18 @@ import { AppState } from './store/appstate';
   selector: 'app-root',
   standalone: true,
   imports: [
-    TuiButtonModule,
+    TuiButton,
     RouterLink,
     RouterOutlet,
     CommonModule,
     HomeComponent,
     HeaderComponent,
-    TuiRootModule,
-    TuiDialogModule,
-    TuiAlertModule,
-    TuiBreadcrumbsModule,
-    TuiLinkModule,
-    TuiLoaderModule,
+    TuiRoot,
+    TuiDialog,
+    TuiAlert,
+    TuiBreadcrumbs, TuiItem,
+    TuiLink,
+    TuiLoader,
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.less',

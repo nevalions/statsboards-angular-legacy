@@ -1,3 +1,5 @@
+import { TuiInputModule, TuiInputNumberModule, TuiInputSliderModule } from "@taiga-ui/legacy";
+import { TuiValueChanges } from "@taiga-ui/cdk";
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { catchError, finalize, map, Observable, of, Subject } from 'rxjs';
 import { IMatchFullDataWithScoreboard } from '../../../../type/match.type';
@@ -9,22 +11,13 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import {
-  TuiFieldErrorPipeModule,
-  TuiFileLike,
-  TuiInputFilesModule,
-  TuiInputModule,
-  TuiInputNumberModule,
-  TuiInputSliderModule,
-  TuiToggleModule,
-} from '@taiga-ui/kit';
-import { TuiErrorModule, TuiHintModule } from '@taiga-ui/core';
+import { TuiFileLike, TuiFieldErrorPipe, TuiFieldErrorContentPipe, TuiSwitch, TuiFiles } from '@taiga-ui/kit';
+import { TuiError, TuiHint } from '@taiga-ui/core';
 import { AdminSubmitButtonComponent } from '../../../ui/buttons/admin-submit-button/admin-submit-button.component';
 import { ImageService } from '../../../../services/image.service';
 import { switchMap } from 'rxjs/operators';
 import { ScoreboardData } from '../../../../components/scoreboard-data/scoreboard-data';
 import { IScoreboard } from '../../../../type/matchdata.type';
-import { TuiValueChangesModule } from '@taiga-ui/cdk';
 import { Websocket } from '../../../../store/websocket/websocket';
 
 @Component({
@@ -36,15 +29,15 @@ import { Websocket } from '../../../../store/websocket/websocket';
     AsyncPipe,
     ReactiveFormsModule,
     TuiInputModule,
-    TuiErrorModule,
-    TuiFieldErrorPipeModule,
+    TuiError,
+    TuiFieldErrorPipe, TuiFieldErrorContentPipe,
     AdminSubmitButtonComponent,
-    TuiInputFilesModule,
-    TuiToggleModule,
-    TuiValueChangesModule,
+    TuiFiles,
+    TuiSwitch,
+    TuiValueChanges,
     TuiInputNumberModule,
     TuiInputSliderModule,
-    TuiHintModule,
+    TuiHint,
   ],
   templateUrl: './change-teams-forms.component.html',
   styleUrl: './change-teams-forms.component.less',

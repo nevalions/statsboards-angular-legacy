@@ -1,25 +1,17 @@
-<tui-hosted-dropdown
-  [content]='content'
+<div
+  tuiDropdownOpen
+  [tuiDropdown]="content"
   class="hosted__list"
   tuiDropdownLimitWidth="fixed"
 >
-  <a
-    tuiButton
-    type="button"
-    size="m"
-    [iconRight]="arrow"
-    class="btn__list"
-  >
+  <a tuiButton type="button" size="m" class="btn__list">
     {{ title }}
   </a>
-</tui-hosted-dropdown>
+</div>
 <ng-template #content>
-  @if(dataList | async; as data){
-    <tui-data-list
-      role="menu"
-      class="data__list"
-    >
-      @for(item of data; track item.id){
+  @if (dataList | async; as data) {
+    <tui-data-list role="menu" class="data__list">
+      @for (item of data; track item.id) {
         <tui-opt-group>
           <a
             #rla="routerLinkActive"
@@ -32,15 +24,12 @@
             (click)="closeDropdown()"
           >
             {{ mapItemToLabel(item) }}
-            @if(rla.isActive){
-              <tui-svg
-                src="tuiIconCheck"
-              ></tui-svg>
+            @if (rla.isActive) {
+              <tui-icon icon="@tui.check"></tui-icon>
             }
           </a>
         </tui-opt-group>
-      }
-      @empty {
+      } @empty {
         <tui-loader [inheritColor]="true"></tui-loader>
       }
     </tui-data-list>

@@ -50,12 +50,13 @@
     [tuiTextfieldLabelOutside]="true"
     style="padding: 10px"
   >
-
-    @if (players &&
-    players.length &&
-    playerForm &&
-    playersArray &&
-    playersArray.length) {
+    @if (
+      players &&
+      players.length &&
+      playerForm &&
+      playersArray &&
+      playersArray.length
+    ) {
       <div class="table-match-roster">
         @if (players.length) {
           <div [formArrayName]="arrayName + side" class="table-body">
@@ -95,12 +96,13 @@
               <div class="table-cell-match-roster name">
                 @if (isRowEnabled(i)) {
                   <!-- enabled -->
-                  @if (getFormDataByIndexAndKey(
-                    playerFormGroup,
-                    i,
-                    "playerInMatchId"
-                  ); ) {
-
+                  @if (
+                    getFormDataByIndexAndKey(
+                      playerFormGroup,
+                      i,
+                      "playerInMatchId"
+                    )
+                  ) {
                     <app-select-player-to-match
                       [playerList]="availablePlayersInTeamTournament"
                       [matchId]="match.id!"
@@ -115,7 +117,6 @@
                       (playerSelect)="onPlayerSelect($event, i)"
                     ></app-select-player-to-match>
                   } @else {
-
                     <app-select-player-to-match
                       [playerList]="availablePlayersInTeamTournament"
                       [matchId]="match.id!"
@@ -129,12 +130,13 @@
                       "
                       (playerSelect)="onPlayerSelect($event, i)"
                     ></app-select-player-to-match>
-
                   }
                 } @else {
                   <!-- disabled -->
-                  @if (getFormDataByIndexAndKey(playerFormGroup, i, "fullName");
-                    as name) {
+                  @if (
+                    getFormDataByIndexAndKey(playerFormGroup, i, "fullName");
+                    as name
+                  ) {
                     {{ name | titlecase }}
                   }
                 }
@@ -173,10 +175,7 @@
                   (click)="toggle(id)"
                 >
                   <app-button-icon
-                    [buttonAppear]="tuiAppFlat"
-                    [buttonIcon]="
-                      isExpanded(id) ? 'tuiIconClose' : 'tuiIconMoreHorizontal'
-                    "
+                    [buttonIcon]="isExpanded(id) ? '@tui.x' : '@tui.ellipsis'"
                     [buttonSize]="'m'"
                   ></app-button-icon>
                 </div>
@@ -189,21 +188,25 @@
                 "
               >
                 @if (isRowEnabled(i)) {
-                  <tui-checkbox-labeled
-                    [formControl]="
-                      getFormControl(
-                        this.playerForm,
-                        i,
-                        'isStart',
-                        arrayName + side
-                      )
-                    "
-                    size="l"
-                  >is Start?
-                  </tui-checkbox-labeled
-                  >
+                  <label tuiLabel>
+                    <input
+                      tuiCheckbox
+                      type="checkbox"
+                      [formControl]="
+                        getFormControl(
+                          this.playerForm,
+                          i,
+                          'isStart',
+                          arrayName + side
+                        )
+                      "
+                      size="m"
+                    />is Start?
+                  </label>
                 } @else {
-                  @if (getFormDataByIndexAndKey(playerFormGroup, i, "isStart")) {
+                  @if (
+                    getFormDataByIndexAndKey(playerFormGroup, i, "isStart")
+                  ) {
                     <span>In Start Roster</span>
                   } @else {
                     <span></span>
@@ -215,18 +218,19 @@
                   <ng-template tuiExpandContent>
                     <div class="table-cell-match-roster actions">
                       <div class="player-short-profile">
-                        @if (playerFormGroup.get("photoUrl" + i)!.value;
-                          as photoUrl) {
+                        @if (
+                          playerFormGroup.get("photoUrl" + i)!.value;
+                          as photoUrl
+                        ) {
                           <tui-avatar
-                            size="xl"
-                            text=""
+                            [src]="backendUrl + photoUrl"
+                            size="xxl"
                             [class]="
                               isRowEnabled(i)
                                 ? 'player-photo-short-profile span-row-3'
                                 : 'player-photo-short-profile span-row-3'
                             "
-                            [rounded]="false"
-                            [avatarUrl]="backendUrl + photoUrl"
+                            [round]="false"
                             (error)="onImgError($event)"
                           ></tui-avatar>
                         }
@@ -234,12 +238,14 @@
                           <span>{{ dob | date }}</span>
                         }
                         @if (deleteOrUpdate == "delete") {
-                          @if (getFormDataByIndexAndKey(
-                            playerFormGroup,
-                            i,
-                            "playerInMatch"
-                          );
-                            as playerInMatch) {
+                          @if (
+                            getFormDataByIndexAndKey(
+                              playerFormGroup,
+                              i,
+                              "playerInMatch"
+                            );
+                            as playerInMatch
+                          ) {
                             <app-actions-buttons
                               [id]="id"
                               [subId]="
@@ -308,8 +314,10 @@
               }
             </div>
           </div>
-          @if (!players.length ||
-          players[players.length - 1].match_player.id !== null) {
+          @if (
+            !players.length ||
+            players[players.length - 1].match_player.id !== null
+          ) {
             <div class="table-row-match-roster final">
               <app-add-button-on-final-tr
                 [action]="'add player'"

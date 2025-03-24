@@ -1,8 +1,7 @@
+import { TuiArrowComponent } from "@taiga-ui/legacy";
+import { TuiButton } from "@taiga-ui/core";
 import { AsyncPipe, NgIf } from '@angular/common';
 import { Component, Input, ViewEncapsulation } from '@angular/core';
-import { TuiDropdownHostModule } from '@taiga-ui/cdk';
-import { TuiButtonModule } from '@taiga-ui/core';
-import { TuiArrowModule } from '@taiga-ui/kit';
 import { map, Observable } from 'rxjs';
 import { MatchData } from '../../../../components/match/matchdata';
 import { Ui } from '../../../../store/ui/ui';
@@ -43,9 +42,8 @@ import { FootballEvent } from '../../../../components/match-event/football-event
     ChangeTeamsFormsComponent,
     ScoreboardDataFormsComponent,
     RosterFormsComponent,
-    TuiButtonModule,
-    TuiArrowModule,
-    TuiDropdownHostModule,
+    TuiButton,
+    TuiArrowComponent,
     MainSponsorFormsComponent,
     EventsFormsComponent,
   ],

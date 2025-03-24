@@ -42,7 +42,7 @@
                   #positionInput
                   [attr.data-index]="i"
                   placeholder="POS"
-                  tuiTextfield
+                  tuiTextfieldLegacy
 
                   (keyup.enter)="onSubmit($event, p.id!)"
                 />{{ p.title | uppercase }}
@@ -61,8 +61,8 @@
                 ></app-delete-dialog>
                 <button
                   appearance="primary"
-                  icon="tuiIconEdit2"
-                  shape="rounded"
+                  iconStart="@tui.pencil"
+                  [style.border-radius.%]="100"
                   size="m"
                   title="Edit"
                   tuiIconButton
@@ -74,8 +74,8 @@
 
                 <button
                   appearance="create"
-                  icon="tuiIconSave"
-                  shape="rounded"
+                  iconStart="@tui.save"
+                  [style.border-radius.%]="100"
                   size="m"
                   title="Save"
                   tuiIconButton
@@ -87,8 +87,8 @@
 
                 <button
                   appearance="accent"
-                  icon="tuiIconTrash"
-                  shape="rounded"
+                  iconStart="@tui.trash"
+                  [style.border-radius.%]="100"
                   size="m"
                   title="Remove"
                   tuiIconButton
@@ -100,8 +100,8 @@
               } @else {
                 <button
                   appearance="create"
-                  icon="tuiIconSave"
-                  shape="rounded"
+                  iconStart="@tui.save"
+                  [style.border-radius.%]="100"
                   size="m"
                   title="Save New"
                   tuiIconButton
@@ -112,8 +112,8 @@
                 ></button>
                 <button
                   appearance="accent"
-                  icon="tuiIconX"
-                  shape="rounded"
+                  iconStart="@tui.x"
+                  [style.border-radius.%]="100"
                   size="m"
                   title="Remove"
                   tuiIconButton
@@ -130,7 +130,7 @@
             <td class="table-cell" tuiTd [attr.colspan]="2">
               <button
                 appearance="create"
-                icon="tuiIconPlus"
+                iconStart="@tui.plus"
                 shape="square"
                 size="m"
                 title="Add New"

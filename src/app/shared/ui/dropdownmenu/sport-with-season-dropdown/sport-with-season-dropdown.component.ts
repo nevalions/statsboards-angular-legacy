@@ -1,3 +1,4 @@
+import { TUI_ARROW } from "@taiga-ui/legacy";
 import {
   Component,
   inject,
@@ -5,7 +6,6 @@ import {
   OnChanges,
   SimpleChanges,
 } from '@angular/core';
-import { TUI_ARROW } from '@taiga-ui/kit';
 import { DropDownMenuComponent } from '../dropdownmenu.component';
 import { ISeasonAndSport, ISport } from '../../../../type/sport.type';
 import { IBaseIdElse } from '../../../../type/base.type';

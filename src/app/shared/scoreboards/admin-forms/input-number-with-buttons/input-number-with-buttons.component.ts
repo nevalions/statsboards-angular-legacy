@@ -1,8 +1,8 @@
+import { TuiButton } from "@taiga-ui/core";
+import { TuiTextfieldControllerModule, TuiInputNumberModule, TuiInputPhoneModule } from "@taiga-ui/legacy";
+import { TuiValueChanges } from "@taiga-ui/cdk";
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { TuiButtonModule, TuiTextfieldControllerModule } from '@taiga-ui/core';
-import { TuiInputNumberModule, TuiInputPhoneModule } from '@taiga-ui/kit';
 import { FormArray, FormControl, ReactiveFormsModule } from '@angular/forms';
-import { TuiValueChangesModule } from '@taiga-ui/cdk';
 import { UpperCasePipe } from '@angular/common';
 import { IFootballEventWithPlayers } from '../../../../type/football-event.type';
 
@@ -10,12 +10,12 @@ import { IFootballEventWithPlayers } from '../../../../type/football-event.type'
   selector: 'app-input-number-with-buttons',
   standalone: true,
   imports: [
-    TuiButtonModule,
+    TuiButton,
     TuiInputNumberModule,
     TuiInputPhoneModule,
     TuiTextfieldControllerModule,
     ReactiveFormsModule,
-    TuiValueChangesModule,
+    TuiValueChanges,
     UpperCasePipe,
   ],
   templateUrl: './input-number-with-buttons.component.html',

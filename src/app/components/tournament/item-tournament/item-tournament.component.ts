@@ -1,3 +1,5 @@
+import { TuiTextfieldControllerModule, TuiInputNumberModule, tuiInputNumberOptionsProvider } from "@taiga-ui/legacy";
+import { TuiValueChanges } from "@taiga-ui/cdk";
 import {
   AsyncPipe,
   DecimalPipe,
@@ -10,16 +12,7 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { TuiValueChangesModule } from '@taiga-ui/cdk';
-import {
-  TuiAppearance,
-  TuiLoaderModule,
-  TuiTextfieldControllerModule,
-} from '@taiga-ui/core';
-import {
-  TuiInputNumberModule,
-  tuiInputNumberOptionsProvider,
-} from '@taiga-ui/kit';
+import { TuiAppearance, TuiLoader } from '@taiga-ui/core';
 import { urlWithProtocol } from '../../../base/constants';
 import { SponsorLineComponent } from '../../../shared/scoreboards/sponsor-line/sponsor-line.component';
 import { BodyListTitleComponent } from '../../../shared/ui/body/body-title/body-list-title.component';
@@ -61,7 +54,7 @@ import { getFormControl } from '../../../base/formHelpers';
     AsyncPipe,
     UpperCasePipe,
     SponsorLineComponent,
-    TuiLoaderModule,
+    TuiLoader,
     EditButtonComponent,
     TournamentAddEditFormComponent,
     DeleteButtonComponent,
@@ -77,7 +70,7 @@ import { getFormControl } from '../../../base/formHelpers';
     AddEditTeamToTournamentTableComponent,
     AddEditPlayerToTeamTournamentTableComponent,
     TuiTextfieldControllerModule,
-    TuiValueChangesModule,
+    TuiValueChanges,
     DecimalPipe,
     TitleCasePipe,
     ParseButtonComponent,

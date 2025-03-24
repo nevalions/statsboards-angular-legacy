@@ -13,23 +13,27 @@
         <div class="tui-island__content">
           <figure class="tui-island__figure">
             <div class="some-figure">
-              @if (avatarUrl != 'none' || avatarUrl) {
+              @if (avatarUrl != "none" || avatarUrl) {
                 <tui-avatar
-                  size="l"
-                  text="{{item[titleProperty] || item[titlePropertyFirst] || item[titlePropertySecond] || 'image'}}"
+                  [src]="
+                    backendUrl + (item[avatarUrl] || '')
+                      | tuiFallbackSrc: getInitials(item)
+                  "
+                  size="xl"
                   class="tui-space_top-1"
-                  [rounded]="false"
-                  [avatarUrl]="backendUrl + item[avatarUrl] || null"
+                  [round]="false"
                 ></tui-avatar>
               }
             </div>
           </figure>
           <div>
             <h3 class="tui-island__title">
-              @if (titleProperty != 'none') {
+              @if (titleProperty != "none") {
                 {{ getTitleCase(item, titleProperty) | titlecase }}
-              } @else if (item[titlePropertyFirst] != 'none' &&
-              item[titlePropertySecond] != 'none') {
+              } @else if (
+                item[titlePropertyFirst] != "none" &&
+                item[titlePropertySecond] != "none"
+              ) {
                 {{ getTitleCase(item, titlePropertyFirst) | titlecase }}
                 {{ getTitleCase(item, titlePropertySecond) | titlecase }}
               } @else {
@@ -39,8 +43,7 @@
             <p class="tui-island__paragraph">
               @if (item[paragraphProperty]) {
                 {{ item[paragraphProperty] }}
-              } @else {
-              }
+              } @else {}
             </p>
           </div>
         </div>
@@ -50,4 +53,3 @@
     No Items Found
   }
 </div>
-

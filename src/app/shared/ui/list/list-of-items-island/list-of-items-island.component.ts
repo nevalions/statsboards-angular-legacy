@@ -1,3 +1,5 @@
+import { TuiAvatar } from "@taiga-ui/kit";
+import { TuiIslandDirective } from "@taiga-ui/legacy";
 import {
   ChangeDetectionStrategy,
   Component,
@@ -5,9 +7,8 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { TuiAvatarModule, TuiIslandModule } from '@taiga-ui/kit';
 import { AsyncPipe, TitleCasePipe, UpperCasePipe } from '@angular/common';
-import { TuiLoaderModule, TuiSizeL, TuiSizeS } from '@taiga-ui/core';
+import { TuiSizeL, TuiSizeS, TuiLoader, TuiFallbackSrcPipe, TuiInitialsPipe } from '@taiga-ui/core';
 import { Observable, of, Subscription } from 'rxjs';
 import { SearchListService } from '../../../../services/search-list.service';
 import { environment } from '../../../../../environments/environment';
@@ -17,12 +18,14 @@ import { getTitleCase } from '../../../../base/helpers';
   selector: 'app-list-of-items-island',
   standalone: true,
   imports: [
-    TuiIslandModule,
+    TuiIslandDirective,
     AsyncPipe,
-    TuiLoaderModule,
+    TuiLoader,
     TitleCasePipe,
     UpperCasePipe,
-    TuiAvatarModule,
+    TuiAvatar,
+    TuiFallbackSrcPipe,
+    TuiInitialsPipe
   ],
   templateUrl: './list-of-items-island.component.html',
   styleUrl: './list-of-items-island.component.less',
@@ -46,6 +49,14 @@ export class ListOfItemsIslandComponent<
 
   @Input() _size: TuiSizeL | TuiSizeS = 'l';
   @Input() hoverable: boolean = true;
+
+  getInitials(item: any): string {
+    const displayText = item[this.titleProperty] ||
+      item[this.titlePropertyFirst] ||
+      item[this.titlePropertySecond] ||
+      'image';
+    return displayText;
+  }
 
   backendUrl = environment.backendUrl;
 

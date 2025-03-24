@@ -1,6 +1,9 @@
 <ng-template
   let-observer
-  [tuiDialogOptions]="{label: action.toUpperCase() + ' TOURNAMENT', size: 'm'}"
+  [tuiDialogOptions]="{
+    label: action.toUpperCase() + ' TOURNAMENT',
+    size: 'm',
+  }"
   [(tuiDialog)]="open"
 >
   <form
@@ -9,9 +12,7 @@
   >
     <p></p>
     <div class="tui-form__row">
-      <tui-input
-        formControlName="tournamentTitle"
-      >
+      <tui-input formControlName="tournamentTitle">
         Tournament Title
         <span class="tui-required"></span>
       </tui-input>
@@ -22,9 +23,7 @@
     </div>
 
     <div class="tui-form__row">
-      <tui-textarea
-        formControlName="tournamentDescription"
-      >
+      <tui-textarea formControlName="tournamentDescription">
         Tournament Description
       </tui-textarea>
       <tui-error
@@ -33,20 +32,24 @@
       ></tui-error>
     </div>
     <div class="tui-form__row">
-      <tui-input-files
-        accept="image/*"
-        [formControl]="tournamentLogoForm"
-        (reject)="onReject($event)"
-        [maxFileSize]="30 * 1000 * 1000"
-        label="Tournament Logo"
-      ></tui-input-files>
+      <!-- DONE: (Taiga UI migration) Native input inside is now required and the wrapper has changed from <tui-input-files to <label tuiInputFiles, control moved to native input. See interactive example https://taiga-ui.dev/components/input-files -->
+      <label tuiInputFiles>
+        <input
+          tuiInputFiles
+          accept="image/*"
+          [formControl]="tournamentLogoForm"
+          (reject)="onReject($event)"
+          [maxFileSize]="30 * 1000 * 1000"
+          label="Tournament Logo"
+        />
+      </label>
 
       <tui-files>
         <tui-file
           *ngIf="loadedFiles$ | async as file"
           [file]="file"
           [showDelete]="tournamentLogoForm.enabled"
-          (removed)="removeFile()"
+          (remove)="removeFile()"
         ></tui-file>
 
         <tui-file
@@ -54,7 +57,7 @@
           state="error"
           [file]="file"
           [showDelete]="tournamentLogoForm.enabled"
-          (removed)="clearRejected()"
+          (remove)="clearRejected()"
         ></tui-file>
 
         <tui-file
@@ -79,8 +82,7 @@
         [src]="backendUrl + tournamentForm.controls['tournamentLogoUrl'].value"
         alt="Uploaded Tournament Logo"
         height="100px"
-      >
-
+      />
 
       <tui-error
         formControlName="tournamentLogoUrl"

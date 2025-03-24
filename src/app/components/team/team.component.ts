@@ -1,3 +1,4 @@
+import { TuiButton } from "@taiga-ui/core";
 import { Component, OnInit } from '@angular/core';
 import { WithTeamsComponent } from '../sport/item-sport/with-teams/with-teams.component';
 import { map, Observable, of } from 'rxjs';
@@ -8,7 +9,6 @@ import { tap } from 'rxjs/operators';
 import { SortService } from '../../services/sort.service';
 import { ListOfTeamsComponent } from './list-of-teams/list-of-teams.component';
 import { AsyncPipe, UpperCasePipe } from '@angular/common';
-import { TuiButtonModule } from '@taiga-ui/core';
 import { FormSearchAutoCompleteComponent } from '../../shared/ui/forms/form-search-auto-complete/form-search-auto-complete.component';
 
 @Component({
@@ -19,7 +19,7 @@ import { FormSearchAutoCompleteComponent } from '../../shared/ui/forms/form-sear
     ListOfTeamsComponent,
     AsyncPipe,
     RouterOutlet,
-    TuiButtonModule,
+    TuiButton,
     UpperCasePipe,
     FormSearchAutoCompleteComponent,
   ],

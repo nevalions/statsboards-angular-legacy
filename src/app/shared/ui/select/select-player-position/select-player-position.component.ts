@@ -1,20 +1,13 @@
+import { TuiSelectModule } from "@taiga-ui/legacy";
+import { TuiLet } from "@taiga-ui/cdk";
 import { Component, Input } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { IPosition } from '../../../../type/position.type';
-import {
-  TuiDataListWrapperModule,
-  tuiItemsHandlersProvider,
-  TuiSelectModule,
-} from '@taiga-ui/kit';
-import { TuiLetModule } from '@taiga-ui/cdk';
+import { tuiItemsHandlersProvider, TuiDataListWrapper } from '@taiga-ui/kit';
 import { WithNullOptionPipe } from '../../../../pipes/with-null-option.pipe';
 import { AddEditPositionComponent } from '../../../../components/position/add-edit-position/add-edit-position.component';
 import { EditButtonComponent } from '../../buttons/edit-button/edit-button.component';
-import {
-  TuiDataListModule,
-  TuiDropdownModule,
-  TuiSvgModule,
-} from '@taiga-ui/core';
+import { TuiDataList, TuiDropdown, TuiIcon } from '@taiga-ui/core';
 import { AddButtonIconComponent } from '../../buttons/add-button-icon/add-button-icon.component';
 import { UpperCasePipe } from '@angular/common';
 
@@ -23,17 +16,17 @@ import { UpperCasePipe } from '@angular/common';
   standalone: true,
   imports: [
     ReactiveFormsModule,
-    TuiDataListWrapperModule,
-    TuiLetModule,
+    TuiDataListWrapper,
+    TuiLet,
     TuiSelectModule,
     WithNullOptionPipe,
     AddEditPositionComponent,
     EditButtonComponent,
-    TuiDataListModule,
-    TuiSvgModule,
+    TuiDataList,
+    TuiIcon,
     AddButtonIconComponent,
     UpperCasePipe,
-    TuiDropdownModule,
+    TuiDropdown,
   ],
   providers: [
     tuiItemsHandlersProvider({

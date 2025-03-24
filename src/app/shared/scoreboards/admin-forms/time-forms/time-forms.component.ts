@@ -1,3 +1,5 @@
+import { TuiInputModule, TuiInputNumberModule } from "@taiga-ui/legacy";
+import { TuiError } from "@taiga-ui/core";
 import {
   ChangeDetectionStrategy,
   Component,
@@ -9,18 +11,13 @@ import { AsyncPipe, NgIf } from '@angular/common';
 import { Observable } from 'rxjs';
 import { IMatchFullDataWithScoreboard } from '../../../../type/match.type';
 import { ToggleVisibleButtonComponent } from '../../../ui/buttons/toggle-visible-button/toggle-visible-button.component';
-import {
-  TuiFieldErrorPipeModule,
-  TuiInputModule,
-  TuiInputNumberModule,
-} from '@taiga-ui/kit';
+import { TuiFieldErrorPipe, TuiFieldErrorContentPipe } from '@taiga-ui/kit';
 import {
   FormControl,
   FormGroup,
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { TuiErrorModule } from '@taiga-ui/core';
 import { AdminSubmitButtonComponent } from '../../../ui/buttons/admin-submit-button/admin-submit-button.component';
 import { AdminDownButtonComponent } from '../../../ui/buttons/admin-down-button/admin-down-button.component';
 import { Playclock } from '../../../../components/playclock/playclock';
@@ -39,8 +36,8 @@ import { getFormControl } from '../../../../base/formHelpers';
     AsyncPipe,
     ToggleVisibleButtonComponent,
     ReactiveFormsModule,
-    TuiErrorModule,
-    TuiFieldErrorPipeModule,
+    TuiError,
+    TuiFieldErrorPipe, TuiFieldErrorContentPipe,
     TuiInputNumberModule,
     TuiInputModule,
     AdminSubmitButtonComponent,

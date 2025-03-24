@@ -1,16 +1,12 @@
+import { TuiBlockStatus } from "@taiga-ui/layout";
+import { TuiIslandDirective, TuiSelectModule } from "@taiga-ui/legacy";
 import {
   ChangeDetectionStrategy,
   Component,
   ViewEncapsulation,
 } from '@angular/core';
 import { AsyncPipe, UpperCasePipe } from '@angular/common';
-import { TuiBlockStatusModule } from '@taiga-ui/layout';
-import { TuiIslandModule, TuiSelectModule } from '@taiga-ui/kit';
-import {
-  TuiButtonModule,
-  TuiDataListModule,
-  TuiLoaderModule,
-} from '@taiga-ui/core';
+import { TuiDataList, TuiLoader, TuiButton } from '@taiga-ui/core';
 import { SeasonDropdownComponent } from '../../../season/season-dropdown/season-dropdown.component';
 import { ListOfItemsIslandComponent } from '../../../../shared/ui/list/list-of-items-island/list-of-items-island.component';
 import { DropDownMenuComponent } from '../../../../shared/ui/dropdownmenu/dropdownmenu.component';
@@ -34,16 +30,16 @@ import { SponsorLine } from '../../../adv/sponsor-line/sponsorLine';
   standalone: true,
   imports: [
     AsyncPipe,
-    TuiBlockStatusModule,
+    TuiBlockStatus,
     TuiSelectModule,
-    TuiButtonModule,
-    TuiIslandModule,
+    TuiButton,
+    TuiIslandDirective,
     UpperCasePipe,
     SeasonDropdownComponent,
     ListOfItemsIslandComponent,
     DropDownMenuComponent,
-    TuiDataListModule,
-    TuiLoaderModule,
+    TuiDataList,
+    TuiLoader,
     FormSearchTextComponent,
     paginationWithItemsPerPage,
     SportWithSeasonDropdownComponent,

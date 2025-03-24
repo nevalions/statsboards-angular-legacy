@@ -1,5 +1,5 @@
+import { TuiButton } from "@taiga-ui/core";
 import { Component, inject, Input } from '@angular/core';
-import { TuiButtonModule } from '@taiga-ui/core';
 import { UpperCasePipe } from '@angular/common';
 import { DialogService } from '../../../../services/dialog.service';
 import { UiTuiSizeType } from '../../../../type/ui.type';
@@ -7,7 +7,7 @@ import { UiTuiSizeType } from '../../../../type/ui.type';
 @Component({
   selector: 'app-create-button-show-dialog',
   standalone: true,
-  imports: [TuiButtonModule, UpperCasePipe],
+  imports: [TuiButton, UpperCasePipe],
   templateUrl: './create-button-show-dialog.component.html',
   styleUrl: './create-button-show-dialog.component.less',
 })

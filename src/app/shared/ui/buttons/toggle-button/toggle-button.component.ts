@@ -1,3 +1,4 @@
+import { TuiButton } from "@taiga-ui/core";
 import {
   Component,
   EventEmitter,
@@ -5,14 +6,13 @@ import {
   Output,
   ViewEncapsulation,
 } from '@angular/core';
-import { TuiButtonModule } from '@taiga-ui/core';
 import { UpperCasePipe } from '@angular/common';
 import { FormArray, FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-toggle-button',
   standalone: true,
-  imports: [TuiButtonModule, UpperCasePipe],
+  imports: [TuiButton, UpperCasePipe],
   templateUrl: './toggle-button.component.html',
   styleUrl: './toggle-button.component.less',
 })

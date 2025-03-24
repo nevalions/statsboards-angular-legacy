@@ -1,20 +1,15 @@
+import { TuiButton } from "@taiga-ui/core";
+import { TuiTextfieldControllerModule, TuiComboBoxModule } from "@taiga-ui/legacy";
+import { TuiValueChanges } from "@taiga-ui/cdk";
 import { Component, Input } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import {
   stringifyMatchPlayerNumberSurnameName,
   toTitleCase,
 } from '../../../../base/helpers';
-import {
-  TuiComboBoxModule,
-  TuiDataListWrapperModule,
-  TuiFilterByInputPipeModule,
-  tuiItemsHandlersProvider,
-  TuiStringifyContentPipeModule,
-} from '@taiga-ui/kit';
+import { tuiItemsHandlersProvider, TuiDataListWrapper, TuiStringifyContentPipe, TuiFilterByInputPipe } from '@taiga-ui/kit';
 import { IPlayerInMatchFullData } from '../../../../type/player.type';
 import { UpperCasePipe } from '@angular/common';
-import { TuiButtonModule, TuiTextfieldControllerModule } from '@taiga-ui/core';
-import { TuiValueChangesModule } from '@taiga-ui/cdk';
 
 @Component({
   selector: 'app-search-player-in-match-autocomplete',
@@ -22,13 +17,13 @@ import { TuiValueChangesModule } from '@taiga-ui/cdk';
   imports: [
     ReactiveFormsModule,
     TuiComboBoxModule,
-    TuiDataListWrapperModule,
+    TuiDataListWrapper,
     UpperCasePipe,
-    TuiStringifyContentPipeModule,
-    TuiFilterByInputPipeModule,
+    TuiStringifyContentPipe,
+    TuiFilterByInputPipe,
     TuiTextfieldControllerModule,
-    TuiValueChangesModule,
-    TuiButtonModule,
+    TuiValueChanges,
+    TuiButton,
   ],
   providers: [
     tuiItemsHandlersProvider({

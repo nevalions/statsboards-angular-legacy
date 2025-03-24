@@ -1,3 +1,4 @@
+import { TuiTextfieldControllerModule } from "@taiga-ui/legacy";
 import {
   Component,
   inject,
@@ -21,7 +22,6 @@ import {
   getFormControlWithIndex,
   getFormDataByIndexAndKey,
 } from '../../../base/formHelpers';
-import { TuiTextfieldControllerModule } from '@taiga-ui/core';
 import { AddButtonOnFinalTrComponent } from '../../../shared/ui/buttons/add-button-on-final-tr/add-button-on-final-tr.component';
 import { NgForOf, TitleCasePipe } from '@angular/common';
 import { SelectTeamComponent } from '../../../shared/ui/forms/select-team/select-team.component';

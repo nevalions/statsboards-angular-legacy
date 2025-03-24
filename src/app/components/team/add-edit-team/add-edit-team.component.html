@@ -1,17 +1,12 @@
 <ng-template
   let-observer
-  [tuiDialogOptions]="{label: action.toUpperCase() +' ' +'TEAM', size: 'm'}"
+  [tuiDialogOptions]="{ label: action.toUpperCase() + ' ' + 'TEAM', size: 'm' }"
   [(tuiDialog)]="open"
 >
-  <form
-    [formGroup]="teamForm"
-    (ngSubmit)="onSubmit(); observer.complete()"
-  >
+  <form [formGroup]="teamForm" (ngSubmit)="onSubmit(); observer.complete()">
     <p></p>
     <div class="tui-form__row">
-      <tui-input
-        formControlName="teamTitle"
-      >
+      <tui-input formControlName="teamTitle">
         Team Title
 
         <span class="tui-required"></span>
@@ -23,11 +18,7 @@
     </div>
 
     <div class="tui-form__row">
-      <tui-input
-        formControlName="teamCity"
-      >
-        City
-      </tui-input>
+      <tui-input formControlName="teamCity"> City </tui-input>
       <tui-error
         formControlName="teamCity"
         [error]="[] | tuiFieldError | async"
@@ -35,9 +26,7 @@
     </div>
 
     <div class="tui-form__row">
-      <tui-textarea
-        formControlName="teamDescription"
-      >
+      <tui-textarea formControlName="teamDescription">
         Team Description
       </tui-textarea>
       <tui-error
@@ -47,20 +36,24 @@
     </div>
 
     <div class="tui-form__row">
-      <tui-input-files
-        accept="image/*"
-        [formControl]="teamLogoForm"
-        (reject)="onReject($event)"
-        [maxFileSize]="30 * 1000 * 1000"
-        label="Team Logo"
-      ></tui-input-files>
+      <!-- DONE: (Taiga UI migration) Native input inside is now required and the wrapper has changed from <tui-input-files to <label tuiInputFiles, control moved to native input. See interactive example https://taiga-ui.dev/components/input-files -->
+      <label tuiInputFiles>
+        <input
+          tuiInputFiles
+          accept="image/*"
+          [formControl]="teamLogoForm"
+          (reject)="onReject($event)"
+          [maxFileSize]="30 * 1000 * 1000"
+          label="Person Photo"
+        />
+      </label>
 
       <tui-files>
         <tui-file
           *ngIf="loadedFiles$ | async as file"
           [file]="file"
           [showDelete]="teamLogoForm.enabled"
-          (removed)="removeFile()"
+          (remove)="removeFile()"
         ></tui-file>
 
         <tui-file
@@ -68,7 +61,7 @@
           state="error"
           [file]="file"
           [showDelete]="teamLogoForm.enabled"
-          (removed)="clearRejected()"
+          (remove)="clearRejected()"
         ></tui-file>
 
         <tui-file
@@ -79,14 +72,12 @@
         ></tui-file>
       </tui-files>
 
-
       <img
         *ngIf="teamForm.controls['teamLogoUrl'].value"
         [src]="backendUrl + teamForm.controls['teamLogoUrl'].value"
         alt="Uploaded Team Logo"
         width="100px"
-      >
-
+      />
 
       <tui-error
         formControlName="teamLogoUrl"
@@ -101,14 +92,11 @@
         class="team-color-picker"
         type="color"
         style="width: 100%"
-      >
+      />
     </div>
 
-
     <div class="tui-form__row">
-      <tui-input-number
-        formControlName="teamEeslId"
-      >
+      <tui-input-number formControlName="teamEeslId">
         TEAM EESL ID
       </tui-input-number>
       <tui-error

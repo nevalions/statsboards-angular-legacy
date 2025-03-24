@@ -27,7 +27,6 @@
                   </p>
 
                   <app-edit-button
-                    [appearance]="TuiAppearance.Flat"
                     [buttonClass]="'tui-island__footer-button'"
                     [buttonSize]="'l'"
                     [action]="'edit'"
@@ -86,8 +85,20 @@
             @if (sport$ | async; as sport) {
               @if (match$ | async; as match) {
                 @if (season$ | async; as season) {
-                  <div class="one_col_container flex__fullwidth_center" style="padding: 20px">
-                    <app-qr [url]="qrMatchUrl(sport.id!, season.id!, match.match.tournament_id, match.id!)"></app-qr>
+                  <div
+                    class="one_col_container flex__fullwidth_center"
+                    style="padding: 20px"
+                  >
+                    <app-qr
+                      [url]="
+                        qrMatchUrl(
+                          sport.id!,
+                          season.id!,
+                          match.match.tournament_id,
+                          match.id!
+                        )
+                      "
+                    ></app-qr>
                   </div>
                 }
               }
@@ -101,8 +112,10 @@
                 @if (sport$ | async; as sport) {
                   @if (match$ | async; as match) {
                     @if (homeRoster$ | async; as players) {
-                      @if (availableMatchHomePlayers$ | async;
-                        as availablePlayers) {
+                      @if (
+                        availableMatchHomePlayers$ | async;
+                        as availablePlayers
+                      ) {
                         <app-add-edit-player-match-table
                           [players]="players"
                           [deleteOrUpdate]="'delete'"
@@ -125,8 +138,7 @@
                           "
                         ></app-add-edit-player-match-table>
                         <app-parse-button
-                          [isLoading]="(playerInMatchIsLoading$|async)!"
-                          [appear]="TuiAppearance.Primary"
+                          [isLoading]="(playerInMatchIsLoading$ | async)!"
                           [buttonSize]="'m'"
                           [item]="'add players from eesl'"
                           (click)="parsPlayerFromEESL()"
@@ -144,8 +156,10 @@
                 @if (sport$ | async; as sport) {
                   @if (match$ | async; as match) {
                     @if (awayRoster$ | async; as players) {
-                      @if (availableMatchAwayPlayers$ | async;
-                        as availablePlayers) {
+                      @if (
+                        availableMatchAwayPlayers$ | async;
+                        as availablePlayers
+                      ) {
                         <app-add-edit-player-match-table
                           [players]="players"
                           [deleteOrUpdate]="'delete'"
@@ -169,8 +183,7 @@
                         ></app-add-edit-player-match-table>
 
                         <app-parse-button
-                          [isLoading]="(playerInMatchIsLoading$|async)!"
-                          [appear]="TuiAppearance.Primary"
+                          [isLoading]="(playerInMatchIsLoading$ | async)!"
                           [buttonSize]="'m'"
                           [item]="'add players from eesl'"
                           (click)="parsPlayerFromEESL()"

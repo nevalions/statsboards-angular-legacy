@@ -1,3 +1,4 @@
+import { TuiTextfieldControllerModule, TuiInputModule, TuiInputNumberModule } from "@taiga-ui/legacy";
 import {
   ChangeDetectionStrategy,
   Component,
@@ -11,22 +12,14 @@ import { AsyncPipe, NgIf, UpperCasePipe } from '@angular/common';
 import { Observable } from 'rxjs';
 import { IMatchFullDataWithScoreboard } from '../../../../type/match.type';
 import { ToggleVisibleButtonComponent } from '../../../ui/buttons/toggle-visible-button/toggle-visible-button.component';
-import {
-  TuiButtonModule,
-  TuiErrorModule,
-  TuiTextfieldControllerModule,
-} from '@taiga-ui/core';
+import { TuiError, TuiButton } from '@taiga-ui/core';
 import {
   FormControl,
   FormGroup,
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import {
-  TuiFieldErrorPipeModule,
-  TuiInputModule,
-  TuiInputNumberModule,
-} from '@taiga-ui/kit';
+import { TuiFieldErrorPipe, TuiFieldErrorContentPipe } from '@taiga-ui/kit';
 import { IncrementButtonComponent } from '../../../ui/buttons/increment-button/increment-button.component';
 import { AdminSubmitButtonComponent } from '../../../ui/buttons/admin-submit-button/admin-submit-button.component';
 import { Websocket } from '../../../../store/websocket/websocket';
@@ -51,11 +44,11 @@ import { SimpleInputWithButtonsComponent } from '../simple-input-with-buttons/si
     AsyncPipe,
     NgIf,
     ToggleVisibleButtonComponent,
-    TuiButtonModule,
+    TuiButton,
     ReactiveFormsModule,
     TuiInputNumberModule,
-    TuiErrorModule,
-    TuiFieldErrorPipeModule,
+    TuiError,
+    TuiFieldErrorPipe, TuiFieldErrorContentPipe,
     TuiTextfieldControllerModule,
     IncrementButtonComponent,
     AdminSubmitButtonComponent,

@@ -1,7 +1,7 @@
+import { TuiAvatar } from "@taiga-ui/kit";
 import { Component, Input } from '@angular/core';
 import { ImageService } from '../../../services/image.service';
 import { environment } from '../../../../environments/environment';
-import { TuiAvatarModule } from '@taiga-ui/kit';
 import { AsyncPipe, UpperCasePipe } from '@angular/common';
 import { PlayerInMatch } from '../../../components/player-match/player-match';
 import { hexToRgba } from '../../../base/helpers';
@@ -9,7 +9,7 @@ import { hexToRgba } from '../../../base/helpers';
 @Component({
   selector: 'app-player-match-lower-display-flat',
   standalone: true,
-  imports: [TuiAvatarModule, UpperCasePipe, AsyncPipe],
+  imports: [TuiAvatar, UpperCasePipe, AsyncPipe],
   templateUrl: './player-match-lower-display-flat.component.html',
   styleUrl: './player-match-lower-display-flat.component.less',
 })

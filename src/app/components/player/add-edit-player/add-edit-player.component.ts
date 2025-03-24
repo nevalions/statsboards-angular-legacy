@@ -1,3 +1,4 @@
+import { TuiDialog } from "@taiga-ui/core";
 import {
   Component,
   EventEmitter,
@@ -19,7 +20,6 @@ import {
   Validators,
 } from '@angular/forms';
 import { IPerson } from '../../../type/person.type';
-import { TuiDialogModule } from '@taiga-ui/core';
 import { SearchPersonInputAutocompleteComponent } from '../../../shared/ui/search/search-person-input-autocomplete/search-person-input-autocomplete.component';
 import { CreateButtonInFormComponent } from '../../../shared/ui/buttons/create-button-in-form/create-button-in-form.component';
 import { CancelButtonInFormComponent } from '../../../shared/ui/buttons/cancel-button-in-form/cancel-button-in-form.component';
@@ -28,7 +28,7 @@ import { CancelButtonInFormComponent } from '../../../shared/ui/buttons/cancel-b
   selector: 'app-add-edit-player',
   standalone: true,
   imports: [
-    TuiDialogModule,
+    TuiDialog,
     ReactiveFormsModule,
     SearchPersonInputAutocompleteComponent,
     CreateButtonInFormComponent,

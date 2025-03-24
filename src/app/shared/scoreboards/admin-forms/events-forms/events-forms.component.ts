@@ -1,3 +1,5 @@
+import { TuiInputNumberModule } from "@taiga-ui/legacy";
+import { TuiError } from "@taiga-ui/core";
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { Observable } from 'rxjs';
 import { IFootballEventWithPlayers } from '../../../../type/football-event.type';
@@ -19,8 +21,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { TuiErrorModule } from '@taiga-ui/core';
-import { TuiFieldErrorPipeModule, TuiInputNumberModule } from '@taiga-ui/kit';
+import { TuiFieldErrorPipe, TuiFieldErrorContentPipe } from '@taiga-ui/kit';
 import { IMatchData } from '../../../../type/matchdata.type';
 import { Websocket } from '../../../../store/websocket/websocket';
 import { MatchData } from '../../../../components/match/matchdata';
@@ -41,8 +42,8 @@ import { SimpleFootballOffenceStatsComponent } from '../../../ui/events/football
     AddEditFootballEventTableComponent,
     AdminSubmitButtonComponent,
     ReactiveFormsModule,
-    TuiErrorModule,
-    TuiFieldErrorPipeModule,
+    TuiError,
+    TuiFieldErrorPipe, TuiFieldErrorContentPipe,
     TuiInputNumberModule,
     UpperCasePipe,
     TitleCasePipe,

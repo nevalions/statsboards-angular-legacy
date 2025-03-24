@@ -1,8 +1,7 @@
+import { TuiTextfieldControllerModule, TuiInputModule } from "@taiga-ui/legacy";
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { debounceTime, distinctUntilChanged } from 'rxjs';
-import { TuiInputModule } from '@taiga-ui/kit';
-import { TuiTextfieldControllerModule } from '@taiga-ui/core';
 import { UpperCasePipe } from '@angular/common';
 
 @Component({

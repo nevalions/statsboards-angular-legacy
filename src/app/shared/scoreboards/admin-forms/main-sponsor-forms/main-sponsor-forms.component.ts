@@ -1,3 +1,4 @@
+import { TuiInputSliderModule } from "@taiga-ui/legacy";
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { Observable } from 'rxjs';
 import { IMatchFullDataWithScoreboard } from '../../../../type/match.type';
@@ -8,7 +9,6 @@ import { AsyncPipe, NgIf } from '@angular/common';
 import { AdminDownButtonComponent } from '../../../ui/buttons/admin-down-button/admin-down-button.component';
 import { ToggleVisibleButtonComponent } from '../../../ui/buttons/toggle-visible-button/toggle-visible-button.component';
 import { AdminSubmitButtonComponent } from '../../../ui/buttons/admin-submit-button/admin-submit-button.component';
-import { TuiInputSliderModule } from '@taiga-ui/kit';
 import { Websocket } from '../../../../store/websocket/websocket';
 
 @Component({

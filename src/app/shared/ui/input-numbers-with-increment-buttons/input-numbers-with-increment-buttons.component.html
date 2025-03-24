@@ -9,11 +9,11 @@
     (tuiValueChanges)="onValueChange($event)"
   >
     {{ label | uppercase }}
-    <input name="{{ label | uppercase }}" tuiTextfield/>
+    <input name="{{ label | uppercase }}" tuiTextfieldLegacy/>
   </tui-input-number>
   <button
     appearance="icon"
-    [icon]="'tuiIconPlusCircleLarge'"
+    [iconStart]="'@tui.circle-plus'"
     tuiIconButton
     class="increment-button"
     [size]="'s'"
@@ -23,7 +23,7 @@
   </button>
   <button
     appearance="icon"
-    [icon]="'tuiIconMinusCircleLarge'"
+    [iconStart]="'@tui.circle-minus'"
     tuiIconButton
     class="decrement-button"
     [size]="'s'"

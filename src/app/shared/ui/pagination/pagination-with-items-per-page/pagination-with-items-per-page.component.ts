@@ -1,9 +1,10 @@
+import { TuiInputNumberModule } from "@taiga-ui/legacy";
+import { TuiValueChanges } from "@taiga-ui/cdk";
 import {Component, Input, inject, OnInit, OnDestroy, ChangeDetectionStrategy} from '@angular/core';
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {debounceTime, distinctUntilChanged, Observable, of, Subscription, take} from "rxjs";
 import { PaginationService } from "../../../../services/pagination.service"
-import {TuiInputNumberModule, TuiPaginationModule} from "@taiga-ui/kit";
-import {TuiValueChangesModule} from "@taiga-ui/cdk";
+import { TuiPagination } from "@taiga-ui/kit";
 import {AsyncPipe} from "@angular/common";
 
 @Component({
@@ -11,9 +12,9 @@ import {AsyncPipe} from "@angular/common";
   templateUrl: './pagination-with-items-per-page.component.html',
   standalone: true,
   imports: [
-    TuiPaginationModule,
+    TuiPagination,
     TuiInputNumberModule,
-    TuiValueChangesModule,
+    TuiValueChanges,
     AsyncPipe,
     ReactiveFormsModule
   ],

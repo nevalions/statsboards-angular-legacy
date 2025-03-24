@@ -1,17 +1,12 @@
 <ng-template
   let-observer
-  [tuiDialogOptions]="{label: action.toUpperCase() + ' POSITION', size: 'm'}"
+  [tuiDialogOptions]="{ label: action.toUpperCase() + ' POSITION', size: 'm' }"
   [(tuiDialog)]="open"
 >
-  <form
-    [formGroup]="personForm"
-    (ngSubmit)="onSubmit(); observer.complete()"
-  >
+  <form [formGroup]="personForm" (ngSubmit)="onSubmit(); observer.complete()">
     <p></p>
     <div class="tui-form__row">
-      <tui-input
-        formControlName="firstName"
-      >
+      <tui-input formControlName="firstName">
         First Name
         <span class="tui-required"></span>
       </tui-input>
@@ -22,9 +17,7 @@
     </div>
 
     <div class="tui-form__row">
-      <tui-input
-        formControlName="secondName"
-      >
+      <tui-input formControlName="secondName">
         Second Name
         <span class="tui-required"></span>
       </tui-input>
@@ -35,9 +28,7 @@
     </div>
 
     <div class="tui-form__row">
-      <tui-input-date-time
-        formControlName="personDob"
-      >
+      <tui-input-date-time formControlName="personDob">
         Person Date of Birth
       </tui-input-date-time>
       <tui-error
@@ -47,20 +38,24 @@
     </div>
 
     <div class="tui-form__row">
-      <tui-input-files
-        accept="image/*"
-        [formControl]="personPhotoForm"
-        (reject)="onReject($event)"
-        [maxFileSize]="30 * 1000 * 1000"
-        label="Person Photo"
-      ></tui-input-files>
+      <!-- DONE: (Taiga UI migration) Native input inside is now required and the wrapper has changed from <tui-input-files to <label tuiInputFiles, control moved to native input. See interactive example https://taiga-ui.dev/components/input-files -->
+      <label tuiInputFiles>
+        <input
+          tuiInputFiles
+          accept="image/*"
+          [formControl]="personPhotoForm"
+          (reject)="onReject($event)"
+          [maxFileSize]="30 * 1000 * 1000"
+          label="Person Photo"
+        />
+      </label>
 
       <tui-files>
         <tui-file
           *ngIf="loadedFiles$ | async as file"
           [file]="file"
           [showDelete]="personPhotoForm.enabled"
-          (removed)="removeFile()"
+          (remove)="removeFile()"
         ></tui-file>
 
         <tui-file
@@ -68,7 +63,7 @@
           state="error"
           [file]="file"
           [showDelete]="personPhotoForm.enabled"
-          (removed)="clearRejected()"
+          (remove)="clearRejected()"
         ></tui-file>
 
         <tui-file
@@ -93,7 +88,7 @@
         [src]="backendUrl + personForm.controls['personPhotoUrl'].value"
         alt="Uploaded Person Photo"
         height="100px"
-      >
+      />
       <tui-error
         formControlName="personPhotoUrl"
         [error]="[] | tuiFieldError | async"

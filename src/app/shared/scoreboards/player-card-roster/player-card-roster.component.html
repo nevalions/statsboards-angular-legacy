@@ -3,11 +3,13 @@
   <div class="start-roster-card">
     <div class="start-roster-card-photo">
       <tui-avatar
-        size="xl"
-        [text]="player.person?.first_name + ' ' + player.person?.second_name"
+        [src]="
+          backendUrl + (player.person?.person_photo_web_url || '')
+            | tuiFallbackSrc: getPlayerInitials(player)
+        "
+        size="xxl"
         class="player-roster-card-avatar"
-        [rounded]="false"
-        [avatarUrl]="backendUrl + player.person?.person_photo_web_url"
+        [round]="false"
         (error)="onImgError($event)"
       ></tui-avatar>
       <span class="start-roster-card-number">

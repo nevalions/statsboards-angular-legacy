@@ -1,12 +1,12 @@
+import { TuiButton } from "@taiga-ui/core";
 import {Component, Input} from '@angular/core';
-import {TuiButtonModule} from "@taiga-ui/core";
 import {UpperCasePipe} from "@angular/common";
 
 @Component({
   selector: 'app-create-button',
   standalone: true,
     imports: [
-        TuiButtonModule,
+        TuiButton,
         UpperCasePipe
     ],
   templateUrl: './create-button.component.html',

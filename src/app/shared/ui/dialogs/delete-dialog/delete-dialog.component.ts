@@ -1,3 +1,4 @@
+import { TuiCheckbox } from "@taiga-ui/kit";
 import { TitleCasePipe, UpperCasePipe } from '@angular/common';
 import {
   Component,
@@ -16,9 +17,7 @@ import {
   FormsModule,
   ReactiveFormsModule,
 } from '@angular/forms';
-import { TuiButtonModule, TuiDialogModule } from '@taiga-ui/core';
-
-import { TuiCheckboxLabeledModule } from '@taiga-ui/kit';
+import { TuiLabel, TuiDialog, TuiButton } from '@taiga-ui/core';
 import { Subscription } from 'rxjs';
 import { DialogService } from '../../../../services/dialog.service';
 import { CancelButtonInFormComponent } from '../../buttons/cancel-button-in-form/cancel-button-in-form.component';
@@ -29,15 +28,16 @@ import { DeleteButtonInFormComponent } from '../../buttons/delete-button-in-form
   standalone: true,
   imports: [
     FormsModule,
-    TuiButtonModule,
-    TuiDialogModule,
+    TuiButton,
+    TuiDialog,
     UpperCasePipe,
     ReactiveFormsModule,
     TitleCasePipe,
-    TuiCheckboxLabeledModule,
+    TuiLabel,
     DeleteButtonInFormComponent,
     CancelButtonInFormComponent,
-  ],
+      TuiCheckbox
+],
   templateUrl: './delete-dialog.component.html',
   styleUrl: './delete-dialog.component.less',
 })

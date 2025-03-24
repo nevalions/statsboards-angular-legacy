@@ -14,13 +14,14 @@
           <figure class="tui-island__figure">
             <div class="some-figure">
               <div class="some-figure">
-                @if (avatarUrl == 'title' || avatarUrl) {
+                @if (avatarUrl == "title" || avatarUrl) {
                   <tui-avatar
-                    size="l"
-                    text="{{item[titleProperty] || 'image'}}"
+                    [src]="
+                      backendUrl + (item[avatarUrl] || '')
+                        | tuiFallbackSrc: getInitialsText(item)
+                    "
+                    size="xl"
                     class="tui-space_top-1"
-                    [rounded]="false"
-                    [avatarUrl]="backendUrl + item[avatarUrl] || null"
                   ></tui-avatar>
                 }
               </div>
@@ -33,8 +34,7 @@
             <p class="tui-island__paragraph">
               @if (item[paragraphProperty]) {
                 {{ item[paragraphProperty] }}
-              } @else {
-              }
+              } @else {}
             </p>
           </div>
         </div>
@@ -44,4 +44,3 @@
     No Items Found
   }
 </div>
-

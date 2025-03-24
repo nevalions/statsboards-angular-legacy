@@ -1,3 +1,4 @@
+import { TuiInputModule } from "@taiga-ui/legacy";
 import { AsyncPipe, NgIf, UpperCasePipe } from '@angular/common';
 import {
   Component,
@@ -7,7 +8,6 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { TuiInputModule } from '@taiga-ui/kit';
 import { Observable } from 'rxjs';
 import { ScoreboardData } from '../../../../components/scoreboard-data/scoreboard-data';
 import { IMatchFullDataWithScoreboard } from '../../../../type/match.type';

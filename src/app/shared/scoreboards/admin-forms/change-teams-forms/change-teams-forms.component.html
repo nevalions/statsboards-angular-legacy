@@ -2,52 +2,43 @@
 <app-toggle-visible-button
   [isVisible$]="changeTeamsFormsVisible$"
   [formName]="'changeTeamsForms'"
-  [buttonText]="'Teams Forms'">
-</app-toggle-visible-button>
-<div
-  *ngIf="changeTeamsFormsVisible$ | async"
-  class="change-team-info"
+  [buttonText]="'Teams Forms'"
 >
-  <form
-    class="name-form-a"
-    [formGroup]="teamDataForm"
-  >
-    <tui-input
-      formControlName="teamATitle"
-    >Home Team Game Title:
-    </tui-input>
+</app-toggle-visible-button>
+<div *ngIf="changeTeamsFormsVisible$ | async" class="change-team-info">
+  <form class="name-form-a" [formGroup]="teamDataForm">
+    <tui-input formControlName="teamATitle">Home Team Game Title: </tui-input>
     <tui-error
       formControlName="teamATitle"
       [error]="[] | tuiFieldError | async"
     ></tui-error>
     <app-admin-submit-button
-      (click)="updateTeamGameTitle('a',data?.scoreboard_data!)"
+      (click)="updateTeamGameTitle('a', data?.scoreboard_data!)"
     ></app-admin-submit-button>
     <div>
       <label class="to-label tui-text_body-m">
         {{
-          teamDataForm.controls['useTeamAGameTitle'].value ?
-            'Use Season Title' : 'Use Game Title'
+          teamDataForm.controls["useTeamAGameTitle"].value
+            ? "Use Season Title"
+            : "Use Game Title"
         }}
       </label>
-      <tui-toggle
+      <input
+        tuiSwitch
+        type="checkbox"
         formControlName="useTeamAGameTitle"
-        size="l"
+        size="m"
         [showIcons]="true"
-        (tuiValueChanges)="toggleItemsUsage('aTitle', $event, data?.scoreboard_data!)"
-      ></tui-toggle>
+        (tuiValueChanges)="
+          toggleItemsUsage('aTitle', $event, data?.scoreboard_data!)
+        "
+      />
     </div>
   </form>
 
   <!-- Form for changing Team B's name -->
-  <form
-    class="name-form-b"
-    [formGroup]="teamDataForm"
-  >
-    <tui-input
-      formControlName="teamBTitle"
-    >Away Team Game Title:
-    </tui-input>
+  <form class="name-form-b" [formGroup]="teamDataForm">
+    <tui-input formControlName="teamBTitle">Away Team Game Title: </tui-input>
     <tui-error
       formControlName="teamBTitle"
       [error]="[] | tuiFieldError | async"
@@ -58,40 +49,45 @@
     <div>
       <label class="to-label tui-text_body-m">
         {{
-          teamDataForm.controls['useTeamBGameTitle'].value ?
-            'Use Season Title' : 'Use Game Title'
+          teamDataForm.controls["useTeamBGameTitle"].value
+            ? "Use Season Title"
+            : "Use Game Title"
         }}
       </label>
-      <tui-toggle
+      <input
+        tuiSwitch
+        type="checkbox"
         formControlName="useTeamBGameTitle"
-        size="l"
+        size="m"
         [showIcons]="true"
-        (tuiValueChanges)="toggleItemsUsage('bTitle', $event, data?.scoreboard_data!)"
-      ></tui-toggle>
+        (tuiValueChanges)="
+          toggleItemsUsage('bTitle', $event, data?.scoreboard_data!)
+        "
+      />
     </div>
   </form>
 
   <!-- Form for changing Team A's logo -->
-  <form
-    class="logo-form-a"
-    [formGroup]="teamDataForm"
-  >
-
-    <tui-input-files
-      *ngIf="!teamALogoForm.value"
-      accept="image/*"
-      [formControl]="teamALogoForm"
-      (reject)="onReject('a', $event)"
-      [maxFileSize]="30 * 1000 * 1000"
-    >Home Team Game Logo:
-    </tui-input-files>
+  <form class="logo-form-a" [formGroup]="teamDataForm">
+    <!-- DONE: (Taiga UI migration) Native input inside is now required and the wrapper has changed from <tui-input-files to <label tuiInputFiles, control moved to native input. See interactive example https://taiga-ui.dev/components/input-files -->
+    <label tuiInputFiles>
+      <input
+        *ngIf="!teamALogoForm.value"
+        tuiInputFiles
+        accept="image/*"
+        [formControl]="teamALogoForm"
+        (reject)="onReject('a', $event)"
+        [maxFileSize]="30 * 1000 * 1000"
+        label="Home Team Game Logo"
+      />
+    </label>
 
     <tui-files>
       <tui-file
         *ngIf="loadedTeamALogo$ | async as file"
         [file]="file"
         [showDelete]="teamALogoForm.enabled"
-        (removed)="removeFile('a')"
+        (remove)="removeFile('a')"
       ></tui-file>
 
       <tui-file
@@ -99,7 +95,7 @@
         state="error"
         [file]="file"
         [showDelete]="teamALogoForm.enabled"
-        (removed)="clearRejected('a')"
+        (remove)="clearRejected('a')"
       ></tui-file>
 
       <tui-file
@@ -120,16 +116,21 @@
     <div>
       <label class="to-label tui-text_body-m">
         {{
-          teamDataForm.controls['useTeamAGameLogo'].value ?
-            'Use Season Logo' : 'Use Game Logo'
+          teamDataForm.controls["useTeamAGameLogo"].value
+            ? "Use Season Logo"
+            : "Use Game Logo"
         }}
       </label>
-      <tui-toggle
+      <input
+        tuiSwitch
+        type="checkbox"
         formControlName="useTeamAGameLogo"
-        size="l"
+        size="m"
         [showIcons]="true"
-        (tuiValueChanges)="toggleItemsUsage('aLogo', $event, data?.scoreboard_data!)"
-      ></tui-toggle>
+        (tuiValueChanges)="
+          toggleItemsUsage('aLogo', $event, data?.scoreboard_data!)
+        "
+      />
     </div>
     <div class="logo-scale-size">
       <tui-input-slider
@@ -138,7 +139,7 @@
         [min]="min"
         [quantum]="quantum"
         [steps]="steps"
-      >Select Logo Size
+        >Select Logo Size
       </tui-input-slider>
       <app-admin-submit-button
         (click)="scaleLogo('a', data?.scoreboard_data!)"
@@ -147,25 +148,26 @@
   </form>
 
   <!-- Form for changing Team B's logo -->
-  <form
-    class="logo-form-b"
-    [formGroup]="teamDataForm"
-  >
-    <tui-input-files
-      *ngIf="!teamBLogoForm.value"
-      accept="image/*"
-      [formControl]="teamBLogoForm"
-      (reject)="onReject('b', $event)"
-      [maxFileSize]="30 * 1000 * 1000"
-    >Home Team Game Logo:
-    </tui-input-files>
+  <form class="logo-form-b" [formGroup]="teamDataForm">
+    <!-- DONE: (Taiga UI migration) Native input inside is now required and the wrapper has changed from <tui-input-files to <label tuiInputFiles, control moved to native input. See interactive example https://taiga-ui.dev/components/input-files -->
+    <label tuiInputFiles>
+      <input
+        *ngIf="!teamBLogoForm.value"
+        tuiInputFiles
+        accept="image/*"
+        [formControl]="teamBLogoForm"
+        (reject)="onReject('b', $event)"
+        [maxFileSize]="30 * 1000 * 1000"
+        label="Away Team Game Logo"
+      />
+    </label>
 
     <tui-files>
       <tui-file
         *ngIf="loadedTeamBLogo$ | async as file"
         [file]="file"
         [showDelete]="teamBLogoForm.enabled"
-        (removed)="removeFile('b')"
+        (remove)="removeFile('b')"
       ></tui-file>
 
       <tui-file
@@ -173,11 +175,11 @@
         state="error"
         [file]="file"
         [showDelete]="teamBLogoForm.enabled"
-        (removed)="clearRejected('b')"
+        (remove)="clearRejected('b')"
       ></tui-file>
 
       <tui-file
-        *ngIf="loadingTeamBFiles$| async as file"
+        *ngIf="loadingTeamBFiles$ | async as file"
         state="loading"
         [file]="file"
         [showDelete]="teamBLogoForm.enabled"
@@ -194,16 +196,21 @@
     <div>
       <label class="to-label tui-text_body-m">
         {{
-          teamDataForm.controls['useTeamBGameLogo'].value ?
-            'Use Season Logo' : 'Use Game Logo'
+          teamDataForm.controls["useTeamBGameLogo"].value
+            ? "Use Season Logo"
+            : "Use Game Logo"
         }}
       </label>
-      <tui-toggle
+      <input
+        tuiSwitch
+        type="checkbox"
         formControlName="useTeamBGameLogo"
-        size="l"
+        size="m"
         [showIcons]="true"
-        (tuiValueChanges)="toggleItemsUsage('bLogo', $event, data?.scoreboard_data!)"
-      ></tui-toggle>
+        (tuiValueChanges)="
+          toggleItemsUsage('bLogo', $event, data?.scoreboard_data!)
+        "
+      />
     </div>
     <div class="logo-scale-size">
       <tui-input-slider
@@ -212,7 +219,7 @@
         [min]="min"
         [quantum]="quantum"
         [steps]="steps"
-      >Select Logo Size
+        >Select Logo Size
       </tui-input-slider>
       <app-admin-submit-button
         (click)="scaleLogo('b', data?.scoreboard_data!)"
@@ -220,4 +227,3 @@
     </div>
   </form>
 </div>
-

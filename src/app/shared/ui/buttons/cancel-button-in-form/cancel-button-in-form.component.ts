@@ -1,11 +1,11 @@
+import { TuiButton } from "@taiga-ui/core";
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { TuiButtonModule } from '@taiga-ui/core';
 import { UpperCasePipe } from '@angular/common';
 
 @Component({
   selector: 'app-cancel-button-in-form',
   standalone: true,
-  imports: [TuiButtonModule, UpperCasePipe],
+  imports: [TuiButton, UpperCasePipe],
   templateUrl: './cancel-button-in-form.component.html',
   styleUrl: './cancel-button-in-form.component.less',
 })

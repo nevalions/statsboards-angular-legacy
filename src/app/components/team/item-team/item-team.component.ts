@@ -10,11 +10,7 @@ import {
   TitleCasePipe,
   UpperCasePipe,
 } from '@angular/common';
-import {
-  TuiAppearance,
-  TuiButtonModule,
-  TuiLoaderModule,
-} from '@taiga-ui/core';
+import { TuiAppearance, TuiLoader, TuiButton } from '@taiga-ui/core';
 import { Team } from '../team';
 import { ImageService } from '../../../services/image.service';
 import { urlWithProtocol } from '../../../base/constants';
@@ -45,7 +41,7 @@ import { calculateAgeStats } from '../../../base/helpers';
   standalone: true,
   imports: [
     AsyncPipe,
-    TuiLoaderModule,
+    TuiLoader,
     UpperCasePipe,
     DeleteDialogComponent,
     NgOptimizedImage,
@@ -58,10 +54,9 @@ import { calculateAgeStats } from '../../../base/helpers';
     AddEditPlayerToTeamTournamentTableComponent,
     AddEditPlayerToTeamTournamentComponent,
     CreateButtonShowDialogComponent,
-    TuiButtonModule,
+    TuiButton,
     ParseButtonComponent,
     DecimalPipe,
-    SponsorLineComponent,
     TitleCasePipe,
   ],
   templateUrl: './item-team.component.html',

@@ -1,11 +1,12 @@
+import { TuiSelectModule } from "@taiga-ui/legacy";
+import { TuiLet } from "@taiga-ui/cdk";
 import { Component, inject, Input } from '@angular/core';
 import { combineLatest, map, Observable } from 'rxjs';
 import { ITeam, ITeamTournament } from '../../../../type/team.type';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { TuiButtonModule, TuiDialogModule } from '@taiga-ui/core';
+import { TuiDialog, TuiButton } from '@taiga-ui/core';
 import { AsyncPipe } from '@angular/common';
-import { TuiDataListWrapperModule, TuiSelectModule } from '@taiga-ui/kit';
-import { TuiLetModule } from '@taiga-ui/cdk';
+import { TuiDataListWrapper } from '@taiga-ui/kit';
 import { AddItemDialogFromListComponent } from '../../../../shared/ui/dialogs/add-item-dialog-from-list/add-item-dialog-from-list.component';
 import { AppState } from '../../../../store/appstate';
 import { Store } from '@ngrx/store';
@@ -16,12 +17,12 @@ import { teamTournamentActions } from '../../../team-tournament/store/actions';
   standalone: true,
   imports: [
     FormsModule,
-    TuiButtonModule,
-    TuiDialogModule,
+    TuiButton,
+    TuiDialog,
     ReactiveFormsModule,
     AsyncPipe,
-    TuiDataListWrapperModule,
-    TuiLetModule,
+    TuiDataListWrapper,
+    TuiLet,
     TuiSelectModule,
     AddItemDialogFromListComponent,
   ],

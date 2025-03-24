@@ -1,3 +1,5 @@
+import { TuiSelectModule } from "@taiga-ui/legacy";
+import { TuiLet } from "@taiga-ui/cdk";
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { AsyncPipe, TitleCasePipe, UpperCasePipe } from '@angular/common';
 import {
@@ -7,17 +9,11 @@ import {
   FormsModule,
   ReactiveFormsModule,
 } from '@angular/forms';
-import {
-  TuiAvatarModule,
-  TuiDataListWrapperModule,
-  tuiItemsHandlersProvider,
-  TuiSelectModule,
-} from '@taiga-ui/kit';
-import { TuiLetModule } from '@taiga-ui/cdk';
+import { tuiItemsHandlersProvider, TuiDataListWrapper, TuiAvatar } from '@taiga-ui/kit';
 import { Observable, of } from 'rxjs';
 import { ITeam } from '../../../../type/team.type';
 import { AddButtonIconComponent } from '../../buttons/add-button-icon/add-button-icon.component';
-import { TuiDataListModule, TuiDropdownModule } from '@taiga-ui/core';
+import { TuiDataList, TuiDropdown } from '@taiga-ui/core';
 import { IPosition } from '../../../../type/position.type';
 import { toTitleCase } from '../../../../base/helpers';
 
@@ -28,15 +24,15 @@ import { toTitleCase } from '../../../../base/helpers';
     AsyncPipe,
     FormsModule,
     ReactiveFormsModule,
-    TuiAvatarModule,
-    TuiDataListWrapperModule,
-    TuiLetModule,
+    TuiAvatar,
+    TuiDataListWrapper,
+    TuiLet,
     TuiSelectModule,
     AddButtonIconComponent,
-    TuiDataListModule,
+    TuiDataList,
     UpperCasePipe,
     TitleCasePipe,
-    TuiDropdownModule,
+    TuiDropdown,
   ],
   providers: [
     tuiItemsHandlersProvider({

@@ -1,12 +1,7 @@
+import { TuiTabs } from "@taiga-ui/kit";
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { TuiActiveZoneModule, TuiObscuredModule } from '@taiga-ui/cdk';
-import {
-  TuiAppearance,
-  TuiButtonModule,
-  TuiDropdownModule,
-  TuiHostedDropdownModule,
-} from '@taiga-ui/core';
-import { TuiTabsModule } from '@taiga-ui/kit';
+import { TuiActiveZone, TuiObscured } from '@taiga-ui/cdk';
+import { TuiAppearance, TuiDropdown, TuiButton } from '@taiga-ui/core';
 import { DeleteDialogComponent } from '../../dialogs/delete-dialog/delete-dialog.component';
 import { ButtonIconComponent } from '../button-icon/button-icon.component';
 
@@ -15,13 +10,12 @@ import { ButtonIconComponent } from '../button-icon/button-icon.component';
   standalone: true,
   imports: [
     ButtonIconComponent,
-    TuiHostedDropdownModule,
-    TuiButtonModule,
+    TuiDropdown,
+    TuiButton,
     DeleteDialogComponent,
-    TuiDropdownModule,
-    TuiTabsModule,
-    TuiActiveZoneModule,
-    TuiObscuredModule,
+    TuiTabs,
+    TuiActiveZone,
+    TuiObscured,
   ],
   templateUrl: './actions-buttons.component.html',
   styleUrl: './actions-buttons.component.less',

@@ -1,3 +1,4 @@
+import { TuiTextareaModule, TuiInputModule, TuiSelectModule } from "@taiga-ui/legacy";
 import {
   Component,
   EventEmitter,
@@ -15,23 +16,9 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import {
-  TuiButtonModule,
-  TuiDialogModule,
-  TuiErrorModule,
-  TuiHintModule,
-} from '@taiga-ui/core';
-import {
-  TuiAvatarModule,
-  TuiDataListWrapperModule,
-  TuiFieldErrorPipeModule,
-  TuiFileLike,
-  TuiInputFilesModule,
-  TuiInputModule,
-  TuiSelectModule,
-  TuiTextareaModule,
-} from '@taiga-ui/kit';
-import { TuiAutoFocusModule, TuiLetModule } from '@taiga-ui/cdk';
+import { TuiError, TuiDialog, TuiButton, TuiHint } from '@taiga-ui/core';
+import { TuiFileLike, TuiDataListWrapper, TuiFieldErrorPipe, TuiFieldErrorContentPipe, TuiAvatar, TuiFiles } from '@taiga-ui/kit';
+import { TuiAutoFocus, TuiLet } from '@taiga-ui/cdk';
 import { ITournament } from '../../../type/tournament.type';
 import { AsyncPipe, NgIf, TitleCasePipe } from '@angular/common';
 import { CreateButtonInFormComponent } from '../../../shared/ui/buttons/create-button-in-form/create-button-in-form.component';
@@ -60,26 +47,26 @@ import { UploadResizeImageResponse } from '../../../type/base.type';
   selector: 'app-tournament-add-edit-form',
   standalone: true,
   imports: [
-    TuiButtonModule,
-    TuiHintModule,
-    TuiDialogModule,
+    TuiButton,
+    TuiHint,
+    TuiDialog,
     TuiInputModule,
     ReactiveFormsModule,
-    TuiAutoFocusModule,
-    TuiFieldErrorPipeModule,
+    TuiAutoFocus,
+    TuiFieldErrorPipe, TuiFieldErrorContentPipe,
     AsyncPipe,
-    TuiErrorModule,
+    TuiError,
     TuiTextareaModule,
     CreateButtonInFormComponent,
     CancelButtonInFormComponent,
     NgIf,
-    TuiInputFilesModule,
+    TuiFiles,
     TitleCasePipe,
-    TuiDataListWrapperModule,
-    TuiLetModule,
+    TuiDataListWrapper,
+    TuiLet,
     TuiSelectModule,
     SelectFromListComponent,
-    TuiAvatarModule,
+    TuiAvatar,
   ],
   templateUrl: './tournament-add-edit-form.component.html',
   styleUrl: './tournament-add-edit-form.component.less',

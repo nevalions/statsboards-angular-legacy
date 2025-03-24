@@ -1,25 +1,19 @@
+import { TuiTextfieldControllerModule, TuiComboBoxModule } from "@taiga-ui/legacy";
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { stringifyEnumObject, toTitleCase } from '../../../../base/helpers';
-import {
-  TuiComboBoxModule,
-  TuiDataListWrapperModule,
-  TuiFilterByInputPipeModule,
-  tuiItemsHandlersProvider,
-  TuiStringifyContentPipeModule,
-} from '@taiga-ui/kit';
+import { tuiItemsHandlersProvider, TuiDataListWrapper, TuiStringifyContentPipe, TuiFilterByInputPipe } from '@taiga-ui/kit';
 import { UpperCasePipe } from '@angular/common';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { IEnumObject } from '../../../../type/base.type';
-import { TuiTextfieldControllerModule } from '@taiga-ui/core';
 
 @Component({
   selector: 'app-search-enum',
   standalone: true,
   imports: [
     TuiComboBoxModule,
-    TuiDataListWrapperModule,
-    TuiFilterByInputPipeModule,
-    TuiStringifyContentPipeModule,
+    TuiDataListWrapper,
+    TuiFilterByInputPipe,
+    TuiStringifyContentPipe,
     UpperCasePipe,
     ReactiveFormsModule,
     TuiTextfieldControllerModule,

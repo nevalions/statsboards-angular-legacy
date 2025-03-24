@@ -1,44 +1,48 @@
 @if (side === "offense") {
-  <div class="start-offense-roster-display" [style.background-color]="hexToRgba(scoreboardTeamColor, 0.8)">
-    <div class="start-offense-roster-display-header">
-      @if (team) {
-        <tui-avatar
-          size="xl"
-          [text]="team.title"
-          class="team-logo"
-          [rounded]="false"
-          [avatarUrl]="backendUrl + team.team_logo_web_url"
-          (error)="onImgError($event)"
-        ></tui-avatar>
-        <!--        <div class="team-offense">{{ team.title | uppercase }} OFFENSE</div>-->
-        <div class="team-offense">{{ team.title | uppercase }} НАПАДЕНИЕ</div>
+<div
+  class="start-offense-roster-display"
+  [style.background-color]="hexToRgba(scoreboardTeamColor, 0.8)"
+>
+  <div class="start-offense-roster-display-header">
+    @if (team) {
+    <tui-avatar
+      [src]="(backendUrl + (team.team_logo_web_url || '')) | tuiFallbackSrc : (team.title | tuiInitials)"
+      size="xxl"
+      class="team-logo"
+      [round]="false"
+      (error)="onImgError($event)"
+    ></tui-avatar>
+    <!--        <div class="team-offense">{{ team.title | uppercase }} OFFENSE</div>-->
+    <div class="team-offense">{{ team.title | uppercase }} НАПАДЕНИЕ</div>
 
-      }
-    </div>
-
-    <app-oline-start [startOL]="players"></app-oline-start>
-    <app-qb-wr-start [startQbWr]="players"></app-qb-wr-start>
-    <app-backs-start [startRB]="players"></app-backs-start>
+    }
   </div>
+
+  <app-oline-start [startOL]="players"></app-oline-start>
+  <app-qb-wr-start [startQbWr]="players"></app-qb-wr-start>
+  <app-backs-start [startRB]="players"></app-backs-start>
+</div>
 } @else if (side === "defense") {
-  <div class="start-offense-roster-display" [style.background-color]="hexToRgba(scoreboardTeamColor, 0.8)">
-    <div class="start-offense-roster-display-header">
-      @if (team) {
-        <tui-avatar
-          size="xl"
-          [text]="team.title"
-          class="team-logo"
-          [rounded]="false"
-          [avatarUrl]="backendUrl + team.team_logo_web_url"
-          (error)="onImgError($event)"
-        ></tui-avatar>
-        <!--        <div class="team-offense">{{ team.title | uppercase }} DEFENSE</div>-->
-        <div class="team-offense">{{ team.title | uppercase }} ЗАЩИТА</div>
+<div
+  class="start-offense-roster-display"
+  [style.background-color]="hexToRgba(scoreboardTeamColor, 0.8)"
+>
+  <div class="start-offense-roster-display-header">
+    @if (team) {
+    <tui-avatar
+      [src]="(backendUrl + (team.team_logo_web_url || '')) | tuiFallbackSrc : (team.title | tuiInitials)"
+      size="xxl"
+      class="team-logo"
+      [round]="false"
+      (error)="onImgError($event)"
+    ></tui-avatar>
+    <!--        <div class="team-offense">{{ team.title | uppercase }} DEFENSE</div>-->
+    <div class="team-offense">{{ team.title | uppercase }} ЗАЩИТА</div>
 
-      }
-    </div>
-    <app-dline-starts [startDL]="players"></app-dline-starts>
-    <app-lb-starts [startLB]="players"></app-lb-starts>
-    <app-db-starts [startDB]="players"></app-db-starts>
+    }
   </div>
+  <app-dline-starts [startDL]="players"></app-dline-starts>
+  <app-lb-starts [startLB]="players"></app-lb-starts>
+  <app-db-starts [startDB]="players"></app-db-starts>
+</div>
 }

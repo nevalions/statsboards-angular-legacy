@@ -1,7 +1,7 @@
+import { TuiButton } from "@taiga-ui/core";
+import { TuiTextfieldControllerModule, TuiInputNumberModule } from "@taiga-ui/legacy";
 import { Component, Input } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { TuiInputNumberModule } from '@taiga-ui/kit';
-import { TuiButtonModule, TuiTextfieldControllerModule } from '@taiga-ui/core';
 import { UpperCasePipe } from '@angular/common';
 
 @Component({
@@ -12,7 +12,7 @@ import { UpperCasePipe } from '@angular/common';
     TuiTextfieldControllerModule,
     ReactiveFormsModule,
     UpperCasePipe,
-    TuiButtonModule,
+    TuiButton,
   ],
   templateUrl: './simple-input-with-buttons.component.html',
   styleUrl: './simple-input-with-buttons.component.less',

@@ -1,11 +1,11 @@
 @if (player$ | async; as player) {
   <div class="player-match" [style.background-color]="hexToRgba(teamColor, 0.8)">
     <div class="player-match-photo">
-      <tui-avatar
-        size="xl"
+      <tui-avatar [src]="backendUrl + player.person?.person_photo_icon_url"
+        size="xxl"
         class="player-match-avatar"
-        [rounded]="false"
-        [avatarUrl]="backendUrl + player.person?.person_photo_icon_url"
+        [round]="false"
+       
         (error)="onImgError($event)"
       ></tui-avatar>
       <span class="player-match-number">

@@ -1,8 +1,9 @@
+import { TuiSelectModule } from "@taiga-ui/legacy";
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { IPlayerInMatchFullData } from '../../../../type/player.type';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { tuiItemsHandlersProvider, TuiSelectModule } from '@taiga-ui/kit';
-import { TuiDataListModule, TuiDropdownModule } from '@taiga-ui/core';
+import { tuiItemsHandlersProvider } from '@taiga-ui/kit';
+import { TuiDataList, TuiDropdown } from '@taiga-ui/core';
 import { AsyncPipe, NgClass, TitleCasePipe } from '@angular/common';
 import { stringifyMatchPlayer } from '../../../../base/helpers';
 import { PlayerInMatch } from '../../../../components/player-match/player-match';
@@ -13,9 +14,9 @@ import { ScoreboardData } from '../../../../components/scoreboard-data/scoreboar
   standalone: true,
   imports: [
     TuiSelectModule,
-    TuiDataListModule,
+    TuiDataList,
     ReactiveFormsModule,
-    TuiDropdownModule,
+    TuiDropdown,
     TitleCasePipe,
     AsyncPipe,
     NgClass,

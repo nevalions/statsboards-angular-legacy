@@ -1,12 +1,7 @@
+import { TuiComboBoxModule } from "@taiga-ui/legacy";
 import { Component, Input } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import {
-  TuiComboBoxModule,
-  TuiDataListWrapperModule,
-  TuiFilterByInputPipeModule,
-  tuiItemsHandlersProvider,
-  TuiStringifyContentPipeModule,
-} from '@taiga-ui/kit';
+import { tuiItemsHandlersProvider, TuiDataListWrapper, TuiStringifyContentPipe, TuiFilterByInputPipe } from '@taiga-ui/kit';
 import { UpperCasePipe } from '@angular/common';
 import { IPerson } from '../../../../type/person.type';
 import { stringifySurnameName, toTitleCase } from '../../../../base/helpers';
@@ -18,9 +13,9 @@ import { stringifySurnameName, toTitleCase } from '../../../../base/helpers';
     ReactiveFormsModule,
     TuiComboBoxModule,
     UpperCasePipe,
-    TuiDataListWrapperModule,
-    TuiStringifyContentPipeModule,
-    TuiFilterByInputPipeModule,
+    TuiDataListWrapper,
+    TuiStringifyContentPipe,
+    TuiFilterByInputPipe,
   ],
   providers: [
     tuiItemsHandlersProvider({

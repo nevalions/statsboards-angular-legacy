@@ -1,3 +1,5 @@
+import { TuiTextareaModule, TuiInputModule } from "@taiga-ui/legacy";
+import { TuiAutoFocus } from "@taiga-ui/cdk";
 import { Component, EventEmitter, Output } from '@angular/core';
 import { AsyncPipe } from '@angular/common';
 import {
@@ -6,17 +8,8 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { TuiAutoFocusModule } from '@taiga-ui/cdk';
-import {
-  TuiButtonModule,
-  TuiDialogModule,
-  TuiErrorModule,
-} from '@taiga-ui/core';
-import {
-  TuiFieldErrorPipeModule,
-  TuiInputModule,
-  TuiTextareaModule,
-} from '@taiga-ui/kit';
+import { TuiError, TuiDialog, TuiButton } from '@taiga-ui/core';
+import { TuiFieldErrorPipe, TuiFieldErrorContentPipe } from '@taiga-ui/kit';
 
 @Component({
   selector: 'app-tournament-delete-form',
@@ -24,11 +17,11 @@ import {
   imports: [
     AsyncPipe,
     ReactiveFormsModule,
-    TuiAutoFocusModule,
-    TuiButtonModule,
-    TuiDialogModule,
-    TuiErrorModule,
-    TuiFieldErrorPipeModule,
+    TuiAutoFocus,
+    TuiButton,
+    TuiDialog,
+    TuiError,
+    TuiFieldErrorPipe, TuiFieldErrorContentPipe,
     TuiInputModule,
     TuiTextareaModule,
   ],

@@ -1,3 +1,5 @@
+import { TuiSelectModule } from "@taiga-ui/legacy";
+import { TuiLet } from "@taiga-ui/cdk";
 import {
   Component,
   EventEmitter,
@@ -15,14 +17,8 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { TuiButtonModule, TuiDialogModule } from '@taiga-ui/core';
-import {
-  TuiAvatarModule,
-  TuiDataListWrapperModule,
-  tuiItemsHandlersProvider,
-  TuiSelectModule,
-} from '@taiga-ui/kit';
-import { TuiLetModule } from '@taiga-ui/cdk';
+import { TuiDialog, TuiButton } from '@taiga-ui/core';
+import { tuiItemsHandlersProvider, TuiDataListWrapper, TuiAvatar } from '@taiga-ui/kit';
 import { DialogService } from '../../../../services/dialog.service';
 import { Observable, of, Subject, Subscription, takeUntil } from 'rxjs';
 import { CreateButtonInFormComponent } from '../../buttons/create-button-in-form/create-button-in-form.component';
@@ -41,10 +37,10 @@ import { SearchInputAutocompleteComponent } from '../../search/search-input-auto
     AsyncPipe,
     FormsModule,
     ReactiveFormsModule,
-    TuiButtonModule,
-    TuiDataListWrapperModule,
-    TuiDialogModule,
-    TuiLetModule,
+    TuiButton,
+    TuiDataListWrapper,
+    TuiDialog,
+    TuiLet,
     TuiSelectModule,
     TitleCasePipe,
     UpperCasePipe,
@@ -52,7 +48,7 @@ import { SearchInputAutocompleteComponent } from '../../search/search-input-auto
     CancelButtonInFormComponent,
     HasTitlePipe,
     NgIf,
-    TuiAvatarModule,
+    TuiAvatar,
     SearchInputAutocompleteComponent,
   ],
   providers: [

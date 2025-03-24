@@ -8,16 +8,16 @@
       [formGroup]="itemDeleteForm"
       (ngSubmit)="onSubmit(); observer.complete()"
     >
-      <p style="text-align: center; padding:10px; background-color: var(--tui-negative-hover)">
+      <p style="text-align: center; padding:10px; background-color: var(--tui-text-negative-hover)">
         All {{ item | uppercase }}'s stats will be lost!
       </p>
       <p style="text-align: center; padding:10px;">
-        <tui-checkbox-labeled
+       <label tuiLabel> <input tuiCheckbox type="checkbox"
           formControlName="checkboxToAction"
-          size="l"
+          size="m"
         >
           I have read understood and confirm my agreement.
-        </tui-checkbox-labeled>
+        </label>
       </p>
       <p>
         <app-delete-button-in-form

@@ -18,8 +18,8 @@ body {
   //grid-template-columns: 100%;
 
   font: var(--tui-font-text-m);
-  //background-color: var(--tui-base-07);
-  color: var(--tui-primary-text);
+  //background-color: var(--tui-background-accent-opposite-pressed);
+  color: var(--tui-text-primary-on-accent-1);
 
   @media (prefers-reduced-motion) {
     scroll-behavior: auto;
@@ -28,18 +28,18 @@ body {
 
 .super_main_container {
   display: grid;
-  background-color: var(--tui-base-06);
+  background-color: var(--tui-text-secondary);
 }
 
 .main_container {
   min-height: 100%;
   display: grid;
-  background-color: var(--tui-base-06);
+  background-color: var(--tui-text-secondary);
 }
 
 header {
-  background-color: var(--tui-base-08);
-  color: var(--tui-primary-text);
+  background-color: var(--tui-background-accent-opposite-hover);
+  color: var(--tui-text-primary-on-accent-1);
   display: grid;
   grid-template-columns: auto;
   grid-template-rows: auto auto;
@@ -55,7 +55,7 @@ nav {
 }
 
 main {
-  //background-color: var(--tui-base-07);
+  //background-color: var(--tui-background-accent-opposite-pressed);
   //height: 100%;
 }
 
@@ -70,10 +70,10 @@ aside {
   //justify-content: stretch;
   //align-items: stretch;
   align-content: space-evenly;
-  //background-color:  var(--tui-base-09);
+  //background-color:  var(--tui-background-accent-opposite);
   //min-height: 100%;
   min-width: 100%;
-  //color: var(--tui-base-02);
+  //color: var(--tui-background-base-alt);
 }
 
 aside > * {
@@ -115,7 +115,9 @@ aside > * {
   grid-template-columns: 1fr;
   justify-content: center;
   align-items: center;
-  background-color: var(--tui-success-bg-night-hover);
+// TOD: night variables have been removed. Use tuiTheme="dark" on an element to switch colors to dark theme
+// TOD: night variables have been removed. Use tuiTheme="dark" on an element to switch colors to dark theme
+  background-color: var(--tui-status-positive-pale-hover);
 }
 
 .title-header-with-logo {
@@ -131,7 +133,9 @@ aside > * {
   display: grid;
   justify-content: center; /* align horizontal */
   align-items: center; /* align vertical */
-  //background-color: var(--tui-success-bg-night-hover);
+// TOD: night variables have been removed. Use tuiTheme="dark" on an element to switch colors to dark theme
+// TOD: night variables have been removed. Use tuiTheme="dark" on an element to switch colors to dark theme
+  //background-color: var(--tui-status-positive-pale-hover);
 }
 
 .content__body__title {
@@ -167,7 +171,7 @@ aside > * {
   //flex-direction: column;
   justify-content: center;
   align-items: start;
-  background-color: var(--tui-base-04);
+  background-color: var(--tui-border-normal);
 }
 
 .one_col_container {
@@ -238,19 +242,21 @@ aside > * {
 
 // This goes into global, non-encapsulated styles
 [tuiWrapper][data-appearance="create"] {
-  background: var(--tui-positive-night-hover);
+// TOD: night variables have been removed. Use tuiTheme="dark" on an element to switch colors to dark theme
+// TOD: night variables have been removed. Use tuiTheme="dark" on an element to switch colors to dark theme
+  background: var(--tui-status-positive);
   color: #fff;
 
   .wrapper-hover({
-    background: var(--tui-positive-hover);;
+    background: var(--tui-text-positive-hover);;
   });
 
   .wrapper-active({
-    background: var(--tui-positive-hover);;
+    background: var(--tui-text-positive-hover);;
   });
 
   .wrapper-disabled({
-    background: var(--tui-base-07);
+    background: var(--tui-background-accent-opposite-pressed);
   });
 }
 
@@ -260,15 +266,15 @@ aside > * {
   color: #282828;
 
   .wrapper-hover({
-    background: var(--tui-positive-hover);;
+    background: var(--tui-text-positive-hover);;
   });
 
   .wrapper-active({
-    background: var(--tui-positive-hover);;
+    background: var(--tui-text-positive-hover);;
   });
 
   .wrapper-disabled({
-    background: var(--tui-base-07);
+    background: var(--tui-background-accent-opposite-pressed);
   });
 }
 
@@ -278,15 +284,15 @@ aside > * {
   color: #282828;
 
   .wrapper-hover({
-    background: var(--tui-positive-hover);;
+    background: var(--tui-text-positive-hover);;
   });
 
   .wrapper-active({
-    background: var(--tui-positive-hover);;
+    background: var(--tui-text-positive-hover);;
   });
 
   .wrapper-disabled({
-    background: var(--tui-base-07);
+    background: var(--tui-background-accent-opposite-pressed);
   });
 }
 

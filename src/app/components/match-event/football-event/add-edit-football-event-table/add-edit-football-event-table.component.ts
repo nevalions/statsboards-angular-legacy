@@ -1,3 +1,5 @@
+import { TuiTextfieldControllerModule, TuiInputNumberModule } from "@taiga-ui/legacy";
+import { TuiValueChanges } from "@taiga-ui/cdk";
 import {
   Component,
   Input,
@@ -174,18 +176,13 @@ import {
   onPlayTypeChange,
   onTeamChange,
 } from '../football-event-on-change-helpers';
-import {
-  TuiAppearance,
-  TuiButtonModule,
-  TuiTextfieldControllerModule,
-} from '@taiga-ui/core';
+import { TuiAppearance, TuiButton } from '@taiga-ui/core';
 import { hexToRgba } from '../../../../base/helpers';
 import { DeviceDetectorService } from 'ngx-device-detector';
 import { NgForOf, TitleCasePipe, UpperCasePipe } from '@angular/common';
 import { ButtonIconComponent } from '../../../../shared/ui/buttons/button-icon/button-icon.component';
 import { InputNumberWithButtonsComponent } from '../../../../shared/scoreboards/admin-forms/input-number-with-buttons/input-number-with-buttons.component';
-import { TuiInputNumberModule, TuiToggleModule } from '@taiga-ui/kit';
-import { TuiValueChangesModule } from '@taiga-ui/cdk';
+import { TuiSwitch } from '@taiga-ui/kit';
 import { SelectTeamInMatchComponent } from '../../../../shared/ui/select/select-team-in-match/select-team-in-match.component';
 import { SearchPlayerInMatchAutocompleteComponent } from '../../../../shared/ui/search/search-player-in-match-autocomplete/search-player-in-match-autocomplete.component';
 import { SelectListOfStringsComponent } from '../../../../shared/ui/select/select-list-of-strings/select-list-of-strings.component';
@@ -269,15 +266,15 @@ import { extractEventData } from '../football-event-extract-event-data-helper';
     InputNumberWithButtonsComponent,
     TuiInputNumberModule,
     TuiTextfieldControllerModule,
-    TuiValueChangesModule,
-    TuiButtonModule,
+    TuiValueChanges,
+    TuiButton,
     SelectTeamInMatchComponent,
     SearchPlayerInMatchAutocompleteComponent,
     SelectListOfStringsComponent,
     SearchListOfStringsComponent,
     ActionsButtonsComponent,
     AddButtonOnFinalTrComponent,
-    TuiToggleModule,
+    TuiSwitch,
     FootballEventShortViewComponent,
     SelectPlayerInMatchComponent,
     InputNumbersWithIncrementButtonsComponent,
@@ -930,7 +927,7 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
   protected readonly getEventFlaggedPlayer = getEventFlaggedPlayer;
   protected readonly getBallOn = getEventBallOn;
   protected readonly getEventPlayResult = getEventPlayResult;
-  protected readonly tuiAppFlat = TuiAppearance.Flat;
+  // protected readonly tuiAppFlat = TuiAppearance.Flat;
   protected readonly hexToRgba = hexToRgba;
   protected readonly getEventDistanceOnOffenceFormControl =
     getEventDistanceOnOffenceFormControl;

@@ -1,3 +1,5 @@
+import { TuiTable } from "@taiga-ui/addon-table";
+import { TuiTextfieldControllerModule, TuiInputModule, TuiInputDateTimeModule } from "@taiga-ui/legacy";
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { IPosition } from '../../../type/position.type';
 import {
@@ -7,49 +9,33 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import {
-  TuiButtonModule,
-  TuiErrorModule,
-  TuiTextfieldControllerModule,
-} from '@taiga-ui/core';
-import {
-  TuiFieldErrorPipeModule,
-  TuiInputDateTimeModule,
-  TuiInputModule,
-} from '@taiga-ui/kit';
-import { TuiTableModule } from '@taiga-ui/addon-table';
+import { TuiError, TuiButton } from '@taiga-ui/core';
+import { TuiFieldErrorPipe, TuiFieldErrorContentPipe } from '@taiga-ui/kit';
 import { Position } from '../postion';
 import { AsyncPipe, UpperCasePipe } from '@angular/common';
 import { DeleteDialogComponent } from '../../../shared/ui/dialogs/delete-dialog/delete-dialog.component';
 import { DialogService } from '../../../services/dialog.service';
 import { DeleteButtonComponent } from '../../../shared/ui/buttons/delete-button/delete-button.component';
-import {
-  TuiAutoFocusModule,
-  TuiClickOutsideModule,
-  TuiFocusedModule,
-  TuiFocusVisibleModule,
-} from '@taiga-ui/cdk';
+import { TuiAutoFocus, TuiClickOutside } from '@taiga-ui/cdk';
 
 @Component({
   selector: 'app-add-edit-position-table',
   standalone: true,
   imports: [
     ReactiveFormsModule,
-    TuiButtonModule,
+    TuiButton,
     TuiInputDateTimeModule,
     TuiInputModule,
-    TuiTableModule,
+    TuiTable,
     TuiTextfieldControllerModule,
     UpperCasePipe,
     DeleteDialogComponent,
     DeleteButtonComponent,
-    TuiAutoFocusModule,
+    TuiAutoFocus,
     AsyncPipe,
-    TuiErrorModule,
-    TuiFieldErrorPipeModule,
-    TuiFocusedModule,
-    TuiFocusVisibleModule,
-    TuiClickOutsideModule,
+    TuiError,
+    TuiFieldErrorPipe, TuiFieldErrorContentPipe,
+    TuiClickOutside,
   ],
   templateUrl: './add-edit-position-table.component.html',
   styleUrl: './add-edit-position-table.component.less',

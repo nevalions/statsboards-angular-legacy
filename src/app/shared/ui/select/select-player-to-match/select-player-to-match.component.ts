@@ -1,8 +1,9 @@
+import { TuiSelectModule } from "@taiga-ui/legacy";
 import { TitleCasePipe } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { TuiDataListModule, TuiDropdownModule } from '@taiga-ui/core';
-import { TuiSelectModule, tuiItemsHandlersProvider } from '@taiga-ui/kit';
+import { TuiDataList, TuiDropdown } from '@taiga-ui/core';
+import { tuiItemsHandlersProvider } from '@taiga-ui/kit';
 import { stringifyPerson } from '../../../../base/helpers';
 import { IPlayerInTeamTournamentFullData } from '../../../../type/player.type';
 
@@ -12,8 +13,8 @@ import { IPlayerInTeamTournamentFullData } from '../../../../type/player.type';
   imports: [
     TuiSelectModule,
     ReactiveFormsModule,
-    TuiDataListModule,
-    TuiDropdownModule,
+    TuiDataList,
+    TuiDropdown,
     TitleCasePipe,
   ],
   providers: [

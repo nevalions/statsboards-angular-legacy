@@ -1,3 +1,4 @@
+import { TuiTextfieldControllerModule, TuiComboBoxModule, TuiInputModule } from "@taiga-ui/legacy";
 import {
   ChangeDetectionStrategy,
   Component,
@@ -13,16 +14,10 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 import { AsyncPipe, UpperCasePipe } from '@angular/common';
-import {
-  TuiComboBoxModule,
-  TuiDataListWrapperModule,
-  TuiFilterByInputPipeModule,
-  TuiInputModule,
-  TuiStringifyContentPipeModule,
-} from '@taiga-ui/kit';
+import { TuiDataListWrapper, TuiStringifyContentPipe, TuiFilterByInputPipe } from '@taiga-ui/kit';
 import { debounceTime, distinctUntilChanged, map, Observable, of } from 'rxjs';
-import { TuiLoaderModule, TuiTextfieldControllerModule } from '@taiga-ui/core';
-import { TuiAutofilledModule, TuiValueChangesModule } from '@taiga-ui/cdk';
+import { TuiLoader } from '@taiga-ui/core';
+import { TuiAutofilledModule, TuiValueChanges } from '@taiga-ui/cdk';
 import { FilterStrategy } from '../../../../type/filter.type';
 import { SearchListService } from '../../../../services/search-list.service';
 
@@ -33,16 +28,16 @@ import { SearchListService } from '../../../../services/search-list.service';
     AsyncPipe,
     FormsModule,
     ReactiveFormsModule,
-    TuiDataListWrapperModule,
-    TuiFilterByInputPipeModule,
+    TuiDataListWrapper,
+    TuiFilterByInputPipe,
     TuiInputModule,
-    TuiStringifyContentPipeModule,
+    TuiStringifyContentPipe,
     UpperCasePipe,
     TuiComboBoxModule,
     TuiTextfieldControllerModule,
     TuiAutofilledModule,
-    TuiValueChangesModule,
-    TuiLoaderModule,
+    TuiValueChanges,
+    TuiLoader,
   ],
   templateUrl: './form-search-auto-complete.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,

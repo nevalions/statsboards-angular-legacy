@@ -1,11 +1,12 @@
+import { TuiSelectModule } from "@taiga-ui/legacy";
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { IPlayerInMatchFullDataWithQbStats } from '../../../../type/player.type';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { PlayerInMatch } from '../../../../components/player-match/player-match';
 import { ScoreboardData } from '../../../../components/scoreboard-data/scoreboard-data';
 import { TitleCasePipe } from '@angular/common';
-import { TuiDataListModule, TuiDropdownModule } from '@taiga-ui/core';
-import { tuiItemsHandlersProvider, TuiSelectModule } from '@taiga-ui/kit';
+import { TuiDataList, TuiDropdown } from '@taiga-ui/core';
+import { tuiItemsHandlersProvider } from '@taiga-ui/kit';
 import { stringifyMatchPlayer } from '../../../../base/helpers';
 
 @Component({
@@ -13,9 +14,9 @@ import { stringifyMatchPlayer } from '../../../../base/helpers';
   standalone: true,
   imports: [
     TitleCasePipe,
-    TuiDataListModule,
+    TuiDataList,
     TuiSelectModule,
-    TuiDropdownModule,
+    TuiDropdown,
     ReactiveFormsModule,
   ],
   providers: [

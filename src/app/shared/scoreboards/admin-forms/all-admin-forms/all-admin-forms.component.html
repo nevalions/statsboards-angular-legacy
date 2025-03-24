@@ -7,8 +7,8 @@
       size="m"
       type="button"
       (click)="toggleAllFormsVisibility()"
-      [icon]="
-        (showHideAllButtonVisible$ | async) ? 'tuiIconEyeOff' : 'tuiIconEye'
+      [iconStart]="
+        (showHideAllButtonVisible$ | async) ? '@tui.eye-off' : '@tui.eye'
       "
     >
       {{ (showHideAllButtonVisible$ | async) ? "Hide" : "Show" }} All

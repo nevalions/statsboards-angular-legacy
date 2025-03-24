@@ -14,20 +14,23 @@
             <figure class="tui-island__figure">
               <div class="some-figure">
                 <tui-avatar
-                  size="l"
-                  text="{{p.person?.first_name}}"
+                  [src]="
+                    backendUrl + (p.person?.person_photo_icon_url || '')
+                      | tuiFallbackSrc
+                        : ('{{p.person?.first_name}}' | tuiInitials)
+                  "
+                  size="xl"
                   class="tui-space_top-1"
-                  [rounded]="false"
-                  [avatarUrl]="backendUrl + p.person?.person_photo_icon_url || null"
+                  [round]="false"
                 ></tui-avatar>
               </div>
             </figure>
             <div>
               <h3 class="tui-island__title">
-                {{ p.person?.first_name | titlecase }} {{ p.person?.second_name | titlecase }}
+                {{ p.person?.first_name | titlecase }}
+                {{ p.person?.second_name | titlecase }}
               </h3>
-              <p class="tui-island__paragraph">
-              </p>
+              <p class="tui-island__paragraph"></p>
             </div>
           </div>
         </a>

@@ -1,3 +1,4 @@
+import { TuiInputModule } from "@taiga-ui/legacy";
 import {
   Component,
   EventEmitter,
@@ -17,8 +18,8 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { TuiDialogModule, TuiErrorModule } from '@taiga-ui/core';
-import { TuiFieldErrorPipeModule, TuiInputModule } from '@taiga-ui/kit';
+import { TuiError, TuiDialog } from '@taiga-ui/core';
+import { TuiFieldErrorPipe, TuiFieldErrorContentPipe } from '@taiga-ui/kit';
 import { Subscription } from 'rxjs';
 import {
   IPlayerInSport,
@@ -44,9 +45,9 @@ import { ITeam } from '../../../type/team.type';
     CancelButtonInFormComponent,
     CreateButtonInFormComponent,
     ReactiveFormsModule,
-    TuiDialogModule,
-    TuiErrorModule,
-    TuiFieldErrorPipeModule,
+    TuiDialog,
+    TuiError,
+    TuiFieldErrorPipe, TuiFieldErrorContentPipe,
     TuiInputModule,
     SearchPersonInputAutocompleteComponent,
     SelectPlayerPositionComponent,

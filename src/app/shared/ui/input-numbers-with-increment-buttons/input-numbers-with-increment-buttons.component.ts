@@ -1,8 +1,8 @@
+import { TuiButton } from "@taiga-ui/core";
+import { TuiTextfieldControllerModule, TuiInputNumberModule } from "@taiga-ui/legacy";
+import { TuiValueChanges } from "@taiga-ui/cdk";
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { TuiInputNumberModule } from '@taiga-ui/kit';
-import { TuiButtonModule, TuiTextfieldControllerModule } from '@taiga-ui/core';
-import { TuiValueChangesModule } from '@taiga-ui/cdk';
 import { UpperCasePipe } from '@angular/common';
 
 @Component({
@@ -12,9 +12,9 @@ import { UpperCasePipe } from '@angular/common';
     TuiInputNumberModule,
     TuiTextfieldControllerModule,
     ReactiveFormsModule,
-    TuiValueChangesModule,
+    TuiValueChanges,
     UpperCasePipe,
-    TuiButtonModule,
+    TuiButton,
   ],
   templateUrl: './input-numbers-with-increment-buttons.component.html',
   styleUrl: './input-numbers-with-increment-buttons.component.less',

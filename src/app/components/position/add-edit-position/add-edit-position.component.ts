@@ -1,3 +1,5 @@
+import { TuiInputModule } from "@taiga-ui/legacy";
+import { TuiAutoFocus } from "@taiga-ui/cdk";
 import {
   Component,
   EventEmitter,
@@ -19,9 +21,8 @@ import {
   Validators,
 } from '@angular/forms';
 import { AsyncPipe } from '@angular/common';
-import { TuiAutoFocusModule } from '@taiga-ui/cdk';
-import { TuiDialogModule, TuiErrorModule } from '@taiga-ui/core';
-import { TuiFieldErrorPipeModule, TuiInputModule } from '@taiga-ui/kit';
+import { TuiError, TuiDialog } from '@taiga-ui/core';
+import { TuiFieldErrorPipe, TuiFieldErrorContentPipe } from '@taiga-ui/kit';
 import { CancelButtonInFormComponent } from '../../../shared/ui/buttons/cancel-button-in-form/cancel-button-in-form.component';
 import { CreateButtonInFormComponent } from '../../../shared/ui/buttons/create-button-in-form/create-button-in-form.component';
 
@@ -31,10 +32,10 @@ import { CreateButtonInFormComponent } from '../../../shared/ui/buttons/create-b
   imports: [
     AsyncPipe,
     ReactiveFormsModule,
-    TuiAutoFocusModule,
-    TuiDialogModule,
-    TuiErrorModule,
-    TuiFieldErrorPipeModule,
+    TuiAutoFocus,
+    TuiDialog,
+    TuiError,
+    TuiFieldErrorPipe, TuiFieldErrorContentPipe,
     TuiInputModule,
     CancelButtonInFormComponent,
     CreateButtonInFormComponent,

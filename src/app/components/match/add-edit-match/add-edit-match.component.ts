@@ -1,3 +1,4 @@
+import { TuiTextfieldControllerModule, TuiTextareaModule, TuiInputModule, TuiInputDateModule, TuiInputDateTimeModule, TuiInputNumberModule, TuiSelectModule } from "@taiga-ui/legacy";
 import { AsyncPipe, TitleCasePipe } from '@angular/common';
 import {
   Component,
@@ -17,26 +18,9 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { TuiDay, TuiLetModule, TuiTime } from '@taiga-ui/cdk';
-import {
-  TuiButtonModule,
-  TuiDialogModule,
-  TuiErrorModule,
-  TuiLoaderModule,
-  TuiTextfieldControllerModule,
-} from '@taiga-ui/core';
-import {
-  TuiAvatarModule,
-  TuiDataListWrapperModule,
-  TuiFieldErrorPipeModule,
-  TuiInputDateModule,
-  TuiInputDateTimeModule,
-  TuiInputModule,
-  TuiInputNumberModule,
-  TuiSelectModule,
-  TuiTextareaModule,
-  tuiItemsHandlersProvider,
-} from '@taiga-ui/kit';
+import { TuiDay, TuiTime, TuiLet } from '@taiga-ui/cdk';
+import { TuiError, TuiLoader, TuiDialog, TuiButton } from '@taiga-ui/core';
+import { tuiItemsHandlersProvider, TuiDataListWrapper, TuiFieldErrorPipe, TuiFieldErrorContentPipe, TuiAvatar } from '@taiga-ui/kit';
 
 import { IMatch, IMatchWithFullData } from '../../../type/match.type';
 
@@ -57,22 +41,22 @@ import { Match } from '../match';
   selector: 'app-add-edit-match',
   standalone: true,
   imports: [
-    TuiButtonModule,
+    TuiButton,
     AsyncPipe,
     ReactiveFormsModule,
-    TuiDialogModule,
-    TuiErrorModule,
-    TuiFieldErrorPipeModule,
+    TuiDialog,
+    TuiError,
+    TuiFieldErrorPipe, TuiFieldErrorContentPipe,
     TuiInputModule,
     TuiTextareaModule,
     TuiInputNumberModule,
     TuiInputDateModule,
     TuiTextfieldControllerModule,
     TuiSelectModule,
-    TuiDataListWrapperModule,
-    TuiLoaderModule,
-    TuiLetModule,
-    TuiAvatarModule,
+    TuiDataListWrapper,
+    TuiLoader,
+    TuiLet,
+    TuiAvatar,
     FormsModule,
     TuiInputDateTimeModule,
     SelectTeamComponent,

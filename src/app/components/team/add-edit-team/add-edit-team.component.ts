@@ -1,3 +1,5 @@
+import { TuiTextareaModule, TuiInputModule, TuiInputNumberModule } from "@taiga-ui/legacy";
+import { TuiAutoFocus } from "@taiga-ui/cdk";
 import {
   Component,
   EventEmitter,
@@ -16,20 +18,8 @@ import {
 } from '@angular/forms';
 import { ITeam } from '../../../type/team.type';
 import { AsyncPipe, NgIf, NgOptimizedImage } from '@angular/common';
-import { TuiAutoFocusModule } from '@taiga-ui/cdk';
-import {
-  TuiButtonModule,
-  TuiDialogModule,
-  TuiErrorModule,
-} from '@taiga-ui/core';
-import {
-  TuiFieldErrorPipeModule,
-  TuiFileLike,
-  TuiInputFilesModule,
-  TuiInputModule,
-  TuiInputNumberModule,
-  TuiTextareaModule,
-} from '@taiga-ui/kit';
+import { TuiError, TuiDialog, TuiButton } from '@taiga-ui/core';
+import { TuiFileLike, TuiFieldErrorPipe, TuiFieldErrorContentPipe, TuiFiles } from '@taiga-ui/kit';
 import { CreateButtonInFormComponent } from '../../../shared/ui/buttons/create-button-in-form/create-button-in-form.component';
 import { CancelButtonInFormComponent } from '../../../shared/ui/buttons/cancel-button-in-form/cancel-button-in-form.component';
 import { Team } from '../team';
@@ -58,17 +48,17 @@ import { UploadResizeImageResponse } from '../../../type/base.type';
   imports: [
     AsyncPipe,
     ReactiveFormsModule,
-    TuiAutoFocusModule,
-    TuiButtonModule,
-    TuiDialogModule,
-    TuiErrorModule,
-    TuiFieldErrorPipeModule,
+    TuiAutoFocus,
+    TuiButton,
+    TuiDialog,
+    TuiError,
+    TuiFieldErrorPipe, TuiFieldErrorContentPipe,
     TuiInputModule,
     TuiTextareaModule,
     TuiInputNumberModule,
     CreateButtonInFormComponent,
     CancelButtonInFormComponent,
-    TuiInputFilesModule,
+    TuiFiles,
     NgIf,
     NgOptimizedImage,
     SelectFromListComponent,

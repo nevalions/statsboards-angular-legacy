@@ -1,25 +1,26 @@
+import { TuiSelectModule } from "@taiga-ui/legacy";
+import { TuiAutoFocus } from "@taiga-ui/cdk";
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import {
   IPlayerInSport,
   IPlayerInTeamTournamentWithPersonWithSportWithPosition,
 } from '../../../../type/player.type';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { tuiItemsHandlersProvider, TuiSelectModule } from '@taiga-ui/kit';
-import { TuiDataListModule, TuiDropdownModule } from '@taiga-ui/core';
+import { tuiItemsHandlersProvider } from '@taiga-ui/kit';
+import { TuiDataList, TuiDropdown } from '@taiga-ui/core';
 import { stringifyPerson } from '../../../../base/helpers';
 import { TitleCasePipe } from '@angular/common';
-import { TuiAutoFocusModule } from '@taiga-ui/cdk';
 
 @Component({
   selector: 'app-select-player-to-team-tournament',
   standalone: true,
   imports: [
     TuiSelectModule,
-    TuiDataListModule,
+    TuiDataList,
     ReactiveFormsModule,
     TitleCasePipe,
-    TuiDropdownModule,
-    TuiAutoFocusModule,
+    TuiDropdown,
+    TuiAutoFocus,
   ],
   providers: [
     tuiItemsHandlersProvider({

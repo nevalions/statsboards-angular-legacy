@@ -1,12 +1,8 @@
+import { TuiIslandDirective } from "@taiga-ui/legacy";
 import { AsyncPipe, DatePipe, NgIf, TitleCasePipe } from '@angular/common';
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import {
-  TuiAppearance,
-  TuiButtonModule,
-  TuiLoaderModule,
-} from '@taiga-ui/core';
-import { TuiIslandModule } from '@taiga-ui/kit';
+import { TuiAppearance, TuiLoader, TuiButton } from '@taiga-ui/core';
 import { environment } from '../../../../environments/environment';
 import { BodyListTitleComponent } from '../../../shared/ui/body/body-title/body-list-title.component';
 import { CreateButtonShowDialogComponent } from '../../../shared/ui/buttons/create-button-show-dialog/create-button-show-dialog.component';
@@ -38,10 +34,10 @@ import { QrComponent } from '../../../shared/ui/qr/qr.component';
   standalone: true,
   imports: [
     AsyncPipe,
-    TuiLoaderModule,
+    TuiLoader,
     DatePipe,
-    TuiIslandModule,
-    TuiButtonModule,
+    TuiIslandDirective,
+    TuiButton,
     DeleteDialogComponent,
     DeleteButtonComponent,
     EditButtonComponent,

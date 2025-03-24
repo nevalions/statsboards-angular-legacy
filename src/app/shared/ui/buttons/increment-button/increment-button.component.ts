@@ -1,5 +1,5 @@
+import { TuiButton } from "@taiga-ui/core";
 import { Component, Input } from '@angular/core';
-import { TuiButtonModule } from '@taiga-ui/core';
 import { IMatchData } from '../../../../type/matchdata.type';
 import { MatchData } from '../../../../components/match/matchdata';
 import { IMatchFullDataWithScoreboard } from '../../../../type/match.type';
@@ -10,7 +10,7 @@ import { Websocket } from '../../../../store/websocket/websocket';
 @Component({
   selector: 'app-increment-button',
   standalone: true,
-  imports: [TuiButtonModule, AddSignPipe, TeamNamePipe],
+  imports: [TuiButton, AddSignPipe, TeamNamePipe],
   templateUrl: './increment-button.component.html',
   styleUrl: './increment-button.component.less',
 })

@@ -1,7 +1,7 @@
+import { TuiLoader } from "@taiga-ui/core";
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { HeaderMenuComponent } from '../../../shared/ui/headermenu/header-menu.component';
 import { IBaseIdElse } from '../../../type/base.type';
-import { TuiLoaderModule } from '@taiga-ui/core';
 import { AsyncPipe } from '@angular/common';
 
 import { Sport } from '../sport';
@@ -10,7 +10,7 @@ import { environment } from '../../../../environments/environment';
 @Component({
   selector: 'app-sport-nav',
   standalone: true,
-  imports: [HeaderMenuComponent, TuiLoaderModule, AsyncPipe],
+  imports: [HeaderMenuComponent, TuiLoader, AsyncPipe],
   templateUrl: './sport-nav.component.html',
   styleUrl: './sport-nav.component.less',
   changeDetection: ChangeDetectionStrategy.OnPush,

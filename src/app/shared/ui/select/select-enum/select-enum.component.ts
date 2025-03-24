@@ -1,20 +1,11 @@
+import { TuiTextfieldControllerModule, TuiComboBoxModule, TuiSelectModule } from "@taiga-ui/legacy";
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import {
-  TuiComboBoxModule,
-  TuiDataListWrapperModule,
-  TuiFilterByInputPipeModule,
-  tuiItemsHandlersProvider,
-  TuiSelectModule,
-  TuiStringifyContentPipeModule,
-} from '@taiga-ui/kit';
+import { tuiItemsHandlersProvider, TuiDataListWrapper, TuiStringifyContentPipe, TuiFilterByInputPipe } from '@taiga-ui/kit';
 import { toTitleCase } from '../../../../base/helpers';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { IEnumObject } from '../../../../type/base.type';
 import { TitleCasePipe, UpperCasePipe } from '@angular/common';
-import {
-  TuiDataListModule,
-  TuiTextfieldControllerModule,
-} from '@taiga-ui/core';
+import { TuiDataList } from '@taiga-ui/core';
 
 @Component({
   selector: 'app-select-enum',
@@ -22,12 +13,12 @@ import {
   imports: [
     TuiComboBoxModule,
     ReactiveFormsModule,
-    TuiDataListWrapperModule,
-    TuiStringifyContentPipeModule,
-    TuiFilterByInputPipeModule,
+    TuiDataListWrapper,
+    TuiStringifyContentPipe,
+    TuiFilterByInputPipe,
     UpperCasePipe,
     TuiTextfieldControllerModule,
-    TuiDataListModule,
+    TuiDataList,
     TuiSelectModule,
     TitleCasePipe,
   ],

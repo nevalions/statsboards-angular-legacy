@@ -1,20 +1,21 @@
+import { TuiSelectModule } from "@taiga-ui/legacy";
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { ITeam } from '../../../../type/team.type';
-import { tuiItemsHandlersProvider, TuiSelectModule } from '@taiga-ui/kit';
+import { tuiItemsHandlersProvider } from '@taiga-ui/kit';
 import { toTitleCase } from '../../../../base/helpers';
 import { TitleCasePipe, UpperCasePipe } from '@angular/common';
-import { TuiDataListModule, TuiHostedDropdownModule } from '@taiga-ui/core';
+import { TuiDataList, TuiDropdown } from '@taiga-ui/core';
 
 @Component({
   selector: 'app-select-team-in-match',
   standalone: true,
   imports: [
     TitleCasePipe,
-    TuiDataListModule,
+    TuiDataList,
     TuiSelectModule,
     ReactiveFormsModule,
-    TuiHostedDropdownModule,
+    TuiDropdown,
     UpperCasePipe,
   ],
   providers: [
