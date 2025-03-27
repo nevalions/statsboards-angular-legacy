@@ -7,6 +7,7 @@ import { ITournament } from '../../../type/tournament.type';
 import { ActivatedRoute, Router } from '@angular/router';
 import { getTitleCase } from '../../../base/helpers';
 import { environment } from '../../../../environments/environment';
+import { urlWithProtocol } from "../../../base/constants";
 
 @Component({
   selector: 'app-island-list-of-tournaments',
@@ -55,5 +56,6 @@ export class IslandListOfTournamentsComponent {
     return text?.toString() || '';
   }
 
+  protected readonly url = urlWithProtocol;
   protected readonly getTitleCase = getTitleCase;
 }
