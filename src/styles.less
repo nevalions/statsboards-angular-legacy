@@ -28,13 +28,14 @@ body {
 
 .super_main_container {
   display: grid;
-  background-color: var(--tui-text-secondary);
+  background-color: var(--tui-background-base-alt);
+  // background-color: var(--tui-text-secondary);
 }
 
 .main_container {
   min-height: 100%;
   display: grid;
-  background-color: var(--tui-text-secondary);
+  background-color: var(--tui-background-base-alt);
 }
 
 header {
@@ -55,7 +56,7 @@ nav {
 }
 
 main {
-  //background-color: var(--tui-background-accent-opposite-pressed);
+  background-color: var(--tui-background-neutral-2-pressed);
   //height: 100%;
 }
 
@@ -115,9 +116,8 @@ aside > * {
   grid-template-columns: 1fr;
   justify-content: center;
   align-items: center;
-// TOD: night variables have been removed. Use tuiTheme="dark" on an element to switch colors to dark theme
-// TOD: night variables have been removed. Use tuiTheme="dark" on an element to switch colors to dark theme
   background-color: var(--tui-status-positive-pale-hover);
+// TOD: night variables have been removed. Use tuiTheme="dark" on an element to switch colors to dark theme
 }
 
 .title-header-with-logo {
@@ -241,18 +241,20 @@ aside > * {
 }
 
 // This goes into global, non-encapsulated styles
-[tuiWrapper][data-appearance="create"] {
+// [tuiWrapper][data-appearance="create"] {
+.create {
 // TOD: night variables have been removed. Use tuiTheme="dark" on an element to switch colors to dark theme
 // TOD: night variables have been removed. Use tuiTheme="dark" on an element to switch colors to dark theme
+
   background: var(--tui-status-positive);
   color: #fff;
 
   .wrapper-hover({
-    background: var(--tui-text-positive-hover);;
+    background: var(--tui-text-positive-hover);
   });
 
   .wrapper-active({
-    background: var(--tui-text-positive-hover);;
+    background: var(--tui-text-positive-hover);
   });
 
   .wrapper-disabled({
@@ -261,16 +263,17 @@ aside > * {
 }
 
 // This goes into global, non-encapsulated styles
-[tuiWrapper][data-appearance="submit-admin"] {
+// [tuiWrapper][data-appearance="submit-admin"] {
+.submit-admin {
   background: #b6d0c0;
   color: #282828;
 
   .wrapper-hover({
-    background: var(--tui-text-positive-hover);;
+    background: var(--tui-text-positive-hover);
   });
 
   .wrapper-active({
-    background: var(--tui-text-positive-hover);;
+    background: var(--tui-text-positive-hover);
   });
 
   .wrapper-disabled({
@@ -279,16 +282,17 @@ aside > * {
 }
 
 // This goes into global, non-encapsulated styles
-[tuiWrapper][data-appearance="down-admin"] {
+// [tuiWrapper][data-appearance="down-admin"] {
+.down-admin {
   background: #e7e7e7;
   color: #282828;
 
   .wrapper-hover({
-    background: var(--tui-text-positive-hover);;
+    background: var(--tui-text-positive-hover);
   });
 
   .wrapper-active({
-    background: var(--tui-text-positive-hover);;
+    background: var(--tui-text-positive-hover);
   });
 
   .wrapper-disabled({
