@@ -2,21 +2,15 @@
 <app-toggle-visible-button
   [isVisible$]="qtrFormsVisible$"
   [formName]="'qtrForm'"
-  [buttonText]="'Qtr Selector'">
-</app-toggle-visible-button>
-<div
-  class="quarter"
-  *ngIf="qtrFormsVisible$ | async"
+  [buttonText]="'Qtr Selector'"
 >
-
-  <form
-    class="quarter-selector"
-    [formGroup]="qtrForm"
-  >
+</app-toggle-visible-button>
+<div class="quarter" *ngIf="qtrFormsVisible$ | async">
+  <form class="quarter-selector" [formGroup]="qtrForm">
     <tui-select
       formControlName="qtrSelect"
-      style="width: 100%; text-align: center;"
-    >Select Quarter
+      style="width: 100%; text-align: center"
+      >Select Quarter
       <tui-data-list-wrapper
         *tuiDataList
         [items]="items"
@@ -28,54 +22,55 @@
       [disabled]="disabled"
       (click)="updateQuarter(data?.match_data!)"
     ></app-admin-submit-button>
-
   </form>
 
   <form class="goal-btns">
     <button
       class="goal-btn"
-      appearance="down-admin"
+      appearance="outline-grayscale"
       tuiButton
       size="m"
       type="button"
       [disabled]="disabled"
       (click)="toggleTouchdownTeamA(data?.scoreboard_data!)"
-    >TD HOME
+    >
+      TD HOME
     </button>
     <button
       class="goal-btn"
-      appearance="down-admin"
+      appearance="outline-grayscale"
       tuiButton
       size="m"
       type="button"
       [disabled]="disabled"
       (click)="toggleTouchdownTeamB(data?.scoreboard_data!)"
-    >TD AWAY
+    >
+      TD AWAY
     </button>
   </form>
 
   <form class="goal-btns">
     <button
       class="goal-btn"
-      appearance="down-admin"
+      appearance="outline-grayscale"
       tuiButton
       size="m"
       type="button"
       [disabled]="disabled"
       (click)="toggleTimeoutTeamA(data?.scoreboard_data!)"
-    >Timeout HOME
+    >
+      Timeout HOME
     </button>
     <button
       class="goal-btn"
-      appearance="down-admin"
+      appearance="outline-grayscale"
       tuiButton
       size="m"
       type="button"
       [disabled]="disabled"
       (click)="toggleTimeoutTeamB(data?.scoreboard_data!)"
-    >Timeout AWAY
+    >
+      Timeout AWAY
     </button>
   </form>
-
 </div>
-
