@@ -1,10 +1,11 @@
 <button
-  appearance="submit-admin"
+  appearance="outline"
   tuiButton
   size="s"
   type="button"
   style="width: 100%"
   (click)="adjustScore(team, score, data.match_data!)"
   [disabled]="disabled"
->{{ score | addSign }} {{ team | teamName }} Team
+>
+  {{ score | addSign }} {{ team | teamName }} Team
 </button>
