@@ -4,7 +4,6 @@ import {
   EventEmitter,
   Input,
   Output,
-  ViewEncapsulation,
 } from '@angular/core';
 import { UpperCasePipe } from '@angular/common';
 import { FormArray, FormControl } from '@angular/forms';
