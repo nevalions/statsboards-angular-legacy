@@ -1,13 +1,10 @@
-import { TuiAvatar } from "@taiga-ui/kit";
-import { TuiIslandDirective } from "@taiga-ui/legacy";
 import { Component } from '@angular/core';
 import { Player } from '../../../player/player';
 import { Person } from '../../../person/person';
 import { IPlayer } from '../../../../type/player.type';
 import { Sport } from '../../sport';
-import { AsyncPipe, TitleCasePipe, UpperCasePipe } from '@angular/common';
+import { AsyncPipe, UpperCasePipe } from '@angular/common';
 import { EditButtonComponent } from '../../../../shared/ui/buttons/edit-button/edit-button.component';
-import { ListOfItemsIslandComponent } from '../../../../shared/ui/list/list-of-items-island/list-of-items-island.component';
 import { environment } from '../../../../../environments/environment';
 import { AddEditPlayerComponent } from '../../../player/add-edit-player/add-edit-player.component';
 import { ListOfPlayersComponent } from '../../../player/list-of-players/list-of-players.component';
@@ -23,10 +20,6 @@ import { BaseSearchFormComponent } from '../../../../shared/ui/search/base-searc
     AsyncPipe,
     UpperCasePipe,
     EditButtonComponent,
-    ListOfItemsIslandComponent,
-    TuiIslandDirective,
-    TitleCasePipe,
-    TuiAvatar,
     AddEditPlayerComponent,
     ListOfPlayersComponent,
     BasePaginationComponent,
