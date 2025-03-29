@@ -1,25 +1,31 @@
-@for (item of data; track item.id) {
-  <div tuiPlatform="web">
-    <div tuiAppearance="floating" tuiCardLarge>
-      <header tuiHeader>
-        <h1 tuiTitle>
-          Title
-          <span tuiSubtitle>Subtitle</span>
-        </h1>
-
-        <aside tuiAccessories>
-          <tui-avatar appearance="primary" [src]="url + item[avatarUrl]" />
-        </aside>
-      </header>
-
-      <footer>
-        <button appearance="secondary" size="m" tuiButton type="button">
-          Label
+<div class="list-of-items-with-data">
+  @for (item of data; track item.id) {
+    @if (item) {
+      <div class="item-with-data-island">
+        <button
+          tuiCardLarge
+          tuiCell
+          tuiSurface="floating"
+          type="button"
+          (click)="navigateToTournamentItem(item)"
+          style="width: 100%"
+        >
+          <tui-avatar
+            appearance="primary"
+            [src]="url + item.tournament_logo_icon_url"
+          />
+          <div tuiTitle>
+            {{ item.title | uppercase }}
+          </div>
         </button>
-      </footer>
-    </div>
-  </div>
-}
+      </div>
+    } @else {
+      No Tournament Data
+    }
+  } @empty {
+    No Items Found
+  }
+</div>
 <!-- <div class="list-of-items-with-data"> -->
 <!--   @for (item of data; track item.id) { -->
 <!--       <div class="item-with-data-island"> -->
@@ -61,8 +67,4 @@
 <!--     </div> -->
 <!--   </div> -->
 <!-- </a> -->
-<!-- </div> -->
-@empty {
-  No Items Found
-}
 <!-- </div> -->
