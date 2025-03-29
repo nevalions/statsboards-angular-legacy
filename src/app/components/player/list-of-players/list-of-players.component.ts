@@ -1,6 +1,5 @@
-import { TuiAppearance, TuiFallbackSrcPipe, TuiInitialsPipe, TuiLoader, TuiSurface, TuiTitle } from "@taiga-ui/core";
+import { TuiAppearance, TuiLoader, TuiSurface, TuiTitle } from "@taiga-ui/core";
 import { TuiAvatar } from "@taiga-ui/kit";
-import { TuiIslandDirective } from "@taiga-ui/legacy";
 import { Component, Input } from '@angular/core';
 import { TitleCasePipe } from '@angular/common';
 import { IPlayer, IPlayerInSport } from '../../../type/player.type';
@@ -41,7 +40,6 @@ export class ListOfPlayersComponent {
       this.router.navigate(segments);
     }
   }
-
 
   backendUrl = environment.backendUrl;
 }
