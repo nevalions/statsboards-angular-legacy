@@ -1,6 +1,6 @@
 import { TuiAvatar } from "@taiga-ui/kit";
 import { Component, Input } from '@angular/core';
-import { TuiTitle, TuiSurface, TuiAppearance, TuiIcon } from '@taiga-ui/core';
+import { TuiTitle, TuiSurface, TuiAppearance } from '@taiga-ui/core';
 import { TuiCardLarge, TuiCell, TuiHeader } from '@taiga-ui/layout';
 
 import { ITournament } from '../../../type/tournament.type';
@@ -15,10 +15,8 @@ import { UpperCasePipe } from "@angular/common";
   standalone: true,
   imports: [
     TuiCardLarge,
-    TuiHeader,
     TuiCell,
     TuiTitle,
-    TuiIcon,
     TuiSurface,
     TuiAppearance,
     TuiAvatar,
