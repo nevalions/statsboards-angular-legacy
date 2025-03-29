@@ -1,35 +1,36 @@
 @if (data$ | async; as data) {
-  @for (item of data; track item.id) {
-    <div class="item-with-data-island">
-      <a
-        rel="noreferrer"
-        size="m"
-        target="_self"
-        tuiIsland
-        textAlign="center"
-        [hoverable]="true"
-        (click)="navigateToMatchItem(item)"
-      >
-        <div class="tui-island__content">
-          <figure class="tui-island__figure">
-            <div class="some-figure">WEEK {{ item.match.week }}</div>
-          </figure>
-          <div>
-            <h3 class="tui-island__title content__body__title__center">
-              {{ item.teams_data!.team_a.title | titlecase }} vs {{ item.teams_data!.team_b.title | titlecase }}
+  <div class="list-of-items-with-data">
+    @for (item of data; track item.id) {
+      @if (item) {
+        <div class="item-with-data-island">
+          <button
+            tuiCardLarge
+            tuiSurface="floating"
+            type="button"
+            (click)="navigateToMatchItem(item)"
+            style="width: 100%"
+          >
+            <div tuiTitle>WEEK {{ item.match.week }}</div>
+            <h3>
+              {{ item.teams_data!.team_a.title | titlecase }} vs
+              {{ item.teams_data!.team_b.title | titlecase }}
             </h3>
-            <h4 class="tui-island__title content__body__title__center">
-              {{ item.match_data!.score_team_a }} : {{ item.match_data!.score_team_b }}
+            <h4>
+              {{ item.match_data!.score_team_a }} :
+              {{ item.match_data!.score_team_b }}
             </h4>
-            <p class="tui-island__paragraph">{{ item.match.match_date | date:"dd MMM yyyy, HH:mm" }}</p>
-          </div>
+            <p class="tui-island__paragraph">
+              {{ item.match.match_date | date: "dd MMM yyyy, HH:mm" }}
+            </p>
+          </button>
         </div>
-      </a>
-    </div>
-  } @empty {
-    No Items Found
-  }
+      } @else {
+        <tui-loader />
+      }
+    } @empty {
+      <tui-loader />
+    }
+  </div>
 } @else {
-  <tui-loader [inheritColor]="true"></tui-loader>
+  <tui-loader />
 }
-
