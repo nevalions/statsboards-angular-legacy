@@ -2,41 +2,30 @@
   <div class="list-of-items-with-data">
     @for (p of players; track p.player.id) {
       <div class="item-with-data-island">
-        <a
-          [href]="playerItemHref(p.player)"
-          rel="noreferrer"
-          target="_self"
-          tuiIsland
-          textAlign="center"
-          [hoverable]="true"
+        <button
+          tuiCardLarge
+          tuiCell
+          tuiSurface="floating"
+          type="button"
+          style="width: 100%"
+          (click)="navigateToItem(playerItemHref(p.player))"
         >
-          <div class="tui-island__content">
-            <figure class="tui-island__figure">
-              <div class="some-figure">
-                <tui-avatar
-                  [src]="
-                    backendUrl + (p.person?.person_photo_icon_url || '')
-                      | tuiFallbackSrc
-                        : ('{{p.person?.first_name}}' | tuiInitials)
-                  "
-                  size="xl"
-                  class="tui-space_top-1"
-                  [round]="false"
-                ></tui-avatar>
-              </div>
-            </figure>
-            <div>
-              <h3 class="tui-island__title">
-                {{ p.person?.first_name | titlecase }}
-                {{ p.person?.second_name | titlecase }}
-              </h3>
-              <p class="tui-island__paragraph"></p>
-            </div>
+          <tui-avatar
+            appearance="primary"
+            [src]="backendUrl + p.person?.person_photo_icon_url"
+          />
+          <div tuiTitle>
+            <h3>
+              {{ p.person?.first_name | titlecase }}
+              {{ p.person?.second_name | titlecase }}
+            </h3>
           </div>
-        </a>
+        </button>
       </div>
     } @empty {
       No Players Found
     }
   </div>
+} @else {
+  <tui-loader />
 }
