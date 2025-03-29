@@ -1,31 +1,28 @@
 import { TuiAvatar } from "@taiga-ui/kit";
-import { TuiIslandDirective } from "@taiga-ui/legacy";
 import {
   ChangeDetectionStrategy,
   Component,
   Input,
-  OnDestroy,
-  OnInit,
 } from '@angular/core';
-import { AsyncPipe, TitleCasePipe, UpperCasePipe } from '@angular/common';
-import { TuiSizeL, TuiSizeS, TuiLoader, TuiFallbackSrcPipe, TuiInitialsPipe } from '@taiga-ui/core';
-import { Observable, of, Subscription } from 'rxjs';
-import { SearchListService } from '../../../../services/search-list.service';
+import { TitleCasePipe } from '@angular/common';
+import { TuiAppearance, TuiLoader, TuiSizeL, TuiSizeS, TuiSurface, TuiTitle } from '@taiga-ui/core';
 import { environment } from '../../../../../environments/environment';
 import { getTitleCase } from '../../../../base/helpers';
+import { TuiCardLarge, TuiCell } from "@taiga-ui/layout";
+import { Router } from "@angular/router";
 
 @Component({
   selector: 'app-list-of-items-island',
   standalone: true,
   imports: [
-    TuiIslandDirective,
-    AsyncPipe,
-    TuiLoader,
+    TuiCardLarge,
+    TuiCell,
+    TuiTitle,
+    TuiSurface,
+    TuiAppearance,
     TitleCasePipe,
-    UpperCasePipe,
     TuiAvatar,
-    TuiFallbackSrcPipe,
-    TuiInitialsPipe
+    TuiLoader,
   ],
   templateUrl: './list-of-items-island.component.html',
   styleUrl: './list-of-items-island.component.less',
@@ -50,6 +47,17 @@ export class ListOfItemsIslandComponent<
   @Input() _size: TuiSizeL | TuiSizeS = 'l';
   @Input() hoverable: boolean = true;
 
+  constructor(
+    private router: Router,
+  ) { }
+
+  navigateToItem(urlItem: string): void {
+    if (urlItem) {
+      const segments = urlItem.split('/');
+      this.router.navigate(segments);
+    }
+  }
+
   getInitials(item: any): string {
     const displayText = item[this.titleProperty] ||
       item[this.titlePropertyFirst] ||
@@ -58,7 +66,7 @@ export class ListOfItemsIslandComponent<
     return displayText;
   }
 
+  apiUrl = environment.url
   backendUrl = environment.backendUrl;
-
   protected readonly getTitleCase = getTitleCase;
 }

@@ -1,55 +1,43 @@
 <div class="list-of-items-with-data">
   @for (item of data; track item.id) {
-    <div class="item-with-data-island">
-      <a
-        [href]="formatPath(item)"
-        rel="noreferrer"
-        [size]="_size"
-        target="_self"
-        tuiIsland
-        textAlign="center"
-        [hoverable]="hoverable"
-      >
-        <div class="tui-island__content">
-          <figure class="tui-island__figure">
-            <div class="some-figure">
-              @if (avatarUrl != "none" || avatarUrl) {
-                <tui-avatar
-                  [src]="
-                    backendUrl + (item[avatarUrl] || '')
-                      | tuiFallbackSrc: getInitials(item)
-                  "
-                  size="xl"
-                  class="tui-space_top-1"
-                  [round]="false"
-                ></tui-avatar>
-              }
-            </div>
-          </figure>
-          <div>
-            <h3 class="tui-island__title">
-              @if (titleProperty != "none") {
-                {{ getTitleCase(item, titleProperty) | titlecase }}
-              } @else if (
-                item[titlePropertyFirst] != "none" &&
-                item[titlePropertySecond] != "none"
-              ) {
-                {{ getTitleCase(item, titlePropertyFirst) | titlecase }}
-                {{ getTitleCase(item, titlePropertySecond) | titlecase }}
-              } @else {
-                No Title
-              }
-            </h3>
-            <p class="tui-island__paragraph">
-              @if (item[paragraphProperty]) {
+    @if (item) {
+      <div class="item-with-data-island">
+        <button
+          tuiCardLarge
+          tuiCell
+          tuiSurface="floating"
+          type="button"
+          (click)="navigateToItem(formatPath(item))"
+          style="width: 100%"
+        >
+          <tui-avatar
+            appearance="primary"
+            [src]="backendUrl + item[avatarUrl]"
+          />
+          <div tuiTitle>
+            @if (titleProperty != "none") {
+              {{ getTitleCase(item, titleProperty) | titlecase }}
+            } @else if (
+              item[titlePropertyFirst] != "none" &&
+              item[titlePropertySecond] != "none"
+            ) {
+              {{ getTitleCase(item, titlePropertyFirst) | titlecase }}
+              {{ getTitleCase(item, titlePropertySecond) | titlecase }}
+            } @else {
+              No Title
+            }
+            @if (item[paragraphProperty]) {
+              <div tuiSubtitle>
                 {{ item[paragraphProperty] }}
-              } @else {}
-            </p>
+              </div>
+            }
           </div>
-        </div>
-      </a>
-    </div>
+        </button>
+      </div>
+    } @else {
+      <tui-loader />
+    }
   } @empty {
-    No Items Found
+    <tui-loader />
   }
 </div>
