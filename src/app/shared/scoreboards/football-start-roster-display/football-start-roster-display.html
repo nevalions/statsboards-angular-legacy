@@ -6,7 +6,7 @@
   <div class="start-offense-roster-display-header">
     @if (team) {
     <tui-avatar
-      [src]="(backendUrl + (team.team_logo_web_url || '')) | tuiFallbackSrc : (team.title | tuiInitials)"
+      [src]="backendUrl + team.team_logo_web_url"
       size="xxl"
       class="team-logo"
       [round]="false"
@@ -30,7 +30,7 @@
   <div class="start-offense-roster-display-header">
     @if (team) {
     <tui-avatar
-      [src]="(backendUrl + (team.team_logo_web_url || '')) | tuiFallbackSrc : (team.title | tuiInitials)"
+      [src]="backendUrl + team.team_logo_web_url"
       size="xxl"
       class="team-logo"
       [round]="false"
