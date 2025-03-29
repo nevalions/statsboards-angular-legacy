@@ -1,11 +1,9 @@
-import { TuiIslandDirective } from "@taiga-ui/legacy";
-import { AsyncPipe, DatePipe, NgIf, TitleCasePipe } from '@angular/common';
+import { AsyncPipe, DatePipe, TitleCasePipe } from '@angular/common';
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { TuiAppearance, TuiLoader, TuiButton } from '@taiga-ui/core';
+import { TuiAppearance, TuiButton, TuiTitle } from '@taiga-ui/core';
 import { environment } from '../../../../environments/environment';
 import { BodyListTitleComponent } from '../../../shared/ui/body/body-title/body-list-title.component';
-import { CreateButtonShowDialogComponent } from '../../../shared/ui/buttons/create-button-show-dialog/create-button-show-dialog.component';
 import { DeleteButtonComponent } from '../../../shared/ui/buttons/delete-button/delete-button.component';
 import { EditButtonComponent } from '../../../shared/ui/buttons/edit-button/edit-button.component';
 import { DeleteDialogComponent } from '../../../shared/ui/dialogs/delete-dialog/delete-dialog.component';
@@ -16,7 +14,6 @@ import { MatchWithFullData } from '../../match-with-full-data/matchWithFullData'
 import { Person } from '../../person/person';
 import { AddEditPlayerMatchTableComponent } from '../../player-match/add-edit-player-match-table/add-edit-player-match-table.component';
 import { PlayerInMatch } from '../../player-match/player-match';
-import { AddEditPlayerToTeamTournamentTableComponent } from '../../player-team-tournament/add-edit-player-to-team-tournament-table/add-edit-player-to-team-tournament-table.component';
 import { PlayerInTeamTournament } from '../../player-team-tournament/player-team-tournament';
 import { Player } from '../../player/player';
 import { Position } from '../../position/postion';
@@ -28,26 +25,29 @@ import { AddEditMatchComponent } from '../add-edit-match/add-edit-match.componen
 import { Match } from '../match';
 import { ParseButtonComponent } from '../../../shared/ui/buttons/parse-button/parse-button.component';
 import { QrComponent } from '../../../shared/ui/qr/qr.component';
+import { TuiCardLarge } from "@taiga-ui/layout";
 
 @Component({
   selector: 'app-item-match',
   standalone: true,
   imports: [
     AsyncPipe,
-    TuiLoader,
     DatePipe,
-    TuiIslandDirective,
+    TitleCasePipe,
+    TuiCardLarge,
+    TuiTitle,
+    TuiAppearance,
+    TitleCasePipe,
+    AsyncPipe,
+    DatePipe,
     TuiButton,
     DeleteDialogComponent,
     DeleteButtonComponent,
     EditButtonComponent,
-    CreateButtonShowDialogComponent,
     AddEditMatchComponent,
-    NgIf,
     TitleCasePipe,
     BodyListTitleComponent,
     AddEditPlayerMatchTableComponent,
-    AddEditPlayerToTeamTournamentTableComponent,
     ParseButtonComponent,
     QrComponent,
   ],
@@ -128,11 +128,20 @@ export class ItemMatchComponent {
   buttonTitle: string = 'Match';
 
   navigateToWebSocketItem(): void {
-    this.router.navigate(['admin'], { relativeTo: this.route });
+    // this.router.navigate(['admin'], { relativeTo: this.route });
+    const urlTree = this.router.createUrlTree(['admin'], { relativeTo: this.route });
+
+    // Serialize it to a string
+    const url = this.router.serializeUrl(urlTree);
+
+    // Get the full URL
+    const fullUrl = window.location.origin + url;
+
+    // Open in new window
+    window.open(fullUrl, '_blank');
   }
 
   navigateToWebSocketScoreboardDisplay(match_id: number) {
-    // this.router.navigate(['hd'], { relativeTo: this.route });
     if (match_id) {
       window.open(
         `http://${environment.url}${environment.angular_port}/scoreboard/match/${match_id}/hd/`,

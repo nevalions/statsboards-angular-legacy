@@ -4,84 +4,75 @@
       @if (tournament$ | async; as tournament) {
         @if (match$ | async; as matchWithFullData) {
           @if (teamsInTournament$ | async; as teamsInTournament) {
-            <tui-island size="l" textAlign="center">
-              <div class="tui-island__content">
-                <!--          <figure class="tui-island__figure">-->
-                <!--            <div class="some-figure">WEEK {{ match.match?.week }}</div>-->
-                <!--          </figure>-->
-                <div>
-                  <h3 class="tui-island__title content__body__title__center">
-                    {{ matchWithFullData.teams_data!.team_a.title | titlecase }}
-                    vs
-                    {{ matchWithFullData.teams_data!.team_b.title | titlecase }}
-                  </h3>
-                  <h4 class="tui-island__title content__body__title__center">
-                    {{ matchWithFullData.match_data!.score_team_a }} :
-                    {{ matchWithFullData.match_data!.score_team_b }}
-                  </h4>
-                  <p class="tui-island__paragraph">
-                    {{
-                      matchWithFullData.match.match_date
-                        | date: "dd MMM yyyy, HH:mm"
-                    }}
-                  </p>
+            <div class="item-with-data-island">
+              <button tuiCardLarge type="button" style="width: 100%">
+                <div tuiTitle>WEEK {{ matchWithFullData.match.week }}</div>
+                <h3>
+                  {{ matchWithFullData.teams_data!.team_a.title | titlecase }}
+                  vs
+                  {{ matchWithFullData.teams_data!.team_b.title | titlecase }}
+                </h3>
+                <h4>
+                  {{ matchWithFullData.match_data!.score_team_a }} :
+                  {{ matchWithFullData.match_data!.score_team_b }}
+                </h4>
+                <p class="tui-island__paragraph">
+                  {{
+                    matchWithFullData.match.match_date
+                      | date: "dd MMM yyyy, HH:mm"
+                  }}
+                </p>
+                <app-edit-button
+                  [buttonSize]="'xl'"
+                  [action]="'edit'"
+                  [item]="'Match'"
+                  [dialogId]="'editDialog'"
+                ></app-edit-button>
+                <app-add-edit-match
+                  [teams]="teamsInTournament"
+                  [matchWithFullData]="matchWithFullData"
+                  [tournamentId]="tournament.id!"
+                  [action]="'edit'"
+                  [dialogId]="'editDialog'"
+                  (editEvent)="onMatchEdit($event)"
+                  [allSponsors]="allSponsors$ | async"
+                  [allSponsorLines]="allSponsorLines$ | async"
+                ></app-add-edit-match>
+                <button
+                  appearance="flat"
+                  size="xl"
+                  tuiButton
+                  type="button"
+                  (click)="navigateToWebSocketItem()"
+                >
+                  SCOREBOARD ADMIN
+                </button>
+                <button
+                  appearance="flat"
+                  size="xl"
+                  tuiButton
+                  type="button"
+                  (click)="
+                    navigateToWebSocketScoreboardDisplay(
+                      matchWithFullData.match_id!
+                    )
+                  "
+                >
+                  SCOREBOARD VIEW
+                </button>
+                <app-delete-button
+                  [item]="buttonTitle"
+                  style="padding: 0"
+                  [dialogId]="'deleteDialog'"
+                ></app-delete-button>
+                <app-delete-dialog
+                  [item]="buttonTitle"
+                  (delete)="onDelete()"
+                  [dialogId]="'deleteDialog'"
+                ></app-delete-dialog>
+              </button>
+            </div>
 
-                  <app-edit-button
-                    [buttonClass]="'tui-island__footer-button'"
-                    [buttonSize]="'l'"
-                    [action]="'edit'"
-                    [item]="'Match'"
-                    [dialogId]="'editDialog'"
-                  ></app-edit-button>
-                  <app-add-edit-match
-                    [teams]="teamsInTournament"
-                    [matchWithFullData]="matchWithFullData"
-                    [tournamentId]="tournament.id!"
-                    [action]="'edit'"
-                    [dialogId]="'editDialog'"
-                    (editEvent)="onMatchEdit($event)"
-                    [allSponsors]="allSponsors$ | async"
-                    [allSponsorLines]="allSponsorLines$ | async"
-                  ></app-add-edit-match>
-
-                  <button
-                    appearance="flat"
-                    size="xl"
-                    tuiButton
-                    type="button"
-                    class="tui-island__footer-button"
-                    (click)="navigateToWebSocketItem()"
-                  >
-                    SCOREBOARD ADMIN
-                  </button>
-                  <button
-                    appearance="flat"
-                    size="xl"
-                    tuiButton
-                    type="button"
-                    class="tui-island__footer-button"
-                    (click)="
-                      navigateToWebSocketScoreboardDisplay(
-                        matchWithFullData.match_id!
-                      )
-                    "
-                  >
-                    SCOREBOARD VIEW
-                  </button>
-                  <app-delete-button
-                    [item]="buttonTitle"
-                    [buttonClass]="'tui-island__footer-button'"
-                    style="padding: 0"
-                    [dialogId]="'deleteDialog'"
-                  ></app-delete-button>
-                  <app-delete-dialog
-                    [item]="buttonTitle"
-                    (delete)="onDelete()"
-                    [dialogId]="'deleteDialog'"
-                  ></app-delete-dialog>
-                </div>
-              </div>
-            </tui-island>
             @if (sport$ | async; as sport) {
               @if (match$ | async; as match) {
                 @if (season$ | async; as season) {
