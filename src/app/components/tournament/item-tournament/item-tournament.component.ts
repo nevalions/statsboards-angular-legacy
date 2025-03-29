@@ -20,7 +20,6 @@ import { CreateButtonShowDialogComponent } from '../../../shared/ui/buttons/crea
 import { DeleteButtonComponent } from '../../../shared/ui/buttons/delete-button/delete-button.component';
 import { EditButtonComponent } from '../../../shared/ui/buttons/edit-button/edit-button.component';
 import { DeleteDialogComponent } from '../../../shared/ui/dialogs/delete-dialog/delete-dialog.component';
-import { ListOfMatchesComponent } from '../../../shared/ui/list/list-of-matches/list-of-matches.component';
 import { BasePaginationComponent } from '../../../shared/ui/pagination/base-pagination/base-pagination.component';
 import { BaseSearchFormComponent } from '../../../shared/ui/search/base-search-form/base-search-form.component';
 import { Pagination } from '../../../store/pagination/pagination';
@@ -46,6 +45,7 @@ import { Match } from '../../match/match';
 import { ParseButtonComponent } from '../../../shared/ui/buttons/parse-button/parse-button.component';
 import { SimpleInputWithButtonsComponent } from '../../../shared/scoreboards/admin-forms/simple-input-with-buttons/simple-input-with-buttons.component';
 import { getFormControl } from '../../../base/formHelpers';
+import { ListOfMatchesComponent } from "../../../shared/ui/list/list-of-matches/list-of-matches.component";
 
 @Component({
   selector: 'app-item-tournament',
