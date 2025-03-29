@@ -1,8 +1,7 @@
 import { TuiLoader } from "@taiga-ui/core";
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
 import { Person } from '../person';
-import { AsyncPipe, TitleCasePipe, UpperCasePipe } from '@angular/common';
+import { AsyncPipe, UpperCasePipe } from '@angular/common';
 import { EditButtonComponent } from '../../../shared/ui/buttons/edit-button/edit-button.component';
 import { ListOfItemsIslandComponent } from '../../../shared/ui/list/list-of-items-island/list-of-items-island.component';
 import { ITeam } from '../../../type/team.type';
@@ -40,8 +39,8 @@ export class AllPersonsComponent {
     private search: Search,
     private pagination: Pagination,
   ) {
-
     person.loadAllPersons();
+
     this.search.searchPerson(null);
     this.pagination.resetCurrentPage();
   }
@@ -51,6 +50,7 @@ export class AllPersonsComponent {
   avatarIconUrl: keyof IPerson = 'person_photo_icon_url';
 
   personItemHref(item: ITeam): string {
+    console.log(`person url: person/${item.id}`)
     return `person/${item.id}`;
   }
 
