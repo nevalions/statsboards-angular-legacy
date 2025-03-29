@@ -6,9 +6,7 @@
     <div class="sport content__body">
       <div class="one_col_container">
         <div class="sport content__body__title__flex">
-          <app-body-list-title
-            titleMany='tournaments'
-          ></app-body-list-title>
+          <app-body-list-title titleMany="tournaments"></app-body-list-title>
 
           <app-create-button-show-dialog
             [action]="'add'"
@@ -28,46 +26,40 @@
           <app-sport-with-season-dropdown
             [sportId]="sport.id!"
           ></app-sport-with-season-dropdown>
-
         </div>
         <div class="sport content__body__title">
-
           <h4>YEAR {{ season.year }}</h4>
         </div>
-        <hr>
+        <hr />
         @if (allSeasonSportTournaments$ | async; as tours) {
           <!--        @for (t of tours; track t.id) {-->
-            <!--          {{ t.id }} {{ t.title }}-->
-            <!--        }-->
-            <!--          <app-pagination-with-items-per-page-->
-            <!--            [items$]="tournaments$"-->
-            <!--          ></app-pagination-with-items-per-page>-->
+          <!--          {{ t.id }} {{ t.title }}-->
+          <!--        }-->
+          <!--          <app-pagination-with-items-per-page-->
+          <!--            [items$]="tournaments$"-->
+          <!--          ></app-pagination-with-items-per-page>-->
 
-            <!--          <app-form-search-text-->
-            <!--            [data$]="tournaments$"-->
-            <!--            [searchTitle]="'tournament title'"-->
-            <!--            [parameter]="'title'"-->
-            <!--          ></app-form-search-text>-->
+          <!--          <app-form-search-text-->
+          <!--            [data$]="tournaments$"-->
+          <!--            [searchTitle]="'tournament title'"-->
+          <!--            [parameter]="'title'"-->
+          <!--          ></app-form-search-text>-->
 
           <app-island-list-of-tournaments
             [data]="tours"
-            [avatarUrl]="'tournament_logo_icon_url'"
           ></app-island-list-of-tournaments>
 
-
           <!--          <app-list-of-items-island-->
-            <!--            [itemData]="season"-->
-            <!--            [data$]="paginationService.paginatedItems$"-->
-            <!--            [formatPath]="tournamentItemHref"-->
-            <!--            [titleProperty]="islandTitleProperty"-->
-            <!--          ></app-list-of-items-island>-->
+          <!--            [itemData]="season"-->
+          <!--            [data$]="paginationService.paginatedItems$"-->
+          <!--            [formatPath]="tournamentItemHref"-->
+          <!--            [titleProperty]="islandTitleProperty"-->
+          <!--          ></app-list-of-items-island>-->
         } @else {
           <tui-loader></tui-loader>
         }
-
       </div>
     </div>
-
   } @else {
     <h3 class="tui-text_h3">
       <tui-loader [inheritColor]="true"></tui-loader>
