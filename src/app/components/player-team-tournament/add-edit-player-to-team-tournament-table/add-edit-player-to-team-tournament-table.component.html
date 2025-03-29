@@ -128,23 +128,12 @@
                         as photoUrl
                       ) {
                         <tui-avatar
-                          [src]="
-                            backendUrl + photoUrl
-                              | tuiFallbackSrc: ('uploaded logo' | tuiInitials)
-                          "
+                          [src]="backendUrl + photoUrl"
                           size="xxl"
                           class="player-photo-short-profile"
                           [round]="false"
                           (error)="onImgError($event)"
                         ></tui-avatar>
-
-                        <!--                        <img-->
-                        <!--                          src="{{url}}{{photoUrl}}"-->
-                        <!--                          height="100px"-->
-                        <!--                          alt="Photo"-->
-                        <!--                          (error)="onImgError($event)"-->
-                        <!--                          class="player-photo-short-profile"-->
-                        <!--                        >-->
                       }
                       @if (playerFormGroup.get("dob" + i)!.value; as dob) {
                         <span>{{ dob | date }}</span>
