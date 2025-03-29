@@ -9,7 +9,7 @@ import { IPlayerInMatchFullData } from '../../../type/player.type';
 @Component({
   selector: 'app-player-card-roster',
   standalone: true,
-  imports: [TuiAvatar, UpperCasePipe, TuiFallbackSrcPipe, TuiInitialsPipe],
+  imports: [TuiAvatar, UpperCasePipe, TuiFallbackSrcPipe,],
   templateUrl: './player-card-roster.component.html',
   styleUrl: './player-card-roster.component.less',
 })
