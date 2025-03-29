@@ -17,14 +17,12 @@ import { Pagination } from '../../../store/pagination/pagination';
   selector: 'app-all-persons',
   standalone: true,
   imports: [
-    RouterOutlet,
     UpperCasePipe,
     EditButtonComponent,
     ListOfItemsIslandComponent,
     AsyncPipe,
     TuiLoader,
     AddEditPersonComponent,
-    TitleCasePipe,
     BasePaginationComponent,
     BaseSearchFormComponent,
   ],
@@ -42,8 +40,8 @@ export class AllPersonsComponent {
     private search: Search,
     private pagination: Pagination,
   ) {
-    person.loadAllPersons();
 
+    person.loadAllPersons();
     this.search.searchPerson(null);
     this.pagination.resetCurrentPage();
   }
