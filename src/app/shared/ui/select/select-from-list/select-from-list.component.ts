@@ -1,7 +1,7 @@
 import { TuiSelectModule } from "@taiga-ui/legacy";
 import { TuiLet } from "@taiga-ui/cdk";
 import { Component, Input } from '@angular/core';
-import { AsyncPipe, NgIf, UpperCasePipe } from '@angular/common';
+import { NgIf, UpperCasePipe } from '@angular/common';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { tuiItemsHandlersProvider, TuiDataListWrapper, TuiAvatar } from '@taiga-ui/kit';
 import { AnyObjectWithTitle } from '../../../../type/base.type';
@@ -13,7 +13,6 @@ import { toTitleCase } from '../../../../base/helpers';
   selector: 'app-select-from-list',
   standalone: true,
   imports: [
-    AsyncPipe,
     FormsModule,
     ReactiveFormsModule,
     TuiDataListWrapper,
