@@ -14,7 +14,7 @@ export abstract class BaseApiService<T> {
     protected endpoint: string,
     protected readonly http: HttpClient,
     protected errorHandlingService: ErrorHandlingService,
-  ) {}
+  ) { }
 
   findById(id: number): Observable<T> {
     return this.http.get<T>(`${this.endpoint}/id/${id}`).pipe(
@@ -306,8 +306,8 @@ export abstract class BaseApiService<T> {
       tap((items) =>
         console.log(
           `Received /API/${firstItem}/${firstKey}/${firstValue}` +
-            (optionalValue ? `/${optionalValue}` : '') +
-            `\n data:`,
+          (optionalValue ? `/${optionalValue}` : '') +
+          `\n data:`,
           items,
         ),
       ),
@@ -351,13 +351,14 @@ export abstract class BaseApiService<T> {
     order_one: any,
     order_two: any,
   ): Observable<any> {
+    // /tournaments/id/3/matches/page/1/items_per_page/3/order_one/week/order_two/match_date
     let finalEndpoint = `${firstItem}/${firstKey}/${firstValue}/${secondItem}/page/${page}/items_per_page/${items_per_page}/order_one/${order_one}/order_two/${order_two}`;
 
     return this.http.get<any>(finalEndpoint).pipe(
       tap((items) =>
         console.log(
           `Received /API/${finalEndpoint}` +
-            `\n data:`,
+          `\n data:`,
           items,
         ),
       ),
@@ -421,7 +422,7 @@ export abstract class BaseApiServiceEndpoint<T> {
   protected constructor(
     protected readonly http: HttpClient,
     protected errorHandlingService: ErrorHandlingService,
-  ) {}
+  ) { }
 
   findAll(endpoint: string, postValue?: string): Observable<T[]> {
     const finalEndpoint = postValue ? `${endpoint}/${postValue}` : endpoint;

@@ -98,6 +98,7 @@ export class ItemTournamentComponent {
   sponsorLine$ = this.sponsorLine.sponsorLineWithFullData$;
   allSponsors$ = this.sponsor.allSponsors$;
   allSponsorLines$ = this.sponsorLine.allSponsorLines$;
+
   matchesInTournament$ =
     this.matchWithFullData.matchesWithFullDataInTournament$;
 
@@ -146,6 +147,7 @@ export class ItemTournamentComponent {
     team.loadAllTeamsInTournament();
     team.loadAllTeamsInSport();
     matchWithFullData.loadAllMatchesInTournament();
+    match.loadAllMatchesInTournamentWithPagination();
     playerInTeamTournament.loadAllPlayersInTournament();
     playerInTeamTournament.loadAllPlayersInTeamTournament();
     person.loadAllPersons();
