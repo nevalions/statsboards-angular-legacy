@@ -114,6 +114,8 @@ export class ItemTournamentComponent {
     this.pagination.currentPagePlayersInTeamTable$;
   currentPage$ = this.pagination.currentPage$;
 
+  allTournamentMatchesPaginated$ = this.match.matchesInTournamentWithPagination$;
+
   paginatedMatchCombinedSearchResults$ =
     this.pagination.paginatedMatchCombinedSearchResults$;
   totalMatchCombinedSearchPages$ =

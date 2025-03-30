@@ -30,14 +30,6 @@ export class MatchService extends BaseApiService<IMatch> {
     super('matches', http, errorHandlingService);
   }
 
-  // refreshMatchesInTournament(tournament_id: number): void {
-  //   this.tournamentService
-  //     .fetchAllMatchesWithDataByTournamentId(tournament_id)
-  //     .subscribe((matches: IMatch[]) => {
-  //       this.matchesSubject.next(matches);
-  //     });
-  // }
-
   fetchMatchesByTournamentId(id: number): Observable<IMatch[]> {
     return this.findByFirstKeyValue('tournaments', 'id', id, 'matches').pipe(
       // tap((matches) =>
@@ -47,14 +39,16 @@ export class MatchService extends BaseApiService<IMatch> {
     );
   }
 
-  //   findPlayersByMatchId(id: number): Observable<IPlayerInMatchFullData[]> {
-  //   return this.findByFirstKeyValue('tournaments', 'id', id, 'matches').pipe(
-  //     tap((matches) =>
-  //       console.log(`PLYAERS from MATCH ID: ${id}`, matches),
-  //     ),
-  //     map((data) => SortService.sort(data, '-date')),
-  //   );
-  // }
+  fetchMatchesByTournamentIdWithPagination(id: number, page: number = 1, items_per_page: number = 6): Observable<IMatch[]> {
+    return this.getItemsByFirstAndSecondValueWithPagginationAndSort(
+      'tournaments', 'id', id, 'matches', page, items_per_page, 'week', 'match_date').pipe(
+        tap((matches) =>
+          console.log(`MATCHES from TOURNAMENT ID: ${id}`, matches),
+        ),
+        // map((data) => SortService.sort(data, '-date')),
+      );
+  }
+
 
   editMatch(id: number | string, data: IMatch): Observable<IMatch> {
     return this.editItem(id, data).pipe(

@@ -13,6 +13,7 @@ export interface MatchState {
   allMatchesInSport: IMatch[];
   allMatchesInTournament: IMatch[];
   allMatchesWithFullDataInTournament: IMatchWithFullData[];
+  allMatchesInTournamentPaginated: IMatch[];
   parsedMatchesFromTournamentEESL: any[] | IPlayerInTeamTournament[];
 }
 
@@ -23,6 +24,7 @@ const initialState: MatchState = {
   allMatches: [],
   allMatchesInSport: [],
   allMatchesInTournament: [],
+  allMatchesInTournamentPaginated: [],
   allMatchesWithFullDataInTournament: [],
   currentMatch: null,
   parsedMatchesFromTournamentEESL: [],
@@ -191,6 +193,24 @@ const matchFeature = createFeature({
       errors: action,
     })),
 
+    on(matchActions.getMatchesByTournamentIdWithPagination, (state) => ({
+      ...state,
+      matchIsLoading: true,
+    })),
+    on(matchActions.getMatchesByTournamentIDWithPaginationSuccess, (state, action) => {
+      const sortedMatches = SortService.sort(action.matches, 'week', '-date');
+      return {
+        ...state,
+        matchIsLoading: false,
+        allMatchesInTournamentPaginated: sortedMatches,
+      };
+    }),
+    on(matchActions.getMatchesByTournamentIDWithPaginationFailure, (state, action) => ({
+      ...state,
+      matchIsLoading: false,
+      errors: action,
+    })),
+
     //pars matches from tournament EESL
     on(matchActions.parsMatchesFromTournamentEESL, (state) => ({
       ...state,
@@ -241,5 +261,6 @@ export const {
   selectAllMatchesInSport,
   selectAllMatchesInTournament,
   selectAllMatchesWithFullDataInTournament,
+  selectAllMatchesInTournamentPaginated,
   selectParsedMatchesFromTournamentEESL,
 } = matchFeature;

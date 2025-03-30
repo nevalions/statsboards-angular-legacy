@@ -119,6 +119,9 @@
                 <app-list-of-matches
                   [data$]="paginatedMatchCombinedSearchResults$"
                 ></app-list-of-matches>
+                <!-- <app-list-of-matches -->
+                <!--   [data$]="paginatedMatchCombinedSearchResults$" -->
+                <!-- ></app-list-of-matches> -->
                 @if (this.tournament$ | async; as tournament) {
                   @if (teamsInTournament$ | async; as teams) {
                     <div class="one_col_container">

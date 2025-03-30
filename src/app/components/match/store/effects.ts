@@ -233,6 +233,35 @@ export class MatchEffects {
     { functional: true },
   );
 
+  getMatchesByTournamentIdWithPaginationEffect = createEffect(
+    () => {
+      return this.actions$.pipe(
+        ofType(matchActions.getMatchesByTournamentIdWithPagination),
+        switchMap(() => this.store.select(selectCurrentTournamentId)),
+        filter(
+          (tournamentId): tournamentId is number =>
+            tournamentId !== null && tournamentId !== undefined,
+        ),
+        switchMap((tournamentId) => {
+          return this.matchService
+            .fetchMatchesByTournamentIdWithPagination(tournamentId)
+            .pipe(
+              map((matches: IMatch[]) => {
+                return matchActions.getMatchesByTournamentIDWithPaginationSuccess({
+                  matches,
+                });
+              }),
+              catchError(() => {
+                return of(matchActions.getMatchesByTournamentIDWithPaginationFailure);
+              }),
+            );
+        }),
+      );
+    },
+    { functional: true },
+  );
+
+
   getTournamentByMatchEffect = createEffect(
     () => {
       return this.actions$.pipe(
@@ -417,5 +446,5 @@ export class MatchEffects {
     private matchService: MatchService,
     private store: Store,
     private tournamentService: TournamentService,
-  ) {}
+  ) { }
 }

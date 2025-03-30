@@ -14,6 +14,7 @@ export class Match {
   match$: Observable<IMatch | null | undefined>;
   matchesInSport$: Observable<IMatch[]>;
   matchesInTournament$: Observable<IMatch[]>;
+  matchesInTournamentWithPagination$: Observable<IMatch[]>;
   matchTournament$: Observable<ITournament | null | undefined>;
 
   constructor(private store: Store<AppState>) {
@@ -24,6 +25,9 @@ export class Match {
     );
     this.matchesInTournament$ = store.select(
       (state) => state.match.allMatchesInTournament,
+    );
+    this.matchesInTournamentWithPagination$ = store.select(
+      (state) => state.match.allMatchesInTournamentPaginated,
     );
     this.matchTournament$ = store.select(
       (state) => state.tournament.currentTournament,
@@ -40,6 +44,10 @@ export class Match {
 
   loadAllMatchesInTournament() {
     this.store.dispatch(matchActions.getMatchesByTournamentId());
+  }
+
+  loadAllMatchesInTournamentWithPagination() {
+    this.store.dispatch(matchActions.getMatchesByTournamentIdWithPagination());
   }
 
   createMatch(match: IMatch) {

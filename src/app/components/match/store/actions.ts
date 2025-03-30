@@ -28,6 +28,11 @@ export const matchActions = createActionGroup({
     'Get matches by tournament ID success': props<{ matches: IMatch[] }>(),
     'Get matches by tournament ID failure': emptyProps(),
 
+    GetMatchesByTournamentIdWithPagination: emptyProps(),
+    'Get matches by tournament ID with pagination success': props<{ matches: IMatch[] }>(),
+    'Get matches by tournament ID with pagination failure': emptyProps(),
+
+
     Update: props<{ id: number; newMatchData: IMatch }>(),
     'Updated successfully': props<{ updatedMatch: IMatch }>(),
     'Update failure': emptyProps(),
