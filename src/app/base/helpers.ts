@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { AnyObjectWithTitle, IEnumObject } from '../type/base.type';
 import { AgeStats, IPerson } from '../type/person.type';
 import {
@@ -5,6 +6,13 @@ import {
   IPlayerInSport,
   IPlayerInTeamTournamentWithPersonWithSportWithPosition,
 } from '../type/player.type';
+
+export function navigateToItem(urlItem: string, router: Router): void {
+  if (urlItem) {
+    const segments = urlItem.split('/');
+    router.navigate(segments);
+  }
+}
 
 export function hasTitle(item: any): item is { title: string } {
   return item != null && typeof item === 'object' && 'title' in item;
@@ -223,14 +231,14 @@ export function calculateAgeStats(
 
   const minPlayer = playersWithFullAges.reduce((prev, current) =>
     prev.fullAge!.years * 365 + prev.fullAge!.days <
-    current.fullAge!.years * 365 + current.fullAge!.days
+      current.fullAge!.years * 365 + current.fullAge!.days
       ? prev
       : current,
   );
 
   const maxPlayer = playersWithFullAges.reduce((prev, current) =>
     prev.fullAge!.years * 365 + prev.fullAge!.days >
-    current.fullAge!.years * 365 + current.fullAge!.days
+      current.fullAge!.years * 365 + current.fullAge!.days
       ? prev
       : current,
   );
