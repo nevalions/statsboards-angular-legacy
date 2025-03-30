@@ -10,6 +10,7 @@ import { environment } from '../../../../../environments/environment';
 import { getTitleCase } from '../../../../base/helpers';
 import { TuiCardLarge, TuiCell } from "@taiga-ui/layout";
 import { Router } from "@angular/router";
+import { navigateToItem } from "../../../../base/helpers";
 
 @Component({
   selector: 'app-list-of-items-island',
@@ -51,19 +52,9 @@ export class ListOfItemsIslandComponent<
     private router: Router,
   ) { }
 
-  navigateToItem(urlItem: string): void {
-    if (urlItem) {
-      const segments = urlItem.split('/');
-      this.router.navigate(segments);
-    }
-  }
-
-  getInitials(item: any): string {
-    const displayText = item[this.titleProperty] ||
-      item[this.titlePropertyFirst] ||
-      item[this.titlePropertySecond] ||
-      'image';
-    return displayText;
+  navigate(item: T): void {
+    const url = this.formatPath(item);
+    navigateToItem(url, this.router);
   }
 
   apiUrl = environment.url

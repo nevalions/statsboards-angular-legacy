@@ -6,6 +6,7 @@ import { IPlayer, IPlayerInSport } from '../../../type/player.type';
 import { environment } from '../../../../environments/environment';
 import { TuiCardLarge, TuiCell } from "@taiga-ui/layout";
 import { Router } from "@angular/router";
+import { navigateToItem } from "../../../base/helpers";
 
 @Component({
   selector: 'app-list-of-players',
@@ -33,12 +34,9 @@ export class ListOfPlayersComponent {
     private router: Router,
   ) { }
 
-  // TODO: move to helper function
-  navigateToItem(urlItem: string): void {
-    if (urlItem) {
-      const segments = urlItem.split('/');
-      this.router.navigate(segments);
-    }
+  navigate(item: IPlayer): void {
+    const url = this.playerItemHref(item);
+    navigateToItem(url, this.router);
   }
 
   backendUrl = environment.backendUrl;
