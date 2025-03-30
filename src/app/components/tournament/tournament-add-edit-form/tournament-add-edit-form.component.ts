@@ -16,11 +16,10 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { TuiError, TuiDialog, TuiButton, TuiHint } from '@taiga-ui/core';
-import { TuiFileLike, TuiDataListWrapper, TuiFieldErrorPipe, TuiFieldErrorContentPipe, TuiAvatar, TuiFiles } from '@taiga-ui/kit';
-import { TuiAutoFocus, TuiLet } from '@taiga-ui/cdk';
+import { TuiError, TuiDialog, TuiHint } from '@taiga-ui/core';
+import { TuiFileLike, TuiDataListWrapper, TuiFieldErrorPipe, TuiFiles } from '@taiga-ui/kit';
 import { ITournament } from '../../../type/tournament.type';
-import { AsyncPipe, NgIf, TitleCasePipe } from '@angular/common';
+import { AsyncPipe, NgIf } from '@angular/common';
 import { CreateButtonInFormComponent } from '../../../shared/ui/buttons/create-button-in-form/create-button-in-form.component';
 import { CancelButtonInFormComponent } from '../../../shared/ui/buttons/cancel-button-in-form/cancel-button-in-form.component';
 import { Tournament } from '../tournament';
@@ -47,13 +46,11 @@ import { UploadResizeImageResponse } from '../../../type/base.type';
   selector: 'app-tournament-add-edit-form',
   standalone: true,
   imports: [
-    TuiButton,
     TuiHint,
     TuiDialog,
     TuiInputModule,
     ReactiveFormsModule,
-    TuiAutoFocus,
-    TuiFieldErrorPipe, TuiFieldErrorContentPipe,
+    TuiFieldErrorPipe,
     AsyncPipe,
     TuiError,
     TuiTextareaModule,
@@ -61,19 +58,15 @@ import { UploadResizeImageResponse } from '../../../type/base.type';
     CancelButtonInFormComponent,
     NgIf,
     TuiFiles,
-    TitleCasePipe,
     TuiDataListWrapper,
-    TuiLet,
     TuiSelectModule,
     SelectFromListComponent,
-    TuiAvatar,
   ],
   templateUrl: './tournament-add-edit-form.component.html',
   styleUrl: './tournament-add-edit-form.component.less',
 })
 export class TournamentAddEditFormComponent
-  implements OnInit, OnDestroy, OnChanges
-{
+  implements OnInit, OnDestroy, OnChanges {
   private dialogSubscription: Subscription | undefined;
 
   @Input() action: string = 'add';
@@ -97,7 +90,7 @@ export class TournamentAddEditFormComponent
     private imageService: ImageService,
     private uploadProgressService: UploadProgressService,
     private dialogService: DialogService,
-  ) {}
+  ) { }
 
   tournamentForm = new FormGroup({
     id: new FormControl<number | null | undefined>(undefined),
