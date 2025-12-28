@@ -22,6 +22,12 @@ ng test --include '**/person.component.spec.ts'
 ng test --include '**/person/**/*.spec.ts'  # Run all tests in person feature
 ```
 
+**Important:**
+
+- Tests must be run with **Firefox** browser
+- Karma configuration is set to use `FirefoxHeadless` browser
+- Test execution requires Firefox to be installed on the system
+
 ## Code Style Guidelines
 
 ### Editor Configuration (.editorconfig)
