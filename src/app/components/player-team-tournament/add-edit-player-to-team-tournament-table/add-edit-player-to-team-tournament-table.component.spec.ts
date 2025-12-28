@@ -1,6 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { provideMockStore } from '@ngrx/store/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AddEditPlayerToTeamTournamentTableComponent } from './add-edit-player-to-team-tournament-table.component';
 
@@ -13,8 +16,11 @@ describe('AddEditPlayerToTeamTournamentTableComponent', () => {
       imports: [
         AddEditPlayerToTeamTournamentTableComponent,
         ReactiveFormsModule,
+        HttpClientTestingModule,
+        BrowserAnimationsModule,
       ],
       schemas: [NO_ERRORS_SCHEMA],
+      providers: [provideMockStore()],
     }).compileComponents();
 
     fixture = TestBed.createComponent(
