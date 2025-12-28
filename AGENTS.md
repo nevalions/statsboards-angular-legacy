@@ -15,6 +15,7 @@ npm run watch          # Build with watch mode
 ```bash
 npm run test           # Run all tests
 ng test                # Run tests in watch mode
+ng test --karma-config karma.conf.js  # Run tests with explicit Karma config
 ng test --code-coverage  # Run tests with coverage
 
 # Run single test file
@@ -27,6 +28,7 @@ ng test --include '**/person/**/*.spec.ts'  # Run all tests in person feature
 - Tests must be run with **Firefox** browser
 - Karma configuration is set to use `FirefoxHeadless` browser
 - Test execution requires Firefox to be installed on the system
+- Use `ng test --karma-config karma.conf.js` to explicitly specify the Karma configuration file
 
 ## Code Style Guidelines
 

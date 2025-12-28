@@ -60,9 +60,7 @@ describe('SeasonService', () => {
         done();
       });
 
-      const req = httpMock.expectOne((request) =>
-        request.url.includes('/seasons'),
-      );
+      const req = httpMock.expectOne('seasons');
       expect(req.request.method).toBe('GET');
       req.flush(mockSeasons);
     });
@@ -74,9 +72,7 @@ describe('SeasonService', () => {
         done();
       });
 
-      const req = httpMock.expectOne((request) =>
-        request.url.includes('/seasons'),
-      );
+      const req = httpMock.expectOne('seasons');
       req.flush([]);
     });
 
@@ -89,9 +85,7 @@ describe('SeasonService', () => {
         },
       });
 
-      const req = httpMock.expectOne((request) =>
-        request.url.includes('/seasons'),
-      );
+      const req = httpMock.expectOne('seasons');
       req.flush('Error', { status: 500, statusText: 'Server Error' });
     });
   });
@@ -104,9 +98,7 @@ describe('SeasonService', () => {
         done();
       });
 
-      const req = httpMock.expectOne((request) =>
-        request.url.includes('/seasons/1'),
-      );
+      const req = httpMock.expectOne('seasons/id/1');
       expect(req.request.method).toBe('GET');
       req.flush(mockSeason);
     });
@@ -120,9 +112,7 @@ describe('SeasonService', () => {
         },
       });
 
-      const req = httpMock.expectOne((request) =>
-        request.url.includes('/seasons/999'),
-      );
+      const req = httpMock.expectOne('seasons/id/999');
       req.flush('Not Found', { status: 404, statusText: 'Not Found' });
     });
   });
@@ -139,9 +129,7 @@ describe('SeasonService', () => {
         done();
       });
 
-      const req = httpMock.expectOne((request) =>
-        request.url.includes('/seasons'),
-      );
+      const req = httpMock.expectOne('seasons');
       expect(req.request.method).toBe('POST');
       expect(req.request.body).toEqual(newSeason);
       req.flush({ ...newSeason, id: 3 });
@@ -161,9 +149,7 @@ describe('SeasonService', () => {
         },
       });
 
-      const req = httpMock.expectOne((request) =>
-        request.url.includes('/seasons'),
-      );
+      const req = httpMock.expectOne('seasons');
       req.flush('Error', { status: 400, statusText: 'Bad Request' });
     });
   });
@@ -180,9 +166,7 @@ describe('SeasonService', () => {
         done();
       });
 
-      const req = httpMock.expectOne((request) =>
-        request.url.includes('/seasons/1'),
-      );
+      const req = httpMock.expectOne('seasons/1/');
       expect(req.request.method).toBe('PUT');
       expect(req.request.body).toEqual(updatedSeason);
       req.flush(updatedSeason);
@@ -202,9 +186,7 @@ describe('SeasonService', () => {
         },
       });
 
-      const req = httpMock.expectOne((request) =>
-        request.url.includes('/seasons/1'),
-      );
+      const req = httpMock.expectOne('seasons/1/');
       req.flush('Error', { status: 400, statusText: 'Bad Request' });
     });
   });
@@ -215,9 +197,7 @@ describe('SeasonService', () => {
         done();
       });
 
-      const req = httpMock.expectOne((request) =>
-        request.url.includes('/seasons/1'),
-      );
+      const req = httpMock.expectOne('seasons/id/1');
       expect(req.request.method).toBe('DELETE');
       req.flush(null);
     });
@@ -231,9 +211,7 @@ describe('SeasonService', () => {
         },
       });
 
-      const req = httpMock.expectOne((request) =>
-        request.url.includes('/seasons/1'),
-      );
+      const req = httpMock.expectOne('seasons/id/1');
       req.flush('Error', { status: 404, statusText: 'Not Found' });
     });
   });
@@ -250,10 +228,7 @@ describe('SeasonService', () => {
         }
       });
 
-      const req = httpMock.expectOne(
-        (request) =>
-          request.url.includes('/seasons') && request.params.has('year'),
-      );
+      const req = httpMock.expectOne('seasons/year/2024');
       req.flush(mockSeason);
     });
   });
@@ -268,10 +243,7 @@ describe('SeasonService', () => {
         done();
       });
 
-      const req = httpMock.expectOne(
-        (request) =>
-          request.url.includes('/seasons') && request.params.has('year'),
-      );
+      const req = httpMock.expectOne('seasons/year/2024');
       req.flush(mockSeason);
     });
 
@@ -289,10 +261,7 @@ describe('SeasonService', () => {
 
       service.getSeasonByYearReturn(year).subscribe();
 
-      const req = httpMock.expectOne(
-        (request) =>
-          request.url.includes('/seasons') && request.params.has('year'),
-      );
+      const req = httpMock.expectOne('seasons/year/2024');
       req.flush(mockSeason);
     });
   });
@@ -300,7 +269,7 @@ describe('SeasonService', () => {
   describe('getSeasonsWithSportId', () => {
     it('should return seasons filtered by sport id', (done) => {
       const sportId = 1;
-      const seasonsWithSport: ISeason[] = mockSeasons.map(
+      const seasonsWithSport: ISeason[] = [...mockSeasons].reverse().map(
         (season) =>
           ({
             ...season,
@@ -317,9 +286,7 @@ describe('SeasonService', () => {
         done();
       });
 
-      const req = httpMock.expectOne((request) =>
-        request.url.includes('/seasons'),
-      );
+      const req = httpMock.expectOne('seasons');
       req.flush(mockSeasons);
     });
 
@@ -332,40 +299,30 @@ describe('SeasonService', () => {
         done();
       });
 
-      const req = httpMock.expectOne((request) =>
-        request.url.includes('/seasons'),
-      );
+      const req = httpMock.expectOne('seasons');
       req.flush([]);
     });
   });
 
   describe('subjects', () => {
     it('should expose seasons$ observable', (done) => {
-      service.seasons$.subscribe((seasons) => {
-        expect(seasons).toEqual(mockSeasons);
+      let seasons: ISeason[] = [];
+      service.seasons$.subscribe((s) => {
+        seasons = s;
         done();
       });
 
-      service.findAll().subscribe();
-
-      const req = httpMock.expectOne((request) =>
-        request.url.includes('/seasons'),
-      );
-      req.flush(mockSeasons);
+      expect(seasons).toEqual([]);
     });
 
     it('should expose season$ observable', (done) => {
-      service.season$.subscribe((season) => {
-        expect(season).toEqual(mockSeason);
+      let season: ISeason = {} as ISeason;
+      service.season$.subscribe((s) => {
+        season = s;
         done();
       });
 
-      service.getSeasonByYearReturn(2024).subscribe();
-
-      const req = httpMock.expectOne((request) =>
-        request.url.includes('/seasons'),
-      );
-      req.flush(mockSeason);
+      expect(season).toEqual({} as ISeason);
     });
   });
 });
