@@ -3,7 +3,7 @@ import { TuiValueChanges } from "@taiga-ui/cdk";
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { catchError, finalize, map, Observable, of, Subject } from 'rxjs';
 import { IMatchFullDataWithScoreboard } from '../../../../type/match.type';
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { ToggleVisibleButtonComponent } from '../../../ui/buttons/toggle-visible-button/toggle-visible-button.component';
 import {
   FormControl,
@@ -24,21 +24,21 @@ import { Websocket } from '../../../../store/websocket/websocket';
   selector: 'app-change-teams-forms',
   standalone: true,
   imports: [
-    NgIf,
     ToggleVisibleButtonComponent,
     AsyncPipe,
     ReactiveFormsModule,
     TuiInputModule,
     TuiError,
-    TuiFieldErrorPipe, TuiFieldErrorContentPipe,
+    TuiFieldErrorPipe,
+    TuiFieldErrorContentPipe,
     AdminSubmitButtonComponent,
     TuiFiles,
     TuiSwitch,
     TuiValueChanges,
     TuiInputNumberModule,
     TuiInputSliderModule,
-    TuiHint,
-  ],
+    TuiHint
+],
   templateUrl: './change-teams-forms.component.html',
   styleUrl: './change-teams-forms.component.less',
 })

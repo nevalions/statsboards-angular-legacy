@@ -6,14 +6,7 @@ import {
   CdkVirtualForOf,
   CdkVirtualScrollViewport,
 } from '@angular/cdk/scrolling';
-import {
-  DatePipe,
-  DecimalPipe,
-  NgForOf,
-  NgIf,
-  TitleCasePipe,
-  UpperCasePipe,
-} from '@angular/common';
+import { DatePipe, DecimalPipe, TitleCasePipe, UpperCasePipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -69,19 +62,17 @@ import { calculateAge } from '../../../base/helpers';
     ActionsButtonsComponent,
     DeleteDialogComponent,
     AddButtonOnFinalTrComponent,
-    NgIf,
     SelectTeamComponent,
     CdkVirtualScrollViewport,
     CdkVirtualForOf,
     CdkFixedSizeVirtualScroll,
-    NgForOf,
     TitleCasePipe,
     TuiExpand,
     DatePipe,
     TuiAvatar,
     DecimalPipe,
-      TuiFallbackSrcPipe,
-      TuiInitialsPipe
+    TuiFallbackSrcPipe,
+    TuiInitialsPipe
 ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './add-edit-player-to-team-tournament-table.component.html',

@@ -34,7 +34,7 @@ import { TuiFileLike, TuiFiles, TuiFieldErrorPipe, TuiFieldErrorContentPipe } fr
 import { DateTimeService } from '../../../services/date-time.service';
 import { IPerson } from '../../../type/person.type';
 import { TuiDay, TuiTime } from '@taiga-ui/cdk';
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { TuiError, TuiDialog } from '@taiga-ui/core';
 import { CancelButtonInFormComponent } from '../../../shared/ui/buttons/cancel-button-in-form/cancel-button-in-form.component';
 import { CreateButtonInFormComponent } from '../../../shared/ui/buttons/create-button-in-form/create-button-in-form.component';
@@ -48,15 +48,15 @@ import { UploadResizeImageResponse } from '../../../type/base.type';
     ReactiveFormsModule,
     TuiDialog,
     TuiError,
-    TuiFieldErrorPipe, TuiFieldErrorContentPipe,
+    TuiFieldErrorPipe,
+    TuiFieldErrorContentPipe,
     TuiInputDateTimeModule,
     TuiInputNumberModule,
     TuiInputModule,
-    NgIf,
     TuiFiles,
     CancelButtonInFormComponent,
-    CreateButtonInFormComponent,
-  ],
+    CreateButtonInFormComponent
+],
   templateUrl: './add-edit-person.component.html',
   styleUrl: './add-edit-person.component.less',
 })

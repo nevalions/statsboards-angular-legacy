@@ -1,7 +1,7 @@
 import { TuiInputModule, TuiInputNumberModule, TuiSelectModule } from "@taiga-ui/legacy";
 import { TuiButton } from "@taiga-ui/core";
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { Observable } from 'rxjs';
 import { IMatchFullDataWithScoreboard } from '../../../../type/match.type';
 import { MatchData } from '../../../../components/match/matchdata';
@@ -18,7 +18,6 @@ import { Websocket } from '../../../../store/websocket/websocket';
   selector: 'app-down-distance-forms',
   standalone: true,
   imports: [
-    NgIf,
     AsyncPipe,
     ToggleVisibleButtonComponent,
     AdminSubmitButtonComponent,
@@ -28,8 +27,8 @@ import { Websocket } from '../../../../store/websocket/websocket';
     TuiSelectModule,
     TuiDataListWrapper,
     AdminDownButtonComponent,
-    TuiButton,
-  ],
+    TuiButton
+],
   templateUrl: './down-distance-forms.component.html',
   styleUrl: './down-distance-forms.component.less',
 })

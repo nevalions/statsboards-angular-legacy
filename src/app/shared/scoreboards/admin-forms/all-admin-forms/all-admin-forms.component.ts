@@ -1,6 +1,6 @@
 import { TuiArrowComponent } from "@taiga-ui/legacy";
 import { TuiButton } from "@taiga-ui/core";
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { Component, Input, ViewEncapsulation } from '@angular/core';
 import { map, Observable } from 'rxjs';
 import { MatchData } from '../../../../components/match/matchdata';
@@ -32,7 +32,6 @@ import { FootballEvent } from '../../../../components/match-event/football-event
   standalone: true,
   imports: [
     AsyncPipe,
-    NgIf,
     ScoreFormsComponent,
     ToggleVisibleButtonComponent,
     QtrFormsComponent,
@@ -45,8 +44,8 @@ import { FootballEvent } from '../../../../components/match-event/football-event
     TuiButton,
     TuiArrowComponent,
     MainSponsorFormsComponent,
-    EventsFormsComponent,
-  ],
+    EventsFormsComponent
+],
   encapsulation: ViewEncapsulation.None,
   templateUrl: './all-admin-forms.component.html',
   styleUrl: './all-admin-forms.component.less',

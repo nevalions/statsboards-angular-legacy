@@ -17,7 +17,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { ITeam } from '../../../type/team.type';
-import { AsyncPipe, NgIf, NgOptimizedImage } from '@angular/common';
+import { AsyncPipe, NgOptimizedImage } from '@angular/common';
 import { TuiError, TuiDialog, TuiButton } from '@taiga-ui/core';
 import { TuiFileLike, TuiFieldErrorPipe, TuiFieldErrorContentPipe, TuiFiles } from '@taiga-ui/kit';
 import { CreateButtonInFormComponent } from '../../../shared/ui/buttons/create-button-in-form/create-button-in-form.component';
@@ -52,17 +52,17 @@ import { UploadResizeImageResponse } from '../../../type/base.type';
     TuiButton,
     TuiDialog,
     TuiError,
-    TuiFieldErrorPipe, TuiFieldErrorContentPipe,
+    TuiFieldErrorPipe,
+    TuiFieldErrorContentPipe,
     TuiInputModule,
     TuiTextareaModule,
     TuiInputNumberModule,
     CreateButtonInFormComponent,
     CancelButtonInFormComponent,
     TuiFiles,
-    NgIf,
     NgOptimizedImage,
-    SelectFromListComponent,
-  ],
+    SelectFromListComponent
+],
   templateUrl: './add-edit-team.component.html',
   styleUrl: './add-edit-team.component.less',
 })

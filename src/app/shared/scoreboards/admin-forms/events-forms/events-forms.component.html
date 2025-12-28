@@ -2,69 +2,64 @@
   [isVisible$]="eventsFormsVisible$"
   [formName]="'eventsForms'"
   [buttonText]="'Events Forms'"
->
+  >
 </app-toggle-visible-button>
-<div
-  *ngIf="eventsFormsVisible$ | async"
-  class="event-forms"
->
-  <div style="display: grid; grid-template-columns: 50% 50%">
-    <div>
-      <app-simple-football-match-team-stats
-        [teamWithStats]="teamAWithStats | async"
-      ></app-simple-football-match-team-stats>
-
-      <app-simple-football-qb-stats
-        [qbs]="allQuarterbacksTeamA$ | async"
-      ></app-simple-football-qb-stats>
-
-      <app-simple-football-offence-stats
-        [offence]="allOffenceTeamA$ | async"
-      ></app-simple-football-offence-stats>
+@if (eventsFormsVisible$ | async) {
+  <div
+    class="event-forms"
+    >
+    <div style="display: grid; grid-template-columns: 50% 50%">
+      <div>
+        <app-simple-football-match-team-stats
+          [teamWithStats]="teamAWithStats | async"
+        ></app-simple-football-match-team-stats>
+        <app-simple-football-qb-stats
+          [qbs]="allQuarterbacksTeamA$ | async"
+        ></app-simple-football-qb-stats>
+        <app-simple-football-offence-stats
+          [offence]="allOffenceTeamA$ | async"
+        ></app-simple-football-offence-stats>
+      </div>
+      <div>
+        <app-simple-football-match-team-stats
+          [teamWithStats]="teamBWithStats | async"
+        ></app-simple-football-match-team-stats>
+        <app-simple-football-qb-stats
+          [qbs]="allQuarterbacksTeamB$ | async"
+        ></app-simple-football-qb-stats>
+        <app-simple-football-offence-stats
+          [offence]="allOffenceTeamB$ | async"
+        ></app-simple-football-offence-stats>
+      </div>
     </div>
-    <div>
-      <app-simple-football-match-team-stats
-        [teamWithStats]="teamBWithStats | async"
-      ></app-simple-football-match-team-stats>
-
-      <app-simple-football-qb-stats
-        [qbs]="allQuarterbacksTeamB$ | async"
-      ></app-simple-football-qb-stats>
-
-      <app-simple-football-offence-stats
-        [offence]="allOffenceTeamB$ | async"
-      ></app-simple-football-offence-stats>
-    </div>
-
+    <p>
+      @if (data && data.match_id) {
+        <form
+          class="field-form"
+          [formGroup]="fieldForm"
+          >
+          @if (getFormControl(fieldForm, 'fieldLength'); as control) {
+            <app-simple-input-with-buttons
+              [label]="'Field Length'"
+              [control]="control"
+              [max]="120"
+              [min]="50"
+              [isCycle]="true"
+              [cleaner]="false"
+            ></app-simple-input-with-buttons>
+            <app-admin-submit-button
+              [disabled]="disabled"
+              (click)="updateFieldLength(data.match_data!)"
+            ></app-admin-submit-button>
+          }
+        </form>
+        <app-add-edit-football-event-table
+          [events]="events"
+          [match]="data"
+          [homePlayersInMatch]="homePlayersInMatch"
+          [awayPlayersInMatch]="awayPlayersInMatch"
+        ></app-add-edit-football-event-table>
+      }
+    </p>
   </div>
-  <p>
-    @if (data && data.match_id) {
-      <form
-        class="field-form"
-        [formGroup]="fieldForm"
-      >
-        @if (getFormControl(fieldForm, 'fieldLength'); as control) {
-          <app-simple-input-with-buttons
-            [label]="'Field Length'"
-            [control]="control"
-            [max]="120"
-            [min]="50"
-            [isCycle]="true"
-            [cleaner]="false"
-          ></app-simple-input-with-buttons>
-          <app-admin-submit-button
-            [disabled]="disabled"
-            (click)="updateFieldLength(data.match_data!)"
-          ></app-admin-submit-button>
-        }
-      </form>
-
-      <app-add-edit-football-event-table
-        [events]="events"
-        [match]="data"
-        [homePlayersInMatch]="homePlayersInMatch"
-        [awayPlayersInMatch]="awayPlayersInMatch"
-      ></app-add-edit-football-event-table>
-    }
-  </p>
-</div>
+}

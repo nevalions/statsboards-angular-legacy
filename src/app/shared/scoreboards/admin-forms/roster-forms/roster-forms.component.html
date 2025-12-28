@@ -3,133 +3,121 @@
     [isVisible$]="rosterFormsVisible$"
     [formName]="'rostersForms'"
     [buttonText]="'Rosters Forms'"
-  >
+    >
   </app-toggle-visible-button>
-  <div
-    *ngIf="rosterFormsVisible$ | async"
-    class="roster-forms"
-  >
-    <span class="stats-span">TEAMS ROSTERS</span>
-    <div class="roster-forms-btns">
+  @if (rosterFormsVisible$ | async) {
+    <div
+      class="roster-forms"
+      >
+      <span class="stats-span">TEAMS ROSTERS</span>
+      <div class="roster-forms-btns">
+        <div class="toggle-on-air-main">
+          <app-on-air-toggle
+            [isOnAir]="data.scoreboard_data?.is_team_a_start_offense || false"
+            [buttonLabel]="'HOME OFFENSE'"
+            (toggle)="toggleShowHomeOffenseRosterVisibility(data.scoreboard_data!)"
+          ></app-on-air-toggle>
+        </div>
+      </div>
+      <div class="roster-forms-btns">
+        <div class="toggle-on-air-main">
+          <app-on-air-toggle
+            [isOnAir]="data.scoreboard_data?.is_team_b_start_offense || false"
+            [buttonLabel]="'AWAY OFFENSE'"
+            (toggle)="toggleShowAwayOffenseRosterVisibility(data.scoreboard_data!)"
+          ></app-on-air-toggle>
+        </div>
+      </div>
+      <div class="roster-forms-btns">
+        <div class="toggle-on-air-main">
+          <app-on-air-toggle
+            [isOnAir]="data.scoreboard_data?.is_team_a_start_defense || false"
+            [buttonLabel]="'HOME DEFENSE'"
+            (toggle)="toggleShowHomeDefenseRosterVisibility(data.scoreboard_data!)"
+          ></app-on-air-toggle>
+        </div>
+      </div>
+      <div class="roster-forms-btns">
+        <div class="toggle-on-air-main">
+          <app-on-air-toggle
+            [isOnAir]="data.scoreboard_data?.is_team_b_start_defense || false"
+            [buttonLabel]="'AWAY DEFENSE'"
+            (toggle)="toggleShowAwayDefenseRosterVisibility(data.scoreboard_data!)"
+          ></app-on-air-toggle>
+        </div>
+      </div>
+      <span class="stats-span">TEAMS STATS</span>
+      <div class="roster-forms-btns">
+        <div class="toggle-on-air-main">
+          <app-on-air-toggle
+            [isOnAir]="data.scoreboard_data?.is_home_match_team_lower || false"
+            [buttonLabel]="'HOME TEAM STATS'"
+            (toggle)="toggleHomeTeamFootballLowerVisibility(data.scoreboard_data!)"
+          ></app-on-air-toggle>
+        </div>
+      </div>
+      <div class="roster-forms-btns">
+        <div class="toggle-on-air-main">
+          <app-on-air-toggle
+            [isOnAir]="data.scoreboard_data?.is_away_match_team_lower || false"
+            [buttonLabel]="'AWAY TEAM STATS'"
+            (toggle)="toggleAwayTeamFootballLowerVisibility(data.scoreboard_data!)"
+          ></app-on-air-toggle>
+        </div>
+      </div>
+      <div class="roster-forms-btns-span-two">
+        <app-admin-down-button
+          [down]="'Toggle'"
+          [distance]="'BOTH TEAMS STATS'"
+          (click)="toggleBothTeamFootballLowerVisibility(data.scoreboard_data!)"
+        ></app-admin-down-button>
+      </div>
+      <span class="stats-span">QB FULL STATS</span>
+      <div class="team-players-select">
+        <app-select-qb-with-stats-lower
+          [selectedPlayer]="footballQbSelected$ | async"
+          [scoreboardId]="data.scoreboard_data?.id"
+          [qbPlayersWithStats]="(homeFootballQbWithStats$ | async) || []"
+        ></app-select-qb-with-stats-lower>
+      </div>
+      <div class="team-players-select">
+        <app-select-qb-with-stats-lower
+          [selectedPlayer]="footballQbSelected$ | async"
+          [scoreboardId]="data.scoreboard_data?.id"
+          [qbPlayersWithStats]="(awayFootballQbWithStats$ | async) || []"
+        ></app-select-qb-with-stats-lower>
+      </div>
       <div class="toggle-on-air-main">
         <app-on-air-toggle
-          [isOnAir]="data.scoreboard_data?.is_team_a_start_offense || false"
-          [buttonLabel]="'HOME OFFENSE'"
-          (toggle)="toggleShowHomeOffenseRosterVisibility(data.scoreboard_data!)"
+          [isOnAir]="data.scoreboard_data?.is_football_qb_full_stats_lower || false"
+          [buttonLabel]="getFullName((footballQbSelected$ | async))"
+          [item]="'qb'"
+          (toggle)="toggleFootballQbFullStatsLowerVisibility(data.scoreboard_data!)"
+        ></app-on-air-toggle>
+      </div>
+      <span class="stats-span">SIMPLE PLAYER LOWER</span>
+      <div class="team-players-select">
+        <app-select-player-lower
+          [selectedPlayer]="playerMatchSelected$ | async"
+          [scoreboardId]="data.scoreboard_data?.id"
+          [matchPlayers]="(homePlayersInMatch) || []"
+        ></app-select-player-lower>
+      </div>
+      <div class="team-players-select">
+        <app-select-player-lower
+          [selectedPlayer]="playerMatchSelected$ | async"
+          [scoreboardId]="data.scoreboard_data?.id"
+          [matchPlayers]="(awayPlayersInMatch) || []"
+        ></app-select-player-lower>
+      </div>
+      <div class="toggle-on-air-main">
+        <app-on-air-toggle
+          [isOnAir]="data.scoreboard_data?.is_match_player_lower || false"
+          [buttonLabel]="getFullName((playerMatchSelected$ | async))"
+          [item]="'player'"
+          (toggle)="toggleShowMatchPlayerLowerVisibility(data.scoreboard_data!)"
         ></app-on-air-toggle>
       </div>
     </div>
-
-    <div class="roster-forms-btns">
-      <div class="toggle-on-air-main">
-        <app-on-air-toggle
-          [isOnAir]="data.scoreboard_data?.is_team_b_start_offense || false"
-          [buttonLabel]="'AWAY OFFENSE'"
-          (toggle)="toggleShowAwayOffenseRosterVisibility(data.scoreboard_data!)"
-        ></app-on-air-toggle>
-      </div>
-    </div>
-
-    <div class="roster-forms-btns">
-      <div class="toggle-on-air-main">
-        <app-on-air-toggle
-          [isOnAir]="data.scoreboard_data?.is_team_a_start_defense || false"
-          [buttonLabel]="'HOME DEFENSE'"
-          (toggle)="toggleShowHomeDefenseRosterVisibility(data.scoreboard_data!)"
-        ></app-on-air-toggle>
-      </div>
-    </div>
-
-    <div class="roster-forms-btns">
-      <div class="toggle-on-air-main">
-        <app-on-air-toggle
-          [isOnAir]="data.scoreboard_data?.is_team_b_start_defense || false"
-          [buttonLabel]="'AWAY DEFENSE'"
-          (toggle)="toggleShowAwayDefenseRosterVisibility(data.scoreboard_data!)"
-        ></app-on-air-toggle>
-      </div>
-    </div>
-
-    <span class="stats-span">TEAMS STATS</span>
-    <div class="roster-forms-btns">
-      <div class="toggle-on-air-main">
-        <app-on-air-toggle
-          [isOnAir]="data.scoreboard_data?.is_home_match_team_lower || false"
-          [buttonLabel]="'HOME TEAM STATS'"
-          (toggle)="toggleHomeTeamFootballLowerVisibility(data.scoreboard_data!)"
-        ></app-on-air-toggle>
-      </div>
-    </div>
-
-    <div class="roster-forms-btns">
-      <div class="toggle-on-air-main">
-        <app-on-air-toggle
-          [isOnAir]="data.scoreboard_data?.is_away_match_team_lower || false"
-          [buttonLabel]="'AWAY TEAM STATS'"
-          (toggle)="toggleAwayTeamFootballLowerVisibility(data.scoreboard_data!)"
-        ></app-on-air-toggle>
-      </div>
-    </div>
-
-    <div class="roster-forms-btns-span-two">
-      <app-admin-down-button
-        [down]="'Toggle'"
-        [distance]="'BOTH TEAMS STATS'"
-        (click)="toggleBothTeamFootballLowerVisibility(data.scoreboard_data!)"
-      ></app-admin-down-button>
-    </div>
-
-    <span class="stats-span">QB FULL STATS</span>
-    <div class="team-players-select">
-      <app-select-qb-with-stats-lower
-        [selectedPlayer]="footballQbSelected$ | async"
-        [scoreboardId]="data.scoreboard_data?.id"
-        [qbPlayersWithStats]="(homeFootballQbWithStats$ | async) || []"
-      ></app-select-qb-with-stats-lower>
-    </div>
-
-    <div class="team-players-select">
-      <app-select-qb-with-stats-lower
-        [selectedPlayer]="footballQbSelected$ | async"
-        [scoreboardId]="data.scoreboard_data?.id"
-        [qbPlayersWithStats]="(awayFootballQbWithStats$ | async) || []"
-      ></app-select-qb-with-stats-lower>
-    </div>
-
-    <div class="toggle-on-air-main">
-      <app-on-air-toggle
-        [isOnAir]="data.scoreboard_data?.is_football_qb_full_stats_lower || false"
-        [buttonLabel]="getFullName((footballQbSelected$ | async))"
-        [item]="'qb'"
-        (toggle)="toggleFootballQbFullStatsLowerVisibility(data.scoreboard_data!)"
-      ></app-on-air-toggle>
-    </div>
-
-    <span class="stats-span">SIMPLE PLAYER LOWER</span>
-    <div class="team-players-select">
-      <app-select-player-lower
-        [selectedPlayer]="playerMatchSelected$ | async"
-        [scoreboardId]="data.scoreboard_data?.id"
-        [matchPlayers]="(homePlayersInMatch) || []"
-      ></app-select-player-lower>
-    </div>
-
-    <div class="team-players-select">
-      <app-select-player-lower
-        [selectedPlayer]="playerMatchSelected$ | async"
-        [scoreboardId]="data.scoreboard_data?.id"
-        [matchPlayers]="(awayPlayersInMatch) || []"
-      ></app-select-player-lower>
-    </div>
-
-    <div class="toggle-on-air-main">
-      <app-on-air-toggle
-        [isOnAir]="data.scoreboard_data?.is_match_player_lower || false"
-        [buttonLabel]="getFullName((playerMatchSelected$ | async))"
-        [item]="'player'"
-        (toggle)="toggleShowMatchPlayerLowerVisibility(data.scoreboard_data!)"
-      ></app-on-air-toggle>
-    </div>
-
-  </div>
+  }
 }

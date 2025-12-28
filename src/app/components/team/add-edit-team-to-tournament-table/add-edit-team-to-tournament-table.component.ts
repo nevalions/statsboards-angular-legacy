@@ -23,7 +23,7 @@ import {
   getFormDataByIndexAndKey,
 } from '../../../base/formHelpers';
 import { AddButtonOnFinalTrComponent } from '../../../shared/ui/buttons/add-button-on-final-tr/add-button-on-final-tr.component';
-import { NgForOf, TitleCasePipe } from '@angular/common';
+import { TitleCasePipe } from '@angular/common';
 import { SelectTeamComponent } from '../../../shared/ui/forms/select-team/select-team.component';
 import { DeleteButtonIconComponent } from '../../../shared/ui/buttons/delete-button-icon/delete-button-icon.component';
 import { RemoveDialogComponent } from '../../../shared/ui/dialogs/remove-dialog/remove-dialog.component';
@@ -36,14 +36,13 @@ import { ActivatedRoute, Router } from '@angular/router';
   imports: [
     TuiTextfieldControllerModule,
     ReactiveFormsModule,
-    NgForOf,
     TitleCasePipe,
     SelectTeamComponent,
     DeleteButtonIconComponent,
     RemoveDialogComponent,
     ActionsButtonsComponent,
-    AddButtonOnFinalTrComponent,
-  ],
+    AddButtonOnFinalTrComponent
+],
   templateUrl: './add-edit-team-to-tournament-table.component.html',
   styleUrl: './add-edit-team-to-tournament-table.component.less',
 })

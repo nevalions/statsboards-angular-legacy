@@ -1,4 +1,4 @@
-import { AsyncPipe, NgForOf, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { Component, OnChanges, OnDestroy, SimpleChanges } from '@angular/core';
 import { Observable } from 'rxjs';
 import { FootballStartRosterDisplayComponent } from '../../shared/scoreboards/football-start-roster-display/football-start-roster-display';
@@ -31,14 +31,12 @@ import { PlayerMatchLowerDisplayFlatComponent } from '../../shared/scoreboards/p
   styleUrl: './match-scoreboard-display.component.less',
   imports: [
     AsyncPipe,
-    NgIf,
-    NgForOf,
     ScoreboardDisplayFlatComponent,
     SponsorDisplayFlatComponent,
     MatchSponsorLineDisplayFlatComponent,
     FootballStartRosterDisplayComponent,
-    PlayerMatchLowerDisplayFlatComponent,
-  ],
+    PlayerMatchLowerDisplayFlatComponent
+],
   animations: [RevealHideAnimation, dissolveAnimation],
 })
 export class MatchScoreboardDisplayComponent implements OnChanges, OnDestroy {

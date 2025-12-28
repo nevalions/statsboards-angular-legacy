@@ -1,4 +1,4 @@
-import { NgIf } from '@angular/common';
+
 import {
   Component,
   Input,
@@ -13,7 +13,7 @@ import { PlayerCardRosterComponent } from '../player-card-roster/player-card-ros
 @Component({
   selector: 'app-dline-starts',
   standalone: true,
-  imports: [PlayerCardRosterComponent, NgIf],
+  imports: [PlayerCardRosterComponent],
   templateUrl: './dline-starts.component.html',
   styleUrl: './dline-starts.component.less',
 })

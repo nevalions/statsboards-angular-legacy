@@ -1,5 +1,5 @@
 import { TuiInputModule } from "@taiga-ui/legacy";
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Observable } from 'rxjs';
@@ -16,15 +16,14 @@ import { Websocket } from '../../../../store/websocket/websocket';
   selector: 'app-scoreboard-data-forms',
   standalone: true,
   imports: [
-    NgIf,
     ToggleVisibleButtonComponent,
     AsyncPipe,
     DownDistanceFormsComponent,
     AdminDownButtonComponent,
     AdminSubmitButtonComponent,
     TuiInputModule,
-    ReactiveFormsModule,
-  ],
+    ReactiveFormsModule
+],
   templateUrl: './scoreboard-data-forms.component.html',
   styleUrl: './scoreboard-data-forms.component.less',
 })

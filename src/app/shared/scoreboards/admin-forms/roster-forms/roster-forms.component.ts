@@ -1,5 +1,5 @@
 import { TuiInputModule } from "@taiga-ui/legacy";
-import { AsyncPipe, NgIf, UpperCasePipe } from '@angular/common';
+import { AsyncPipe, UpperCasePipe } from '@angular/common';
 import {
   Component,
   Input,
@@ -33,7 +33,6 @@ import { OnAirToggleComponent } from '../on-air-toggle/on-air-toggle.component';
   selector: 'app-roster-forms',
   standalone: true,
   imports: [
-    NgIf,
     ToggleVisibleButtonComponent,
     AsyncPipe,
     DownDistanceFormsComponent,
@@ -45,8 +44,8 @@ import { OnAirToggleComponent } from '../on-air-toggle/on-air-toggle.component';
     SelectPlayerLowerComponent,
     UpperCasePipe,
     SelectQbWithStatsLowerComponent,
-    OnAirToggleComponent,
-  ],
+    OnAirToggleComponent
+],
   templateUrl: './roster-forms.component.html',
   styleUrl: './roster-forms.component.less',
 })

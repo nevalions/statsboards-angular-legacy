@@ -1,12 +1,5 @@
 import { TuiTextfieldControllerModule } from "@taiga-ui/legacy";
-import {
-  DatePipe,
-  KeyValuePipe,
-  NgForOf,
-  NgIf,
-  TitleCasePipe,
-  UpperCasePipe,
-} from '@angular/common';
+import { DatePipe, KeyValuePipe, TitleCasePipe, UpperCasePipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -60,8 +53,6 @@ import { PlayerInMatch } from '../player-match';
     FormsModule,
     TuiTextfieldControllerModule,
     ReactiveFormsModule,
-    NgIf,
-    NgForOf,
     TitleCasePipe,
     SelectPlayerNumberComponent,
     SelectPlayerPositionComponent,
@@ -74,7 +65,7 @@ import { PlayerInMatch } from '../player-match';
     SelectPlayerToMatchComponent,
     ButtonIconComponent,
     TuiCheckbox
-  ],
+],
 })
 export class AddEditPlayerMatchTableComponent implements OnChanges, OnInit {
   @Input() side!: 'home' | 'away';

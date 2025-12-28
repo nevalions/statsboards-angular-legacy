@@ -1,4 +1,4 @@
-import { NgIf } from '@angular/common';
+
 import {
   Component,
   Input,
@@ -13,7 +13,7 @@ import { PlayerCardRosterComponent } from '../player-card-roster/player-card-ros
 @Component({
   selector: 'app-db-starts',
   standalone: true,
-  imports: [PlayerCardRosterComponent, NgIf],
+  imports: [PlayerCardRosterComponent],
   templateUrl: './db-starts.component.html',
   styleUrl: './db-starts.component.less',
 })

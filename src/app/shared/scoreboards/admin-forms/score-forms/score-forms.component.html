@@ -9,63 +9,62 @@
   </div>
 
   <div class="admin-row-container">
-    <div
-      class="score-forms"
-      *ngIf="scoreInputsVisible$ | async"
-    >
-      <form
-        class="score-form"
-        [formGroup]="scoreForm"
-      >
-        @if (getFormControl(scoreForm, 'scoreTeamA'); as control) {
+    @if (scoreInputsVisible$ | async) {
+      <div
+        class="score-forms"
+        >
+        <form
+          class="score-form"
+          [formGroup]="scoreForm"
+          >
+          @if (getFormControl(scoreForm, 'scoreTeamA'); as control) {
+            <app-simple-input-with-buttons
+              [label]="'Score Home'"
+              [control]="control"
+              [min]="0"
+              [cleaner]="false"
+            ></app-simple-input-with-buttons>
+            <app-admin-submit-button
+              [disabled]="disabled"
+              (click)="updateScoreTeam('a', data.match_data!)"
+            ></app-admin-submit-button>
+          }
+        </form>
+        <form
+          class="score-form"
+          [formGroup]="scoreForm"
+          >@if (getFormControl(scoreForm, 'scoreTeamB'); as control) {
           <app-simple-input-with-buttons
-            [label]="'Score Home'"
+            [label]="'Score Away'"
             [control]="control"
             [min]="0"
             [cleaner]="false"
           ></app-simple-input-with-buttons>
-
           <app-admin-submit-button
             [disabled]="disabled"
-            (click)="updateScoreTeam('a', data.match_data!)"
+            (click)="updateScoreTeam('b', data.match_data!)"
           ></app-admin-submit-button>
         }
       </form>
-
-      <form
-        class="score-form"
-        [formGroup]="scoreForm"
-      >@if (getFormControl(scoreForm, 'scoreTeamB'); as control) {
-        <app-simple-input-with-buttons
-          [label]="'Score Away'"
-          [control]="control"
-          [min]="0"
-          [cleaner]="false"
-        ></app-simple-input-with-buttons>
-        <app-admin-submit-button
-          [disabled]="disabled"
-          (click)="updateScoreTeam('b', data.match_data!)"
-        ></app-admin-submit-button>
-      }
-      </form>
     </div>
-  </div>
+  }
+</div>
 
-  <div class="admin-row-container">
-    <app-toggle-visible-button
-      [isVisible$]="scoreButtonsVisible$"
-      [formName]="'scoreButtons'"
-      [buttonText]="'Score Buttons'">
-    </app-toggle-visible-button>
-  </div>
+<div class="admin-row-container">
+  <app-toggle-visible-button
+    [isVisible$]="scoreButtonsVisible$"
+    [formName]="'scoreButtons'"
+    [buttonText]="'Score Buttons'">
+  </app-toggle-visible-button>
+</div>
 
 
-  <div class="admin-row-container">
-    <!--SCORE BTNS-->
+<div class="admin-row-container">
+  <!--SCORE BTNS-->
+  @if (scoreButtonsVisible$ | async) {
     <div
-      *ngIf="scoreButtonsVisible$ | async"
       class="score-increment"
-    >
+      >
       <div class="score-increment-buttons">
         <app-increment-button
           [data]="data"
@@ -119,5 +118,6 @@
         ></app-increment-button>
       </div>
     </div>
-  </div>
+  }
+</div>
 }

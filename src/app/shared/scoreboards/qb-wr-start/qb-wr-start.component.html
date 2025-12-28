@@ -1,51 +1,65 @@
 <div class="start-roster-line">
-  <div class="startWR" *ngIf="selectedQbWr['wrOne']">
-    <app-player-card-roster
-      [player]="selectedQbWr['wrOne']"
-    ></app-player-card-roster>
-  </div>
-  <div
-    class="startWR"
-    style="width: 270px"
-    *ngIf="!selectedQbWr['wrOne']"
-  ></div>
-  <div class="startSlot" *ngIf="selectedQbWr['slotOne']">
-    <app-player-card-roster
-      [player]="selectedQbWr['slotOne']"
-    ></app-player-card-roster>
-  </div>
-  <div
-    class="startSlot"
-    style="width: 270px"
-    *ngIf="!selectedQbWr['slotOne']"
-  ></div>
-
-  <div class="startQB-center">
-    <div class="startQB" *ngIf="selectedQbWr['qb']">
+  @if (selectedQbWr['wrOne']) {
+    <div class="startWR">
       <app-player-card-roster
-        [player]="selectedQbWr['qb']"
+        [player]="selectedQbWr['wrOne']"
       ></app-player-card-roster>
     </div>
+  }
+  @if (!selectedQbWr['wrOne']) {
+    <div
+      class="startWR"
+      style="width: 270px"
+    ></div>
+  }
+  @if (selectedQbWr['slotOne']) {
+    <div class="startSlot">
+      <app-player-card-roster
+        [player]="selectedQbWr['slotOne']"
+      ></app-player-card-roster>
+    </div>
+  }
+  @if (!selectedQbWr['slotOne']) {
+    <div
+      class="startSlot"
+      style="width: 270px"
+    ></div>
+  }
+
+  <div class="startQB-center">
+    @if (selectedQbWr['qb']) {
+      <div class="startQB">
+        <app-player-card-roster
+          [player]="selectedQbWr['qb']"
+        ></app-player-card-roster>
+      </div>
+    }
   </div>
 
-  <div class="startSlot" *ngIf="selectedQbWr['slotTwo']">
-    <app-player-card-roster
-      [player]="selectedQbWr['slotTwo']"
-    ></app-player-card-roster>
-  </div>
-  <div
-    class="startSlot"
-    style="width: 270px"
-    *ngIf="!selectedQbWr['slotTwo']"
-  ></div>
-  <div class="startWR" *ngIf="selectedQbWr['wrTwo']">
-    <app-player-card-roster
-      [player]="selectedQbWr['wrTwo']"
-    ></app-player-card-roster>
-  </div>
-  <div
-    class="startWR"
-    style="width: 270px"
-    *ngIf="!selectedQbWr['wrTwo']"
-  ></div>
+  @if (selectedQbWr['slotTwo']) {
+    <div class="startSlot">
+      <app-player-card-roster
+        [player]="selectedQbWr['slotTwo']"
+      ></app-player-card-roster>
+    </div>
+  }
+  @if (!selectedQbWr['slotTwo']) {
+    <div
+      class="startSlot"
+      style="width: 270px"
+    ></div>
+  }
+  @if (selectedQbWr['wrTwo']) {
+    <div class="startWR">
+      <app-player-card-roster
+        [player]="selectedQbWr['wrTwo']"
+      ></app-player-card-roster>
+    </div>
+  }
+  @if (!selectedQbWr['wrTwo']) {
+    <div
+      class="startWR"
+      style="width: 270px"
+    ></div>
+  }
 </div>

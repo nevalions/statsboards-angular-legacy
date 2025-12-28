@@ -65,13 +65,15 @@
           ></app-scoreboard-display-flat>
         </div>
         <div class="sponsorLine-area">
-          <app-sponsor-display-flat
-            *ngIf="data.scoreboard_data?.is_sponsor_line || false"
-          ></app-sponsor-display-flat>
+          @if (data.scoreboard_data?.is_sponsor_line || false) {
+            <app-sponsor-display-flat
+            ></app-sponsor-display-flat>
+          }
 
-          <app-match-sponsor-line-display-flat
-            *ngIf="data.scoreboard_data?.is_match_sponsor_line || false"
-          ></app-match-sponsor-line-display-flat>
+          @if (data.scoreboard_data?.is_match_sponsor_line || false) {
+            <app-match-sponsor-line-display-flat
+            ></app-match-sponsor-line-display-flat>
+          }
         </div>
       </div>
     }

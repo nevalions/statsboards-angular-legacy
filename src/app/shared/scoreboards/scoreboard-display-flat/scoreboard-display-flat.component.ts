@@ -8,7 +8,7 @@ import {
   OnChanges,
   SimpleChanges,
 } from '@angular/core';
-import { AsyncPipe, NgIf, UpperCasePipe } from '@angular/common';
+import { AsyncPipe, UpperCasePipe } from '@angular/common';
 import { IMatchFullDataWithScoreboard } from '../../../type/match.type';
 import { ImageService } from '../../../services/image.service';
 import { urlWithProtocol } from '../../../base/constants';
@@ -30,13 +30,12 @@ import { FootballQbLowerStatsDisplayFlatComponent } from '../football-qb-lower-s
   selector: 'app-scoreboard-display-flat',
   standalone: true,
   imports: [
-    NgIf,
     UpperCasePipe,
     PlayerMatchLowerDisplayFlatComponent,
     AsyncPipe,
     TeamMatchLowerFootballStatsDisplayFlatComponent,
-    FootballQbLowerStatsDisplayFlatComponent,
-  ],
+    FootballQbLowerStatsDisplayFlatComponent
+],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './scoreboard-display-flat.component.html',
   styleUrl: './scoreboard-display-flat.component.less',

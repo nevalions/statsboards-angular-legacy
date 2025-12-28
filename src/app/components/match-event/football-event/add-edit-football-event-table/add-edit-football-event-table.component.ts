@@ -179,7 +179,7 @@ import {
 import { TuiAppearance, TuiButton } from '@taiga-ui/core';
 import { hexToRgba } from '../../../../base/helpers';
 import { DeviceDetectorService } from 'ngx-device-detector';
-import { NgForOf, TitleCasePipe, UpperCasePipe } from '@angular/common';
+import { TitleCasePipe, UpperCasePipe } from '@angular/common';
 import { ButtonIconComponent } from '../../../../shared/ui/buttons/button-icon/button-icon.component';
 import { InputNumberWithButtonsComponent } from '../../../../shared/scoreboards/admin-forms/input-number-with-buttons/input-number-with-buttons.component';
 import { TuiSwitch } from '@taiga-ui/kit';
@@ -259,7 +259,6 @@ import { extractEventData } from '../football-event-extract-event-data-helper';
   standalone: true,
   imports: [
     ReactiveFormsModule,
-    NgForOf,
     ButtonIconComponent,
     TitleCasePipe,
     UpperCasePipe,
@@ -283,8 +282,8 @@ import { extractEventData } from '../football-event-extract-event-data-helper';
     FootballEventsHashButtonsComponent,
     FootballEventsStrongSideButtonsComponent,
     FootballEventsPlayTypeButtonsComponent,
-    FootballEventsPlayResultButtonsComponent,
-  ],
+    FootballEventsPlayResultButtonsComponent
+],
   templateUrl: './add-edit-football-event-table.component.html',
   styleUrl: './add-edit-football-event-table.component.less',
 })

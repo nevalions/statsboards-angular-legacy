@@ -5,7 +5,7 @@ import { IMatchFullDataWithScoreboard } from '../../../../type/match.type';
 import { ScoreboardData } from '../../../../components/scoreboard-data/scoreboard-data';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { IScoreboard } from '../../../../type/matchdata.type';
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { AdminDownButtonComponent } from '../../../ui/buttons/admin-down-button/admin-down-button.component';
 import { ToggleVisibleButtonComponent } from '../../../ui/buttons/toggle-visible-button/toggle-visible-button.component';
 import { AdminSubmitButtonComponent } from '../../../ui/buttons/admin-submit-button/admin-submit-button.component';
@@ -16,13 +16,12 @@ import { Websocket } from '../../../../store/websocket/websocket';
   standalone: true,
   imports: [
     AsyncPipe,
-    NgIf,
     AdminDownButtonComponent,
     ToggleVisibleButtonComponent,
     AdminSubmitButtonComponent,
     ReactiveFormsModule,
-    TuiInputSliderModule,
-  ],
+    TuiInputSliderModule
+],
   templateUrl: './main-sponsor-forms.component.html',
   styleUrl: './main-sponsor-forms.component.less',
 })

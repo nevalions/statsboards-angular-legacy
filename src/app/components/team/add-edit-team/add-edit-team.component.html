@@ -2,7 +2,7 @@
   let-observer
   [tuiDialogOptions]="{ label: action.toUpperCase() + ' ' + 'TEAM', size: 'm' }"
   [(tuiDialog)]="open"
->
+  >
   <form [formGroup]="teamForm" (ngSubmit)="onSubmit(); observer.complete()">
     <p></p>
     <div class="tui-form__row">
@@ -45,39 +45,43 @@
           (reject)="onReject($event)"
           [maxFileSize]="30 * 1000 * 1000"
           label="Person Photo"
-        />
+          />
       </label>
 
       <tui-files>
-        <tui-file
-          *ngIf="loadedFiles$ | async as file"
-          [file]="file"
-          [showDelete]="teamLogoForm.enabled"
-          (remove)="removeFile()"
-        ></tui-file>
+        @if (loadedFiles$ | async; as file) {
+          <tui-file
+            [file]="file"
+            [showDelete]="teamLogoForm.enabled"
+            (remove)="removeFile()"
+          ></tui-file>
+        }
 
-        <tui-file
-          *ngIf="rejectedFiles$ | async as file"
-          state="error"
-          [file]="file"
-          [showDelete]="teamLogoForm.enabled"
-          (remove)="clearRejected()"
-        ></tui-file>
+        @if (rejectedFiles$ | async; as file) {
+          <tui-file
+            state="error"
+            [file]="file"
+            [showDelete]="teamLogoForm.enabled"
+            (remove)="clearRejected()"
+          ></tui-file>
+        }
 
-        <tui-file
-          *ngIf="loadingFiles$ | async as file"
-          state="loading"
-          [file]="file"
-          [showDelete]="teamLogoForm.enabled"
-        ></tui-file>
+        @if (loadingFiles$ | async; as file) {
+          <tui-file
+            state="loading"
+            [file]="file"
+            [showDelete]="teamLogoForm.enabled"
+          ></tui-file>
+        }
       </tui-files>
 
-      <img
-        *ngIf="teamForm.controls['teamLogoUrl'].value"
-        [src]="backendUrl + teamForm.controls['teamLogoUrl'].value"
-        alt="Uploaded Team Logo"
-        width="100px"
-      />
+      @if (teamForm.controls['teamLogoUrl'].value) {
+        <img
+          [src]="backendUrl + teamForm.controls['teamLogoUrl'].value"
+          alt="Uploaded Team Logo"
+          width="100px"
+          />
+      }
 
       <tui-error
         formControlName="teamLogoUrl"
@@ -92,7 +96,7 @@
         class="team-color-picker"
         type="color"
         style="width: 100%"
-      />
+        />
     </div>
 
     <div class="tui-form__row">

@@ -8,12 +8,12 @@ import {
 import { IPlayerInMatchFullData } from '../../../type/player.type';
 import { selectPlayersForPositions } from '../../../base/footballHelpers';
 import { PlayerCardRosterComponent } from '../player-card-roster/player-card-roster.component';
-import { NgIf } from '@angular/common';
+
 
 @Component({
   selector: 'app-qb-wr-start',
   standalone: true,
-  imports: [PlayerCardRosterComponent, NgIf],
+  imports: [PlayerCardRosterComponent],
   templateUrl: './qb-wr-start.component.html',
   styleUrl: './qb-wr-start.component.less',
 })

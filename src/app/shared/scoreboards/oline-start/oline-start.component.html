@@ -1,25 +1,35 @@
 <div class="start-roster-line">
-  <div class="startLT" *ngIf="selectedOL['lt']">
-    <app-player-card-roster
-      [player]="selectedOL['lt']"
-    ></app-player-card-roster>
-  </div>
-  <div class="startLG" *ngIf="selectedOL['lg']">
-    <app-player-card-roster
-      [player]="selectedOL['lg']"
-    ></app-player-card-roster>
-  </div>
-  <div class="startOC" *ngIf="selectedOL['c']">
-    <app-player-card-roster [player]="selectedOL['c']"></app-player-card-roster>
-  </div>
-  <div class="startRG" *ngIf="selectedOL['rg']">
-    <app-player-card-roster
-      [player]="selectedOL['rg']"
-    ></app-player-card-roster>
-  </div>
-  <div class="startRT" *ngIf="selectedOL['rt']">
-    <app-player-card-roster
-      [player]="selectedOL['rt']"
-    ></app-player-card-roster>
-  </div>
+  @if (selectedOL['lt']) {
+    <div class="startLT">
+      <app-player-card-roster
+        [player]="selectedOL['lt']"
+      ></app-player-card-roster>
+    </div>
+  }
+  @if (selectedOL['lg']) {
+    <div class="startLG">
+      <app-player-card-roster
+        [player]="selectedOL['lg']"
+      ></app-player-card-roster>
+    </div>
+  }
+  @if (selectedOL['c']) {
+    <div class="startOC">
+      <app-player-card-roster [player]="selectedOL['c']"></app-player-card-roster>
+    </div>
+  }
+  @if (selectedOL['rg']) {
+    <div class="startRG">
+      <app-player-card-roster
+        [player]="selectedOL['rg']"
+      ></app-player-card-roster>
+    </div>
+  }
+  @if (selectedOL['rt']) {
+    <div class="startRT">
+      <app-player-card-roster
+        [player]="selectedOL['rt']"
+      ></app-player-card-roster>
+    </div>
+  }
 </div>

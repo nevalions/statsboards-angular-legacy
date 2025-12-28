@@ -4,132 +4,119 @@
   [formName]="'downAndDistanceForm'"
   [buttonText]="'Down Distance Forms'">
 </app-toggle-visible-button>
-<div
-  *ngIf="downAndDistanceFormVisible$ | async"
-  id="down-and-distance"
-  class="down-and-distance">
-
-  <form
-    class="change-down-distance-text"
-    [formGroup]="downDistanceForm">
-    <tui-input
-      class="change-down-distance-text-input"
-      formControlName="downDistanceValue"
-      style="width: 100%;"
-    >Down & Distance
-    </tui-input>
-  </form>
-
-
-  <div class="down-distance-selector" id="down-selector-form">
-    <div class="down-selector">
-      <app-admin-down-button
-        #btnFirstDown
-        [down]="'1-й'"
-        (click)="downValue = btnFirstDown.down; updateFormValue()"
-      ></app-admin-down-button>
-
-      <app-admin-down-button
-        #btnSecondDown
-        [down]="'2-й'"
-        (click)="downValue = btnSecondDown.down; updateFormValue()"
-      ></app-admin-down-button>
-
-      <app-admin-down-button
-        #btnThirdDown
-        [down]="'3-й'"
-        (click)="downValue = btnThirdDown.down; updateFormValue()"
-      ></app-admin-down-button>
-
-      <app-admin-down-button
-        #btnFourthDown
-        [down]="'4-й'"
-        (click)="downValue = btnFourthDown.down; updateFormValue()"
-      ></app-admin-down-button>
-    </div>
+@if (downAndDistanceFormVisible$ | async) {
+  <div
+    id="down-and-distance"
+    class="down-and-distance">
     <form
-      [formGroup]="distanceForm"
-    >
-      <tui-select
-        formControlName="distanceFormValue"
-        style="width: 100%; text-align: center; padding-bottom: 10px;"
-      >Select Distance
-        <tui-data-list-wrapper
-          *tuiDataList
-          [items]="items"
-        ></tui-data-list-wrapper>
-      </tui-select>
-      <app-admin-submit-button
-        style="width: 100%"
-        (click)="updateDownAndDistance(data?.match_data!)"
-        [disabled]="disabled"
-      ></app-admin-submit-button>
+      class="change-down-distance-text"
+      [formGroup]="downDistanceForm">
+      <tui-input
+        class="change-down-distance-text-input"
+        formControlName="downDistanceValue"
+        style="width: 100%;"
+        >Down & Distance
+      </tui-input>
     </form>
-
+    <div class="down-distance-selector" id="down-selector-form">
+      <div class="down-selector">
+        <app-admin-down-button
+          #btnFirstDown
+          [down]="'1-й'"
+          (click)="downValue = btnFirstDown.down; updateFormValue()"
+        ></app-admin-down-button>
+        <app-admin-down-button
+          #btnSecondDown
+          [down]="'2-й'"
+          (click)="downValue = btnSecondDown.down; updateFormValue()"
+        ></app-admin-down-button>
+        <app-admin-down-button
+          #btnThirdDown
+          [down]="'3-й'"
+          (click)="downValue = btnThirdDown.down; updateFormValue()"
+        ></app-admin-down-button>
+        <app-admin-down-button
+          #btnFourthDown
+          [down]="'4-й'"
+          (click)="downValue = btnFourthDown.down; updateFormValue()"
+        ></app-admin-down-button>
+      </div>
+      <form
+        [formGroup]="distanceForm"
+        >
+        <tui-select
+          formControlName="distanceFormValue"
+          style="width: 100%; text-align: center; padding-bottom: 10px;"
+          >Select Distance
+          <tui-data-list-wrapper
+            *tuiDataList
+            [items]="items"
+          ></tui-data-list-wrapper>
+        </tui-select>
+        <app-admin-submit-button
+          style="width: 100%"
+          (click)="updateDownAndDistance(data?.match_data!)"
+          [disabled]="disabled"
+        ></app-admin-submit-button>
+      </form>
+    </div>
+    <div class="down-dist-selector-form">
+      <div class="down-dist-selector-game">
+        <app-admin-down-button
+          #btnFirstAndTen
+          [down]="'1-й'"
+          [distance]="' & 10'"
+          (click)="downValue = btnFirstAndTen.down; distanceValue= btnFirstAndTen.distance;  updateFormValue()"
+        ></app-admin-down-button>
+        <app-admin-down-button
+          #btnFirstAndGoal
+          [down]="''"
+          [distance]="' & Гол'"
+          (click)="distanceValue = btnFirstAndGoal.distance;  updateFormValue()"
+        ></app-admin-down-button>
+      </div>
+      <div class="flag-button-game">
+        <button
+          class="flag-btn"
+          appearance="secondary-destructive"
+          tuiButton
+          size="m"
+          type="button"
+          [disabled]="disabled"
+          (click)="toggleFlag(data?.scoreboard_data!)"
+          style="width: 100%; height: 100%;"
+          >FLAG
+        </button>
+      </div>
+      <div class="down-dist-selector-conv">
+        <app-admin-down-button
+          #btnOnePT
+          [down]="''"
+          [distance]="'1 ОЧКО'"
+          (click)="downValue = btnOnePT.down; distanceValue= btnOnePT.distance;  updateFormValue()"
+        ></app-admin-down-button>
+        <app-admin-down-button
+          #btnTwoPT
+          [down]="''"
+          [distance]="'2 ОЧКА'"
+          (click)="downValue = btnTwoPT.down; distanceValue= btnTwoPT.distance;  updateFormValue()"
+        ></app-admin-down-button>
+      </div>
+      <div class="down-dist-selector-kick">
+        <app-admin-down-button
+          #btnFG
+          [down]="''"
+          [distance]="'ФГ'"
+          (click)="downValue = btnFG.down; distanceValue= btnFG.distance;  updateFormValue()"
+        ></app-admin-down-button>
+        <app-admin-down-button
+          #btnKickOff
+          [down]="''"
+          [distance]="'Нач.Уд.'"
+          (click)="downValue = btnKickOff.down; distanceValue= btnKickOff.distance;  updateFormValue()"
+        ></app-admin-down-button>
+      </div>
+    </div>
   </div>
-
-  <div class="down-dist-selector-form">
-    <div class="down-dist-selector-game">
-      <app-admin-down-button
-        #btnFirstAndTen
-        [down]="'1-й'"
-        [distance]="' & 10'"
-        (click)="downValue = btnFirstAndTen.down; distanceValue= btnFirstAndTen.distance;  updateFormValue()"
-      ></app-admin-down-button>
-
-      <app-admin-down-button
-        #btnFirstAndGoal
-        [down]="''"
-        [distance]="' & Гол'"
-        (click)="distanceValue = btnFirstAndGoal.distance;  updateFormValue()"
-      ></app-admin-down-button>
-
-    </div>
-    <div class="flag-button-game">
-      <button
-        class="flag-btn"
-        appearance="secondary-destructive"
-        tuiButton
-        size="m"
-        type="button"
-        [disabled]="disabled"
-        (click)="toggleFlag(data?.scoreboard_data!)"
-        style="width: 100%; height: 100%;"
-      >FLAG
-      </button>
-    </div>
-    <div class="down-dist-selector-conv">
-      <app-admin-down-button
-        #btnOnePT
-        [down]="''"
-        [distance]="'1 ОЧКО'"
-        (click)="downValue = btnOnePT.down; distanceValue= btnOnePT.distance;  updateFormValue()"
-      ></app-admin-down-button>
-
-      <app-admin-down-button
-        #btnTwoPT
-        [down]="''"
-        [distance]="'2 ОЧКА'"
-        (click)="downValue = btnTwoPT.down; distanceValue= btnTwoPT.distance;  updateFormValue()"
-      ></app-admin-down-button>
-    </div>
-    <div class="down-dist-selector-kick">
-
-      <app-admin-down-button
-        #btnFG
-        [down]="''"
-        [distance]="'ФГ'"
-        (click)="downValue = btnFG.down; distanceValue= btnFG.distance;  updateFormValue()"
-      ></app-admin-down-button>
-
-      <app-admin-down-button
-        #btnKickOff
-        [down]="''"
-        [distance]="'Нач.Уд.'"
-        (click)="downValue = btnKickOff.down; distanceValue= btnKickOff.distance;  updateFormValue()"
-      ></app-admin-down-button>
-
-    </div>
-  </div>
-</div>
+}
 

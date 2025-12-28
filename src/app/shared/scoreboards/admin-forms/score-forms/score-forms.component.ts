@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 import { IMatchData } from '../../../../type/matchdata.type';
 import { MatchData } from '../../../../components/match/matchdata';
-import { AsyncPipe, NgIf, UpperCasePipe } from '@angular/common';
+import { AsyncPipe, UpperCasePipe } from '@angular/common';
 import { Observable } from 'rxjs';
 import { IMatchFullDataWithScoreboard } from '../../../../type/match.type';
 import { ToggleVisibleButtonComponent } from '../../../ui/buttons/toggle-visible-button/toggle-visible-button.component';
@@ -42,21 +42,21 @@ import { SimpleInputWithButtonsComponent } from '../simple-input-with-buttons/si
   standalone: true,
   imports: [
     AsyncPipe,
-    NgIf,
     ToggleVisibleButtonComponent,
     TuiButton,
     ReactiveFormsModule,
     TuiInputNumberModule,
     TuiError,
-    TuiFieldErrorPipe, TuiFieldErrorContentPipe,
+    TuiFieldErrorPipe,
+    TuiFieldErrorContentPipe,
     TuiTextfieldControllerModule,
     IncrementButtonComponent,
     AdminSubmitButtonComponent,
     TuiInputModule,
     InputNumberWithButtonsComponent,
     UpperCasePipe,
-    SimpleInputWithButtonsComponent,
-  ],
+    SimpleInputWithButtonsComponent
+],
   changeDetection: ChangeDetectionStrategy.OnPush,
   // providers: [
   //   tuiInputNumberOptionsProvider({

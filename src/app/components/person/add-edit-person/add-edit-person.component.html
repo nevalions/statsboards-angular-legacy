@@ -2,7 +2,7 @@
   let-observer
   [tuiDialogOptions]="{ label: action.toUpperCase() + ' POSITION', size: 'm' }"
   [(tuiDialog)]="open"
->
+  >
   <form [formGroup]="personForm" (ngSubmit)="onSubmit(); observer.complete()">
     <p></p>
     <div class="tui-form__row">
@@ -47,31 +47,34 @@
           (reject)="onReject($event)"
           [maxFileSize]="30 * 1000 * 1000"
           label="Person Photo"
-        />
+          />
       </label>
 
       <tui-files>
-        <tui-file
-          *ngIf="loadedFiles$ | async as file"
-          [file]="file"
-          [showDelete]="personPhotoForm.enabled"
-          (remove)="removeFile()"
-        ></tui-file>
+        @if (loadedFiles$ | async; as file) {
+          <tui-file
+            [file]="file"
+            [showDelete]="personPhotoForm.enabled"
+            (remove)="removeFile()"
+          ></tui-file>
+        }
 
-        <tui-file
-          *ngIf="rejectedFiles$ | async as file"
-          state="error"
-          [file]="file"
-          [showDelete]="personPhotoForm.enabled"
-          (remove)="clearRejected()"
-        ></tui-file>
+        @if (rejectedFiles$ | async; as file) {
+          <tui-file
+            state="error"
+            [file]="file"
+            [showDelete]="personPhotoForm.enabled"
+            (remove)="clearRejected()"
+          ></tui-file>
+        }
 
-        <tui-file
-          *ngIf="loadingFiles$ | async as file"
-          state="loading"
-          [file]="file"
-          [showDelete]="personPhotoForm.enabled"
-        ></tui-file>
+        @if (loadingFiles$ | async; as file) {
+          <tui-file
+            state="loading"
+            [file]="file"
+            [showDelete]="personPhotoForm.enabled"
+          ></tui-file>
+        }
       </tui-files>
 
       <!--            <tui-avatar-->
@@ -81,30 +84,31 @@
       <!--              class="tui-space_top-1"-->
       <!--              [rounded]="false"-->
       <!--              [avatarUrl]="backendUrl + personForm.controls['tournamentLogoUrl'].value || null"-->
-      <!--            ></tui-avatar>-->
+    <!--            ></tui-avatar>-->
 
+    @if (personForm.controls['personPhotoUrl'].value) {
       <img
-        *ngIf="personForm.controls['personPhotoUrl'].value"
         [src]="backendUrl + personForm.controls['personPhotoUrl'].value"
         alt="Uploaded Person Photo"
         height="100px"
-      />
-      <tui-error
-        formControlName="personPhotoUrl"
-        [error]="[] | tuiFieldError | async"
-      ></tui-error>
-    </div>
+        />
+    }
+    <tui-error
+      formControlName="personPhotoUrl"
+      [error]="[] | tuiFieldError | async"
+    ></tui-error>
+  </div>
 
-    <div class="tui-form__row">
-      <p>
-        <app-create-button-in-form
-          [action]="action"
-          [disabled]="!personForm.valid"
-        ></app-create-button-in-form>
-        <app-cancel-button-in-form
-          (click)="observer.complete()"
-        ></app-cancel-button-in-form>
-      </p>
-    </div>
-  </form>
+  <div class="tui-form__row">
+    <p>
+      <app-create-button-in-form
+        [action]="action"
+        [disabled]="!personForm.valid"
+      ></app-create-button-in-form>
+      <app-cancel-button-in-form
+        (click)="observer.complete()"
+      ></app-cancel-button-in-form>
+    </p>
+  </div>
+</form>
 </ng-template>

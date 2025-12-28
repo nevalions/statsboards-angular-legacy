@@ -2,7 +2,7 @@ import { TuiLoader } from "@taiga-ui/core";
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 import { Observable } from 'rxjs';
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { IMatchFullDataWithScoreboard } from '../../type/match.type';
 import { Websocket } from '../../store/websocket/websocket';
 import { ScoreboardDisplayFlatComponent } from '../../shared/scoreboards/scoreboard-display-flat/scoreboard-display-flat.component';
@@ -20,10 +20,9 @@ import { Tournament } from '../tournament/tournament';
   imports: [
     AsyncPipe,
     TuiLoader,
-    NgIf,
     ScoreboardDisplayFlatComponent,
-    AllAdminFormsComponent,
-  ],
+    AllAdminFormsComponent
+],
   templateUrl: './match-scoreboard-admin.component.html',
   styleUrl: './match-scoreboard-admin.component.less',
   changeDetection: ChangeDetectionStrategy.OnPush,

@@ -3,7 +3,7 @@
     *tuiLet="itemsList as items"
     [formControl]="formField"
     style="padding-top: 10px;"
-  >
+    >
     SELECT {{ title | uppercase }}
     <tui-data-list-wrapper
       *tuiDataList
@@ -16,14 +16,14 @@
   <ng-template
     #content
     let-data
-  >
+    >
     <div class="template">
-      <tui-avatar [src]="backendUrl + data[avatarProperty] || null" [round]="false"
-        *ngIf="avatarProperty !== 'none'"
-        size="s"
-        class="avatar"
-       
-      ></tui-avatar>
+      @if (avatarProperty !== 'none') {
+        <tui-avatar [src]="backendUrl + data[avatarProperty] || null" [round]="false"
+          size="s"
+          class="avatar"
+        ></tui-avatar>
+      }
       <div class="name">{{ stringifyFn ? stringifyFn(data) : data.title }}</div>
       <!--      <div class="name">{{ data.title }}</div>-->
     </div>

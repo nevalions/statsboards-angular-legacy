@@ -6,120 +6,109 @@
       [formName]="'timeForms'"
       [buttonText]="'Time Forms'">
     </app-toggle-visible-button>
-    <div
-      *ngIf="timeFormsVisible$ | async"
-      id="timers-form"
-      class="timers-form"
-    >
-
-      <form
-        class="game-time-form"
-        [formGroup]="gameClockForm"
-      >
-        <div class="max-minutes">
-          @if (getFormControl(gameClockForm, 'maxMinutes'); as control) {
-            <app-simple-input-with-buttons
-              [label]="'Max Minutes'"
-              [control]="control"
-              [max]="60"
-              [min]="0"
-              [cleaner]="false"
-            ></app-simple-input-with-buttons>
+    @if (timeFormsVisible$ | async) {
+      <div
+        id="timers-form"
+        class="timers-form"
+        >
+        <form
+          class="game-time-form"
+          [formGroup]="gameClockForm"
+          >
+          <div class="max-minutes">
+            @if (getFormControl(gameClockForm, 'maxMinutes'); as control) {
+              <app-simple-input-with-buttons
+                [label]="'Max Minutes'"
+                [control]="control"
+                [max]="60"
+                [min]="0"
+                [cleaner]="false"
+              ></app-simple-input-with-buttons>
+              <app-admin-submit-button
+                [action]="'save max minutes'"
+                [disabled]="disabled"
+                (click)="saveMaxGameClock(gameclock)"
+              ></app-admin-submit-button>
+            }
+          </div>
+          <div class="time-inputs">
+            @if (getFormControl(gameClockForm, 'gameTimeMinutes'); as control) {
+              <app-simple-input-with-buttons
+                [label]="'Min.'"
+                [control]="control"
+                [min]="0"
+                [max]="gameclock.gameclock_max ? gameclock.gameclock_max / 60 : 12"
+                [isCycle]="true"
+                [cleaner]="false"
+              ></app-simple-input-with-buttons>
+            }
+            @if (getFormControl(gameClockForm, 'gameTimeSeconds'); as control) {
+              <app-simple-input-with-buttons
+                [label]="'Sec.'"
+                [control]="control"
+                [min]="0"
+                [max]="59"
+                [isCycle]="true"
+                [cleaner]="false"
+              ></app-simple-input-with-buttons>
+            }
+          </div>
+          <div class="time-inputs-save-btn">
             <app-admin-submit-button
-              [action]="'save max minutes'"
-              [disabled]="disabled"
-              (click)="saveMaxGameClock(gameclock)"
+              [disabled]="disabled || this.gameclock!.gameclock_status === 'running'"
+              (click)="saveNewGameClock(gameclock)"
             ></app-admin-submit-button>
-          }
-        </div>
-        <div class="time-inputs">
-          @if (getFormControl(gameClockForm, 'gameTimeMinutes'); as control) {
-            <app-simple-input-with-buttons
-              [label]="'Min.'"
-              [control]="control"
-              [min]="0"
-              [max]="gameclock.gameclock_max ? gameclock.gameclock_max / 60 : 12"
-              [isCycle]="true"
-              [cleaner]="false"
-            ></app-simple-input-with-buttons>
-          }
-          @if (getFormControl(gameClockForm, 'gameTimeSeconds'); as control) {
-            <app-simple-input-with-buttons
-              [label]="'Sec.'"
-              [control]="control"
-              [min]="0"
-              [max]="59"
-              [isCycle]="true"
-              [cleaner]="false"
-            ></app-simple-input-with-buttons>
-          }
-
-        </div>
-
-        <div class="time-inputs-save-btn">
-          <app-admin-submit-button
+          </div>
+          <app-admin-down-button
+            [down]="'Start Clock'"
+            (click)="startGameClock()"
             [disabled]="disabled || this.gameclock!.gameclock_status === 'running'"
-            (click)="saveNewGameClock(gameclock)"
-          ></app-admin-submit-button>
-        </div>
-
-        <app-admin-down-button
-          [down]="'Start Clock'"
-          (click)="startGameClock()"
-          [disabled]="disabled || this.gameclock!.gameclock_status === 'running'"
-        ></app-admin-down-button>
-
-        <app-admin-down-button
-          [down]="'Pause Clock'"
-          (click)="pauseGameClock()"
+          ></app-admin-down-button>
+          <app-admin-down-button
+            [down]="'Pause Clock'"
+            (click)="pauseGameClock()"
           [disabled]="
           disabled
           || (this.gameclock!.gameclock_status === 'paused'
           || this.gameclock!.gameclock_status === 'stopped')"
-        ></app-admin-down-button>
-
-        <app-admin-down-button
-          [down]="'Reset Clock'"
-          (click)="resetGameClock()"
-          [disabled]="disabled"
-        ></app-admin-down-button>
-
-      </form>
-
-      <form
-        class="play-time-form"
-        [formGroup]="playClockForm"
-      >
-        <div class="play-time">
-          <tui-input
-            class="game-timer-input"
-            formControlName="playTimeSeconds"
-          >Play Time
-          </tui-input>
-
-          <app-admin-down-button
-            [down]="'Reset Timer'"
-            (click)="resetPlayClock()"
-            [disabled]="disabled || this.playclock!.playclock_status === 'stopped'"
           ></app-admin-down-button>
-        </div>
-
-        <div class="play-time-btns">
           <app-admin-down-button
-            [down]="'40'"
-            (click)="startPlayClock(40)"
-            [disabled]="disabled || this.playclock!.playclock_status === 'running'"
+            [down]="'Reset Clock'"
+            (click)="resetGameClock()"
+            [disabled]="disabled"
           ></app-admin-down-button>
-
-          <app-admin-down-button
-            [down]="'25'"
-            (click)="startPlayClock(25)"
-            [disabled]="disabled || this.playclock!.playclock_status === 'running'"
-          ></app-admin-down-button>
-        </div>
-
-      </form>
-    </div>
+        </form>
+        <form
+          class="play-time-form"
+          [formGroup]="playClockForm"
+          >
+          <div class="play-time">
+            <tui-input
+              class="game-timer-input"
+              formControlName="playTimeSeconds"
+              >Play Time
+            </tui-input>
+            <app-admin-down-button
+              [down]="'Reset Timer'"
+              (click)="resetPlayClock()"
+              [disabled]="disabled || this.playclock!.playclock_status === 'stopped'"
+            ></app-admin-down-button>
+          </div>
+          <div class="play-time-btns">
+            <app-admin-down-button
+              [down]="'40'"
+              (click)="startPlayClock(40)"
+              [disabled]="disabled || this.playclock!.playclock_status === 'running'"
+            ></app-admin-down-button>
+            <app-admin-down-button
+              [down]="'25'"
+              (click)="startPlayClock(25)"
+              [disabled]="disabled || this.playclock!.playclock_status === 'running'"
+            ></app-admin-down-button>
+          </div>
+        </form>
+      </div>
+    }
 
 
   }

@@ -7,7 +7,7 @@ import {
   OnChanges,
   SimpleChanges,
 } from '@angular/core';
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { Observable } from 'rxjs';
 import { IMatchFullDataWithScoreboard } from '../../../../type/match.type';
 import { ToggleVisibleButtonComponent } from '../../../ui/buttons/toggle-visible-button/toggle-visible-button.component';
@@ -32,18 +32,18 @@ import { getFormControl } from '../../../../base/formHelpers';
   selector: 'app-time-forms',
   standalone: true,
   imports: [
-    NgIf,
     AsyncPipe,
     ToggleVisibleButtonComponent,
     ReactiveFormsModule,
     TuiError,
-    TuiFieldErrorPipe, TuiFieldErrorContentPipe,
+    TuiFieldErrorPipe,
+    TuiFieldErrorContentPipe,
     TuiInputNumberModule,
     TuiInputModule,
     AdminSubmitButtonComponent,
     AdminDownButtonComponent,
-    SimpleInputWithButtonsComponent,
-  ],
+    SimpleInputWithButtonsComponent
+],
   changeDetection: ChangeDetectionStrategy.OnPush,
   // providers: [
   //   tuiInputNumberOptionsProvider({

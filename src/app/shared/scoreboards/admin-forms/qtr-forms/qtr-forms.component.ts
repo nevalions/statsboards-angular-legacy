@@ -1,7 +1,7 @@
 import { TuiSelectModule } from "@taiga-ui/legacy";
 import { TuiButton } from "@taiga-ui/core";
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { Observable } from 'rxjs';
 import { IMatchFullDataWithScoreboard } from '../../../../type/match.type';
 import { MatchData } from '../../../../components/match/matchdata';
@@ -17,15 +17,14 @@ import { Websocket } from '../../../../store/websocket/websocket';
   selector: 'app-qtr-forms',
   standalone: true,
   imports: [
-    NgIf,
     ToggleVisibleButtonComponent,
     AsyncPipe,
     AdminSubmitButtonComponent,
     ReactiveFormsModule,
     TuiSelectModule,
     TuiDataListWrapper,
-    TuiButton,
-  ],
+    TuiButton
+],
   templateUrl: './qtr-forms.component.html',
   styleUrl: './qtr-forms.component.less',
 })

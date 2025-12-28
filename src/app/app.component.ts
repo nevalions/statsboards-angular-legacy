@@ -6,7 +6,7 @@ import {
   Component,
   ViewEncapsulation,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { HeaderComponent } from './components/header/header.component';
 
@@ -23,16 +23,16 @@ import { AppState } from './store/appstate';
     TuiButton,
     RouterLink,
     RouterOutlet,
-    CommonModule,
     HomeComponent,
     HeaderComponent,
     TuiRoot,
     TuiDialog,
     TuiAlert,
-    TuiBreadcrumbs, TuiItem,
+    TuiBreadcrumbs,
+    TuiItem,
     TuiLink,
-    TuiLoader,
-  ],
+    TuiLoader
+],
   templateUrl: './app.component.html',
   styleUrl: './app.component.less',
   encapsulation: ViewEncapsulation.None,

@@ -1,22 +1,30 @@
 <div class="start-roster-line">
-  <div class="startCBS" *ngIf="selectedDB['cbs']">
-    <app-player-card-roster
-      [player]="selectedDB['cbs']"
-    ></app-player-card-roster>
-  </div>
-  <div class="startSS" *ngIf="selectedDB['ss']">
-    <app-player-card-roster
-      [player]="selectedDB['ss']"
-    ></app-player-card-roster>
-  </div>
-  <div class="startFS" *ngIf="selectedDB['fs']">
-    <app-player-card-roster
-      [player]="selectedDB['fs']"
-    ></app-player-card-roster>
-  </div>
-  <div class="startCBW" *ngIf="selectedDB['cbw']">
-    <app-player-card-roster
-      [player]="selectedDB['cbw']"
-    ></app-player-card-roster>
-  </div>
+  @if (selectedDB['cbs']) {
+    <div class="startCBS">
+      <app-player-card-roster
+        [player]="selectedDB['cbs']"
+      ></app-player-card-roster>
+    </div>
+  }
+  @if (selectedDB['ss']) {
+    <div class="startSS">
+      <app-player-card-roster
+        [player]="selectedDB['ss']"
+      ></app-player-card-roster>
+    </div>
+  }
+  @if (selectedDB['fs']) {
+    <div class="startFS">
+      <app-player-card-roster
+        [player]="selectedDB['fs']"
+      ></app-player-card-roster>
+    </div>
+  }
+  @if (selectedDB['cbw']) {
+    <div class="startCBW">
+      <app-player-card-roster
+        [player]="selectedDB['cbw']"
+      ></app-player-card-roster>
+    </div>
+  }
 </div>

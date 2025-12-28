@@ -1,23 +1,33 @@
 <div class="start-roster-line">
-  <div class="startE" *ngIf="selectedDL['e']">
-    <app-player-card-roster [player]="selectedDL['e']"></app-player-card-roster>
-  </div>
-  <div class="startDT" *ngIf="selectedDL['dt']">
-    <app-player-card-roster
-      [player]="selectedDL['dt']"
-    ></app-player-card-roster>
-  </div>
-  <div class="startDTTwo" *ngIf="selectedDL['dtTwo']">
-    <app-player-card-roster
-      [player]="selectedDL['dtTwo']"
-    ></app-player-card-roster>
-  </div>
-  <div class="startDTThree" *ngIf="selectedDL['dtTree']">
-    <app-player-card-roster
-      [player]="selectedDL['dtTree']"
-    ></app-player-card-roster>
-  </div>
-  <div class="startA" *ngIf="selectedDL['s']">
-    <app-player-card-roster [player]="selectedDL['s']"></app-player-card-roster>
-  </div>
+  @if (selectedDL['e']) {
+    <div class="startE">
+      <app-player-card-roster [player]="selectedDL['e']"></app-player-card-roster>
+    </div>
+  }
+  @if (selectedDL['dt']) {
+    <div class="startDT">
+      <app-player-card-roster
+        [player]="selectedDL['dt']"
+      ></app-player-card-roster>
+    </div>
+  }
+  @if (selectedDL['dtTwo']) {
+    <div class="startDTTwo">
+      <app-player-card-roster
+        [player]="selectedDL['dtTwo']"
+      ></app-player-card-roster>
+    </div>
+  }
+  @if (selectedDL['dtTree']) {
+    <div class="startDTThree">
+      <app-player-card-roster
+        [player]="selectedDL['dtTree']"
+      ></app-player-card-roster>
+    </div>
+  }
+  @if (selectedDL['s']) {
+    <div class="startA">
+      <app-player-card-roster [player]="selectedDL['s']"></app-player-card-roster>
+    </div>
+  }
 </div>

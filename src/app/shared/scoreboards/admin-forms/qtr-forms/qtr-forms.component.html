@@ -3,74 +3,73 @@
   [isVisible$]="qtrFormsVisible$"
   [formName]="'qtrForm'"
   [buttonText]="'Qtr Selector'"
->
+  >
 </app-toggle-visible-button>
-<div class="quarter" *ngIf="qtrFormsVisible$ | async">
-  <form class="quarter-selector" [formGroup]="qtrForm">
-    <tui-select
-      formControlName="qtrSelect"
-      style="width: 100%; text-align: center"
-      >Select Quarter
-      <tui-data-list-wrapper
-        *tuiDataList
-        [items]="items"
-      ></tui-data-list-wrapper>
-    </tui-select>
-
-    <app-admin-submit-button
-      style="width: 100%"
-      [disabled]="disabled"
-      (click)="updateQuarter(data?.match_data!)"
-    ></app-admin-submit-button>
-  </form>
-
-  <form class="goal-btns">
-    <button
-      class="goal-btn"
-      appearance="outline-grayscale"
-      tuiButton
-      size="m"
-      type="button"
-      [disabled]="disabled"
-      (click)="toggleTouchdownTeamA(data?.scoreboard_data!)"
-    >
-      TD HOME
-    </button>
-    <button
-      class="goal-btn"
-      appearance="outline-grayscale"
-      tuiButton
-      size="m"
-      type="button"
-      [disabled]="disabled"
-      (click)="toggleTouchdownTeamB(data?.scoreboard_data!)"
-    >
-      TD AWAY
-    </button>
-  </form>
-
-  <form class="goal-btns">
-    <button
-      class="goal-btn"
-      appearance="outline-grayscale"
-      tuiButton
-      size="m"
-      type="button"
-      [disabled]="disabled"
-      (click)="toggleTimeoutTeamA(data?.scoreboard_data!)"
-    >
-      Timeout HOME
-    </button>
-    <button
-      class="goal-btn"
-      appearance="outline-grayscale"
-      tuiButton
-      size="m"
-      type="button"
-      [disabled]="disabled"
-      (click)="toggleTimeoutTeamB(data?.scoreboard_data!)"
-    >
-      Timeout AWAY
-    </button>
-  </form>
-</div>
+@if (qtrFormsVisible$ | async) {
+  <div class="quarter">
+    <form class="quarter-selector" [formGroup]="qtrForm">
+      <tui-select
+        formControlName="qtrSelect"
+        style="width: 100%; text-align: center"
+        >Select Quarter
+        <tui-data-list-wrapper
+          *tuiDataList
+          [items]="items"
+        ></tui-data-list-wrapper>
+      </tui-select>
+      <app-admin-submit-button
+        style="width: 100%"
+        [disabled]="disabled"
+        (click)="updateQuarter(data?.match_data!)"
+      ></app-admin-submit-button>
+    </form>
+    <form class="goal-btns">
+      <button
+        class="goal-btn"
+        appearance="outline-grayscale"
+        tuiButton
+        size="m"
+        type="button"
+        [disabled]="disabled"
+        (click)="toggleTouchdownTeamA(data?.scoreboard_data!)"
+        >
+        TD HOME
+      </button>
+      <button
+        class="goal-btn"
+        appearance="outline-grayscale"
+        tuiButton
+        size="m"
+        type="button"
+        [disabled]="disabled"
+        (click)="toggleTouchdownTeamB(data?.scoreboard_data!)"
+        >
+        TD AWAY
+      </button>
+    </form>
+    <form class="goal-btns">
+      <button
+        class="goal-btn"
+        appearance="outline-grayscale"
+        tuiButton
+        size="m"
+        type="button"
+        [disabled]="disabled"
+        (click)="toggleTimeoutTeamA(data?.scoreboard_data!)"
+        >
+        Timeout HOME
+      </button>
+      <button
+        class="goal-btn"
+        appearance="outline-grayscale"
+        tuiButton
+        size="m"
+        type="button"
+        [disabled]="disabled"
+        (click)="toggleTimeoutTeamB(data?.scoreboard_data!)"
+        >
+        Timeout AWAY
+      </button>
+    </form>
+  </div>
+}
