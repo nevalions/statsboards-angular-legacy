@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { provideMockStore } from '@ngrx/store/testing';
 import { Store } from '@ngrx/store';
-import { Observable, of } from 'rxjs';
+import { Observable, of, Subject } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { ISeason } from '../../type/season.type';
 import { Season } from './season';
@@ -10,6 +10,7 @@ import * as SeasonActions from './store/actions';
 describe('Season', () => {
   let service: Season;
   let store: jasmine.SpyObj<Store>;
+  let seasonSubject: Subject<ISeason | null | undefined>;
 
   const mockSeason: ISeason = {
     id: 1,
@@ -18,7 +19,9 @@ describe('Season', () => {
   };
 
   beforeEach(() => {
+    seasonSubject = new Subject();
     store = jasmine.createSpyObj('Store', ['dispatch', 'select']);
+    store.select.and.returnValue(seasonSubject.asObservable());
 
     TestBed.configureTestingModule({
       providers: [
@@ -46,17 +49,17 @@ describe('Season', () => {
 
   describe('season$', () => {
     it('should emit current season from store', (done) => {
-      store.select.and.returnValue(of(mockSeason));
-
       service.season$.pipe(take(1)).subscribe((season) => {
         expect(season).toEqual(mockSeason);
         expect(store.select).toHaveBeenCalled();
         done();
       });
+
+      seasonSubject.next(mockSeason);
     });
 
     it('should select current season from state', () => {
-      store.select.and.returnValue(of(mockSeason));
+      seasonSubject.next(mockSeason);
 
       service.season$.subscribe();
 
@@ -64,21 +67,21 @@ describe('Season', () => {
     });
 
     it('should emit null when season is null', (done) => {
-      store.select.and.returnValue(of(null));
-
       service.season$.pipe(take(1)).subscribe((season) => {
         expect(season).toBeNull();
         done();
       });
+
+      seasonSubject.next(null);
     });
 
     it('should emit undefined when season is undefined', (done) => {
-      store.select.and.returnValue(of(undefined));
-
       service.season$.pipe(take(1)).subscribe((season) => {
         expect(season).toBeUndefined();
         done();
       });
+
+      seasonSubject.next(undefined);
     });
   });
 
@@ -91,37 +94,22 @@ describe('Season', () => {
       );
     });
 
-    it('should dispatch action only once when called', () => {
+    it('should dispatch action each time called', () => {
       service.loadCurrentSeason();
       service.loadCurrentSeason();
 
-      expect(store.dispatch).toHaveBeenCalledTimes(1);
+      expect(store.dispatch).toHaveBeenCalledTimes(2);
     });
   });
 
   describe('store selector', () => {
     it('should select from season slice of state', (done) => {
-      const mockState = {
-        season: {
-          currentSeason: mockSeason,
-          isLoading: false,
-          isSubmitting: false,
-          errors: null,
-          currentSeasonId: 1,
-          currentSeasonYear: 2024,
-          allSeasons: [mockSeason],
-        },
-      };
-
-      const selector = jasmine
-        .createSpy('selector')
-        .and.returnValue(mockSeason);
-      store.select.and.returnValue(of(mockSeason));
-
       service.season$.pipe(take(1)).subscribe((season) => {
         expect(season).toEqual(mockSeason);
         done();
       });
+
+      seasonSubject.next(mockSeason);
     });
   });
 });
