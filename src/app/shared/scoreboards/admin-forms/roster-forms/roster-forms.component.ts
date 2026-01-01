@@ -1,5 +1,5 @@
-import { TuiInputModule } from "@taiga-ui/legacy";
-import { AsyncPipe, UpperCasePipe } from '@angular/common';
+import { TuiInputModule } from '@taiga-ui/legacy';
+import { AsyncPipe } from '@angular/common';
 import {
   Component,
   Input,
@@ -13,10 +13,8 @@ import { ScoreboardData } from '../../../../components/scoreboard-data/scoreboar
 import { IMatchFullDataWithScoreboard } from '../../../../type/match.type';
 import { IScoreboard } from '../../../../type/matchdata.type';
 import { AdminDownButtonComponent } from '../../../ui/buttons/admin-down-button/admin-down-button.component';
-import { AdminSubmitButtonComponent } from '../../../ui/buttons/admin-submit-button/admin-submit-button.component';
 import { ToggleVisibleButtonComponent } from '../../../ui/buttons/toggle-visible-button/toggle-visible-button.component';
-import { DownDistanceFormsComponent } from '../down-distance-forms/down-distance-forms.component';
-import { SelectPlayerToMatchComponent } from '../../../ui/select/select-player-to-match/select-player-to-match.component';
+
 import { SelectPlayerLowerComponent } from '../../../ui/select/select-player-lower/select-player-lower.component';
 import {
   IPlayerInMatchFullData,
@@ -35,17 +33,13 @@ import { OnAirToggleComponent } from '../on-air-toggle/on-air-toggle.component';
   imports: [
     ToggleVisibleButtonComponent,
     AsyncPipe,
-    DownDistanceFormsComponent,
     AdminDownButtonComponent,
-    AdminSubmitButtonComponent,
     TuiInputModule,
     ReactiveFormsModule,
-    SelectPlayerToMatchComponent,
     SelectPlayerLowerComponent,
-    UpperCasePipe,
     SelectQbWithStatsLowerComponent,
-    OnAirToggleComponent
-],
+    OnAirToggleComponent,
+  ],
   templateUrl: './roster-forms.component.html',
   styleUrl: './roster-forms.component.less',
 })

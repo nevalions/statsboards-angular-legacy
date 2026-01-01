@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
-import { TuiDataList, TuiDropdown, TuiLink } from '@taiga-ui/core';
-import { AsyncPipe, UpperCasePipe } from '@angular/common';
+import { TuiDataList, TuiDropdown } from '@taiga-ui/core';
+import { UpperCasePipe } from '@angular/common';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { IBaseIdElse } from '../../../type/base.type';
 import { ISport } from '../../../type/sport.type';
@@ -9,8 +9,6 @@ import { ISport } from '../../../type/sport.type';
   selector: 'app-header-menu',
   standalone: true,
   imports: [
-    TuiLink,
-    AsyncPipe,
     RouterLink,
     RouterLinkActive,
     TuiDropdown,

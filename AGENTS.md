@@ -390,3 +390,4 @@ Available NgRx-related MCP capabilities through Angular CLI tools:
 
 **Note**: Do not add AGENTS.md to README.md - this file is for development reference only.
 **Note**: all commits must be by linroot with email nevalions@gmail.com
+**Note**: When you need to search docs, use `context7` tools.

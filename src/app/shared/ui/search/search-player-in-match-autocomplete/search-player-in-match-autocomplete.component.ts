@@ -1,13 +1,19 @@
-import { TuiButton } from "@taiga-ui/core";
-import { TuiTextfieldControllerModule, TuiComboBoxModule } from "@taiga-ui/legacy";
-import { TuiValueChanges } from "@taiga-ui/cdk";
+import {
+  TuiTextfieldControllerModule,
+  TuiComboBoxModule,
+} from '@taiga-ui/legacy';
 import { Component, Input } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import {
   stringifyMatchPlayerNumberSurnameName,
   toTitleCase,
 } from '../../../../base/helpers';
-import { tuiItemsHandlersProvider, TuiDataListWrapper, TuiStringifyContentPipe, TuiFilterByInputPipe } from '@taiga-ui/kit';
+import {
+  tuiItemsHandlersProvider,
+  TuiDataListWrapper,
+  TuiStringifyContentPipe,
+  TuiFilterByInputPipe,
+} from '@taiga-ui/kit';
 import { IPlayerInMatchFullData } from '../../../../type/player.type';
 import { UpperCasePipe } from '@angular/common';
 
@@ -22,8 +28,6 @@ import { UpperCasePipe } from '@angular/common';
     TuiStringifyContentPipe,
     TuiFilterByInputPipe,
     TuiTextfieldControllerModule,
-    TuiValueChanges,
-    TuiButton,
   ],
   providers: [
     tuiItemsHandlersProvider({

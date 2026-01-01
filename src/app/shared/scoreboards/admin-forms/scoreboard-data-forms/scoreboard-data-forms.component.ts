@@ -1,4 +1,4 @@
-import { TuiInputModule } from "@taiga-ui/legacy";
+import { TuiInputModule } from '@taiga-ui/legacy';
 import { AsyncPipe } from '@angular/common';
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
@@ -9,7 +9,6 @@ import { IScoreboard } from '../../../../type/matchdata.type';
 import { AdminDownButtonComponent } from '../../../ui/buttons/admin-down-button/admin-down-button.component';
 import { AdminSubmitButtonComponent } from '../../../ui/buttons/admin-submit-button/admin-submit-button.component';
 import { ToggleVisibleButtonComponent } from '../../../ui/buttons/toggle-visible-button/toggle-visible-button.component';
-import { DownDistanceFormsComponent } from '../down-distance-forms/down-distance-forms.component';
 import { Websocket } from '../../../../store/websocket/websocket';
 
 @Component({
@@ -18,12 +17,11 @@ import { Websocket } from '../../../../store/websocket/websocket';
   imports: [
     ToggleVisibleButtonComponent,
     AsyncPipe,
-    DownDistanceFormsComponent,
     AdminDownButtonComponent,
     AdminSubmitButtonComponent,
     TuiInputModule,
-    ReactiveFormsModule
-],
+    ReactiveFormsModule,
+  ],
   templateUrl: './scoreboard-data-forms.component.html',
   styleUrl: './scoreboard-data-forms.component.less',
 })

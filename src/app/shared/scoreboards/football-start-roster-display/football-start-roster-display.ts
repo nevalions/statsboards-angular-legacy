@@ -1,5 +1,4 @@
-import { TuiFallbackSrcPipe, TuiInitialsPipe } from "@taiga-ui/core";
-import { TuiAvatar } from "@taiga-ui/kit";
+import { TuiAvatar } from '@taiga-ui/kit';
 import { UpperCasePipe } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { environment } from '../../../../environments/environment';
@@ -26,9 +25,7 @@ import { hexToRgba } from '../../../base/helpers';
     DlineStartsComponent,
     LbStartsComponent,
     DbStartsComponent,
-      TuiFallbackSrcPipe,
-      TuiInitialsPipe
-],
+  ],
   templateUrl: './football-start-roster-display.html',
   styleUrl: './football-start-roster-display.less',
 })

@@ -1,5 +1,4 @@
-import { TuiInputModule, TuiInputNumberModule } from "@taiga-ui/legacy";
-import { TuiError } from "@taiga-ui/core";
+import { TuiInputModule, TuiInputNumberModule } from '@taiga-ui/legacy';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -11,7 +10,7 @@ import { AsyncPipe } from '@angular/common';
 import { Observable } from 'rxjs';
 import { IMatchFullDataWithScoreboard } from '../../../../type/match.type';
 import { ToggleVisibleButtonComponent } from '../../../ui/buttons/toggle-visible-button/toggle-visible-button.component';
-import {  TuiFieldErrorContentPipe } from '@taiga-ui/kit';
+import { TuiFieldErrorContentPipe } from '@taiga-ui/kit';
 import {
   FormControl,
   FormGroup,
@@ -35,15 +34,12 @@ import { getFormControl } from '../../../../base/formHelpers';
     AsyncPipe,
     ToggleVisibleButtonComponent,
     ReactiveFormsModule,
-    TuiError,
-    
-    
     TuiInputNumberModule,
     TuiInputModule,
     AdminSubmitButtonComponent,
     AdminDownButtonComponent,
-    SimpleInputWithButtonsComponent
-],
+    SimpleInputWithButtonsComponent,
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   // providers: [
   //   tuiInputNumberOptionsProvider({

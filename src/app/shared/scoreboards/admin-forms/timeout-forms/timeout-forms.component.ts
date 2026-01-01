@@ -1,5 +1,4 @@
-import { TuiLabel } from "@taiga-ui/core";
-import { TuiTextfieldControllerModule } from "@taiga-ui/legacy";
+import { TuiTextfieldControllerModule } from '@taiga-ui/legacy';
 import { Component, Input } from '@angular/core';
 import { IMatchData } from '../../../../type/matchdata.type';
 import { Observable } from 'rxjs';
@@ -16,10 +15,9 @@ import { Websocket } from '../../../../store/websocket/websocket';
   imports: [
     AsyncPipe,
     ToggleVisibleButtonComponent,
-    TuiLabel,
     TuiTextfieldControllerModule,
-    AdminTimeoutButtonComponent
-],
+    AdminTimeoutButtonComponent,
+  ],
   templateUrl: './timeout-forms.component.html',
   styleUrl: './timeout-forms.component.less',
 })

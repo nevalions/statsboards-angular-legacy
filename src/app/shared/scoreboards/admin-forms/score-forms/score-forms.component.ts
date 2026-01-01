@@ -1,4 +1,8 @@
-import { TuiTextfieldControllerModule, TuiInputModule, TuiInputNumberModule } from "@taiga-ui/legacy";
+import {
+  TuiTextfieldControllerModule,
+  TuiInputModule,
+  TuiInputNumberModule,
+} from '@taiga-ui/legacy';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -8,18 +12,17 @@ import {
 } from '@angular/core';
 import { IMatchData } from '../../../../type/matchdata.type';
 import { MatchData } from '../../../../components/match/matchdata';
-import { AsyncPipe, UpperCasePipe } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { Observable } from 'rxjs';
 import { IMatchFullDataWithScoreboard } from '../../../../type/match.type';
 import { ToggleVisibleButtonComponent } from '../../../ui/buttons/toggle-visible-button/toggle-visible-button.component';
-import {  TuiButton } from '@taiga-ui/core';
 import {
   FormControl,
   FormGroup,
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { TuiFieldErrorPipe, TuiFieldErrorContentPipe } from '@taiga-ui/kit';
+import { TuiFieldErrorContentPipe } from '@taiga-ui/kit';
 import { IncrementButtonComponent } from '../../../ui/buttons/increment-button/increment-button.component';
 import { AdminSubmitButtonComponent } from '../../../ui/buttons/admin-submit-button/admin-submit-button.component';
 import { Websocket } from '../../../../store/websocket/websocket';
@@ -28,7 +31,6 @@ import {
   eventQtrKey,
   getEventBallOn,
 } from '../../../../components/match-event/football-event/football-event-helpers';
-import { InputNumberWithButtonsComponent } from '../input-number-with-buttons/input-number-with-buttons.component';
 import {
   incrementNumberInFormGroup,
   incrementBallPositionRelativeCenter,
@@ -43,20 +45,14 @@ import { SimpleInputWithButtonsComponent } from '../simple-input-with-buttons/si
   imports: [
     AsyncPipe,
     ToggleVisibleButtonComponent,
-    TuiButton,
     ReactiveFormsModule,
     TuiInputNumberModule,
-    
-    TuiFieldErrorPipe,
-    
     TuiTextfieldControllerModule,
     IncrementButtonComponent,
     AdminSubmitButtonComponent,
     TuiInputModule,
-    InputNumberWithButtonsComponent,
-    UpperCasePipe,
-    SimpleInputWithButtonsComponent
-],
+    SimpleInputWithButtonsComponent,
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   // providers: [
   //   tuiInputNumberOptionsProvider({

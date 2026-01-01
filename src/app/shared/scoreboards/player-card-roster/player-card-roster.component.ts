@@ -1,5 +1,5 @@
-import { TuiFallbackSrcPipe, TuiInitialsPipe } from "@taiga-ui/core";
-import { TuiAvatar } from "@taiga-ui/kit";
+import { TuiInitialsPipe } from '@taiga-ui/core';
+import { TuiAvatar } from '@taiga-ui/kit';
 import { UpperCasePipe } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { environment } from '../../../../environments/environment';
@@ -9,14 +9,14 @@ import { IPlayerInMatchFullData } from '../../../type/player.type';
 @Component({
   selector: 'app-player-card-roster',
   standalone: true,
-  imports: [TuiAvatar, UpperCasePipe, TuiFallbackSrcPipe,],
+  imports: [TuiAvatar, UpperCasePipe],
   templateUrl: './player-card-roster.component.html',
   styleUrl: './player-card-roster.component.less',
 })
 export class PlayerCardRosterComponent {
   @Input() player: IPlayerInMatchFullData | null = null;
 
-  constructor(private imageService: ImageService) { }
+  constructor(private imageService: ImageService) {}
 
   onImgError(event: Event) {
     this.imageService.handleError(event);
