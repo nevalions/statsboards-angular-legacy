@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { concatLatestFrom } from '@ngrx/operators';import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, filter, map, of, switchMap, withLatestFrom } from 'rxjs';
 import { tap } from 'rxjs/operators';
@@ -156,7 +156,7 @@ export class PlayerEffects {
     () => {
       return this.actions$.pipe(
         ofType(playerActions.delete),
-        withLatestFrom(this.store.select(selectCurrentPlayer)),
+        concatLatestFrom(() => this.store.select(selectCurrentPlayer)),
         switchMap(([action, currentPlayer]) => {
           if (!currentPlayer || !currentPlayer.id) {
             return of(playerActions.deleteFailure());

@@ -20,8 +20,8 @@ import { selectAllMatchesWithFullDataInTournament } from '../../components/match
 
 @Injectable()
 export class SearchEffects {
-  searchOnList$ = createEffect(() =>
-    this.actions$.pipe(
+  searchOnList$ = createEffect(() => {
+    return this.actions$.pipe(
       ofType(searchActions.searchOnList),
       map(({ context, term, list }) => {
         const results = list['filter']((item: AnyObjectWithTitle) =>
@@ -29,8 +29,8 @@ export class SearchEffects {
         );
         return searchActions.listSearchSuccess({ context, results });
       }),
-    ),
-  );
+    );
+  });
 
   // searchPersonsOnList$ = createEffect(() =>
   //   this.actions$.pipe(
@@ -50,8 +50,8 @@ export class SearchEffects {
 
   // PERSONS
   searchPersonEffect$ = createEffect(
-    () =>
-      this.actions$.pipe(
+    () => {
+      return this.actions$.pipe(
         ofType(searchActions.updatePersonSearchTerm),
         switchMap((action) =>
           combineLatest([
@@ -71,14 +71,15 @@ export class SearchEffects {
             catchError(() => of(searchActions.personSearchFailure())),
           ),
         ),
-      ),
+      );
+    },
     { functional: true },
   );
 
   // PLAYERS
   searchPlayerEffect$ = createEffect(
-    () =>
-      this.actions$.pipe(
+    () => {
+      return this.actions$.pipe(
         ofType(searchActions.updatePlayerInSportSearchTerm),
         switchMap((action) =>
           combineLatest([
@@ -100,14 +101,15 @@ export class SearchEffects {
             catchError(() => of(searchActions.playerInSportSearchFailure())),
           ),
         ),
-      ),
+      );
+    },
     { functional: true },
   );
 
   // TEAMS
   searchTeamsInSport$ = createEffect(
-    () =>
-      this.actions$.pipe(
+    () => {
+      return this.actions$.pipe(
         ofType(searchActions.updateTeamInSportSearchTerm),
         switchMap((action) =>
           combineLatest([
@@ -127,7 +129,8 @@ export class SearchEffects {
             catchError(() => of(searchActions.teamInSportSearchFailure())),
           ),
         ),
-      ),
+      );
+    },
     { functional: true },
   );
   //
@@ -153,8 +156,8 @@ export class SearchEffects {
 
   //MATCHES
   searchMatchesEffect$ = createEffect(
-    () =>
-      this.actions$.pipe(
+    () => {
+      return this.actions$.pipe(
         ofType(searchActions.updateMatchSearchTerm),
         switchMap((action) =>
           combineLatest([
@@ -178,12 +181,13 @@ export class SearchEffects {
             catchError(() => of(searchActions.matchSearchFailure())),
           ),
         ),
-      ),
+      );
+    },
     { functional: true },
   );
   searchMatchesByWeekEffect$ = createEffect(
-    () =>
-      this.actions$.pipe(
+    () => {
+      return this.actions$.pipe(
         ofType(searchActions.updateMatchSearchWeek),
         switchMap((action) =>
           combineLatest([
@@ -204,7 +208,8 @@ export class SearchEffects {
             catchError(() => of(searchActions.matchSearchWeekFailure())),
           ),
         ),
-      ),
+      );
+    },
     { functional: true },
   );
 

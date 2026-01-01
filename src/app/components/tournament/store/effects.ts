@@ -1,4 +1,4 @@
-import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { concatLatestFrom } from '@ngrx/operators';import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Injectable } from '@angular/core';
 import { TournamentService } from '../tournament.service';
 import { tournamentActions } from './actions';
@@ -260,9 +260,9 @@ export class TournamentEffects {
   );
 
   updateSportSeasonTournamentsEffect = createEffect(() =>
-    this.actions$.pipe(
+    { return this.actions$.pipe(
       ofType(tournamentActions.createdSuccessfully),
-      withLatestFrom(this.store.select(selectSportIdAndSeasonId)),
+      concatLatestFrom(() => this.store.select(selectSportIdAndSeasonId)),
       filter(
         ([action, { sportId, seasonId }]) =>
           action.currentTournament.sport_id === sportId &&
@@ -273,14 +273,14 @@ export class TournamentEffects {
           newTournament: action.currentTournament,
         }),
       ),
-    ),
+    ) },
   );
 
   deleteTournamentEffect = createEffect(
     () => {
       return this.actions$.pipe(
         ofType(tournamentActions.delete),
-        withLatestFrom(this.store.select(selectTournamentSportIdSeasonId)),
+        concatLatestFrom(() => this.store.select(selectTournamentSportIdSeasonId)),
         switchMap(([action, { tournamentId, sportId, seasonId }]) => {
           return this.tournamentService.deleteItem(tournamentId!).pipe(
             map(() =>

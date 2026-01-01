@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { concatLatestFrom } from '@ngrx/operators';import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, filter, map, of, switchMap, withLatestFrom } from 'rxjs';
 import { tap } from 'rxjs/operators';
@@ -164,7 +164,7 @@ export class PositionEffects {
     () => {
       return this.actions$.pipe(
         ofType(positionActions.delete),
-        withLatestFrom(this.store.select(selectCurrentPosition)),
+        concatLatestFrom(() => this.store.select(selectCurrentPosition)),
         switchMap(([action, currentPosition]) => {
           if (!currentPosition || !currentPosition.id) {
             return of(positionActions.deleteFailure());

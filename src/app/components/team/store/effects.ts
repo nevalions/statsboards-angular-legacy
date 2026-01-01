@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { concatLatestFrom } from '@ngrx/operators';import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { routerNavigatedAction } from '@ngrx/router-store';
@@ -60,14 +60,14 @@ export class TeamEffects {
   );
 
   createdSuccessfullyEffect$ = createEffect(() =>
-    this.actions$.pipe(
+    { return this.actions$.pipe(
       ofType(teamActions.createdSuccessfully),
-      withLatestFrom(this.store.select(selectCurrentSportId)),
+      concatLatestFrom(() => this.store.select(selectCurrentSportId)),
       filter(([action, sportId]) => action.currentTeam.sport_id === sportId),
       map(([action]) =>
         teamActions.updateAllTeamsInSport({ newTeam: action.currentTeam }),
       ),
-    ),
+    ) },
   );
 
   getAllTeamsEffect = createEffect(
@@ -235,7 +235,7 @@ export class TeamEffects {
     () => {
       return this.actions$.pipe(
         ofType(teamActions.delete),
-        withLatestFrom(this.store.select(selectCurrentTeam)),
+        concatLatestFrom(() => this.store.select(selectCurrentTeam)),
         switchMap(([action, currentTeam]) => {
           if (!currentTeam || !currentTeam.id) {
             return of(teamActions.deleteFailure());

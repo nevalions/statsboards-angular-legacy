@@ -15,11 +15,11 @@
             [src]="backendUrl + item[avatarUrl]"
           />
           <div tuiTitle>
-            @if (titleProperty != "none") {
+            @if (titleProperty !== "none") {
               {{ getTitleCase(item, titleProperty) | titlecase }}
             } @else if (
-              item[titlePropertyFirst] != "none" &&
-              item[titlePropertySecond] != "none"
+              item[titlePropertyFirst] !== "none" &&
+              item[titlePropertySecond] !== "none"
             ) {
               {{ getTitleCase(item, titlePropertyFirst) | titlecase }}
               {{ getTitleCase(item, titlePropertySecond) | titlecase }}

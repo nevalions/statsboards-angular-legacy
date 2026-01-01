@@ -45,7 +45,7 @@
         (click)="submit('edit')"
       ></app-button-icon>
     }
-    @if (deleteOrUpdate == "deleteFromTeam" && !isDataChanged) {
+    @if (deleteOrUpdate === "deleteFromTeam" && !isDataChanged) {
       <app-button-icon
         [buttonShape]="'rounded'"
         [buttonSize]="'m'"
@@ -59,7 +59,7 @@
         [dialogId]="'deleteDialogPlayer' + id"
         (delete)="submit('deleteFromTeam')"
       ></app-delete-dialog>
-    } @else if (deleteOrUpdate == "delete" && !isDataChanged) {
+    } @else if (deleteOrUpdate === "delete" && !isDataChanged) {
       <app-button-icon
         [buttonShape]="'rounded'"
         [buttonSize]="'m'"

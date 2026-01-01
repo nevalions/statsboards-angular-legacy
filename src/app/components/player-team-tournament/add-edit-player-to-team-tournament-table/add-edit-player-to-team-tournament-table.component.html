@@ -140,7 +140,7 @@
                             {{ calculateAge(dob) | number: "1.0-0" }} years</span
                             >
                           }
-                          @if (deleteOrUpdate == "deleteFromTeam") {
+                          @if (deleteOrUpdate === "deleteFromTeam") {
                             <app-actions-buttons
                               [id]="id"
                               [index]="i"

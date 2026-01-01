@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { concatLatestFrom } from '@ngrx/operators';import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import {
   catchError,
@@ -149,9 +149,9 @@ export class PlayclockEffects {
   // );
 
   startPlayclock = createEffect(() =>
-    this.actions$.pipe(
+    { return this.actions$.pipe(
       ofType(playclockActions.startPlayClock),
-      withLatestFrom(this.store.select(selectCurrentPlayclockId)),
+      concatLatestFrom(() => this.store.select(selectCurrentPlayclockId)),
       exhaustMap(([action, playclockId]) =>
         this.playclockService.startPlayClock(playclockId!, action.seconds).pipe(
           map((response) =>
@@ -160,13 +160,13 @@ export class PlayclockEffects {
           catchError((error) => of(playclockActions.playClockStartFailure())),
         ),
       ),
-    ),
+    ) },
   );
 
   resetPlayclock = createEffect(() =>
-    this.actions$.pipe(
+    { return this.actions$.pipe(
       ofType(playclockActions.resetPlayClock),
-      withLatestFrom(this.store.select(selectCurrentPlayclockId)),
+      concatLatestFrom(() => this.store.select(selectCurrentPlayclockId)),
       exhaustMap(([action, playclockId]) =>
         this.playclockService.resetPlayClock(playclockId!).pipe(
           map((response) =>
@@ -175,7 +175,7 @@ export class PlayclockEffects {
           catchError((error) => of(playclockActions.playClockResetFailure())),
         ),
       ),
-    ),
+    ) },
   );
 
   constructor(

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { concatLatestFrom } from '@ngrx/operators';import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import {
   catchError,
@@ -125,9 +125,9 @@ export class MatchDataEffects {
   );
 
   startMatchDataGameClock = createEffect(() =>
-    this.actions$.pipe(
+    { return this.actions$.pipe(
       ofType(matchDataActions.startGameClock),
-      withLatestFrom(this.store.select(selectCurrentMatchDataId)),
+      concatLatestFrom(() => this.store.select(selectCurrentMatchDataId)),
       exhaustMap(([action, matchDataId]) =>
         this.matchDataService.startGameClock(matchDataId!).pipe(
           map((response) =>
@@ -136,13 +136,13 @@ export class MatchDataEffects {
           catchError((error) => of(matchDataActions.clockStartFailure())),
         ),
       ),
-    ),
+    ) },
   );
 
   pauseMatchDataGameClock = createEffect(() =>
-    this.actions$.pipe(
+    { return this.actions$.pipe(
       ofType(matchDataActions.pauseGameClock),
-      withLatestFrom(this.store.select(selectCurrentMatchDataId)),
+      concatLatestFrom(() => this.store.select(selectCurrentMatchDataId)),
       exhaustMap(([action, matchDataId]) =>
         this.matchDataService.pauseGameClock(matchDataId!).pipe(
           map((response) =>
@@ -151,13 +151,13 @@ export class MatchDataEffects {
           catchError((error) => of(matchDataActions.clockPauseFailure())),
         ),
       ),
-    ),
+    ) },
   );
 
   resetMatchDataGameClock = createEffect(() =>
-    this.actions$.pipe(
+    { return this.actions$.pipe(
       ofType(matchDataActions.resetGameClock),
-      withLatestFrom(this.store.select(selectCurrentMatchDataId)),
+      concatLatestFrom(() => this.store.select(selectCurrentMatchDataId)),
       exhaustMap(([action, matchDataId]) =>
         this.matchDataService.resetGameClock(matchDataId!, action.seconds).pipe(
           map((response) =>
@@ -166,13 +166,13 @@ export class MatchDataEffects {
           catchError((error) => of(matchDataActions.clockResetFailure())),
         ),
       ),
-    ),
+    ) },
   );
 
   startMatchDataPlayClock = createEffect(() =>
-    this.actions$.pipe(
+    { return this.actions$.pipe(
       ofType(matchDataActions.startPlayClock),
-      withLatestFrom(this.store.select(selectCurrentMatchDataId)),
+      concatLatestFrom(() => this.store.select(selectCurrentMatchDataId)),
       exhaustMap(([action, matchDataId]) =>
         this.matchDataService.startPlayClock(matchDataId!, action.seconds).pipe(
           map((response) =>
@@ -181,13 +181,13 @@ export class MatchDataEffects {
           catchError((error) => of(matchDataActions.playClockStartFailure())),
         ),
       ),
-    ),
+    ) },
   );
 
   resetMatchDataPlayClock = createEffect(() =>
-    this.actions$.pipe(
+    { return this.actions$.pipe(
       ofType(matchDataActions.resetPlayClock),
-      withLatestFrom(this.store.select(selectCurrentMatchDataId)),
+      concatLatestFrom(() => this.store.select(selectCurrentMatchDataId)),
       exhaustMap(([action, matchDataId]) =>
         this.matchDataService.resetPlayClock(matchDataId!).pipe(
           map((response) =>
@@ -196,7 +196,7 @@ export class MatchDataEffects {
           catchError((error) => of(matchDataActions.playClockResetFailure())),
         ),
       ),
-    ),
+    ) },
   );
 
   constructor(

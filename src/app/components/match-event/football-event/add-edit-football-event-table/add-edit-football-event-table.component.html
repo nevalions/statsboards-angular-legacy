@@ -1513,7 +1513,7 @@
                     }
                   }
                   <!--ACTIONS-->
-                  @if (deleteOrUpdate == "delete") {
+                  @if (deleteOrUpdate === "delete") {
                     @if (eventFormGroup.get("eventId" + i)!.value; as id) {
                       @if (getEventNumber(this.eventsArray, i); as eventNumber) {
                         <div class="table-cell">

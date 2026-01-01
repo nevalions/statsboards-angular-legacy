@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { concatLatestFrom } from '@ngrx/operators';
 import {
   catchError,
   filter,
@@ -32,6 +33,7 @@ import { selectMatchTournamentSportSeasonId } from './selectors';
 
 import { getAllRouteParameters } from '../../../router/router.selector';
 import { ITournament } from '../../../type/tournament.type';
+import { ITeam } from '../../../type/team.type';
 import { selectCurrentMatchWithFullData } from '../../match-with-full-data/store/reducers';
 import { selectAllTeamsInTournament } from '../../team/store/reducers';
 import { tournamentActions } from '../../tournament/store/actions';
@@ -114,10 +116,10 @@ export class MatchEffects {
     { functional: true },
   );
 
-  createdSuccessfullyEffect$ = createEffect(() =>
-    this.actions$.pipe(
+  createdSuccessfullyEffect$ = createEffect(() => {
+    return this.actions$.pipe(
       ofType(matchActions.createdSuccessfully),
-      withLatestFrom(this.store.select(selectCurrentTournamentId)),
+      concatLatestFrom(() => this.store.select(selectCurrentTournamentId)),
       filter(
         ([action, tournamentId]) =>
           action.currentMatch.tournament_id === tournamentId,
@@ -127,8 +129,8 @@ export class MatchEffects {
           newMatch: action.currentMatch,
         }),
       ),
-    ),
-  );
+    );
+  });
 
   getAllMatchesEffect = createEffect(
     () => {
@@ -176,14 +178,16 @@ export class MatchEffects {
     () => {
       return this.actions$.pipe(
         ofType(matchActions.updatedSuccessfully),
-        withLatestFrom(this.store.select(selectAllTeamsInTournament)),
-        withLatestFrom(this.store.select(selectCurrentMatchWithFullData)),
+        concatLatestFrom(() => this.store.select(selectAllTeamsInTournament)),
+        concatLatestFrom(() =>
+          this.store.select(selectCurrentMatchWithFullData),
+        ),
         map(([[action, allTournamentTeams], currentFullMatch]) => {
           const teamA = allTournamentTeams.find(
-            (team) => team.id === action.updatedMatch.team_a_id,
+            (team: ITeam) => team.id === action.updatedMatch.team_a_id,
           );
           const teamB = allTournamentTeams.find(
-            (team) => team.id === action.updatedMatch.team_b_id,
+            (team: ITeam) => team.id === action.updatedMatch.team_b_id,
           );
 
           const updatedFullMatch: IMatchWithFullData = {
@@ -247,12 +251,16 @@ export class MatchEffects {
             .fetchMatchesByTournamentIdWithPagination(tournamentId)
             .pipe(
               map((matches: IMatch[]) => {
-                return matchActions.getMatchesByTournamentIDWithPaginationSuccess({
-                  matches,
-                });
+                return matchActions.getMatchesByTournamentIDWithPaginationSuccess(
+                  {
+                    matches,
+                  },
+                );
               }),
               catchError(() => {
-                return of(matchActions.getMatchesByTournamentIDWithPaginationFailure);
+                return of(
+                  matchActions.getMatchesByTournamentIDWithPaginationFailure,
+                );
               }),
             );
         }),
@@ -260,7 +268,6 @@ export class MatchEffects {
     },
     { functional: true },
   );
-
 
   getTournamentByMatchEffect = createEffect(
     () => {
@@ -307,7 +314,9 @@ export class MatchEffects {
     () => {
       return this.actions$.pipe(
         ofType(matchActions.delete),
-        withLatestFrom(this.store.select(selectMatchTournamentSportSeasonId)),
+        concatLatestFrom(() =>
+          this.store.select(selectMatchTournamentSportSeasonId),
+        ),
         switchMap(([action, { matchId, tournamentId, sportId, seasonId }]) => {
           return this.matchService.deleteItem(matchId!).pipe(
             map(() => {
@@ -329,8 +338,8 @@ export class MatchEffects {
   );
 
   deleteMatchSuccessEffect$ = createEffect(
-    () =>
-      this.actions$.pipe(
+    () => {
+      return this.actions$.pipe(
         ofType(matchActions.deletedSuccessfully),
         switchMap((action) => {
           console.log('deleted match', action.matchId);
@@ -340,13 +349,14 @@ export class MatchEffects {
             }),
           );
         }),
-      ),
+      );
+    },
     { functional: true },
   );
 
   navigateOnMatchDeletion$ = createEffect(
-    () =>
-      this.actions$.pipe(
+    () => {
+      return this.actions$.pipe(
         ofType(matchActions.deletedSuccessfully),
         tap(({ tournamentId, sportId, seasonId }) => {
           setTimeout(() => {
@@ -355,22 +365,23 @@ export class MatchEffects {
             );
           }, 0); // Use a small delay
         }),
-      ),
+      );
+    },
     { dispatch: false },
   );
 
-  updateMatchesInTournamentEffect = createEffect(() =>
-    this.actions$.pipe(
+  updateMatchesInTournamentEffect = createEffect(() => {
+    return this.actions$.pipe(
       ofType(matchActions.createdSuccessfully),
-      withLatestFrom(this.store.select(selectAllTeamsInTournament)),
+      concatLatestFrom(() => this.store.select(selectAllTeamsInTournament)),
       mergeMap(([action, teamsInTournament]) => {
         const newMatch = action.currentMatch;
         // Find the teams in the array of teams in tournament
         const teamA = teamsInTournament.find(
-          (team) => team.id === newMatch.team_a_id,
+          (team: ITeam) => team.id === newMatch.team_a_id,
         );
         const teamB = teamsInTournament.find(
-          (team) => team.id === newMatch.team_b_id,
+          (team: ITeam) => team.id === newMatch.team_b_id,
         );
 
         const newData = getDefaultFullData();
@@ -393,8 +404,8 @@ export class MatchEffects {
           }),
         ];
       }),
-    ),
-  );
+    );
+  });
 
   parsMatchesFromTournamentEESLEffect = createEffect(
     () => {
@@ -446,5 +457,5 @@ export class MatchEffects {
     private matchService: MatchService,
     private store: Store,
     private tournamentService: TournamentService,
-  ) { }
+  ) {}
 }

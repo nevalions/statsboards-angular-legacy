@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { concatLatestFrom } from '@ngrx/operators';import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import {
   catchError,
@@ -69,9 +69,9 @@ export class MatchWithFullDataEffects {
   );
 
   createdSuccessfullyEffect$ = createEffect(() =>
-    this.actions$.pipe(
+    { return this.actions$.pipe(
       ofType(matchWithFullDataActions.createdSuccessfully),
-      withLatestFrom(this.store.select(selectCurrentTournamentId)),
+      concatLatestFrom(() => this.store.select(selectCurrentTournamentId)),
       filter(
         ([action, tournamentId]) =>
           action.currentMatchWithFullData.match.tournament_id === tournamentId,
@@ -81,7 +81,7 @@ export class MatchWithFullDataEffects {
           newMatchWithFullData: action.currentMatchWithFullData,
         }),
       ),
-    ),
+    ) },
   );
 
   getAllMatchesWithFullDataEffect = createEffect(
@@ -204,7 +204,7 @@ export class MatchWithFullDataEffects {
   );
 
   updateMatchesWithFullDataInTournamentEffect = createEffect(() =>
-    this.actions$.pipe(
+    { return this.actions$.pipe(
       ofType(matchWithFullDataActions.createdSuccessfully),
       mergeMap((action) => {
         console.log('createdSuccessfully action', action); // log the action
@@ -222,7 +222,7 @@ export class MatchWithFullDataEffects {
           }),
         ];
       }),
-    ),
+    ) },
   );
 
   // navigateOnMatchWithFullDataDeletion$ = createEffect(

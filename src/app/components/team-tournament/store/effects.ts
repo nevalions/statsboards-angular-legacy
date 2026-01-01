@@ -51,7 +51,7 @@ export class TeamTournamentEffects {
   );
 
   createTeamTournamentEffect = createEffect(() =>
-    this.actions$.pipe(
+    { return this.actions$.pipe(
       ofType(teamTournamentActions.create),
       switchMap(({ request }) =>
         this.teamTournamentService.addTeamTournamentState(request).pipe(
@@ -63,7 +63,7 @@ export class TeamTournamentEffects {
           catchError(() => of(teamTournamentActions.createFailure())),
         ),
       ),
-    ),
+    ) },
   );
 
   getAllTeamTournaments = createEffect(
@@ -160,7 +160,7 @@ export class TeamTournamentEffects {
   );
 
   createTeamTournamentSuccess$ = createEffect(() =>
-    this.actions$.pipe(
+    { return this.actions$.pipe(
       ofType(teamTournamentActions.createdSuccessfully),
       switchMap((action) =>
         of(
@@ -169,16 +169,16 @@ export class TeamTournamentEffects {
           }),
         ),
       ),
-    ),
+    ) },
   );
 
   deleteTeamTournamentSuccess$ = createEffect(() =>
-    this.actions$.pipe(
+    { return this.actions$.pipe(
       ofType(teamTournamentActions.deletedSuccessfully),
       switchMap((action) =>
         of(teamActions.removeTeamFromTournament({ id: action.teamId })),
       ),
-    ),
+    ) },
   );
 
   constructor(

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { concatLatestFrom } from '@ngrx/operators';import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import {
   catchError,
@@ -249,7 +249,7 @@ export class FootballEventEffects {
   recalculateOnCreateEventNumbersEffect = createEffect(() => {
     return this.actions$.pipe(
       ofType(footballEventActions.createdSuccessfully),
-      withLatestFrom(this.store.pipe(select(selectAllMatchFootballEvents))),
+      concatLatestFrom(() => this.store.select((selectAllMatchFootballEvents))),
       switchMap(([action, allMatchFootballEvents]) => {
         return this.recalculateEventNumbersAndHandleUpdate(
           action.footballEvent,
@@ -262,7 +262,7 @@ export class FootballEventEffects {
   recalculateOnUpdateEventNumbersEffect = createEffect(() => {
     return this.actions$.pipe(
       ofType(footballEventActions.updateFootballEventByKeyValueSuccessfully),
-      withLatestFrom(this.store.pipe(select(selectAllMatchFootballEvents))),
+      concatLatestFrom(() => this.store.select((selectAllMatchFootballEvents))),
       switchMap(([action, allMatchFootballEvents]) => {
         return this.recalculateEventNumbersAndHandleUpdate(
           action.updatedFootballEvent,
@@ -275,7 +275,7 @@ export class FootballEventEffects {
   recalculateOnDeleteEventNumbersEffect = createEffect(() => {
     return this.actions$.pipe(
       ofType(footballEventActions.deletedByIdSuccessfully),
-      withLatestFrom(this.store.pipe(select(selectAllMatchFootballEvents))),
+      concatLatestFrom(() => this.store.select((selectAllMatchFootballEvents))),
       switchMap(([action, allMatchFootballEvents]) => {
         return this.handleDeletedEvent(
           action.deletedFootballEvent.event_number,

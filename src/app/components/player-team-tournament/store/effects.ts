@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { concatLatestFrom } from '@ngrx/operators';import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { routerNavigatedAction } from '@ngrx/router-store';
@@ -446,7 +446,7 @@ export class PlayerInTeamTournamentEffects {
     () => {
       return this.actions$.pipe(
         ofType(playerInTeamTournamentActions.delete),
-        withLatestFrom(this.store.select(selectCurrentPlayerInTeamTournament)),
+        concatLatestFrom(() => this.store.select(selectCurrentPlayerInTeamTournament)),
         switchMap(([action, currentPlayerInTeamTournament]) => {
           if (
             !currentPlayerInTeamTournament ||

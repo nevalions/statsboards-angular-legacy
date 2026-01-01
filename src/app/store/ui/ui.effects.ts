@@ -1,4 +1,4 @@
-import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { concatLatestFrom } from '@ngrx/operators';import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Injectable } from '@angular/core';
 import { uiActions } from './ui.actions';
 import { filter, withLatestFrom } from 'rxjs';
@@ -11,17 +11,17 @@ import { AppState } from '../appstate';
 export class UiEffects {
   persist$ = createEffect(
     () =>
-      this.actions$.pipe(
+      { return this.actions$.pipe(
         ofType(uiActions.toggleForm, uiActions.toggleAllForms),
         filter((action: any) => action.meta?.persist),
-        withLatestFrom(this.store.select(selectFormVisibility)),
+        concatLatestFrom(() => this.store.select(selectFormVisibility)),
         tap(([action, formVisibility]) =>
           localStorage.setItem(
             'formVisibility',
             JSON.stringify(formVisibility),
           ),
         ),
-      ),
+      ) },
     { dispatch: false },
   );
 

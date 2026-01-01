@@ -236,7 +236,7 @@
                             @if (playerFormGroup.get("dob" + i)!.value; as dob) {
                               <span>{{ dob | date }}</span>
                             }
-                            @if (deleteOrUpdate == "delete") {
+                            @if (deleteOrUpdate === "delete") {
                               @if (
                                 getFormDataByIndexAndKey(
                                 playerFormGroup,

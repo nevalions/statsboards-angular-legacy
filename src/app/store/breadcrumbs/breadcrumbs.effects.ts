@@ -1,4 +1,4 @@
-import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { concatLatestFrom } from '@ngrx/operators';import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Injectable } from '@angular/core';
 import { breadcrumbActions } from './breadcrumbs.actions';
 import { map, of, switchMap, withLatestFrom } from 'rxjs';
@@ -17,10 +17,10 @@ import { getAllRouteParameters } from '../../router/router.selector';
 export class BreadcrumbEffects {
   updateBreadcrumbs$ = createEffect(
     () =>
-      this.actions$.pipe(
+      { return this.actions$.pipe(
         ofType(routerNavigatedAction),
-        withLatestFrom(
-          this.store.select((state) => state.breadcrumb.breadcrumbs),
+        concatLatestFrom(
+          () => this.store.select((state) => state.breadcrumb.breadcrumbs),
         ),
         map(([action, currentBreadcrumbs]) => {
           let route = action.payload;
@@ -77,7 +77,7 @@ export class BreadcrumbEffects {
           // console.log(breadcrumbs);
           return breadcrumbActions.breadcrumbsUpdated({ breadcrumbs });
         }),
-      ),
+      ) },
     { functional: false },
   );
 

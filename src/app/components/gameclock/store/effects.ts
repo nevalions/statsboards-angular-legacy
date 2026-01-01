@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { concatLatestFrom } from '@ngrx/operators';
 import {
   catchError,
   exhaustMap,
@@ -106,7 +107,7 @@ export class GameclockEffects {
   startGameClock = createEffect(() => {
     return this.actions$.pipe(
       ofType(gameclockActions.startGameClock),
-      withLatestFrom(this.store.select(selectCurrentGameclockId)),
+      concatLatestFrom(() => this.store.select(selectCurrentGameclockId)),
       exhaustMap(([action, gameclockId]) =>
         this.gameclockService.startGameClock(gameclockId!).pipe(
           map((response) =>
@@ -121,7 +122,7 @@ export class GameclockEffects {
   pauseGameClock = createEffect(() => {
     return this.actions$.pipe(
       ofType(gameclockActions.pauseGameClock),
-      withLatestFrom(this.store.select(selectCurrentGameclockId)),
+      concatLatestFrom(() => this.store.select(selectCurrentGameclockId)),
       exhaustMap(([action, gameclockId]) =>
         this.gameclockService.pauseGameClock(gameclockId!).pipe(
           map((response) =>
@@ -136,7 +137,7 @@ export class GameclockEffects {
   resetGameClock = createEffect(() => {
     return this.actions$.pipe(
       ofType(gameclockActions.resetGameClock),
-      withLatestFrom(this.store.select(selectCurrentGameclockId)),
+      concatLatestFrom(() => this.store.select(selectCurrentGameclockId)),
       exhaustMap(([action, gameclockId]) =>
         this.gameclockService.resetGameClock(gameclockId!, action.seconds).pipe(
           map((response) =>

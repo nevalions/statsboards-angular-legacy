@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { concatLatestFrom } from '@ngrx/operators';import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { filter, mergeMap, of, withLatestFrom } from 'rxjs';
 import { catchError, map, switchMap, tap } from 'rxjs/operators';
@@ -12,9 +12,9 @@ import { selectRouterState } from '../../router/router.selector';
 @Injectable()
 export class WebSocketEffects {
   connectWebSocketOnMatchRoutes$ = createEffect(() =>
-    this.actions$.pipe(
+    { return this.actions$.pipe(
       ofType(routerNavigatedAction),
-      withLatestFrom(this.store.pipe(select(selectRouterState))),
+      concatLatestFrom(() => this.store.select((selectRouterState))),
       filter(([_, routerState]) => {
         // Use a regular expression to check for the URL pattern /match/{matchId}/admin or /match/{matchId}/hd
         const matchPattern = /\/match\/(\d+)\/(admin|hd)/;
@@ -42,11 +42,11 @@ export class WebSocketEffects {
           catchError((error) => of(webSocketActions.connectFailure({ error }))),
         );
       }),
-    ),
+    ) },
   );
 
   connect$ = createEffect(() =>
-    this.actions$.pipe(
+    { return this.actions$.pipe(
       ofType(webSocketActions.connect),
       switchMap(() => this.store.select(selectCurrentMatchId)),
       switchMap((matchId) =>
@@ -63,11 +63,11 @@ export class WebSocketEffects {
           catchError((error) => of(webSocketActions.connectFailure({ error }))),
         ),
       ),
-    ),
+    ) },
   );
 
   checkConnection$ = createEffect(() =>
-    this.actions$.pipe(
+    { return this.actions$.pipe(
       ofType(webSocketActions.checkConnection),
       switchMap(() =>
         this.webSocketService.checkConnection().pipe(
@@ -79,11 +79,11 @@ export class WebSocketEffects {
           ),
         ),
       ),
-    ),
+    ) },
   );
 
   reconnectOnCheckConnectionFailure$ = createEffect(() =>
-    this.actions$.pipe(
+    { return this.actions$.pipe(
       ofType(webSocketActions.checkConnectionSuccess),
       tap(({ isConnected }) =>
         console.log(
@@ -98,7 +98,7 @@ export class WebSocketEffects {
                 tap(() => console.log('Reconnecting WebSocket...')),
               ), // Dispatch reconnect action if not connected
       ),
-    ),
+    ) },
   );
 
   // checkConnection$ = createEffect(() =>
@@ -118,7 +118,7 @@ export class WebSocketEffects {
   // );
 
   receiveMessage$ = createEffect(() =>
-    this.actions$.pipe(
+    { return this.actions$.pipe(
       ofType(webSocketActions.connectSuccess),
       switchMap(() =>
         this.webSocketService.messages().pipe(
@@ -144,13 +144,13 @@ export class WebSocketEffects {
           catchError((error) => of(webSocketActions.error({ error }))),
         ),
       ),
-    ),
+    ) },
   );
 
   // Effect to send a message to the WebSocket server when the Send action is dispatched
   sendMessage$ = createEffect(
     () =>
-      this.actions$.pipe(
+      { return this.actions$.pipe(
         ofType(webSocketActions.send),
         tap((action) => {
           this.webSocketService.sendMessage(action.message);
@@ -159,7 +159,7 @@ export class WebSocketEffects {
         catchError((error) => {
           return of(webSocketActions.sendFailure({ error }));
         }),
-      ),
+      ) },
     { functional: true },
   );
 
