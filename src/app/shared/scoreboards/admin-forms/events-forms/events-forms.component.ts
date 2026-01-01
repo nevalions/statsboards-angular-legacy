@@ -1,10 +1,8 @@
-import { TuiInputNumberModule } from "@taiga-ui/legacy";
-import { TuiError } from "@taiga-ui/core";
+import { TuiInputNumberModule } from '@taiga-ui/legacy';
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { Observable } from 'rxjs';
 import { IFootballEventWithPlayers } from '../../../../type/football-event.type';
 import { ToggleVisibleButtonComponent } from '../../../ui/buttons/toggle-visible-button/toggle-visible-button.component';
-import { AsyncPipe, DecimalPipe, TitleCasePipe, UpperCasePipe } from '@angular/common';
 import { IPlayerInMatchFullData } from '../../../../type/player.type';
 import { AddEditFootballEventTableComponent } from '../../../../components/match-event/football-event/add-edit-football-event-table/add-edit-football-event-table.component';
 import { IMatchFullDataWithScoreboard } from '../../../../type/match.type';
@@ -15,7 +13,6 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { TuiFieldErrorPipe, TuiFieldErrorContentPipe } from '@taiga-ui/kit';
 import { IMatchData } from '../../../../type/matchdata.type';
 import { Websocket } from '../../../../store/websocket/websocket';
 import { MatchData } from '../../../../components/match/matchdata';
@@ -31,22 +28,15 @@ import { SimpleFootballOffenceStatsComponent } from '../../../ui/events/football
   standalone: true,
   imports: [
     ToggleVisibleButtonComponent,
-    AsyncPipe,
     AddEditFootballEventTableComponent,
     AdminSubmitButtonComponent,
     ReactiveFormsModule,
-    
-    TuiFieldErrorPipe,
-    
     TuiInputNumberModule,
-    UpperCasePipe,
-    TitleCasePipe,
-    DecimalPipe,
     SimpleInputWithButtonsComponent,
     SimpleFootballMatchTeamStatsComponent,
     SimpleFootballQbStatsComponent,
-    SimpleFootballOffenceStatsComponent
-],
+    SimpleFootballOffenceStatsComponent,
+  ],
   templateUrl: './events-forms.component.html',
   styleUrl: './events-forms.component.less',
 })

@@ -20,12 +20,10 @@ import { DeleteDialogComponent } from '../../../shared/ui/dialogs/delete-dialog/
 import { EditButtonComponent } from '../../../shared/ui/buttons/edit-button/edit-button.component';
 import { BodyListTitleComponent } from '../../../shared/ui/body/body-title/body-list-title.component';
 import { DeleteButtonComponent } from '../../../shared/ui/buttons/delete-button/delete-button.component';
-import { SponsorLineComponent } from '../../../shared/scoreboards/sponsor-line/sponsor-line.component';
+
 import { AgeStats } from '../../../type/person.type';
 import { calculateAgeStats } from '../../../base/helpers';
 import { TuiAppearance } from '@taiga-ui/core';
-import { CreateButtonShowDialogComponent } from '../../../shared/ui/buttons/create-button-show-dialog/create-button-show-dialog.component';
-import { ParseButtonComponent } from '../../../shared/ui/buttons/parse-button/parse-button.component';
 
 @Component({
   selector: 'app-item-team',
@@ -39,8 +37,6 @@ import { ParseButtonComponent } from '../../../shared/ui/buttons/parse-button/pa
     EditButtonComponent,
     DeleteButtonComponent,
     SponsorLineComponent,
-    CreateButtonShowDialogComponent,
-    ParseButtonComponent,
   ],
   templateUrl: './item-team.component.html',
   styleUrl: './item-team.component.less',

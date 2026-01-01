@@ -103,8 +103,8 @@ export class GameclockEffects {
     { functional: false },
   );
 
-  startGameClock = createEffect(() =>
-    this.actions$.pipe(
+  startGameClock = createEffect(() => {
+    return this.actions$.pipe(
       ofType(gameclockActions.startGameClock),
       withLatestFrom(this.store.select(selectCurrentGameclockId)),
       exhaustMap(([action, gameclockId]) =>
@@ -115,11 +115,11 @@ export class GameclockEffects {
           catchError((error) => of(gameclockActions.clockStartFailure())),
         ),
       ),
-    ),
-  );
+    );
+  });
 
-  pauseGameClock = createEffect(() =>
-    this.actions$.pipe(
+  pauseGameClock = createEffect(() => {
+    return this.actions$.pipe(
       ofType(gameclockActions.pauseGameClock),
       withLatestFrom(this.store.select(selectCurrentGameclockId)),
       exhaustMap(([action, gameclockId]) =>
@@ -130,11 +130,11 @@ export class GameclockEffects {
           catchError((error) => of(gameclockActions.clockPauseFailure())),
         ),
       ),
-    ),
-  );
+    );
+  });
 
-  resetGameClock = createEffect(() =>
-    this.actions$.pipe(
+  resetGameClock = createEffect(() => {
+    return this.actions$.pipe(
       ofType(gameclockActions.resetGameClock),
       withLatestFrom(this.store.select(selectCurrentGameclockId)),
       exhaustMap(([action, gameclockId]) =>
@@ -145,8 +145,8 @@ export class GameclockEffects {
           catchError((error) => of(gameclockActions.clockResetFailure())),
         ),
       ),
-    ),
-  );
+    );
+  });
 
   constructor(
     private actions$: Actions,
