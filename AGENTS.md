@@ -388,6 +388,25 @@ Available NgRx-related MCP capabilities through Angular CLI tools:
 - TypeScript strict mode - no `any` types unless absolutely necessary
 - Always use interfaces for data structures
 
+## GitHub workflow (this repo)
+
+- Default repo: <OWNER>/<REPO> (use this unless user specifies otherwise)
+- Branch naming:
+  - feature: feat/<linear-id>-<slug>
+  - bugfix: fix/<linear-id>-<slug>
+  - chore: chore/<linear-id>-<slug>
+- Pull requests:
+  - Always link the Linear issue (e.g. STAF-8 )
+  - Include: summary, scope, testing, screenshots (frontend), migration notes (backend)
+  - Ensure CI is green before requesting review
+- Required checks (do not merge unless passing):
+  - frontend: lint + unit + e2e (if applicable)
+- Labels:
+  - security findings → label `security`
+  - refactor-only → label `refactor`
+- Reviewers:
+  - assign <TEAM/USERNAMES> if applicable
+
 ## Linear defaults
 
 - Default Linear team is **StatsboardFront**.

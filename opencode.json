@@ -1,5 +1,27 @@
 {
   "$schema": "https://opencode.ai/config.json",
+  "mcp": {
+    "angular-cli": {
+      "type": "local",
+      "command": ["npx", "-y", "@angular/cli", "mcp"],
+      "enabled": true
+    },
+    "taiga-ui": {
+      "type": "local",
+      "command": [
+        "npx",
+        "-y",
+        "@taiga-ui/mcp@latest",
+        "--source-url=https://taiga-ui.dev/llms-full.txt"
+      ],
+      "enabled": true
+    },
+    "eslint": {
+      "type": "local",
+      "command": ["npx", "-y", "@eslint/mcp@latest"],
+      "enabled": true
+    }
+  },
   "command": {
     "plan-front-lint": {
       "description": "Create a Linear plan to eliminate ESLint warnings/errors (no code changes)",
@@ -14,6 +36,11 @@
       "description": "Review work for a Linear issue (e.g. /review STAF-8)",
       "template": "Review work done for Linear issue $ARGUMENTS.\n\nCheck:\n- ESLint compliance\n- NgRx patterns\n- Scope discipline (no unrelated refactors)\n\nPost findings to Linear.",
       "agent": "plan"
+    },
+    "scan-security-front": {
+      "description": "Run Semgrep mcp security scan and file results to Linear (Frontend team, plan only)",
+      "agent": "plan",
+      "template": "Run a security scan with semgrep mcp of this repository using Semgrep MCP.\n\nScope:\n- Frontend code (Angular / TypeScript)\n\nRequirements:\n- Use high-signal Semgrep rules for frontend security.\n- Focus on: XSS, DOM-based injection, unsafe HTML, auth token handling, CSP issues, insecure dependencies.\n\nAfter scanning:\n1) Summarize findings by severity and category.\n2) Create a Linear parent issue in team \"StatsboardFront\" titled \"Security scan findings (Semgrep)\".\n3) Create child issues (or a checklist) grouped by severity and category.\n4) For each finding include:\n   - Semgrep rule id and message\n   - File path and line numbers\n   - Why it matters (brief)\n   - Recommended remediation (minimal and safe)\n   - Verification steps\n5) Do NOT change code. Do NOT auto-fix.\n\nFinally, propose an execution order that minimizes risk (exploitable issues first, refactors last)."
     }
   }
 }
