@@ -3,7 +3,7 @@
   [isVisible$]="changeTeamsFormsVisible$"
   [formName]="'changeTeamsForms'"
   [buttonText]="'Teams Forms'"
-  >
+>
 </app-toggle-visible-button>
 @if (changeTeamsFormsVisible$ | async) {
   <div class="change-team-info">
@@ -17,23 +17,23 @@
         (click)="updateTeamGameTitle('a', data?.scoreboard_data!)"
       ></app-admin-submit-button>
       <div>
-        <label class="to-label tui-text_body-m">
+        <span class="to-label tui-text_body-m">
           {{
-          teamDataForm.controls["useTeamAGameTitle"].value
-          ? "Use Season Title"
-          : "Use Game Title"
+            teamDataForm.controls["useTeamAGameTitle"].value
+              ? "Use Season Title"
+              : "Use Game Title"
           }}
-        </label>
+        </span>
         <input
           tuiSwitch
           type="checkbox"
           formControlName="useTeamAGameTitle"
           size="m"
           [showIcons]="true"
-        (tuiValueChanges)="
-          toggleItemsUsage('aTitle', $event, data?.scoreboard_data!)
-        "
-          />
+          (tuiValueChanges)="
+            toggleItemsUsage('aTitle', $event, data?.scoreboard_data!)
+          "
+        />
       </div>
     </form>
     <!-- Form for changing Team B's name -->
@@ -47,23 +47,23 @@
         (click)="updateTeamGameTitle('b', data?.scoreboard_data!)"
       ></app-admin-submit-button>
       <div>
-        <label class="to-label tui-text_body-m">
+        <span class="to-label tui-text_body-m">
           {{
-          teamDataForm.controls["useTeamBGameTitle"].value
-          ? "Use Season Title"
-          : "Use Game Title"
+            teamDataForm.controls["useTeamBGameTitle"].value
+              ? "Use Season Title"
+              : "Use Game Title"
           }}
-        </label>
+        </span>
         <input
           tuiSwitch
           type="checkbox"
           formControlName="useTeamBGameTitle"
           size="m"
           [showIcons]="true"
-        (tuiValueChanges)="
-          toggleItemsUsage('bTitle', $event, data?.scoreboard_data!)
-        "
-          />
+          (tuiValueChanges)="
+            toggleItemsUsage('bTitle', $event, data?.scoreboard_data!)
+          "
+        />
       </div>
     </form>
     <!-- Form for changing Team A's logo -->
@@ -72,13 +72,14 @@
       <label tuiInputFiles>
         @if (!teamALogoForm.value) {
           <input
+            id="team-a-logo-input"
             tuiInputFiles
             accept="image/*"
             [formControl]="teamALogoForm"
             (reject)="onReject('a', $event)"
             [maxFileSize]="30 * 1000 * 1000"
             label="Home Team Game Logo"
-            />
+          />
         }
       </label>
       <tui-files>
@@ -108,121 +109,122 @@
       <!--    <tui-error-->
       <!--      formControlName="teamALogo"-->
       <!--      [error]="[] | tuiFieldError | async"-->
-    <!--    ></tui-error>-->
-    <app-admin-submit-button
-      (click)="updateTeamGameLogo('a', data?.scoreboard_data!)"
-    ></app-admin-submit-button>
-    <div>
-      <label class="to-label tui-text_body-m">
-        {{
-        teamDataForm.controls["useTeamAGameLogo"].value
-        ? "Use Season Logo"
-        : "Use Game Logo"
-        }}
-      </label>
-      <input
-        tuiSwitch
-        type="checkbox"
-        formControlName="useTeamAGameLogo"
-        size="m"
-        [showIcons]="true"
-        (tuiValueChanges)="
-          toggleItemsUsage('aLogo', $event, data?.scoreboard_data!)
-        "
-        />
-    </div>
-    <div class="logo-scale-size">
-      <tui-input-slider
-        formControlName="scaleLogoA"
-        [max]="max"
-        [min]="min"
-        [quantum]="quantum"
-        [steps]="steps"
-        >Select Logo Size
-      </tui-input-slider>
+      <!--    ></tui-error>-->
       <app-admin-submit-button
-        (click)="scaleLogo('a', data?.scoreboard_data!)"
+        (click)="updateTeamGameLogo('a', data?.scoreboard_data!)"
       ></app-admin-submit-button>
-    </div>
-  </form>
-  <!-- Form for changing Team B's logo -->
-  <form class="logo-form-b" [formGroup]="teamDataForm">
-    <!-- DONE: (Taiga UI migration) Native input inside is now required and the wrapper has changed from <tui-input-files to <label tuiInputFiles, control moved to native input. See interactive example https://taiga-ui.dev/components/input-files -->
-    <label tuiInputFiles>
-      @if (!teamBLogoForm.value) {
+      <div>
+        <span class="to-label tui-text_body-m">
+          {{
+            teamDataForm.controls["useTeamAGameLogo"].value
+              ? "Use Season Logo"
+              : "Use Game Logo"
+          }}
+        </span>
         <input
-          tuiInputFiles
-          accept="image/*"
-          [formControl]="teamBLogoForm"
-          (reject)="onReject('b', $event)"
-          [maxFileSize]="30 * 1000 * 1000"
-          label="Away Team Game Logo"
+          tuiSwitch
+          type="checkbox"
+          formControlName="useTeamAGameLogo"
+          size="m"
+          [showIcons]="true"
+          (tuiValueChanges)="
+            toggleItemsUsage('aLogo', $event, data?.scoreboard_data!)
+          "
+        />
+      </div>
+      <div class="logo-scale-size">
+        <tui-input-slider
+          formControlName="scaleLogoA"
+          [max]="max"
+          [min]="min"
+          [quantum]="quantum"
+          [steps]="steps"
+          >Select Logo Size
+        </tui-input-slider>
+        <app-admin-submit-button
+          (click)="scaleLogo('a', data?.scoreboard_data!)"
+        ></app-admin-submit-button>
+      </div>
+    </form>
+    <!-- Form for changing Team B's logo -->
+    <form class="logo-form-b" [formGroup]="teamDataForm">
+      <!-- DONE: (Taiga UI migration) Native input inside is now required and the wrapper has changed from <tui-input-files to <label tuiInputFiles, control moved to native input. See interactive example https://taiga-ui.dev/components/input-files -->
+      <label tuiInputFiles>
+        @if (!teamBLogoForm.value) {
+          <input
+            id="team-b-logo-input"
+            tuiInputFiles
+            accept="image/*"
+            [formControl]="teamBLogoForm"
+            (reject)="onReject('b', $event)"
+            [maxFileSize]="30 * 1000 * 1000"
+            label="Away Team Game Logo"
           />
-      }
-    </label>
-    <tui-files>
-      @if (loadedTeamBLogo$ | async; as file) {
-        <tui-file
-          [file]="file"
-          [showDelete]="teamBLogoForm.enabled"
-          (remove)="removeFile('b')"
-        ></tui-file>
-      }
-      @if (rejectedTeamBFiles$ | async; as file) {
-        <tui-file
-          state="error"
-          [file]="file"
-          [showDelete]="teamBLogoForm.enabled"
-          (remove)="clearRejected('b')"
-        ></tui-file>
-      }
-      @if (loadingTeamBFiles$ | async; as file) {
-        <tui-file
-          state="loading"
-          [file]="file"
-          [showDelete]="teamBLogoForm.enabled"
-        ></tui-file>
-      }
-    </tui-files>
-    <!--    <tui-error-->
-    <!--      formControlName="teamBLogo"-->
-    <!--      [error]="[] | tuiFieldError | async"-->
-  <!--    ></tui-error>-->
-  <app-admin-submit-button
-    (click)="updateTeamGameLogo('b', data?.scoreboard_data!)"
-  ></app-admin-submit-button>
-  <div>
-    <label class="to-label tui-text_body-m">
-      {{
-      teamDataForm.controls["useTeamBGameLogo"].value
-      ? "Use Season Logo"
-      : "Use Game Logo"
-      }}
-    </label>
-    <input
-      tuiSwitch
-      type="checkbox"
-      formControlName="useTeamBGameLogo"
-      size="m"
-      [showIcons]="true"
-        (tuiValueChanges)="
-          toggleItemsUsage('bLogo', $event, data?.scoreboard_data!)
-        "
-      />
+        }
+      </label>
+      <tui-files>
+        @if (loadedTeamBLogo$ | async; as file) {
+          <tui-file
+            [file]="file"
+            [showDelete]="teamBLogoForm.enabled"
+            (remove)="removeFile('b')"
+          ></tui-file>
+        }
+        @if (rejectedTeamBFiles$ | async; as file) {
+          <tui-file
+            state="error"
+            [file]="file"
+            [showDelete]="teamBLogoForm.enabled"
+            (remove)="clearRejected('b')"
+          ></tui-file>
+        }
+        @if (loadingTeamBFiles$ | async; as file) {
+          <tui-file
+            state="loading"
+            [file]="file"
+            [showDelete]="teamBLogoForm.enabled"
+          ></tui-file>
+        }
+      </tui-files>
+      <!--    <tui-error-->
+      <!--      formControlName="teamBLogo"-->
+      <!--      [error]="[] | tuiFieldError | async"-->
+      <!--    ></tui-error>-->
+      <app-admin-submit-button
+        (click)="updateTeamGameLogo('b', data?.scoreboard_data!)"
+      ></app-admin-submit-button>
+      <div>
+        <span class="to-label tui-text_body-m">
+          {{
+            teamDataForm.controls["useTeamBGameLogo"].value
+              ? "Use Season Logo"
+              : "Use Game Logo"
+          }}
+        </span>
+        <input
+          tuiSwitch
+          type="checkbox"
+          formControlName="useTeamBGameLogo"
+          size="m"
+          [showIcons]="true"
+          (tuiValueChanges)="
+            toggleItemsUsage('bLogo', $event, data?.scoreboard_data!)
+          "
+        />
+      </div>
+      <div class="logo-scale-size">
+        <tui-input-slider
+          formControlName="scaleLogoB"
+          [max]="max"
+          [min]="min"
+          [quantum]="quantum"
+          [steps]="steps"
+          >Select Logo Size
+        </tui-input-slider>
+        <app-admin-submit-button
+          (click)="scaleLogo('b', data?.scoreboard_data!)"
+        ></app-admin-submit-button>
+      </div>
+    </form>
   </div>
-  <div class="logo-scale-size">
-    <tui-input-slider
-      formControlName="scaleLogoB"
-      [max]="max"
-      [min]="min"
-      [quantum]="quantum"
-      [steps]="steps"
-      >Select Logo Size
-    </tui-input-slider>
-    <app-admin-submit-button
-      (click)="scaleLogo('b', data?.scoreboard_data!)"
-    ></app-admin-submit-button>
-  </div>
-</form>
-</div>
 }

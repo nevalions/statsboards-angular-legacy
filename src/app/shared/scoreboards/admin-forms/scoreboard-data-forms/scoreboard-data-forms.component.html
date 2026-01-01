@@ -3,12 +3,11 @@
   <app-toggle-visible-button
     [isVisible$]="changeScoreBoardFormsVisible$"
     [formName]="'changeScoreBoardForms'"
-    [buttonText]="'ScoreBoard Forms'">
+    [buttonText]="'ScoreBoard Forms'"
+  >
   </app-toggle-visible-button>
   @if (changeScoreBoardFormsVisible$ | async) {
-    <div
-      class="scoreboard-settings"
-      >
+    <div class="scoreboard-settings">
       <div id="scoreboard-settings-btns" class="scoreboard-settings-btns">
         <app-admin-down-button
           [down]="data.scoreboard_data?.is_qtr ? 'Hide' : 'Show'"
@@ -32,30 +31,33 @@
         ></app-admin-down-button>
       </div>
       <div class="scoreboard-teams-colors">
-        <form
-          class="scoreboard-teams-colors-forms"
-          [formGroup]="teamColorForm"
-          >
+        <form class="scoreboard-teams-colors-forms" [formGroup]="teamColorForm">
           <div class="team-color-settings">
-            <label class="tui-text_body-m">Home Team Game Color:</label>
+            <label class="tui-text_body-m" for="color-team-a"
+              >Home Team Game Color:</label
+            >
             <input
+              id="color-team-a"
               formControlName="colorTeamA"
               class="team-color-picker"
               type="color"
               style="width: 100%"
-              />
+            />
             <app-admin-submit-button
               (click)="updateTeamColor('a', data.scoreboard_data!)"
             ></app-admin-submit-button>
           </div>
           <div class="team-color-settings">
-            <label class="tui-text_body-m">Away Team Game Color:</label>
+            <label class="tui-text_body-m" for="color-team-b"
+              >Away Team Game Color:</label
+            >
             <input
+              id="color-team-b"
               formControlName="colorTeamB"
               class="team-color-picker"
               type="color"
               style="width: 100%"
-              >
+            />
             <app-admin-submit-button
               (click)="updateTeamColor('b', data.scoreboard_data!)"
             ></app-admin-submit-button>
@@ -64,5 +66,4 @@
       </div>
     </div>
   }
-
 }

@@ -3,22 +3,36 @@
   [formGroup]="teamForm"
   [tuiTextfieldLabelOutside]="true"
   style="padding: 10px"
-  >
+>
   @if (teams && teams.length && teamForm && teamsArray && teamsArray.length) {
     <div class="table">
       @if (teams && teams.length) {
         <div formArrayName="teams" class="table-body">
-          @for (teamFormGroup of teamsArray.controls; track teamFormGroup; let i = $index) {
-            <div
-              class="table-row"
-              [formGroupName]="i"
-              >
+          @for (
+            teamFormGroup of teamsArray.controls;
+            track teamFormGroup;
+            let i = $index
+          ) {
+            <div class="table-row" [formGroupName]="i">
               <div
                 class="table-cell first"
-                (click)="navigateToTeamItem(getFormDataByIndexAndKey(teamFormGroup, i, 'teamId'))"
-                >
-                @if (getFormDataByIndexAndKey(teamFormGroup, i, 'teamId')) {
-                  @if (getFormDataByIndexAndKey(teamFormGroup, i, 'teamTitle'); as title) {
+                (click)="
+                  navigateToTeamItem(
+                    getFormDataByIndexAndKey(teamFormGroup, i, 'teamId')
+                  )
+                "
+                (keyup.enter)="
+                  navigateToTeamItem(
+                    getFormDataByIndexAndKey(teamFormGroup, i, 'teamId')
+                  )
+                "
+                tabindex="0"
+              >
+                @if (getFormDataByIndexAndKey(teamFormGroup, i, "teamId")) {
+                  @if (
+                    getFormDataByIndexAndKey(teamFormGroup, i, "teamTitle");
+                    as title
+                  ) {
                     {{ title | titlecase }}
                   }
                 } @else {
@@ -26,25 +40,34 @@
                     <app-select-team
                       [teamsList]="availableTeamInSport"
                       [sportId]="sportId"
-                      [control]="getFormControl(this.teamForm, i, 'teamInSport', 'teams')"
+                      [control]="
+                        getFormControl(this.teamForm, i, 'teamInSport', 'teams')
+                      "
                     ></app-select-team>
                   }
                 }
               </div>
               <div class="table-cell actions">
-                @if (getFormControl(this.teamForm, i, 'teamId', 'teams').value; as id) {
+                @if (
+                  getFormControl(this.teamForm, i, "teamId", "teams").value;
+                  as id
+                ) {
                   <app-delete-button-icon
-                    [dialogId]="'removeDialog' + id "
+                    [dialogId]="'removeDialog' + id"
                   ></app-delete-button-icon>
                   <app-remove-dialog
-                    [item]="(getFormDataByIndexAndKey(teamFormGroup, i, 'teamTitle'))"
+                    [item]="
+                      getFormDataByIndexAndKey(teamFormGroup, i, 'teamTitle')
+                    "
                     [dialogId]="'removeDialog' + id"
                     (delete)="onDelete(id)"
                   ></app-remove-dialog>
                 } @else {
                   <app-actions-buttons
                     [index]="i"
-                    (onSubmit)="onSubmit($event.action, $event.index, $event.id)"
+                    (onSubmit)="
+                      onSubmit($event.action, $event.index, $event.id)
+                    "
                     (onCancel)="onCancelButtonClick()"
                   ></app-actions-buttons>
                 }
@@ -67,7 +90,6 @@
           ></app-add-button-on-final-tr>
         </div>
       }
-
     </div>
   } @else {
     No Teams
@@ -77,5 +99,4 @@
       ></app-add-button-on-final-tr>
     </div>
   }
-
 </form>

@@ -1,45 +1,67 @@
 @if (data) {
-  <div
-    class="fullhd-scoreboard">
+  <div class="fullhd-scoreboard">
     <div [class]="scoreboardDisplayClass">
       <div class="main-logos">
         @if (data.scoreboard_data?.is_main_sponsor) {
           <div class="sponsor-logo-scoreboard">
             <img
-              src="{{urlWithProtocol}}{{tournamentSponsor?.logo_url}}"
+              src="{{ urlWithProtocol }}{{ tournamentSponsor?.logo_url }}"
               width="50"
               (error)="onImgError($event)"
-              [style.transform]="'scale('+ data.scoreboard_data?.scale_main_sponsor +')'"
-              >
+              [style.transform]="
+                'scale(' + data.scoreboard_data?.scale_main_sponsor + ')'
+              "
+              alt="Sponsor logo"
+            />
           </div>
         }
         @if (data.scoreboard_data?.is_tournament_logo) {
           <div class="tournament-logo-scoreboard">
             <img
-              src="{{urlWithProtocol}}{{tournament?.tournament_logo_web_url}}"
+              src="{{ urlWithProtocol }}{{
+                tournament?.tournament_logo_web_url
+              }}"
               width="50"
               (error)="onImgError($event)"
-              [style.transform]="'scale('+ data.scoreboard_data?.scale_tournament_logo +')'"
-              >
+              [style.transform]="
+                'scale(' + data.scoreboard_data?.scale_tournament_logo + ')'
+              "
+              alt="Tournament logo"
+            />
           </div>
         }
       </div>
       <div class="teams-container">
         <div
           class="team_a-detail"
-          [style.background-color]="hexToRgba(data.scoreboard_data?.team_a_game_color!, 0.8)">
+          [style.background-color]="
+            hexToRgba(data.scoreboard_data?.team_a_game_color!, 0.8)
+          "
+        >
           <div class="lower-area-team">
             @if (selectedFootballQbWithFullStats$ | async; as qb) {
               <div class="full-size-lower-offset">
-                @if (data.scoreboard_data?.is_football_qb_full_stats_lower || false) {
+                @if (
+                  data.scoreboard_data?.is_football_qb_full_stats_lower || false
+                ) {
                   @if (qb.match_player.team_id === data.match.team_a_id) {
                     <app-football-qb-lower-stats-display-flat
-                      [@dissolve]="footballQbMatchStatsLowerVisibility ? 'visible' : 'invisible'"
+                      [@dissolve]="
+                        footballQbMatchStatsLowerVisibility
+                          ? 'visible'
+                          : 'invisible'
+                      "
                       [teamColor]="data.scoreboard_data?.team_a_game_color!"
                     ></app-football-qb-lower-stats-display-flat>
-                  } @else if (qb.match_player.team_id === data.match.team_b_id) {
+                  } @else if (
+                    qb.match_player.team_id === data.match.team_b_id
+                  ) {
                     <app-football-qb-lower-stats-display-flat
-                      [@dissolve]="footballQbMatchStatsLowerVisibility ? 'visible' : 'invisible'"
+                      [@dissolve]="
+                        footballQbMatchStatsLowerVisibility
+                          ? 'visible'
+                          : 'invisible'
+                      "
                       [teamColor]="data.scoreboard_data?.team_b_game_color!"
                     ></app-football-qb-lower-stats-display-flat>
                   }
@@ -48,10 +70,14 @@
             }
 
             @if (player$ | async; as player) {
-              @if (player.player_team_tournament?.team_id === data.match.team_a_id) {
+              @if (
+                player.player_team_tournament?.team_id === data.match.team_a_id
+              ) {
                 @if (data.scoreboard_data?.is_match_player_lower || false) {
                   <app-player-match-lower-display-flat
-                    [@dissolve]="playerLowerVisibility ? 'visible' : 'invisible'"
+                    [@dissolve]="
+                      playerLowerVisibility ? 'visible' : 'invisible'
+                    "
                     [teamColor]="data.scoreboard_data?.team_a_game_color!"
                   ></app-player-match-lower-display-flat>
                 }
@@ -61,7 +87,9 @@
             @if (homeTeamWithStats$ | async; as team) {
               @if (data.scoreboard_data?.is_home_match_team_lower || false) {
                 <app-team-match-lower-football-stats-display-flat
-                  [@dissolve]="homeTeamMatchStatsLowerVisibility ? 'visible' : 'invisible'"
+                  [@dissolve]="
+                    homeTeamMatchStatsLowerVisibility ? 'visible' : 'invisible'
+                  "
                   [teamColor]="data.scoreboard_data?.team_a_game_color!"
                   [footballTeamWithStats]="team"
                 ></app-team-match-lower-football-stats-display-flat>
@@ -71,83 +99,107 @@
           <div class="team-block">
             <div class="team_a-name">
               <span
-                [hidden]="data.scoreboard_data?.is_goal_team_a || data.scoreboard_data?.is_timeout_team_a"
+                [hidden]="
+                  data.scoreboard_data?.is_goal_team_a ||
+                  data.scoreboard_data?.is_timeout_team_a
+                "
                 [@visibilityChange]="teamAVisibility"
                 class="team_a-name-span"
                 [style.font-size]="teamAFontSize"
-                >
+              >
                 {{
-                data.scoreboard_data?.use_team_a_game_title ?
-                data.scoreboard_data?.team_a_game_title :
-                data.teams_data?.team_a?.title
+                  data.scoreboard_data?.use_team_a_game_title
+                    ? data.scoreboard_data?.team_a_game_title
+                    : data.teams_data?.team_a?.title
                 }}
               </span>
             </div>
             <div
-              [hidden]="data.scoreboard_data?.is_goal_team_a || data.scoreboard_data?.is_timeout_team_a"
+              [hidden]="
+                data.scoreboard_data?.is_goal_team_a ||
+                data.scoreboard_data?.is_timeout_team_a
+              "
               [@visibilityChange]="teamAVisibility"
               class="team_a-thisgame"
-              >
+            >
               <div class="team-timeout">
                 @for (box of data.match_data?.timeout_team_a; track $index) {
-                  <div class="box" [class]="{'black-box': box === '○', 'white-box': box === '●'}"></div>
+                  <div
+                    class="box"
+                    [class]="{
+                      'black-box': box === '○',
+                      'white-box': box === '●',
+                    }"
+                  ></div>
                 }
               </div>
             </div>
 
             <div
-              [hidden]="!data.scoreboard_data?.is_goal_team_a || data.scoreboard_data?.is_timeout_team_a"
+              [hidden]="
+                !data.scoreboard_data?.is_goal_team_a ||
+                data.scoreboard_data?.is_timeout_team_a
+              "
               [@visibilityChange]="teamAGoalVisibility"
               class="touchdown"
-              >
+            >
               <span class="touchdown-span breathing">
                 {{ goal | uppercase }}
               </span>
             </div>
 
             <div
-              [hidden]="!data.scoreboard_data?.is_timeout_team_a || data.scoreboard_data?.is_goal_team_a"
+              [hidden]="
+                !data.scoreboard_data?.is_timeout_team_a ||
+                data.scoreboard_data?.is_goal_team_a
+              "
               [@visibilityChange]="teamATimeoutVisibility"
               class="touchdown"
-              >
+            >
               <span class="touchdown-span">
                 {{ timeout | uppercase }}
               </span>
             </div>
-
           </div>
           <div class="team_a-logo">
             <img
-              src="{{urlWithProtocol}}{{
-              data.scoreboard_data?.use_team_a_game_logo ?
-              data.scoreboard_data?.team_a_game_logo :
-              data.teams_data?.team_a?.team_logo_web_url}}"
+              src="{{ urlWithProtocol }}{{
+                data.scoreboard_data?.use_team_a_game_logo
+                  ? data.scoreboard_data?.team_a_game_logo
+                  : data.teams_data?.team_a?.team_logo_web_url
+              }}"
               width="50"
               (error)="onImgError($event)"
-              [style.transform]="'scale('+ data.scoreboard_data?.scale_logo_a +')'"
-              >
+              [style.transform]="
+                'scale(' + data.scoreboard_data?.scale_logo_a + ')'
+              "
+              alt="Team A logo"
+            />
           </div>
           <div class="team-scoreblock">
-            <span
-              class="team-scoreblock-text"
-              [@scoreChange]="scoreAState">{{ data.match_data?.score_team_a }}
+            <span class="team-scoreblock-text" [@scoreChange]="scoreAState"
+              >{{ data.match_data?.score_team_a }}
             </span>
           </div>
         </div>
         <div
           class="team_b-detail"
-          [style.background-color]="hexToRgba(data.scoreboard_data?.team_b_game_color!, 0.8)">
+          [style.background-color]="
+            hexToRgba(data.scoreboard_data?.team_b_game_color!, 0.8)
+          "
+        >
           <div class="lower-area-team">
-
             @if (player$ | async; as player) {
-              @if (player.player_team_tournament?.team_id === data.match.team_b_id) {
+              @if (
+                player.player_team_tournament?.team_id === data.match.team_b_id
+              ) {
                 @if (data.scoreboard_data?.is_match_player_lower || false) {
-
                   <app-player-match-lower-display-flat
-                    [@dissolve]="playerLowerVisibility ? 'visible' : 'invisible'"
+                    [@dissolve]="
+                      playerLowerVisibility ? 'visible' : 'invisible'
+                    "
                     [teamColor]="data.scoreboard_data?.team_b_game_color!"
                   ></app-player-match-lower-display-flat>
-
                 }
               }
             }
@@ -161,7 +213,9 @@
             @if (awayTeamWithStats$ | async; as team) {
               @if (data.scoreboard_data?.is_away_match_team_lower || false) {
                 <app-team-match-lower-football-stats-display-flat
-                  [@dissolve]="awayTeamMatchStatsLowerVisibility ? 'visible' : 'invisible'"
+                  [@dissolve]="
+                    awayTeamMatchStatsLowerVisibility ? 'visible' : 'invisible'
+                  "
                   [teamColor]="data.scoreboard_data?.team_b_game_color!"
                   [footballTeamWithStats]="team"
                 ></app-team-match-lower-football-stats-display-flat>
@@ -171,85 +225,100 @@
           <div class="team-block">
             <div class="team_b-name">
               <span
-                [hidden]="data.scoreboard_data?.is_goal_team_b || data.scoreboard_data?.is_timeout_team_b"
+                [hidden]="
+                  data.scoreboard_data?.is_goal_team_b ||
+                  data.scoreboard_data?.is_timeout_team_b
+                "
                 [@visibilityChange]="teamBVisibility"
                 class="team_b-name-span"
                 [style.font-size]="teamBFontSize"
-                >
+              >
                 {{
-                data.scoreboard_data?.use_team_b_game_title ?
-                data.scoreboard_data?.team_b_game_title :
-                data.teams_data?.team_b?.title
+                  data.scoreboard_data?.use_team_b_game_title
+                    ? data.scoreboard_data?.team_b_game_title
+                    : data.teams_data?.team_b?.title
                 }}
               </span>
             </div>
             <div
-              [hidden]="data.scoreboard_data?.is_goal_team_b || data.scoreboard_data?.is_timeout_team_b"
+              [hidden]="
+                data.scoreboard_data?.is_goal_team_b ||
+                data.scoreboard_data?.is_timeout_team_b
+              "
               [@visibilityChange]="teamBVisibility"
               class="team_b-thisgame"
-              >
+            >
               <div class="team-timeout">
                 @for (box of data.match_data?.timeout_team_b; track $index) {
-                  <div class="box" [class]="{'black-box': box === '○', 'white-box': box === '●'}"></div>
+                  <div
+                    class="box"
+                    [class]="{
+                      'black-box': box === '○',
+                      'white-box': box === '●',
+                    }"
+                  ></div>
                 }
               </div>
             </div>
 
             <div
-              [hidden]="!data.scoreboard_data?.is_goal_team_b || data.scoreboard_data?.is_timeout_team_b"
+              [hidden]="
+                !data.scoreboard_data?.is_goal_team_b ||
+                data.scoreboard_data?.is_timeout_team_b
+              "
               [@visibilityChange]="teamBGoalVisibility"
               class="touchdown"
-              >
+            >
               <span class="touchdown-span breathing">
                 {{ goal | uppercase }}
               </span>
             </div>
 
             <div
-              [hidden]="!data.scoreboard_data?.is_timeout_team_b || data.scoreboard_data?.is_goal_team_b"
+              [hidden]="
+                !data.scoreboard_data?.is_timeout_team_b ||
+                data.scoreboard_data?.is_goal_team_b
+              "
               [@visibilityChange]="teamBTimeoutVisibility"
               class="touchdown"
-              >
+            >
               <span class="touchdown-span">
                 {{ timeout | uppercase }}
               </span>
             </div>
-
           </div>
           <div class="team_b-logo">
             <img
-              src="{{urlWithProtocol}}{{
-              data.scoreboard_data?.use_team_b_game_logo ?
-              data.scoreboard_data?.team_b_game_logo :
-              data.teams_data?.team_b?.team_logo_web_url }}"
+              src="{{ urlWithProtocol }}{{
+                data.scoreboard_data?.use_team_b_game_logo
+                  ? data.scoreboard_data?.team_b_game_logo
+                  : data.teams_data?.team_b?.team_logo_web_url
+              }}"
               width="50"
               (error)="onImgError($event)"
-              [style.transform]="'scale('+ data.scoreboard_data?.scale_logo_b +')'"
-              >
+              [style.transform]="
+                'scale(' + data.scoreboard_data?.scale_logo_b + ')'
+              "
+              alt="Team B logo"
+            />
           </div>
           <div class="team-scoreblock">
-            <span
-              class="team-scoreblock-text"
-              [@scoreChange]="scoreBState"
-            >{{ data.match_data?.score_team_b }}</span>
+            <span class="team-scoreblock-text" [@scoreChange]="scoreBState">{{
+              data.match_data?.score_team_b
+            }}</span>
           </div>
         </div>
       </div>
 
       <div class="game-container">
         @if (data.scoreboard_data?.is_qtr) {
-          <div
-            class="quarter">
-            <span
-              [@scoreChange]="qtrState"
-            >{{ data.match_data?.qtr }}</span>
+          <div class="quarter">
+            <span [@scoreChange]="qtrState">{{ data.match_data?.qtr }}</span>
           </div>
         }
 
         @if (data.scoreboard_data?.is_time) {
-          <div
-            class="timeleft"
-            >
+          <div class="timeleft">
             <span>{{ getMinutes(gameClock) }}:{{ getSeconds(gameClock) }}</span>
             <!--          <span class="clock-separator">:</span>-->
             <!--          <span>{{ getSeconds(gameClock) }}</span>-->
@@ -257,13 +326,11 @@
         }
 
         @if (data.scoreboard_data?.is_playclock) {
-          <div
-            class="play-clock"
-            >
+          <div class="play-clock">
             @if (playClock !== null) {
-              <span
-                [style.color]="playClock <= 5 ? '#ee3030' : ''"
-              >{{ playClock }}</span>
+              <span [style.color]="playClock <= 5 ? '#ee3030' : ''">{{
+                playClock
+              }}</span>
             }
           </div>
         }
@@ -273,18 +340,16 @@
             class="downandyard"
             [hidden]="!data.scoreboard_data?.is_downdistance"
             [@visibilityChange]="downAndYardVisibility"
-            >
-            <span
-              class="downandyard-span"
-              [@scoreChange]="downDistanceState"
-              >
-              {{ data.match_data?.down }}{{ data.match_data?.down ? ' & ' : '' }}{{ data.match_data?.distance }}
+          >
+            <span class="downandyard-span" [@scoreChange]="downDistanceState">
+              {{ data.match_data?.down }}{{ data.match_data?.down ? " & " : ""
+              }}{{ data.match_data?.distance }}
             </span>
             <div
               class="flag"
               [hidden]="!data.scoreboard_data?.is_flag"
               [@visibilityChange]="flagVisibility"
-              >
+            >
               <!--            <span class="flag-span">FLAG</span>-->
               <span class="flag-span">ФЛАГ</span>
             </div>

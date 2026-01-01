@@ -8,10 +8,7 @@
     [max]="max"
   >
     {{ label | uppercase }}
-    <input
-      name="{{ label }}"
-      tuiTextfieldLegacy
-    />
+    <input name="{{ label }}" tuiTextfieldLegacy />
   </tui-input-number>
   <button
     appearance="icon"
@@ -21,6 +18,7 @@
     [size]="'s'"
     (click)="incrementEventNumber(1)"
     [disabled]="control.disabled || isMaxValue()"
+    aria-label="Increment"
   ></button>
   <button
     appearance="icon"
@@ -30,7 +28,6 @@
     [size]="'s'"
     (click)="incrementEventNumber(-1)"
     [disabled]="control.disabled || isMinValue()"
+    aria-label="Decrement"
   ></button>
 </div>
-
-

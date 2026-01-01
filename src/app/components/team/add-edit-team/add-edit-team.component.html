@@ -2,7 +2,7 @@
   let-observer
   [tuiDialogOptions]="{ label: action.toUpperCase() + ' ' + 'TEAM', size: 'm' }"
   [(tuiDialog)]="open"
-  >
+>
   <form [formGroup]="teamForm" (ngSubmit)="onSubmit(); observer.complete()">
     <p></p>
     <div class="tui-form__row">
@@ -45,7 +45,7 @@
           (reject)="onReject($event)"
           [maxFileSize]="30 * 1000 * 1000"
           label="Person Photo"
-          />
+        />
       </label>
 
       <tui-files>
@@ -75,12 +75,12 @@
         }
       </tui-files>
 
-      @if (teamForm.controls['teamLogoUrl'].value) {
+      @if (teamForm.controls["teamLogoUrl"].value) {
         <img
           [src]="backendUrl + teamForm.controls['teamLogoUrl'].value"
           alt="Uploaded Team Logo"
           width="100px"
-          />
+        />
       }
 
       <tui-error
@@ -90,13 +90,14 @@
     </div>
 
     <div class="tui-form__row">
-      <label class="tui-text_body-m">Team Color:</label>
+      <label class="tui-text_body-m" for="team-color-picker">Team Color:</label>
       <input
+        id="team-color-picker"
         formControlName="teamColor"
         class="team-color-picker"
         type="color"
         style="width: 100%"
-        />
+      />
     </div>
 
     <div class="tui-form__row">

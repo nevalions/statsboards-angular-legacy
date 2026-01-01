@@ -2,28 +2,27 @@
   <tui-select
     *tuiLet="itemsList as items"
     [formControl]="formField"
-    style="padding-top: 10px;"
+    style="padding-top: 10px"
   >
     SELECT {{ title | uppercase }}
     <tui-data-list-wrapper
       *tuiDataList
       size="l"
       [itemContent]="content"
-      [items]="items | withNullOption:nullable"
+      [items]="items | withNullOption: nullable"
     ></tui-data-list-wrapper>
   </tui-select>
 
-  <ng-template
-    #content
-    let-data
-  >
+  <ng-template #content let-data>
     <div class="template">
-      <tui-avatar [src]="backendUrl + data[avatarProperty]" [round]="false"
-        *ngIf="avatarProperty"
-        size="s"
-        class="avatar"
-       
-      ></tui-avatar>
+      @if (avatarProperty) {
+        <tui-avatar
+          [src]="backendUrl + data[avatarProperty]"
+          [round]="false"
+          size="s"
+          class="avatar"
+        ></tui-avatar>
+      }
       <div class="name">{{ stringifyFn ? stringifyFn(data) : data.title }}</div>
     </div>
   </ng-template>
