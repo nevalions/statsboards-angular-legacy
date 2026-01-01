@@ -9,6 +9,7 @@ export interface FootballEventState {
   currentFootballEventId: number | undefined | null;
   currentFootballEvent: IFootballEvent | undefined | null;
   allMatchFootballEvents: IFootballEvent[] | [];
+  errors: any | null;
 }
 
 const initialState: FootballEventState = {
@@ -17,6 +18,7 @@ const initialState: FootballEventState = {
   currentFootballEventId: null,
   currentFootballEvent: null,
   allMatchFootballEvents: [],
+  errors: null,
 };
 
 const footballEventFeature = createFeature({

@@ -15,6 +15,7 @@ export interface MatchState {
   allMatchesWithFullDataInTournament: IMatchWithFullData[];
   allMatchesInTournamentPaginated: IMatch[];
   parsedMatchesFromTournamentEESL: any[] | IPlayerInTeamTournament[];
+  errors: any | null;
 }
 
 const initialState: MatchState = {
@@ -28,6 +29,7 @@ const initialState: MatchState = {
   allMatchesWithFullDataInTournament: [],
   currentMatch: null,
   parsedMatchesFromTournamentEESL: [],
+  errors: null,
 };
 
 const matchFeature = createFeature({

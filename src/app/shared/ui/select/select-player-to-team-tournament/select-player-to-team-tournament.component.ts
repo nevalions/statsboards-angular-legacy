@@ -9,7 +9,7 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { tuiItemsHandlersProvider } from '@taiga-ui/kit';
 import { TuiDataList, TuiDropdown } from '@taiga-ui/core';
 import { stringifyPerson } from '../../../../base/helpers';
-import { TitleCasePipe } from '@angular/common';
+import { TitleCasePipe , AsyncPipe} from '@angular/common';
 
 @Component({
   selector: 'app-select-player-to-team-tournament',

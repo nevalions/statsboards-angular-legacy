@@ -23,6 +23,7 @@ export interface PlayerInMatchState {
   allPlayersInMatch: IPlayerInMatch[];
   allPlayersInMatchFullData: IPlayerInMatchFullData[];
   parsedPlayersFromMatchEESL: any[] | IPlayerInMatchFullData[];
+  errors: any | null;
 }
 
 const initialState: PlayerInMatchState = {
@@ -38,6 +39,7 @@ const initialState: PlayerInMatchState = {
   currentPlayerInMatch: null,
   currentPlayerInMatchFullData: null,
   parsedPlayersFromMatchEESL: [],
+  errors: null,
 };
 
 const playerInMatchFeature = createFeature({

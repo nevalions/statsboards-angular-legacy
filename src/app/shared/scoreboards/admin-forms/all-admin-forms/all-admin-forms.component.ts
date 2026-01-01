@@ -15,6 +15,8 @@ import { ScoreFormsComponent } from '../score-forms/score-forms.component';
 import { ScoreboardDataFormsComponent } from '../scoreboard-data-forms/scoreboard-data-forms.component';
 import { TimeFormsComponent } from '../time-forms/time-forms.component';
 import { EventsFormsComponent } from '../events-forms/events-forms.component';
+import { TimeoutFormsComponent } from '../timeout-forms/timeout-forms.component';
+import { DownDistanceFormsComponent } from '../down-distance-forms/down-distance-forms.component';
 import { PlayerInMatch } from '../../../../components/player-match/player-match';
 import { IPlayerInMatchFullData } from '../../../../type/player.type';
 import {
@@ -36,6 +38,8 @@ import { FootballEvent } from '../../../../components/match-event/football-event
     RosterFormsComponent,
     MainSponsorFormsComponent,
     EventsFormsComponent,
+    TimeoutFormsComponent,
+    DownDistanceFormsComponent,
     TuiButton,
   ],
   encapsulation: ViewEncapsulation.None,

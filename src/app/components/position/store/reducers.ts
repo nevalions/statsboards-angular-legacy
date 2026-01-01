@@ -10,6 +10,7 @@ export interface PositionState {
   currentPosition: IPosition | undefined | null;
   allPositions: IPosition[];
   allSportPositions: IPosition[];
+  errors: any | null;
 }
 
 const initialState: PositionState = {
@@ -19,6 +20,7 @@ const initialState: PositionState = {
   allPositions: [],
   allSportPositions: [],
   currentPosition: null,
+  errors: null,
 };
 
 const positionFeature = createFeature({

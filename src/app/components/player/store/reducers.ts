@@ -10,6 +10,7 @@ export interface PlayerState {
   currentPlayer: IPlayer | undefined | null;
   allPlayers: IPlayer[];
   allSportPlayers: IPlayer[];
+  errors: any | null;
 }
 
 const initialState: PlayerState = {
@@ -19,6 +20,7 @@ const initialState: PlayerState = {
   allPlayers: [],
   allSportPlayers: [],
   currentPlayer: null,
+  errors: null,
 };
 
 const playerFeature = createFeature({

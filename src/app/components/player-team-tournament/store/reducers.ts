@@ -18,6 +18,7 @@ export interface PlayerInTeamTournamentState {
   allAwayPlayersInTeamTournamentWithPerson: IPlayerInTeamTournamentFullData[];
   allPlayersInTournament: IPlayerInTeamTournament[];
   parsedPlayersFromTeamEESL: any[] | IPlayerInTeamTournament[];
+  errors: any | null;
 }
 
 const initialState: PlayerInTeamTournamentState = {
@@ -31,6 +32,7 @@ const initialState: PlayerInTeamTournamentState = {
   allPlayersInTournament: [],
   currentPlayerInTeamTournament: null,
   parsedPlayersFromTeamEESL: [],
+  errors: null,
 };
 
 const playerInTeamTournamentFeature = createFeature({

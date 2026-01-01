@@ -4,6 +4,7 @@ import { ListOfItemsIslandComponent } from '../../../shared/ui/list/list-of-item
 import { Observable, of } from 'rxjs';
 import { ITeam } from '../../../type/team.type';
 import { stringifyTitle } from '../../../base/helpers';
+import { TuiSizeL, TuiSizeS } from '@taiga-ui/core';
 
 @Component({
   selector: 'app-list-of-teams-with-city',
@@ -19,4 +20,5 @@ export class ListOfTeamsWithCityComponent {
   @Input() formatPath: (item: ITeam) => string = () => '';
   @Input() titleProperty: keyof ITeam = 'title';
   @Input() hoverable: boolean = false;
+  @Input() _size: TuiSizeL | TuiSizeS = 'l';
 }

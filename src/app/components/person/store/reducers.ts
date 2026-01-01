@@ -9,6 +9,7 @@ export interface PersonState {
   currentPersonId: number | undefined | null;
   currentPerson: IPerson | undefined | null;
   allPersons: IPerson[];
+  errors: any | null;
 }
 
 const initialState: PersonState = {
@@ -17,6 +18,7 @@ const initialState: PersonState = {
   currentPersonId: null,
   allPersons: [],
   currentPerson: null,
+  errors: null,
 };
 
 const personFeature = createFeature({

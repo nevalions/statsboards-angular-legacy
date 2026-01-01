@@ -10,6 +10,7 @@ import { ImageService } from '../../../services/image.service';
 import { urlWithProtocol } from '../../../base/constants';
 import { Sponsor } from '../../adv/sponsor/sponsor';
 import { SponsorLine } from '../../adv/sponsor-line/sponsorLine';
+import { SponsorLineComponent } from '../../../shared/scoreboards/sponsor-line/sponsor-line.component';
 import { Person } from '../../person/person';
 import { Tournament } from '../../tournament/tournament';
 import { Player } from '../../player/player';
@@ -20,6 +21,7 @@ import { DeleteDialogComponent } from '../../../shared/ui/dialogs/delete-dialog/
 import { EditButtonComponent } from '../../../shared/ui/buttons/edit-button/edit-button.component';
 import { BodyListTitleComponent } from '../../../shared/ui/body/body-title/body-list-title.component';
 import { DeleteButtonComponent } from '../../../shared/ui/buttons/delete-button/delete-button.component';
+import { AddEditTeamComponent } from '../add-edit-team/add-edit-team.component';
 
 import { AgeStats } from '../../../type/person.type';
 import { calculateAgeStats } from '../../../base/helpers';
@@ -37,6 +39,7 @@ import { TuiAppearance } from '@taiga-ui/core';
     EditButtonComponent,
     DeleteButtonComponent,
     SponsorLineComponent,
+    AddEditTeamComponent,
   ],
   templateUrl: './item-team.component.html',
   styleUrl: './item-team.component.less',

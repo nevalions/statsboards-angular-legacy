@@ -4,6 +4,7 @@ import {
   TuiInputSliderModule,
 } from '@taiga-ui/legacy';
 import { TuiValueChanges } from '@taiga-ui/cdk';
+import { TuiError } from '@taiga-ui/core';
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { catchError, finalize, map, Observable, of, Subject } from 'rxjs';
 import { IMatchFullDataWithScoreboard } from '../../../../type/match.type';
@@ -44,6 +45,7 @@ import { Websocket } from '../../../../store/websocket/websocket';
     TuiInputNumberModule,
     TuiInputSliderModule,
     TuiHint,
+    TuiError,
   ],
   templateUrl: './change-teams-forms.component.html',
   styleUrl: './change-teams-forms.component.less',

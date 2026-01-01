@@ -10,6 +10,7 @@ import {
 } from '@angular/core';
 import { ITeam } from '../../../../type/team.type';
 import { AsyncPipe, UpperCasePipe } from '@angular/common';
+import { TuiLoader } from '@taiga-ui/core';
 import { ListOfTeamsComponent } from '../../../team/list-of-teams/list-of-teams.component';
 import { Sport } from '../../sport';
 import { Team } from '../../../team/team';
@@ -33,12 +34,14 @@ import { BasePaginationComponent } from '../../../../shared/ui/pagination/base-p
     BaseSearchFormComponent,
     ListOfTeamsComponent,
     UpperCasePipe,
+    AsyncPipe,
     ReactiveFormsModule,
     TuiInputNumberModule,
     TuiSelectModule,
     TuiTextfieldControllerModule,
     TuiDataListWrapper,
     BasePaginationComponent,
+    TuiLoader,
   ],
   templateUrl: './with-teams.component.html',
   styleUrl: './with-teams.component.less',

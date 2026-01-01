@@ -1,4 +1,5 @@
 import { TuiInputNumberModule } from '@taiga-ui/legacy';
+import { AsyncPipe } from '@angular/common';
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { Observable } from 'rxjs';
 import { IFootballEventWithPlayers } from '../../../../type/football-event.type';
@@ -28,6 +29,7 @@ import { SimpleFootballOffenceStatsComponent } from '../../../ui/events/football
   standalone: true,
   imports: [
     ToggleVisibleButtonComponent,
+    AsyncPipe,
     AddEditFootballEventTableComponent,
     AdminSubmitButtonComponent,
     ReactiveFormsModule,
