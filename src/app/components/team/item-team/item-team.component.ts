@@ -3,7 +3,12 @@ import {
   Component,
   ViewEncapsulation,
 } from '@angular/core';
-import { AsyncPipe, UpperCasePipe } from '@angular/common';
+import {
+  AsyncPipe,
+  UpperCasePipe,
+  DecimalPipe,
+  TitleCasePipe,
+} from '@angular/common';
 import { TuiLoader } from '@taiga-ui/core';
 import { Team } from '../team';
 import { ImageService } from '../../../services/image.service';
@@ -22,6 +27,8 @@ import { EditButtonComponent } from '../../../shared/ui/buttons/edit-button/edit
 import { BodyListTitleComponent } from '../../../shared/ui/body/body-title/body-list-title.component';
 import { DeleteButtonComponent } from '../../../shared/ui/buttons/delete-button/delete-button.component';
 import { AddEditTeamComponent } from '../add-edit-team/add-edit-team.component';
+import { ParseButtonComponent } from '../../../shared/ui/buttons/parse-button/parse-button.component';
+import { AddEditPlayerToTeamTournamentTableComponent } from '../../player-team-tournament/add-edit-player-to-team-tournament-table/add-edit-player-to-team-tournament-table.component';
 
 import { AgeStats } from '../../../type/person.type';
 import { calculateAgeStats } from '../../../base/helpers';
@@ -34,12 +41,16 @@ import { TuiAppearance } from '@taiga-ui/core';
     AsyncPipe,
     TuiLoader,
     UpperCasePipe,
+    DecimalPipe,
+    TitleCasePipe,
     DeleteDialogComponent,
     BodyListTitleComponent,
     EditButtonComponent,
     DeleteButtonComponent,
     SponsorLineComponent,
     AddEditTeamComponent,
+    ParseButtonComponent,
+    AddEditPlayerToTeamTournamentTableComponent,
   ],
   templateUrl: './item-team.component.html',
   styleUrl: './item-team.component.less',

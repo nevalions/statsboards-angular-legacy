@@ -1,5 +1,5 @@
-import { TuiSelectModule } from "@taiga-ui/legacy";
-import { TuiAutoFocus } from "@taiga-ui/cdk";
+import { TuiSelectModule } from '@taiga-ui/legacy';
+import { TuiAutoFocus } from '@taiga-ui/cdk';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import {
   IPlayerInSport,
@@ -9,7 +9,7 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { tuiItemsHandlersProvider } from '@taiga-ui/kit';
 import { TuiDataList, TuiDropdown } from '@taiga-ui/core';
 import { stringifyPerson } from '../../../../base/helpers';
-import { TitleCasePipe , AsyncPipe} from '@angular/common';
+import { TitleCasePipe, AsyncPipe } from '@angular/common';
 
 @Component({
   selector: 'app-select-player-to-team-tournament',
@@ -19,6 +19,7 @@ import { TitleCasePipe , AsyncPipe} from '@angular/common';
     TuiDataList,
     ReactiveFormsModule,
     TitleCasePipe,
+    AsyncPipe,
     TuiDropdown,
     TuiAutoFocus,
   ],
