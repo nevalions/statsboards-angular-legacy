@@ -1,5 +1,9 @@
-import { TuiTable } from "@taiga-ui/addon-table";
-import { TuiTextfieldControllerModule, TuiInputModule, TuiInputDateTimeModule } from "@taiga-ui/legacy";
+import { TuiTable } from '@taiga-ui/addon-table';
+import {
+  TuiTextfieldControllerModule,
+  TuiInputModule,
+  TuiInputDateTimeModule,
+} from '@taiga-ui/legacy';
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { IPosition } from '../../../type/position.type';
 import {
@@ -9,33 +13,27 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { TuiError, TuiButton } from '@taiga-ui/core';
-import { TuiFieldErrorPipe, TuiFieldErrorContentPipe } from '@taiga-ui/kit';
+import { TuiError } from '@taiga-ui/core';
+import { TuiFieldErrorPipe } from '@taiga-ui/kit';
 import { Position } from '../postion';
 import { AsyncPipe, UpperCasePipe } from '@angular/common';
 import { DeleteDialogComponent } from '../../../shared/ui/dialogs/delete-dialog/delete-dialog.component';
 import { DialogService } from '../../../services/dialog.service';
-import { DeleteButtonComponent } from '../../../shared/ui/buttons/delete-button/delete-button.component';
-import { TuiAutoFocus, TuiClickOutside } from '@taiga-ui/cdk';
 
 @Component({
   selector: 'app-add-edit-position-table',
   standalone: true,
   imports: [
     ReactiveFormsModule,
-    TuiButton,
     TuiInputDateTimeModule,
     TuiInputModule,
     TuiTable,
     TuiTextfieldControllerModule,
     UpperCasePipe,
     DeleteDialogComponent,
-    DeleteButtonComponent,
-    TuiAutoFocus,
     AsyncPipe,
     TuiError,
-    TuiFieldErrorPipe, TuiFieldErrorContentPipe,
-    TuiClickOutside,
+    TuiFieldErrorPipe,
   ],
   templateUrl: './add-edit-position-table.component.html',
   styleUrl: './add-edit-position-table.component.less',

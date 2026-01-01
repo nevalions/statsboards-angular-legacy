@@ -1,5 +1,5 @@
-import { TuiArrowComponent } from "@taiga-ui/legacy";
-import { TuiButton } from "@taiga-ui/core";
+import { TuiArrowComponent } from '@taiga-ui/legacy';
+import { TuiButton } from '@taiga-ui/core';
 import { AsyncPipe } from '@angular/common';
 import { Component, Input, ViewEncapsulation } from '@angular/core';
 import { map, Observable } from 'rxjs';
@@ -8,16 +8,13 @@ import { Ui } from '../../../../store/ui/ui';
 import { IGameclock } from '../../../../type/gameclock.type';
 import { IMatchFullDataWithScoreboard } from '../../../../type/match.type';
 import { IPlayclock } from '../../../../type/playclock.type';
-import { ToggleVisibleButtonComponent } from '../../../ui/buttons/toggle-visible-button/toggle-visible-button.component';
 import { ChangeTeamsFormsComponent } from '../change-teams-forms/change-teams-forms.component';
-import { DownDistanceFormsComponent } from '../down-distance-forms/down-distance-forms.component';
 import { MainSponsorFormsComponent } from '../main-sponsor-forms/main-sponsor-forms.component';
 import { QtrFormsComponent } from '../qtr-forms/qtr-forms.component';
 import { RosterFormsComponent } from '../roster-forms/roster-forms.component';
 import { ScoreFormsComponent } from '../score-forms/score-forms.component';
 import { ScoreboardDataFormsComponent } from '../scoreboard-data-forms/scoreboard-data-forms.component';
 import { TimeFormsComponent } from '../time-forms/time-forms.component';
-import { TimeoutFormsComponent } from '../timeout-forms/timeout-forms.component';
 import { EventsFormsComponent } from '../events-forms/events-forms.component';
 import { PlayerInMatch } from '../../../../components/player-match/player-match';
 import { IPlayerInMatchFullData } from '../../../../type/player.type';
@@ -35,17 +32,13 @@ import { FootballEvent } from '../../../../components/match-event/football-event
     ScoreFormsComponent,
     ToggleVisibleButtonComponent,
     QtrFormsComponent,
-    DownDistanceFormsComponent,
-    TimeoutFormsComponent,
     TimeFormsComponent,
     ChangeTeamsFormsComponent,
     ScoreboardDataFormsComponent,
     RosterFormsComponent,
-    TuiButton,
-    TuiArrowComponent,
     MainSponsorFormsComponent,
-    EventsFormsComponent
-],
+    EventsFormsComponent,
+  ],
   encapsulation: ViewEncapsulation.None,
   templateUrl: './all-admin-forms.component.html',
   styleUrl: './all-admin-forms.component.less',

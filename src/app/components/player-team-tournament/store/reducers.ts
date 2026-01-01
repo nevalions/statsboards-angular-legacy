@@ -38,7 +38,7 @@ const playerInTeamTournamentFeature = createFeature({
   reducer: createReducer(
     initialState,
 
-    on(playerInTeamTournamentActions.getId, (state) => ({
+    on(playerInTeamTournamentActions.getId, (state): PlayerInTeamTournamentState => ({
       ...state,
       playerInTeamTournamentIsLoading: true,
     })),
@@ -59,7 +59,7 @@ const playerInTeamTournamentFeature = createFeature({
     ),
 
     // create actions
-    on(playerInTeamTournamentActions.create, (state) => ({
+    on(playerInTeamTournamentActions.create, (state): PlayerInTeamTournamentState => ({
       ...state,
       playerInTeamTournamentIsSubmitting: true,
     })),
@@ -89,18 +89,18 @@ const playerInTeamTournamentFeature = createFeature({
         allPlayersInTournament: sortedPlayerList,
       };
     }),
-    on(playerInTeamTournamentActions.createFailure, (state, action) => ({
+    on(playerInTeamTournamentActions.createFailure, (state, action): PlayerInTeamTournamentState => ({
       ...state,
       playerInTeamTournamentIsSubmitting: false,
       errors: action,
     })),
 
     // delete actions
-    on(playerInTeamTournamentActions.delete, (state) => ({
+    on(playerInTeamTournamentActions.delete, (state): PlayerInTeamTournamentState => ({
       ...state,
       playerInTeamTournamentIsSubmitting: true,
     })),
-    on(playerInTeamTournamentActions.deletedSuccessfully, (state, action) => ({
+    on(playerInTeamTournamentActions.deletedSuccessfully, (state, action): PlayerInTeamTournamentState => ({
       ...state,
       playerInTeamTournamentIsSubmitting: false,
       allPlayersInTeamTournament: (
@@ -111,13 +111,13 @@ const playerInTeamTournamentFeature = createFeature({
       ),
       errors: null,
     })),
-    on(playerInTeamTournamentActions.deleteFailure, (state, action) => ({
+    on(playerInTeamTournamentActions.deleteFailure, (state, action): PlayerInTeamTournamentState => ({
       ...state,
       playerInTeamTournamentIsSubmitting: false,
       errors: action,
     })),
 
-    on(playerInTeamTournamentActions.deleteById, (state) => ({
+    on(playerInTeamTournamentActions.deleteById, (state): PlayerInTeamTournamentState => ({
       ...state,
       playerInTeamTournamentIsSubmitting: true,
     })),
@@ -135,14 +135,14 @@ const playerInTeamTournamentFeature = createFeature({
         errors: null,
       }),
     ),
-    on(playerInTeamTournamentActions.deleteByIdFailure, (state, action) => ({
+    on(playerInTeamTournamentActions.deleteByIdFailure, (state, action): PlayerInTeamTournamentState => ({
       ...state,
       playerInTeamTournamentIsSubmitting: false,
       errors: action,
     })),
 
     // update actions
-    on(playerInTeamTournamentActions.update, (state) => ({
+    on(playerInTeamTournamentActions.update, (state): PlayerInTeamTournamentState => ({
       ...state,
       playerInTeamTournamentIsSubmitting: true,
     })),
@@ -197,14 +197,14 @@ const playerInTeamTournamentFeature = createFeature({
         errors: null,
       };
     }),
-    on(playerInTeamTournamentActions.updateFailure, (state, action) => ({
+    on(playerInTeamTournamentActions.updateFailure, (state, action): PlayerInTeamTournamentState => ({
       ...state,
       playerInTeamTournamentIsSubmitting: false,
       errors: action,
     })),
 
     // update actions Add Player to team in tournament
-    on(playerInTeamTournamentActions.addPlayerToTeam, (state) => ({
+    on(playerInTeamTournamentActions.addPlayerToTeam, (state): PlayerInTeamTournamentState => ({
       ...state,
       playerInTeamTournamentIsSubmitting: true,
     })),
@@ -270,7 +270,7 @@ const playerInTeamTournamentFeature = createFeature({
     ),
 
     // update actions Remove Player from team in tournament
-    on(playerInTeamTournamentActions.removePlayerFromTeam, (state) => ({
+    on(playerInTeamTournamentActions.removePlayerFromTeam, (state): PlayerInTeamTournamentState => ({
       ...state,
       playerInTeamTournamentIsSubmitting: true,
     })),
@@ -319,22 +319,22 @@ const playerInTeamTournamentFeature = createFeature({
     ),
 
     // get actions
-    on(playerInTeamTournamentActions.get, (state) => ({
+    on(playerInTeamTournamentActions.get, (state): PlayerInTeamTournamentState => ({
       ...state,
       playerInTeamTournamentIsLoading: true,
     })),
-    on(playerInTeamTournamentActions.getItemSuccess, (state, action) => ({
+    on(playerInTeamTournamentActions.getItemSuccess, (state, action): PlayerInTeamTournamentState => ({
       ...state,
       playerInTeamTournamentIsLoading: false,
       currentPlayerInTeamTournament: action.playerInTeamTournament,
     })),
-    on(playerInTeamTournamentActions.getItemFailure, (state, action) => ({
+    on(playerInTeamTournamentActions.getItemFailure, (state, action): PlayerInTeamTournamentState => ({
       ...state,
       playerInTeamTournamentIsLoading: false,
       errors: action,
     })),
 
-    on(playerInTeamTournamentActions.getAll, (state) => ({
+    on(playerInTeamTournamentActions.getAll, (state): PlayerInTeamTournamentState => ({
       ...state,
       playerInTeamTournamentIsLoading: true,
     })),
@@ -349,7 +349,7 @@ const playerInTeamTournamentFeature = createFeature({
         allPlayersInTeamTournament: sortedTournaments,
       };
     }),
-    on(playerInTeamTournamentActions.getAllItemsFailure, (state, action) => ({
+    on(playerInTeamTournamentActions.getAllItemsFailure, (state, action): PlayerInTeamTournamentState => ({
       ...state,
       playerInTeamTournamentIsLoading: false,
       errors: action,
@@ -487,7 +487,7 @@ const playerInTeamTournamentFeature = createFeature({
     ),
 
     //parsing
-    on(playerInTeamTournamentActions.parsPlayersFromTeamEESL, (state) => ({
+    on(playerInTeamTournamentActions.parsPlayersFromTeamEESL, (state): PlayerInTeamTournamentState => ({
       ...state,
       playerInTeamTournamentIsLoading: true,
     })),
@@ -515,7 +515,7 @@ const playerInTeamTournamentFeature = createFeature({
       },
     ),
 
-    on(playerInTeamTournamentActions.getItemFailure, (state, action) => ({
+    on(playerInTeamTournamentActions.getItemFailure, (state, action): PlayerInTeamTournamentState => ({
       ...state,
       playerInTeamTournamentIsLoading: false,
       errors: action,

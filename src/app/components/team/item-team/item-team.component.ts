@@ -3,14 +3,8 @@ import {
   Component,
   ViewEncapsulation,
 } from '@angular/core';
-import {
-  AsyncPipe,
-  DecimalPipe,
-  NgOptimizedImage,
-  TitleCasePipe,
-  UpperCasePipe,
-} from '@angular/common';
-import { TuiAppearance, TuiLoader, TuiButton } from '@taiga-ui/core';
+import { AsyncPipe, UpperCasePipe } from '@angular/common';
+import { TuiLoader } from '@taiga-ui/core';
 import { Team } from '../team';
 import { ImageService } from '../../../services/image.service';
 import { urlWithProtocol } from '../../../base/constants';
@@ -25,16 +19,13 @@ import { Sport } from '../../sport/sport';
 import { DeleteDialogComponent } from '../../../shared/ui/dialogs/delete-dialog/delete-dialog.component';
 import { EditButtonComponent } from '../../../shared/ui/buttons/edit-button/edit-button.component';
 import { BodyListTitleComponent } from '../../../shared/ui/body/body-title/body-list-title.component';
-import { AddEditTeamComponent } from '../add-edit-team/add-edit-team.component';
-import { TournamentAddEditFormComponent } from '../../tournament/tournament-add-edit-form/tournament-add-edit-form.component';
 import { DeleteButtonComponent } from '../../../shared/ui/buttons/delete-button/delete-button.component';
-import { AddEditPlayerToTeamTournamentTableComponent } from '../../player-team-tournament/add-edit-player-to-team-tournament-table/add-edit-player-to-team-tournament-table.component';
-import { AddEditPlayerToTeamTournamentComponent } from '../../player-team-tournament/add-edit-player-to-team-tournament/add-edit-player-to-team-tournament.component';
+import { SponsorLineComponent } from '../../../shared/scoreboards/sponsor-line/sponsor-line.component';
+import { AgeStats } from '../../../type/person.type';
+import { calculateAgeStats } from '../../../base/helpers';
+import { TuiAppearance } from '@taiga-ui/core';
 import { CreateButtonShowDialogComponent } from '../../../shared/ui/buttons/create-button-show-dialog/create-button-show-dialog.component';
 import { ParseButtonComponent } from '../../../shared/ui/buttons/parse-button/parse-button.component';
-import { AgeStats } from '../../../type/person.type';
-import { SponsorLineComponent } from '../../../shared/scoreboards/sponsor-line/sponsor-line.component';
-import { calculateAgeStats } from '../../../base/helpers';
 
 @Component({
   selector: 'app-item-team',
@@ -44,20 +35,12 @@ import { calculateAgeStats } from '../../../base/helpers';
     TuiLoader,
     UpperCasePipe,
     DeleteDialogComponent,
-    NgOptimizedImage,
     BodyListTitleComponent,
     EditButtonComponent,
-    AddEditTeamComponent,
-    TournamentAddEditFormComponent,
     DeleteButtonComponent,
     SponsorLineComponent,
-    AddEditPlayerToTeamTournamentTableComponent,
-    AddEditPlayerToTeamTournamentComponent,
     CreateButtonShowDialogComponent,
-    TuiButton,
     ParseButtonComponent,
-    DecimalPipe,
-    TitleCasePipe,
   ],
   templateUrl: './item-team.component.html',
   styleUrl: './item-team.component.less',

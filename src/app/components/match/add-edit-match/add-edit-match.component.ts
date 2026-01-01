@@ -1,5 +1,13 @@
-import { TuiTextfieldControllerModule, TuiTextareaModule, TuiInputModule, TuiInputDateModule, TuiInputDateTimeModule, TuiInputNumberModule, TuiSelectModule } from "@taiga-ui/legacy";
-import { AsyncPipe, TitleCasePipe } from '@angular/common';
+import {
+  TuiTextfieldControllerModule,
+  TuiTextareaModule,
+  TuiInputModule,
+  TuiInputDateModule,
+  TuiInputDateTimeModule,
+  TuiInputNumberModule,
+  TuiSelectModule,
+} from '@taiga-ui/legacy';
+import { AsyncPipe } from '@angular/common';
 import {
   Component,
   EventEmitter,
@@ -18,9 +26,13 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { TuiDay, TuiTime, TuiLet } from '@taiga-ui/cdk';
-import { TuiError, TuiLoader, TuiDialog, TuiButton } from '@taiga-ui/core';
-import { tuiItemsHandlersProvider, TuiDataListWrapper, TuiFieldErrorPipe, TuiFieldErrorContentPipe, TuiAvatar } from '@taiga-ui/kit';
+import { TuiDay, TuiTime } from '@taiga-ui/cdk';
+import { TuiError, TuiDialog } from '@taiga-ui/core';
+import {
+  tuiItemsHandlersProvider,
+  TuiDataListWrapper,
+  TuiFieldErrorPipe,
+} from '@taiga-ui/kit';
 
 import { IMatch, IMatchWithFullData } from '../../../type/match.type';
 
@@ -29,7 +41,6 @@ import { DateTimeService } from '../../../services/date-time.service';
 import { DialogService } from '../../../services/dialog.service';
 import { CancelButtonInFormComponent } from '../../../shared/ui/buttons/cancel-button-in-form/cancel-button-in-form.component';
 import { CreateButtonInFormComponent } from '../../../shared/ui/buttons/create-button-in-form/create-button-in-form.component';
-import { SelectTeamComponent } from '../../../shared/ui/forms/select-team/select-team.component';
 import { ITeam } from '../../../type/team.type';
 
 import { stringifyTitle } from '../../../base/helpers';
@@ -41,12 +52,11 @@ import { Match } from '../match';
   selector: 'app-add-edit-match',
   standalone: true,
   imports: [
-    TuiButton,
     AsyncPipe,
     ReactiveFormsModule,
     TuiDialog,
     TuiError,
-    TuiFieldErrorPipe, TuiFieldErrorContentPipe,
+    TuiFieldErrorPipe,
     TuiInputModule,
     TuiTextareaModule,
     TuiInputNumberModule,
@@ -54,15 +64,10 @@ import { Match } from '../match';
     TuiTextfieldControllerModule,
     TuiSelectModule,
     TuiDataListWrapper,
-    TuiLoader,
-    TuiLet,
-    TuiAvatar,
     FormsModule,
     TuiInputDateTimeModule,
-    SelectTeamComponent,
     CreateButtonInFormComponent,
     CancelButtonInFormComponent,
-    TitleCasePipe,
     SelectFromListComponent,
   ],
   templateUrl: './add-edit-match.component.html',

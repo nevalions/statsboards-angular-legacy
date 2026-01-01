@@ -27,22 +27,22 @@ const seasonFeature = createFeature({
   name: 'season',
   reducer: createReducer(
     initialState,
-    on(seasonActions.getId, (state) => ({
+    on(seasonActions.getId, (state): SeasonState => ({
       ...state,
       isLoading: true,
     })),
-    on(seasonActions.getSeasonIdSuccessfully, (state, action) => ({
+    on(seasonActions.getSeasonIdSuccessfully, (state, action): SeasonState => ({
       ...state,
       isLoading: false,
       currentSeasonId: action.seasonId,
     })),
-    on(seasonActions.getSeasonIdFailure, (state) => ({
+    on(seasonActions.getSeasonIdFailure, (state): SeasonState => ({
       ...state,
       isLoading: false,
     })),
 
     // create actions
-    on(seasonActions.create, (state) => ({
+    on(seasonActions.create, (state): SeasonState => ({
       ...state,
       isSubmitting: true,
     })),
@@ -56,18 +56,18 @@ const seasonFeature = createFeature({
         allSeasons: sortedTournaments, // sorted list
       };
     }),
-    on(seasonActions.createFailure, (state, action) => ({
+    on(seasonActions.createFailure, (state, action): SeasonState => ({
       ...state,
       isSubmitting: false,
       errors: action,
     })),
 
     // delete actions
-    on(seasonActions.delete, (state) => ({
+    on(seasonActions.delete, (state): SeasonState => ({
       ...state,
       isSubmitting: true,
     })),
-    on(seasonActions.deletedSuccessfully, (state, action) => ({
+    on(seasonActions.deletedSuccessfully, (state, action): SeasonState => ({
       ...state,
       isSubmitting: false,
       allSeasons: (state.allSeasons || []).filter(
@@ -75,18 +75,18 @@ const seasonFeature = createFeature({
       ),
       errors: null,
     })),
-    on(seasonActions.deleteFailure, (state, action) => ({
+    on(seasonActions.deleteFailure, (state, action): SeasonState => ({
       ...state,
       isSubmitting: false,
       errors: action,
     })),
 
     // update actions
-    on(seasonActions.update, (state) => ({
+    on(seasonActions.update, (state): SeasonState => ({
       ...state,
       isSubmitting: true,
     })),
-    on(seasonActions.updatedSuccessfully, (state, action) => ({
+    on(seasonActions.updatedSuccessfully, (state, action): SeasonState => ({
       ...state,
       isSubmitting: false,
       currentSeason: action.updatedSeason,
@@ -95,69 +95,69 @@ const seasonFeature = createFeature({
       ),
       errors: null,
     })),
-    on(seasonActions.updateFailure, (state, action) => ({
+    on(seasonActions.updateFailure, (state, action): SeasonState => ({
       ...state,
       isSubmitting: false,
       errors: action,
     })),
 
     // get actions
-    on(seasonActions.get, (state) => ({
+    on(seasonActions.get, (state): SeasonState => ({
       ...state,
       isLoading: true,
     })),
-    on(seasonActions.getItemSuccess, (state, action) => ({
+    on(seasonActions.getItemSuccess, (state, action): SeasonState => ({
       ...state,
       isLoading: false,
       currentSeason: action.season,
       currentSeasonYear: action.season.year,
     })),
-    on(seasonActions.getItemFailure, (state, action) => ({
+    on(seasonActions.getItemFailure, (state, action): SeasonState => ({
       ...state,
       isLoading: false,
       errors: action,
     })),
 
-    on(seasonActions.getAll, (state) => ({
+    on(seasonActions.getAll, (state): SeasonState => ({
       ...state,
       isLoading: true,
     })),
-    on(seasonActions.getAllItemsSuccess, (state, action) => ({
+    on(seasonActions.getAllItemsSuccess, (state, action): SeasonState => ({
       ...state,
       isLoading: false,
       allSeasons: action.seasons,
     })),
-    on(seasonActions.getAllItemsFailure, (state, action) => ({
+    on(seasonActions.getAllItemsFailure, (state, action): SeasonState => ({
       ...state,
       isLoading: false,
       errors: action,
     })),
 
-    on(seasonActions.getSeasonsWithSportId, (state) => ({
+    on(seasonActions.getSeasonsWithSportId, (state): SeasonState => ({
       ...state,
       isLoading: true,
     })),
-    on(seasonActions.getAllSeasonsWithSportIDSuccess, (state, action) => ({
+    on(seasonActions.getAllSeasonsWithSportIDSuccess, (state, action): SeasonState => ({
       ...state,
       isLoading: false,
       allSeasons: action.seasons,
     })),
-    on(seasonActions.getAllSeasonsWithSportIDFailure, (state, action) => ({
+    on(seasonActions.getAllSeasonsWithSportIDFailure, (state, action): SeasonState => ({
       ...state,
       isLoading: false,
       errors: action,
     })),
 
-    on(seasonActions.getSeasonByYear, (state) => ({
+    on(seasonActions.getSeasonByYear, (state): SeasonState => ({
       ...state,
       isLoading: true,
     })),
-    on(seasonActions.getSeasonByYearSuccess, (state, action) => ({
+    on(seasonActions.getSeasonByYearSuccess, (state, action): SeasonState => ({
       ...state,
       isLoading: false,
       currentSeason: action.season,
     })),
-    on(seasonActions.getSeasonByYearFailure, (state, action) => ({
+    on(seasonActions.getSeasonByYearFailure, (state, action): SeasonState => ({
       ...state,
       isLoading: false,
       errors: action,

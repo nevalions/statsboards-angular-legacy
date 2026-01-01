@@ -28,7 +28,7 @@ const sponsorSponsorLineConnectionFeature = createFeature({
   name: 'sponsorSponsorLineConnection',
   reducer: createReducer(
     initialState,
-    on(sponsorSponsorLineConnectionActions.getId, (state) => ({
+    on(sponsorSponsorLineConnectionActions.getId, (state): SponsorSponsorLineConnectionState => ({
       ...state,
       sponsorSponsorLineConnectionIsLoading: true,
     })),
@@ -49,7 +49,7 @@ const sponsorSponsorLineConnectionFeature = createFeature({
     ),
 
     // create actions
-    on(sponsorSponsorLineConnectionActions.create, (state) => ({
+    on(sponsorSponsorLineConnectionActions.create, (state): SponsorSponsorLineConnectionState => ({
       ...state,
       sponsorSponsorLineConnectionIsSubmitting: true,
     })),
@@ -70,30 +70,30 @@ const sponsorSponsorLineConnectionFeature = createFeature({
         };
       },
     ),
-    on(sponsorSponsorLineConnectionActions.createFailure, (state, action) => ({
+    on(sponsorSponsorLineConnectionActions.createFailure, (state, action): SponsorSponsorLineConnectionState => ({
       ...state,
       sponsorSponsorLineConnectionIsSubmitting: false,
       errors: action,
     })),
 
     // get actions
-    on(sponsorSponsorLineConnectionActions.get, (state) => ({
+    on(sponsorSponsorLineConnectionActions.get, (state): SponsorSponsorLineConnectionState => ({
       ...state,
       sponsorSponsorLineConnectionIsLoading: true,
     })),
-    on(sponsorSponsorLineConnectionActions.getItemSuccess, (state, action) => ({
+    on(sponsorSponsorLineConnectionActions.getItemSuccess, (state, action): SponsorSponsorLineConnectionState => ({
       ...state,
       sponsorSponsorLineConnectionIsLoading: false,
       currentSponsorSponsorLineConnection:
         action.currentSponsorSponsorLineConnection,
     })),
-    on(sponsorSponsorLineConnectionActions.getItemFailure, (state, action) => ({
+    on(sponsorSponsorLineConnectionActions.getItemFailure, (state, action): SponsorSponsorLineConnectionState => ({
       ...state,
       sponsorSponsorLineConnectionIsLoading: false,
       errors: action,
     })),
 
-    on(sponsorSponsorLineConnectionActions.getAll, (state) => ({
+    on(sponsorSponsorLineConnectionActions.getAll, (state): SponsorSponsorLineConnectionState => ({
       ...state,
       sponsorSponsorLineConnectionIsLoading: true,
     })),
@@ -108,7 +108,7 @@ const sponsorSponsorLineConnectionFeature = createFeature({
         allSponsorSponsorLineConnections: sortedConnections,
       };
     }),
-    on(sponsorSponsorLineConnectionActions.getAllFailure, (state, action) => ({
+    on(sponsorSponsorLineConnectionActions.getAllFailure, (state, action): SponsorSponsorLineConnectionState => ({
       ...state,
       sponsorSponsorLineConnectionIsLoading: false,
       errors: action,

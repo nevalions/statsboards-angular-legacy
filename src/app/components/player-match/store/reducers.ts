@@ -46,7 +46,7 @@ const playerInMatchFeature = createFeature({
     initialState,
 
     // getId from route
-    on(playerInMatchActions.getId, (state) => ({
+    on(playerInMatchActions.getId, (state): PlayerInMatchState => ({
       ...state,
       playerInMatchIsLoading: true,
     })),
@@ -58,13 +58,13 @@ const playerInMatchFeature = createFeature({
         currentPlayerInMatchId: action.playerInMatchId,
       }),
     ),
-    on(playerInMatchActions.getPlayerInMatchIdFailure, (state) => ({
+    on(playerInMatchActions.getPlayerInMatchIdFailure, (state): PlayerInMatchState => ({
       ...state,
       playerInMatchIsLoading: false,
     })),
 
     // create actions
-    on(playerInMatchActions.create, (state) => ({
+    on(playerInMatchActions.create, (state): PlayerInMatchState => ({
       ...state,
       playerInMatchIsSubmitting: true,
     })),
@@ -80,18 +80,18 @@ const playerInMatchFeature = createFeature({
         // allPlayersInMatchFullData: sortedList,
       };
     }),
-    on(playerInMatchActions.createFailure, (state, action) => ({
+    on(playerInMatchActions.createFailure, (state, action): PlayerInMatchState => ({
       ...state,
       playerInMatchIsSubmitting: false,
       errors: action,
     })),
 
     // delete actions
-    on(playerInMatchActions.delete, (state) => ({
+    on(playerInMatchActions.delete, (state): PlayerInMatchState => ({
       ...state,
       playerInMatchIsSubmitting: true,
     })),
-    on(playerInMatchActions.deletedSuccessfully, (state, action) => ({
+    on(playerInMatchActions.deletedSuccessfully, (state, action): PlayerInMatchState => ({
       ...state,
       playerInMatchIsSubmitting: false,
       allPlayersInMatch: (state.allPlayersInMatch || []).filter(
@@ -99,17 +99,17 @@ const playerInMatchFeature = createFeature({
       ),
       errors: null,
     })),
-    on(playerInMatchActions.deleteFailure, (state, action) => ({
+    on(playerInMatchActions.deleteFailure, (state, action): PlayerInMatchState => ({
       ...state,
       playerInMatchIsSubmitting: false,
       errors: action,
     })),
 
-    on(playerInMatchActions.deleteById, (state) => ({
+    on(playerInMatchActions.deleteById, (state): PlayerInMatchState => ({
       ...state,
       playerInMatchIsSubmitting: true,
     })),
-    on(playerInMatchActions.deletedByIdSuccessfully, (state, action) => ({
+    on(playerInMatchActions.deletedByIdSuccessfully, (state, action): PlayerInMatchState => ({
       ...state,
       playerInMatchIsSubmitting: false,
       allPlayersInMatch: (state.allPlayersInMatch || []).filter(
@@ -120,14 +120,14 @@ const playerInMatchFeature = createFeature({
       ),
       errors: null,
     })),
-    on(playerInMatchActions.deleteByIdFailure, (state, action) => ({
+    on(playerInMatchActions.deleteByIdFailure, (state, action): PlayerInMatchState => ({
       ...state,
       playerInMatchIsSubmitting: false,
       errors: action,
     })),
 
     // update actions
-    on(playerInMatchActions.update, (state) => ({
+    on(playerInMatchActions.update, (state): PlayerInMatchState => ({
       ...state,
       playerInMatchIsSubmitting: true,
     })),
@@ -165,30 +165,30 @@ const playerInMatchFeature = createFeature({
         errors: null,
       };
     }),
-    on(playerInMatchActions.updateFailure, (state, action) => ({
+    on(playerInMatchActions.updateFailure, (state, action): PlayerInMatchState => ({
       ...state,
       playerInMatchIsSubmitting: false,
       errors: action,
     })),
 
     // get actions
-    on(playerInMatchActions.get, (state) => ({
+    on(playerInMatchActions.get, (state): PlayerInMatchState => ({
       ...state,
       playerInMatchIsLoading: true,
     })),
-    on(playerInMatchActions.getItemSuccess, (state, action) => ({
+    on(playerInMatchActions.getItemSuccess, (state, action): PlayerInMatchState => ({
       ...state,
       playerInMatchIsLoading: false,
       currentPlayerInMatch: action.playerInMatch,
     })),
-    on(playerInMatchActions.getItemFailure, (state, action) => ({
+    on(playerInMatchActions.getItemFailure, (state, action): PlayerInMatchState => ({
       ...state,
       playerInMatchIsLoading: false,
       errors: action,
     })),
 
     //get player in match full data action
-    on(playerInMatchActions.getPlayerInMatchFullData, (state) => ({
+    on(playerInMatchActions.getPlayerInMatchFullData, (state): PlayerInMatchState => ({
       ...state,
       playerInMatchIsLoading: true,
     })),
@@ -228,14 +228,14 @@ const playerInMatchFeature = createFeature({
         };
       },
     ),
-    on(playerInMatchActions.getItemFailure, (state, action) => ({
+    on(playerInMatchActions.getItemFailure, (state, action): PlayerInMatchState => ({
       ...state,
       playerInMatchIsLoading: false,
       errors: action,
     })),
 
     // get all actions
-    on(playerInMatchActions.getAllPlayersInMatch, (state) => ({
+    on(playerInMatchActions.getAllPlayersInMatch, (state): PlayerInMatchState => ({
       ...state,
       playerInMatchIsLoading: true,
     })),
@@ -250,13 +250,13 @@ const playerInMatchFeature = createFeature({
         allPlayersInMatch: sortedTournaments,
       };
     }),
-    on(playerInMatchActions.getAllPlayersInMatchFailure, (state, action) => ({
+    on(playerInMatchActions.getAllPlayersInMatchFailure, (state, action): PlayerInMatchState => ({
       ...state,
       playerInMatchIsLoading: false,
       errors: action,
     })),
     // get all players with full data
-    on(playerInMatchActions.getAllPlayersWithFullDataInMatch, (state) => ({
+    on(playerInMatchActions.getAllPlayersWithFullDataInMatch, (state): PlayerInMatchState => ({
       ...state,
       playerInMatchIsLoading: true,
     })),
@@ -316,7 +316,7 @@ const playerInMatchFeature = createFeature({
     }),
 
     // get selected player lower by id
-    on(playerInMatchActions.getSelectedPlayerLowerById, (state) => ({
+    on(playerInMatchActions.getSelectedPlayerLowerById, (state): PlayerInMatchState => ({
       ...state,
       selectedPlayerInMatchLower: null,
       playerInMatchIsLoading: true,
@@ -371,7 +371,7 @@ const playerInMatchFeature = createFeature({
     }),
 
     // get selected football qb lower by id
-    on(playerInMatchActions.getSelectedFootballQbLowerById, (state) => ({
+    on(playerInMatchActions.getSelectedFootballQbLowerById, (state): PlayerInMatchState => ({
       ...state,
       selectedFootballQbInMatchLower: null,
       playerInMatchIsLoading: true,
@@ -395,7 +395,7 @@ const playerInMatchFeature = createFeature({
     ),
 
     //pars match
-    on(playerInMatchActions.parsPlayersFromMatchEESL, (state) => ({
+    on(playerInMatchActions.parsPlayersFromMatchEESL, (state): PlayerInMatchState => ({
       ...state,
       playerInMatchIsLoading: true,
     })),

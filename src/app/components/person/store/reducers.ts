@@ -24,22 +24,22 @@ const personFeature = createFeature({
   reducer: createReducer(
     initialState,
 
-    on(personActions.getId, (state) => ({
+    on(personActions.getId, (state): PersonState => ({
       ...state,
       personIsLoading: true,
     })),
-    on(personActions.getPersonIdSuccessfully, (state, action) => ({
+    on(personActions.getPersonIdSuccessfully, (state, action): PersonState => ({
       ...state,
       personIsLoading: false,
       currentPersonId: action.personId,
     })),
-    on(personActions.getPersonIdFailure, (state) => ({
+    on(personActions.getPersonIdFailure, (state): PersonState => ({
       ...state,
       personIsLoading: false,
     })),
 
     // create actions
-    on(personActions.create, (state) => ({
+    on(personActions.create, (state): PersonState => ({
       ...state,
       personIsSubmitting: true,
     })),
@@ -53,18 +53,18 @@ const personFeature = createFeature({
         allPersons: sortedTournaments, // sorted list
       };
     }),
-    on(personActions.createFailure, (state, action) => ({
+    on(personActions.createFailure, (state, action): PersonState => ({
       ...state,
       personIsSubmitting: false,
       errors: action,
     })),
 
     // delete actions
-    on(personActions.delete, (state) => ({
+    on(personActions.delete, (state): PersonState => ({
       ...state,
       personIsSubmitting: true,
     })),
-    on(personActions.deletedSuccessfully, (state, action) => ({
+    on(personActions.deletedSuccessfully, (state, action): PersonState => ({
       ...state,
       personIsSubmitting: false,
       allPersons: (state.allPersons || []).filter(
@@ -72,18 +72,18 @@ const personFeature = createFeature({
       ),
       errors: null,
     })),
-    on(personActions.deleteFailure, (state, action) => ({
+    on(personActions.deleteFailure, (state, action): PersonState => ({
       ...state,
       personIsSubmitting: false,
       errors: action,
     })),
 
     // update actions
-    on(personActions.update, (state) => ({
+    on(personActions.update, (state): PersonState => ({
       ...state,
       personIsSubmitting: true,
     })),
-    on(personActions.updatedSuccessfully, (state, action) => ({
+    on(personActions.updatedSuccessfully, (state, action): PersonState => ({
       ...state,
       personIsSubmitting: false,
       currentPerson: action.updatedPerson,
@@ -92,29 +92,29 @@ const personFeature = createFeature({
       ),
       errors: null,
     })),
-    on(personActions.updateFailure, (state, action) => ({
+    on(personActions.updateFailure, (state, action): PersonState => ({
       ...state,
       personIsSubmitting: false,
       errors: action,
     })),
 
     // get actions
-    on(personActions.get, (state) => ({
+    on(personActions.get, (state): PersonState => ({
       ...state,
       personIsLoading: true,
     })),
-    on(personActions.getItemSuccess, (state, action) => ({
+    on(personActions.getItemSuccess, (state, action): PersonState => ({
       ...state,
       personIsLoading: false,
       currentPerson: action.person,
     })),
-    on(personActions.getItemFailure, (state, action) => ({
+    on(personActions.getItemFailure, (state, action): PersonState => ({
       ...state,
       personIsLoading: false,
       errors: action,
     })),
 
-    on(personActions.getAll, (state) => ({
+    on(personActions.getAll, (state): PersonState => ({
       ...state,
       personIsLoading: true,
     })),
@@ -126,7 +126,7 @@ const personFeature = createFeature({
         allPersons: sortedTournaments,
       };
     }),
-    on(personActions.getAllItemsFailure, (state, action) => ({
+    on(personActions.getAllItemsFailure, (state, action): PersonState => ({
       ...state,
       personIsLoading: false,
       errors: action,

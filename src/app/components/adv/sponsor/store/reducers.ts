@@ -25,22 +25,22 @@ const sponsorFeature = createFeature({
   name: 'sponsor',
   reducer: createReducer(
     initialState,
-    on(sponsorActions.getId, (state) => ({
+    on(sponsorActions.getId, (state): SponsorState => ({
       ...state,
       sponsorIsLoading: true,
     })),
-    on(sponsorActions.getSponsorIdSuccessfully, (state, action) => ({
+    on(sponsorActions.getSponsorIdSuccessfully, (state, action): SponsorState => ({
       ...state,
       sponsorIsLoading: false,
       currentSponsorId: action.sponsorId,
     })),
-    on(sponsorActions.getSponsorIdFailure, (state) => ({
+    on(sponsorActions.getSponsorIdFailure, (state): SponsorState => ({
       ...state,
       sponsorIsLoading: false,
     })),
 
     // create actions
-    on(sponsorActions.create, (state) => ({
+    on(sponsorActions.create, (state): SponsorState => ({
       ...state,
       sponsorIsSubmitting: true,
     })),
@@ -54,35 +54,35 @@ const sponsorFeature = createFeature({
         allSponsors: sortedTournaments,
       };
     }),
-    on(sponsorActions.createFailure, (state, action) => ({
+    on(sponsorActions.createFailure, (state, action): SponsorState => ({
       ...state,
       sponsorIsSubmitting: false,
       errors: action,
     })),
 
     // // delete actions
-    // on(sponsorActions.delete, (state) => ({
+    // on(sponsorActions.delete, (state): SponsorState => ({
     //   ...state,
     //   sponsorIsSubmitting: true,
     // })),
-    // on(sponsorActions.deletedSuccessfully, (state, action) => ({
+    // on(sponsorActions.deletedSuccessfully, (state, action): SponsorState => ({
     //   ...state,
     //   sponsorIsSubmitting: false,
     //   itemsList: (state.allSponsors || []).filter((item) => item.id !== action.id),
     //   errors: null,
     // })),
-    // on(sponsorActions.deleteFailure, (state, action) => ({
+    // on(sponsorActions.deleteFailure, (state, action): SponsorState => ({
     //   ...state,
     //   sponsorIsSubmitting: false,
     //   errors: action,
     // })),
     //
     // // update actions
-    // on(sponsorActions.update, (state) => ({
+    // on(sponsorActions.update, (state): SponsorState => ({
     //   ...state,
     //   sponsorIsSubmitting: true,
     // })),
-    // on(sponsorActions.updatedSuccessfully, (state, action) => ({
+    // on(sponsorActions.updatedSuccessfully, (state, action): SponsorState => ({
     //   ...state,
     //   sponsorIsSubmitting: false,
     //   currentSponsor: action.updatedSponsor,
@@ -91,7 +91,7 @@ const sponsorFeature = createFeature({
     //   ),
     //   errors: null,
     // })),
-    // on(sponsorActions.updateFailure, (state, action) => ({
+    // on(sponsorActions.updateFailure, (state, action): SponsorState => ({
     //   ...state,
     //   sponsorIsSubmitting: false,
     //   errors: action,
@@ -106,22 +106,22 @@ const sponsorFeature = createFeature({
     // }),
     //
     // get actions
-    on(sponsorActions.get, (state) => ({
+    on(sponsorActions.get, (state): SponsorState => ({
       ...state,
       sponsorIsLoading: true,
     })),
-    on(sponsorActions.getItemSuccess, (state, action) => ({
+    on(sponsorActions.getItemSuccess, (state, action): SponsorState => ({
       ...state,
       sponsorIsLoading: false,
       currentSponsor: action.currentSponsor,
     })),
-    on(sponsorActions.getItemFailure, (state, action) => ({
+    on(sponsorActions.getItemFailure, (state, action): SponsorState => ({
       ...state,
       sponsorIsLoading: false,
       errors: action,
     })),
 
-    on(sponsorActions.getAll, (state) => ({
+    on(sponsorActions.getAll, (state): SponsorState => ({
       ...state,
       sponsorIsLoading: true,
     })),
@@ -133,13 +133,13 @@ const sponsorFeature = createFeature({
         allSponsors: sortedSponsors,
       };
     }),
-    on(sponsorActions.getAllFailure, (state, action) => ({
+    on(sponsorActions.getAllFailure, (state, action): SponsorState => ({
       ...state,
       sponsorIsLoading: false,
       errors: action,
     })),
     //
-    // on(sponsorActions.getSponsorsBySportId, (state) => ({
+    // on(sponsorActions.getSponsorsBySportId, (state): SponsorState => ({
     //   ...state,
     //   sponsorIsLoading: true,
     // })),
@@ -151,13 +151,13 @@ const sponsorFeature = createFeature({
     //     allSponsorsInSport: sortedTournaments,
     //   };
     // }),
-    // on(sponsorActions.getSponsorsBySportIDFailure, (state, action) => ({
+    // on(sponsorActions.getSponsorsBySportIDFailure, (state, action): SponsorState => ({
     //   ...state,
     //   sponsorIsLoading: false,
     //   errors: action,
     // })),
     //
-    // on(sponsorActions.getSponsorsByTournamentId, (state) => ({
+    // on(sponsorActions.getSponsorsByTournamentId, (state): SponsorState => ({
     //   ...state,
     //   sponsorIsLoading: true,
     // })),
@@ -169,7 +169,7 @@ const sponsorFeature = createFeature({
     //     allSponsorsInTournament: sortedSponsors,
     //   };
     // }),
-    // on(sponsorActions.getSponsorsByTournamentIDFailure, (state, action) => ({
+    // on(sponsorActions.getSponsorsByTournamentIDFailure, (state, action): SponsorState => ({
     //   ...state,
     //   sponsorIsLoading: false,
     //   errors: action,
@@ -193,7 +193,7 @@ const sponsorFeature = createFeature({
     //   };
     // }),
     //
-    // on(sponsorActions.removeSponsorFromTournament, (state, action) => ({
+    // on(sponsorActions.removeSponsorFromTournament, (state, action): SponsorState => ({
     //   ...state,
     //   allSponsorsInTournament: state.allSponsorsInTournament.filter(
     //     (store) => store.id !== action.id,

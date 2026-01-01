@@ -32,36 +32,36 @@ const tournamentFeature = createFeature({
   name: 'tournament',
   reducer: createReducer(
     initialState,
-    on(tournamentActions.getId, (state) => ({
+    on(tournamentActions.getId, (state): TournamentState => ({
       ...state,
       isTournamentLoading: true,
     })),
-    on(tournamentActions.getTournamentIdSuccessfully, (state, action) => ({
+    on(tournamentActions.getTournamentIdSuccessfully, (state, action): TournamentState => ({
       ...state,
       isTournamentLoading: false,
       currentTournamentId: action.tournamentId,
     })),
-    on(tournamentActions.getTournamentIdFailure, (state) => ({
+    on(tournamentActions.getTournamentIdFailure, (state): TournamentState => ({
       ...state,
       isTournamentLoading: false,
     })),
 
-    on(tournamentActions.getMainSponsorByTournamentId, (state) => ({
+    on(tournamentActions.getMainSponsorByTournamentId, (state): TournamentState => ({
       ...state,
       isTournamentLoading: true,
     })),
-    on(tournamentActions.getMainSponsorSuccess, (state, action) => ({
+    on(tournamentActions.getMainSponsorSuccess, (state, action): TournamentState => ({
       ...state,
       isTournamentLoading: false,
       currentTournamentMainSponsor: action.mainSponsor,
     })),
-    on(tournamentActions.getMainSponsorFailure, (state) => ({
+    on(tournamentActions.getMainSponsorFailure, (state): TournamentState => ({
       ...state,
       isTournamentLoading: false,
     })),
 
     // create actions
-    on(tournamentActions.create, (state) => ({
+    on(tournamentActions.create, (state): TournamentState => ({
       ...state,
       isTournamentSubmitting: true,
     })),
@@ -86,18 +86,18 @@ const tournamentFeature = createFeature({
         // allSeasonSportTournaments: sorterSeasonSportTournaments,
       };
     }),
-    on(tournamentActions.createFailure, (state, action) => ({
+    on(tournamentActions.createFailure, (state, action): TournamentState => ({
       ...state,
       isTournamentSubmitting: false,
       errors: action,
     })),
 
     // delete actions
-    on(tournamentActions.delete, (state) => ({
+    on(tournamentActions.delete, (state): TournamentState => ({
       ...state,
       isTournamentSubmitting: true,
     })),
-    on(tournamentActions.deletedSuccessfully, (state, action) => ({
+    on(tournamentActions.deletedSuccessfully, (state, action): TournamentState => ({
       ...state,
       isTournamentSubmitting: false,
       allTournaments: (state.allTournaments || []).filter(
@@ -108,18 +108,18 @@ const tournamentFeature = createFeature({
       ),
       errors: null,
     })),
-    on(tournamentActions.deleteFailure, (state, action) => ({
+    on(tournamentActions.deleteFailure, (state, action): TournamentState => ({
       ...state,
       isTournamentSubmitting: false,
       errors: action,
     })),
 
     // update actions
-    on(tournamentActions.update, (state) => ({
+    on(tournamentActions.update, (state): TournamentState => ({
       ...state,
       isTournamentSubmitting: true,
     })),
-    on(tournamentActions.updatedSuccessfully, (state, action) => ({
+    on(tournamentActions.updatedSuccessfully, (state, action): TournamentState => ({
       ...state,
       isTournamentSubmitting: false,
       currentTournament: action.updatedTournament,
@@ -135,7 +135,7 @@ const tournamentFeature = createFeature({
       ),
       errors: null,
     })),
-    on(tournamentActions.updateFailure, (state, action) => ({
+    on(tournamentActions.updateFailure, (state, action): TournamentState => ({
       ...state,
       isTournamentSubmitting: false,
       errors: action,
@@ -153,39 +153,39 @@ const tournamentFeature = createFeature({
     ),
 
     // get actions
-    on(tournamentActions.get, (state) => ({
+    on(tournamentActions.get, (state): TournamentState => ({
       ...state,
       isTournamentLoading: true,
     })),
-    on(tournamentActions.getItemSuccess, (state, action) => ({
+    on(tournamentActions.getItemSuccess, (state, action): TournamentState => ({
       ...state,
       isTournamentLoading: false,
       currentTournament: action.tournament,
       currentTournamentId: action.tournament.id,
       currentTournamentSponsorLineId: action.tournament.sponsor_line_id,
     })),
-    on(tournamentActions.getItemFailure, (state, action) => ({
+    on(tournamentActions.getItemFailure, (state, action): TournamentState => ({
       ...state,
       isTournamentLoading: false,
       errors: action,
     })),
 
-    on(tournamentActions.getAll, (state) => ({
+    on(tournamentActions.getAll, (state): TournamentState => ({
       ...state,
       isTournamentLoading: true,
     })),
-    on(tournamentActions.getAllItemsSuccess, (state, action) => ({
+    on(tournamentActions.getAllItemsSuccess, (state, action): TournamentState => ({
       ...state,
       isTournamentLoading: false,
       allTournaments: action.tournaments,
     })),
-    on(tournamentActions.getAllItemsFailure, (state, action) => ({
+    on(tournamentActions.getAllItemsFailure, (state, action): TournamentState => ({
       ...state,
       isTournamentLoading: false,
       errors: action,
     })),
 
-    on(tournamentActions.getTournamentsBySportAndSeason, (state) => ({
+    on(tournamentActions.getTournamentsBySportAndSeason, (state): TournamentState => ({
       ...state,
       isTournamentLoading: true,
     })),

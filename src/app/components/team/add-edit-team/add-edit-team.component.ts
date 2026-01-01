@@ -1,5 +1,8 @@
-import { TuiTextareaModule, TuiInputModule, TuiInputNumberModule } from "@taiga-ui/legacy";
-import { TuiAutoFocus } from "@taiga-ui/cdk";
+import {
+  TuiTextareaModule,
+  TuiInputModule,
+  TuiInputNumberModule,
+} from '@taiga-ui/legacy';
 import {
   Component,
   EventEmitter,
@@ -17,9 +20,9 @@ import {
   Validators,
 } from '@angular/forms';
 import { ITeam } from '../../../type/team.type';
-import { AsyncPipe, NgOptimizedImage } from '@angular/common';
-import { TuiError, TuiDialog, TuiButton } from '@taiga-ui/core';
-import { TuiFileLike, TuiFieldErrorPipe, TuiFieldErrorContentPipe, TuiFiles } from '@taiga-ui/kit';
+import { AsyncPipe } from '@angular/common';
+import { TuiError, TuiDialog } from '@taiga-ui/core';
+import { TuiFileLike, TuiFieldErrorPipe, TuiFiles } from '@taiga-ui/kit';
 import { CreateButtonInFormComponent } from '../../../shared/ui/buttons/create-button-in-form/create-button-in-form.component';
 import { CancelButtonInFormComponent } from '../../../shared/ui/buttons/cancel-button-in-form/cancel-button-in-form.component';
 import { Team } from '../team';
@@ -48,21 +51,17 @@ import { UploadResizeImageResponse } from '../../../type/base.type';
   imports: [
     AsyncPipe,
     ReactiveFormsModule,
-    TuiAutoFocus,
-    TuiButton,
     TuiDialog,
     TuiError,
     TuiFieldErrorPipe,
-    TuiFieldErrorContentPipe,
     TuiInputModule,
     TuiTextareaModule,
     TuiInputNumberModule,
     CreateButtonInFormComponent,
     CancelButtonInFormComponent,
     TuiFiles,
-    NgOptimizedImage,
-    SelectFromListComponent
-],
+    SelectFromListComponent,
+  ],
   templateUrl: './add-edit-team.component.html',
   styleUrl: './add-edit-team.component.less',
 })

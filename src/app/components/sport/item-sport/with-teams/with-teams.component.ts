@@ -1,4 +1,8 @@
-import { TuiTextfieldControllerModule, TuiInputNumberModule, TuiSelectModule } from "@taiga-ui/legacy";
+import {
+  TuiTextfieldControllerModule,
+  TuiInputNumberModule,
+  TuiSelectModule,
+} from '@taiga-ui/legacy';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -6,7 +10,6 @@ import {
 } from '@angular/core';
 import { ITeam } from '../../../../type/team.type';
 import { AsyncPipe, UpperCasePipe } from '@angular/common';
-import { TuiLoader } from '@taiga-ui/core';
 import { ListOfTeamsComponent } from '../../../team/list-of-teams/list-of-teams.component';
 import { Sport } from '../../sport';
 import { Team } from '../../../team/team';
@@ -17,7 +20,7 @@ import { SponsorLine } from '../../../adv/sponsor-line/sponsorLine';
 import { Search } from '../../../../store/search/search';
 import { BaseSearchFormComponent } from '../../../../shared/ui/search/base-search-form/base-search-form.component';
 import { ReactiveFormsModule } from '@angular/forms';
-import { TuiPagination, TuiDataListWrapper } from '@taiga-ui/kit';
+import { TuiDataListWrapper } from '@taiga-ui/kit';
 import { Pagination } from '../../../../store/pagination/pagination';
 import { BasePaginationComponent } from '../../../../shared/ui/pagination/base-pagination/base-pagination.component';
 
@@ -25,16 +28,13 @@ import { BasePaginationComponent } from '../../../../shared/ui/pagination/base-p
   selector: 'app-with-teams',
   standalone: true,
   imports: [
-    AsyncPipe,
     EditButtonComponent,
     AddEditTeamComponent,
     BaseSearchFormComponent,
     ListOfTeamsComponent,
-    TuiLoader,
     UpperCasePipe,
     ReactiveFormsModule,
     TuiInputNumberModule,
-    TuiPagination,
     TuiSelectModule,
     TuiTextfieldControllerModule,
     TuiDataListWrapper,

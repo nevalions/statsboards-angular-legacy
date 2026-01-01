@@ -1,4 +1,4 @@
-import { TuiInputModule } from "@taiga-ui/legacy";
+import { TuiInputModule } from '@taiga-ui/legacy';
 import {
   Component,
   EventEmitter,
@@ -18,8 +18,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { TuiError, TuiDialog } from '@taiga-ui/core';
-import { TuiFieldErrorPipe, TuiFieldErrorContentPipe } from '@taiga-ui/kit';
+import { TuiDialog } from '@taiga-ui/core';
 import { Subscription } from 'rxjs';
 import {
   IPlayerInSport,
@@ -29,7 +28,6 @@ import {
 import { DialogService } from '../../../services/dialog.service';
 import { PlayerInTeamTournament } from '../player-team-tournament';
 import { IPosition } from '../../../type/position.type';
-import { SearchPersonInputAutocompleteComponent } from '../../../shared/ui/search/search-person-input-autocomplete/search-person-input-autocomplete.component';
 import { IPerson } from '../../../type/person.type';
 import { SelectPlayerPositionComponent } from '../../../shared/ui/select/select-player-position/select-player-position.component';
 import { SelectPlayerNumberComponent } from '../../../shared/ui/select/select-player-number/select-player-number.component';
@@ -41,15 +39,11 @@ import { ITeam } from '../../../type/team.type';
   selector: 'app-add-edit-player-to-team-tournament',
   standalone: true,
   imports: [
-    AsyncPipe,
     CancelButtonInFormComponent,
     CreateButtonInFormComponent,
     ReactiveFormsModule,
     TuiDialog,
-    TuiError,
-    TuiFieldErrorPipe, TuiFieldErrorContentPipe,
     TuiInputModule,
-    SearchPersonInputAutocompleteComponent,
     SelectPlayerPositionComponent,
     SelectPlayerNumberComponent,
     SearchPlayerInSportAutocompliteComponent,

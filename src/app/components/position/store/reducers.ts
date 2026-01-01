@@ -26,22 +26,22 @@ const positionFeature = createFeature({
   reducer: createReducer(
     initialState,
 
-    on(positionActions.getId, (state) => ({
+    on(positionActions.getId, (state): PositionState => ({
       ...state,
       positionIsLoading: true,
     })),
-    on(positionActions.getPositionIdSuccessfully, (state, action) => ({
+    on(positionActions.getPositionIdSuccessfully, (state, action): PositionState => ({
       ...state,
       positionIsLoading: false,
       currentPositionId: action.positionId,
     })),
-    on(positionActions.getPositionIdFailure, (state) => ({
+    on(positionActions.getPositionIdFailure, (state): PositionState => ({
       ...state,
       positionIsLoading: false,
     })),
 
     // create actions
-    on(positionActions.create, (state) => ({
+    on(positionActions.create, (state): PositionState => ({
       ...state,
       positionIsSubmitting: true,
     })),
@@ -59,18 +59,18 @@ const positionFeature = createFeature({
         allSportPositions: sortedSportList,
       };
     }),
-    on(positionActions.createFailure, (state, action) => ({
+    on(positionActions.createFailure, (state, action): PositionState => ({
       ...state,
       positionIsSubmitting: false,
       errors: action,
     })),
 
     // delete actions
-    on(positionActions.delete, (state) => ({
+    on(positionActions.delete, (state): PositionState => ({
       ...state,
       positionIsSubmitting: true,
     })),
-    on(positionActions.deletedSuccessfully, (state, action) => ({
+    on(positionActions.deletedSuccessfully, (state, action): PositionState => ({
       ...state,
       positionIsSubmitting: false,
       allPositions: (state.allPositions || []).filter(
@@ -81,17 +81,17 @@ const positionFeature = createFeature({
       ),
       errors: null,
     })),
-    on(positionActions.deleteFailure, (state, action) => ({
+    on(positionActions.deleteFailure, (state, action): PositionState => ({
       ...state,
       positionIsSubmitting: false,
       errors: action,
     })),
 
-    on(positionActions.deleteById, (state) => ({
+    on(positionActions.deleteById, (state): PositionState => ({
       ...state,
       positionIsSubmitting: true,
     })),
-    on(positionActions.deletedByIdSuccessfully, (state, action) => ({
+    on(positionActions.deletedByIdSuccessfully, (state, action): PositionState => ({
       ...state,
       positionIsSubmitting: false,
       allPositions: (state.allPositions || []).filter(
@@ -102,18 +102,18 @@ const positionFeature = createFeature({
       ),
       errors: null,
     })),
-    on(positionActions.deleteByIdFailure, (state, action) => ({
+    on(positionActions.deleteByIdFailure, (state, action): PositionState => ({
       ...state,
       positionIsSubmitting: false,
       errors: action,
     })),
 
     // update actions
-    on(positionActions.update, (state) => ({
+    on(positionActions.update, (state): PositionState => ({
       ...state,
       positionIsSubmitting: true,
     })),
-    on(positionActions.updatedSuccessfully, (state, action) => ({
+    on(positionActions.updatedSuccessfully, (state, action): PositionState => ({
       ...state,
       positionIsSubmitting: false,
       currentPosition: action.updatedPosition,
@@ -131,29 +131,29 @@ const positionFeature = createFeature({
       ),
       errors: null,
     })),
-    on(positionActions.updateFailure, (state, action) => ({
+    on(positionActions.updateFailure, (state, action): PositionState => ({
       ...state,
       positionIsSubmitting: false,
       errors: action,
     })),
 
     // get actions
-    on(positionActions.get, (state) => ({
+    on(positionActions.get, (state): PositionState => ({
       ...state,
       positionIsLoading: true,
     })),
-    on(positionActions.getItemSuccess, (state, action) => ({
+    on(positionActions.getItemSuccess, (state, action): PositionState => ({
       ...state,
       positionIsLoading: false,
       currentPosition: action.position,
     })),
-    on(positionActions.getItemFailure, (state, action) => ({
+    on(positionActions.getItemFailure, (state, action): PositionState => ({
       ...state,
       positionIsLoading: false,
       errors: action,
     })),
 
-    on(positionActions.getAll, (state) => ({
+    on(positionActions.getAll, (state): PositionState => ({
       ...state,
       positionIsLoading: true,
     })),
@@ -165,13 +165,13 @@ const positionFeature = createFeature({
         allPositions: sortedTournaments,
       };
     }),
-    on(positionActions.getAllItemsFailure, (state, action) => ({
+    on(positionActions.getAllItemsFailure, (state, action): PositionState => ({
       ...state,
       positionIsLoading: false,
       errors: action,
     })),
 
-    on(positionActions.getAllPositionsBySportId, (state) => ({
+    on(positionActions.getAllPositionsBySportId, (state): PositionState => ({
       ...state,
       positionIsLoading: true,
     })),
@@ -183,7 +183,7 @@ const positionFeature = createFeature({
         allSportPositions: sortedPositions,
       };
     }),
-    on(positionActions.getAllItemsFailure, (state, action) => ({
+    on(positionActions.getAllItemsFailure, (state, action): PositionState => ({
       ...state,
       positionIsLoading: false,
       errors: action,

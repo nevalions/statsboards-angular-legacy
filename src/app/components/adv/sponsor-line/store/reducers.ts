@@ -32,22 +32,22 @@ const sponsorLineFeature = createFeature({
   name: 'sponsorLine',
   reducer: createReducer(
     initialState,
-    on(sponsorLineActions.getId, (state) => ({
+    on(sponsorLineActions.getId, (state): SponsorLineState => ({
       ...state,
       sponsorLineIsLoading: true,
     })),
-    on(sponsorLineActions.getSponsorLineIdSuccessfully, (state, action) => ({
+    on(sponsorLineActions.getSponsorLineIdSuccessfully, (state, action): SponsorLineState => ({
       ...state,
       sponsorLineIsLoading: false,
       currentSponsorLineId: action.sponsorLineId,
     })),
-    on(sponsorLineActions.getSponsorLineIdFailure, (state) => ({
+    on(sponsorLineActions.getSponsorLineIdFailure, (state): SponsorLineState => ({
       ...state,
       sponsorLineIsLoading: false,
     })),
 
     // create actions
-    on(sponsorLineActions.create, (state) => ({
+    on(sponsorLineActions.create, (state): SponsorLineState => ({
       ...state,
       sponsorLineIsSubmitting: true,
     })),
@@ -61,35 +61,35 @@ const sponsorLineFeature = createFeature({
         allSponsorLines: sortedTournaments,
       };
     }),
-    on(sponsorLineActions.createFailure, (state, action) => ({
+    on(sponsorLineActions.createFailure, (state, action): SponsorLineState => ({
       ...state,
       sponsorLineIsSubmitting: false,
       errors: action,
     })),
 
     // // delete actions
-    // on(sponsorLineActions.delete, (state) => ({
+    // on(sponsorLineActions.delete, (state): SponsorLineState => ({
     //   ...state,
     //   sponsorLineIsSubmitting: true,
     // })),
-    // on(sponsorLineActions.deletedSuccessfully, (state, action) => ({
+    // on(sponsorLineActions.deletedSuccessfully, (state, action): SponsorLineState => ({
     //   ...state,
     //   sponsorLineIsSubmitting: false,
     //   itemsList: (state.allSponsorLines || []).filter((item) => item.id !== action.id),
     //   errors: null,
     // })),
-    // on(sponsorLineActions.deleteFailure, (state, action) => ({
+    // on(sponsorLineActions.deleteFailure, (state, action): SponsorLineState => ({
     //   ...state,
     //   sponsorLineIsSubmitting: false,
     //   errors: action,
     // })),
     //
     // // update actions
-    // on(sponsorLineActions.update, (state) => ({
+    // on(sponsorLineActions.update, (state): SponsorLineState => ({
     //   ...state,
     //   sponsorLineIsSubmitting: true,
     // })),
-    // on(sponsorLineActions.updatedSuccessfully, (state, action) => ({
+    // on(sponsorLineActions.updatedSuccessfully, (state, action): SponsorLineState => ({
     //   ...state,
     //   sponsorLineIsSubmitting: false,
     //   currentSponsorLine: action.updatedSponsorLine,
@@ -98,7 +98,7 @@ const sponsorLineFeature = createFeature({
     //   ),
     //   errors: null,
     // })),
-    // on(sponsorLineActions.updateFailure, (state, action) => ({
+    // on(sponsorLineActions.updateFailure, (state, action): SponsorLineState => ({
     //   ...state,
     //   sponsorLineIsSubmitting: false,
     //   errors: action,
@@ -113,39 +113,39 @@ const sponsorLineFeature = createFeature({
     // }),
     //
     // get actions
-    on(sponsorLineActions.get, (state) => ({
+    on(sponsorLineActions.get, (state): SponsorLineState => ({
       ...state,
       sponsorLineIsLoading: true,
     })),
-    on(sponsorLineActions.getItemSuccess, (state, action) => ({
+    on(sponsorLineActions.getItemSuccess, (state, action): SponsorLineState => ({
       ...state,
       sponsorLineIsLoading: false,
       currentSponsorLine: action.currentSponsorLine,
     })),
-    on(sponsorLineActions.getItemFailure, (state, action) => ({
+    on(sponsorLineActions.getItemFailure, (state, action): SponsorLineState => ({
       ...state,
       sponsorLineIsLoading: false,
       errors: action,
     })),
 
-    on(sponsorLineActions.getFullDataSponsorLine, (state) => ({
+    on(sponsorLineActions.getFullDataSponsorLine, (state): SponsorLineState => ({
       ...state,
       sponsorLineIsLoading: true,
     })),
-    on(sponsorLineActions.getFullDataSponsorLineSuccess, (state, action) => ({
+    on(sponsorLineActions.getFullDataSponsorLineSuccess, (state, action): SponsorLineState => ({
       ...state,
       sponsorLineIsLoading: false,
       currentSponsorLine: action.currentSponsorLineWithFullData.sponsor_line,
       currentSponsorLineWithFullData: action.currentSponsorLineWithFullData,
     })),
-    on(sponsorLineActions.getFullDataSponsorLineFailure, (state, action) => ({
+    on(sponsorLineActions.getFullDataSponsorLineFailure, (state, action): SponsorLineState => ({
       ...state,
       sponsorLineIsLoading: false,
       errors: action,
     })),
 
     //Match Sponsor Line
-    on(sponsorLineActions.getFullDataMatchSponsorLine, (state) => ({
+    on(sponsorLineActions.getFullDataMatchSponsorLine, (state): SponsorLineState => ({
       ...state,
       sponsorLineIsLoading: true,
     })),
@@ -167,7 +167,7 @@ const sponsorLineFeature = createFeature({
       }),
     ),
 
-    on(sponsorLineActions.getAll, (state) => ({
+    on(sponsorLineActions.getAll, (state): SponsorLineState => ({
       ...state,
       sponsorLineIsLoading: true,
     })),
@@ -182,13 +182,13 @@ const sponsorLineFeature = createFeature({
         allSponsorLines: sortedSponsorLines,
       };
     }),
-    on(sponsorLineActions.getAllFailure, (state, action) => ({
+    on(sponsorLineActions.getAllFailure, (state, action): SponsorLineState => ({
       ...state,
       sponsorLineIsLoading: false,
       errors: action,
     })),
     //
-    // on(sponsorLineActions.getSponsorLinesBySportId, (state) => ({
+    // on(sponsorLineActions.getSponsorLinesBySportId, (state): SponsorLineState => ({
     //   ...state,
     //   sponsorLineIsLoading: true,
     // })),
@@ -200,13 +200,13 @@ const sponsorLineFeature = createFeature({
     //     allSponsorLinesInSport: sortedTournaments,
     //   };
     // }),
-    // on(sponsorLineActions.getSponsorLinesBySportIDFailure, (state, action) => ({
+    // on(sponsorLineActions.getSponsorLinesBySportIDFailure, (state, action): SponsorLineState => ({
     //   ...state,
     //   sponsorLineIsLoading: false,
     //   errors: action,
     // })),
     //
-    // on(sponsorLineActions.getSponsorLinesByTournamentId, (state) => ({
+    // on(sponsorLineActions.getSponsorLinesByTournamentId, (state): SponsorLineState => ({
     //   ...state,
     //   sponsorLineIsLoading: true,
     // })),
@@ -218,7 +218,7 @@ const sponsorLineFeature = createFeature({
     //     allSponsorLinesInTournament: sortedSponsorLines,
     //   };
     // }),
-    // on(sponsorLineActions.getSponsorLinesByTournamentIDFailure, (state, action) => ({
+    // on(sponsorLineActions.getSponsorLinesByTournamentIDFailure, (state, action): SponsorLineState => ({
     //   ...state,
     //   sponsorLineIsLoading: false,
     //   errors: action,
@@ -242,7 +242,7 @@ const sponsorLineFeature = createFeature({
     //   };
     // }),
     //
-    // on(sponsorLineActions.removeSponsorLineFromTournament, (state, action) => ({
+    // on(sponsorLineActions.removeSponsorLineFromTournament, (state, action): SponsorLineState => ({
     //   ...state,
     //   allSponsorLinesInTournament: state.allSponsorLinesInTournament.filter(
     //     (store) => store.id !== action.id,

@@ -29,7 +29,7 @@ const matchWithFullDataFeature = createFeature({
   name: 'matchWithFullData',
   reducer: createReducer(
     initialState,
-    on(matchWithFullDataActions.getId, (state) => ({
+    on(matchWithFullDataActions.getId, (state): MatchWithFullDataState => ({
       ...state,
       isLoading: true,
     })),
@@ -41,13 +41,13 @@ const matchWithFullDataFeature = createFeature({
         currentMatchWithFullDataId: action.matchWithFullDataId,
       }),
     ),
-    on(matchWithFullDataActions.getMatchWithFullDataIdFailure, (state) => ({
+    on(matchWithFullDataActions.getMatchWithFullDataIdFailure, (state): MatchWithFullDataState => ({
       ...state,
       isLoading: false,
     })),
 
     // create actions
-    on(matchWithFullDataActions.create, (state) => ({
+    on(matchWithFullDataActions.create, (state): MatchWithFullDataState => ({
       ...state,
       isSubmitting: true,
     })),
@@ -68,18 +68,18 @@ const matchWithFullDataFeature = createFeature({
         allMatchesWithFullData: sortedTournaments,
       };
     }),
-    on(matchWithFullDataActions.createFailure, (state, action) => ({
+    on(matchWithFullDataActions.createFailure, (state, action): MatchWithFullDataState => ({
       ...state,
       isSubmitting: false,
       errors: action,
     })),
 
     // delete actions
-    on(matchWithFullDataActions.delete, (state) => ({
+    on(matchWithFullDataActions.delete, (state): MatchWithFullDataState => ({
       ...state,
       isSubmitting: true,
     })),
-    on(matchWithFullDataActions.deletedSuccessfully, (state, action) => ({
+    on(matchWithFullDataActions.deletedSuccessfully, (state, action): MatchWithFullDataState => ({
       ...state,
       isSubmitting: false,
       allMatchesWithFullDataInTournament: (
@@ -90,18 +90,18 @@ const matchWithFullDataFeature = createFeature({
       ),
       errors: null,
     })),
-    on(matchWithFullDataActions.deleteFailure, (state, action) => ({
+    on(matchWithFullDataActions.deleteFailure, (state, action): MatchWithFullDataState => ({
       ...state,
       isSubmitting: false,
       errors: action,
     })),
 
     // update actions
-    on(matchWithFullDataActions.update, (state) => ({
+    on(matchWithFullDataActions.update, (state): MatchWithFullDataState => ({
       ...state,
       isSubmitting: true,
     })),
-    on(matchWithFullDataActions.updatedSuccessfully, (state, action) => ({
+    on(matchWithFullDataActions.updatedSuccessfully, (state, action): MatchWithFullDataState => ({
       ...state,
       isSubmitting: false,
       currentMatchWithFullData: action.updatedMatchWithFullData,
@@ -112,7 +112,7 @@ const matchWithFullDataFeature = createFeature({
       ),
       errors: null,
     })),
-    on(matchWithFullDataActions.updateFailure, (state, action) => ({
+    on(matchWithFullDataActions.updateFailure, (state, action): MatchWithFullDataState => ({
       ...state,
       isSubmitting: false,
       errors: action,
@@ -146,7 +146,7 @@ const matchWithFullDataFeature = createFeature({
       },
     ),
 
-    on(matchWithFullDataActions.removeMatchFromTournament, (state, action) => ({
+    on(matchWithFullDataActions.removeMatchFromTournament, (state, action): MatchWithFullDataState => ({
       ...state,
       allMatchesWithFullDataInTournament:
         state.allMatchesWithFullDataInTournament.filter(
@@ -158,22 +158,22 @@ const matchWithFullDataFeature = createFeature({
     })),
 
     // get actions
-    on(matchWithFullDataActions.get, (state) => ({
+    on(matchWithFullDataActions.get, (state): MatchWithFullDataState => ({
       ...state,
       isLoading: true,
     })),
-    on(matchWithFullDataActions.getItemSuccess, (state, action) => ({
+    on(matchWithFullDataActions.getItemSuccess, (state, action): MatchWithFullDataState => ({
       ...state,
       isLoading: false,
       currentMatchWithFullData: action.matchWithFullData,
     })),
-    on(matchWithFullDataActions.getItemFailure, (state, action) => ({
+    on(matchWithFullDataActions.getItemFailure, (state, action): MatchWithFullDataState => ({
       ...state,
       isLoading: false,
       errors: action,
     })),
 
-    on(matchWithFullDataActions.getAll, (state) => ({
+    on(matchWithFullDataActions.getAll, (state): MatchWithFullDataState => ({
       ...state,
       isLoading: true,
     })),
@@ -188,13 +188,13 @@ const matchWithFullDataFeature = createFeature({
         allMatches: sortedMatchesWithFullData,
       };
     }),
-    on(matchWithFullDataActions.getAllItemsFailure, (state, action) => ({
+    on(matchWithFullDataActions.getAllItemsFailure, (state, action): MatchWithFullDataState => ({
       ...state,
       isLoading: false,
       errors: action,
     })),
 
-    on(matchWithFullDataActions.getMatchesWithFullDataBySportId, (state) => ({
+    on(matchWithFullDataActions.getMatchesWithFullDataBySportId, (state): MatchWithFullDataState => ({
       ...state,
       isLoading: true,
     })),
@@ -270,7 +270,7 @@ const matchWithFullDataFeature = createFeature({
     //   };
     // }),
     //
-    // on(matchWithFullDataActions.removeMatchFromTournament, (state, action) => ({
+    // on(matchWithFullDataActions.removeMatchFromTournament, (state, action): MatchWithFullDataState => ({
     //   ...state,
     //   allMatchsInTournament: state.allMatchsInTournament.filter(
     //     (team) => team.id !== action.id,

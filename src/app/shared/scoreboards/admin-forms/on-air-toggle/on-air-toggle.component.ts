@@ -1,11 +1,11 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { AdminDownButtonComponent } from '../../../ui/buttons/admin-down-button/admin-down-button.component';
-import { AsyncPipe, UpperCasePipe } from '@angular/common';
+import {  UpperCasePipe } from '@angular/common';
 
 @Component({
   selector: 'app-on-air-toggle',
   standalone: true,
-  imports: [AdminDownButtonComponent, AsyncPipe, UpperCasePipe],
+  imports: [AdminDownButtonComponent,  UpperCasePipe],
   templateUrl: './on-air-toggle.component.html',
   styleUrl: './on-air-toggle.component.less',
 })

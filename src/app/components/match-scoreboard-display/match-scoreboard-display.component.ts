@@ -22,7 +22,6 @@ import {
   dissolveAnimation,
   RevealHideAnimation,
 } from '../../shared/animations/scoreboard-animations';
-import { PlayerMatchLowerDisplayFlatComponent } from '../../shared/scoreboards/player-match-lower-display-flat/player-match-lower-display-flat.component';
 
 @Component({
   selector: 'app-match-scoreboard-display',
@@ -35,8 +34,7 @@ import { PlayerMatchLowerDisplayFlatComponent } from '../../shared/scoreboards/p
     SponsorDisplayFlatComponent,
     MatchSponsorLineDisplayFlatComponent,
     FootballStartRosterDisplayComponent,
-    PlayerMatchLowerDisplayFlatComponent
-],
+  ],
   animations: [RevealHideAnimation, dissolveAnimation],
 })
 export class MatchScoreboardDisplayComponent implements OnChanges, OnDestroy {

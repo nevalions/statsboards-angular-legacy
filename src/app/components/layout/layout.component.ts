@@ -1,4 +1,4 @@
-import { TuiRepeatTimes, TuiItem } from "@taiga-ui/cdk";
+import { TuiRepeatTimes, TuiItem } from '@taiga-ui/cdk';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Breadcrumb } from '../../type/base.type';
@@ -6,9 +6,15 @@ import { Store } from '@ngrx/store';
 import { AppState } from '../../store/appstate';
 import { AsyncPipe } from '@angular/common';
 import { HeaderComponent } from '../header/header.component';
-import { RouterLink, RouterOutlet } from '@angular/router';
+import { RouterOutlet } from '@angular/router';
 import { tuiBreadcrumbsOptionsProvider, TuiBreadcrumbs } from '@taiga-ui/kit';
-import { TuiRoot, TuiDataList, TuiLoader, TuiDropdown, TuiLink, TuiButton } from '@taiga-ui/core';
+import {
+  TuiRoot,
+  TuiDataList,
+  TuiLoader,
+  TuiDropdown,
+  TuiLink,
+} from '@taiga-ui/core';
 
 @Component({
   selector: 'app-layout',
@@ -17,15 +23,14 @@ import { TuiRoot, TuiDataList, TuiLoader, TuiDropdown, TuiLink, TuiButton } from
     AsyncPipe,
     HeaderComponent,
     RouterOutlet,
-    TuiBreadcrumbs, TuiItem,
+    TuiBreadcrumbs,
+    TuiItem,
     TuiLink,
     TuiLoader,
     TuiRoot,
-    RouterLink,
     TuiRepeatTimes,
     TuiDropdown,
     TuiDataList,
-    TuiButton,
   ],
   templateUrl: './layout.component.html',
   styleUrl: './layout.component.less',

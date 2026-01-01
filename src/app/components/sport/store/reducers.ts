@@ -25,22 +25,22 @@ const sportFeature = createFeature({
   reducer: createReducer(
     initialState,
 
-    on(sportActions.getId, (state) => ({
+    on(sportActions.getId, (state): SportState => ({
       ...state,
       isLoading: true,
     })),
-    on(sportActions.getSportIdSuccessfully, (state, action) => ({
+    on(sportActions.getSportIdSuccessfully, (state, action): SportState => ({
       ...state,
       isLoading: false,
       currentSportId: action.sportId,
     })),
-    on(sportActions.getSportIdFailure, (state) => ({
+    on(sportActions.getSportIdFailure, (state): SportState => ({
       ...state,
       isLoading: false,
     })),
 
     // create actions
-    on(sportActions.create, (state) => ({
+    on(sportActions.create, (state): SportState => ({
       ...state,
       isSubmitting: true,
     })),
@@ -54,18 +54,18 @@ const sportFeature = createFeature({
         allSports: sortedTournaments, // sorted list
       };
     }),
-    on(sportActions.createFailure, (state, action) => ({
+    on(sportActions.createFailure, (state, action): SportState => ({
       ...state,
       isSubmitting: false,
       errors: action,
     })),
 
     // delete actions
-    on(sportActions.delete, (state) => ({
+    on(sportActions.delete, (state): SportState => ({
       ...state,
       isSubmitting: true,
     })),
-    on(sportActions.deletedSuccessfully, (state, action) => ({
+    on(sportActions.deletedSuccessfully, (state, action): SportState => ({
       ...state,
       isSubmitting: false,
       allSports: (state.allSports || []).filter(
@@ -73,18 +73,18 @@ const sportFeature = createFeature({
       ),
       errors: null,
     })),
-    on(sportActions.deleteFailure, (state, action) => ({
+    on(sportActions.deleteFailure, (state, action): SportState => ({
       ...state,
       isSubmitting: false,
       errors: action,
     })),
 
     // update actions
-    on(sportActions.update, (state) => ({
+    on(sportActions.update, (state): SportState => ({
       ...state,
       isSubmitting: true,
     })),
-    on(sportActions.updatedSuccessfully, (state, action) => ({
+    on(sportActions.updatedSuccessfully, (state, action): SportState => ({
       ...state,
       isSubmitting: false,
       currentSport: action.updatedSport,
@@ -93,46 +93,46 @@ const sportFeature = createFeature({
       ),
       errors: null,
     })),
-    on(sportActions.updateFailure, (state, action) => ({
+    on(sportActions.updateFailure, (state, action): SportState => ({
       ...state,
       isSubmitting: false,
       errors: action,
     })),
 
     // get actions
-    on(sportActions.get, (state) => ({
+    on(sportActions.get, (state): SportState => ({
       ...state,
       isLoading: true,
     })),
-    on(sportActions.getItemSuccess, (state, action) => ({
+    on(sportActions.getItemSuccess, (state, action): SportState => ({
       ...state,
       isLoading: false,
       currentSportId: action.sport.id,
       currentSport: action.sport,
     })),
-    on(sportActions.getItemFailure, (state, action) => ({
+    on(sportActions.getItemFailure, (state, action): SportState => ({
       ...state,
       isLoading: false,
       errors: action,
     })),
     //get by match
-    on(sportActions.getSportByMatch, (state) => ({
+    on(sportActions.getSportByMatch, (state): SportState => ({
       ...state,
       isLoading: true,
     })),
-    on(sportActions.getSportByMatchSuccess, (state, action) => ({
+    on(sportActions.getSportByMatchSuccess, (state, action): SportState => ({
       ...state,
       isLoading: false,
       currentSportId: action.sport.id,
       currentSport: action.sport,
     })),
-    on(sportActions.getSportByMatchFailure, (state, action) => ({
+    on(sportActions.getSportByMatchFailure, (state, action): SportState => ({
       ...state,
       isLoading: false,
       errors: action,
     })),
 
-    on(sportActions.getAll, (state) => ({
+    on(sportActions.getAll, (state): SportState => ({
       ...state,
       isLoading: true,
     })),
@@ -144,7 +144,7 @@ const sportFeature = createFeature({
         allSports: sortedTournaments,
       };
     }),
-    on(sportActions.getAllItemsFailure, (state, action) => ({
+    on(sportActions.getAllItemsFailure, (state, action): SportState => ({
       ...state,
       isLoading: false,
       errors: action,

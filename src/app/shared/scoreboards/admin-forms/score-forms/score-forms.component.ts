@@ -12,7 +12,7 @@ import { AsyncPipe, UpperCasePipe } from '@angular/common';
 import { Observable } from 'rxjs';
 import { IMatchFullDataWithScoreboard } from '../../../../type/match.type';
 import { ToggleVisibleButtonComponent } from '../../../ui/buttons/toggle-visible-button/toggle-visible-button.component';
-import { TuiError, TuiButton } from '@taiga-ui/core';
+import {  TuiButton } from '@taiga-ui/core';
 import {
   FormControl,
   FormGroup,
@@ -46,9 +46,9 @@ import { SimpleInputWithButtonsComponent } from '../simple-input-with-buttons/si
     TuiButton,
     ReactiveFormsModule,
     TuiInputNumberModule,
-    TuiError,
+    
     TuiFieldErrorPipe,
-    TuiFieldErrorContentPipe,
+    
     TuiTextfieldControllerModule,
     IncrementButtonComponent,
     AdminSubmitButtonComponent,

@@ -11,7 +11,7 @@ import { AsyncPipe } from '@angular/common';
 import { Observable } from 'rxjs';
 import { IMatchFullDataWithScoreboard } from '../../../../type/match.type';
 import { ToggleVisibleButtonComponent } from '../../../ui/buttons/toggle-visible-button/toggle-visible-button.component';
-import { TuiFieldErrorPipe, TuiFieldErrorContentPipe } from '@taiga-ui/kit';
+import {  TuiFieldErrorContentPipe } from '@taiga-ui/kit';
 import {
   FormControl,
   FormGroup,
@@ -36,8 +36,8 @@ import { getFormControl } from '../../../../base/formHelpers';
     ToggleVisibleButtonComponent,
     ReactiveFormsModule,
     TuiError,
-    TuiFieldErrorPipe,
-    TuiFieldErrorContentPipe,
+    
+    
     TuiInputNumberModule,
     TuiInputModule,
     AdminSubmitButtonComponent,

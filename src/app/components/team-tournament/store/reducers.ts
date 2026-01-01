@@ -25,7 +25,7 @@ const teamTournamentFeature = createFeature({
   name: 'teamTournament',
   reducer: createReducer(
     initialState,
-    on(teamTournamentActions.getId, (state) => ({
+    on(teamTournamentActions.getId, (state): TeamTournamentState => ({
       ...state,
       isLoading: true,
     })),
@@ -37,13 +37,13 @@ const teamTournamentFeature = createFeature({
         currentTournamentId: action.teamTournamentId,
       }),
     ),
-    on(teamTournamentActions.getTeamTournamentConnectionIdFailure, (state) => ({
+    on(teamTournamentActions.getTeamTournamentConnectionIdFailure, (state): TeamTournamentState => ({
       ...state,
       isLoading: false,
     })),
 
     // create actions
-    on(teamTournamentActions.create, (state) => ({
+    on(teamTournamentActions.create, (state): TeamTournamentState => ({
       ...state,
       isSubmitting: true,
     })),
@@ -60,19 +60,19 @@ const teamTournamentFeature = createFeature({
         allTeamTournament: sortedTournaments, // sorted list
       };
     }),
-    on(teamTournamentActions.createFailure, (state, action) => ({
+    on(teamTournamentActions.createFailure, (state, action): TeamTournamentState => ({
       ...state,
       isSubmitting: false,
       errors: action,
     })),
 
     // delete actions
-    on(teamTournamentActions.delete, (state) => ({
+    on(teamTournamentActions.delete, (state): TeamTournamentState => ({
       ...state,
       isSubmitting: true,
     })),
 
-    on(teamTournamentActions.deletedSuccessfully, (state, action) => ({
+    on(teamTournamentActions.deletedSuccessfully, (state, action): TeamTournamentState => ({
       ...state,
       isSubmitting: false,
       allTeamTournament: (state.allTeamTournament || []).filter(
@@ -83,18 +83,18 @@ const teamTournamentFeature = createFeature({
       errors: null,
     })),
 
-    on(teamTournamentActions.deleteFailure, (state, action) => ({
+    on(teamTournamentActions.deleteFailure, (state, action): TeamTournamentState => ({
       ...state,
       isSubmitting: false,
       errors: action,
     })),
 
     // update actions
-    on(teamTournamentActions.update, (state) => ({
+    on(teamTournamentActions.update, (state): TeamTournamentState => ({
       ...state,
       isSubmitting: true,
     })),
-    on(teamTournamentActions.updatedSuccessfully, (state, action) => ({
+    on(teamTournamentActions.updatedSuccessfully, (state, action): TeamTournamentState => ({
       ...state,
       isSubmitting: false,
       currentTeamTournament: action.updatedTeamTournament,
@@ -105,29 +105,29 @@ const teamTournamentFeature = createFeature({
       ),
       errors: null,
     })),
-    on(teamTournamentActions.updateFailure, (state, action) => ({
+    on(teamTournamentActions.updateFailure, (state, action): TeamTournamentState => ({
       ...state,
       isSubmitting: false,
       errors: action,
     })),
 
     // get actions
-    on(teamTournamentActions.get, (state) => ({
+    on(teamTournamentActions.get, (state): TeamTournamentState => ({
       ...state,
       isLoading: true,
     })),
-    on(teamTournamentActions.getItemSuccess, (state, action) => ({
+    on(teamTournamentActions.getItemSuccess, (state, action): TeamTournamentState => ({
       ...state,
       isLoading: false,
       currentTeamTournament: action.teamTournament,
     })),
-    on(teamTournamentActions.getItemFailure, (state, action) => ({
+    on(teamTournamentActions.getItemFailure, (state, action): TeamTournamentState => ({
       ...state,
       isLoading: false,
       errors: action,
     })),
 
-    on(teamTournamentActions.getConnectionByTeamIdTournamentId, (state) => ({
+    on(teamTournamentActions.getConnectionByTeamIdTournamentId, (state): TeamTournamentState => ({
       ...state,
       isLoading: true,
     })),
@@ -148,7 +148,7 @@ const teamTournamentFeature = createFeature({
       }),
     ),
 
-    on(teamTournamentActions.getAll, (state) => ({
+    on(teamTournamentActions.getAll, (state): TeamTournamentState => ({
       ...state,
       isLoading: true,
     })),
@@ -163,7 +163,7 @@ const teamTournamentFeature = createFeature({
         allTeamTournament: sortedTeamTournaments,
       };
     }),
-    on(teamTournamentActions.getAllItemsFailure, (state, action) => ({
+    on(teamTournamentActions.getAllItemsFailure, (state, action): TeamTournamentState => ({
       ...state,
       isLoading: false,
       errors: action,

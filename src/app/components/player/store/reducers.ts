@@ -26,22 +26,22 @@ const playerFeature = createFeature({
   reducer: createReducer(
     initialState,
 
-    on(playerActions.getId, (state) => ({
+    on(playerActions.getId, (state): PlayerState => ({
       ...state,
       playerIsLoading: true,
     })),
-    on(playerActions.getPlayerIdSuccessfully, (state, action) => ({
+    on(playerActions.getPlayerIdSuccessfully, (state, action): PlayerState => ({
       ...state,
       playerIsLoading: false,
       currentPlayerId: action.playerId,
     })),
-    on(playerActions.getPlayerIdFailure, (state) => ({
+    on(playerActions.getPlayerIdFailure, (state): PlayerState => ({
       ...state,
       playerIsLoading: false,
     })),
 
     // create actions
-    on(playerActions.create, (state) => ({
+    on(playerActions.create, (state): PlayerState => ({
       ...state,
       playerIsSubmitting: true,
     })),
@@ -57,18 +57,18 @@ const playerFeature = createFeature({
         allSportPlayers: newSportList,
       };
     }),
-    on(playerActions.createFailure, (state, action) => ({
+    on(playerActions.createFailure, (state, action): PlayerState => ({
       ...state,
       playerIsSubmitting: false,
       errors: action,
     })),
 
     // delete actions
-    on(playerActions.delete, (state) => ({
+    on(playerActions.delete, (state): PlayerState => ({
       ...state,
       playerIsSubmitting: true,
     })),
-    on(playerActions.deletedSuccessfully, (state, action) => ({
+    on(playerActions.deletedSuccessfully, (state, action): PlayerState => ({
       ...state,
       playerIsSubmitting: false,
       allPlayers: (state.allPlayers || []).filter(
@@ -79,18 +79,18 @@ const playerFeature = createFeature({
       ),
       errors: null,
     })),
-    on(playerActions.deleteFailure, (state, action) => ({
+    on(playerActions.deleteFailure, (state, action): PlayerState => ({
       ...state,
       playerIsSubmitting: false,
       errors: action,
     })),
 
     // update actions
-    on(playerActions.update, (state) => ({
+    on(playerActions.update, (state): PlayerState => ({
       ...state,
       playerIsSubmitting: true,
     })),
-    on(playerActions.updatedSuccessfully, (state, action) => ({
+    on(playerActions.updatedSuccessfully, (state, action): PlayerState => ({
       ...state,
       playerIsSubmitting: false,
       currentPlayer: action.updatedPlayer,
@@ -103,29 +103,29 @@ const playerFeature = createFeature({
 
       errors: null,
     })),
-    on(playerActions.updateFailure, (state, action) => ({
+    on(playerActions.updateFailure, (state, action): PlayerState => ({
       ...state,
       playerIsSubmitting: false,
       errors: action,
     })),
 
     // get actions
-    on(playerActions.get, (state) => ({
+    on(playerActions.get, (state): PlayerState => ({
       ...state,
       playerIsLoading: true,
     })),
-    on(playerActions.getItemSuccess, (state, action) => ({
+    on(playerActions.getItemSuccess, (state, action): PlayerState => ({
       ...state,
       playerIsLoading: false,
       currentPlayer: action.player,
     })),
-    on(playerActions.getItemFailure, (state, action) => ({
+    on(playerActions.getItemFailure, (state, action): PlayerState => ({
       ...state,
       playerIsLoading: false,
       errors: action,
     })),
 
-    on(playerActions.getAll, (state) => ({
+    on(playerActions.getAll, (state): PlayerState => ({
       ...state,
       playerIsLoading: true,
     })),
@@ -137,13 +137,13 @@ const playerFeature = createFeature({
         allPlayers: sortedTournaments,
       };
     }),
-    on(playerActions.getAllItemsFailure, (state, action) => ({
+    on(playerActions.getAllItemsFailure, (state, action): PlayerState => ({
       ...state,
       playerIsLoading: false,
       errors: action,
     })),
 
-    on(playerActions.getAllPlayersBySportId, (state) => ({
+    on(playerActions.getAllPlayersBySportId, (state): PlayerState => ({
       ...state,
       playerIsLoading: true,
     })),
@@ -155,7 +155,7 @@ const playerFeature = createFeature({
         allSportPlayers: sortedPlayers,
       };
     }),
-    on(playerActions.getAllItemsFailure, (state, action) => ({
+    on(playerActions.getAllItemsFailure, (state, action): PlayerState => ({
       ...state,
       playerIsLoading: false,
       errors: action,

@@ -1,5 +1,4 @@
-import { NG_EVENT_PLUGINS } from "@taiga-ui/event-plugins";
-import { TuiRoot } from "@taiga-ui/core";
+import { NG_EVENT_PLUGINS } from '@taiga-ui/event-plugins';
 import {
   ApplicationConfig,
   importProvidersFrom,
@@ -11,7 +10,11 @@ import {
   withComponentInputBinding,
   withRouterConfig,
 } from '@angular/router';
-import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/http';
+import {
+  provideHttpClient,
+  withFetch,
+  withInterceptors,
+} from '@angular/common/http';
 import { provideEffects } from '@ngrx/effects';
 import { provideRouterStore, routerReducer } from '@ngrx/router-store';
 import { provideState, provideStore } from '@ngrx/store';
@@ -58,6 +61,6 @@ export const appConfig: ApplicationConfig = {
       trace: false,
       traceLimit: 75,
     }),
-        NG_EVENT_PLUGINS
-    ],
+    NG_EVENT_PLUGINS,
+  ],
 };

@@ -34,22 +34,22 @@ const matchFeature = createFeature({
   name: 'match',
   reducer: createReducer(
     initialState,
-    on(matchActions.getId, (state) => ({
+    on(matchActions.getId, (state): MatchState => ({
       ...state,
       matchIsLoading: true,
     })),
-    on(matchActions.getMatchIdSuccessfully, (state, action) => ({
+    on(matchActions.getMatchIdSuccessfully, (state, action): MatchState => ({
       ...state,
       matchIsLoading: false,
       currentMatchId: action.matchId,
     })),
-    on(matchActions.getMatchIdFailure, (state) => ({
+    on(matchActions.getMatchIdFailure, (state): MatchState => ({
       ...state,
       matchIsLoading: false,
     })),
 
     // create actions
-    on(matchActions.create, (state) => ({
+    on(matchActions.create, (state): MatchState => ({
       ...state,
       matchIsSubmitting: true,
     })),
@@ -64,18 +64,18 @@ const matchFeature = createFeature({
         allMatchesInTournament: sortedTournaments,
       };
     }),
-    on(matchActions.createFailure, (state, action) => ({
+    on(matchActions.createFailure, (state, action): MatchState => ({
       ...state,
       matchIsSubmitting: false,
       errors: action,
     })),
 
     // delete actions
-    on(matchActions.delete, (state) => ({
+    on(matchActions.delete, (state): MatchState => ({
       ...state,
       matchIsSubmitting: true,
     })),
-    on(matchActions.deletedSuccessfully, (state, action) => ({
+    on(matchActions.deletedSuccessfully, (state, action): MatchState => ({
       ...state,
       matchIsSubmitting: false,
       allMatches: (state.allMatches || []).filter(
@@ -86,18 +86,18 @@ const matchFeature = createFeature({
       ),
       errors: null,
     })),
-    on(matchActions.deleteFailure, (state, action) => ({
+    on(matchActions.deleteFailure, (state, action): MatchState => ({
       ...state,
       matchIsSubmitting: false,
       errors: action,
     })),
 
     // update actions
-    on(matchActions.update, (state) => ({
+    on(matchActions.update, (state): MatchState => ({
       ...state,
       matchIsSubmitting: true,
     })),
-    on(matchActions.updatedSuccessfully, (state, action) => ({
+    on(matchActions.updatedSuccessfully, (state, action): MatchState => ({
       ...state,
       matchIsSubmitting: false,
       currentMatch: action.updatedMatch,
@@ -109,7 +109,7 @@ const matchFeature = createFeature({
       ),
       errors: null,
     })),
-    on(matchActions.updateFailure, (state, action) => ({
+    on(matchActions.updateFailure, (state, action): MatchState => ({
       ...state,
       matchIsSubmitting: false,
       errors: action,
@@ -124,22 +124,22 @@ const matchFeature = createFeature({
     }),
 
     // get actions
-    on(matchActions.get, (state) => ({
+    on(matchActions.get, (state): MatchState => ({
       ...state,
       matchIsLoading: true,
     })),
-    on(matchActions.getItemSuccess, (state, action) => ({
+    on(matchActions.getItemSuccess, (state, action): MatchState => ({
       ...state,
       matchIsLoading: false,
       currentMatch: action.match,
     })),
-    on(matchActions.getItemFailure, (state, action) => ({
+    on(matchActions.getItemFailure, (state, action): MatchState => ({
       ...state,
       matchIsLoading: false,
       errors: action,
     })),
 
-    on(matchActions.getAll, (state) => ({
+    on(matchActions.getAll, (state): MatchState => ({
       ...state,
       matchIsLoading: true,
     })),
@@ -151,13 +151,13 @@ const matchFeature = createFeature({
         allMatches: sortedMatches,
       };
     }),
-    on(matchActions.getAllItemsFailure, (state, action) => ({
+    on(matchActions.getAllItemsFailure, (state, action): MatchState => ({
       ...state,
       matchIsLoading: false,
       errors: action,
     })),
 
-    on(matchActions.getMatchesBySportId, (state) => ({
+    on(matchActions.getMatchesBySportId, (state): MatchState => ({
       ...state,
       matchIsLoading: true,
     })),
@@ -169,13 +169,13 @@ const matchFeature = createFeature({
         allMatchesInSport: sortedMatches,
       };
     }),
-    on(matchActions.getMatchesBySportIDFailure, (state, action) => ({
+    on(matchActions.getMatchesBySportIDFailure, (state, action): MatchState => ({
       ...state,
       matchIsLoading: false,
       errors: action,
     })),
 
-    on(matchActions.getMatchesByTournamentId, (state) => ({
+    on(matchActions.getMatchesByTournamentId, (state): MatchState => ({
       ...state,
       matchIsLoading: true,
     })),
@@ -187,13 +187,13 @@ const matchFeature = createFeature({
         allMatchesInTournament: sortedMatches,
       };
     }),
-    on(matchActions.getMatchesByTournamentIDFailure, (state, action) => ({
+    on(matchActions.getMatchesByTournamentIDFailure, (state, action): MatchState => ({
       ...state,
       matchIsLoading: false,
       errors: action,
     })),
 
-    on(matchActions.getMatchesByTournamentIdWithPagination, (state) => ({
+    on(matchActions.getMatchesByTournamentIdWithPagination, (state): MatchState => ({
       ...state,
       matchIsLoading: true,
     })),
@@ -205,14 +205,14 @@ const matchFeature = createFeature({
         allMatchesInTournamentPaginated: sortedMatches,
       };
     }),
-    on(matchActions.getMatchesByTournamentIDWithPaginationFailure, (state, action) => ({
+    on(matchActions.getMatchesByTournamentIDWithPaginationFailure, (state, action): MatchState => ({
       ...state,
       matchIsLoading: false,
       errors: action,
     })),
 
     //pars matches from tournament EESL
-    on(matchActions.parsMatchesFromTournamentEESL, (state) => ({
+    on(matchActions.parsMatchesFromTournamentEESL, (state): MatchState => ({
       ...state,
       matchIsLoading: true,
     })),

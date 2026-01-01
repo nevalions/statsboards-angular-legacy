@@ -3,7 +3,6 @@ import { Person } from '../person';
 import { ImageService } from '../../../services/image.service';
 import { urlWithProtocol } from '../../../base/constants';
 import { AsyncPipe, UpperCasePipe } from '@angular/common';
-import { AddEditTeamComponent } from '../../team/add-edit-team/add-edit-team.component';
 import { DeleteButtonComponent } from '../../../shared/ui/buttons/delete-button/delete-button.component';
 import { DeleteDialogComponent } from '../../../shared/ui/dialogs/delete-dialog/delete-dialog.component';
 import { EditButtonComponent } from '../../../shared/ui/buttons/edit-button/edit-button.component';
@@ -15,7 +14,6 @@ import { AddEditPersonComponent } from '../add-edit-person/add-edit-person.compo
   imports: [
     AsyncPipe,
     UpperCasePipe,
-    AddEditTeamComponent,
     DeleteButtonComponent,
     DeleteDialogComponent,
     EditButtonComponent,

@@ -24,49 +24,49 @@ const playclockFeature = createFeature({
     initialState,
 
     // update actions
-    on(playclockActions.update, (state) => ({
+    on(playclockActions.update, (state): PlayclockState => ({
       ...state,
       playclockIsSubmitting: true,
     })),
-    on(playclockActions.updatedSuccessfully, (state, action) => ({
+    on(playclockActions.updatedSuccessfully, (state, action): PlayclockState => ({
       ...state,
       playclockIsSubmitting: false,
       currentPlayclock: action.updatedPlayclock,
       errors: null,
     })),
-    on(playclockActions.updateFailure, (state, action) => ({
+    on(playclockActions.updateFailure, (state, action): PlayclockState => ({
       ...state,
       playclockIsSubmitting: false,
       errors: action,
     })),
 
     // get actions
-    on(playclockActions.get, (state) => ({
+    on(playclockActions.get, (state): PlayclockState => ({
       ...state,
       playclockLoading: true,
     })),
-    on(playclockActions.getPlayclockSuccess, (state, action) => ({
+    on(playclockActions.getPlayclockSuccess, (state, action): PlayclockState => ({
       ...state,
       playclockLoading: false,
       currentPlayclock: action.playclock,
     })),
-    on(playclockActions.getPlayclockFailure, (state, action) => ({
+    on(playclockActions.getPlayclockFailure, (state, action): PlayclockState => ({
       ...state,
       playclockLoading: false,
       errors: action,
     })),
 
-    on(playclockActions.getPlayClockByMatchId, (state) => ({
+    on(playclockActions.getPlayClockByMatchId, (state): PlayclockState => ({
       ...state,
       playclockLoading: true,
     })),
-    on(playclockActions.getPlayclockByMatchIDSuccess, (state, action) => ({
+    on(playclockActions.getPlayclockByMatchIDSuccess, (state, action): PlayclockState => ({
       ...state,
       playclockLoading: false,
       currentPlayclock: action.playclock,
       currentPlayclockId: action.playclock.id,
     })),
-    on(playclockActions.getPlayclockByMatchIDFailure, (state, action) => ({
+    on(playclockActions.getPlayclockByMatchIDFailure, (state, action): PlayclockState => ({
       ...state,
       errors: action,
       playclockLoading: false,

@@ -15,7 +15,7 @@ import { IFootballEventWithPlayers } from '../../../../type/football-event.type'
     TuiInputPhoneModule,
     TuiTextfieldControllerModule,
     ReactiveFormsModule,
-    TuiValueChanges,
+    
     UpperCasePipe,
   ],
   templateUrl: './input-number-with-buttons.component.html',

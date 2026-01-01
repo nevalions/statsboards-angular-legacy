@@ -24,7 +24,7 @@ const footballEventFeature = createFeature({
   reducer: createReducer(
     initialState,
     // create actions
-    on(footballEventActions.create, (state) => ({
+    on(footballEventActions.create, (state): FootballEventState => ({
       ...state,
       footballEventIsSubmitting: true,
     })),
@@ -38,29 +38,29 @@ const footballEventFeature = createFeature({
         allMatchFootballEvents: sortedEvents,
       };
     }),
-    on(footballEventActions.createFailure, (state, action) => ({
+    on(footballEventActions.createFailure, (state, action): FootballEventState => ({
       ...state,
       footballEventIsSubmitting: false,
       errors: action,
     })),
 
     // update actions
-    on(footballEventActions.update, (state) => ({
+    on(footballEventActions.update, (state): FootballEventState => ({
       ...state,
       footballEventIsSubmitting: true,
     })),
-    on(footballEventActions.updatedSuccessfully, (state, action) => ({
+    on(footballEventActions.updatedSuccessfully, (state, action): FootballEventState => ({
       ...state,
       footballEventIsSubmitting: false,
       currentFootballEvent: action.updatedFootballEvent,
     })),
-    on(footballEventActions.updateFailure, (state, action) => ({
+    on(footballEventActions.updateFailure, (state, action): FootballEventState => ({
       ...state,
       footballEventIsSubmitting: false,
       errors: action,
     })),
     // update action by key value actions
-    on(footballEventActions.updateFootballEventByKeyValue, (state) => ({
+    on(footballEventActions.updateFootballEventByKeyValue, (state): FootballEventState => ({
       ...state,
       footballEventIsSubmitting: true,
     })),
@@ -89,21 +89,21 @@ const footballEventFeature = createFeature({
     ),
 
     // get actions
-    on(footballEventActions.get, (state) => ({
+    on(footballEventActions.get, (state): FootballEventState => ({
       ...state,
       footballEventIsLoading: true,
     })),
-    on(footballEventActions.getItemSuccess, (state, action) => ({
+    on(footballEventActions.getItemSuccess, (state, action): FootballEventState => ({
       ...state,
       footballEventIsLoading: false,
       currentFootballEvent: action.footballEvent,
     })),
-    on(footballEventActions.getItemFailure, (state, action) => ({
+    on(footballEventActions.getItemFailure, (state, action): FootballEventState => ({
       ...state,
       footballEventIsLoading: false,
     })),
 
-    on(footballEventActions.getFootballEventsByMatchId, (state) => ({
+    on(footballEventActions.getFootballEventsByMatchId, (state): FootballEventState => ({
       ...state,
       footballEventIsLoading: true,
     })),
@@ -129,18 +129,18 @@ const footballEventFeature = createFeature({
     ),
 
     // delete by id
-    on(footballEventActions.deleteById, (state) => ({
+    on(footballEventActions.deleteById, (state): FootballEventState => ({
       ...state,
       footballEventIsSubmitting: true,
     })),
-    on(footballEventActions.deletedByIdSuccessfully, (state, action) => ({
+    on(footballEventActions.deletedByIdSuccessfully, (state, action): FootballEventState => ({
       ...state,
       footballEventIsSubmitting: false,
       allMatchFootballEvents: (state.allMatchFootballEvents || []).filter(
         (item) => item.id !== action.deletedFootballEvent.id,
       ),
     })),
-    on(footballEventActions.deleteByIdFailure, (state, action) => ({
+    on(footballEventActions.deleteByIdFailure, (state, action): FootballEventState => ({
       ...state,
       footballEventIsSubmitting: false,
     })),
@@ -153,7 +153,7 @@ const footballEventFeature = createFeature({
         footballEventIsSubmitting: false,
       };
     }),
-    on(footballEventActions.recalculateEventsFailure, (state, action) => ({
+    on(footballEventActions.recalculateEventsFailure, (state, action): FootballEventState => ({
       ...state,
       footballEventIsSubmitting: false,
     })),

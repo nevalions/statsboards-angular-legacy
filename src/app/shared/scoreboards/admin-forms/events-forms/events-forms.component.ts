@@ -35,9 +35,9 @@ import { SimpleFootballOffenceStatsComponent } from '../../../ui/events/football
     AddEditFootballEventTableComponent,
     AdminSubmitButtonComponent,
     ReactiveFormsModule,
-    TuiError,
+    
     TuiFieldErrorPipe,
-    TuiFieldErrorContentPipe,
+    
     TuiInputNumberModule,
     UpperCasePipe,
     TitleCasePipe,

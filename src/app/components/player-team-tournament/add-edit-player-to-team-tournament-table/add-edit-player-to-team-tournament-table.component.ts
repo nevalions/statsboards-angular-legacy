@@ -1,12 +1,12 @@
-import { TuiTable } from "@taiga-ui/addon-table";
-import { TuiAvatar } from "@taiga-ui/kit";
-import { TuiTextfieldControllerModule } from "@taiga-ui/legacy";
+import { TuiTable } from '@taiga-ui/addon-table';
+import { TuiAvatar } from '@taiga-ui/kit';
+import { TuiTextfieldControllerModule } from '@taiga-ui/legacy';
 import {
-  CdkFixedSizeVirtualScroll,
-  CdkVirtualForOf,
-  CdkVirtualScrollViewport,
-} from '@angular/cdk/scrolling';
-import { DatePipe, DecimalPipe, TitleCasePipe, UpperCasePipe } from '@angular/common';
+  DatePipe,
+  DecimalPipe,
+  TitleCasePipe,
+  UpperCasePipe,
+} from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -22,7 +22,7 @@ import {
   FormGroup,
   ReactiveFormsModule,
 } from '@angular/forms';
-import { TuiExpand, TuiFallbackSrcPipe, TuiInitialsPipe } from '@taiga-ui/core';
+import { TuiExpand } from '@taiga-ui/core';
 import { environment } from '../../../../environments/environment';
 import {
   getArrayFormDataByIndexAndKey,
@@ -33,7 +33,6 @@ import { DialogService } from '../../../services/dialog.service';
 import { ImageService } from '../../../services/image.service';
 import { ActionsButtonsComponent } from '../../../shared/ui/buttons/actions-buttons/actions-buttons.component';
 import { AddButtonOnFinalTrComponent } from '../../../shared/ui/buttons/add-button-on-final-tr/add-button-on-final-tr.component';
-import { DeleteDialogComponent } from '../../../shared/ui/dialogs/delete-dialog/delete-dialog.component';
 import { SelectTeamComponent } from '../../../shared/ui/forms/select-team/select-team.component';
 import { SelectPlayerNumberComponent } from '../../../shared/ui/select/select-player-number/select-player-number.component';
 import { SelectPlayerPositionComponent } from '../../../shared/ui/select/select-player-position/select-player-position.component';
@@ -60,20 +59,14 @@ import { calculateAge } from '../../../base/helpers';
     SelectPlayerNumberComponent,
     SelectPlayerPositionComponent,
     ActionsButtonsComponent,
-    DeleteDialogComponent,
     AddButtonOnFinalTrComponent,
     SelectTeamComponent,
-    CdkVirtualScrollViewport,
-    CdkVirtualForOf,
-    CdkFixedSizeVirtualScroll,
     TitleCasePipe,
     TuiExpand,
     DatePipe,
     TuiAvatar,
     DecimalPipe,
-    TuiFallbackSrcPipe,
-    TuiInitialsPipe
-],
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './add-edit-player-to-team-tournament-table.component.html',
   styleUrl: './add-edit-player-to-team-tournament-table.component.less',

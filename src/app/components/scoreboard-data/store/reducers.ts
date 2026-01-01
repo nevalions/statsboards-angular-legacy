@@ -27,23 +27,23 @@ const scoreboardDataFeature = createFeature({
   reducer: createReducer(
     initialState,
     // update actions
-    on(scoreboardDataActions.update, (state) => ({
+    on(scoreboardDataActions.update, (state): ScoreboardDataState => ({
       ...state,
       scoreboardDataIsSubmitting: true,
     })),
-    on(scoreboardDataActions.updatedSuccessfully, (state, action) => ({
+    on(scoreboardDataActions.updatedSuccessfully, (state, action): ScoreboardDataState => ({
       ...state,
       scoreboardDataIsSubmitting: false,
       currentScoreboardData: action.updatedScoreboardData,
       errors: null,
     })),
-    on(scoreboardDataActions.updateFailure, (state, action) => ({
+    on(scoreboardDataActions.updateFailure, (state, action): ScoreboardDataState => ({
       ...state,
       scoreboardDataIsSubmitting: false,
       errors: action,
     })),
     // update action by key value actions
-    on(scoreboardDataActions.updateScoreBoardDataByKeyValue, (state) => ({
+    on(scoreboardDataActions.updateScoreBoardDataByKeyValue, (state): ScoreboardDataState => ({
       ...state,
       scoreboardDataIsSubmitting: true,
     })),
@@ -66,22 +66,22 @@ const scoreboardDataFeature = createFeature({
     ),
 
     // get actions
-    on(scoreboardDataActions.get, (state) => ({
+    on(scoreboardDataActions.get, (state): ScoreboardDataState => ({
       ...state,
       scoreboardDataLoading: true,
     })),
-    on(scoreboardDataActions.getItemSuccess, (state, action) => ({
+    on(scoreboardDataActions.getItemSuccess, (state, action): ScoreboardDataState => ({
       ...state,
       scoreboardDataLoading: false,
       currentScoreboardData: action.scoreboardData,
     })),
-    on(scoreboardDataActions.getItemFailure, (state, action) => ({
+    on(scoreboardDataActions.getItemFailure, (state, action): ScoreboardDataState => ({
       ...state,
       scoreboardDataLoading: false,
       errors: action,
     })),
 
-    on(scoreboardDataActions.getScoreboardDataByMatchId, (state) => ({
+    on(scoreboardDataActions.getScoreboardDataByMatchId, (state): ScoreboardDataState => ({
       ...state,
       scoreboardDataLoading: true,
     })),

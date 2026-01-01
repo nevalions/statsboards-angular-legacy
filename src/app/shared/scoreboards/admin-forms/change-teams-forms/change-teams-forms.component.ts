@@ -1,5 +1,9 @@
-import { TuiInputModule, TuiInputNumberModule, TuiInputSliderModule } from "@taiga-ui/legacy";
-import { TuiValueChanges } from "@taiga-ui/cdk";
+import {
+  TuiInputModule,
+  TuiInputNumberModule,
+  TuiInputSliderModule,
+} from '@taiga-ui/legacy';
+import { TuiValueChanges } from '@taiga-ui/cdk';
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { catchError, finalize, map, Observable, of, Subject } from 'rxjs';
 import { IMatchFullDataWithScoreboard } from '../../../../type/match.type';
@@ -11,8 +15,13 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { TuiFileLike, TuiFieldErrorPipe, TuiFieldErrorContentPipe, TuiSwitch, TuiFiles } from '@taiga-ui/kit';
-import { TuiError, TuiHint } from '@taiga-ui/core';
+import {
+  TuiFileLike,
+  TuiFieldErrorPipe,
+  TuiSwitch,
+  TuiFiles,
+} from '@taiga-ui/kit';
+import { TuiHint } from '@taiga-ui/core';
 import { AdminSubmitButtonComponent } from '../../../ui/buttons/admin-submit-button/admin-submit-button.component';
 import { ImageService } from '../../../../services/image.service';
 import { switchMap } from 'rxjs/operators';
@@ -28,17 +37,14 @@ import { Websocket } from '../../../../store/websocket/websocket';
     AsyncPipe,
     ReactiveFormsModule,
     TuiInputModule,
-    TuiError,
     TuiFieldErrorPipe,
-    TuiFieldErrorContentPipe,
     AdminSubmitButtonComponent,
     TuiFiles,
     TuiSwitch,
-    TuiValueChanges,
     TuiInputNumberModule,
     TuiInputSliderModule,
-    TuiHint
-],
+    TuiHint,
+  ],
   templateUrl: './change-teams-forms.component.html',
   styleUrl: './change-teams-forms.component.less',
 })

@@ -1,4 +1,8 @@
-import { TuiInputModule, TuiInputDateTimeModule, TuiInputNumberModule } from "@taiga-ui/legacy";
+import {
+  TuiInputModule,
+  TuiInputDateTimeModule,
+  TuiInputNumberModule,
+} from '@taiga-ui/legacy';
 import {
   Component,
   EventEmitter,
@@ -30,7 +34,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { switchMap } from 'rxjs/operators';
-import { TuiFileLike, TuiFiles, TuiFieldErrorPipe, TuiFieldErrorContentPipe } from '@taiga-ui/kit';
+import { TuiFileLike, TuiFiles, TuiFieldErrorPipe } from '@taiga-ui/kit';
 import { DateTimeService } from '../../../services/date-time.service';
 import { IPerson } from '../../../type/person.type';
 import { TuiDay, TuiTime } from '@taiga-ui/cdk';
@@ -49,14 +53,13 @@ import { UploadResizeImageResponse } from '../../../type/base.type';
     TuiDialog,
     TuiError,
     TuiFieldErrorPipe,
-    TuiFieldErrorContentPipe,
     TuiInputDateTimeModule,
     TuiInputNumberModule,
     TuiInputModule,
     TuiFiles,
     CancelButtonInFormComponent,
-    CreateButtonInFormComponent
-],
+    CreateButtonInFormComponent,
+  ],
   templateUrl: './add-edit-person.component.html',
   styleUrl: './add-edit-person.component.less',
 })

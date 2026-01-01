@@ -1,5 +1,5 @@
-import { TuiTextfieldControllerModule } from "@taiga-ui/legacy";
-import { DatePipe, KeyValuePipe, TitleCasePipe, UpperCasePipe } from '@angular/common';
+import { TuiTextfieldControllerModule } from '@taiga-ui/legacy';
+import { DatePipe, TitleCasePipe, UpperCasePipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -48,7 +48,6 @@ import { PlayerInMatch } from '../player-match';
   templateUrl: './add-edit-player-match-table.component.html',
   styleUrl: './add-edit-player-match-table.component.less',
   imports: [
-    KeyValuePipe,
     TuiLabel,
     FormsModule,
     TuiTextfieldControllerModule,
@@ -64,8 +63,8 @@ import { PlayerInMatch } from '../player-match';
     AddButtonOnFinalTrComponent,
     SelectPlayerToMatchComponent,
     ButtonIconComponent,
-    TuiCheckbox
-],
+    TuiCheckbox,
+  ],
 })
 export class AddEditPlayerMatchTableComponent implements OnChanges, OnInit {
   @Input() side!: 'home' | 'away';
@@ -137,7 +136,7 @@ export class AddEditPlayerMatchTableComponent implements OnChanges, OnInit {
     private dialogService: DialogService,
     private fb: FormBuilder,
     private imageService: ImageService,
-  ) { }
+  ) {}
 
   ngOnInit() {
     if (this.side && this.players) {

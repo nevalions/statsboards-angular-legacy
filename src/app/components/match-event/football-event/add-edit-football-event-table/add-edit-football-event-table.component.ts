@@ -1,5 +1,7 @@
-import { TuiTextfieldControllerModule, TuiInputNumberModule } from "@taiga-ui/legacy";
-import { TuiValueChanges } from "@taiga-ui/cdk";
+import {
+  TuiTextfieldControllerModule,
+  TuiInputNumberModule,
+} from '@taiga-ui/legacy';
 import {
   Component,
   Input,
@@ -176,10 +178,10 @@ import {
   onPlayTypeChange,
   onTeamChange,
 } from '../football-event-on-change-helpers';
-import { TuiAppearance, TuiButton } from '@taiga-ui/core';
+import { TuiAppearance } from '@taiga-ui/core';
 import { hexToRgba } from '../../../../base/helpers';
 import { DeviceDetectorService } from 'ngx-device-detector';
-import { TitleCasePipe, UpperCasePipe } from '@angular/common';
+
 import { ButtonIconComponent } from '../../../../shared/ui/buttons/button-icon/button-icon.component';
 import { InputNumberWithButtonsComponent } from '../../../../shared/scoreboards/admin-forms/input-number-with-buttons/input-number-with-buttons.component';
 import { TuiSwitch } from '@taiga-ui/kit';
@@ -244,7 +246,7 @@ import {
 import { FootballEventShortViewComponent } from './football-event-short-view/football-event-short-view.component';
 import { SelectPlayerInMatchComponent } from '../../../../shared/ui/select/select-player-in-match/select-player-in-match.component';
 import { InputNumbersWithIncrementButtonsComponent } from '../../../../shared/ui/input-numbers-with-increment-buttons/input-numbers-with-increment-buttons.component';
-import { ToggleButtonComponent } from '../../../../shared/ui/buttons/toggle-button/toggle-button.component';
+
 import { FootballEventsDirectionButtonsComponent } from '../../../../shared/scoreboards/admin-forms/football-events-direction-buttons/football-events-direction-buttons.component';
 import { FootballEventsHashButtonsComponent } from '../../../../shared/scoreboards/admin-forms/football-events-hash-buttons/football-events-hash-buttons.component';
 import { FootballEventsStrongSideButtonsComponent } from '../../../../shared/scoreboards/admin-forms/football-events-strong-side-buttons/football-events-strong-side-buttons.component';
@@ -260,13 +262,9 @@ import { extractEventData } from '../football-event-extract-event-data-helper';
   imports: [
     ReactiveFormsModule,
     ButtonIconComponent,
-    TitleCasePipe,
-    UpperCasePipe,
     InputNumberWithButtonsComponent,
     TuiInputNumberModule,
     TuiTextfieldControllerModule,
-    TuiValueChanges,
-    TuiButton,
     SelectTeamInMatchComponent,
     SearchPlayerInMatchAutocompleteComponent,
     SelectListOfStringsComponent,
@@ -277,13 +275,12 @@ import { extractEventData } from '../football-event-extract-event-data-helper';
     FootballEventShortViewComponent,
     SelectPlayerInMatchComponent,
     InputNumbersWithIncrementButtonsComponent,
-    ToggleButtonComponent,
     FootballEventsDirectionButtonsComponent,
     FootballEventsHashButtonsComponent,
     FootballEventsStrongSideButtonsComponent,
     FootballEventsPlayTypeButtonsComponent,
-    FootballEventsPlayResultButtonsComponent
-],
+    FootballEventsPlayResultButtonsComponent,
+  ],
   templateUrl: './add-edit-football-event-table.component.html',
   styleUrl: './add-edit-football-event-table.component.less',
 })
