@@ -388,6 +388,16 @@ Available NgRx-related MCP capabilities through Angular CLI tools:
 - TypeScript strict mode - no `any` types unless absolutely necessary
 - Always use interfaces for data structures
 
+## Linear defaults
+
+- Default Linear team is **StatsboardFront**.
+- When creating/updating Linear issues, always use this team unless the user explicitly says otherwise.
+- If a project is not specified, create the issue without assigning a project (do not guess).
+- When making a plan, create:
+  - 1 parent issue (epic)
+  - child issues grouped by theme
+- Always include: rule name(s), file paths, and a clear "Done when" checklist.
+
 **Note**: Do not add AGENTS.md to README.md - this file is for development reference only.
 **Note**: all commits must be by linroot with email nevalions@gmail.com
 **Note**: When you need to search docs, use `context7` tools.
