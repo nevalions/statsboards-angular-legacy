@@ -10,6 +10,11 @@ npm run build          # Production build
 npm run watch          # Build with watch mode
 ```
 
+**Important:**
+
+- Do not start parallel builds on different ports
+- Always connect to the existing development server on http://localhost:4200
+
 ### Test Commands
 
 ```bash
