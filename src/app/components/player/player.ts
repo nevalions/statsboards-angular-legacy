@@ -9,6 +9,7 @@ import {
   selectAllPlayersWithPersons,
   selectAllSportPlayersWithPersons,
 } from './store/selectors';
+import { selectAllPlayers } from './store/reducers';
 
 @Injectable({
   providedIn: 'root',
@@ -28,7 +29,7 @@ export class Player {
 
     this.currentPlayer$ = store.select((state) => state.player.currentPlayer);
     this.currentPlayerWithPerson$ = store.select(selectCurrentPlayerWithPerson);
-    this.allPlayers$ = store.select((state) => state.player.allPlayers);
+    this.allPlayers$ = store.select(selectAllPlayers);
     this.allPlayersWithPerson$ = store.select(selectAllPlayersWithPersons);
     this.allSportPlayers$ = store.select(
       (state) => state.player.allSportPlayers,

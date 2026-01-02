@@ -1,202 +1,264 @@
-import { createFeature, createReducer, on } from '@ngrx/store';
-import { tournamentActions } from './actions';
+import { createEntityAdapter, EntityState } from '@ngrx/entity';
+import { createSelector, createFeature, createReducer, on } from '@ngrx/store';
 import { ITournament } from '../../../type/tournament.type';
-import { SortService } from '../../../services/sort.service';
 import { ISponsor } from '../../../type/sponsor.type';
+import { tournamentActions } from './actions';
 
-export interface TournamentState {
+export interface TournamentState extends EntityState<ITournament> {
   isTournamentSubmitting: boolean;
   isTournamentLoading: boolean;
   currentTournamentId: number | undefined | null;
   currentTournament: ITournament | undefined | null;
   currentTournamentMainSponsor: ISponsor | undefined | null;
   currentTournamentSponsorLineId: number | undefined | null;
-  allTournaments: ITournament[];
   allSeasonSportTournaments: ITournament[];
   errors: any;
 }
 
-const initialState: TournamentState = {
+const adapter = createEntityAdapter<ITournament>({
+  sortComparer: (a: ITournament, b: ITournament) =>
+    a.title.localeCompare(b.title),
+});
+
+const initialState: TournamentState = adapter.getInitialState({
   isTournamentSubmitting: false,
   isTournamentLoading: false,
   currentTournamentId: null,
-  allTournaments: [],
   allSeasonSportTournaments: [],
   currentTournamentSponsorLineId: null,
   currentTournament: null,
   currentTournamentMainSponsor: null,
   errors: null,
-};
+});
 
 const tournamentFeature = createFeature({
   name: 'tournament',
   reducer: createReducer(
     initialState,
-    on(tournamentActions.getId, (state): TournamentState => ({
-      ...state,
-      isTournamentLoading: true,
-    })),
-    on(tournamentActions.getTournamentIdSuccessfully, (state, action): TournamentState => ({
-      ...state,
-      isTournamentLoading: false,
-      currentTournamentId: action.tournamentId,
-    })),
-    on(tournamentActions.getTournamentIdFailure, (state): TournamentState => ({
-      ...state,
-      isTournamentLoading: false,
-    })),
+    on(
+      tournamentActions.getId,
+      (state): TournamentState => ({
+        ...state,
+        isTournamentLoading: true,
+      }),
+    ),
+    on(
+      tournamentActions.getTournamentIdSuccessfully,
+      (state, action): TournamentState => ({
+        ...state,
+        isTournamentLoading: false,
+        currentTournamentId: action.tournamentId,
+      }),
+    ),
+    on(
+      tournamentActions.getTournamentIdFailure,
+      (state): TournamentState => ({
+        ...state,
+        isTournamentLoading: false,
+      }),
+    ),
 
-    on(tournamentActions.getMainSponsorByTournamentId, (state): TournamentState => ({
-      ...state,
-      isTournamentLoading: true,
-    })),
-    on(tournamentActions.getMainSponsorSuccess, (state, action): TournamentState => ({
-      ...state,
-      isTournamentLoading: false,
-      currentTournamentMainSponsor: action.mainSponsor,
-    })),
-    on(tournamentActions.getMainSponsorFailure, (state): TournamentState => ({
-      ...state,
-      isTournamentLoading: false,
-    })),
+    on(
+      tournamentActions.getMainSponsorByTournamentId,
+      (state): TournamentState => ({
+        ...state,
+        isTournamentLoading: true,
+      }),
+    ),
+    on(
+      tournamentActions.getMainSponsorSuccess,
+      (state, action): TournamentState => ({
+        ...state,
+        isTournamentLoading: false,
+        currentTournamentMainSponsor: action.mainSponsor,
+      }),
+    ),
+    on(
+      tournamentActions.getMainSponsorFailure,
+      (state): TournamentState => ({
+        ...state,
+        isTournamentLoading: false,
+      }),
+    ),
 
-    // create actions
-    on(tournamentActions.create, (state): TournamentState => ({
-      ...state,
-      isTournamentSubmitting: true,
-    })),
-    on(tournamentActions.createdSuccessfully, (state, action) => {
-      const newList = [...state.allTournaments, action.currentTournament];
-      const sortedTournaments = SortService.sort(newList, 'title');
-
-      // const newListSeasonSportTournaments = [
-      //   ...state.allSeasonSportTournaments,
-      //   action.currentTournament,
-      // ];
-      // const sorterSeasonSportTournaments = SortService.sort(
-      //   newListSeasonSportTournaments,
-      //   'title',
-      // );
-
-      return {
+    on(
+      tournamentActions.create,
+      (state): TournamentState => ({
+        ...state,
+        isTournamentSubmitting: true,
+      }),
+    ),
+    on(tournamentActions.createdSuccessfully, (state, action) =>
+      adapter.addOne(action.currentTournament, {
         ...state,
         isTournamentSubmitting: false,
         currentTournament: action.currentTournament,
-        allTournaments: sortedTournaments,
-        // allSeasonSportTournaments: sorterSeasonSportTournaments,
+      }),
+    ),
+    on(
+      tournamentActions.createFailure,
+      (state, action): TournamentState => ({
+        ...state,
+        isTournamentSubmitting: false,
+        errors: action,
+      }),
+    ),
+
+    on(
+      tournamentActions.delete,
+      (state): TournamentState => ({
+        ...state,
+        isTournamentSubmitting: true,
+      }),
+    ),
+    on(tournamentActions.deletedSuccessfully, (state, action) => {
+      if (action.tournamentId !== null && action.tournamentId !== undefined) {
+        return adapter.removeOne(action.tournamentId, {
+          ...state,
+          isTournamentSubmitting: false,
+          allSeasonSportTournaments: state.allSeasonSportTournaments.filter(
+            (item) => item.id !== action.tournamentId,
+          ),
+          errors: null,
+        });
+      }
+      return {
+        ...state,
+        isTournamentSubmitting: false,
+        errors: null,
       };
     }),
-    on(tournamentActions.createFailure, (state, action): TournamentState => ({
-      ...state,
-      isTournamentSubmitting: false,
-      errors: action,
-    })),
+    on(
+      tournamentActions.deleteFailure,
+      (state, action): TournamentState => ({
+        ...state,
+        isTournamentSubmitting: false,
+        errors: action,
+      }),
+    ),
 
-    // delete actions
-    on(tournamentActions.delete, (state): TournamentState => ({
-      ...state,
-      isTournamentSubmitting: true,
-    })),
-    on(tournamentActions.deletedSuccessfully, (state, action): TournamentState => ({
-      ...state,
-      isTournamentSubmitting: false,
-      allTournaments: (state.allTournaments || []).filter(
-        (item) => item.id !== action.tournamentId,
-      ),
-      allSeasonSportTournaments: (state.allSeasonSportTournaments || []).filter(
-        (item) => item.id !== action.tournamentId,
-      ),
-      errors: null,
-    })),
-    on(tournamentActions.deleteFailure, (state, action): TournamentState => ({
-      ...state,
-      isTournamentSubmitting: false,
-      errors: action,
-    })),
-
-    // update actions
-    on(tournamentActions.update, (state): TournamentState => ({
-      ...state,
-      isTournamentSubmitting: true,
-    })),
-    on(tournamentActions.updatedSuccessfully, (state, action): TournamentState => ({
-      ...state,
-      isTournamentSubmitting: false,
-      currentTournament: action.updatedTournament,
-      allTournaments: state.allTournaments.map((item) =>
-        item.id === action.updatedTournament.id
-          ? action.updatedTournament
-          : item,
-      ),
-      allSeasonSportTournaments: state.allSeasonSportTournaments.map((item) =>
-        item.id === action.updatedTournament.id
-          ? action.updatedTournament
-          : item,
-      ),
-      errors: null,
-    })),
-    on(tournamentActions.updateFailure, (state, action): TournamentState => ({
-      ...state,
-      isTournamentSubmitting: false,
-      errors: action,
-    })),
+    on(
+      tournamentActions.update,
+      (state): TournamentState => ({
+        ...state,
+        isTournamentSubmitting: true,
+      }),
+    ),
+    on(tournamentActions.updatedSuccessfully, (state, action) => {
+      if (action.updatedTournament.id) {
+        return adapter.updateOne(
+          {
+            id: action.updatedTournament.id,
+            changes: action.updatedTournament,
+          },
+          {
+            ...state,
+            isTournamentSubmitting: false,
+            currentTournament: action.updatedTournament,
+            allSeasonSportTournaments: state.allSeasonSportTournaments.map(
+              (item) =>
+                item.id === action.updatedTournament.id
+                  ? action.updatedTournament
+                  : item,
+            ),
+            errors: null,
+          },
+        );
+      }
+      return {
+        ...state,
+        isTournamentSubmitting: false,
+        currentTournament: action.updatedTournament,
+        allSeasonSportTournaments: state.allSeasonSportTournaments.map(
+          (item) =>
+            item.id === action.updatedTournament.id
+              ? action.updatedTournament
+              : item,
+        ),
+        errors: null,
+      };
+    }),
+    on(
+      tournamentActions.updateFailure,
+      (state, action): TournamentState => ({
+        ...state,
+        isTournamentSubmitting: false,
+        errors: action,
+      }),
+    ),
     on(
       tournamentActions.updateSportSeasonTournaments,
       (state, { newTournament }) => {
         const newList = [...state.allSeasonSportTournaments, newTournament];
-        const sortedTournaments = SortService.sort(newList, 'title');
         return {
           ...state,
-          allSeasonSportTournaments: sortedTournaments,
+          allSeasonSportTournaments: newList,
         };
       },
     ),
 
-    // get actions
-    on(tournamentActions.get, (state): TournamentState => ({
-      ...state,
-      isTournamentLoading: true,
-    })),
-    on(tournamentActions.getItemSuccess, (state, action): TournamentState => ({
-      ...state,
-      isTournamentLoading: false,
-      currentTournament: action.tournament,
-      currentTournamentId: action.tournament.id,
-      currentTournamentSponsorLineId: action.tournament.sponsor_line_id,
-    })),
-    on(tournamentActions.getItemFailure, (state, action): TournamentState => ({
-      ...state,
-      isTournamentLoading: false,
-      errors: action,
-    })),
+    on(
+      tournamentActions.get,
+      (state): TournamentState => ({
+        ...state,
+        isTournamentLoading: true,
+      }),
+    ),
+    on(
+      tournamentActions.getItemSuccess,
+      (state, action): TournamentState => ({
+        ...state,
+        isTournamentLoading: false,
+        currentTournament: action.tournament,
+        currentTournamentId: action.tournament.id,
+        currentTournamentSponsorLineId: action.tournament.sponsor_line_id,
+      }),
+    ),
+    on(
+      tournamentActions.getItemFailure,
+      (state, action): TournamentState => ({
+        ...state,
+        isTournamentLoading: false,
+        errors: action,
+      }),
+    ),
 
-    on(tournamentActions.getAll, (state): TournamentState => ({
-      ...state,
-      isTournamentLoading: true,
-    })),
-    on(tournamentActions.getAllItemsSuccess, (state, action): TournamentState => ({
-      ...state,
-      isTournamentLoading: false,
-      allTournaments: action.tournaments,
-    })),
-    on(tournamentActions.getAllItemsFailure, (state, action): TournamentState => ({
-      ...state,
-      isTournamentLoading: false,
-      errors: action,
-    })),
+    on(
+      tournamentActions.getAll,
+      (state): TournamentState => ({
+        ...state,
+        isTournamentLoading: true,
+      }),
+    ),
+    on(tournamentActions.getAllItemsSuccess, (state, action) =>
+      adapter.setAll(action.tournaments, {
+        ...state,
+        isTournamentLoading: false,
+      }),
+    ),
+    on(
+      tournamentActions.getAllItemsFailure,
+      (state, action): TournamentState => ({
+        ...state,
+        isTournamentLoading: false,
+        errors: action,
+      }),
+    ),
 
-    on(tournamentActions.getTournamentsBySportAndSeason, (state): TournamentState => ({
-      ...state,
-      isTournamentLoading: true,
-    })),
+    on(
+      tournamentActions.getTournamentsBySportAndSeason,
+      (state): TournamentState => ({
+        ...state,
+        isTournamentLoading: true,
+      }),
+    ),
     on(
       tournamentActions.getTournamentsBySportAndSeasonSuccess,
       (state, action) => {
-        const sortedTournaments = SortService.sort(action.tournaments, 'title');
         return {
           ...state,
           isTournamentLoading: false,
-          allSeasonSportTournaments: sortedTournaments,
+          allSeasonSportTournaments: action.tournaments,
         };
       },
     ),
@@ -211,6 +273,8 @@ const tournamentFeature = createFeature({
   ),
 });
 
+const { selectAll } = adapter.getSelectors();
+
 export const {
   name: tournamentFeatureKey,
   reducer: tournamentReducer,
@@ -219,6 +283,11 @@ export const {
   selectCurrentTournamentSponsorLineId,
   selectCurrentTournamentId,
   selectCurrentTournament,
-  selectAllTournaments,
   selectAllSeasonSportTournaments,
+  selectTournamentState,
 } = tournamentFeature;
+
+export const selectAllTournaments = createSelector(
+  selectTournamentState,
+  selectAll,
+);

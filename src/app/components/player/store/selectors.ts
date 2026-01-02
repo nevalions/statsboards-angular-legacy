@@ -7,9 +7,7 @@ import {
 } from './reducers';
 import { IPlayer, IPlayerInSport } from '../../../type/player.type';
 import { IPerson } from '../../../type/person.type';
-import { SortService } from '../../../services/sort.service';
 
-// Helper function to combine player with person data
 function combinePlayerWithPerson(
   persons: IPerson[],
   player: IPlayer,
@@ -18,7 +16,6 @@ function combinePlayerWithPerson(
   return { player, person };
 }
 
-// Selector that uses the helper function to combine an array of players with persons
 export const selectAllPlayersWithPersons = createSelector(
   selectAllPersons,
   selectAllPlayers,
@@ -26,7 +23,6 @@ export const selectAllPlayersWithPersons = createSelector(
     players.map((player) => combinePlayerWithPerson(persons, player)),
 );
 
-// Similar selector for sports players
 export const selectAllSportPlayersWithPersons = createSelector(
   selectAllPersons,
   selectAllSportPlayers,
@@ -36,14 +32,17 @@ export const selectAllSportPlayersWithPersons = createSelector(
         combinePlayerWithPerson(persons, player),
       );
 
-      return SortService.sort(playersWithPersons, 'person.second_name');
+      return playersWithPersons.sort((a, b) => {
+        const aName = a.person?.second_name ?? '';
+        const bName = b.person?.second_name ?? '';
+        return aName.localeCompare(bName);
+      });
     } else {
       return [];
     }
   },
 );
 
-// Selector to get available persons (persons not already selected as sport players)
 export const selectAvailablePersonsForSport = createSelector(
   selectAllPersons,
   selectAllSportPlayersWithPersons,
@@ -58,7 +57,6 @@ export const selectAvailablePersonsForSport = createSelector(
   },
 );
 
-// Selector to find the current player and combine with person data
 export const selectCurrentPlayerWithPerson = createSelector(
   selectAllPersons,
   selectAllPlayers,

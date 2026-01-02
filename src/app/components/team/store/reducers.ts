@@ -1,121 +1,157 @@
-import { createFeature, createReducer, on } from '@ngrx/store';
+import { createEntityAdapter, EntityState } from '@ngrx/entity';
+import { createSelector, createFeature, createReducer, on } from '@ngrx/store';
 import { SortService } from '../../../services/sort.service';
 import { ITeam } from '../../../type/team.type';
 import { teamActions } from './actions';
 
-export interface TeamState {
+export interface TeamState extends EntityState<ITeam> {
   isTeamSubmitting: boolean;
   isTeamLoading: boolean;
   currentTeamId: number | undefined | null;
   currentTeam: ITeam | undefined | null;
   homeTeam: ITeam | undefined | null;
   awayTeam: ITeam | undefined | null;
-  // homeTeamWithFootballStats: IFootballTeamWithStats | undefined | null;
-  // awayTeamWithFootballStats: IFootballTeamWithStats | undefined | null;
-  allTeams: ITeam[];
   allTeamsInSport: ITeam[];
   allTeamsInTournament: ITeam[];
   errors: any;
 }
 
-const initialState: TeamState = {
+const adapter = createEntityAdapter<ITeam>({
+  sortComparer: (a: ITeam, b: ITeam) => a.title.localeCompare(b.title),
+});
+
+const initialState: TeamState = adapter.getInitialState({
   isTeamSubmitting: false,
   isTeamLoading: false,
   currentTeamId: null,
-  allTeams: [],
   allTeamsInSport: [],
   allTeamsInTournament: [],
   currentTeam: null,
   homeTeam: null,
   awayTeam: null,
-  // homeTeamWithFootballStats: null,
-  // awayTeamWithFootballStats: null,
   errors: null,
-};
+});
 
 const teamFeature = createFeature({
   name: 'team',
   reducer: createReducer(
     initialState,
-    on(teamActions.getId, (state): TeamState => ({
-      ...state,
-      isTeamLoading: true,
-    })),
-    on(teamActions.getTeamIdSuccessfully, (state, action): TeamState => ({
-      ...state,
-      isTeamLoading: false,
-      currentTeamId: action.teamId,
-    })),
-    on(teamActions.getTeamIdFailure, (state): TeamState => ({
-      ...state,
-      isTeamLoading: false,
-    })),
+    on(
+      teamActions.getId,
+      (state): TeamState => ({
+        ...state,
+        isTeamLoading: true,
+      }),
+    ),
+    on(
+      teamActions.getTeamIdSuccessfully,
+      (state, action): TeamState => ({
+        ...state,
+        isTeamLoading: false,
+        currentTeamId: action.teamId,
+      }),
+    ),
+    on(
+      teamActions.getTeamIdFailure,
+      (state): TeamState => ({
+        ...state,
+        isTeamLoading: false,
+      }),
+    ),
 
-    // create actions
-    on(teamActions.create, (state): TeamState => ({
-      ...state,
-      isTeamSubmitting: true,
-    })),
-    on(teamActions.createdSuccessfully, (state, action) => {
-      const newList = [...state.allTeams, action.currentTeam];
-      const sortedTeams = SortService.sort(newList, 'title');
-      return {
+    on(
+      teamActions.create,
+      (state): TeamState => ({
+        ...state,
+        isTeamSubmitting: true,
+      }),
+    ),
+    on(teamActions.createdSuccessfully, (state, action) =>
+      adapter.addOne(action.currentTeam, {
         ...state,
         isTeamSubmitting: false,
         currentTeam: action.currentTeam,
-        allTeams: sortedTeams, // sorted list
+      }),
+    ),
+    on(
+      teamActions.createFailure,
+      (state, action): TeamState => ({
+        ...state,
+        isTeamSubmitting: false,
+        errors: action,
+      }),
+    ),
+
+    on(
+      teamActions.delete,
+      (state): TeamState => ({
+        ...state,
+        isTeamSubmitting: true,
+      }),
+    ),
+    on(teamActions.deletedSuccessfully, (state, action) => {
+      if (action.teamId !== null && action.teamId !== undefined) {
+        return adapter.removeOne(action.teamId, {
+          ...state,
+          isTeamSubmitting: false,
+          allTeamsInSport: state.allTeamsInSport.filter(
+            (item) => item.id !== action.teamId,
+          ),
+          allTeamsInTournament: state.allTeamsInTournament.filter(
+            (item) => item.id !== action.teamId,
+          ),
+          errors: null,
+        });
+      }
+      return {
+        ...state,
+        isTeamSubmitting: false,
+        errors: null,
       };
     }),
-    on(teamActions.createFailure, (state, action): TeamState => ({
-      ...state,
-      isTeamSubmitting: false,
-      errors: action,
-    })),
+    on(
+      teamActions.deleteFailure,
+      (state, action): TeamState => ({
+        ...state,
+        isTeamSubmitting: false,
+        errors: action,
+      }),
+    ),
 
-    // delete actions
-    on(teamActions.delete, (state): TeamState => ({
-      ...state,
-      isTeamSubmitting: true,
-    })),
-    on(teamActions.deletedSuccessfully, (state, action): TeamState => ({
-      ...state,
-      isTeamSubmitting: false,
-      allTeams: (state.allTeams || []).filter(
-        (item) => item.id !== action.teamId,
-      ),
-      allTeamsInSport: (state.allTeamsInSport || []).filter(
-        (item) => item.id !== action.teamId,
-      ),
-      allTeamsInTournament: (state.allTeamsInTournament || []).filter(
-        (item) => item.id !== action.teamId,
-      ),
-      errors: null,
-    })),
-    on(teamActions.deleteFailure, (state, action): TeamState => ({
-      ...state,
-      isTeamSubmitting: false,
-      errors: action,
-    })),
-
-    // update actions
-    on(teamActions.update, (state): TeamState => ({
-      ...state,
-      isTeamSubmitting: true,
-    })),
-    on(teamActions.updatedSuccessfully, (state, action): TeamState => ({
-      ...state,
-      isTeamSubmitting: false,
-      currentTeam: action.updatedTeam,
-      allTeams: state.allTeams.map((item) =>
-        item.id === action.updatedTeam.id ? action.updatedTeam : item,
-      ),
-      errors: null,
-    })),
-    on(teamActions.updateFailure, (state, action): TeamState => ({
-      ...state,
-      isTeamSubmitting: false,
-      errors: action,
-    })),
+    on(
+      teamActions.update,
+      (state): TeamState => ({
+        ...state,
+        isTeamSubmitting: true,
+      }),
+    ),
+    on(teamActions.updatedSuccessfully, (state, action) => {
+      if (action.updatedTeam.id) {
+        return adapter.updateOne(
+          { id: action.updatedTeam.id, changes: action.updatedTeam },
+          {
+            ...state,
+            isTeamSubmitting: false,
+            currentTeam: action.updatedTeam,
+            errors: null,
+          },
+        );
+      }
+      return {
+        ...state,
+        isTeamSubmitting: false,
+        currentTeam: action.updatedTeam,
+        errors: null,
+      };
+    }),
+    on(
+      teamActions.updateFailure,
+      (state, action): TeamState => ({
+        ...state,
+        isTeamSubmitting: false,
+        errors: action,
+      }),
+    ),
     on(teamActions.updateAllTeamsInSport, (state, { newTeam }) => {
       const newList = [...state.allTeamsInSport, newTeam];
       const sortedTeams = SortService.sort(newList, 'title');
@@ -125,44 +161,59 @@ const teamFeature = createFeature({
       };
     }),
 
-    // get actions
-    on(teamActions.get, (state): TeamState => ({
-      ...state,
-      isTeamLoading: true,
-    })),
-    on(teamActions.getItemSuccess, (state, action): TeamState => ({
-      ...state,
-      isTeamLoading: false,
-      currentTeam: action.team,
-    })),
-    on(teamActions.getItemFailure, (state, action): TeamState => ({
-      ...state,
-      isTeamLoading: false,
-      errors: action,
-    })),
-
-    on(teamActions.getAll, (state): TeamState => ({
-      ...state,
-      isTeamLoading: true,
-    })),
-    on(teamActions.getAllItemsSuccess, (state, action) => {
-      const sortedTournaments = SortService.sort(action.teams, 'title');
-      return {
+    on(
+      teamActions.get,
+      (state): TeamState => ({
+        ...state,
+        isTeamLoading: true,
+      }),
+    ),
+    on(
+      teamActions.getItemSuccess,
+      (state, action): TeamState => ({
         ...state,
         isTeamLoading: false,
-        allTeams: sortedTournaments,
-      };
-    }),
-    on(teamActions.getAllItemsFailure, (state, action): TeamState => ({
-      ...state,
-      isTeamLoading: false,
-      errors: action,
-    })),
+        currentTeam: action.team,
+      }),
+    ),
+    on(
+      teamActions.getItemFailure,
+      (state, action): TeamState => ({
+        ...state,
+        isTeamLoading: false,
+        errors: action,
+      }),
+    ),
 
-    on(teamActions.getTeamsBySportId, (state): TeamState => ({
-      ...state,
-      isTeamLoading: true,
-    })),
+    on(
+      teamActions.getAll,
+      (state): TeamState => ({
+        ...state,
+        isTeamLoading: true,
+      }),
+    ),
+    on(teamActions.getAllItemsSuccess, (state, action) =>
+      adapter.setAll(action.teams, {
+        ...state,
+        isTeamLoading: false,
+      }),
+    ),
+    on(
+      teamActions.getAllItemsFailure,
+      (state, action): TeamState => ({
+        ...state,
+        isTeamLoading: false,
+        errors: action,
+      }),
+    ),
+
+    on(
+      teamActions.getTeamsBySportId,
+      (state): TeamState => ({
+        ...state,
+        isTeamLoading: true,
+      }),
+    ),
     on(teamActions.getTeamsBySportIDSuccess, (state, action) => {
       const sortedTournaments = SortService.sort(action.teams, 'title');
       return {
@@ -171,16 +222,22 @@ const teamFeature = createFeature({
         allTeamsInSport: sortedTournaments,
       };
     }),
-    on(teamActions.getTeamsBySportIDFailure, (state, action): TeamState => ({
-      ...state,
-      isTeamLoading: false,
-      errors: action,
-    })),
+    on(
+      teamActions.getTeamsBySportIDFailure,
+      (state, action): TeamState => ({
+        ...state,
+        isTeamLoading: false,
+        errors: action,
+      }),
+    ),
 
-    on(teamActions.getTeamsByTournamentId, (state): TeamState => ({
-      ...state,
-      isTeamLoading: true,
-    })),
+    on(
+      teamActions.getTeamsByTournamentId,
+      (state): TeamState => ({
+        ...state,
+        isTeamLoading: true,
+      }),
+    ),
     on(teamActions.getTeamsByTournamentIDSuccess, (state, action) => {
       const sortedTeams = SortService.sort(action.teams, 'title');
       return {
@@ -189,16 +246,22 @@ const teamFeature = createFeature({
         allTeamsInTournament: sortedTeams,
       };
     }),
-    on(teamActions.getTeamsByTournamentIDFailure, (state, action): TeamState => ({
-      ...state,
-      isTeamLoading: false,
-      errors: action,
-    })),
+    on(
+      teamActions.getTeamsByTournamentIDFailure,
+      (state, action): TeamState => ({
+        ...state,
+        isTeamLoading: false,
+        errors: action,
+      }),
+    ),
 
-    on(teamActions.getMatchTeams, (state): TeamState => ({
-      ...state,
-      isTeamLoading: true,
-    })),
+    on(
+      teamActions.getMatchTeams,
+      (state): TeamState => ({
+        ...state,
+        isTeamLoading: true,
+      }),
+    ),
     on(teamActions.getMatchTeamsSuccess, (state, action) => {
       return {
         ...state,
@@ -207,22 +270,23 @@ const teamFeature = createFeature({
         awayTeam: action.awayTeam,
       };
     }),
-    on(teamActions.getMatchTeamsFailure, (state, action): TeamState => ({
-      ...state,
-      isTeamLoading: false,
-      errors: action,
-    })),
+    on(
+      teamActions.getMatchTeamsFailure,
+      (state, action): TeamState => ({
+        ...state,
+        isTeamLoading: false,
+        errors: action,
+      }),
+    ),
 
     on(teamActions.addTeamToTournament, (state, { team_id }) => {
       const teamToAdd = state.allTeamsInSport.find(
         (team) => team.id === team_id,
       );
       if (!teamToAdd) {
-        // console.log(store.allTeamsInSport);
         console.log(`No team found with id: ${team_id}`);
         return state;
       }
-      // console.log(`Team with id: ${team_id} added to the tournament.`);
       const newList = [...state.allTeamsInTournament, teamToAdd];
       const sortedList = SortService.sort(newList, 'title');
       return {
@@ -231,14 +295,19 @@ const teamFeature = createFeature({
       };
     }),
 
-    on(teamActions.removeTeamFromTournament, (state, action): TeamState => ({
-      ...state,
-      allTeamsInTournament: state.allTeamsInTournament.filter(
-        (team) => team.id !== action.id,
-      ),
-    })),
+    on(
+      teamActions.removeTeamFromTournament,
+      (state, action): TeamState => ({
+        ...state,
+        allTeamsInTournament: state.allTeamsInTournament.filter(
+          (team) => team.id !== action.id,
+        ),
+      }),
+    ),
   ),
 });
+
+const { selectAll } = adapter.getSelectors();
 
 export const {
   name: teamFeatureKey,
@@ -247,9 +316,11 @@ export const {
   selectIsTeamLoading,
   selectCurrentTeamId,
   selectCurrentTeam,
-  selectAllTeams,
   selectAllTeamsInSport,
   selectAllTeamsInTournament,
   selectHomeTeam,
   selectAwayTeam,
+  selectTeamState,
 } = teamFeature;
+
+export const selectAllTeams = createSelector(selectTeamState, selectAll);
