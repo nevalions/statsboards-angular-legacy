@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { AppState } from '../../store/appstate';
 import { ITeamTournament } from '../../type/team.type';
 import { teamTournamentActions } from './store/actions';
+import { selectAllTeamTournament } from './store/reducers';
 
 @Injectable({
   providedIn: 'root',
@@ -20,9 +21,7 @@ export class TeamTournament {
     this.teamTournamentConnection$ = store.select(
       (state) => state.teamTournament.currentTeamTournament,
     );
-    this.allTeamTournamentsConnections$ = store.select(
-      (state) => state.teamTournament.allTeamTournament,
-    );
+    this.allTeamTournamentsConnections$ = store.select(selectAllTeamTournament);
   }
 
   loadAllTeamTournamentsConnections() {

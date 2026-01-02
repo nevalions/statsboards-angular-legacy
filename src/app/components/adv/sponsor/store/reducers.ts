@@ -1,64 +1,80 @@
-import { createFeature, createReducer, on } from '@ngrx/store';
+import { createEntityAdapter, EntityState } from '@ngrx/entity';
+import { createFeature, createSelector, createReducer, on } from '@ngrx/store';
 import { ISponsor } from '../../../../type/sponsor.type';
 import { sponsorActions } from './actions';
-import { SortService } from '../../../../services/sort.service';
 
-export interface SponsorState {
+export interface SponsorState extends EntityState<ISponsor> {
   sponsorIsLoading: boolean;
   sponsorIsSubmitting: boolean;
   currentSponsorId: number | undefined | null;
   currentSponsor: ISponsor | undefined | null;
-  allSponsors: ISponsor[];
   errors: any | undefined | null;
 }
 
-const initialState: SponsorState = {
+const adapter = createEntityAdapter<ISponsor>({
+  sortComparer: (a, b) => a.title.localeCompare(b.title),
+});
+
+const initialState: SponsorState = adapter.getInitialState({
   sponsorIsLoading: false,
   sponsorIsSubmitting: false,
   currentSponsorId: null,
-  allSponsors: [],
   currentSponsor: null,
   errors: null,
-};
+});
 
 const sponsorFeature = createFeature({
   name: 'sponsor',
   reducer: createReducer(
     initialState,
-    on(sponsorActions.getId, (state): SponsorState => ({
-      ...state,
-      sponsorIsLoading: true,
-    })),
-    on(sponsorActions.getSponsorIdSuccessfully, (state, action): SponsorState => ({
-      ...state,
-      sponsorIsLoading: false,
-      currentSponsorId: action.sponsorId,
-    })),
-    on(sponsorActions.getSponsorIdFailure, (state): SponsorState => ({
-      ...state,
-      sponsorIsLoading: false,
-    })),
+    on(
+      sponsorActions.getId,
+      (state): SponsorState => ({
+        ...state,
+        sponsorIsLoading: true,
+      }),
+    ),
+    on(
+      sponsorActions.getSponsorIdSuccessfully,
+      (state, action): SponsorState => ({
+        ...state,
+        sponsorIsLoading: false,
+        currentSponsorId: action.sponsorId,
+      }),
+    ),
+    on(
+      sponsorActions.getSponsorIdFailure,
+      (state): SponsorState => ({
+        ...state,
+        sponsorIsLoading: false,
+      }),
+    ),
 
     // create actions
-    on(sponsorActions.create, (state): SponsorState => ({
-      ...state,
-      sponsorIsSubmitting: true,
-    })),
-    on(sponsorActions.createdSuccessfully, (state, action) => {
-      const newList = [...state.allSponsors, action.currentSponsor];
-      const sortedTournaments = SortService.sort(newList, 'title');
-      return {
+    on(
+      sponsorActions.create,
+      (state): SponsorState => ({
+        ...state,
+        sponsorIsSubmitting: true,
+      }),
+    ),
+    on(
+      sponsorActions.createdSuccessfully,
+      (state, action): SponsorState =>
+        adapter.addOne(action.currentSponsor, {
+          ...state,
+          sponsorIsSubmitting: false,
+          currentSponsor: action.currentSponsor,
+        }),
+    ),
+    on(
+      sponsorActions.createFailure,
+      (state, action): SponsorState => ({
         ...state,
         sponsorIsSubmitting: false,
-        currentSponsor: action.currentSponsor,
-        allSponsors: sortedTournaments,
-      };
-    }),
-    on(sponsorActions.createFailure, (state, action): SponsorState => ({
-      ...state,
-      sponsorIsSubmitting: false,
-      errors: action,
-    })),
+        errors: action,
+      }),
+    ),
 
     // // delete actions
     // on(sponsorActions.delete, (state): SponsorState => ({
@@ -106,38 +122,51 @@ const sponsorFeature = createFeature({
     // }),
     //
     // get actions
-    on(sponsorActions.get, (state): SponsorState => ({
-      ...state,
-      sponsorIsLoading: true,
-    })),
-    on(sponsorActions.getItemSuccess, (state, action): SponsorState => ({
-      ...state,
-      sponsorIsLoading: false,
-      currentSponsor: action.currentSponsor,
-    })),
-    on(sponsorActions.getItemFailure, (state, action): SponsorState => ({
-      ...state,
-      sponsorIsLoading: false,
-      errors: action,
-    })),
-
-    on(sponsorActions.getAll, (state): SponsorState => ({
-      ...state,
-      sponsorIsLoading: true,
-    })),
-    on(sponsorActions.getAllSuccess, (state, action) => {
-      const sortedSponsors = SortService.sort(action.allSponsors, 'title');
-      return {
+    on(
+      sponsorActions.get,
+      (state): SponsorState => ({
+        ...state,
+        sponsorIsLoading: true,
+      }),
+    ),
+    on(
+      sponsorActions.getItemSuccess,
+      (state, action): SponsorState => ({
         ...state,
         sponsorIsLoading: false,
-        allSponsors: sortedSponsors,
-      };
-    }),
-    on(sponsorActions.getAllFailure, (state, action): SponsorState => ({
-      ...state,
-      sponsorIsLoading: false,
-      errors: action,
-    })),
+        currentSponsor: action.currentSponsor,
+      }),
+    ),
+    on(
+      sponsorActions.getItemFailure,
+      (state, action): SponsorState => ({
+        ...state,
+        sponsorIsLoading: false,
+        errors: action,
+      }),
+    ),
+
+    on(
+      sponsorActions.getAll,
+      (state): SponsorState => ({
+        ...state,
+        sponsorIsLoading: true,
+      }),
+    ),
+    on(sponsorActions.getAllSuccess, (state, action) =>
+      adapter.setAll(action.allSponsors, {
+        ...state,
+        sponsorIsLoading: false,
+      }),
+    ),
+    on(
+      sponsorActions.getAllFailure,
+      (state, action): SponsorState => ({
+        ...state,
+        sponsorIsLoading: false,
+        errors: action,
+      }),
+    ),
     //
     // on(sponsorActions.getSponsorsBySportId, (state): SponsorState => ({
     //   ...state,
@@ -202,6 +231,8 @@ const sponsorFeature = createFeature({
   ),
 });
 
+const { selectAll } = adapter.getSelectors();
+
 export const {
   name: sponsorFeatureKey,
   reducer: sponsorReducer,
@@ -209,5 +240,7 @@ export const {
   selectSponsorIsSubmitting,
   selectCurrentSponsorId,
   selectCurrentSponsor,
-  selectAllSponsors,
+  selectSponsorState,
 } = sponsorFeature;
+
+export const selectAllSponsors = createSelector(selectSponsorState, selectAll);
