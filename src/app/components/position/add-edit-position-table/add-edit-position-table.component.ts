@@ -4,7 +4,13 @@ import {
   TuiInputModule,
   TuiInputDateTimeModule,
 } from '@taiga-ui/legacy';
-import { Component, Input, OnChanges, SimpleChanges, inject } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnChanges,
+  SimpleChanges,
+  inject,
+} from '@angular/core';
 import { IPosition } from '../../../type/position.type';
 import {
   AbstractControl,
@@ -52,8 +58,7 @@ export class AddEditPositionTableComponent implements OnChanges {
   editableIndex: number | null = null;
   positionForm = new FormGroup({});
 
-  constructor() private document: Document,
-  ) {
+  constructor() {
     this.initializeForm();
   }
 
