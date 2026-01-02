@@ -4,6 +4,11 @@ import { positionActions } from './store/actions';
 import { Observable } from 'rxjs';
 import { IPosition } from '../../type/position.type';
 import { AppState } from '../../store/appstate';
+import {
+  selectAllPositions,
+  selectAllSportPositions,
+  selectCurrentPosition,
+} from './store/reducers';
 
 @Injectable({
   providedIn: 'root',
@@ -16,15 +21,9 @@ export class Position {
   allSportPositions$: Observable<IPosition[]>;
 
   constructor() {
-    const store = this.store;
-
-    this.currentPosition$ = store.select(
-      (state) => state.position.currentPosition,
-    );
-    this.allPositions$ = store.select((state) => state.position.allPositions);
-    this.allSportPositions$ = store.select(
-      (state) => state.position.allSportPositions,
-    );
+    this.currentPosition$ = this.store.select(selectCurrentPosition);
+    this.allPositions$ = this.store.select(selectAllPositions);
+    this.allSportPositions$ = this.store.select(selectAllSportPositions);
   }
 
   createPosition(position: IPosition) {

@@ -3,6 +3,9 @@ import { seasonReducer, SeasonState } from './reducers';
 import { seasonActions } from './actions';
 import { ISeason } from '../../../type/season.type';
 import { getDefaultCrudStore } from '../../../type/store.intarface';
+import { createEntityAdapter, EntityState } from '@ngrx/entity';
+
+const adapter = createEntityAdapter<ISeason>();
 
 describe('Season Reducer', () => {
   const mockSeason: ISeason = {
@@ -21,8 +24,9 @@ describe('Season Reducer', () => {
     ...getDefaultCrudStore(),
     currentSeasonId: null,
     currentSeasonYear: null,
-    allSeasons: [],
     currentSeason: null,
+    ids: [],
+    entities: {},
   };
 
   describe('initial state', () => {
@@ -39,7 +43,7 @@ describe('Season Reducer', () => {
       expect(initialState.errors).toBe(null);
       expect(initialState.currentSeasonId).toBe(null);
       expect(initialState.currentSeasonYear).toBe(null);
-      expect(initialState.allSeasons).toEqual([]);
+      expect(initialState.ids).toEqual([]);
       expect(initialState.currentSeason).toBe(null);
     });
   });
@@ -76,10 +80,11 @@ describe('Season Reducer', () => {
       expect(state.isSubmitting).toBe(true);
     });
 
-    it('should add season to allSeasons and set current on success', () => {
+    it('should add season and set current on success', () => {
       const existingState: SeasonState = {
         ...initialState,
-        allSeasons: [mockSeason2],
+        ids: [2],
+        entities: { 2: mockSeason2 },
       };
       const action = seasonActions.createdSuccessfully({
         currentSeason: mockSeason,
@@ -88,9 +93,10 @@ describe('Season Reducer', () => {
 
       expect(state.isSubmitting).toBe(false);
       expect(state.currentSeason).toEqual(mockSeason);
-      expect(state.allSeasons.length).toBe(2);
-      expect(state.allSeasons).toContain(mockSeason);
-      expect(state.allSeasons).toContain(mockSeason2);
+      const allSeasons = adapter.getSelectors().selectAll(state);
+      expect(allSeasons.length).toBe(2);
+      expect(allSeasons).toContain(mockSeason);
+      expect(allSeasons).toContain(mockSeason2);
       expect(state.errors).toBeNull();
     });
 
@@ -140,12 +146,13 @@ describe('Season Reducer', () => {
       expect(state.isLoading).toBe(true);
     });
 
-    it('should set allSeasons and isLoading to false on success', () => {
+    it('should set all seasons and isLoading to false on success', () => {
       const seasons = [mockSeason, mockSeason2];
       const action = seasonActions.getAllItemsSuccess({ seasons });
       const state = seasonReducer(initialState, action);
 
-      expect(state.allSeasons).toEqual(seasons);
+      const allSeasons = adapter.getSelectors().selectAll(state);
+      expect(allSeasons).toEqual(seasons);
       expect(state.isLoading).toBe(false);
     });
 
@@ -195,14 +202,13 @@ describe('Season Reducer', () => {
       expect(state.isLoading).toBe(true);
     });
 
-    it('should set allSeasons and isLoading to false on success', () => {
+    it('should set isLoading to false on success', () => {
       const seasons = [mockSeason, mockSeason2];
       const action = seasonActions.getAllSeasonsWithSportIDSuccess({
         seasons,
       });
       const state = seasonReducer(initialState, action);
 
-      expect(state.allSeasons).toEqual(seasons);
       expect(state.isLoading).toBe(false);
     });
 
@@ -227,14 +233,15 @@ describe('Season Reducer', () => {
       expect(state.isSubmitting).toBe(true);
     });
 
-    it('should update season in allSeasons and set current on success', () => {
+    it('should update season and set current on success', () => {
       const updatedSeason: ISeason = {
         ...mockSeason,
         description: 'Updated Season',
       };
       const existingState: SeasonState = {
         ...initialState,
-        allSeasons: [mockSeason, mockSeason2],
+        ids: [1, 2],
+        entities: { 1: mockSeason, 2: mockSeason2 },
       };
       const action = seasonActions.updatedSuccessfully({
         updatedSeason,
@@ -243,9 +250,10 @@ describe('Season Reducer', () => {
 
       expect(state.isSubmitting).toBe(false);
       expect(state.currentSeason).toEqual(updatedSeason);
-      expect(state.allSeasons.length).toBe(2);
-      expect(state.allSeasons.find((s) => s.id === 1)).toEqual(updatedSeason);
-      expect(state.allSeasons.find((s) => s.id === 2)).toEqual(mockSeason2);
+      const allSeasons = adapter.getSelectors().selectAll(state);
+      expect(allSeasons.length).toBe(2);
+      expect(allSeasons.find((s) => s.id === 1)).toEqual(updatedSeason);
+      expect(allSeasons.find((s) => s.id === 2)).toEqual(mockSeason2);
       expect(state.errors).toBeNull();
     });
 
@@ -267,18 +275,20 @@ describe('Season Reducer', () => {
       expect(state.isSubmitting).toBe(true);
     });
 
-    it('should remove season from allSeasons on success', () => {
+    it('should remove season on success', () => {
       const existingState: SeasonState = {
         ...initialState,
-        allSeasons: [mockSeason, mockSeason2],
+        ids: [1, 2],
+        entities: { 1: mockSeason, 2: mockSeason2 },
       };
       const action = seasonActions.deletedSuccessfully({ id: 1 });
       const state = seasonReducer(existingState, action);
 
       expect(state.isSubmitting).toBe(false);
-      expect(state.allSeasons.length).toBe(1);
-      expect(state.allSeasons).not.toContain(mockSeason);
-      expect(state.allSeasons).toContain(mockSeason2);
+      const allSeasons = adapter.getSelectors().selectAll(state);
+      expect(allSeasons.length).toBe(1);
+      expect(allSeasons).not.toContain(mockSeason);
+      expect(allSeasons).toContain(mockSeason2);
       expect(state.errors).toBeNull();
     });
 
@@ -303,14 +313,17 @@ describe('Season Reducer', () => {
     it('should not mutate existing state', () => {
       const existingState: SeasonState = {
         ...initialState,
-        allSeasons: [mockSeason, mockSeason2],
+        ids: [1, 2],
+        entities: { 1: mockSeason, 2: mockSeason2 },
       };
       const action = seasonActions.deletedSuccessfully({ id: 1 });
-      const originalAllSeasons = [...existingState.allSeasons];
+      const originalIds = [...existingState.ids] as any[];
+      const originalEntities = { ...existingState.entities };
 
       seasonReducer(existingState, action);
 
-      expect(existingState.allSeasons).toEqual(originalAllSeasons);
+      expect(existingState.ids).toEqual(originalIds);
+      expect(existingState.entities).toEqual(originalEntities);
     });
   });
 
@@ -319,7 +332,8 @@ describe('Season Reducer', () => {
       const action = { type: 'UNKNOWN_ACTION' } as any;
       const existingState: SeasonState = {
         ...initialState,
-        allSeasons: [mockSeason],
+        ids: [1],
+        entities: { 1: mockSeason },
       };
       const state = seasonReducer(existingState, action);
 

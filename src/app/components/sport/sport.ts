@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { AppState } from '../../store/appstate';
 import { ISport } from '../../type/sport.type';
 import { sportActions } from './store/actions';
+import { selectAllSports, selectCurrentSport } from './store/reducers';
 
 @Injectable({
   providedIn: 'root',
@@ -15,10 +16,8 @@ export class Sport {
   allSports$: Observable<ISport[]>;
 
   constructor() {
-    const store = this.store;
-
-    this.currentSport$ = store.select((state) => state.sport.currentSport);
-    this.allSports$ = store.select((state) => state.sport.allSports);
+    this.currentSport$ = this.store.select(selectCurrentSport);
+    this.allSports$ = this.store.select(selectAllSports);
   }
 
   loadCurrentSport() {
