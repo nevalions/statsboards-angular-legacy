@@ -3,16 +3,7 @@ import {
   TuiInputModule,
   TuiInputNumberModule,
 } from '@taiga-ui/legacy';
-import {
-  Component,
-  EventEmitter,
-  Input,
-  OnChanges,
-  OnDestroy,
-  OnInit,
-  Output,
-  SimpleChanges,
-} from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges, inject } from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -66,6 +57,11 @@ import { UploadResizeImageResponse } from '../../../type/base.type';
   styleUrl: './add-edit-team.component.less',
 })
 export class AddEditTeamComponent implements OnInit, OnDestroy, OnChanges {
+  private team = inject(Team);
+  private imageService = inject(ImageService);
+  private uploadProgressService = inject(UploadProgressService);
+  private dialogService = inject(DialogService);
+
   private dialogSubscription: Subscription | undefined;
 
   @Input() action: string = 'add';
@@ -81,13 +77,6 @@ export class AddEditTeamComponent implements OnInit, OnDestroy, OnChanges {
 
   loadingFiles$ = this.uploadProgressService.loadingFiles$;
   rejectedFiles$ = this.uploadProgressService.rejectedFiles$;
-
-  constructor(
-    private team: Team,
-    private imageService: ImageService,
-    private uploadProgressService: UploadProgressService,
-    private dialogService: DialogService,
-  ) {}
 
   teamForm = new FormGroup({
     id: new FormControl<number | null | undefined>(undefined),

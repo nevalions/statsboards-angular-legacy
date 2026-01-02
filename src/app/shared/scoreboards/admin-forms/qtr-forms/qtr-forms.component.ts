@@ -1,6 +1,6 @@
 import { TuiSelectModule } from "@taiga-ui/legacy";
 import { TuiButton } from "@taiga-ui/core";
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges, inject } from '@angular/core';
 import { AsyncPipe } from '@angular/common';
 import { Observable } from 'rxjs';
 import { IMatchFullDataWithScoreboard } from '../../../../type/match.type';
@@ -29,6 +29,10 @@ import { Websocket } from '../../../../store/websocket/websocket';
   styleUrl: './qtr-forms.component.less',
 })
 export class QtrFormsComponent implements OnChanges {
+  private matchData = inject(MatchData);
+  private scoreboardData = inject(ScoreboardData);
+  private websocket = inject(Websocket);
+
   @Input() qtrFormsVisible$!: Observable<boolean>;
   @Input() data: IMatchFullDataWithScoreboard | undefined;
   @Input() disabled: boolean = false;
@@ -40,11 +44,7 @@ export class QtrFormsComponent implements OnChanges {
   // items: string[] = ['1st', '2nd', 'HT', '3rd', '4th', 'Final', 'OT'];
   items: string[] = ['1', '2', '', '3', '4', '', 'ОТ'];
 
-  constructor(
-    private matchData: MatchData,
-    private scoreboardData: ScoreboardData,
-    private websocket: Websocket,
-  ) {
+  constructor() {
     this.qtrForm = this.initQtrForm();
     this.isGoalForm = this.initGoalForm();
     this.isTimeoutForm = this.initTimeoutForm();

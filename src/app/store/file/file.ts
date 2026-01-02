@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { AppState } from '../appstate';
@@ -18,8 +18,9 @@ export class UploadFile {
   uploadedTeamLogo: Observable<File | null>;
   filePathUrl: Observable<string>;
   teamLogoUrl: Observable<string>;
+  private store = inject(Store<AppState>);
 
-  constructor(private store: Store<AppState>) {
+  constructor() {
     this.isFileLoading = this.store.select(selectIsFileLoading);
     this.filePathUrl = this.store.select(selectFilePathUrl);
     this.teamLogoUrl = this.store.select(selectTeamLogoUrl);

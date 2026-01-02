@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { AppState } from '../../../store/appstate';
@@ -8,7 +8,7 @@ import { SponsorSponsorLineConnectionState } from './store/reducers';
   providedIn: 'root',
 })
 export class SponsorSponsorLineConnection {
-  constructor(private store: Store<AppState>) {}
+  private store = inject(Store<AppState>);
 
   // loadCurrentSponsorLine() {
   //   this.store.dispatch(sponsorLineActions.getId());

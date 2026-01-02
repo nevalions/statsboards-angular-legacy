@@ -1,13 +1,4 @@
-import {
-  AfterViewInit,
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  ElementRef,
-  Input,
-  OnChanges,
-  SimpleChanges,
-} from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Input, OnChanges, SimpleChanges, inject } from '@angular/core';
 import { AsyncPipe, UpperCasePipe } from '@angular/common';
 import { IMatchFullDataWithScoreboard } from '../../../type/match.type';
 import { ImageService } from '../../../services/image.service';
@@ -44,6 +35,12 @@ import { FootballQbLowerStatsDisplayFlatComponent } from '../football-qb-lower-s
 export class ScoreboardDisplayFlatComponent
   implements AfterViewInit, OnChanges
 {
+  private playerInMatch = inject(PlayerInMatch);
+  private elRef = inject(ElementRef);
+  private cd = inject(ChangeDetectorRef);
+  private imageService = inject(ImageService);
+  private footballEvent = inject(FootballEvent);
+
   @Input() data: IMatchFullDataWithScoreboard | undefined;
   @Input() tournamentSponsor: ISponsor | null | undefined;
   @Input() tournament: ITournament | null | undefined;
@@ -84,14 +81,6 @@ export class ScoreboardDisplayFlatComponent
 
   teamAFontSize: string = '26px';
   teamBFontSize: string = '26px';
-
-  constructor(
-    private playerInMatch: PlayerInMatch,
-    private elRef: ElementRef,
-    private cd: ChangeDetectorRef,
-    private imageService: ImageService,
-    private footballEvent: FootballEvent,
-  ) {}
 
   ngAfterViewInit() {
     this.adjustFontSize('team_a-name');

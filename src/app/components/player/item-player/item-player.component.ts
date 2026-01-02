@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Player } from '../player';
 import { ImageService } from '../../../services/image.service';
 import { urlWithProtocol } from '../../../base/constants';
@@ -26,6 +26,10 @@ import { AddEditPersonComponent } from '../../person/add-edit-person/add-edit-pe
   styleUrl: './item-player.component.less',
 })
 export class ItemPlayerComponent {
+  private player = inject(Player);
+  private person = inject(Person);
+  private imageService = inject(ImageService);
+
   // currentPlayer$ = this.player.currentPlayer$;
   currentPlayerWithPerson$ = this.player.currentPlayerWithPerson$;
   availablePersonsForSport$ = this.person.availablePersonsForSport$;
@@ -35,11 +39,10 @@ export class ItemPlayerComponent {
 
   buttonTitle: string = 'Player';
 
-  constructor(
-    private player: Player,
-    private person: Person,
-    private imageService: ImageService,
-  ) {
+  constructor() {
+    const player = this.player;
+    const person = this.person;
+
     player.loadAllPlayers();
     player.loadAllPlayersBySportId();
     person.loadAllPersons();

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { playerActions } from './store/actions';
 import { Observable } from 'rxjs';
@@ -14,6 +14,8 @@ import {
   providedIn: 'root',
 })
 export class Player {
+  private store = inject<Store<AppState>>(Store);
+
   currentPlayer$: Observable<IPlayer | null | undefined>;
   currentPlayerWithPerson$: Observable<IPlayerInSport | null | undefined>;
   allPlayers$: Observable<IPlayer[]>;
@@ -21,7 +23,9 @@ export class Player {
   allPlayersWithPerson$: Observable<IPlayerInSport[]>;
   allSportPlayersWithPerson$: Observable<IPlayerInSport[]>;
 
-  constructor(private store: Store<AppState>) {
+  constructor() {
+    const store = this.store;
+
     this.currentPlayer$ = store.select((state) => state.player.currentPlayer);
     this.currentPlayerWithPerson$ = store.select(selectCurrentPlayerWithPerson);
     this.allPlayers$ = store.select((state) => state.player.allPlayers);

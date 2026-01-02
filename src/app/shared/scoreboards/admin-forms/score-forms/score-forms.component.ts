@@ -3,13 +3,7 @@ import {
   TuiInputModule,
   TuiInputNumberModule,
 } from '@taiga-ui/legacy';
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-  OnChanges,
-  SimpleChanges,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnChanges, SimpleChanges, inject } from '@angular/core';
 import { IMatchData } from '../../../../type/matchdata.type';
 import { MatchData } from '../../../../components/match/matchdata';
 import { AsyncPipe } from '@angular/common';
@@ -65,6 +59,9 @@ import { SimpleInputWithButtonsComponent } from '../simple-input-with-buttons/si
   styleUrl: './score-forms.component.less',
 })
 export class ScoreFormsComponent implements OnChanges {
+  private websocket = inject(Websocket);
+  private matchData = inject(MatchData);
+
   @Input() scoreInputsVisible$!: Observable<boolean>;
   @Input() scoreButtonsVisible$!: Observable<boolean>;
   @Input() data: IMatchFullDataWithScoreboard | undefined;
@@ -72,10 +69,7 @@ export class ScoreFormsComponent implements OnChanges {
 
   scoreForm: FormGroup;
 
-  constructor(
-    private websocket: Websocket,
-    private matchData: MatchData,
-  ) {
+  constructor() {
     this.scoreForm = this.initForm();
   }
 

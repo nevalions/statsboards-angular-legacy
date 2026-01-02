@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppState } from '../appstate';
 import { Observable } from 'rxjs';
@@ -31,6 +31,8 @@ import { IMatchWithFullData } from '../../type/match.type';
   providedIn: 'root',
 })
 export class Pagination {
+  private store = inject<Store<AppState>>(Store);
+
   currentPage$: Observable<number>;
   itemsPerPage$: Observable<number | string>;
   currentPagePlayersInTeamTable$: Observable<number>;
@@ -58,7 +60,9 @@ export class Pagination {
   paginatedMatchCombinedSearchResults$: Observable<IMatchWithFullData[]>;
   totalMatchCombinedSearchPages$: Observable<number>;
 
-  constructor(private store: Store<AppState>) {
+  constructor() {
+    const store = this.store;
+
     this.currentPage$ = store.select((state) => state.pagination.currentPage);
     this.itemsPerPage$ = store.select((state) => state.pagination.itemsPerPage);
     this.currentPagePlayersInTeamTable$ = store.select(

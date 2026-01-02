@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { catchError, map, Observable, of } from 'rxjs';
 import { UploadResizeImageResponse } from '../type/base.type';
@@ -7,7 +7,8 @@ import { UploadResizeImageResponse } from '../type/base.type';
   providedIn: 'root',
 })
 export class ImageService {
-  constructor(private http: HttpClient) {}
+  private http = inject(HttpClient);
+
 
   handleError(event: Event) {
     let image = event.target as HTMLImageElement;

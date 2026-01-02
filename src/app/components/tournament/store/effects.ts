@@ -1,5 +1,5 @@
 import { concatLatestFrom } from '@ngrx/operators';import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { TournamentService } from '../tournament.service';
 import { tournamentActions } from './actions';
 import {
@@ -28,6 +28,14 @@ import { SponsorSponsorLineConnectionService } from '../../adv/sponsor-sponsor-l
 
 @Injectable()
 export class TournamentEffects {
+  private router = inject(Router);
+  private actions$ = inject(Actions);
+  private tournamentService = inject(TournamentService);
+  private sponsorSponsorLineConnectionService = inject(SponsorSponsorLineConnectionService);
+  private sponsorLineService = inject(SponsorLineService);
+  private sponsorService = inject(SponsorService);
+  private store = inject(Store);
+
   getTournamentIdFromRouteEffect = createEffect(
     () => {
       return this.actions$.pipe(
@@ -313,14 +321,4 @@ export class TournamentEffects {
     },
     { dispatch: false },
   );
-
-  constructor(
-    private router: Router,
-    private actions$: Actions,
-    private tournamentService: TournamentService,
-    private sponsorSponsorLineConnectionService: SponsorSponsorLineConnectionService,
-    private sponsorLineService: SponsorLineService,
-    private sponsorService: SponsorService,
-    private store: Store,
-  ) {}
 }

@@ -4,7 +4,13 @@ import {
   TuiInputModule,
   TuiInputDateTimeModule,
 } from '@taiga-ui/legacy';
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnChanges,
+  SimpleChanges,
+  inject,
+} from '@angular/core';
 import { IPosition } from '../../../type/position.type';
 import {
   AbstractControl,
@@ -39,6 +45,9 @@ import { DialogService } from '../../../services/dialog.service';
   styleUrl: './add-edit-position-table.component.less',
 })
 export class AddEditPositionTableComponent implements OnChanges {
+  private position = inject(Position);
+  private dialogService = inject(DialogService);
+
   @Input() sportId!: number;
   @Input() positions: IPosition[] = [];
 
@@ -49,11 +58,7 @@ export class AddEditPositionTableComponent implements OnChanges {
   editableIndex: number | null = null;
   positionForm = new FormGroup({});
 
-  constructor(
-    private position: Position,
-    private dialogService: DialogService,
-    // @Inject(DOCUMENT) private document: Document,
-  ) {
+  constructor() {
     this.initializeForm();
   }
 

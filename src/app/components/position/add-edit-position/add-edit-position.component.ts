@@ -1,14 +1,5 @@
 import { TuiInputModule } from '@taiga-ui/legacy';
-import {
-  Component,
-  EventEmitter,
-  Input,
-  OnChanges,
-  OnDestroy,
-  OnInit,
-  Output,
-  SimpleChanges,
-} from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges, inject } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { IPosition } from '../../../type/position.type';
 import { DialogService } from '../../../services/dialog.service';
@@ -42,6 +33,9 @@ import { CreateButtonInFormComponent } from '../../../shared/ui/buttons/create-b
   styleUrl: './add-edit-position.component.less',
 })
 export class AddEditPositionComponent implements OnInit, OnDestroy, OnChanges {
+  private dialogService = inject(DialogService);
+  private position = inject(Position);
+
   private dialogSubscription: Subscription | undefined;
 
   @Input() action: string = 'add';
@@ -51,11 +45,6 @@ export class AddEditPositionComponent implements OnInit, OnDestroy, OnChanges {
 
   @Output() addEvent = new EventEmitter<any>();
   @Output() editEvent = new EventEmitter<any>();
-
-  constructor(
-    private dialogService: DialogService,
-    private position: Position,
-  ) {}
 
   positionForm = new FormGroup({
     id: new FormControl<number | null | undefined>(undefined),

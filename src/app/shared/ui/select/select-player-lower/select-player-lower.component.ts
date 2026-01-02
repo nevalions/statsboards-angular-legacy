@@ -1,5 +1,5 @@
 import { TuiSelectModule } from '@taiga-ui/legacy';
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges, inject } from '@angular/core';
 import { IPlayerInMatchFullData } from '../../../../type/player.type';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { tuiItemsHandlersProvider } from '@taiga-ui/kit';
@@ -28,15 +28,13 @@ import { ScoreboardData } from '../../../../components/scoreboard-data/scoreboar
   styleUrl: './select-player-lower.component.less',
 })
 export class SelectPlayerLowerComponent implements OnChanges {
+  private playerInMatch = inject(PlayerInMatch);
+  private scoreboardData = inject(ScoreboardData);
+
   @Input() matchPlayers: IPlayerInMatchFullData[] = [];
   @Input() selectedPlayer: IPlayerInMatchFullData | undefined | null = null;
   @Input() scoreboardId: number | undefined | null = null;
   @Input() control: FormControl = new FormControl();
-
-  constructor(
-    private playerInMatch: PlayerInMatch,
-    private scoreboardData: ScoreboardData,
-  ) {}
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['selectedPlayer'] || changes['matchPlayers']) {

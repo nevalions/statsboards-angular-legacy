@@ -1,4 +1,4 @@
-import { concatLatestFrom } from '@ngrx/operators';import { Injectable } from '@angular/core';
+import { concatLatestFrom } from '@ngrx/operators';import { Injectable, inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import {
   catchError,
@@ -23,6 +23,11 @@ import { matchActions } from '../../match/store/actions';
 
 @Injectable()
 export class MatchWithFullDataEffects {
+  private router = inject(Router);
+  private actions$ = inject(Actions);
+  private matchWithFullDataService = inject(MatchWithFullDataService);
+  private store = inject(Store);
+
   getMatchIdFromRouteEffect = createEffect(
     () => {
       return this.actions$.pipe(
@@ -224,21 +229,4 @@ export class MatchWithFullDataEffects {
       }),
     ) },
   );
-
-  // navigateOnMatchWithFullDataDeletion$ = createEffect(
-  //   () => {
-  //     return this.actions$.pipe(
-  //       ofType(matchWithFullDataActions.deletedSuccessfully),
-  //       tap(() => this.router.navigateByUrl('/')),
-  //     );
-  //   },
-  //   { dispatch: false },
-  // );
-
-  constructor(
-    private router: Router,
-    private actions$: Actions,
-    private matchWithFullDataService: MatchWithFullDataService,
-    private store: Store,
-  ) { }
 }

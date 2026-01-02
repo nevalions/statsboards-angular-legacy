@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { catchError, map, Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { ErrorHandlingService } from './error.service';
@@ -521,7 +521,10 @@ export abstract class BaseApiServiceEndpoint<T> {
 
 @Injectable({ providedIn: 'root' })
 export class RealApiService<T> extends BaseApiServiceEndpoint<T> {
-  constructor(http: HttpClient, errorHandlingService: ErrorHandlingService) {
+  constructor() {
+    const http = inject(HttpClient);
+    const errorHandlingService = inject(ErrorHandlingService);
+
     super(http, errorHandlingService);
   }
 }

@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { map, Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { BaseApiService } from '../../services/base.api.service';
@@ -11,7 +11,10 @@ import { IPlayerInMatch, IPlayerInMatchFullData } from '../../type/player.type';
   providedIn: 'root',
 })
 export class PlayerMatchService extends BaseApiService<IPlayerInMatch> {
-  constructor(http: HttpClient, errorHandlingService: ErrorHandlingService) {
+  constructor() {
+    const http = inject(HttpClient);
+    const errorHandlingService = inject(ErrorHandlingService);
+
     super('players_match', http, errorHandlingService);
   }
 

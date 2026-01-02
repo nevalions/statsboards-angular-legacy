@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import {
   IFootballEvent,
@@ -44,6 +44,8 @@ import { IFootballTeamWithStats } from '../../../type/team.type';
   providedIn: 'root',
 })
 export class FootballEvent {
+  private store = inject<Store<AppState>>(Store);
+
   footballEvent$: Observable<IFootballEvent | null | undefined>;
   allMatchFootballEvents$: Observable<IFootballEvent[]>;
   allMatchFootballEventsWithPlayers$: Observable<IFootballEventWithPlayers[]>;
@@ -74,7 +76,7 @@ export class FootballEvent {
   allOffenceTeamA$: Observable<IPlayerInMatchFullDataWithOffenceStats[]>;
   allOffenceTeamB$: Observable<IPlayerInMatchFullDataWithOffenceStats[]>;
 
-  constructor(private store: Store<AppState>) {
+  constructor() {
     this.footballEvent$ = this.store.select(selectCurrentFootballEvent);
     this.footballEventIsSubmitting$ = this.store.select(
       selectFootballEventIsSubmitting,

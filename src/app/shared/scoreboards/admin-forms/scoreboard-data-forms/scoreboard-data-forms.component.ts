@@ -1,6 +1,6 @@
 import { TuiInputModule } from '@taiga-ui/legacy';
 import { AsyncPipe } from '@angular/common';
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { ScoreboardData } from '../../../../components/scoreboard-data/scoreboard-data';
@@ -26,6 +26,9 @@ import { Websocket } from '../../../../store/websocket/websocket';
   styleUrl: './scoreboard-data-forms.component.less',
 })
 export class ScoreboardDataFormsComponent implements OnChanges {
+  private scoreboardData = inject(ScoreboardData);
+  private websocket = inject(Websocket);
+
   @Input() changeScoreBoardFormsVisible$!: Observable<boolean>;
   @Input() data: IMatchFullDataWithScoreboard | undefined;
   @Input() isMatchDataSubmitting$?: Observable<boolean>;
@@ -33,10 +36,7 @@ export class ScoreboardDataFormsComponent implements OnChanges {
 
   teamColorForm: FormGroup;
 
-  constructor(
-    private scoreboardData: ScoreboardData,
-    private websocket: Websocket,
-  ) {
+  constructor() {
     this.teamColorForm = this.initForm();
   }
 

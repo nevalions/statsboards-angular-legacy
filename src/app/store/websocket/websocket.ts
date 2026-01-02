@@ -1,5 +1,5 @@
 import { Observable } from 'rxjs';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppState } from '../appstate';
 import { WebSocketStateEnum } from './websocket.reducers';
@@ -9,6 +9,8 @@ import { webSocketActions } from './websocket.actions';
   providedIn: 'root',
 })
 export class Websocket {
+  private store = inject<Store<AppState>>(Store);
+
   // loading$: Observable<any>;
   data$: Observable<any>;
   playclock$: Observable<any>;
@@ -17,7 +19,7 @@ export class Websocket {
 
   // error$: Observable<any>;
 
-  constructor(private store: Store<AppState>) {
+  constructor() {
     this.data$ = this.store.select((state) => state.webSocket.data);
     this.playclock$ = this.store.select((state) => state.webSocket.playclock);
     this.gameclock$ = this.store.select((state) => state.webSocket.gameclock);

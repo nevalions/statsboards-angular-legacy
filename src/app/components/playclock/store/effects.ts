@@ -1,4 +1,4 @@
-import { concatLatestFrom } from '@ngrx/operators';import { Injectable } from '@angular/core';
+import { concatLatestFrom } from '@ngrx/operators';import { Injectable, inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import {
   catchError,
@@ -19,6 +19,10 @@ import { selectCurrentPlayclockId } from './reducers';
 
 @Injectable()
 export class PlayclockEffects {
+  private actions$ = inject(Actions);
+  private playclockService = inject(PlayclockService);
+  private store = inject(Store);
+
   updatePlayclockEffect = createEffect(
     () => {
       return this.actions$.pipe(
@@ -177,10 +181,4 @@ export class PlayclockEffects {
       ),
     ) },
   );
-
-  constructor(
-    private actions$: Actions,
-    private playclockService: PlayclockService,
-    private store: Store,
-  ) {}
 }

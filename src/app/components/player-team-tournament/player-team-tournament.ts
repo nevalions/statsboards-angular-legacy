@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { AppState } from '../../store/appstate';
@@ -31,6 +31,8 @@ import {
   providedIn: 'root',
 })
 export class PlayerInTeamTournament {
+  private store = inject<Store<AppState>>(Store);
+
   playerInTeamTournamentIsLoading$: Observable<boolean>;
   currentPlayerInTeamTournament$: Observable<
     IPlayerInTeamTournament | null | undefined
@@ -63,7 +65,9 @@ export class PlayerInTeamTournament {
   availableMatchHomePlayers$: Observable<IPlayerInTeamTournamentFullData[]>;
   availableMatchAwayPlayers$: Observable<IPlayerInTeamTournamentFullData[]>;
 
-  constructor(private store: Store<AppState>) {
+  constructor() {
+    const store = this.store;
+
     this.playerInTeamTournamentIsLoading$ = this.store.select(
       (state) => state.playerInTeamTournament.playerInTeamTournamentIsLoading,
     );

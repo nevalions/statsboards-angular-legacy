@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 import { AppState } from '../../store/appstate';
@@ -15,11 +15,13 @@ import {
   providedIn: 'root',
 })
 export class Gameclock {
+  private store = inject<Store<AppState>>(Store);
+
   gameclock$: Observable<IGameclock | null | undefined>;
   gameclockIsSubmitting$: Observable<boolean> = of(false);
   gameclockIsLoading$: Observable<boolean> = of(false);
 
-  constructor(private store: Store<AppState>) {
+  constructor() {
     this.gameclock$ = this.store.select(selectCurrentGameclock);
     this.gameclockIsSubmitting$ = this.store.select(
       selectGameclockIsSubmitting,

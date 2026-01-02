@@ -1,5 +1,5 @@
 import { TuiLoader } from "@taiga-ui/core";
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 
 import { Observable } from 'rxjs';
 import { AsyncPipe } from '@angular/common';
@@ -28,6 +28,10 @@ import { Tournament } from '../tournament/tournament';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MatchScoreboardAdminComponent {
+  private Websocket = inject(Websocket);
+  private match = inject(Match);
+  private tournament = inject(Tournament);
+
   tournament$: Observable<ITournament | null | undefined> =
     this.match.matchTournament$;
   mainTournamentSponsor$: Observable<ISponsor | null | undefined> =
@@ -36,11 +40,9 @@ export class MatchScoreboardAdminComponent {
   playclock$: Observable<IPlayclock> = this.Websocket.playclock$;
   gameclock$: Observable<IGameclock> = this.Websocket.gameclock$;
 
-  constructor(
-    private Websocket: Websocket,
-    private match: Match,
-    private tournament: Tournament,
-  ) {
+  constructor() {
+    const match = this.match;
+
     // Websocket.connect();
     match.loadCurrentMatch();
   }

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 import { AppState } from '../../store/appstate';
@@ -14,11 +14,13 @@ import {
   providedIn: 'root',
 })
 export class MatchData {
+  private store = inject<Store<AppState>>(Store);
+
   matchData$: Observable<IMatchData | null | undefined>;
   matchDataIsSubmitting$: Observable<boolean> = of(false);
   matchDataIsLoading$: Observable<boolean> = of(false);
 
-  constructor(private store: Store<AppState>) {
+  constructor() {
     this.matchData$ = this.store.select(selectCurrentMatchData);
     this.matchDataIsSubmitting$ = this.store.select(
       selectMatchDataIsSubmitting,

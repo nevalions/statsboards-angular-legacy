@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, inject } from '@angular/core';
 import { ImageService } from '../../../services/image.service';
 import { environment } from '../../../../environments/environment';
 import { hexToRgba } from '../../../base/helpers';
@@ -11,10 +11,10 @@ import { IFootballTeamWithStats } from '../../../type/team.type';
   styleUrl: './team-match-lower-football-stats-display-flat.component.less',
 })
 export class TeamMatchLowerFootballStatsDisplayFlatComponent {
+  private imageService = inject(ImageService);
+
   @Input() footballTeamWithStats: IFootballTeamWithStats | null = null;
   @Input() teamColor: string = '#3b3b3b';
-
-  constructor(private imageService: ImageService) { }
 
   onImgError(event: Event) {
     this.imageService.handleError(event);

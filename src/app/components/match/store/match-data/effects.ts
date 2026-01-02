@@ -1,4 +1,4 @@
-import { concatLatestFrom } from '@ngrx/operators';import { Injectable } from '@angular/core';
+import { concatLatestFrom } from '@ngrx/operators';import { Injectable, inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import {
   catchError,
@@ -19,6 +19,11 @@ import { selectCurrentMatchDataId } from './reducers';
 
 @Injectable()
 export class MatchDataEffects {
+  private router = inject(Router);
+  private actions$ = inject(Actions);
+  private matchDataService = inject(MatchDataService);
+  private store = inject(Store);
+
   updateMatchDataEffect = createEffect(
     () => {
       return this.actions$.pipe(
@@ -198,11 +203,4 @@ export class MatchDataEffects {
       ),
     ) },
   );
-
-  constructor(
-    private router: Router,
-    private actions$: Actions,
-    private matchDataService: MatchDataService,
-    private store: Store,
-  ) {}
 }

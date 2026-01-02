@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Params, Router } from '@angular/router';
 import { BehaviorSubject, Observable, map } from 'rxjs';
 import { tap } from 'rxjs/operators';
@@ -12,17 +12,18 @@ import { ITeam } from '../../type/team.type';
   providedIn: 'root',
 })
 export class TeamService extends BaseApiService<ITeam> {
+  private router = inject(Router);
+
   private teamsSubject = new BehaviorSubject<ITeam[]>([]);
   public teams$ = this.teamsSubject.asObservable();
 
   // public teamsInTournamentSubject = new BehaviorSubject<ITeam[]>([]);
   // public teamsInTournament$ = this.teamsInTournamentSubject.asObservable();
 
-  constructor(
-    http: HttpClient,
-    private router: Router,
-    errorHandlingService: ErrorHandlingService,
-  ) {
+  constructor() {
+    const http = inject(HttpClient);
+    const errorHandlingService = inject(ErrorHandlingService);
+
     super('teams', http, errorHandlingService);
   }
 

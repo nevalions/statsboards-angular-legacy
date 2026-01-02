@@ -2,13 +2,7 @@ import {
   TuiTextfieldControllerModule,
   TuiInputNumberModule,
 } from '@taiga-ui/legacy';
-import {
-  Component,
-  Input,
-  OnChanges,
-  OnInit,
-  SimpleChanges,
-} from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges, inject } from '@angular/core';
 import { IPlayerInMatchFullData } from '../../../../type/player.type';
 import {
   eventDirectionOptions,
@@ -285,6 +279,11 @@ import { extractEventData } from '../football-event-extract-event-data-helper';
   styleUrl: './add-edit-football-event-table.component.less',
 })
 export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
+  private footballEvent = inject(FootballEvent);
+  private fb = inject(FormBuilder);
+  private dialogService = inject(DialogService);
+  private deviceService = inject(DeviceDetectorService);
+
   @Input() events: IFootballEventWithPlayers[] | null = [];
   @Input() homePlayersInMatch: IPlayerInMatchFullData[] | null = [];
   @Input() awayPlayersInMatch: IPlayerInMatchFullData[] | null = [];
@@ -478,12 +477,7 @@ export class AddEditFootballEventTableComponent implements OnChanges, OnInit {
     }
   }
 
-  constructor(
-    private footballEvent: FootballEvent,
-    private fb: FormBuilder,
-    private dialogService: DialogService,
-    private deviceService: DeviceDetectorService,
-  ) {
+  constructor() {
     this.isMobile =
       this.deviceService.isMobile() || this.deviceService.isTablet();
     this.eventForm = this.fb.group({

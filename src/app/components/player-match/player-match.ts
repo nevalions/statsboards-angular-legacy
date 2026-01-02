@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { AppState } from '../../store/appstate';
@@ -45,6 +45,8 @@ import { selectLowerSelectedFootballQbStats } from '../match-event/football-even
   providedIn: 'root',
 })
 export class PlayerInMatch {
+  private store = inject<Store<AppState>>(Store);
+
   playerInMatchIsLoading$: Observable<boolean>;
   currentPlayerInMatch$: Observable<IPlayerInMatch | null | undefined>;
   allPlayersInMatch$: Observable<IPlayerInMatch[]>;
@@ -88,7 +90,7 @@ export class PlayerInMatch {
 
   // selectLowerSelectedFootballQbStatsTeamA$: Observable<IPlayerInMatchFullDataWithQbStats> | null | undefined;
 
-  constructor(private store: Store<AppState>) {
+  constructor() {
     this.playerInMatchIsLoading$ = this.store.select(
       selectPlayerInMatchIsLoading,
     );

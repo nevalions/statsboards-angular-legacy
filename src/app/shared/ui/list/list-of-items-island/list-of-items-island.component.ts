@@ -1,9 +1,5 @@
 import { TuiAvatar } from "@taiga-ui/kit";
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, inject } from '@angular/core';
 import { TitleCasePipe } from '@angular/common';
 import { TuiAppearance, TuiLoader, TuiSizeL, TuiSizeS, TuiSurface, TuiTitle } from '@taiga-ui/core';
 import { environment } from '../../../../../environments/environment';
@@ -32,6 +28,8 @@ import { navigateToItem } from "../../../../base/helpers";
 export class ListOfItemsIslandComponent<
   T extends { id: number; p?: string; none: '' },
 > {
+  private router = inject(Router);
+
   @Input() itemData: T = {} as T;
 
   @Input() emptyMessage: string = 'No data available';
@@ -47,10 +45,6 @@ export class ListOfItemsIslandComponent<
 
   @Input() _size: TuiSizeL | TuiSizeS = 'l';
   @Input() hoverable: boolean = true;
-
-  constructor(
-    private router: Router,
-  ) { }
 
   navigate(item: T): void {
     const url = this.formatPath(item);

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { routerNavigatedAction } from '@ngrx/router-store';
@@ -13,6 +13,11 @@ import { sportActions } from './actions';
 
 @Injectable()
 export class SportEffects {
+  private router = inject(Router);
+  private actions$ = inject(Actions);
+  private sportService = inject(SportService);
+  private store = inject(Store);
+
   getSportIdFromRouteEffect = createEffect(
     () => {
       return this.actions$.pipe(
@@ -202,11 +207,4 @@ export class SportEffects {
     },
     { dispatch: false },
   );
-
-  constructor(
-    private router: Router,
-    private actions$: Actions,
-    private sportService: SportService,
-    private store: Store,
-  ) {}
 }

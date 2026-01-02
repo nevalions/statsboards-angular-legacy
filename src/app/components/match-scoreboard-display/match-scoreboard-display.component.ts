@@ -1,5 +1,5 @@
 import { AsyncPipe } from '@angular/common';
-import { Component, OnChanges, OnDestroy, SimpleChanges } from '@angular/core';
+import { Component, OnChanges, OnDestroy, SimpleChanges, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { FootballStartRosterDisplayComponent } from '../../shared/scoreboards/football-start-roster-display/football-start-roster-display';
 import { MatchSponsorLineDisplayFlatComponent } from '../../shared/scoreboards/match-sponsor-line-display-flat/match-sponsor-line-display-flat.component';
@@ -38,6 +38,15 @@ import {
   animations: [RevealHideAnimation, dissolveAnimation],
 })
 export class MatchScoreboardDisplayComponent implements OnChanges, OnDestroy {
+  private Websocket = inject(Websocket);
+  private sport = inject(Sport);
+  private match = inject(Match);
+  private matchWithFullData = inject(MatchWithFullData);
+  private tournament = inject(Tournament);
+  private position = inject(Position);
+  private playerInMatch = inject(PlayerInMatch);
+  private team = inject(Team);
+
   // loading$: Observable<boolean> = this.Websocket.loading$;
   // error$: Observable<any> = this.Websocket.error$;
   sport$ = this.sport.currentSport$;
@@ -82,16 +91,14 @@ export class MatchScoreboardDisplayComponent implements OnChanges, OnDestroy {
   // homePlayerLowerVisibility = 'invisible';
   // awayPlayerLowerVisibility = 'invisible';
 
-  constructor(
-    private Websocket: Websocket,
-    private sport: Sport,
-    private match: Match,
-    private matchWithFullData: MatchWithFullData,
-    private tournament: Tournament,
-    private position: Position,
-    private playerInMatch: PlayerInMatch,
-    private team: Team,
-  ) {
+  constructor() {
+    const sport = this.sport;
+    const match = this.match;
+    const matchWithFullData = this.matchWithFullData;
+    const position = this.position;
+    const playerInMatch = this.playerInMatch;
+    const team = this.team;
+
     team.loadMatchTeams();
     sport.loadSportByMatch();
     match.loadCurrentMatch();

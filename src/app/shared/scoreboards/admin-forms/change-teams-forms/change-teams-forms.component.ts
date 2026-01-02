@@ -5,7 +5,7 @@ import {
 } from '@taiga-ui/legacy';
 import { TuiValueChanges } from '@taiga-ui/cdk';
 import { TuiError } from '@taiga-ui/core';
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges, inject } from '@angular/core';
 import { catchError, finalize, map, Observable, of, Subject } from 'rxjs';
 import { IMatchFullDataWithScoreboard } from '../../../../type/match.type';
 import { AsyncPipe } from '@angular/common';
@@ -51,6 +51,10 @@ import { Websocket } from '../../../../store/websocket/websocket';
   styleUrl: './change-teams-forms.component.less',
 })
 export class ChangeTeamsFormsComponent implements OnChanges {
+  private scoreboardData = inject(ScoreboardData);
+  private imageService = inject(ImageService);
+  private websocket = inject(Websocket);
+
   @Input() changeTeamsFormsVisible$!: Observable<boolean>;
   @Input() data: IMatchFullDataWithScoreboard | undefined;
   @Input() disabled: boolean = false;
@@ -62,12 +66,7 @@ export class ChangeTeamsFormsComponent implements OnChanges {
 
   teamDataForm: FormGroup;
 
-  constructor(
-    private scoreboardData: ScoreboardData,
-    // private matchData: MatchData,
-    private imageService: ImageService,
-    private websocket: Websocket,
-  ) {
+  constructor() {
     this.teamDataForm = this.initForm();
   }
 

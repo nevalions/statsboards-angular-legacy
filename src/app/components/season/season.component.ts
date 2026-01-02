@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { SeasonService } from './season.service';
 import { map, Observable, of } from 'rxjs';
 import { IBaseIdElse } from '../../type/base.type';
@@ -13,7 +13,8 @@ import { AsyncPipe } from '@angular/common';
   templateUrl: './season.component.html',
 })
 export class SeasonComponent implements OnInit {
-  constructor(public seasonService: SeasonService) {}
+  seasonService = inject(SeasonService);
+
 
   dataList$: Observable<IBaseIdElse[]> = of([]);
 

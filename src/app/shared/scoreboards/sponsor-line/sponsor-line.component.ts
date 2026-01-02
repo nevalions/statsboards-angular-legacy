@@ -1,4 +1,4 @@
-import { Component, Input, } from '@angular/core';
+import { Component, Input, inject } from '@angular/core';
 import { ImageService } from '../../../services/image.service';
 import { urlWithProtocol } from '../../../base/constants';
 import { UpperCasePipe } from '@angular/common';
@@ -12,11 +12,9 @@ import { ISponsorLineFullData } from '../../../type/sponsor.type';
   styleUrl: './sponsor-line.component.less',
 })
 export class SponsorLineComponent {
-  @Input() sponsorLine: ISponsorLineFullData | null | undefined;
+  private imageService = inject(ImageService);
 
-  constructor(
-    private imageService: ImageService,
-  ) { }
+  @Input() sponsorLine: ISponsorLineFullData | null | undefined;
 
   onImgError(event: Event) {
     this.imageService.handleError(event);

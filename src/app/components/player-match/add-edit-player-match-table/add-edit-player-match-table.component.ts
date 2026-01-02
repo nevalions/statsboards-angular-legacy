@@ -1,13 +1,6 @@
 import { TuiTextfieldControllerModule } from '@taiga-ui/legacy';
 import { DatePipe, TitleCasePipe, UpperCasePipe } from '@angular/common';
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-  OnChanges,
-  OnInit,
-  SimpleChanges,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnChanges, OnInit, SimpleChanges, inject } from '@angular/core';
 import {
   FormArray,
   FormBuilder,
@@ -67,6 +60,11 @@ import { PlayerInMatch } from '../player-match';
   ],
 })
 export class AddEditPlayerMatchTableComponent implements OnChanges, OnInit {
+  private playerInMatch = inject(PlayerInMatch);
+  private dialogService = inject(DialogService);
+  private fb = inject(FormBuilder);
+  private imageService = inject(ImageService);
+
   @Input() side!: 'home' | 'away';
   @Input() sportId!: number;
   @Input() match!: IMatchWithFullData;
@@ -130,13 +128,6 @@ export class AddEditPlayerMatchTableComponent implements OnChanges, OnInit {
       }
     }
   }
-
-  constructor(
-    private playerInMatch: PlayerInMatch,
-    private dialogService: DialogService,
-    private fb: FormBuilder,
-    private imageService: ImageService,
-  ) {}
 
   ngOnInit() {
     if (this.side && this.players) {

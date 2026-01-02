@@ -3,11 +3,7 @@ import {
   TuiInputNumberModule,
   TuiSelectModule,
 } from '@taiga-ui/legacy';
-import {
-  ChangeDetectionStrategy,
-  Component,
-  ViewEncapsulation,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, ViewEncapsulation, inject } from '@angular/core';
 import { ITeam } from '../../../../type/team.type';
 import { AsyncPipe, UpperCasePipe } from '@angular/common';
 import { TuiLoader } from '@taiga-ui/core';
@@ -49,6 +45,13 @@ import { BasePaginationComponent } from '../../../../shared/ui/pagination/base-p
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WithTeamsComponent {
+  private sport = inject(Sport);
+  private team = inject(Team);
+  private sponsor = inject(Sponsor);
+  private sponsorLine = inject(SponsorLine);
+  private search = inject(Search);
+  private pagination = inject(Pagination);
+
   sport$ = this.sport.currentSport$;
   allSponsors$ = this.sponsor.allSponsors$;
   allSponsorLines$ = this.sponsorLine.allSponsorLines$;
@@ -57,14 +60,11 @@ export class WithTeamsComponent {
   currentPage$ = this.pagination.currentPage$;
   totalTeamInSportSearchPages$ = this.pagination.totalTeamInSportSearchPages$;
 
-  constructor(
-    private sport: Sport,
-    private team: Team,
-    private sponsor: Sponsor,
-    private sponsorLine: SponsorLine,
-    private search: Search,
-    private pagination: Pagination,
-  ) {
+  constructor() {
+    const team = this.team;
+    const sponsor = this.sponsor;
+    const sponsorLine = this.sponsorLine;
+
     sponsor.loadAllSponsors();
     sponsorLine.loadAllSponsorLines();
     team.loadAllTeamsInSport();

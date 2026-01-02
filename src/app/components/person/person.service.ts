@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 
 import { BaseApiService } from '../../services/base.api.service';
 import { HttpClient } from '@angular/common/http';
@@ -9,7 +9,10 @@ import { IPerson } from '../../type/person.type';
   providedIn: 'root',
 })
 export class PersonService extends BaseApiService<IPerson> {
-  constructor(http: HttpClient, errorHandlingService: ErrorHandlingService) {
+  constructor() {
+    const http = inject(HttpClient);
+    const errorHandlingService = inject(ErrorHandlingService);
+
     super('persons', http, errorHandlingService);
   }
 }

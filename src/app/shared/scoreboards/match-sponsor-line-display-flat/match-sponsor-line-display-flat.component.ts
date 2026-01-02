@@ -1,5 +1,5 @@
 import { AsyncPipe } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { SponsorLine } from '../../../components/adv/sponsor-line/sponsorLine';
 import { SponsorLineComponent } from '../sponsor-line/sponsor-line.component';
 
@@ -11,8 +11,12 @@ import { SponsorLineComponent } from '../sponsor-line/sponsor-line.component';
   imports: [SponsorLineComponent, AsyncPipe],
 })
 export class MatchSponsorLineDisplayFlatComponent {
+  private sponsorLine = inject(SponsorLine);
+
   matchSponsorLine$ = this.sponsorLine.matchSponsorLine$;
-  constructor(private sponsorLine: SponsorLine) {
+  constructor() {
+    const sponsorLine = this.sponsorLine;
+
     sponsorLine.loadMatchSponsorLineWithFullData();
   }
 }

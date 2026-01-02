@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store, select } from '@ngrx/store';
 import { searchActions } from './search.actions';
@@ -20,6 +20,9 @@ import { selectAllMatchesWithFullDataInTournament } from '../../components/match
 
 @Injectable()
 export class SearchEffects {
+  private actions$ = inject(Actions);
+  private store = inject(Store);
+
   searchOnList$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(searchActions.searchOnList),
@@ -212,34 +215,4 @@ export class SearchEffects {
     },
     { functional: true },
   );
-
-  //   = createEffect(() =>
-  //   this.actions$.pipe(
-  //     ofType(searchActions.updateMatchSearchTerm),
-  //     switchMap(({ term }) =>
-  //       // Pretend we're calling a selector to get all tournaments
-  //       this.store.pipe(select(selectAllMatchesWithFullDataInTournament)).pipe(
-  //         map((matches: IMatchWithFullData[]) =>
-  //           searchActions.matchSearchSuccess({
-  //             matches: matches.filter(
-  //               (match: IMatchWithFullData) =>
-  //                 match.teams_data?.team_a.title
-  //                   .toLowerCase()
-  //                   .startsWith(term.toLowerCase()) ||
-  //                 match.teams_data?.team_b.title
-  //                   .toLowerCase()
-  //                   .startsWith(term.toLowerCase()),
-  //             ),
-  //           }),
-  //         ),
-  //         catchError(() => of(searchActions.matchSearchFailure())),
-  //       ),
-  //     ),
-  //   ),
-  // );
-
-  constructor(
-    private actions$: Actions,
-    private store: Store,
-  ) {}
 }

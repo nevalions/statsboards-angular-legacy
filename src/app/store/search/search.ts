@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppState } from '../appstate';
 import { combineLatest, map, Observable, startWith } from 'rxjs';
@@ -12,6 +12,8 @@ import { IPlayer, IPlayerInSport } from '../../type/player.type';
   providedIn: 'root',
 })
 export class Search {
+  private store = inject<Store<AppState>>(Store);
+
   personSearchTerm$: Observable<string | null>;
   personSearchResults$: Observable<IPerson[]>;
 
@@ -21,7 +23,7 @@ export class Search {
   teamInSportSearchTerm$: Observable<string | null>;
   teamInSportSearchResults$: Observable<ITeam[]>;
 
-  constructor(private store: Store<AppState>) {
+  constructor() {
     this.personSearchTerm$ = this.store.select(
       (state) => state.search.personSearchTerm,
     );

@@ -1,14 +1,5 @@
 import { TuiDialog } from "@taiga-ui/core";
-import {
-  Component,
-  EventEmitter,
-  Input,
-  OnChanges,
-  OnDestroy,
-  OnInit,
-  Output,
-  SimpleChanges,
-} from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges, inject } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { IPlayer, IPlayerInSport } from '../../../type/player.type';
 import { Player } from '../player';
@@ -38,6 +29,9 @@ import { CancelButtonInFormComponent } from '../../../shared/ui/buttons/cancel-b
   styleUrl: './add-edit-player.component.less',
 })
 export class AddEditPlayerComponent implements OnInit, OnChanges, OnDestroy {
+  private player = inject(Player);
+  private dialogService = inject(DialogService);
+
   private dialogSubscription: Subscription | undefined;
 
   @Input() action: string = 'add';
@@ -48,11 +42,6 @@ export class AddEditPlayerComponent implements OnInit, OnChanges, OnDestroy {
 
   @Output() addEvent = new EventEmitter<any>();
   @Output() editEvent = new EventEmitter<any>();
-
-  constructor(
-    private player: Player,
-    private dialogService: DialogService,
-  ) {}
 
   playerForm = new FormGroup({
     id: new FormControl<number | null | undefined>(undefined),

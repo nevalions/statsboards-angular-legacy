@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Player } from '../../../player/player';
 import { Person } from '../../../person/person';
 import { IPlayer } from '../../../../type/player.type';
@@ -29,6 +29,12 @@ import { BaseSearchFormComponent } from '../../../../shared/ui/search/base-searc
   styleUrl: './with-players.component.less',
 })
 export class WithPlayersComponent {
+  private sport = inject(Sport);
+  private player = inject(Player);
+  private person = inject(Person);
+  private search = inject(Search);
+  private pagination = inject(Pagination);
+
   sport$ = this.sport.currentSport$;
   paginatedPlayerInSportSearchResults$ =
     this.pagination.paginatedPlayerInSportSearchResults$;
@@ -39,13 +45,10 @@ export class WithPlayersComponent {
 
   backendUrl = environment.backendUrl;
 
-  constructor(
-    private sport: Sport,
-    private player: Player,
-    private person: Person,
-    private search: Search,
-    private pagination: Pagination,
-  ) {
+  constructor() {
+    const player = this.player;
+    const person = this.person;
+
     person.loadAllPersons();
     player.loadAllPlayersBySportId();
 

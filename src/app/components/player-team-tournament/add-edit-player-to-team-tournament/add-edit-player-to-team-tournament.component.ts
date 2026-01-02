@@ -2,6 +2,7 @@ import { TuiInputModule } from '@taiga-ui/legacy';
 import {
   Component,
   EventEmitter,
+  inject,
   Input,
   OnChanges,
   OnDestroy,
@@ -72,10 +73,8 @@ export class AddEditPlayerToTeamTournamentComponent
   @Output() addEvent = new EventEmitter<any>();
   @Output() editEvent = new EventEmitter<any>();
 
-  constructor(
-    private dialogService: DialogService,
-    private player: PlayerInTeamTournament,
-  ) {}
+  private dialogService = inject(DialogService);
+  private player = inject(PlayerInTeamTournament);
 
   playerForm = new FormGroup({
     id: new FormControl<number | null | undefined>(undefined),

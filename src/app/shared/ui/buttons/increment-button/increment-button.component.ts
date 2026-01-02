@@ -1,5 +1,5 @@
 import { TuiButton } from "@taiga-ui/core";
-import { Component, Input } from '@angular/core';
+import { Component, Input, inject } from '@angular/core';
 import { IMatchData } from '../../../../type/matchdata.type';
 import { MatchData } from '../../../../components/match/matchdata';
 import { IMatchFullDataWithScoreboard } from '../../../../type/match.type';
@@ -15,15 +15,13 @@ import { Websocket } from '../../../../store/websocket/websocket';
   styleUrl: './increment-button.component.less',
 })
 export class IncrementButtonComponent {
+  private matchData = inject(MatchData);
+  private websocket = inject(Websocket);
+
   @Input() score!: number;
   @Input() team!: 'a' | 'b';
   @Input() disabled: boolean = false;
   @Input() data!: IMatchFullDataWithScoreboard;
-
-  constructor(
-    private matchData: MatchData,
-    private websocket: Websocket,
-  ) {}
 
   adjustScore(team: 'a' | 'b', amount: number, matchData: IMatchData) {
     if (!matchData) return;

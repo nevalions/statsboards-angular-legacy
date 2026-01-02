@@ -1,5 +1,5 @@
 import { AsyncPipe, DatePipe, TitleCasePipe } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TuiAppearance, TuiButton, TuiTitle } from '@taiga-ui/core';
 import { environment } from '../../../../environments/environment';
@@ -55,6 +55,22 @@ import { TuiCardLarge } from "@taiga-ui/layout";
   styleUrl: './item-match.component.less',
 })
 export class ItemMatchComponent {
+  private season = inject(Season);
+  private sport = inject(Sport);
+  private sponsor = inject(Sponsor);
+  private sponsorLine = inject(SponsorLine);
+  private tournament = inject(Tournament);
+  private team = inject(Team);
+  private person = inject(Person);
+  private player = inject(Player);
+  private playerInTeamTournament = inject(PlayerInTeamTournament);
+  private playerInMatch = inject(PlayerInMatch);
+  private position = inject(Position);
+  private match = inject(Match);
+  private matchWithFullData = inject(MatchWithFullData);
+  private route = inject(ActivatedRoute);
+  private router = inject(Router);
+
   season$ = this.season.season$;
   sport$ = this.sport.currentSport$;
   allSponsors$ = this.sponsor.allSponsors$;
@@ -84,23 +100,16 @@ export class ItemMatchComponent {
 
   playerInMatchIsLoading$ = this.playerInMatch.playerInMatchIsLoading$;
 
-  constructor(
-    private season: Season,
-    private sport: Sport,
-    private sponsor: Sponsor,
-    private sponsorLine: SponsorLine,
-    private tournament: Tournament,
-    private team: Team,
-    private person: Person,
-    private player: Player,
-    private playerInTeamTournament: PlayerInTeamTournament,
-    private playerInMatch: PlayerInMatch,
-    private position: Position,
-    private match: Match,
-    private matchWithFullData: MatchWithFullData,
-    private route: ActivatedRoute,
-    private router: Router,
-  ) {
+  constructor() {
+    const sponsor = this.sponsor;
+    const sponsorLine = this.sponsorLine;
+    const tournament = this.tournament;
+    const team = this.team;
+    const playerInTeamTournament = this.playerInTeamTournament;
+    const playerInMatch = this.playerInMatch;
+    const position = this.position;
+    const match = this.match;
+
     sponsor.loadAllSponsors();
     sponsorLine.loadAllSponsorLines();
     sponsorLine.loadMatchSponsorLineWithFullData();

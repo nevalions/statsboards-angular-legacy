@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Sport } from '../../sport';
 import { Position } from '../../../position/postion';
 import { AddEditPositionTableComponent } from '../../../position/add-edit-position-table/add-edit-position-table.component';
@@ -12,13 +12,15 @@ import { AsyncPipe, UpperCasePipe } from '@angular/common';
   styleUrl: './with-positions.component.less',
 })
 export class WithPositionsComponent {
+  private sport = inject(Sport);
+  private position = inject(Position);
+
   sport$ = this.sport.currentSport$;
   allSportPositions$ = this.position.allSportPositions$;
 
-  constructor(
-    private sport: Sport,
-    private position: Position,
-  ) {
+  constructor() {
+    const position = this.position;
+
     position.loadAllPositionsBySportId();
   }
 }

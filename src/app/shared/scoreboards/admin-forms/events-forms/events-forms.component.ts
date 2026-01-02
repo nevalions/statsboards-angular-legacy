@@ -1,6 +1,6 @@
 import { TuiInputNumberModule } from '@taiga-ui/legacy';
 import { AsyncPipe } from '@angular/common';
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { IFootballEventWithPlayers } from '../../../../type/football-event.type';
 import { ToggleVisibleButtonComponent } from '../../../ui/buttons/toggle-visible-button/toggle-visible-button.component';
@@ -43,6 +43,10 @@ import { SimpleFootballOffenceStatsComponent } from '../../../ui/events/football
   styleUrl: './events-forms.component.less',
 })
 export class EventsFormsComponent implements OnChanges {
+  private websocket = inject(Websocket);
+  private matchData = inject(MatchData);
+  private footballEvent = inject(FootballEvent);
+
   @Input() data: IMatchFullDataWithScoreboard | undefined;
 
   @Input() eventsFormsVisible$!: Observable<boolean>;
@@ -62,11 +66,7 @@ export class EventsFormsComponent implements OnChanges {
 
   fieldForm: FormGroup;
 
-  constructor(
-    private websocket: Websocket,
-    private matchData: MatchData,
-    private footballEvent: FootballEvent,
-  ) {
+  constructor() {
     this.fieldForm = this.initForm();
   }
 

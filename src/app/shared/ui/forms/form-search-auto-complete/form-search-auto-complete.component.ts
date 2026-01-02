@@ -1,8 +1,13 @@
-import { TuiTextfieldControllerModule, TuiComboBoxModule, TuiInputModule } from "@taiga-ui/legacy";
+import {
+  TuiTextfieldControllerModule,
+  TuiComboBoxModule,
+  TuiInputModule,
+} from '@taiga-ui/legacy';
 import {
   ChangeDetectionStrategy,
   Component,
   EventEmitter,
+  inject,
   Input,
   OnInit,
   Output,
@@ -14,7 +19,11 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 import { AsyncPipe, UpperCasePipe } from '@angular/common';
-import { TuiDataListWrapper, TuiStringifyContentPipe, TuiFilterByInputPipe } from '@taiga-ui/kit';
+import {
+  TuiDataListWrapper,
+  TuiStringifyContentPipe,
+  TuiFilterByInputPipe,
+} from '@taiga-ui/kit';
 import { debounceTime, distinctUntilChanged, map, Observable, of } from 'rxjs';
 import { TuiLoader } from '@taiga-ui/core';
 import { TuiAutofilledModule, TuiValueChanges } from '@taiga-ui/cdk';
@@ -56,7 +65,7 @@ export class FormSearchAutoCompleteComponent<T> implements OnInit {
     searchValue: new FormControl(''),
   });
 
-  constructor(public searchListService: SearchListService<T>) {}
+  public searchListService = inject(SearchListService<T>);
 
   ngOnInit() {
     console.log(`AUTO COMPLETE${this.searchForm.get('searchValue')!.value}`);

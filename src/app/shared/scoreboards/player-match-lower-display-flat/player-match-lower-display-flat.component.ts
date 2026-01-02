@@ -1,5 +1,5 @@
 import { TuiAvatar } from "@taiga-ui/kit";
-import { Component, Input } from '@angular/core';
+import { Component, Input, inject } from '@angular/core';
 import { ImageService } from '../../../services/image.service';
 import { environment } from '../../../../environments/environment';
 import { AsyncPipe, UpperCasePipe } from '@angular/common';
@@ -14,13 +14,11 @@ import { hexToRgba } from '../../../base/helpers';
   styleUrl: './player-match-lower-display-flat.component.less',
 })
 export class PlayerMatchLowerDisplayFlatComponent {
+  private playerInMatch = inject(PlayerInMatch);
+  private imageService = inject(ImageService);
+
   player$ = this.playerInMatch.selectSelectedPlayerInMatchLower$;
   @Input() teamColor: string = '#3b3b3b';
-
-  constructor(
-    private playerInMatch: PlayerInMatch,
-    private imageService: ImageService,
-  ) {}
 
   onImgError(event: Event) {
     this.imageService.handleError(event);

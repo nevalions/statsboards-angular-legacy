@@ -1,5 +1,5 @@
 import { TuiRepeatTimes, TuiItem } from '@taiga-ui/cdk';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Breadcrumb } from '../../type/base.type';
 import { Store } from '@ngrx/store';
@@ -43,11 +43,13 @@ import {
   ],
 })
 export class LayoutComponent {
+  private store = inject<Store<AppState>>(Store);
+
   title = 'StatsBoards';
   breadcrumbs$: Observable<Breadcrumb[]>;
   maxBreads: number = 2;
 
-  constructor(private store: Store<AppState>) {
+  constructor() {
     this.breadcrumbs$ = this.store.select(
       (state) => state.breadcrumb.breadcrumbs,
     );

@@ -1,5 +1,5 @@
 import { concatLatestFrom } from '@ngrx/operators';import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { breadcrumbActions } from './breadcrumbs.actions';
 import { map, of, switchMap, withLatestFrom } from 'rxjs';
 
@@ -15,6 +15,9 @@ import { getAllRouteParameters } from '../../router/router.selector';
 
 @Injectable()
 export class BreadcrumbEffects {
+  private actions$ = inject(Actions);
+  private store = inject<Store<AppState>>(Store);
+
   updateBreadcrumbs$ = createEffect(
     () =>
       { return this.actions$.pipe(
@@ -81,10 +84,7 @@ export class BreadcrumbEffects {
     { functional: false },
   );
 
-  constructor(
-    private actions$: Actions,
-    private store: Store<AppState>,
-  ) {
+  constructor() {
     this.store.dispatch(breadcrumbActions.loadStateFromLocalStorage());
   }
 }

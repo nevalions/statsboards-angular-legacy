@@ -1,8 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  ViewEncapsulation,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, ViewEncapsulation, inject } from '@angular/core';
 import { ListOfItemsIslandComponent } from '../../../shared/ui/list/list-of-items-island/list-of-items-island.component';
 import { AsyncPipe } from '@angular/common';
 import { SponsorLine } from './sponsorLine';
@@ -18,9 +14,13 @@ import { ISponsor } from '../../../type/sponsor.type';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SponsorLineComponent {
+  private sponsorLine = inject(SponsorLine);
+
   sponsorLines$ = this.sponsorLine.allSponsorLines$;
 
-  constructor(private sponsorLine: SponsorLine) {
+  constructor() {
+    const sponsorLine = this.sponsorLine;
+
     sponsorLine.loadAllSponsorLines();
   }
   // TODO: Change from ISponsor to ISponsorLineWithFullData

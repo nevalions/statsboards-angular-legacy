@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import {
   catchError,
@@ -22,6 +22,11 @@ import { SponsorService } from '../../sponsor.service';
 
 @Injectable()
 export class SponsorEffects {
+  private router = inject(Router);
+  private actions$ = inject(Actions);
+  private sponsorService = inject(SponsorService);
+  private store = inject(Store);
+
   getSponsorIdFromRouteEffect = createEffect(
     () => {
       return this.actions$.pipe(
@@ -168,64 +173,4 @@ export class SponsorEffects {
     },
     { functional: true },
   );
-
-  // getSponsorByIdEffect = createEffect(
-  //   () => {
-  //     return this.actions$.pipe(
-  //       ofType(sponsorActions.get), // You will have to define this action
-  //       switchMap(({ id }) => {
-  //         return this.sponsorService.findById(id).pipe(
-  //           // Assuming you have a getTournaments method in your service
-  //           map((store: ISponsor) => {
-  //             return sponsorActions.getItemSuccess({
-  //               store,
-  //             });
-  //           }),
-  //           catchError(() => {
-  //             return of(sponsorActions.getItemFailure());
-  //           }),
-  //         );
-  //       }),
-  //     );
-  //   },
-  //   { functional: true },
-  // );
-  //
-  // deleteSponsorEffect = createEffect(
-  //   () => {
-  //     return this.actions$.pipe(
-  //       ofType(sponsorActions.delete),
-  //       switchMap(({ id }) => {
-  //         // const _id = typeof id === 'string' ? Number(id) : id;
-  //         return this.sponsorService.deleteItem(id).pipe(
-  //           map(() => {
-  //             return sponsorActions.deletedSuccessfully({ id: id });
-  //           }),
-  //           catchError(() => {
-  //             return of(sponsorActions.deleteFailure());
-  //           }),
-  //         );
-  //       }),
-  //     );
-  //   },
-  //   { functional: true },
-  // );
-  //
-  // navigateOnSponsorDeletion$ = createEffect(
-  //   () => {
-  //     return this.actions$.pipe(
-  //       ofType(sponsorActions.deletedSuccessfully),
-  //       tap(() => this.router.navigateByUrl('/')),
-  //     );
-  //   },
-  //   { dispatch: false },
-  // );
-
-  constructor(
-    private router: Router,
-    private actions$: Actions,
-    private sponsorService: SponsorService,
-    // private sponsorTournamentService: SponsorTournamentService,
-    private store: Store,
-  ) {}
 }

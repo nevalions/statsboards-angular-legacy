@@ -1,14 +1,18 @@
-import { Directive, ElementRef, Renderer2, AfterViewInit } from '@angular/core';
+import {
+  Directive,
+  ElementRef,
+  Renderer2,
+  AfterViewInit,
+  inject,
+} from '@angular/core';
 
 @Directive({
   standalone: true,
   selector: '[appAdjustFontSize]',
 })
 export class AdjustFontSizeDirective implements AfterViewInit {
-  constructor(
-    private el: ElementRef,
-    private renderer: Renderer2,
-  ) {}
+  private el = inject(ElementRef);
+  private renderer = inject(Renderer2);
 
   ngAfterViewInit() {
     let fontSize = 40;

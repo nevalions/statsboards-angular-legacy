@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { AppState } from '../appstate';
@@ -9,9 +9,11 @@ import { uiActions } from './ui.actions';
   providedIn: 'root',
 })
 export class Ui {
+  private store = inject<Store<AppState>>(Store);
+
   formVisibility$: Observable<{ [formName: string]: boolean }>;
 
-  constructor(private store: Store<AppState>) {
+  constructor() {
     this.formVisibility$ = this.store.select(selectFormVisibility);
 
     // Load UI state from localstorage.

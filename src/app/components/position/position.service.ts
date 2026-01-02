@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 
 import { BaseApiService } from '../../services/base.api.service';
 import { HttpClient } from '@angular/common/http';
@@ -11,7 +11,10 @@ import { tap } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class PositionService extends BaseApiService<IPosition> {
-  constructor(http: HttpClient, errorHandlingService: ErrorHandlingService) {
+  constructor() {
+    const http = inject(HttpClient);
+    const errorHandlingService = inject(ErrorHandlingService);
+
     super('positions', http, errorHandlingService);
   }
 

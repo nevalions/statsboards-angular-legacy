@@ -1,5 +1,5 @@
 import { TuiLoader } from "@taiga-ui/core";
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Person } from '../person';
 import { AsyncPipe, UpperCasePipe } from '@angular/common';
 import { EditButtonComponent } from '../../../shared/ui/buttons/edit-button/edit-button.component';
@@ -29,16 +29,18 @@ import { Pagination } from '../../../store/pagination/pagination';
   styleUrl: './all-persons.component.less',
 })
 export class AllPersonsComponent {
+  private person = inject(Person);
+  private search = inject(Search);
+  private pagination = inject(Pagination);
+
   // allPersons$ = this.person.allPersons$;
   paginatedPersonSearchResults$ = this.pagination.paginatedPersonSearchResults$;
   totalPersonSearchPages$ = this.pagination.totalPersonSearchPages$;
   currentPage$ = this.pagination.currentPage$;
 
-  constructor(
-    private person: Person,
-    private search: Search,
-    private pagination: Pagination,
-  ) {
+  constructor() {
+    const person = this.person;
+
     person.loadAllPersons();
 
     this.search.searchPerson(null);

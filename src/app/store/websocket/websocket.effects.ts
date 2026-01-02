@@ -1,4 +1,4 @@
-import { concatLatestFrom } from '@ngrx/operators';import { Injectable } from '@angular/core';
+import { concatLatestFrom } from '@ngrx/operators';import { Injectable, inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { filter, mergeMap, of, withLatestFrom } from 'rxjs';
 import { catchError, map, switchMap, tap } from 'rxjs/operators';
@@ -11,6 +11,10 @@ import { selectRouterState } from '../../router/router.selector';
 
 @Injectable()
 export class WebSocketEffects {
+  private actions$ = inject(Actions);
+  private webSocketService = inject(WebSocketService);
+  private store = inject(Store);
+
   connectWebSocketOnMatchRoutes$ = createEffect(() =>
     { return this.actions$.pipe(
       ofType(routerNavigatedAction),
@@ -162,10 +166,4 @@ export class WebSocketEffects {
       ) },
     { functional: true },
   );
-
-  constructor(
-    private actions$: Actions,
-    private webSocketService: WebSocketService,
-    private store: Store,
-  ) {}
 }

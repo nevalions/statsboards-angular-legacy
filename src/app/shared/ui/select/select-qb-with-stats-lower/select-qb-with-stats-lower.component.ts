@@ -1,5 +1,5 @@
 import { TuiSelectModule } from "@taiga-ui/legacy";
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges, inject } from '@angular/core';
 import { IPlayerInMatchFullDataWithQbStats } from '../../../../type/player.type';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { PlayerInMatch } from '../../../../components/player-match/player-match';
@@ -28,6 +28,9 @@ import { stringifyMatchPlayer } from '../../../../base/helpers';
   styleUrl: './select-qb-with-stats-lower.component.less',
 })
 export class SelectQbWithStatsLowerComponent implements OnChanges {
+  private playerInMatch = inject(PlayerInMatch);
+  private scoreboardData = inject(ScoreboardData);
+
   @Input() qbPlayersWithStats: IPlayerInMatchFullDataWithQbStats[] = [];
   @Input() selectedPlayer:
     | IPlayerInMatchFullDataWithQbStats
@@ -35,11 +38,6 @@ export class SelectQbWithStatsLowerComponent implements OnChanges {
     | null = null;
   @Input() scoreboardId: number | undefined | null = null;
   @Input() control: FormControl = new FormControl();
-
-  constructor(
-    private playerInMatch: PlayerInMatch,
-    private scoreboardData: ScoreboardData,
-  ) {}
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['selectedPlayer'] || changes['qbPlayersWithStats']) {

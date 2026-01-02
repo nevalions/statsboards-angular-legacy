@@ -1,8 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  ViewEncapsulation,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, ViewEncapsulation, inject } from '@angular/core';
 import { Sponsor } from './sponsor';
 import { ListOfItemsIslandComponent } from '../../../shared/ui/list/list-of-items-island/list-of-items-island.component';
 import { AsyncPipe } from '@angular/common';
@@ -18,9 +14,13 @@ import { ISponsor } from '../../../type/sponsor.type';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SponsorComponent {
+  private sponsor = inject(Sponsor);
+
   sponsors$ = this.sponsor.allSponsors$;
 
-  constructor(private sponsor: Sponsor) {
+  constructor() {
+    const sponsor = this.sponsor;
+
     sponsor.loadAllSponsors();
   }
 

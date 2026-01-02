@@ -1,5 +1,5 @@
-import { TuiButton } from "@taiga-ui/core";
-import { Component, OnInit } from '@angular/core';
+import { TuiButton } from '@taiga-ui/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { WithTeamsComponent } from '../sport/item-sport/with-teams/with-teams.component';
 import { map, Observable, of } from 'rxjs';
 import { ITeam } from '../../type/team.type';
@@ -28,11 +28,8 @@ import { FormSearchAutoCompleteComponent } from '../../shared/ui/forms/form-sear
 })
 export class TeamComponent implements OnInit {
   teams$: Observable<ITeam[]> = of([]);
-
-  constructor(
-    private route: ActivatedRoute,
-    private teamService: TeamService,
-  ) {}
+  private route = inject(ActivatedRoute);
+  private teamService = inject(TeamService);
 
   islandTitleProperty: keyof ITeam = 'title';
 

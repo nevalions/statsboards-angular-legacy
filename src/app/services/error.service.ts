@@ -1,4 +1,4 @@
-import { Injectable } from "@angular/core";
+import { Injectable, inject } from "@angular/core";
 import { Router } from "@angular/router";
 import {Observable, throwError} from "rxjs";
 
@@ -6,7 +6,8 @@ import {Observable, throwError} from "rxjs";
   providedIn: "root"
 })
 export class ErrorHandlingService {
-  constructor(private router: Router) {}
+  private router = inject(Router);
+
 
   handleError(error: any): Observable<never> {
     // Logic for logging error to a logging service

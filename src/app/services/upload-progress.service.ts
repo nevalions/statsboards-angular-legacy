@@ -1,7 +1,7 @@
 import { of, Subject } from 'rxjs';
 import { TuiFileLike } from '@taiga-ui/kit';
 import { ImageService } from './image.service';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { switchMap } from 'rxjs/operators';
 import { FormControl } from '@angular/forms';
 
@@ -9,10 +9,10 @@ import { FormControl } from '@angular/forms';
   providedIn: 'root',
 })
 export class UploadProgressService {
+  private imageService = inject(ImageService);
+
   readonly rejectedFiles$ = new Subject<TuiFileLike | null>();
   readonly loadingFiles$ = new Subject<TuiFileLike | null>();
-
-  constructor(private imageService: ImageService) {}
 
   onReject(file: TuiFileLike | readonly TuiFileLike[]): void {
     this.rejectedFiles$.next(file as TuiFileLike);

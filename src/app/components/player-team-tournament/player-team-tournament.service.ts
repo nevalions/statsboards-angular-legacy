@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { BaseApiService } from '../../services/base.api.service';
 import { ErrorHandlingService } from '../../services/error.service';
@@ -9,7 +9,10 @@ import { IPlayerInTeamTournament } from '../../type/player.type';
   providedIn: 'root',
 })
 export class PlayerTeamTournamentService extends BaseApiService<IPlayerInTeamTournament> {
-  constructor(http: HttpClient, errorHandlingService: ErrorHandlingService) {
+  constructor() {
+    const http = inject(HttpClient);
+    const errorHandlingService = inject(ErrorHandlingService);
+
     super('players_team_tournament', http, errorHandlingService);
   }
 

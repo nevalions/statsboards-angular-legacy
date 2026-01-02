@@ -1,8 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  ViewEncapsulation,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, ViewEncapsulation, inject } from '@angular/core';
 import { SponsorLine } from '../sponsorLine';
 import { ImageService } from '../../../../services/image.service';
 import { urlWithProtocol } from '../../../../base/constants';
@@ -18,12 +14,14 @@ import { AsyncPipe, UpperCasePipe } from '@angular/common';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ItemSponsorLineComponent {
+  private sponsorLine = inject(SponsorLine);
+  private imageService = inject(ImageService);
+
   sponsorLine$ = this.sponsorLine.sponsorLineWithFullData$;
 
-  constructor(
-    private sponsorLine: SponsorLine,
-    private imageService: ImageService,
-  ) {
+  constructor() {
+    const sponsorLine = this.sponsorLine;
+
     sponsorLine.loadCurrentSponsorLine();
   }
 

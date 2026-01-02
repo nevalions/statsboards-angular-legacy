@@ -1,4 +1,4 @@
-import { concatLatestFrom } from '@ngrx/operators';import { Injectable } from '@angular/core';
+import { concatLatestFrom } from '@ngrx/operators';import { Injectable, inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, filter, map, of, switchMap, withLatestFrom } from 'rxjs';
 import { tap } from 'rxjs/operators';
@@ -13,6 +13,11 @@ import { selectCurrentPerson } from './reducers';
 
 @Injectable()
 export class PersonEffects {
+  private router = inject(Router);
+  private actions$ = inject(Actions);
+  private personService = inject(PersonService);
+  private store = inject(Store);
+
   getPersonIdFromRouteEffect = createEffect(
     () => {
       return this.actions$.pipe(
@@ -179,11 +184,4 @@ export class PersonEffects {
     },
     { dispatch: false },
   );
-
-  constructor(
-    private router: Router,
-    private actions$: Actions,
-    private personService: PersonService,
-    private store: Store,
-  ) {}
 }

@@ -49,6 +49,10 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class AddEditTeamToTournamentTableComponent
   implements OnInit, OnChanges
 {
+  private teamInTournament = inject(TeamTournament);
+  private dialogService = inject(DialogService);
+  private fb = inject(FormBuilder);
+
   @Input() tournamentId!: number;
   @Input() sportId!: number;
   @Input() teams: ITeam[] = [];
@@ -71,11 +75,7 @@ export class AddEditTeamToTournamentTableComponent
     this.teamForm.setControl('teams', formArray);
   }
 
-  constructor(
-    private teamInTournament: TeamTournament,
-    private dialogService: DialogService,
-    private fb: FormBuilder,
-  ) {
+  constructor() {
     this.teamForm = this.fb.group({
       teams: this.fb.array([]),
     });

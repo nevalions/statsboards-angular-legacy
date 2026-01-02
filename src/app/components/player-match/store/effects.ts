@@ -1,4 +1,4 @@
-import { concatLatestFrom } from '@ngrx/operators';import { Injectable } from '@angular/core';
+import { concatLatestFrom } from '@ngrx/operators';import { Injectable, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { routerNavigatedAction } from '@ngrx/router-store';
@@ -19,6 +19,11 @@ import { selectCurrentPlayerInMatch } from './reducers';
 
 @Injectable()
 export class PlayerInMatchEffects {
+  private router = inject(Router);
+  private actions$ = inject(Actions);
+  private playerInMatchService = inject(PlayerMatchService);
+  private store = inject(Store);
+
   getPlayerInMatchIdFromRouteEffect = createEffect(
     () => {
       return this.actions$.pipe(
@@ -356,11 +361,4 @@ export class PlayerInMatchEffects {
     },
     { functional: true },
   );
-
-  constructor(
-    private router: Router,
-    private actions$: Actions,
-    private playerInMatchService: PlayerMatchService,
-    private store: Store,
-  ) {}
 }

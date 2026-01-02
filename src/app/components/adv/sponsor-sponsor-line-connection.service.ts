@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable, map } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { BaseApiService } from '../../services/base.api.service';
@@ -14,7 +14,10 @@ import {
   providedIn: 'root',
 })
 export class SponsorSponsorLineConnectionService extends BaseApiService<ISponsorLineConnection> {
-  constructor(http: HttpClient, errorHandlingService: ErrorHandlingService) {
+  constructor() {
+    const http = inject(HttpClient);
+    const errorHandlingService = inject(ErrorHandlingService);
+
     super('sponsor_in_sponsor_line', http, errorHandlingService);
   }
 
