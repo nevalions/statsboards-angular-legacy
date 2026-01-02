@@ -11,7 +11,6 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "vitest",
-    "test:karma": "ng test",
     "test:coverage": "vitest run --coverage",
     "test:ui": "vitest --ui",
     "lint": "ng lint"
