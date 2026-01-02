@@ -16,7 +16,7 @@ describe('Season Reducer', () => {
   };
 
   const getInitialState = () =>
-    seasonReducer(undefined, { type: 'INIT' as any });
+    seasonReducer(undefined, { type: 'INIT' as unknown });
 
   it('should return initial state', () => {
     const initialState = getInitialState();
@@ -70,11 +70,9 @@ describe('Season Reducer', () => {
 
   it('should handle createFailure', () => {
     const initialState = getInitialState();
-    const error = { message: 'Error' };
     const action = seasonActions.createFailure();
     const state = seasonReducer(initialState, action);
     expect(state.isSubmitting).toBe(false);
-    // No error prop set on failure actions
   });
 
   it('should set isSubmitting on delete', () => {
@@ -98,11 +96,9 @@ describe('Season Reducer', () => {
 
   it('should handle deleteFailure', () => {
     const initialState = getInitialState();
-    const error = { message: 'Error' };
     const action = seasonActions.deleteFailure();
     const state = seasonReducer(initialState, action);
     expect(state.isSubmitting).toBe(false);
-    // No error prop set on failure actions
   });
 
   it('should set isSubmitting on update', () => {
@@ -134,11 +130,9 @@ describe('Season Reducer', () => {
 
   it('should handle updateFailure', () => {
     const initialState = getInitialState();
-    const error = { message: 'Error' };
     const action = seasonActions.updateFailure();
     const state = seasonReducer(initialState, action);
     expect(state.isSubmitting).toBe(false);
-    // No error prop set on failure actions
   });
 
   it('should set isLoading on get', () => {
@@ -159,11 +153,9 @@ describe('Season Reducer', () => {
 
   it('should handle getItemFailure', () => {
     const initialState = getInitialState();
-    const error = { message: 'Error' };
     const action = seasonActions.getItemFailure();
     const state = seasonReducer(initialState, action);
     expect(state.isLoading).toBe(false);
-    // No error prop set on failure actions
   });
 
   it('should set isLoading on getAll', () => {
@@ -185,11 +177,9 @@ describe('Season Reducer', () => {
 
   it('should handle getAllItemsFailure', () => {
     const initialState = getInitialState();
-    const error = { message: 'Error' };
     const action = seasonActions.getAllItemsFailure();
     const state = seasonReducer(initialState, action);
     expect(state.isLoading).toBe(false);
-    // No error prop set on failure actions
   });
 
   it('should set isLoading on getSeasonsWithSportId', () => {
@@ -210,11 +200,9 @@ describe('Season Reducer', () => {
 
   it('should handle getAllSeasonsWithSportIDFailure', () => {
     const initialState = getInitialState();
-    const error = { message: 'Error' };
     const action = seasonActions.getAllSeasonsWithSportIDFailure();
     const state = seasonReducer(initialState, action);
     expect(state.isLoading).toBe(false);
-    // No error prop set on failure actions
   });
 
   it('should set isLoading on getSeasonByYear', () => {
@@ -236,11 +224,9 @@ describe('Season Reducer', () => {
 
   it('should handle getSeasonByYearFailure', () => {
     const initialState = getInitialState();
-    const error = { message: 'Error' };
     const action = seasonActions.getSeasonByYearFailure();
     const state = seasonReducer(initialState, action);
     expect(state.isLoading).toBe(false);
-    // No error prop set on failure actions
   });
 
   it('should sort seasons by year descending', () => {
