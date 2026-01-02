@@ -489,8 +489,6 @@ Available NgRx-related MCP capabilities through Angular CLI tools:
   - Always link the Linear issue (e.g. STAF-8 )
   - Include: summary, scope, testing, screenshots (frontend), migration notes (backend)
   - Ensure CI is green before requesting review
-- Required checks (do not merge unless passing):
-  - frontend: lint + unit + e2e (if applicable)
 - Labels:
   - security findings → label `security`
   - refactor-only → label `refactor`
