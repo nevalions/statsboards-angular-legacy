@@ -4,7 +4,7 @@ module.exports = function (config) {
     frameworks: ["jasmine", "@angular-devkit/build-angular"],
     plugins: [
       require("karma-jasmine"),
-      require("karma-firefox-launcher"),
+      require("karma-chromium-launcher"),
       require("karma-jasmine-html-reporter"),
       require("karma-coverage"),
       require("@angular-devkit/build-angular/plugins/karma"),
@@ -33,7 +33,7 @@ module.exports = function (config) {
       reporters: [{ type: "html" }, { type: "text-summary" }],
     },
     reporters: ["dots"],
-    browsers: ["FirefoxHeadless"],
+    browsers: ["ChromiumHeadless"],
     restartOnFileChange: true,
     colors: false,
     browserConsoleLogOptions: { level: "", format: "", terminal: false },

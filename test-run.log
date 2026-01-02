@@ -1,0 +1,602 @@
+
+> statsboards-angular-legacy@0.0.1 test
+> ng test --code-coverage
+
+- Generating browser application bundles (phase: setup)...
+[32m✔[39m Browser application bundle generation complete.
+[33m02 01 2026 18:29:23.706:WARN [karma]: [39mNo captured browser, open http://localhost:9876/
+[32m02 01 2026 18:29:23.716:INFO [karma-server]: [39mKarma v6.4.4 server started at http://localhost:9876/
+[32m02 01 2026 18:29:23.717:INFO [launcher]: [39mLaunching browsers Chrome with concurrency unlimited
+[32m02 01 2026 18:29:23.722:INFO [launcher]: [39mStarting browser Chrome
+[32m02 01 2026 18:29:24.416:INFO [Chrome 143.0.0.0 (Linux 0.0.0)]: [39mConnected on socket yenIwg3ZbYR9NN0uAAAB with id 22902957
+Chrome 143.0.0.0 (Linux 0.0.0): Executed 0 of 107[32m SUCCESS[39m (0 secs / 0 secs)
+[1A[2KChrome 143.0.0.0 (Linux 0.0.0): Executed 1 of 107[32m SUCCESS[39m (0 secs / 0.178 secs)
+[1A[2KChrome 143.0.0.0 (Linux 0.0.0): Executed 2 of 107[32m SUCCESS[39m (0 secs / 0.19 secs)
+[1A[2KChrome 143.0.0.0 (Linux 0.0.0): Executed 3 of 107[32m SUCCESS[39m (0 secs / 0.272 secs)
+[1A[2K[31mChrome 143.0.0.0 (Linux 0.0.0) Season Reducer Get Seasons with Sport ID actions should set error and isLoading to false on failure FAILED[39m
+	Expected Object({ type: '[season] Get all seasons with sport ID failure' }) to be null.
+	    at <Jasmine>
+	    at UserContext.apply (src/app/components/season/store/store.spec.ts:221:28)
+	    at _ZoneDelegate.invoke (node_modules/zone.js/fesm2015/zone.js:398:28)
+	    at ProxyZoneSpec.onInvoke (node_modules/zone.js/fesm2015/zone-testing.js:2132:39)
+	    at _ZoneDelegate.invoke (node_modules/zone.js/fesm2015/zone.js:397:34)
+Chrome 143.0.0.0 (Linux 0.0.0): Executed 4 of 107[31m (1 FAILED)[39m (0 secs / 0.276 secs)
+[1A[2KChrome 143.0.0.0 (Linux 0.0.0): Executed 5 of 107[31m (1 FAILED)[39m (0 secs / 0.277 secs)
+[1A[2KChrome 143.0.0.0 (Linux 0.0.0): Executed 6 of 107[31m (1 FAILED)[39m (0 secs / 0.277 secs)
+[1A[2K[31mChrome 143.0.0.0 (Linux 0.0.0) Season Reducer Update actions should set error and isSubmitting to false on failure FAILED[39m
+	Expected Object({ type: '[season] Update failure' }) to be null.
+	    at <Jasmine>
+	    at UserContext.apply (src/app/components/season/store/store.spec.ts:266:28)
+	    at _ZoneDelegate.invoke (node_modules/zone.js/fesm2015/zone.js:398:28)
+	    at ProxyZoneSpec.onInvoke (node_modules/zone.js/fesm2015/zone-testing.js:2132:39)
+	    at _ZoneDelegate.invoke (node_modules/zone.js/fesm2015/zone.js:397:34)
+Chrome 143.0.0.0 (Linux 0.0.0): Executed 7 of 107[31m (2 FAILED)[39m (0 secs / 0.278 secs)
+[1A[2KChrome 143.0.0.0 (Linux 0.0.0): Executed 8 of 107[31m (2 FAILED)[39m (0 secs / 0.28 secs)
+[1A[2KChrome 143.0.0.0 (Linux 0.0.0): Executed 9 of 107[31m (2 FAILED)[39m (0 secs / 0.281 secs)
+[1A[2KChrome 143.0.0.0 (Linux 0.0.0): Executed 10 of 107[31m (2 FAILED)[39m (0 secs / 0.282 secs)
+[1A[2KChrome 143.0.0.0 (Linux 0.0.0): Executed 11 of 107[31m (2 FAILED)[39m (0 secs / 0.282 secs)
+[1A[2KChrome 143.0.0.0 (Linux 0.0.0): Executed 12 of 107[31m (2 FAILED)[39m (0 secs / 0.283 secs)
+[1A[2KChrome 143.0.0.0 (Linux 0.0.0): Executed 13 of 107[31m (2 FAILED)[39m (0 secs / 0.283 secs)
+[1A[2KChrome 143.0.0.0 (Linux 0.0.0): Executed 14 of 107[31m (2 FAILED)[39m (0 secs / 0.283 secs)
+[1A[2KChrome 143.0.0.0 (Linux 0.0.0): Executed 15 of 107[31m (2 FAILED)[39m (0 secs / 0.284 secs)
+[1A[2KChrome 143.0.0.0 (Linux 0.0.0): Executed 16 of 107[31m (2 FAILED)[39m (0 secs / 0.285 secs)
+[1A[2K[31mChrome 143.0.0.0 (Linux 0.0.0) Season Reducer Create actions should set error and isSubmitting to false on failure FAILED[39m
+	Expected Object({ type: '[season] Create failure' }) to be null.
+	    at <Jasmine>
+	    at UserContext.apply (src/app/components/season/store/store.spec.ts:109:28)
+	    at _ZoneDelegate.invoke (node_modules/zone.js/fesm2015/zone.js:398:28)
+	    at ProxyZoneSpec.onInvoke (node_modules/zone.js/fesm2015/zone-testing.js:2132:39)
+	    at _ZoneDelegate.invoke (node_modules/zone.js/fesm2015/zone.js:397:34)
+Chrome 143.0.0.0 (Linux 0.0.0): Executed 17 of 107[31m (3 FAILED)[39m (0 secs / 0.286 secs)
+[1A[2KChrome 143.0.0.0 (Linux 0.0.0): Executed 18 of 107[31m (3 FAILED)[39m (0 secs / 0.287 secs)
+[1A[2KChrome 143.0.0.0 (Linux 0.0.0): Executed 19 of 107[31m (3 FAILED)[39m (0 secs / 0.288 secs)
+[1A[2K[31mChrome 143.0.0.0 (Linux 0.0.0) Season Reducer Get All actions should set error and isLoading to false on failure FAILED[39m
+	Expected Object({ type: '[season] Get all items failure' }) to be null.
+	    at <Jasmine>
+	    at UserContext.apply (src/app/components/season/store/store.spec.ts:165:28)
+	    at _ZoneDelegate.invoke (node_modules/zone.js/fesm2015/zone.js:398:28)
+	    at ProxyZoneSpec.onInvoke (node_modules/zone.js/fesm2015/zone-testing.js:2132:39)
+	    at _ZoneDelegate.invoke (node_modules/zone.js/fesm2015/zone.js:397:34)
+Chrome 143.0.0.0 (Linux 0.0.0): Executed 20 of 107[31m (4 FAILED)[39m (0 secs / 0.289 secs)
+[1A[2KChrome 143.0.0.0 (Linux 0.0.0): Executed 21 of 107[31m (4 FAILED)[39m (0 secs / 0.29 secs)
+[1A[2KChrome 143.0.0.0 (Linux 0.0.0): Executed 22 of 107[31m (4 FAILED)[39m (0 secs / 0.29 secs)
+[1A[2KChrome 143.0.0.0 (Linux 0.0.0): Executed 23 of 107[31m (4 FAILED)[39m (0 secs / 0.29 secs)
+[1A[2K[31mChrome 143.0.0.0 (Linux 0.0.0) Season Reducer Get Season by Year actions should set error and isLoading to false on failure FAILED[39m
+	Expected Object({ type: '[season] Get season by year failure' }) to be null.
+	    at <Jasmine>
+	    at UserContext.apply (src/app/components/season/store/store.spec.ts:193:28)
+	    at _ZoneDelegate.invoke (node_modules/zone.js/fesm2015/zone.js:398:28)
+	    at ProxyZoneSpec.onInvoke (node_modules/zone.js/fesm2015/zone-testing.js:2132:39)
+	    at _ZoneDelegate.invoke (node_modules/zone.js/fesm2015/zone.js:397:34)
+Chrome 143.0.0.0 (Linux 0.0.0): Executed 24 of 107[31m (5 FAILED)[39m (0 secs / 0.291 secs)
+[1A[2KChrome 143.0.0.0 (Linux 0.0.0): Executed 25 of 107[31m (5 FAILED)[39m (0 secs / 0.291 secs)
+[1A[2K[31mChrome 143.0.0.0 (Linux 0.0.0) Season Reducer Delete actions should set error and isSubmitting to false on failure FAILED[39m
+	Expected Object({ type: '[season] Delete failure' }) to be null.
+	    at <Jasmine>
+	    at UserContext.apply (src/app/components/season/store/store.spec.ts:301:28)
+	    at _ZoneDelegate.invoke (node_modules/zone.js/fesm2015/zone.js:398:28)
+	    at ProxyZoneSpec.onInvoke (node_modules/zone.js/fesm2015/zone-testing.js:2132:39)
+	    at _ZoneDelegate.invoke (node_modules/zone.js/fesm2015/zone.js:397:34)
+Chrome 143.0.0.0 (Linux 0.0.0): Executed 26 of 107[31m (6 FAILED)[39m (0 secs / 0.292 secs)
+[1A[2KChrome 143.0.0.0 (Linux 0.0.0): Executed 27 of 107[31m (6 FAILED)[39m (0 secs / 0.293 secs)
+[1A[2KChrome 143.0.0.0 (Linux 0.0.0): Executed 28 of 107[31m (6 FAILED)[39m (0 secs / 0.294 secs)
+[1A[2KChrome 143.0.0.0 (Linux 0.0.0): Executed 29 of 107[31m (6 FAILED)[39m (0 secs / 0.294 secs)
+[1A[2KChrome 143.0.0.0 (Linux 0.0.0): Executed 30 of 107[31m (6 FAILED)[39m (0 secs / 0.294 secs)
+[1A[2K[31mChrome 143.0.0.0 (Linux 0.0.0) Season Reducer Get Item actions should set current season, year, and isLoading to false on success FAILED[39m
+	Expected null to be 1.
+	    at <Jasmine>
+	    at UserContext.apply (src/app/components/season/store/store.spec.ts:127:37)
+	    at _ZoneDelegate.invoke (node_modules/zone.js/fesm2015/zone.js:398:28)
+	    at ProxyZoneSpec.onInvoke (node_modules/zone.js/fesm2015/zone-testing.js:2132:39)
+	    at _ZoneDelegate.invoke (node_modules/zone.js/fesm2015/zone.js:397:34)
+Chrome 143.0.0.0 (Linux 0.0.0): Executed 31 of 107[31m (7 FAILED)[39m (0 secs / 0.297 secs)
+[1A[2K[31mChrome 143.0.0.0 (Linux 0.0.0) Season Reducer Get Item actions should set error and isLoading to false on failure FAILED[39m
+	Expected Object({ type: '[season] Get item failure' }) to be null.
+	    at <Jasmine>
+	    at UserContext.apply (src/app/components/season/store/store.spec.ts:137:28)
+	    at _ZoneDelegate.invoke (node_modules/zone.js/fesm2015/zone.js:398:28)
+	    at ProxyZoneSpec.onInvoke (node_modules/zone.js/fesm2015/zone-testing.js:2132:39)
+	    at _ZoneDelegate.invoke (node_modules/zone.js/fesm2015/zone.js:397:34)
+Chrome 143.0.0.0 (Linux 0.0.0): Executed 32 of 107[31m (8 FAILED)[39m (0 secs / 0.298 secs)
+[1A[2KChrome 143.0.0.0 (Linux 0.0.0): Executed 33 of 107[31m (8 FAILED)[39m (0 secs / 0.339 secs)
+[1A[2KERROR: [36m'ERROR', TypeError: Cannot read properties of undefined (reading 'map')
+TypeError: Cannot read properties of undefined (reading 'map')
+    at apply (http://localhost:9876/_karma_webpack_/webpack:/node_modules/@ngrx/entity/fesm2022/ngrx-entity.mjs:21:92)
+    at apply (http://localhost:9876/_karma_webpack_/webpack:/node_modules/@ngrx/store/fesm2022/ngrx-store.mjs:866:30)
+    at apply (http://localhost:9876/_karma_webpack_/webpack:/node_modules/@ngrx/store/fesm2022/ngrx-store.mjs:746:39)
+    at apply (http://localhost:9876/_karma_webpack_/webpack:/node_modules/@ngrx/store/fesm2022/ngrx-store.mjs:769:43)
+    at apply (http://localhost:9876/_karma_webpack_/webpack:/node_modules/@ngrx/store/fesm2022/ngrx-store.mjs:869:36)
+    at apply (http://localhost:9876/_karma_webpack_/webpack:/node_modules/@ngrx/store/fesm2022/ngrx-store.mjs:746:39)
+    at apply (http://localhost:9876/_karma_webpack_/webpack:/node_modules/@ngrx/store/fesm2022/ngrx-store.mjs:866:30)
+    at apply (http://localhost:9876/_karma_webpack_/webpack:/node_modules/@ngrx/store/fesm2022/ngrx-store.mjs:746:39)
+    at apply (http://localhost:9876/_karma_webpack_/webpack:/node_modules/@ngrx/store/fesm2022/ngrx-store.mjs:769:43)
+    at http://localhost:9876/_karma_webpack_/webpack:/node_modules/@ngrx/store/fesm2022/ngrx-store.mjs:869:36[39m
+Chrome 143.0.0.0 (Linux 0.0.0): Executed 33 of 107[31m (8 FAILED)[39m (0 secs / 0.339 secs)
+ERROR: 'ERROR', TypeError: Cannot read properties of undefined (reading 'map')
+TypeError: Cannot read properties of undefined (reading 'map')
+    at apply (http://localhost:9876/_karma_webpack_/webpack:/node_modules/@ngrx/entity/fesm2022/ngrx-entity.mjs:21:92)
+    at apply (http://localhost:9876/_karma_webpack_/webpack:/node_modules/@ngrx/store/fesm2022/ngrx-store.mjs:866:30)
+    at apply (http://localhost:9876/_karma_webpack_/webpack:/node_modules/@ngrx/store/fesm2022/ngrx-store.mjs:746:39)
+    at apply (http://localhost:9876/_karma_webpack_/webpack:/node_modules/@ngrx/store/fesm2022/ngrx-store.mjs:769:43)
+    at apply (http://localhost:9876/_karma_webpack_/webpack:/node_modules/@ngrx/store/fesm2022/ngrx-store.mjs:869:36)
+    at apply (http://localhost:9876/_karma_webpack_/webpack:/node_modules/@ngrx/store/fesm2022/ngrx-store.mjs:746:39)
+    at apply (http://localhost:9876/_karma_webpack_/webpack:/node_modules/@ngrx/store/fesm2022/ngrx-store.mjs:866:30)
+    at apply (http://localhost:9876/_karma_webpack_/webpack:/node_modules/@ngrx/store/fesm2022/ngrx-store.mjs:746:39)
+    at apply (http://localhost:9876/_karma_webpack_/webpack:/node_modules/@ngrx/store/fesm2022/ngrx-store.mjs:769:43)
+    at http://localhost:9876/_karma_webpack_/webpack:/node_modules/@ngrx/store/fesm2022/ngrx-store.mjs:869:36
+[1A[2KERROR: [36m'ERROR', TypeError: Cannot read properties of undefined (reading 'map')
+TypeError: Cannot read properties of undefined (reading 'map')
+    at apply (http://localhost:9876/_karma_webpack_/webpack:/node_modules/@ngrx/entity/fesm2022/ngrx-entity.mjs:21:92)
+    at apply (http://localhost:9876/_karma_webpack_/webpack:/node_modules/@ngrx/store/fesm2022/ngrx-store.mjs:866:30)
+    at apply (http://localhost:9876/_karma_webpack_/webpack:/node_modules/@ngrx/store/fesm2022/ngrx-store.mjs:746:39)
+    at apply (http://localhost:9876/_karma_webpack_/webpack:/node_modules/@ngrx/store/fesm2022/ngrx-store.mjs:769:43)
+    at apply (http://localhost:9876/_karma_webpack_/webpack:/node_modules/@ngrx/store/fesm2022/ngrx-store.mjs:869:36)
+    at apply (http://localhost:9876/_karma_webpack_/webpack:/node_modules/@ngrx/store/fesm2022/ngrx-store.mjs:746:39)
+    at apply (http://localhost:9876/_karma_webpack_/webpack:/node_modules/@ngrx/store/fesm2022/ngrx-store.mjs:866:30)
+    at apply (http://localhost:9876/_karma_webpack_/webpack:/node_modules/@ngrx/store/fesm2022/ngrx-store.mjs:746:39)
+    at apply (http://localhost:9876/_karma_webpack_/webpack:/node_modules/@ngrx/store/fesm2022/ngrx-store.mjs:769:43)
+    at http://localhost:9876/_karma_webpack_/webpack:/node_modules/@ngrx/store/fesm2022/ngrx-store.mjs:869:36[39m
+Chrome 143.0.0.0 (Linux 0.0.0): Executed 33 of 107[31m (8 FAILED)[39m (0 secs / 0.339 secs)
+ERROR: 'ERROR', TypeError: Cannot read properties of undefined (reading 'map')
+TypeError: Cannot read properties of undefined (reading 'map')
+    at apply (http://localhost:9876/_karma_webpack_/webpack:/node_modules/@ngrx/entity/fesm2022/ngrx-entity.mjs:21:92)
+    at apply (http://localhost:9876/_karma_webpack_/webpack:/node_modules/@ngrx/store/fesm2022/ngrx-store.mjs:866:30)
+    at apply (http://localhost:9876/_karma_webpack_/webpack:/node_modules/@ngrx/store/fesm2022/ngrx-store.mjs:746:39)
+    at apply (http://localhost:9876/_karma_webpack_/webpack:/node_modules/@ngrx/store/fesm2022/ngrx-store.mjs:769:43)
+    at apply (http://localhost:9876/_karma_webpack_/webpack:/node_modules/@ngrx/store/fesm2022/ngrx-store.mjs:869:36)
+    at apply (http://localhost:9876/_karma_webpack_/webpack:/node_modules/@ngrx/store/fesm2022/ngrx-store.mjs:746:39)
+    at apply (http://localhost:9876/_karma_webpack_/webpack:/node_modules/@ngrx/store/fesm2022/ngrx-store.mjs:866:30)
+    at apply (http://localhost:9876/_karma_webpack_/webpack:/node_modules/@ngrx/store/fesm2022/ngrx-store.mjs:746:39)
+    at apply (http://localhost:9876/_karma_webpack_/webpack:/node_modules/@ngrx/store/fesm2022/ngrx-store.mjs:769:43)
+    at http://localhost:9876/_karma_webpack_/webpack:/node_modules/@ngrx/store/fesm2022/ngrx-store.mjs:869:36
+[1A[2KERROR: [36m'ERROR', TypeError: Cannot read properties of undefined (reading 'map')
+TypeError: Cannot read properties of undefined (reading 'map')
+    at apply (http://localhost:9876/_karma_webpack_/webpack:/node_modules/@ngrx/entity/fesm2022/ngrx-entity.mjs:21:92)
+    at apply (http://localhost:9876/_karma_webpack_/webpack:/node_modules/@ngrx/store/fesm2022/ngrx-store.mjs:866:30)
+    at apply (http://localhost:9876/_karma_webpack_/webpack:/node_modules/@ngrx/store/fesm2022/ngrx-store.mjs:746:39)
+    at apply (http://localhost:9876/_karma_webpack_/webpack:/node_modules/@ngrx/store/fesm2022/ngrx-store.mjs:769:43)
+    at apply (http://localhost:9876/_karma_webpack_/webpack:/node_modules/@ngrx/store/fesm2022/ngrx-store.mjs:869:36)
+    at apply (http://localhost:9876/_karma_webpack_/webpack:/node_modules/@ngrx/store/fesm2022/ngrx-store.mjs:746:39)
+    at apply (http://localhost:9876/_karma_webpack_/webpack:/node_modules/@ngrx/store/fesm2022/ngrx-store.mjs:866:30)
+    at apply (http://localhost:9876/_karma_webpack_/webpack:/node_modules/@ngrx/store/fesm2022/ngrx-store.mjs:746:39)
+    at apply (http://localhost:9876/_karma_webpack_/webpack:/node_modules/@ngrx/store/fesm2022/ngrx-store.mjs:769:43)
+    at http://localhost:9876/_karma_webpack_/webpack:/node_modules/@ngrx/store/fesm2022/ngrx-store.mjs:869:36[39m
+Chrome 143.0.0.0 (Linux 0.0.0): Executed 33 of 107[31m (8 FAILED)[39m (0 secs / 0.339 secs)
+ERROR: 'ERROR', TypeError: Cannot read properties of undefined (reading 'map')
+TypeError: Cannot read properties of undefined (reading 'map')
+    at apply (http://localhost:9876/_karma_webpack_/webpack:/node_modules/@ngrx/entity/fesm2022/ngrx-entity.mjs:21:92)
+    at apply (http://localhost:9876/_karma_webpack_/webpack:/node_modules/@ngrx/store/fesm2022/ngrx-store.mjs:866:30)
+    at apply (http://localhost:9876/_karma_webpack_/webpack:/node_modules/@ngrx/store/fesm2022/ngrx-store.mjs:746:39)
+    at apply (http://localhost:9876/_karma_webpack_/webpack:/node_modules/@ngrx/store/fesm2022/ngrx-store.mjs:769:43)
+    at apply (http://localhost:9876/_karma_webpack_/webpack:/node_modules/@ngrx/store/fesm2022/ngrx-store.mjs:869:36)
+    at apply (http://localhost:9876/_karma_webpack_/webpack:/node_modules/@ngrx/store/fesm2022/ngrx-store.mjs:746:39)
+    at apply (http://localhost:9876/_karma_webpack_/webpack:/node_modules/@ngrx/store/fesm2022/ngrx-store.mjs:866:30)
+    at apply (http://localhost:9876/_karma_webpack_/webpack:/node_modules/@ngrx/store/fesm2022/ngrx-store.mjs:746:39)
+    at apply (http://localhost:9876/_karma_webpack_/webpack:/node_modules/@ngrx/store/fesm2022/ngrx-store.mjs:769:43)
+    at http://localhost:9876/_karma_webpack_/webpack:/node_modules/@ngrx/store/fesm2022/ngrx-store.mjs:869:36
+[1A[2KChrome 143.0.0.0 (Linux 0.0.0): Executed 34 of 107[31m (8 FAILED)[39m (0 secs / 0.356 secs)
+[1A[2KChrome 143.0.0.0 (Linux 0.0.0): Executed 35 of 107[31m (8 FAILED)[39m (0 secs / 0.358 secs)
+[1A[2KChrome 143.0.0.0 (Linux 0.0.0): Executed 36 of 107[31m (8 FAILED)[39m (0 secs / 0.363 secs)
+[1A[2KChrome 143.0.0.0 (Linux 0.0.0): Executed 37 of 107[31m (8 FAILED)[39m (0 secs / 0.364 secs)
+[1A[2KChrome 143.0.0.0 (Linux 0.0.0): Executed 38 of 107[31m (8 FAILED)[39m (0 secs / 0.365 secs)
+[1A[2KChrome 143.0.0.0 (Linux 0.0.0): Executed 39 of 107[31m (8 FAILED)[39m (0 secs / 0.366 secs)
+[1A[2KChrome 143.0.0.0 (Linux 0.0.0): Executed 40 of 107[31m (8 FAILED)[39m (0 secs / 0.367 secs)
+[1A[2KChrome 143.0.0.0 (Linux 0.0.0): Executed 41 of 107[31m (8 FAILED)[39m (0 secs / 0.368 secs)
+[1A[2KChrome 143.0.0.0 (Linux 0.0.0): Executed 42 of 107[31m (8 FAILED)[39m (0 secs / 0.369 secs)
+[1A[2KChrome 143.0.0.0 (Linux 0.0.0): Executed 43 of 107[31m (8 FAILED)[39m (0 secs / 0.369 secs)
+[1A[2KChrome 143.0.0.0 (Linux 0.0.0): Executed 44 of 107[31m (8 FAILED)[39m (0 secs / 0.37 secs)
+[1A[2KChrome 143.0.0.0 (Linux 0.0.0): Executed 45 of 107[31m (8 FAILED)[39m (0 secs / 0.371 secs)
+[1A[2KChrome 143.0.0.0 (Linux 0.0.0): Executed 46 of 107[31m (8 FAILED)[39m (0 secs / 0.372 secs)
+[1A[2KChrome 143.0.0.0 (Linux 0.0.0): Executed 47 of 107[31m (8 FAILED)[39m (0 secs / 0.373 secs)
+[1A[2KChrome 143.0.0.0 (Linux 0.0.0): Executed 48 of 107[31m (8 FAILED)[39m (0 secs / 0.374 secs)
+[1A[2KChrome 143.0.0.0 (Linux 0.0.0): Executed 49 of 107[31m (8 FAILED)[39m (0 secs / 0.375 secs)
+[1A[2KChrome 143.0.0.0 (Linux 0.0.0): Executed 50 of 107[31m (8 FAILED)[39m (0 secs / 0.376 secs)
+[1A[2KChrome 143.0.0.0 (Linux 0.0.0): Executed 51 of 107[31m (8 FAILED)[39m (0 secs / 0.376 secs)
+[1A[2KChrome 143.0.0.0 (Linux 0.0.0): Executed 52 of 107[31m (8 FAILED)[39m (0 secs / 0.377 secs)
+[1A[2KChrome 143.0.0.0 (Linux 0.0.0): Executed 53 of 107[31m (8 FAILED)[39m (0 secs / 0.378 secs)
+[1A[2KChrome 143.0.0.0 (Linux 0.0.0): Executed 54 of 107[31m (8 FAILED)[39m (0 secs / 0.379 secs)
+[1A[2KChrome 143.0.0.0 (Linux 0.0.0): Executed 55 of 107[31m (8 FAILED)[39m (0 secs / 0.38 secs)
+[1A[2KChrome 143.0.0.0 (Linux 0.0.0): Executed 56 of 107[31m (8 FAILED)[39m (0 secs / 0.386 secs)
+[1A[2KChrome 143.0.0.0 (Linux 0.0.0): Executed 57 of 107[31m (8 FAILED)[39m (0 secs / 0.388 secs)
+[1A[2K[31mChrome 143.0.0.0 (Linux 0.0.0) SeasonEffects getSeasonsWithSportIdEffect should load seasons by sport id and dispatch success action FAILED[39m
+	ɵNotFound: NG0201: No provider found for `ScannedActionsSubject`. Source: DynamicTestModule. Path: SeasonEffects -> Actions -> ScannedActionsSubject. Find more at https://v21.angular.dev/errors/NG0201
+	error properties: Object({ code: -201, ngErrorCode: -201, ngErrorMessage: 'No provider found for `ScannedActionsSubject`.', ngTokenPath: [ 'SeasonEffects', 'Actions', 'ScannedActionsSubject' ] })
+	ɵNotFound: NG0201: No provider found for `ScannedActionsSubject`. Source: DynamicTestModule. Path: SeasonEffects -> Actions -> ScannedActionsSubject. Find more at https://v21.angular.dev/errors/NG0201
+	    at createRuntimeError (node_modules/@angular/core/fesm2022/_untracked-chunk.mjs:595:17)
+	    at NullInjector.get (node_modules/@angular/core/fesm2022/_untracked-chunk.mjs:876:21)
+	    at R3Injector.get (node_modules/@angular/core/fesm2022/_untracked-chunk.mjs:1201:27)
+	    at R3Injector.get (node_modules/@angular/core/fesm2022/_untracked-chunk.mjs:1201:27)
+	    at R3Injector.retrieve (node_modules/@angular/core/fesm2022/_untracked-chunk.mjs:1111:19)
+	    at injectInjectorOnly (node_modules/@angular/core/fesm2022/_untracked-chunk.mjs:665:35)
+	    at Module.ɵɵinject (node_modules/@angular/core/fesm2022/_untracked-chunk.mjs:677:58)
+	    at Object.factory (node_modules/@ngrx/effects/fesm2022/ngrx-effects.mjs:200:122)
+	    at callback (node_modules/@angular/core/fesm2022/_untracked-chunk.mjs:1306:35)
+	    at runInInjectorProfilerContext (node_modules/@angular/core/fesm2022/_untracked-chunk.mjs:437:5)
+Chrome 143.0.0.0 (Linux 0.0.0): Executed 58 of 107[31m (9 FAILED)[39m (0 secs / 0.39 secs)
+[1A[2K[31mChrome 143.0.0.0 (Linux 0.0.0) SeasonEffects getSeasonsWithSportIdEffect should handle load errors FAILED[39m
+	ɵNotFound: NG0201: No provider found for `ScannedActionsSubject`. Source: DynamicTestModule. Path: SeasonEffects -> Actions -> ScannedActionsSubject. Find more at https://v21.angular.dev/errors/NG0201
+	error properties: Object({ code: -201, ngErrorCode: -201, ngErrorMessage: 'No provider found for `ScannedActionsSubject`.', ngTokenPath: [ 'SeasonEffects', 'Actions', 'ScannedActionsSubject' ] })
+	ɵNotFound: NG0201: No provider found for `ScannedActionsSubject`. Source: DynamicTestModule. Path: SeasonEffects -> Actions -> ScannedActionsSubject. Find more at https://v21.angular.dev/errors/NG0201
+	    at createRuntimeError (node_modules/@angular/core/fesm2022/_untracked-chunk.mjs:595:17)
+	    at NullInjector.get (node_modules/@angular/core/fesm2022/_untracked-chunk.mjs:876:21)
+	    at R3Injector.get (node_modules/@angular/core/fesm2022/_untracked-chunk.mjs:1201:27)
+	    at R3Injector.get (node_modules/@angular/core/fesm2022/_untracked-chunk.mjs:1201:27)
+	    at R3Injector.retrieve (node_modules/@angular/core/fesm2022/_untracked-chunk.mjs:1111:19)
+	    at injectInjectorOnly (node_modules/@angular/core/fesm2022/_untracked-chunk.mjs:665:35)
+	    at Module.ɵɵinject (node_modules/@angular/core/fesm2022/_untracked-chunk.mjs:677:58)
+	    at Object.factory (node_modules/@ngrx/effects/fesm2022/ngrx-effects.mjs:200:122)
+	    at callback (node_modules/@angular/core/fesm2022/_untracked-chunk.mjs:1306:35)
+	    at runInInjectorProfilerContext (node_modules/@angular/core/fesm2022/_untracked-chunk.mjs:437:5)
+Chrome 143.0.0.0 (Linux 0.0.0): Executed 59 of 107[31m (10 FAILED)[39m (0 secs / 0.391 secs)
+[1A[2K[31mChrome 143.0.0.0 (Linux 0.0.0) SeasonEffects navigateOnSeasonDeletion$ should navigate to root on successful deletion FAILED[39m
+	ɵNotFound: NG0201: No provider found for `ScannedActionsSubject`. Source: DynamicTestModule. Path: SeasonEffects -> Actions -> ScannedActionsSubject. Find more at https://v21.angular.dev/errors/NG0201
+	error properties: Object({ code: -201, ngErrorCode: -201, ngErrorMessage: 'No provider found for `ScannedActionsSubject`.', ngTokenPath: [ 'SeasonEffects', 'Actions', 'ScannedActionsSubject' ] })
+	ɵNotFound: NG0201: No provider found for `ScannedActionsSubject`. Source: DynamicTestModule. Path: SeasonEffects -> Actions -> ScannedActionsSubject. Find more at https://v21.angular.dev/errors/NG0201
+	    at createRuntimeError (node_modules/@angular/core/fesm2022/_untracked-chunk.mjs:595:17)
+	    at NullInjector.get (node_modules/@angular/core/fesm2022/_untracked-chunk.mjs:876:21)
+	    at R3Injector.get (node_modules/@angular/core/fesm2022/_untracked-chunk.mjs:1201:27)
+	    at R3Injector.get (node_modules/@angular/core/fesm2022/_untracked-chunk.mjs:1201:27)
+	    at R3Injector.retrieve (node_modules/@angular/core/fesm2022/_untracked-chunk.mjs:1111:19)
+	    at injectInjectorOnly (node_modules/@angular/core/fesm2022/_untracked-chunk.mjs:665:35)
+	    at Module.ɵɵinject (node_modules/@angular/core/fesm2022/_untracked-chunk.mjs:677:58)
+	    at Object.factory (node_modules/@ngrx/effects/fesm2022/ngrx-effects.mjs:200:122)
+	    at callback (node_modules/@angular/core/fesm2022/_untracked-chunk.mjs:1306:35)
+	    at runInInjectorProfilerContext (node_modules/@angular/core/fesm2022/_untracked-chunk.mjs:437:5)
+Chrome 143.0.0.0 (Linux 0.0.0): Executed 60 of 107[31m (11 FAILED)[39m (0 secs / 0.392 secs)
+[1A[2K[31mChrome 143.0.0.0 (Linux 0.0.0) SeasonEffects getSeasonByIdEffect should load season by id and dispatch success action FAILED[39m
+	ɵNotFound: NG0201: No provider found for `ScannedActionsSubject`. Source: DynamicTestModule. Path: SeasonEffects -> Actions -> ScannedActionsSubject. Find more at https://v21.angular.dev/errors/NG0201
+	error properties: Object({ code: -201, ngErrorCode: -201, ngErrorMessage: 'No provider found for `ScannedActionsSubject`.', ngTokenPath: [ 'SeasonEffects', 'Actions', 'ScannedActionsSubject' ] })
+	ɵNotFound: NG0201: No provider found for `ScannedActionsSubject`. Source: DynamicTestModule. Path: SeasonEffects -> Actions -> ScannedActionsSubject. Find more at https://v21.angular.dev/errors/NG0201
+	    at createRuntimeError (node_modules/@angular/core/fesm2022/_untracked-chunk.mjs:595:17)
+	    at NullInjector.get (node_modules/@angular/core/fesm2022/_untracked-chunk.mjs:876:21)
+	    at R3Injector.get (node_modules/@angular/core/fesm2022/_untracked-chunk.mjs:1201:27)
+	    at R3Injector.get (node_modules/@angular/core/fesm2022/_untracked-chunk.mjs:1201:27)
+	    at R3Injector.retrieve (node_modules/@angular/core/fesm2022/_untracked-chunk.mjs:1111:19)
+	    at injectInjectorOnly (node_modules/@angular/core/fesm2022/_untracked-chunk.mjs:665:35)
+	    at Module.ɵɵinject (node_modules/@angular/core/fesm2022/_untracked-chunk.mjs:677:58)
+	    at Object.factory (node_modules/@ngrx/effects/fesm2022/ngrx-effects.mjs:200:122)
+	    at callback (node_modules/@angular/core/fesm2022/_untracked-chunk.mjs:1306:35)
+	    at runInInjectorProfilerContext (node_modules/@angular/core/fesm2022/_untracked-chunk.mjs:437:5)
+Chrome 143.0.0.0 (Linux 0.0.0): Executed 61 of 107[31m (12 FAILED)[39m (0 secs / 0.393 secs)
+[1A[2K[31mChrome 143.0.0.0 (Linux 0.0.0) SeasonEffects getSeasonByIdEffect should handle load errors FAILED[39m
+	ɵNotFound: NG0201: No provider found for `ScannedActionsSubject`. Source: DynamicTestModule. Path: SeasonEffects -> Actions -> ScannedActionsSubject. Find more at https://v21.angular.dev/errors/NG0201
+	error properties: Object({ code: -201, ngErrorCode: -201, ngErrorMessage: 'No provider found for `ScannedActionsSubject`.', ngTokenPath: [ 'SeasonEffects', 'Actions', 'ScannedActionsSubject' ] })
+	ɵNotFound: NG0201: No provider found for `ScannedActionsSubject`. Source: DynamicTestModule. Path: SeasonEffects -> Actions -> ScannedActionsSubject. Find more at https://v21.angular.dev/errors/NG0201
+	    at createRuntimeError (node_modules/@angular/core/fesm2022/_untracked-chunk.mjs:595:17)
+	    at NullInjector.get (node_modules/@angular/core/fesm2022/_untracked-chunk.mjs:876:21)
+	    at R3Injector.get (node_modules/@angular/core/fesm2022/_untracked-chunk.mjs:1201:27)
+	    at R3Injector.get (node_modules/@angular/core/fesm2022/_untracked-chunk.mjs:1201:27)
+	    at R3Injector.retrieve (node_modules/@angular/core/fesm2022/_untracked-chunk.mjs:1111:19)
+	    at injectInjectorOnly (node_modules/@angular/core/fesm2022/_untracked-chunk.mjs:665:35)
+	    at Module.ɵɵinject (node_modules/@angular/core/fesm2022/_untracked-chunk.mjs:677:58)
+	    at Object.factory (node_modules/@ngrx/effects/fesm2022/ngrx-effects.mjs:200:122)
+	    at callback (node_modules/@angular/core/fesm2022/_untracked-chunk.mjs:1306:35)
+	    at runInInjectorProfilerContext (node_modules/@angular/core/fesm2022/_untracked-chunk.mjs:437:5)
+Chrome 143.0.0.0 (Linux 0.0.0): Executed 62 of 107[31m (13 FAILED)[39m (0 secs / 0.394 secs)
+[1A[2K[31mChrome 143.0.0.0 (Linux 0.0.0) SeasonEffects createSeasonEffect should create a new season and dispatch success action FAILED[39m
+	ɵNotFound: NG0201: No provider found for `ScannedActionsSubject`. Source: DynamicTestModule. Path: SeasonEffects -> Actions -> ScannedActionsSubject. Find more at https://v21.angular.dev/errors/NG0201
+	error properties: Object({ code: -201, ngErrorCode: -201, ngErrorMessage: 'No provider found for `ScannedActionsSubject`.', ngTokenPath: [ 'SeasonEffects', 'Actions', 'ScannedActionsSubject' ] })
+	ɵNotFound: NG0201: No provider found for `ScannedActionsSubject`. Source: DynamicTestModule. Path: SeasonEffects -> Actions -> ScannedActionsSubject. Find more at https://v21.angular.dev/errors/NG0201
+	    at createRuntimeError (node_modules/@angular/core/fesm2022/_untracked-chunk.mjs:595:17)
+	    at NullInjector.get (node_modules/@angular/core/fesm2022/_untracked-chunk.mjs:876:21)
+	    at R3Injector.get (node_modules/@angular/core/fesm2022/_untracked-chunk.mjs:1201:27)
+	    at R3Injector.get (node_modules/@angular/core/fesm2022/_untracked-chunk.mjs:1201:27)
+	    at R3Injector.retrieve (node_modules/@angular/core/fesm2022/_untracked-chunk.mjs:1111:19)
+	    at injectInjectorOnly (node_modules/@angular/core/fesm2022/_untracked-chunk.mjs:665:35)
+	    at Module.ɵɵinject (node_modules/@angular/core/fesm2022/_untracked-chunk.mjs:677:58)
+	    at Object.factory (node_modules/@ngrx/effects/fesm2022/ngrx-effects.mjs:200:122)
+	    at callback (node_modules/@angular/core/fesm2022/_untracked-chunk.mjs:1306:35)
+	    at runInInjectorProfilerContext (node_modules/@angular/core/fesm2022/_untracked-chunk.mjs:437:5)
+Chrome 143.0.0.0 (Linux 0.0.0): Executed 63 of 107[31m (14 FAILED)[39m (0 secs / 0.395 secs)
+[1A[2K[31mChrome 143.0.0.0 (Linux 0.0.0) SeasonEffects createSeasonEffect should handle creation errors FAILED[39m
+	ɵNotFound: NG0201: No provider found for `ScannedActionsSubject`. Source: DynamicTestModule. Path: SeasonEffects -> Actions -> ScannedActionsSubject. Find more at https://v21.angular.dev/errors/NG0201
+	error properties: Object({ code: -201, ngErrorCode: -201, ngErrorMessage: 'No provider found for `ScannedActionsSubject`.', ngTokenPath: [ 'SeasonEffects', 'Actions', 'ScannedActionsSubject' ] })
+	ɵNotFound: NG0201: No provider found for `ScannedActionsSubject`. Source: DynamicTestModule. Path: SeasonEffects -> Actions -> ScannedActionsSubject. Find more at https://v21.angular.dev/errors/NG0201
+	    at createRuntimeError (node_modules/@angular/core/fesm2022/_untracked-chunk.mjs:595:17)
+	    at NullInjector.get (node_modules/@angular/core/fesm2022/_untracked-chunk.mjs:876:21)
+	    at R3Injector.get (node_modules/@angular/core/fesm2022/_untracked-chunk.mjs:1201:27)
+	    at R3Injector.get (node_modules/@angular/core/fesm2022/_untracked-chunk.mjs:1201:27)
+	    at R3Injector.retrieve (node_modules/@angular/core/fesm2022/_untracked-chunk.mjs:1111:19)
+	    at injectInjectorOnly (node_modules/@angular/core/fesm2022/_untracked-chunk.mjs:665:35)
+	    at Module.ɵɵinject (node_modules/@angular/core/fesm2022/_untracked-chunk.mjs:677:58)
+	    at Object.factory (node_modules/@ngrx/effects/fesm2022/ngrx-effects.mjs:200:122)
+	    at callback (node_modules/@angular/core/fesm2022/_untracked-chunk.mjs:1306:35)
+	    at runInInjectorProfilerContext (node_modules/@angular/core/fesm2022/_untracked-chunk.mjs:437:5)
+Chrome 143.0.0.0 (Linux 0.0.0): Executed 64 of 107[31m (15 FAILED)[39m (0 secs / 0.396 secs)
+[1A[2K[31mChrome 143.0.0.0 (Linux 0.0.0) SeasonEffects getAllSeasons should load all seasons and dispatch success action FAILED[39m
+	ɵNotFound: NG0201: No provider found for `ScannedActionsSubject`. Source: DynamicTestModule. Path: SeasonEffects -> Actions -> ScannedActionsSubject. Find more at https://v21.angular.dev/errors/NG0201
+	error properties: Object({ code: -201, ngErrorCode: -201, ngErrorMessage: 'No provider found for `ScannedActionsSubject`.', ngTokenPath: [ 'SeasonEffects', 'Actions', 'ScannedActionsSubject' ] })
+	ɵNotFound: NG0201: No provider found for `ScannedActionsSubject`. Source: DynamicTestModule. Path: SeasonEffects -> Actions -> ScannedActionsSubject. Find more at https://v21.angular.dev/errors/NG0201
+	    at createRuntimeError (node_modules/@angular/core/fesm2022/_untracked-chunk.mjs:595:17)
+	    at NullInjector.get (node_modules/@angular/core/fesm2022/_untracked-chunk.mjs:876:21)
+	    at R3Injector.get (node_modules/@angular/core/fesm2022/_untracked-chunk.mjs:1201:27)
+	    at R3Injector.get (node_modules/@angular/core/fesm2022/_untracked-chunk.mjs:1201:27)
+	    at R3Injector.retrieve (node_modules/@angular/core/fesm2022/_untracked-chunk.mjs:1111:19)
+	    at injectInjectorOnly (node_modules/@angular/core/fesm2022/_untracked-chunk.mjs:665:35)
+	    at Module.ɵɵinject (node_modules/@angular/core/fesm2022/_untracked-chunk.mjs:677:58)
+	    at Object.factory (node_modules/@ngrx/effects/fesm2022/ngrx-effects.mjs:200:122)
+	    at callback (node_modules/@angular/core/fesm2022/_untracked-chunk.mjs:1306:35)
+	    at runInInjectorProfilerContext (node_modules/@angular/core/fesm2022/_untracked-chunk.mjs:437:5)
+Chrome 143.0.0.0 (Linux 0.0.0): Executed 65 of 107[31m (16 FAILED)[39m (0 secs / 0.397 secs)
+[1A[2K[31mChrome 143.0.0.0 (Linux 0.0.0) SeasonEffects getAllSeasons should handle load errors FAILED[39m
+	ɵNotFound: NG0201: No provider found for `ScannedActionsSubject`. Source: DynamicTestModule. Path: SeasonEffects -> Actions -> ScannedActionsSubject. Find more at https://v21.angular.dev/errors/NG0201
+	error properties: Object({ code: -201, ngErrorCode: -201, ngErrorMessage: 'No provider found for `ScannedActionsSubject`.', ngTokenPath: [ 'SeasonEffects', 'Actions', 'ScannedActionsSubject' ] })
+	ɵNotFound: NG0201: No provider found for `ScannedActionsSubject`. Source: DynamicTestModule. Path: SeasonEffects -> Actions -> ScannedActionsSubject. Find more at https://v21.angular.dev/errors/NG0201
+	    at createRuntimeError (node_modules/@angular/core/fesm2022/_untracked-chunk.mjs:595:17)
+	    at NullInjector.get (node_modules/@angular/core/fesm2022/_untracked-chunk.mjs:876:21)
+	    at R3Injector.get (node_modules/@angular/core/fesm2022/_untracked-chunk.mjs:1201:27)
+	    at R3Injector.get (node_modules/@angular/core/fesm2022/_untracked-chunk.mjs:1201:27)
+	    at R3Injector.retrieve (node_modules/@angular/core/fesm2022/_untracked-chunk.mjs:1111:19)
+	    at injectInjectorOnly (node_modules/@angular/core/fesm2022/_untracked-chunk.mjs:665:35)
+	    at Module.ɵɵinject (node_modules/@angular/core/fesm2022/_untracked-chunk.mjs:677:58)
+	    at Object.factory (node_modules/@ngrx/effects/fesm2022/ngrx-effects.mjs:200:122)
+	    at callback (node_modules/@angular/core/fesm2022/_untracked-chunk.mjs:1306:35)
+	    at runInInjectorProfilerContext (node_modules/@angular/core/fesm2022/_untracked-chunk.mjs:437:5)
+Chrome 143.0.0.0 (Linux 0.0.0): Executed 66 of 107[31m (17 FAILED)[39m (0 secs / 0.398 secs)
+[1A[2K[31mChrome 143.0.0.0 (Linux 0.0.0) SeasonEffects getSeasonByYearEffect should load season by year and dispatch success action FAILED[39m
+	ɵNotFound: NG0201: No provider found for `ScannedActionsSubject`. Source: DynamicTestModule. Path: SeasonEffects -> Actions -> ScannedActionsSubject. Find more at https://v21.angular.dev/errors/NG0201
+	error properties: Object({ code: -201, ngErrorCode: -201, ngErrorMessage: 'No provider found for `ScannedActionsSubject`.', ngTokenPath: [ 'SeasonEffects', 'Actions', 'ScannedActionsSubject' ] })
+	ɵNotFound: NG0201: No provider found for `ScannedActionsSubject`. Source: DynamicTestModule. Path: SeasonEffects -> Actions -> ScannedActionsSubject. Find more at https://v21.angular.dev/errors/NG0201
+	    at createRuntimeError (node_modules/@angular/core/fesm2022/_untracked-chunk.mjs:595:17)
+	    at NullInjector.get (node_modules/@angular/core/fesm2022/_untracked-chunk.mjs:876:21)
+	    at R3Injector.get (node_modules/@angular/core/fesm2022/_untracked-chunk.mjs:1201:27)
+	    at R3Injector.get (node_modules/@angular/core/fesm2022/_untracked-chunk.mjs:1201:27)
+	    at R3Injector.retrieve (node_modules/@angular/core/fesm2022/_untracked-chunk.mjs:1111:19)
+	    at injectInjectorOnly (node_modules/@angular/core/fesm2022/_untracked-chunk.mjs:665:35)
+	    at Module.ɵɵinject (node_modules/@angular/core/fesm2022/_untracked-chunk.mjs:677:58)
+	    at Object.factory (node_modules/@ngrx/effects/fesm2022/ngrx-effects.mjs:200:122)
+	    at callback (node_modules/@angular/core/fesm2022/_untracked-chunk.mjs:1306:35)
+	    at runInInjectorProfilerContext (node_modules/@angular/core/fesm2022/_untracked-chunk.mjs:437:5)
+Chrome 143.0.0.0 (Linux 0.0.0): Executed 67 of 107[31m (18 FAILED)[39m (0 secs / 0.399 secs)
+[1A[2K[31mChrome 143.0.0.0 (Linux 0.0.0) SeasonEffects getSeasonByYearEffect should handle load errors FAILED[39m
+	ɵNotFound: NG0201: No provider found for `ScannedActionsSubject`. Source: DynamicTestModule. Path: SeasonEffects -> Actions -> ScannedActionsSubject. Find more at https://v21.angular.dev/errors/NG0201
+	error properties: Object({ code: -201, ngErrorCode: -201, ngErrorMessage: 'No provider found for `ScannedActionsSubject`.', ngTokenPath: [ 'SeasonEffects', 'Actions', 'ScannedActionsSubject' ] })
+	ɵNotFound: NG0201: No provider found for `ScannedActionsSubject`. Source: DynamicTestModule. Path: SeasonEffects -> Actions -> ScannedActionsSubject. Find more at https://v21.angular.dev/errors/NG0201
+	    at createRuntimeError (node_modules/@angular/core/fesm2022/_untracked-chunk.mjs:595:17)
+	    at NullInjector.get (node_modules/@angular/core/fesm2022/_untracked-chunk.mjs:876:21)
+	    at R3Injector.get (node_modules/@angular/core/fesm2022/_untracked-chunk.mjs:1201:27)
+	    at R3Injector.get (node_modules/@angular/core/fesm2022/_untracked-chunk.mjs:1201:27)
+	    at R3Injector.retrieve (node_modules/@angular/core/fesm2022/_untracked-chunk.mjs:1111:19)
+	    at injectInjectorOnly (node_modules/@angular/core/fesm2022/_untracked-chunk.mjs:665:35)
+	    at Module.ɵɵinject (node_modules/@angular/core/fesm2022/_untracked-chunk.mjs:677:58)
+	    at Object.factory (node_modules/@ngrx/effects/fesm2022/ngrx-effects.mjs:200:122)
+	    at callback (node_modules/@angular/core/fesm2022/_untracked-chunk.mjs:1306:35)
+	    at runInInjectorProfilerContext (node_modules/@angular/core/fesm2022/_untracked-chunk.mjs:437:5)
+Chrome 143.0.0.0 (Linux 0.0.0): Executed 68 of 107[31m (19 FAILED)[39m (0 secs / 0.399 secs)
+[1A[2K[31mChrome 143.0.0.0 (Linux 0.0.0) SeasonEffects getSeasonByIdSuccessEffect should load season by id from route and dispatch success action FAILED[39m
+	ɵNotFound: NG0201: No provider found for `ScannedActionsSubject`. Source: DynamicTestModule. Path: SeasonEffects -> Actions -> ScannedActionsSubject. Find more at https://v21.angular.dev/errors/NG0201
+	error properties: Object({ code: -201, ngErrorCode: -201, ngErrorMessage: 'No provider found for `ScannedActionsSubject`.', ngTokenPath: [ 'SeasonEffects', 'Actions', 'ScannedActionsSubject' ] })
+	ɵNotFound: NG0201: No provider found for `ScannedActionsSubject`. Source: DynamicTestModule. Path: SeasonEffects -> Actions -> ScannedActionsSubject. Find more at https://v21.angular.dev/errors/NG0201
+	    at createRuntimeError (node_modules/@angular/core/fesm2022/_untracked-chunk.mjs:595:17)
+	    at NullInjector.get (node_modules/@angular/core/fesm2022/_untracked-chunk.mjs:876:21)
+	    at R3Injector.get (node_modules/@angular/core/fesm2022/_untracked-chunk.mjs:1201:27)
+	    at R3Injector.get (node_modules/@angular/core/fesm2022/_untracked-chunk.mjs:1201:27)
+	    at R3Injector.retrieve (node_modules/@angular/core/fesm2022/_untracked-chunk.mjs:1111:19)
+	    at injectInjectorOnly (node_modules/@angular/core/fesm2022/_untracked-chunk.mjs:665:35)
+	    at Module.ɵɵinject (node_modules/@angular/core/fesm2022/_untracked-chunk.mjs:677:58)
+	    at Object.factory (node_modules/@ngrx/effects/fesm2022/ngrx-effects.mjs:200:122)
+	    at callback (node_modules/@angular/core/fesm2022/_untracked-chunk.mjs:1306:35)
+	    at runInInjectorProfilerContext (node_modules/@angular/core/fesm2022/_untracked-chunk.mjs:437:5)
+Chrome 143.0.0.0 (Linux 0.0.0): Executed 69 of 107[31m (20 FAILED)[39m (0 secs / 0.399 secs)
+[1A[2K[31mChrome 143.0.0.0 (Linux 0.0.0) SeasonEffects getSeasonByIdSuccessEffect should handle load errors FAILED[39m
+	ɵNotFound: NG0201: No provider found for `ScannedActionsSubject`. Source: DynamicTestModule. Path: SeasonEffects -> Actions -> ScannedActionsSubject. Find more at https://v21.angular.dev/errors/NG0201
+	error properties: Object({ code: -201, ngErrorCode: -201, ngErrorMessage: 'No provider found for `ScannedActionsSubject`.', ngTokenPath: [ 'SeasonEffects', 'Actions', 'ScannedActionsSubject' ] })
+	ɵNotFound: NG0201: No provider found for `ScannedActionsSubject`. Source: DynamicTestModule. Path: SeasonEffects -> Actions -> ScannedActionsSubject. Find more at https://v21.angular.dev/errors/NG0201
+	    at createRuntimeError (node_modules/@angular/core/fesm2022/_untracked-chunk.mjs:595:17)
+	    at NullInjector.get (node_modules/@angular/core/fesm2022/_untracked-chunk.mjs:876:21)
+	    at R3Injector.get (node_modules/@angular/core/fesm2022/_untracked-chunk.mjs:1201:27)
+	    at R3Injector.get (node_modules/@angular/core/fesm2022/_untracked-chunk.mjs:1201:27)
+	    at R3Injector.retrieve (node_modules/@angular/core/fesm2022/_untracked-chunk.mjs:1111:19)
+	    at injectInjectorOnly (node_modules/@angular/core/fesm2022/_untracked-chunk.mjs:665:35)
+	    at Module.ɵɵinject (node_modules/@angular/core/fesm2022/_untracked-chunk.mjs:677:58)
+	    at Object.factory (node_modules/@ngrx/effects/fesm2022/ngrx-effects.mjs:200:122)
+	    at callback (node_modules/@angular/core/fesm2022/_untracked-chunk.mjs:1306:35)
+	    at runInInjectorProfilerContext (node_modules/@angular/core/fesm2022/_untracked-chunk.mjs:437:5)
+Chrome 143.0.0.0 (Linux 0.0.0): Executed 70 of 107[31m (21 FAILED)[39m (0 secs / 0.4 secs)
+[1A[2K[31mChrome 143.0.0.0 (Linux 0.0.0) SeasonEffects deleteSeasonEffect should handle delete errors FAILED[39m
+	ɵNotFound: NG0201: No provider found for `ScannedActionsSubject`. Source: DynamicTestModule. Path: SeasonEffects -> Actions -> ScannedActionsSubject. Find more at https://v21.angular.dev/errors/NG0201
+	error properties: Object({ code: -201, ngErrorCode: -201, ngErrorMessage: 'No provider found for `ScannedActionsSubject`.', ngTokenPath: [ 'SeasonEffects', 'Actions', 'ScannedActionsSubject' ] })
+	ɵNotFound: NG0201: No provider found for `ScannedActionsSubject`. Source: DynamicTestModule. Path: SeasonEffects -> Actions -> ScannedActionsSubject. Find more at https://v21.angular.dev/errors/NG0201
+	    at createRuntimeError (node_modules/@angular/core/fesm2022/_untracked-chunk.mjs:595:17)
+	    at NullInjector.get (node_modules/@angular/core/fesm2022/_untracked-chunk.mjs:876:21)
+	    at R3Injector.get (node_modules/@angular/core/fesm2022/_untracked-chunk.mjs:1201:27)
+	    at R3Injector.get (node_modules/@angular/core/fesm2022/_untracked-chunk.mjs:1201:27)
+	    at R3Injector.retrieve (node_modules/@angular/core/fesm2022/_untracked-chunk.mjs:1111:19)
+	    at injectInjectorOnly (node_modules/@angular/core/fesm2022/_untracked-chunk.mjs:665:35)
+	    at Module.ɵɵinject (node_modules/@angular/core/fesm2022/_untracked-chunk.mjs:677:58)
+	    at Object.factory (node_modules/@ngrx/effects/fesm2022/ngrx-effects.mjs:200:122)
+	    at callback (node_modules/@angular/core/fesm2022/_untracked-chunk.mjs:1306:35)
+	    at runInInjectorProfilerContext (node_modules/@angular/core/fesm2022/_untracked-chunk.mjs:437:5)
+Chrome 143.0.0.0 (Linux 0.0.0): Executed 71 of 107[31m (22 FAILED)[39m (0 secs / 0.401 secs)
+[1A[2K[31mChrome 143.0.0.0 (Linux 0.0.0) SeasonEffects deleteSeasonEffect should delete season and dispatch success action FAILED[39m
+	ɵNotFound: NG0201: No provider found for `ScannedActionsSubject`. Source: DynamicTestModule. Path: SeasonEffects -> Actions -> ScannedActionsSubject. Find more at https://v21.angular.dev/errors/NG0201
+	error properties: Object({ code: -201, ngErrorCode: -201, ngErrorMessage: 'No provider found for `ScannedActionsSubject`.', ngTokenPath: [ 'SeasonEffects', 'Actions', 'ScannedActionsSubject' ] })
+	ɵNotFound: NG0201: No provider found for `ScannedActionsSubject`. Source: DynamicTestModule. Path: SeasonEffects -> Actions -> ScannedActionsSubject. Find more at https://v21.angular.dev/errors/NG0201
+	    at createRuntimeError (node_modules/@angular/core/fesm2022/_untracked-chunk.mjs:595:17)
+	    at NullInjector.get (node_modules/@angular/core/fesm2022/_untracked-chunk.mjs:876:21)
+	    at R3Injector.get (node_modules/@angular/core/fesm2022/_untracked-chunk.mjs:1201:27)
+	    at R3Injector.get (node_modules/@angular/core/fesm2022/_untracked-chunk.mjs:1201:27)
+	    at R3Injector.retrieve (node_modules/@angular/core/fesm2022/_untracked-chunk.mjs:1111:19)
+	    at injectInjectorOnly (node_modules/@angular/core/fesm2022/_untracked-chunk.mjs:665:35)
+	    at Module.ɵɵinject (node_modules/@angular/core/fesm2022/_untracked-chunk.mjs:677:58)
+	    at Object.factory (node_modules/@ngrx/effects/fesm2022/ngrx-effects.mjs:200:122)
+	    at callback (node_modules/@angular/core/fesm2022/_untracked-chunk.mjs:1306:35)
+	    at runInInjectorProfilerContext (node_modules/@angular/core/fesm2022/_untracked-chunk.mjs:437:5)
+Chrome 143.0.0.0 (Linux 0.0.0): Executed 72 of 107[31m (23 FAILED)[39m (0 secs / 0.403 secs)
+[1A[2KChrome 143.0.0.0 (Linux 0.0.0): Executed 73 of 107[31m (23 FAILED)[39m (0 secs / 0.407 secs)
+[1A[2KChrome 143.0.0.0 (Linux 0.0.0): Executed 74 of 107[31m (23 FAILED)[39m (0 secs / 0.408 secs)
+[1A[2KChrome 143.0.0.0 (Linux 0.0.0): Executed 75 of 107[31m (23 FAILED)[39m (0 secs / 0.409 secs)
+[1A[2KChrome 143.0.0.0 (Linux 0.0.0): Executed 76 of 107[31m (23 FAILED)[39m (0 secs / 0.411 secs)
+[1A[2KLOG: [36m'Received /API/SEASONS 
+data:', [][39m
+Chrome 143.0.0.0 (Linux 0.0.0): Executed 76 of 107[31m (23 FAILED)[39m (0 secs / 0.411 secs)
+LOG: 'Received /API/SEASONS 
+data:', []
+[1A[2KChrome 143.0.0.0 (Linux 0.0.0): Executed 77 of 107[31m (23 FAILED)[39m (0 secs / 0.412 secs)
+[1A[2KLOG: [36m'Received /API/SEASONS 
+data:', [Object{id: 1, year: 2023, description: 'Season 2023'}, Object{id: 2, year: 2024, description: 'Season 2024'}][39m
+Chrome 143.0.0.0 (Linux 0.0.0): Executed 77 of 107[31m (23 FAILED)[39m (0 secs / 0.412 secs)
+LOG: 'Received /API/SEASONS 
+data:', [Object{id: 1, year: 2023, description: 'Season 2023'}, Object{id: 2, year: 2024, description: 'Season 2024'}]
+[1A[2KChrome 143.0.0.0 (Linux 0.0.0): Executed 78 of 107[31m (23 FAILED)[39m (0 secs / 0.413 secs)
+[1A[2KLOG: [36m'Received /API/SEASONS/id/1 
+data:', Object{id: 1, year: 2024, description: 'Test Season'}[39m
+Chrome 143.0.0.0 (Linux 0.0.0): Executed 78 of 107[31m (23 FAILED)[39m (0 secs / 0.413 secs)
+LOG: 'Received /API/SEASONS/id/1 
+data:', Object{id: 1, year: 2024, description: 'Test Season'}
+[1A[2KChrome 143.0.0.0 (Linux 0.0.0): Executed 79 of 107[31m (23 FAILED)[39m (0 secs / 0.414 secs)
+[1A[2KLOG: [36m'Redirected to Error page'[39m
+Chrome 143.0.0.0 (Linux 0.0.0): Executed 79 of 107[31m (23 FAILED)[39m (0 secs / 0.414 secs)
+LOG: 'Redirected to Error page'
+[1A[2KERROR: [36mError: NG04002: Cannot match any routes. URL Segment: 'error404'
+Error: NG04002: Cannot match any routes. URL Segment: 'error404'
+    at Recognizer.noMatchError (http://localhost:9876/_karma_webpack_/webpack:/node_modules/@angular/router/fesm2022/_router-chunk.mjs:2885:12)
+    at http://localhost:9876/_karma_webpack_/webpack:/node_modules/@angular/router/fesm2022/_router-chunk.mjs:2919:20
+    at Generator.throw (<anonymous>)
+    at asyncGeneratorStep (http://localhost:9876/_karma_webpack_/webpack:/node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js:3:1)
+    at apply (http://localhost:9876/_karma_webpack_/webpack:/node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js:20:1)
+    at _ZoneDelegate.invoke (http://localhost:9876/_karma_webpack_/webpack:/node_modules/zone.js/fesm2015/zone.js:398:28)
+    at ProxyZoneSpec.onInvoke (http://localhost:9876/_karma_webpack_/webpack:/node_modules/zone.js/fesm2015/zone-testing.js:2132:39)
+    at _ZoneDelegate.invoke (http://localhost:9876/_karma_webpack_/webpack:/node_modules/zone.js/fesm2015/zone.js:397:34)
+    at ZoneImpl.run (http://localhost:9876/_karma_webpack_/webpack:/node_modules/zone.js/fesm2015/zone.js:113:43)
+    at http://localhost:9876/_karma_webpack_/webpack:/node_modules/zone.js/fesm2015/zone.js:2537:40[39m
+Chrome 143.0.0.0 (Linux 0.0.0): Executed 79 of 107[31m (23 FAILED)[39m (0 secs / 0.414 secs)
+ERROR: Error: NG04002: Cannot match any routes. URL Segment: 'error404'
+Error: NG04002: Cannot match any routes. URL Segment: 'error404'
+    at Recognizer.noMatchError (http://localhost:9876/_karma_webpack_/webpack:/node_modules/@angular/router/fesm2022/_router-chunk.mjs:2885:12)
+    at http://localhost:9876/_karma_webpack_/webpack:/node_modules/@angular/router/fesm2022/_router-chunk.mjs:2919:20
+    at Generator.throw (<anonymous>)
+    at asyncGeneratorStep (http://localhost:9876/_karma_webpack_/webpack:/node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js:3:1)
+    at apply (http://localhost:9876/_karma_webpack_/webpack:/node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js:20:1)
+    at _ZoneDelegate.invoke (http://localhost:9876/_karma_webpack_/webpack:/node_modules/zone.js/fesm2015/zone.js:398:28)
+    at ProxyZoneSpec.onInvoke (http://localhost:9876/_karma_webpack_/webpack:/node_modules/zone.js/fesm2015/zone-testing.js:2132:39)
+    at _ZoneDelegate.invoke (http://localhost:9876/_karma_webpack_/webpack:/node_modules/zone.js/fesm2015/zone.js:397:34)
+    at ZoneImpl.run (http://localhost:9876/_karma_webpack_/webpack:/node_modules/zone.js/fesm2015/zone.js:113:43)
+    at http://localhost:9876/_karma_webpack_/webpack:/node_modules/zone.js/fesm2015/zone.js:2537:40
+[1A[2KChrome 143.0.0.0 (Linux 0.0.0): Executed 80 of 107[31m (23 FAILED)[39m (0 secs / 0.418 secs)
+[1A[2KLOG: [36mObject{id: 1, year: 2024, description: 'Updated Season'}[39m
+Chrome 143.0.0.0 (Linux 0.0.0): Executed 80 of 107[31m (23 FAILED)[39m (0 secs / 0.418 secs)
+LOG: Object{id: 1, year: 2024, description: 'Updated Season'}
+[1A[2KLOG: [36m'PUT /API/SEASONS/1 
+data:', Object{id: 1, year: 2024, description: 'Updated Season'}[39m
+Chrome 143.0.0.0 (Linux 0.0.0): Executed 80 of 107[31m (23 FAILED)[39m (0 secs / 0.418 secs)
+LOG: 'PUT /API/SEASONS/1 
+data:', Object{id: 1, year: 2024, description: 'Updated Season'}
+[1A[2KLOG: [36m'Server response:', Object{id: 1, year: 2024, description: 'Updated Season'}[39m
+Chrome 143.0.0.0 (Linux 0.0.0): Executed 80 of 107[31m (23 FAILED)[39m (0 secs / 0.418 secs)
+LOG: 'Server response:', Object{id: 1, year: 2024, description: 'Updated Season'}
+[1A[2KChrome 143.0.0.0 (Linux 0.0.0): Executed 81 of 107[31m (23 FAILED)[39m (0 secs / 0.42 secs)
+[1A[2KLOG: [36mObject{id: 1, year: 2024, description: 'Updated Season'}[39m
+Chrome 143.0.0.0 (Linux 0.0.0): Executed 81 of 107[31m (23 FAILED)[39m (0 secs / 0.42 secs)
+LOG: Object{id: 1, year: 2024, description: 'Updated Season'}
+[1A[2KChrome 143.0.0.0 (Linux 0.0.0): Executed 82 of 107[31m (23 FAILED)[39m (0 secs / 0.421 secs)
+[1A[2KChrome 143.0.0.0 (Linux 0.0.0): Executed 83 of 107[31m (23 FAILED)[39m (0 secs / 0.421 secs)
+[1A[2KChrome 143.0.0.0 (Linux 0.0.0): Executed 84 of 107[31m (23 FAILED)[39m (0 secs / 0.421 secs)
+[1A[2KLOG: [36m'DELETED /API/SEASONS/1'[39m
+Chrome 143.0.0.0 (Linux 0.0.0): Executed 84 of 107[31m (23 FAILED)[39m (0 secs / 0.421 secs)
+LOG: 'DELETED /API/SEASONS/1'
+[1A[2KLOG: [36m'Server response:', null[39m
+Chrome 143.0.0.0 (Linux 0.0.0): Executed 84 of 107[31m (23 FAILED)[39m (0 secs / 0.421 secs)
+LOG: 'Server response:', null
+[1A[2KChrome 143.0.0.0 (Linux 0.0.0): Executed 85 of 107[31m (23 FAILED)[39m (0 secs / 0.422 secs)
+[1A[2KLOG: [36m'Redirected to Error page'[39m
+Chrome 143.0.0.0 (Linux 0.0.0): Executed 85 of 107[31m (23 FAILED)[39m (0 secs / 0.422 secs)
+LOG: 'Redirected to Error page'
+[1A[2KERROR: [36mError: NG04002: Cannot match any routes. URL Segment: 'error404'
+Error: NG04002: Cannot match any routes. URL Segment: 'error404'
+    at Recognizer.noMatchError (http://localhost:9876/_karma_webpack_/webpack:/node_modules/@angular/router/fesm2022/_router-chunk.mjs:2885:12)
+    at http://localhost:9876/_karma_webpack_/webpack:/node_modules/@angular/router/fesm2022/_router-chunk.mjs:2919:20
+    at Generator.throw (<anonymous>)
+    at asyncGeneratorStep (http://localhost:9876/_karma_webpack_/webpack:/node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js:3:1)
+    at apply (http://localhost:9876/_karma_webpack_/webpack:/node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js:20:1)
+    at _ZoneDelegate.invoke (http://localhost:9876/_karma_webpack_/webpack:/node_modules/zone.js/fesm2015/zone.js:398:28)
+    at ProxyZoneSpec.onInvoke (http://localhost:9876/_karma_webpack_/webpack:/node_modules/zone.js/fesm2015/zone-testing.js:2132:39)
+    at _ZoneDelegate.invoke (http://localhost:9876/_karma_webpack_/webpack:/node_modules/zone.js/fesm2015/zone.js:397:34)
+    at ZoneImpl.run (http://localhost:9876/_karma_webpack_/webpack:/node_modules/zone.js/fesm2015/zone.js:113:43)
+    at http://localhost:9876/_karma_webpack_/webpack:/node_modules/zone.js/fesm2015/zone.js:2537:40[39m
+Chrome 143.0.0.0 (Linux 0.0.0): Executed 85 of 107[31m (23 FAILED)[39m (0 secs / 0.422 secs)
+ERROR: Error: NG04002: Cannot match any routes. URL Segment: 'error404'
+Error: NG04002: Cannot match any routes. URL Segment: 'error404'
+    at Recognizer.noMatchError (http://localhost:9876/_karma_webpack_/webpack:/node_modules/@angular/router/fesm2022/_router-chunk.mjs:2885:12)
+    at http://localhost:9876/_karma_webpack_/webpack:/node_modules/@angular/router/fesm2022/_router-chunk.mjs:2919:20
+    at Generator.throw (<anonymous>)
+    at asyncGeneratorStep (http://localhost:9876/_karma_webpack_/webpack:/node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js:3:1)
+    at apply (http://localhost:9876/_karma_webpack_/webpack:/node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js:20:1)
+    at _ZoneDelegate.invoke (http://localhost:9876/_karma_webpack_/webpack:/node_modules/zone.js/fesm2015/zone.js:398:28)
+    at ProxyZoneSpec.onInvoke (http://localhost:9876/_karma_webpack_/webpack:/node_modules/zone.js/fesm2015/zone-testing.js:2132:39)
+    at _ZoneDelegate.invoke (http://localhost:9876/_karma_webpack_/webpack:/node_modules/zone.js/fesm2015/zone.js:397:34)
+    at ZoneImpl.run (http://localhost:9876/_karma_webpack_/webpack:/node_modules/zone.js/fesm2015/zone.js:113:43)
+    at http://localhost:9876/_karma_webpack_/webpack:/node_modules/zone.js/fesm2015/zone.js:2537:40
+[1A[2KChrome 143.0.0.0 (Linux 0.0.0): Executed 86 of 107[31m (23 FAILED)[39m (0 secs / 0.424 secs)
+[1A[2KChrome 143.0.0.0 (Linux 0.0.0): Executed 87 of 107[31m (23 FAILED)[39m (0 secs / 0.424 secs)
+[1A[2KChrome 143.0.0.0 (Linux 0.0.0): Executed 88 of 107[31m (23 FAILED)[39m (0 secs / 0.425 secs)
+[1A[2KChrome 143.0.0.0 (Linux 0.0.0): Executed 89 of 107[31m (23 FAILED)[39m (0 secs / 0.426 secs)
+[1A[2KLOG: [36m'POSTED /API/SEASONS 
+data:', Object{year: 2025, description: 'New Season', id: 3}[39m
+Chrome 143.0.0.0 (Linux 0.0.0): Executed 89 of 107[31m (23 FAILED)[39m (0 secs / 0.426 secs)
+LOG: 'POSTED /API/SEASONS 
+data:', Object{year: 2025, description: 'New Season', id: 3}
+[1A[2KLOG: [36m'Server response:', Object{year: 2025, description: 'New Season', id: 3}[39m
+Chrome 143.0.0.0 (Linux 0.0.0): Executed 89 of 107[31m (23 FAILED)[39m (0 secs / 0.426 secs)
+LOG: 'Server response:', Object{year: 2025, description: 'New Season', id: 3}
+[1A[2KChrome 143.0.0.0 (Linux 0.0.0): Executed 90 of 107[31m (23 FAILED)[39m (0 secs / 0.427 secs)
+[1A[2KLOG: [36m'Received /API/SEASONS 
+data:', [][39m
+Chrome 143.0.0.0 (Linux 0.0.0): Executed 90 of 107[31m (23 FAILED)[39m (0 secs / 0.427 secs)
+LOG: 'Received /API/SEASONS 
+data:', []
+[1A[2KChrome 143.0.0.0 (Linux 0.0.0): Executed 91 of 107[31m (23 FAILED)[39m (0 secs / 0.428 secs)
+[1A[2KLOG: [36m'Received /API/SEASONS 
+data:', [Object{id: 1, year: 2023, description: 'Season 2023'}, Object{id: 2, year: 2024, description: 'Season 2024'}][39m
+Chrome 143.0.0.0 (Linux 0.0.0): Executed 91 of 107[31m (23 FAILED)[39m (0 secs / 0.428 secs)
+LOG: 'Received /API/SEASONS 
+data:', [Object{id: 1, year: 2023, description: 'Season 2023'}, Object{id: 2, year: 2024, description: 'Season 2024'}]
+[1A[2KChrome 143.0.0.0 (Linux 0.0.0): Executed 92 of 107[31m (23 FAILED)[39m (0 secs / 0.429 secs)
+[1A[2KLOG: [36m'Received /API/seasons/year/2024
+ data:', Object{id: 1, year: 2024, description: 'Test Season'}[39m
+Chrome 143.0.0.0 (Linux 0.0.0): Executed 92 of 107[31m (23 FAILED)[39m (0 secs / 0.429 secs)
+LOG: 'Received /API/seasons/year/2024
+ data:', Object{id: 1, year: 2024, description: 'Test Season'}
+[1A[2KLOG: [36m'SEASON BY 2024', Object{id: 1, year: 2024, description: 'Test Season'}[39m
+Chrome 143.0.0.0 (Linux 0.0.0): Executed 92 of 107[31m (23 FAILED)[39m (0 secs / 0.429 secs)
+LOG: 'SEASON BY 2024', Object{id: 1, year: 2024, description: 'Test Season'}
+[1A[2KChrome 143.0.0.0 (Linux 0.0.0): Executed 93 of 107[31m (23 FAILED)[39m (0 secs / 0.43 secs)
+[1A[2KLOG: [36m'Received /API/seasons/year/2024
+ data:', Object{id: 1, year: 2024, description: 'Test Season'}[39m
+Chrome 143.0.0.0 (Linux 0.0.0): Executed 93 of 107[31m (23 FAILED)[39m (0 secs / 0.43 secs)
+LOG: 'Received /API/seasons/year/2024
+ data:', Object{id: 1, year: 2024, description: 'Test Season'}
+[1A[2KLOG: [36m'SEASON BY 2024', Object{id: 1, year: 2024, description: 'Test Season'}[39m
+Chrome 143.0.0.0 (Linux 0.0.0): Executed 93 of 107[31m (23 FAILED)[39m (0 secs / 0.43 secs)
+LOG: 'SEASON BY 2024', Object{id: 1, year: 2024, description: 'Test Season'}
+[1A[2KChrome 143.0.0.0 (Linux 0.0.0): Executed 94 of 107[31m (23 FAILED)[39m (0 secs / 0.431 secs)
+[1A[2KLOG: [36m'Received /API/seasons/year/2024
+ data:', Object{id: 1, year: 2024, description: 'Test Season'}[39m
+Chrome 143.0.0.0 (Linux 0.0.0): Executed 94 of 107[31m (23 FAILED)[39m (0 secs / 0.431 secs)
+LOG: 'Received /API/seasons/year/2024
+ data:', Object{id: 1, year: 2024, description: 'Test Season'}
+[1A[2KLOG: [36m'SEASON BY 2024', Object{id: 1, year: 2024, description: 'Test Season'}[39m
+Chrome 143.0.0.0 (Linux 0.0.0): Executed 94 of 107[31m (23 FAILED)[39m (0 secs / 0.431 secs)
+LOG: 'SEASON BY 2024', Object{id: 1, year: 2024, description: 'Test Season'}
+[1A[2KChrome 143.0.0.0 (Linux 0.0.0): Executed 95 of 107[31m (23 FAILED)[39m (0 secs / 0.432 secs)
+[1A[2KChrome 143.0.0.0 (Linux 0.0.0): Executed 96 of 107[31m (23 FAILED)[39m (0 secs / 0.436 secs)
+[1A[2KChrome 143.0.0.0 (Linux 0.0.0): Executed 97 of 107[31m (23 FAILED)[39m (0 secs / 0.437 secs)
+[1A[2KChrome 143.0.0.0 (Linux 0.0.0): Executed 98 of 107[31m (23 FAILED)[39m (0 secs / 0.437 secs)
+[1A[2KChrome 143.0.0.0 (Linux 0.0.0): Executed 99 of 107[31m (23 FAILED)[39m (0 secs / 0.438 secs)
+[1A[2KChrome 143.0.0.0 (Linux 0.0.0): Executed 100 of 107[31m (23 FAILED)[39m (0 secs / 0.439 secs)
+[1A[2KChrome 143.0.0.0 (Linux 0.0.0): Executed 101 of 107[31m (23 FAILED)[39m (0 secs / 0.439 secs)
+[1A[2KChrome 143.0.0.0 (Linux 0.0.0): Executed 102 of 107[31m (23 FAILED)[39m (0 secs / 0.44 secs)
+[1A[2KChrome 143.0.0.0 (Linux 0.0.0): Executed 103 of 107[31m (23 FAILED)[39m (0 secs / 0.44 secs)
+[1A[2KChrome 143.0.0.0 (Linux 0.0.0): Executed 104 of 107[31m (23 FAILED)[39m (0 secs / 0.44 secs)
+[1A[2KChrome 143.0.0.0 (Linux 0.0.0): Executed 105 of 107[31m (23 FAILED)[39m (0 secs / 0.441 secs)
+[1A[2KChrome 143.0.0.0 (Linux 0.0.0): Executed 106 of 107[31m (23 FAILED)[39m (0 secs / 0.443 secs)
+[1A[2KChrome 143.0.0.0 (Linux 0.0.0): Executed 107 of 107[31m (23 FAILED)[39m (0 secs / 0.445 secs)
+[1A[2KChrome 143.0.0.0 (Linux 0.0.0): Executed 107 of 107[31m (23 FAILED)[39m (0.558 secs / 0.445 secs)
+[31mTOTAL: 23 FAILED, 84 SUCCESS[39m
+
+=============================== Coverage summary ===============================
+Statements   : 27.22% ( 711/2612 )
+Branches     : 4.98% ( 57/1143 )
+Functions    : 12.09% ( 124/1025 )
+Lines        : 27.43% ( 701/2555 )
+================================================================================
