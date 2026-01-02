@@ -16,7 +16,7 @@ describe('Season Reducer', () => {
   };
 
   const getInitialState = () =>
-    seasonReducer(undefined, { type: 'INIT' as unknown });
+    seasonReducer(undefined, { type: 'INIT' } as any);
 
   it('should return initial state', () => {
     const initialState = getInitialState();
@@ -122,7 +122,7 @@ describe('Season Reducer', () => {
     };
     const action = seasonActions.updatedSuccessfully({ updatedSeason });
     const state = seasonReducer(stateWithSeason, action);
-    expect(state.entities[mockSeason.id!].year).toBe(2025);
+    expect(state.entities[mockSeason.id!]?.year).toBe(2025);
     expect(state.isSubmitting).toBe(false);
     expect(state.currentSeason).toEqual(updatedSeason);
     expect(state.errors).toBe(null);
@@ -235,7 +235,9 @@ describe('Season Reducer', () => {
     const action = seasonActions.getAllItemsSuccess({ seasons });
     const state = seasonReducer(initialState, action);
 
-    const sortedSeasons = Object.values(state.entities).map((s) => s.year);
+    const sortedSeasons = Object.values(state.entities)
+      .filter((s): s is ISeason => s !== undefined)
+      .map((s) => s.year);
     expect(sortedSeasons).toEqual([2024, 2023]);
   });
 });

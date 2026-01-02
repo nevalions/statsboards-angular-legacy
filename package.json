@@ -10,9 +10,11 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "vitest",
-    "test:coverage": "vitest run --coverage",
+    "test": "vitest run",
+    "test:browser": "vitest run --browser=chromiumHeadless",
+    "test:watch": "vitest",
     "test:ui": "vitest --ui",
+    "test:coverage": "vitest run --coverage",
     "lint": "ng lint"
   },
   "private": true,
@@ -82,6 +84,7 @@
     "@types/qrcode": "^1.5.5",
     "@typescript-eslint/eslint-plugin": "^8.51.0",
     "@typescript-eslint/parser": "^8.51.0",
+    "@vitest/browser-playwright": "^4.0.16",
     "@vitest/coverage-v8": "^4.0.16",
     "@vitest/ui": "^4.0.16",
     "esbuild": ">=0.25.0",
@@ -93,6 +96,7 @@
     "karma-coverage": "~2.2.0",
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
+    "playwright": "^1.57.0",
     "typescript": "~5.9.0",
     "vitest": "^4.0.16"
   }
