@@ -26,7 +26,7 @@ import {
 } from '@taiga-ui/kit';
 import { debounceTime, distinctUntilChanged, map, Observable, of } from 'rxjs';
 import { TuiLoader } from '@taiga-ui/core';
-import { TuiAutofilledModule, TuiValueChanges } from '@taiga-ui/cdk';
+import { TuiValueChanges } from '@taiga-ui/cdk';
 import { FilterStrategy } from '../../../../type/filter.type';
 import { SearchListService } from '../../../../services/search-list.service';
 
@@ -44,7 +44,6 @@ import { SearchListService } from '../../../../services/search-list.service';
     UpperCasePipe,
     TuiComboBoxModule,
     TuiTextfieldControllerModule,
-    TuiAutofilledModule,
     TuiValueChanges,
     TuiLoader,
   ],
