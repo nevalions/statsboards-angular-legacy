@@ -3,8 +3,8 @@ import { Store } from '@ngrx/store';
 import { personActions } from './store/actions';
 import { Observable } from 'rxjs';
 import { IPerson } from '../../type/person.type';
-import { AppState } from '../../store/appstate';
 import { selectAvailablePersonsForSport } from '../player/store/selectors';
+import { selectAllPersons, selectCurrentPerson } from './store/reducers';
 
 @Injectable({
   providedIn: 'root',
@@ -14,9 +14,9 @@ export class Person {
   allPersons$: Observable<IPerson[]>;
   availablePersonsForSport$: Observable<IPerson[]>;
 
-  constructor(private store: Store<AppState>) {
-    this.currentPerson$ = store.select((state) => state.person.currentPerson);
-    this.allPersons$ = store.select((state) => state.person.allPersons);
+  constructor(private store: Store) {
+    this.currentPerson$ = store.select(selectCurrentPerson);
+    this.allPersons$ = store.select(selectAllPersons);
     this.availablePersonsForSport$ = store.select(
       selectAvailablePersonsForSport,
     );
