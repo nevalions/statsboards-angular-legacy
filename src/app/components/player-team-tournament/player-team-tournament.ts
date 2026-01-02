@@ -17,6 +17,7 @@ import {
   selectAllAwayPlayersInTeamTournamentWithPerson,
   selectAllHomePlayersInTeamTournamentWithPerson,
   selectAllPlayersInTournament,
+  selectAllPlayersInTeamTournament,
 } from './store/reducers';
 import {
   selectAllPlayersInTeamTournamentWithPersonsWithPositions,
@@ -75,7 +76,7 @@ export class PlayerInTeamTournament {
       (state) => state.playerInTeamTournament.currentPlayerInTeamTournament,
     );
     this.allPlayersInTeamTournament$ = store.select(
-      (state) => state.playerInTeamTournament.allPlayersInTeamTournament,
+      selectAllPlayersInTeamTournament,
     );
     this.allPlayerInTournament$ = store.select(selectAllPlayersInTournament);
     this.allPlayerInTournamentFullData$ = store.select(

@@ -1,19 +1,17 @@
-import { createFeature, createReducer, on } from '@ngrx/store';
-import { SortService } from '../../../services/sort.service';
+import { createEntityAdapter, EntityState } from '@ngrx/entity';
+import { createFeature, createSelector, createReducer, on } from '@ngrx/store';
 import {
   IPlayerInTeamTournament,
   IPlayerInTeamTournamentFullData,
-  IPlayerInTeamTournamentWithPersonWithSportWithPosition,
 } from '../../../type/player.type';
 import { playerInTeamTournamentActions } from './actions';
 
-export interface PlayerInTeamTournamentState {
+export interface PlayerInTeamTournamentState extends EntityState<IPlayerInTeamTournament> {
   playerInTeamTournamentIsLoading: boolean;
   playerInTeamTournamentIsSubmitting: boolean;
   currentPlayerInTeamTournamentId: number | undefined | null;
   currentPlayerInTeamTournament: IPlayerInTeamTournament | undefined | null;
-  allPlayersInTeamTournament: IPlayerInTeamTournament[];
-  allPlayersInTeamTournamentWithPerson: IPlayerInTeamTournamentWithPersonWithSportWithPosition[];
+  allPlayersInTeamTournamentWithPerson: IPlayerInTeamTournamentFullData[];
   allHomePlayersInTeamTournamentWithPerson: IPlayerInTeamTournamentFullData[];
   allAwayPlayersInTeamTournamentWithPerson: IPlayerInTeamTournamentFullData[];
   allPlayersInTournament: IPlayerInTeamTournament[];
@@ -21,11 +19,12 @@ export interface PlayerInTeamTournamentState {
   errors: any | null;
 }
 
-const initialState: PlayerInTeamTournamentState = {
+const adapter = createEntityAdapter<IPlayerInTeamTournament>();
+
+const initialState: PlayerInTeamTournamentState = adapter.getInitialState({
   playerInTeamTournamentIsLoading: false,
   playerInTeamTournamentIsSubmitting: false,
   currentPlayerInTeamTournamentId: null,
-  allPlayersInTeamTournament: [],
   allPlayersInTeamTournamentWithPerson: [],
   allHomePlayersInTeamTournamentWithPerson: [],
   allAwayPlayersInTeamTournamentWithPerson: [],
@@ -33,17 +32,20 @@ const initialState: PlayerInTeamTournamentState = {
   currentPlayerInTeamTournament: null,
   parsedPlayersFromTeamEESL: [],
   errors: null,
-};
+});
 
 const playerInTeamTournamentFeature = createFeature({
   name: 'playerInTeamTournament',
   reducer: createReducer(
     initialState,
 
-    on(playerInTeamTournamentActions.getId, (state): PlayerInTeamTournamentState => ({
-      ...state,
-      playerInTeamTournamentIsLoading: true,
-    })),
+    on(
+      playerInTeamTournamentActions.getId,
+      (state): PlayerInTeamTournamentState => ({
+        ...state,
+        playerInTeamTournamentIsLoading: true,
+      }),
+    ),
     on(
       playerInTeamTournamentActions.getPlayerInTeamTournamentIdSuccessfully,
       (state, action) => ({
@@ -60,206 +62,147 @@ const playerInTeamTournamentFeature = createFeature({
       }),
     ),
 
-    // create actions
-    on(playerInTeamTournamentActions.create, (state): PlayerInTeamTournamentState => ({
-      ...state,
-      playerInTeamTournamentIsSubmitting: true,
-    })),
+    on(
+      playerInTeamTournamentActions.create,
+      (state): PlayerInTeamTournamentState => ({
+        ...state,
+        playerInTeamTournamentIsSubmitting: true,
+      }),
+    ),
     on(playerInTeamTournamentActions.createdSuccessfully, (state, action) => {
-      const newList = [
-        ...state.allPlayersInTeamTournament,
-        action.currentPlayerInTeamTournament,
-      ];
-      const sortedList = SortService.sort(
-        newList,
-        'playerInSport.person.second_name',
-      );
-      const newSportList = [
-        ...state.allPlayersInTournament,
-        action.currentPlayerInTeamTournament,
-      ];
-      const sortedPlayerList = SortService.sort(
-        newSportList,
-        'playerInSport.person.second_name',
-      );
-
-      return {
+      return adapter.addOne(action.currentPlayerInTeamTournament, {
         ...state,
         playerInTeamTournamentIsSubmitting: false,
         currentPlayerInTeamTournament: action.currentPlayerInTeamTournament,
-        allPlayersInTeamTournament: sortedList,
-        allPlayersInTournament: sortedPlayerList,
-      };
+        allPlayersInTournament: [
+          ...state.allPlayersInTournament,
+          action.currentPlayerInTeamTournament,
+        ],
+      });
     }),
-    on(playerInTeamTournamentActions.createFailure, (state, action): PlayerInTeamTournamentState => ({
-      ...state,
-      playerInTeamTournamentIsSubmitting: false,
-      errors: action,
-    })),
-
-    // delete actions
-    on(playerInTeamTournamentActions.delete, (state): PlayerInTeamTournamentState => ({
-      ...state,
-      playerInTeamTournamentIsSubmitting: true,
-    })),
-    on(playerInTeamTournamentActions.deletedSuccessfully, (state, action): PlayerInTeamTournamentState => ({
-      ...state,
-      playerInTeamTournamentIsSubmitting: false,
-      allPlayersInTeamTournament: (
-        state.allPlayersInTeamTournament || []
-      ).filter((item) => item.id !== action.playerInTeamTournamentId),
-      allPlayersInTournament: (state.allPlayersInTournament || []).filter(
-        (item) => item.id !== action.playerInTeamTournamentId,
-      ),
-      errors: null,
-    })),
-    on(playerInTeamTournamentActions.deleteFailure, (state, action): PlayerInTeamTournamentState => ({
-      ...state,
-      playerInTeamTournamentIsSubmitting: false,
-      errors: action,
-    })),
-
-    on(playerInTeamTournamentActions.deleteById, (state): PlayerInTeamTournamentState => ({
-      ...state,
-      playerInTeamTournamentIsSubmitting: true,
-    })),
     on(
-      playerInTeamTournamentActions.deletedByIdSuccessfully,
-      (state, action) => ({
+      playerInTeamTournamentActions.createFailure,
+      (state, action): PlayerInTeamTournamentState => ({
         ...state,
         playerInTeamTournamentIsSubmitting: false,
-        allPlayersInTeamTournament: (
-          state.allPlayersInTeamTournament || []
-        ).filter((item) => item.id !== action.playerInTeamTournamentId),
-        allPlayersInTournament: (state.allPlayersInTournament || []).filter(
-          (item) => item.id !== action.playerInTeamTournamentId,
-        ),
-        errors: null,
+        errors: action,
       }),
     ),
-    on(playerInTeamTournamentActions.deleteByIdFailure, (state, action): PlayerInTeamTournamentState => ({
-      ...state,
-      playerInTeamTournamentIsSubmitting: false,
-      errors: action,
-    })),
 
-    // update actions
-    on(playerInTeamTournamentActions.update, (state): PlayerInTeamTournamentState => ({
-      ...state,
-      playerInTeamTournamentIsSubmitting: true,
-    })),
-    on(playerInTeamTournamentActions.updatedSuccessfully, (state, action) => {
-      // const playerExistsInTeamTournament =
-      //   state.allPlayersInTeamTournament.some(
-      //     (player) => player.id === action.updatedPlayerInTeamTournament.id,
-      //   );
-      //
-      // const updatedAllPlayersInTeamTournament = playerExistsInTeamTournament
-      //   ? state.allPlayersInTeamTournament.map((player) =>
-      //       player.id === action.updatedPlayerInTeamTournament.id
-      //         ? action.updatedPlayerInTeamTournament
-      //         : player,
-      //     )
-      //   : [
-      //       ...state.allPlayersInTeamTournament,
-      //       action.updatedPlayerInTeamTournament,
-      //     ];
-      //
-      // const sortedAllPlayersInTeamTournament = SortService.sort(
-      //   updatedAllPlayersInTeamTournament,
-      //   'playerInSport.person.second_name',
-      // );
-
-      const newList = state.allPlayersInTeamTournament.map((item) =>
-        item.id === action.updatedPlayerInTeamTournament.id
-          ? action.updatedPlayerInTeamTournament
-          : item,
-      );
-      const sortedList = SortService.sort(
-        newList,
-        'playerInSport.person.second_name',
-      );
-
-      const newSportList = state.allPlayersInTournament.map((item) =>
-        item.id === action.updatedPlayerInTeamTournament.id
-          ? action.updatedPlayerInTeamTournament
-          : item,
-      );
-      const sortedPlayerList = SortService.sort(
-        newSportList,
-        'playerInSport.person.second_name',
-      );
-
-      return {
+    on(
+      playerInTeamTournamentActions.delete,
+      (state): PlayerInTeamTournamentState => ({
+        ...state,
+        playerInTeamTournamentIsSubmitting: true,
+      }),
+    ),
+    on(
+      playerInTeamTournamentActions.deletedSuccessfully,
+      (state, action): PlayerInTeamTournamentState => {
+        return adapter.removeOne(action.playerInTeamTournamentId, {
+          ...state,
+          playerInTeamTournamentIsSubmitting: false,
+          allPlayersInTournament: state.allPlayersInTournament.filter(
+            (item) => item.id !== action.playerInTeamTournamentId,
+          ),
+          errors: null,
+        });
+      },
+    ),
+    on(
+      playerInTeamTournamentActions.deleteFailure,
+      (state, action): PlayerInTeamTournamentState => ({
         ...state,
         playerInTeamTournamentIsSubmitting: false,
-        currentPlayerInTeamTournament: action.updatedPlayerInTeamTournament,
-        allPlayersInTeamTournament: sortedList,
-        allPlayersInTournament: sortedPlayerList,
-        errors: null,
-      };
-    }),
-    on(playerInTeamTournamentActions.updateFailure, (state, action): PlayerInTeamTournamentState => ({
-      ...state,
-      playerInTeamTournamentIsSubmitting: false,
-      errors: action,
-    })),
+        errors: action,
+      }),
+    ),
 
-    // update actions Add Player to team in tournament
-    on(playerInTeamTournamentActions.addPlayerToTeam, (state): PlayerInTeamTournamentState => ({
-      ...state,
-      playerInTeamTournamentIsSubmitting: true,
-    })),
     on(
-      // add and sort
-      playerInTeamTournamentActions.playerAddedToTeamSuccessfully,
+      playerInTeamTournamentActions.deleteById,
+      (state): PlayerInTeamTournamentState => ({
+        ...state,
+        playerInTeamTournamentIsSubmitting: true,
+      }),
+    ),
+    on(
+      playerInTeamTournamentActions.deletedByIdSuccessfully,
       (state, action) => {
-        const newList = [
-          ...state.allPlayersInTeamTournament,
-          action.updatedPlayerInTeamTournament,
-        ];
-        const sortedList = SortService.sort(
-          newList,
-          'playerInSport.person.second_name',
-        );
-        // const newSportList = [
-        //   ...state.allPlayersInTournament,
-        //   action.updatedPlayerInTeamTournament,
-        // ];
-        // const sortedPlayerList = SortService.sort(
-        //   newSportList,
-        //   'playerInSport.person.second_name',
-        // );
+        return adapter.removeOne(action.playerInTeamTournamentId, {
+          ...state,
+          playerInTeamTournamentIsSubmitting: false,
+          allPlayersInTournament: state.allPlayersInTournament.filter(
+            (item) => item.id !== action.playerInTeamTournamentId,
+          ),
+          errors: null,
+        });
+      },
+    ),
+    on(
+      playerInTeamTournamentActions.deleteByIdFailure,
+      (state, action): PlayerInTeamTournamentState => ({
+        ...state,
+        playerInTeamTournamentIsSubmitting: false,
+        errors: action,
+      }),
+    ),
 
-        // const newList = state.allPlayersInTeamTournament.map((item) =>
-        //   item.id === action.updatedPlayerInTeamTournament.id
-        //     ? action.updatedPlayerInTeamTournament
-        //     : item,
-        // );
-        // const sortedList = SortService.sort(
-        //   newList,
-        //   'playerInSport.person.second_name',
-        // );
-        //
-
-        // update and sort
-        const newSportList = state.allPlayersInTournament.map((item) =>
-          item.id === action.updatedPlayerInTeamTournament.id
-            ? action.updatedPlayerInTeamTournament
-            : item,
-        );
-        const sortedPlayerList = SortService.sort(
-          newSportList,
-          'playerInSport.person.second_name',
-        );
-        return {
+    on(
+      playerInTeamTournamentActions.update,
+      (state): PlayerInTeamTournamentState => ({
+        ...state,
+        playerInTeamTournamentIsSubmitting: true,
+      }),
+    ),
+    on(playerInTeamTournamentActions.updatedSuccessfully, (state, action) => {
+      return adapter.updateOne(
+        {
+          id: action.updatedPlayerInTeamTournament.id!,
+          changes: action.updatedPlayerInTeamTournament,
+        },
+        {
           ...state,
           playerInTeamTournamentIsSubmitting: false,
           currentPlayerInTeamTournament: action.updatedPlayerInTeamTournament,
-          allPlayersInTeamTournament: sortedList,
-          allPlayersInTournament: sortedPlayerList,
+          allPlayersInTournament: state.allPlayersInTournament.map((item) =>
+            item.id === action.updatedPlayerInTeamTournament.id
+              ? action.updatedPlayerInTeamTournament
+              : item,
+          ),
           errors: null,
-        };
+        },
+      );
+    }),
+    on(
+      playerInTeamTournamentActions.updateFailure,
+      (state, action): PlayerInTeamTournamentState => ({
+        ...state,
+        playerInTeamTournamentIsSubmitting: false,
+        errors: action,
+      }),
+    ),
+
+    on(
+      playerInTeamTournamentActions.addPlayerToTeam,
+      (state): PlayerInTeamTournamentState => ({
+        ...state,
+        playerInTeamTournamentIsSubmitting: true,
+      }),
+    ),
+    on(
+      playerInTeamTournamentActions.playerAddedToTeamSuccessfully,
+      (state, action) => {
+        return adapter.addOne(action.updatedPlayerInTeamTournament, {
+          ...state,
+          playerInTeamTournamentIsSubmitting: false,
+          currentPlayerInTeamTournament: action.updatedPlayerInTeamTournament,
+          allPlayersInTournament: state.allPlayersInTournament.map((item) =>
+            item.id === action.updatedPlayerInTeamTournament.id
+              ? action.updatedPlayerInTeamTournament
+              : item,
+          ),
+          errors: null,
+        });
       },
     ),
     on(
@@ -271,44 +214,28 @@ const playerInTeamTournamentFeature = createFeature({
       }),
     ),
 
-    // update actions Remove Player from team in tournament
-    on(playerInTeamTournamentActions.removePlayerFromTeam, (state): PlayerInTeamTournamentState => ({
-      ...state,
-      playerInTeamTournamentIsSubmitting: true,
-    })),
+    on(
+      playerInTeamTournamentActions.removePlayerFromTeam,
+      (state): PlayerInTeamTournamentState => ({
+        ...state,
+        playerInTeamTournamentIsSubmitting: true,
+      }),
+    ),
     on(
       playerInTeamTournamentActions.removePlayerFromTeamSuccessfully,
       (state, action) => {
-        // delete and remove
-        const itemList = state.allPlayersInTeamTournament.filter(
-          (item: IPlayerInTeamTournament) =>
-            item.id !== action.updatedPlayerInTeamTournament.id,
-        );
-
-        // update and sort
         const newSportList = state.allPlayersInTournament.map((item) =>
           item.id === action.updatedPlayerInTeamTournament.id
             ? action.updatedPlayerInTeamTournament
             : item,
         );
-        const sortedPlayerList = SortService.sort(
-          newSportList,
-          'playerInSport.person.second_name',
-        );
-
-        // const itemSportList = state.allPlayersInTournament.filter(
-        //   (item: IPlayerInTeamTournament) =>
-        //     item.id !== action.updatedPlayerInTeamTournament.id,
-        // );
-
-        return {
+        return adapter.removeOne(action.updatedPlayerInTeamTournament.id || 0, {
           ...state,
           playerInTeamTournamentIsSubmitting: false,
           currentPlayerInTeamTournament: action.updatedPlayerInTeamTournament,
-          allPlayersInTeamTournament: itemList,
-          allPlayersInTournament: sortedPlayerList,
+          allPlayersInTournament: newSportList,
           errors: null,
-        };
+        });
       },
     ),
     on(
@@ -320,44 +247,52 @@ const playerInTeamTournamentFeature = createFeature({
       }),
     ),
 
-    // get actions
-    on(playerInTeamTournamentActions.get, (state): PlayerInTeamTournamentState => ({
-      ...state,
-      playerInTeamTournamentIsLoading: true,
-    })),
-    on(playerInTeamTournamentActions.getItemSuccess, (state, action): PlayerInTeamTournamentState => ({
-      ...state,
-      playerInTeamTournamentIsLoading: false,
-      currentPlayerInTeamTournament: action.playerInTeamTournament,
-    })),
-    on(playerInTeamTournamentActions.getItemFailure, (state, action): PlayerInTeamTournamentState => ({
-      ...state,
-      playerInTeamTournamentIsLoading: false,
-      errors: action,
-    })),
-
-    on(playerInTeamTournamentActions.getAll, (state): PlayerInTeamTournamentState => ({
-      ...state,
-      playerInTeamTournamentIsLoading: true,
-    })),
-    on(playerInTeamTournamentActions.getAllItemsSuccess, (state, action) => {
-      const sortedTournaments = SortService.sort(
-        action.playerInTeamTournaments,
-        'playerInSport.person.second_name',
-      );
-      return {
+    on(
+      playerInTeamTournamentActions.get,
+      (state): PlayerInTeamTournamentState => ({
+        ...state,
+        playerInTeamTournamentIsLoading: true,
+      }),
+    ),
+    on(
+      playerInTeamTournamentActions.getItemSuccess,
+      (state, action): PlayerInTeamTournamentState => ({
         ...state,
         playerInTeamTournamentIsLoading: false,
-        allPlayersInTeamTournament: sortedTournaments,
-      };
-    }),
-    on(playerInTeamTournamentActions.getAllItemsFailure, (state, action): PlayerInTeamTournamentState => ({
-      ...state,
-      playerInTeamTournamentIsLoading: false,
-      errors: action,
-    })),
+        currentPlayerInTeamTournament: action.playerInTeamTournament,
+      }),
+    ),
+    on(
+      playerInTeamTournamentActions.getItemFailure,
+      (state, action): PlayerInTeamTournamentState => ({
+        ...state,
+        playerInTeamTournamentIsLoading: false,
+        errors: action,
+      }),
+    ),
 
-    // get all with ids from route
+    on(
+      playerInTeamTournamentActions.getAll,
+      (state): PlayerInTeamTournamentState => ({
+        ...state,
+        playerInTeamTournamentIsLoading: true,
+      }),
+    ),
+    on(playerInTeamTournamentActions.getAllItemsSuccess, (state, action) => {
+      return adapter.setAll(action.playerInTeamTournaments, {
+        ...state,
+        playerInTeamTournamentIsLoading: false,
+      });
+    }),
+    on(
+      playerInTeamTournamentActions.getAllItemsFailure,
+      (state, action): PlayerInTeamTournamentState => ({
+        ...state,
+        playerInTeamTournamentIsLoading: false,
+        errors: action,
+      }),
+    ),
+
     on(
       playerInTeamTournamentActions.getAllPlayerInTeamTournamentsByTeamIdTournamentId,
       (state) => ({
@@ -368,15 +303,10 @@ const playerInTeamTournamentFeature = createFeature({
     on(
       playerInTeamTournamentActions.getAllPlayersInTeamTournamentByTeamIdAndTournamentIdSuccess,
       (state, action) => {
-        const sortedPlayerInTeamTournaments = SortService.sort(
-          action.playersInTeamTournament,
-          'playerInSport.person.second_name',
-        );
-        return {
+        return adapter.setAll(action.playersInTeamTournament, {
           ...state,
           playerInTeamTournamentIsLoading: false,
-          allPlayersInTeamTournament: sortedPlayerInTeamTournaments,
-        };
+        });
       },
     ),
     on(
@@ -388,7 +318,6 @@ const playerInTeamTournamentFeature = createFeature({
       }),
     ),
 
-    // get all from props
     on(
       playerInTeamTournamentActions.getAllPlayerInTeamTournamentsWithPersonProps,
       (state) => ({
@@ -399,14 +328,11 @@ const playerInTeamTournamentFeature = createFeature({
     on(
       playerInTeamTournamentActions.getAllPlayersInTeamTournamentWithPersonPropsSuccess,
       (state, action) => {
-        const sortedPlayerInTeamTournaments = SortService.sort(
-          action.playersInTeamTournamentWithPerson,
-          'playerInSport.person.second_name',
-        );
         return {
           ...state,
           playerInTeamTournamentIsLoading: false,
-          allPlayersInTeamTournamentWithPerson: sortedPlayerInTeamTournaments,
+          allPlayersInTeamTournamentWithPerson:
+            action.playersInTeamTournamentWithPerson,
         };
       },
     ),
@@ -419,7 +345,6 @@ const playerInTeamTournamentFeature = createFeature({
       }),
     ),
 
-    // get all home away
     on(
       playerInTeamTournamentActions.getAllPlayersInTeamTournamentsForMatch,
       (state) => ({
@@ -430,14 +355,20 @@ const playerInTeamTournamentFeature = createFeature({
     on(
       playerInTeamTournamentActions.getAllPlayersInTeamTournamentForMatchSuccess,
       (state, action) => {
-        const sortedHomePlayerInTeamTournaments = SortService.sort(
-          action.availablePlayers.home,
-          'person.second_name',
-        );
-        const sortedAwayPlayerInTeamTournaments = SortService.sort(
-          action.availablePlayers.away,
-          'person.second_name',
-        );
+        const sortedHomePlayerInTeamTournaments = [
+          ...action.availablePlayers.home,
+        ].sort((a, b) => {
+          const nameA = a.person?.second_name || '';
+          const nameB = b.person?.second_name || '';
+          return nameA.localeCompare(nameB);
+        });
+        const sortedAwayPlayerInTeamTournaments = [
+          ...action.availablePlayers.away,
+        ].sort((a, b) => {
+          const nameA = a.person?.second_name || '';
+          const nameB = b.person?.second_name || '';
+          return nameA.localeCompare(nameB);
+        });
 
         return {
           ...state,
@@ -468,10 +399,11 @@ const playerInTeamTournamentFeature = createFeature({
     on(
       playerInTeamTournamentActions.getAllPlayersInTournamentByTournamentIdSuccess,
       (state, action) => {
-        const sortedPlayerInTeamTournaments = SortService.sort(
-          action.playersInTeamTournament,
-          'id',
-        );
+        const sortedPlayerInTeamTournaments = [
+          ...action.playersInTeamTournament,
+        ].sort((a, b) => {
+          return (a.id || 0) - (b.id || 0);
+        });
         return {
           ...state,
           playerInTeamTournamentIsLoading: false,
@@ -488,17 +420,19 @@ const playerInTeamTournamentFeature = createFeature({
       }),
     ),
 
-    //parsing
-    on(playerInTeamTournamentActions.parsPlayersFromTeamEESL, (state): PlayerInTeamTournamentState => ({
-      ...state,
-      playerInTeamTournamentIsLoading: true,
-    })),
+    on(
+      playerInTeamTournamentActions.parsPlayersFromTeamEESL,
+      (state): PlayerInTeamTournamentState => ({
+        ...state,
+        playerInTeamTournamentIsLoading: true,
+      }),
+    ),
     on(
       playerInTeamTournamentActions.parsedPlayerFromTeamEESLSuccessfully,
       (state, action) => {
         let updatedPlayerList: IPlayerInTeamTournament[] = [];
         action.parseList.forEach((newPlayer) => {
-          let existingPlayer = state.allPlayersInTeamTournament.find(
+          let existingPlayer = state.allPlayersInTournament.find(
             (player) => player.id === newPlayer.id,
           );
 
@@ -510,20 +444,25 @@ const playerInTeamTournamentFeature = createFeature({
         });
         return {
           ...state,
-          allPlayersInTeamTournament: updatedPlayerList,
+          allPlayersInTournament: updatedPlayerList,
           playerInTeamTournamentIsLoading: false,
           parsedPlayersFromTeamEESL: action.parseList,
         };
       },
     ),
 
-    on(playerInTeamTournamentActions.getItemFailure, (state, action): PlayerInTeamTournamentState => ({
-      ...state,
-      playerInTeamTournamentIsLoading: false,
-      errors: action,
-    })),
+    on(
+      playerInTeamTournamentActions.getItemFailure,
+      (state, action): PlayerInTeamTournamentState => ({
+        ...state,
+        playerInTeamTournamentIsLoading: false,
+        errors: action,
+      }),
+    ),
   ),
 });
+
+const { selectAll } = adapter.getSelectors();
 
 export const {
   name: playerInTeamTournamentFeatureKey,
@@ -532,10 +471,15 @@ export const {
   selectPlayerInTeamTournamentIsSubmitting,
   selectCurrentPlayerInTeamTournamentId,
   selectCurrentPlayerInTeamTournament,
-  selectAllPlayersInTeamTournament,
   selectAllPlayersInTeamTournamentWithPerson,
   selectAllHomePlayersInTeamTournamentWithPerson,
   selectAllAwayPlayersInTeamTournamentWithPerson,
   selectAllPlayersInTournament,
   selectParsedPlayersFromTeamEESL,
+  selectPlayerInTeamTournamentState,
 } = playerInTeamTournamentFeature;
+
+export const selectAllPlayersInTeamTournament = createSelector(
+  selectPlayerInTeamTournamentState,
+  selectAll,
+);

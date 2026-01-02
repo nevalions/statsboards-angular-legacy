@@ -1,9 +1,9 @@
-import { createFeature, createReducer, on } from '@ngrx/store';
-import { SortService } from '../../../../services/sort.service';
+import { createEntityAdapter, EntityState } from '@ngrx/entity';
+import { createFeature, createSelector, createReducer, on } from '@ngrx/store';
 import { sponsorSponsorLineConnectionActions } from './actions';
 import { ISponsorLineConnection } from '../../../../type/sponsor.type';
 
-export interface SponsorSponsorLineConnectionState {
+export interface SponsorSponsorLineConnectionState extends EntityState<ISponsorLineConnection> {
   sponsorSponsorLineConnectionIsLoading: boolean;
   sponsorSponsorLineConnectionIsSubmitting: boolean;
   sponsorSponsorLineConnectionId: number | undefined | null;
@@ -11,30 +11,37 @@ export interface SponsorSponsorLineConnectionState {
     | ISponsorLineConnection
     | undefined
     | null;
-  allSponsorSponsorLineConnections: ISponsorLineConnection[];
   errors: any | undefined | null;
 }
 
-const initialState: SponsorSponsorLineConnectionState = {
-  sponsorSponsorLineConnectionIsLoading: false,
-  sponsorSponsorLineConnectionIsSubmitting: false,
-  sponsorSponsorLineConnectionId: null,
-  allSponsorSponsorLineConnections: [],
-  currentSponsorSponsorLineConnection: null,
-  errors: null,
-};
+const adapter = createEntityAdapter<ISponsorLineConnection>({
+  sortComparer: false,
+});
+
+const initialState: SponsorSponsorLineConnectionState = adapter.getInitialState(
+  {
+    sponsorSponsorLineConnectionIsLoading: false,
+    sponsorSponsorLineConnectionIsSubmitting: false,
+    sponsorSponsorLineConnectionId: null,
+    currentSponsorSponsorLineConnection: null,
+    errors: null,
+  },
+);
 
 const sponsorSponsorLineConnectionFeature = createFeature({
   name: 'sponsorSponsorLineConnection',
   reducer: createReducer(
     initialState,
-    on(sponsorSponsorLineConnectionActions.getId, (state): SponsorSponsorLineConnectionState => ({
-      ...state,
-      sponsorSponsorLineConnectionIsLoading: true,
-    })),
+    on(
+      sponsorSponsorLineConnectionActions.getId,
+      (state): SponsorSponsorLineConnectionState => ({
+        ...state,
+        sponsorSponsorLineConnectionIsLoading: true,
+      }),
+    ),
     on(
       sponsorSponsorLineConnectionActions.getSponsorSponsorLineConnectionIdSuccessfully,
-      (state, action) => ({
+      (state, action): SponsorSponsorLineConnectionState => ({
         ...state,
         sponsorSponsorLineConnectionIsLoading: false,
         sponsorSponsorLineConnectionId: action.sponsorSponsorLineConnectionId,
@@ -42,79 +49,90 @@ const sponsorSponsorLineConnectionFeature = createFeature({
     ),
     on(
       sponsorSponsorLineConnectionActions.getSponsorSponsorLineConnectionIdFailure,
-      (state) => ({
+      (state): SponsorSponsorLineConnectionState => ({
         ...state,
         sponsorSponsorLineConnectionIsLoading: false,
       }),
     ),
 
     // create actions
-    on(sponsorSponsorLineConnectionActions.create, (state): SponsorSponsorLineConnectionState => ({
-      ...state,
-      sponsorSponsorLineConnectionIsSubmitting: true,
-    })),
+    on(
+      sponsorSponsorLineConnectionActions.create,
+      (state): SponsorSponsorLineConnectionState => ({
+        ...state,
+        sponsorSponsorLineConnectionIsSubmitting: true,
+      }),
+    ),
     on(
       sponsorSponsorLineConnectionActions.createdSuccessfully,
-      (state, action) => {
-        const newList = [
-          ...state.allSponsorSponsorLineConnections,
-          action.currentSponsorSponsorLineConnection,
-        ];
-        const sortedConnections = SortService.sort(newList, 'title');
-        return {
+      (state, action) =>
+        adapter.addOne(action.currentSponsorSponsorLineConnection, {
           ...state,
           sponsorSponsorLineConnectionIsSubmitting: false,
           currentSponsorSponsorLineConnection:
             action.currentSponsorSponsorLineConnection,
-          allSponsorSponsorLineConnections: sortedConnections,
-        };
-      },
+        }),
     ),
-    on(sponsorSponsorLineConnectionActions.createFailure, (state, action): SponsorSponsorLineConnectionState => ({
-      ...state,
-      sponsorSponsorLineConnectionIsSubmitting: false,
-      errors: action,
-    })),
+    on(
+      sponsorSponsorLineConnectionActions.createFailure,
+      (state, action): SponsorSponsorLineConnectionState => ({
+        ...state,
+        sponsorSponsorLineConnectionIsSubmitting: false,
+        errors: action,
+      }),
+    ),
 
     // get actions
-    on(sponsorSponsorLineConnectionActions.get, (state): SponsorSponsorLineConnectionState => ({
-      ...state,
-      sponsorSponsorLineConnectionIsLoading: true,
-    })),
-    on(sponsorSponsorLineConnectionActions.getItemSuccess, (state, action): SponsorSponsorLineConnectionState => ({
-      ...state,
-      sponsorSponsorLineConnectionIsLoading: false,
-      currentSponsorSponsorLineConnection:
-        action.currentSponsorSponsorLineConnection,
-    })),
-    on(sponsorSponsorLineConnectionActions.getItemFailure, (state, action): SponsorSponsorLineConnectionState => ({
-      ...state,
-      sponsorSponsorLineConnectionIsLoading: false,
-      errors: action,
-    })),
-
-    on(sponsorSponsorLineConnectionActions.getAll, (state): SponsorSponsorLineConnectionState => ({
-      ...state,
-      sponsorSponsorLineConnectionIsLoading: true,
-    })),
-    on(sponsorSponsorLineConnectionActions.getAllSuccess, (state, action) => {
-      const sortedConnections = SortService.sort(
-        action.allSponsorSponsorLineConnections,
-        'title',
-      );
-      return {
+    on(
+      sponsorSponsorLineConnectionActions.get,
+      (state): SponsorSponsorLineConnectionState => ({
+        ...state,
+        sponsorSponsorLineConnectionIsLoading: true,
+      }),
+    ),
+    on(
+      sponsorSponsorLineConnectionActions.getItemSuccess,
+      (state, action): SponsorSponsorLineConnectionState => ({
         ...state,
         sponsorSponsorLineConnectionIsLoading: false,
-        allSponsorSponsorLineConnections: sortedConnections,
-      };
-    }),
-    on(sponsorSponsorLineConnectionActions.getAllFailure, (state, action): SponsorSponsorLineConnectionState => ({
-      ...state,
-      sponsorSponsorLineConnectionIsLoading: false,
-      errors: action,
-    })),
+        currentSponsorSponsorLineConnection:
+          action.currentSponsorSponsorLineConnection,
+      }),
+    ),
+    on(
+      sponsorSponsorLineConnectionActions.getItemFailure,
+      (state, action): SponsorSponsorLineConnectionState => ({
+        ...state,
+        sponsorSponsorLineConnectionIsLoading: false,
+        errors: action,
+      }),
+    ),
+
+    on(
+      sponsorSponsorLineConnectionActions.getAll,
+      (state): SponsorSponsorLineConnectionState => ({
+        ...state,
+        sponsorSponsorLineConnectionIsLoading: true,
+      }),
+    ),
+    on(sponsorSponsorLineConnectionActions.getAllSuccess, (state, action) =>
+      adapter.setAll(action.allSponsorSponsorLineConnections, {
+        ...state,
+        sponsorSponsorLineConnectionIsLoading: false,
+      }),
+    ),
+    on(
+      sponsorSponsorLineConnectionActions.getAllFailure,
+      (state, action): SponsorSponsorLineConnectionState => ({
+        ...state,
+        sponsorSponsorLineConnectionIsLoading: false,
+        errors: action,
+      }),
+    ),
   ),
 });
+
+const { selectAll } = adapter.getSelectors();
 
 export const {
   name: sponsorSponsorLineConnectionFeatureKey,
@@ -123,5 +141,10 @@ export const {
   selectSponsorSponsorLineConnectionIsLoading,
   selectSponsorSponsorLineConnectionIsSubmitting,
   selectCurrentSponsorSponsorLineConnection,
-  selectAllSponsorSponsorLineConnections,
+  selectSponsorSponsorLineConnectionState,
 } = sponsorSponsorLineConnectionFeature;
+
+export const selectAllSponsorSponsorLineConnections = createSelector(
+  selectSponsorSponsorLineConnectionState,
+  selectAll,
+);

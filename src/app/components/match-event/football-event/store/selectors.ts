@@ -83,10 +83,9 @@ export const selectFootballEventsWithPlayers = createSelector(
   (footballEvents, matchPlayers, match): IFootballEventWithPlayers[] => {
     const teamA = match?.teams_data?.team_a || null;
     const teamB = match?.teams_data?.team_b || null;
-    const fieldLength = match?.match_data?.field_length || 100;
 
     return footballEvents.map((event, index) => {
-      const nextEvent = footballEvents[index + 1];
+      const distMoved = calcDistanceFromEvent(event, match);
       // const distanceMoved = calculateDistanceMoved(
       //   event,
       //   nextEvent,

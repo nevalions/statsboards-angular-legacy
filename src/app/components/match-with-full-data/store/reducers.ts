@@ -1,5 +1,5 @@
-import { createFeature, createReducer, on } from '@ngrx/store';
-import { SortService } from '../../../services/sort.service';
+import { createEntityAdapter, EntityState } from '@ngrx/entity';
+import { createFeature, createSelector, createReducer, on } from '@ngrx/store';
 import {
   crudStoreInterface,
   getDefaultCrudStore,
@@ -7,133 +7,166 @@ import {
 import { IMatchWithFullData } from '../../../type/match.type';
 import { matchWithFullDataActions } from './actions';
 
-export interface MatchWithFullDataState extends crudStoreInterface {
+export interface MatchWithFullDataState
+  extends EntityState<IMatchWithFullData>, crudStoreInterface {
   currentMatchWithFullDataId: number | undefined | null;
   currentMatchWithFullData: IMatchWithFullData | undefined | null;
-  allMatchesWithFullData: IMatchWithFullData[];
   allMatchesWithFullDataInSport: IMatchWithFullData[];
   allMatchesWithFullDataInTournament: IMatchWithFullData[];
 }
 
-const initialState: MatchWithFullDataState = {
+const adapter = createEntityAdapter<IMatchWithFullData>({
+  sortComparer: (a, b) => {
+    const weekA = a.match?.week || 0;
+    const weekB = b.match?.week || 0;
+    if (weekA !== weekB) {
+      return weekA - weekB;
+    }
+    const dateA = a.match?.match_date
+      ? new Date(a.match.match_date).getTime()
+      : 0;
+    const dateB = b.match?.match_date
+      ? new Date(b.match.match_date).getTime()
+      : 0;
+    return dateB - dateA;
+  },
+});
+
+const initialState: MatchWithFullDataState = adapter.getInitialState({
   ...getDefaultCrudStore(),
   currentMatchWithFullDataId: null,
-  allMatchesWithFullData: [],
   allMatchesWithFullDataInSport: [],
   allMatchesWithFullDataInTournament: [],
   currentMatchWithFullData: null,
   errors: null,
-};
+});
 
 const matchWithFullDataFeature = createFeature({
   name: 'matchWithFullData',
   reducer: createReducer(
     initialState,
-    on(matchWithFullDataActions.getId, (state): MatchWithFullDataState => ({
-      ...state,
-      isLoading: true,
-    })),
+    on(
+      matchWithFullDataActions.getId,
+      (state): MatchWithFullDataState => ({
+        ...state,
+        isLoading: true,
+      }),
+    ),
     on(
       matchWithFullDataActions.getMatchWithFullDataIdSuccessfully,
-      (state, action) => ({
+      (state, action): MatchWithFullDataState => ({
         ...state,
         isLoading: false,
         currentMatchWithFullDataId: action.matchWithFullDataId,
       }),
     ),
-    on(matchWithFullDataActions.getMatchWithFullDataIdFailure, (state): MatchWithFullDataState => ({
-      ...state,
-      isLoading: false,
-    })),
+    on(
+      matchWithFullDataActions.getMatchWithFullDataIdFailure,
+      (state): MatchWithFullDataState => ({
+        ...state,
+        isLoading: false,
+      }),
+    ),
 
-    // create actions
-    on(matchWithFullDataActions.create, (state): MatchWithFullDataState => ({
-      ...state,
-      isSubmitting: true,
-    })),
-    on(matchWithFullDataActions.createdSuccessfully, (state, action) => {
-      const newList = [
-        ...state.allMatchesWithFullData,
-        action.currentMatchWithFullData,
-      ];
-      const sortedTournaments = SortService.sort(
-        newList,
-        'match.week',
-        '-match.date',
-      );
-      return {
+    on(
+      matchWithFullDataActions.create,
+      (state): MatchWithFullDataState => ({
+        ...state,
+        isSubmitting: true,
+      }),
+    ),
+    on(
+      matchWithFullDataActions.createdSuccessfully,
+      (state, action): MatchWithFullDataState => {
+        return adapter.addOne(action.currentMatchWithFullData, {
+          ...state,
+          isSubmitting: false,
+          currentMatchWithFullData: action.currentMatchWithFullData,
+        });
+      },
+    ),
+    on(
+      matchWithFullDataActions.createFailure,
+      (state, action): MatchWithFullDataState => ({
         ...state,
         isSubmitting: false,
-        currentMatchWithFullData: action.currentMatchWithFullData,
-        allMatchesWithFullData: sortedTournaments,
-      };
-    }),
-    on(matchWithFullDataActions.createFailure, (state, action): MatchWithFullDataState => ({
-      ...state,
-      isSubmitting: false,
-      errors: action,
-    })),
+        errors: action,
+      }),
+    ),
 
-    // delete actions
-    on(matchWithFullDataActions.delete, (state): MatchWithFullDataState => ({
-      ...state,
-      isSubmitting: true,
-    })),
-    on(matchWithFullDataActions.deletedSuccessfully, (state, action): MatchWithFullDataState => ({
-      ...state,
-      isSubmitting: false,
-      allMatchesWithFullDataInTournament: (
-        state.allMatchesWithFullDataInTournament || []
-      ).filter((item) => item.id !== action.id),
-      allMatchesWithFullData: (state.allMatchesWithFullData || []).filter(
-        (item) => item.id !== action.id,
-      ),
-      errors: null,
-    })),
-    on(matchWithFullDataActions.deleteFailure, (state, action): MatchWithFullDataState => ({
-      ...state,
-      isSubmitting: false,
-      errors: action,
-    })),
+    on(
+      matchWithFullDataActions.delete,
+      (state): MatchWithFullDataState => ({
+        ...state,
+        isSubmitting: true,
+      }),
+    ),
+    on(
+      matchWithFullDataActions.deletedSuccessfully,
+      (state, action): MatchWithFullDataState => {
+        return adapter.removeOne(action.id, {
+          ...state,
+          isSubmitting: false,
+          allMatchesWithFullDataInTournament:
+            state.allMatchesWithFullDataInTournament.filter(
+              (item) => item.id !== action.id,
+            ),
+          errors: null,
+        });
+      },
+    ),
+    on(
+      matchWithFullDataActions.deleteFailure,
+      (state, action): MatchWithFullDataState => ({
+        ...state,
+        isSubmitting: false,
+        errors: action,
+      }),
+    ),
 
-    // update actions
-    on(matchWithFullDataActions.update, (state): MatchWithFullDataState => ({
-      ...state,
-      isSubmitting: true,
-    })),
-    on(matchWithFullDataActions.updatedSuccessfully, (state, action): MatchWithFullDataState => ({
-      ...state,
-      isSubmitting: false,
-      currentMatchWithFullData: action.updatedMatchWithFullData,
-      allMatchesWithFullData: state.allMatchesWithFullData.map((item) =>
-        item.id === action.updatedMatchWithFullData.id
-          ? action.updatedMatchWithFullData
-          : item,
-      ),
-      errors: null,
-    })),
-    on(matchWithFullDataActions.updateFailure, (state, action): MatchWithFullDataState => ({
-      ...state,
-      isSubmitting: false,
-      errors: action,
-    })),
+    on(
+      matchWithFullDataActions.update,
+      (state): MatchWithFullDataState => ({
+        ...state,
+        isSubmitting: true,
+      }),
+    ),
+    on(
+      matchWithFullDataActions.updatedSuccessfully,
+      (state, action): MatchWithFullDataState => {
+        return adapter.updateOne(
+          {
+            id: action.updatedMatchWithFullData.id!,
+            changes: action.updatedMatchWithFullData,
+          },
+          {
+            ...state,
+            isSubmitting: false,
+            currentMatchWithFullData: action.updatedMatchWithFullData,
+            errors: null,
+          },
+        );
+      },
+    ),
+    on(
+      matchWithFullDataActions.updateFailure,
+      (state, action): MatchWithFullDataState => ({
+        ...state,
+        isSubmitting: false,
+        errors: action,
+      }),
+    ),
 
     on(
       matchWithFullDataActions.updateAllMatchesWithFullDataInTournament,
       (state, { newMatchWithFullData }) => {
-        const newList = [
-          ...state.allMatchesWithFullDataInTournament,
-          newMatchWithFullData,
-        ];
-        const sortedMatches = SortService.sort(
-          newList,
-          'match.week',
-          '-match.date',
-        );
-        return {
+        return adapter.addOne(newMatchWithFullData, {
           ...state,
-          allMatchesWithFullDataInTournament: sortedMatches,
-        };
+          allMatchesWithFullDataInTournament: [
+            ...state.allMatchesWithFullDataInTournament,
+            newMatchWithFullData,
+          ],
+        });
       },
     ),
     on(
@@ -146,65 +179,84 @@ const matchWithFullDataFeature = createFeature({
       },
     ),
 
-    on(matchWithFullDataActions.removeMatchFromTournament, (state, action): MatchWithFullDataState => ({
-      ...state,
-      allMatchesWithFullDataInTournament:
-        state.allMatchesWithFullDataInTournament.filter(
-          (match) => match.id !== action.id,
-        ),
-      allMatchesWithFullData: state.allMatchesWithFullData.filter(
-        (match) => match.id !== action.id,
-      ),
-    })),
+    on(
+      matchWithFullDataActions.removeMatchFromTournament,
+      (state, action): MatchWithFullDataState => {
+        return adapter.removeOne(action.id, {
+          ...state,
+          allMatchesWithFullDataInTournament:
+            state.allMatchesWithFullDataInTournament.filter(
+              (match) => match.id !== action.id,
+            ),
+        });
+      },
+    ),
 
-    // get actions
-    on(matchWithFullDataActions.get, (state): MatchWithFullDataState => ({
-      ...state,
-      isLoading: true,
-    })),
-    on(matchWithFullDataActions.getItemSuccess, (state, action): MatchWithFullDataState => ({
-      ...state,
-      isLoading: false,
-      currentMatchWithFullData: action.matchWithFullData,
-    })),
-    on(matchWithFullDataActions.getItemFailure, (state, action): MatchWithFullDataState => ({
-      ...state,
-      isLoading: false,
-      errors: action,
-    })),
-
-    on(matchWithFullDataActions.getAll, (state): MatchWithFullDataState => ({
-      ...state,
-      isLoading: true,
-    })),
-    on(matchWithFullDataActions.getAllItemsSuccess, (state, action) => {
-      const sortedMatchesWithFullData = SortService.sort(
-        action.matchesWithFullData,
-        '-match.date',
-      );
-      return {
+    on(
+      matchWithFullDataActions.get,
+      (state): MatchWithFullDataState => ({
+        ...state,
+        isLoading: true,
+      }),
+    ),
+    on(
+      matchWithFullDataActions.getItemSuccess,
+      (state, action): MatchWithFullDataState => ({
         ...state,
         isLoading: false,
-        allMatches: sortedMatchesWithFullData,
-      };
-    }),
-    on(matchWithFullDataActions.getAllItemsFailure, (state, action): MatchWithFullDataState => ({
-      ...state,
-      isLoading: false,
-      errors: action,
-    })),
+        currentMatchWithFullData: action.matchWithFullData,
+      }),
+    ),
+    on(
+      matchWithFullDataActions.getItemFailure,
+      (state, action): MatchWithFullDataState => ({
+        ...state,
+        isLoading: false,
+        errors: action,
+      }),
+    ),
 
-    on(matchWithFullDataActions.getMatchesWithFullDataBySportId, (state): MatchWithFullDataState => ({
-      ...state,
-      isLoading: true,
-    })),
+    on(
+      matchWithFullDataActions.getAll,
+      (state): MatchWithFullDataState => ({
+        ...state,
+        isLoading: true,
+      }),
+    ),
+    on(matchWithFullDataActions.getAllItemsSuccess, (state, action) => {
+      return adapter.setAll(action.matchesWithFullData, {
+        ...state,
+        isLoading: false,
+      });
+    }),
+    on(
+      matchWithFullDataActions.getAllItemsFailure,
+      (state, action): MatchWithFullDataState => ({
+        ...state,
+        isLoading: false,
+        errors: action,
+      }),
+    ),
+
+    on(
+      matchWithFullDataActions.getMatchesWithFullDataBySportId,
+      (state): MatchWithFullDataState => ({
+        ...state,
+        isLoading: true,
+      }),
+    ),
     on(
       matchWithFullDataActions.getMatchesWithFullDataBySportIDSuccess,
       (state, action) => {
-        const sortedMatches = SortService.sort(
-          action.matchesWithFullData,
-          '-match.date',
-        );
+        const sortedMatches = [...action.matchesWithFullData].sort((a, b) => {
+          const dateA = a.match?.match_date
+            ? new Date(a.match.match_date).getTime()
+            : 0;
+          const dateB = b.match?.match_date
+            ? new Date(b.match.match_date).getTime()
+            : 0;
+          return dateB - dateA;
+        });
         return {
           ...state,
           isLoading: false,
@@ -231,11 +283,20 @@ const matchWithFullDataFeature = createFeature({
     on(
       matchWithFullDataActions.getMatchesWithFullDataByTournamentIDSuccess,
       (state, action) => {
-        const sortedMatches = SortService.sort(
-          action.matchesWithFullData,
-          'match.week',
-          '-match.date',
-        );
+        const sortedMatches = [...action.matchesWithFullData].sort((a, b) => {
+          const weekA = a.match?.week || 0;
+          const weekB = b.match?.week || 0;
+          if (weekA !== weekB) {
+            return weekA - weekB;
+          }
+          const dateA = a.match?.match_date
+            ? new Date(a.match.match_date).getTime()
+            : 0;
+          const dateB = b.match?.match_date
+            ? new Date(b.match.match_date).getTime()
+            : 0;
+          return dateB - dateA;
+        });
         return {
           ...state,
           isLoading: false,
@@ -251,33 +312,10 @@ const matchWithFullDataFeature = createFeature({
         errors: action,
       }),
     ),
-
-    // on(matchWithFullDataActions.addMatchToTournament, (state, { team_id }) => {
-    //   const teamToAdd = state.allMatchsInSport.find(
-    //     (team) => team.id === team_id,
-    //   );
-    //   if (!teamToAdd) {
-    //     // console.log(store.allMatchsInSport);
-    //     console.log(`No team found with id: ${team_id}`);
-    //     return state;
-    //   }
-    //   // console.log(`Match with id: ${team_id} added to the tournament.`);
-    //   const newList = [...state.allMatchsInTournament, teamToAdd];
-    //   const sortedList = SortService.sort(newList, 'title');
-    //   return {
-    //     ...state,
-    //     allMatchsInTournament: sortedList,
-    //   };
-    // }),
-    //
-    // on(matchWithFullDataActions.removeMatchFromTournament, (state, action): MatchWithFullDataState => ({
-    //   ...state,
-    //   allMatchsInTournament: state.allMatchsInTournament.filter(
-    //     (team) => team.id !== action.id,
-    //   ),
-    // })),
   ),
 });
+
+const { selectAll } = adapter.getSelectors();
 
 export const {
   name: matchWithFullDataFeatureKey,
@@ -286,7 +324,11 @@ export const {
   selectIsLoading,
   selectCurrentMatchWithFullDataId,
   selectCurrentMatchWithFullData,
-  selectAllMatchesWithFullData,
   selectAllMatchesWithFullDataInSport,
   selectAllMatchesWithFullDataInTournament,
 } = matchWithFullDataFeature;
+
+export const selectAllMatchesWithFullData = createSelector(
+  matchWithFullDataFeature.selectMatchWithFullDataState,
+  selectAll,
+);

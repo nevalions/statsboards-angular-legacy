@@ -1,25 +1,27 @@
-import { createFeature, createReducer, on } from '@ngrx/store';
+import { createEntityAdapter, EntityState } from '@ngrx/entity';
+import { createFeature, createSelector, createReducer, on } from '@ngrx/store';
 import { footballEventActions } from './actions';
 import { IFootballEvent } from '../../../../type/football-event.type';
-import { SortService } from '../../../../services/sort.service';
 
-export interface FootballEventState {
+export interface FootballEventState extends EntityState<IFootballEvent> {
   footballEventIsLoading: boolean;
   footballEventIsSubmitting: boolean;
   currentFootballEventId: number | undefined | null;
   currentFootballEvent: IFootballEvent | undefined | null;
-  allMatchFootballEvents: IFootballEvent[] | [];
   errors: any | null;
 }
 
-const initialState: FootballEventState = {
+const adapter = createEntityAdapter<IFootballEvent>({
+  sortComparer: (a, b) => (a.event_number || 0) - (b.event_number || 0),
+});
+
+const initialState: FootballEventState = adapter.getInitialState({
   footballEventIsLoading: false,
   footballEventIsSubmitting: false,
   currentFootballEventId: null,
   currentFootballEvent: null,
-  allMatchFootballEvents: [],
   errors: null,
-};
+});
 
 const footballEventFeature = createFeature({
   name: 'footballEvent',
@@ -30,16 +32,13 @@ const footballEventFeature = createFeature({
       ...state,
       footballEventIsSubmitting: true,
     })),
-    on(footballEventActions.createdSuccessfully, (state, action) => {
-      const newList = [...state.allMatchFootballEvents, action.footballEvent];
-      const sortedEvents = SortService.sort(newList, 'event_number');
-      return {
+    on(footballEventActions.createdSuccessfully, (state, action) =>
+      adapter.addOne(action.footballEvent, {
         ...state,
         footballEventIsSubmitting: false,
         currentFootballEvent: action.footballEvent,
-        allMatchFootballEvents: sortedEvents,
-      };
-    }),
+      }),
+    ),
     on(footballEventActions.createFailure, (state, action): FootballEventState => ({
       ...state,
       footballEventIsSubmitting: false,
@@ -70,21 +69,29 @@ const footballEventFeature = createFeature({
       footballEventActions.updateFootballEventByKeyValueSuccessfully,
       (state, action) => {
         const updatedEvent = action.updatedFootballEvent;
-        const newList = state.allMatchFootballEvents.map((event) =>
-          event.id === updatedEvent.id ? updatedEvent : event,
-        );
-        const sortedEvents = SortService.sort(newList, 'event_number');
+        if (updatedEvent.id) {
+          return adapter.updateOne(
+            {
+              id: updatedEvent.id,
+              changes: updatedEvent,
+            },
+            {
+              ...state,
+              footballEventIsSubmitting: false,
+              currentFootballEvent: updatedEvent,
+            },
+          );
+        }
         return {
           ...state,
           footballEventIsSubmitting: false,
           currentFootballEvent: updatedEvent,
-          allMatchFootballEvents: sortedEvents,
         };
       },
     ),
     on(
       footballEventActions.updateFootballEventByKeyValueFailure,
-      (state, action) => ({
+      (state) => ({
         ...state,
         footballEventIsSubmitting: false,
       }),
@@ -103,6 +110,7 @@ const footballEventFeature = createFeature({
     on(footballEventActions.getItemFailure, (state, action): FootballEventState => ({
       ...state,
       footballEventIsLoading: false,
+      errors: action,
     })),
 
     on(footballEventActions.getFootballEventsByMatchId, (state): FootballEventState => ({
@@ -113,18 +121,16 @@ const footballEventFeature = createFeature({
       footballEventActions.getFootballEventsByMatchIDSuccess,
       (state, action) => {
         const newList = action.footballEvents;
-        const sortedEvents = SortService.sort(newList, 'event_number');
-        return {
+        return adapter.setAll(newList, {
           ...state,
           footballEventIsSubmitting: false,
-          allMatchFootballEvents: sortedEvents,
           footballEventIsLoading: false,
-        };
+        });
       },
     ),
     on(
       footballEventActions.getFootballEventsByMatchIDFailure,
-      (state, action) => ({
+      (state) => ({
         ...state,
         footballEventIsLoading: false,
       }),
@@ -135,32 +141,32 @@ const footballEventFeature = createFeature({
       ...state,
       footballEventIsSubmitting: true,
     })),
-    on(footballEventActions.deletedByIdSuccessfully, (state, action): FootballEventState => ({
-      ...state,
-      footballEventIsSubmitting: false,
-      allMatchFootballEvents: (state.allMatchFootballEvents || []).filter(
-        (item) => item.id !== action.deletedFootballEvent.id,
-      ),
-    })),
-    on(footballEventActions.deleteByIdFailure, (state, action): FootballEventState => ({
+    on(footballEventActions.deletedByIdSuccessfully, (state, action) =>
+      adapter.removeOne(action.deletedFootballEvent.id || 0, {
+        ...state,
+        footballEventIsSubmitting: false,
+      }),
+    ),
+    on(footballEventActions.deleteByIdFailure, (state): FootballEventState => ({
       ...state,
       footballEventIsSubmitting: false,
     })),
 
     // recalculate
     on(footballEventActions.recalculateEventsSuccess, (state, action) => {
-      return {
+      return adapter.setAll(action.footballEvents, {
         ...state,
-        allMatchFootballEvents: action.footballEvents,
         footballEventIsSubmitting: false,
-      };
+      })
     }),
-    on(footballEventActions.recalculateEventsFailure, (state, action): FootballEventState => ({
+    on(footballEventActions.recalculateEventsFailure, (state): FootballEventState => ({
       ...state,
       footballEventIsSubmitting: false,
     })),
   ),
 });
+
+const { selectAll } = adapter.getSelectors();
 
 export const {
   name: footballEventFeatureKey,
@@ -168,6 +174,8 @@ export const {
   selectFootballEventIsSubmitting,
   selectFootballEventIsLoading,
   selectCurrentFootballEventId,
-  selectAllMatchFootballEvents,
   selectCurrentFootballEvent,
+  selectFootballEventState,
 } = footballEventFeature;
+
+export const selectAllMatchFootballEvents = createSelector(selectFootballEventState, selectAll);

@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { ISponsor } from '../../../type/sponsor.type';
 import { AppState } from '../../../store/appstate';
 import { sponsorActions } from './store/actions';
+import { selectAllSponsors } from './store/reducers';
 
 @Injectable({
   providedIn: 'root',
@@ -20,7 +21,7 @@ export class Sponsor {
     this.currentSponsor$ = store.select(
       (state) => state.sponsor.currentSponsor,
     );
-    this.allSponsors$ = store.select((state) => state.sponsor.allSponsors);
+    this.allSponsors$ = store.select(selectAllSponsors);
   }
 
   loadCurrentSponsorByUrlId() {

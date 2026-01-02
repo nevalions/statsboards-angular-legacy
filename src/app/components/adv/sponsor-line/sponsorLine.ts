@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { AppState } from '../../../store/appstate';
 import { ISponsorLine, ISponsorLineFullData } from '../../../type/sponsor.type';
 import { sponsorLineActions } from './store/actions';
+import { selectAllSponsorLines } from './store/reducers';
 
 @Injectable({
   providedIn: 'root',
@@ -22,9 +23,7 @@ export class SponsorLine {
     this.sponsorLine$ = store.select(
       (state) => state.sponsorLine.currentSponsorLine,
     );
-    this.allSponsorLines$ = store.select(
-      (state) => state.sponsorLine.allSponsorLines,
-    );
+    this.allSponsorLines$ = store.select(selectAllSponsorLines);
     this.sponsorLineWithFullData$ = store.select(
       (state) => state.sponsorLine.currentSponsorLineWithFullData,
     );

@@ -1,71 +1,85 @@
-import { createFeature, createReducer, on } from '@ngrx/store';
-import { SortService } from '../../../../services/sort.service';
+import { createEntityAdapter, EntityState } from '@ngrx/entity';
+import { createFeature, createSelector, createReducer, on } from '@ngrx/store';
 import {
   ISponsorLine,
   ISponsorLineFullData,
 } from '../../../../type/sponsor.type';
 import { sponsorLineActions } from './actions';
 
-export interface SponsorLineState {
+export interface SponsorLineState extends EntityState<ISponsorLine> {
   sponsorLineIsLoading: boolean;
   sponsorLineIsSubmitting: boolean;
   currentSponsorLineId: number | undefined | null;
   currentSponsorLine: ISponsorLine | undefined | null;
   currentSponsorLineWithFullData: ISponsorLineFullData | undefined | null;
   currentMatchSponsorLineWithFullData: ISponsorLineFullData | undefined | null;
-  allSponsorLines: ISponsorLine[];
   errors: any | undefined | null;
 }
 
-const initialState: SponsorLineState = {
+const adapter = createEntityAdapter<ISponsorLine>({
+  sortComparer: (a, b) => a.title.localeCompare(b.title),
+});
+
+const initialState: SponsorLineState = adapter.getInitialState({
   sponsorLineIsLoading: false,
   sponsorLineIsSubmitting: false,
   currentSponsorLineId: null,
-  allSponsorLines: [],
   currentSponsorLine: null,
   currentSponsorLineWithFullData: null,
   currentMatchSponsorLineWithFullData: null,
   errors: null,
-};
+});
 
 const sponsorLineFeature = createFeature({
   name: 'sponsorLine',
   reducer: createReducer(
     initialState,
-    on(sponsorLineActions.getId, (state): SponsorLineState => ({
-      ...state,
-      sponsorLineIsLoading: true,
-    })),
-    on(sponsorLineActions.getSponsorLineIdSuccessfully, (state, action): SponsorLineState => ({
-      ...state,
-      sponsorLineIsLoading: false,
-      currentSponsorLineId: action.sponsorLineId,
-    })),
-    on(sponsorLineActions.getSponsorLineIdFailure, (state): SponsorLineState => ({
-      ...state,
-      sponsorLineIsLoading: false,
-    })),
+    on(
+      sponsorLineActions.getId,
+      (state): SponsorLineState => ({
+        ...state,
+        sponsorLineIsLoading: true,
+      }),
+    ),
+    on(
+      sponsorLineActions.getSponsorLineIdSuccessfully,
+      (state, action): SponsorLineState => ({
+        ...state,
+        sponsorLineIsLoading: false,
+        currentSponsorLineId: action.sponsorLineId,
+      }),
+    ),
+    on(
+      sponsorLineActions.getSponsorLineIdFailure,
+      (state): SponsorLineState => ({
+        ...state,
+        sponsorLineIsLoading: false,
+      }),
+    ),
 
     // create actions
-    on(sponsorLineActions.create, (state): SponsorLineState => ({
-      ...state,
-      sponsorLineIsSubmitting: true,
-    })),
-    on(sponsorLineActions.createdSuccessfully, (state, action) => {
-      const newList = [...state.allSponsorLines, action.currentSponsorLine];
-      const sortedTournaments = SortService.sort(newList, 'title');
-      return {
+    on(
+      sponsorLineActions.create,
+      (state): SponsorLineState => ({
+        ...state,
+        sponsorLineIsSubmitting: true,
+      }),
+    ),
+    on(sponsorLineActions.createdSuccessfully, (state, action) =>
+      adapter.addOne(action.currentSponsorLine, {
         ...state,
         sponsorLineIsSubmitting: false,
         currentSponsorLine: action.currentSponsorLine,
-        allSponsorLines: sortedTournaments,
-      };
-    }),
-    on(sponsorLineActions.createFailure, (state, action): SponsorLineState => ({
-      ...state,
-      sponsorLineIsSubmitting: false,
-      errors: action,
-    })),
+      }),
+    ),
+    on(
+      sponsorLineActions.createFailure,
+      (state, action): SponsorLineState => ({
+        ...state,
+        sponsorLineIsSubmitting: false,
+        errors: action,
+      }),
+    ),
 
     // // delete actions
     // on(sponsorLineActions.delete, (state): SponsorLineState => ({
@@ -113,45 +127,66 @@ const sponsorLineFeature = createFeature({
     // }),
     //
     // get actions
-    on(sponsorLineActions.get, (state): SponsorLineState => ({
-      ...state,
-      sponsorLineIsLoading: true,
-    })),
-    on(sponsorLineActions.getItemSuccess, (state, action): SponsorLineState => ({
-      ...state,
-      sponsorLineIsLoading: false,
-      currentSponsorLine: action.currentSponsorLine,
-    })),
-    on(sponsorLineActions.getItemFailure, (state, action): SponsorLineState => ({
-      ...state,
-      sponsorLineIsLoading: false,
-      errors: action,
-    })),
+    on(
+      sponsorLineActions.get,
+      (state): SponsorLineState => ({
+        ...state,
+        sponsorLineIsLoading: true,
+      }),
+    ),
+    on(
+      sponsorLineActions.getItemSuccess,
+      (state, action): SponsorLineState => ({
+        ...state,
+        sponsorLineIsLoading: false,
+        currentSponsorLine: action.currentSponsorLine,
+      }),
+    ),
+    on(
+      sponsorLineActions.getItemFailure,
+      (state, action): SponsorLineState => ({
+        ...state,
+        sponsorLineIsLoading: false,
+        errors: action,
+      }),
+    ),
 
-    on(sponsorLineActions.getFullDataSponsorLine, (state): SponsorLineState => ({
-      ...state,
-      sponsorLineIsLoading: true,
-    })),
-    on(sponsorLineActions.getFullDataSponsorLineSuccess, (state, action): SponsorLineState => ({
-      ...state,
-      sponsorLineIsLoading: false,
-      currentSponsorLine: action.currentSponsorLineWithFullData.sponsor_line,
-      currentSponsorLineWithFullData: action.currentSponsorLineWithFullData,
-    })),
-    on(sponsorLineActions.getFullDataSponsorLineFailure, (state, action): SponsorLineState => ({
-      ...state,
-      sponsorLineIsLoading: false,
-      errors: action,
-    })),
+    on(
+      sponsorLineActions.getFullDataSponsorLine,
+      (state): SponsorLineState => ({
+        ...state,
+        sponsorLineIsLoading: true,
+      }),
+    ),
+    on(
+      sponsorLineActions.getFullDataSponsorLineSuccess,
+      (state, action): SponsorLineState => ({
+        ...state,
+        sponsorLineIsLoading: false,
+        currentSponsorLine: action.currentSponsorLineWithFullData.sponsor_line,
+        currentSponsorLineWithFullData: action.currentSponsorLineWithFullData,
+      }),
+    ),
+    on(
+      sponsorLineActions.getFullDataSponsorLineFailure,
+      (state, action): SponsorLineState => ({
+        ...state,
+        sponsorLineIsLoading: false,
+        errors: action,
+      }),
+    ),
 
     //Match Sponsor Line
-    on(sponsorLineActions.getFullDataMatchSponsorLine, (state): SponsorLineState => ({
-      ...state,
-      sponsorLineIsLoading: true,
-    })),
+    on(
+      sponsorLineActions.getFullDataMatchSponsorLine,
+      (state): SponsorLineState => ({
+        ...state,
+        sponsorLineIsLoading: true,
+      }),
+    ),
     on(
       sponsorLineActions.getFullDataMatchSponsorLineSuccess,
-      (state, action) => ({
+      (state, action): SponsorLineState => ({
         ...state,
         sponsorLineIsLoading: false,
         currentMatchSponsorLineWithFullData:
@@ -160,33 +195,34 @@ const sponsorLineFeature = createFeature({
     ),
     on(
       sponsorLineActions.getFullDataMatchSponsorLineFailure,
-      (state, action) => ({
+      (state, action): SponsorLineState => ({
         ...state,
         sponsorLineIsLoading: false,
         errors: action,
       }),
     ),
 
-    on(sponsorLineActions.getAll, (state): SponsorLineState => ({
-      ...state,
-      sponsorLineIsLoading: true,
-    })),
-    on(sponsorLineActions.getAllSuccess, (state, action) => {
-      const sortedSponsorLines = SortService.sort(
-        action.allSponsorLines,
-        'title',
-      );
-      return {
+    on(
+      sponsorLineActions.getAll,
+      (state): SponsorLineState => ({
+        ...state,
+        sponsorLineIsLoading: true,
+      }),
+    ),
+    on(sponsorLineActions.getAllSuccess, (state, action) =>
+      adapter.setAll(action.allSponsorLines, {
         ...state,
         sponsorLineIsLoading: false,
-        allSponsorLines: sortedSponsorLines,
-      };
-    }),
-    on(sponsorLineActions.getAllFailure, (state, action): SponsorLineState => ({
-      ...state,
-      sponsorLineIsLoading: false,
-      errors: action,
-    })),
+      }),
+    ),
+    on(
+      sponsorLineActions.getAllFailure,
+      (state, action): SponsorLineState => ({
+        ...state,
+        sponsorLineIsLoading: false,
+        errors: action,
+      }),
+    ),
     //
     // on(sponsorLineActions.getSponsorLinesBySportId, (state): SponsorLineState => ({
     //   ...state,
@@ -251,6 +287,8 @@ const sponsorLineFeature = createFeature({
   ),
 });
 
+const { selectAll } = adapter.getSelectors();
+
 export const {
   name: sponsorLineFeatureKey,
   reducer: sponsorLineReducer,
@@ -258,6 +296,10 @@ export const {
   selectSponsorLineIsSubmitting,
   selectCurrentSponsorLineId,
   selectCurrentSponsorLine,
-  selectAllSponsorLines,
-  selectCurrentSponsorLineWithFullData,
+  selectSponsorLineState,
 } = sponsorLineFeature;
+
+export const selectAllSponsorLines = createSelector(
+  selectSponsorLineState,
+  selectAll,
+);
