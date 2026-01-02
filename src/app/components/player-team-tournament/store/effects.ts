@@ -1,4 +1,4 @@
-import { concatLatestFrom } from '@ngrx/operators';import { Injectable } from '@angular/core';
+import { concatLatestFrom } from '@ngrx/operators';import { Injectable, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { routerNavigatedAction } from '@ngrx/router-store';
@@ -31,6 +31,12 @@ import { selectCurrentPlayerInTeamTournament } from './reducers';
 
 @Injectable()
 export class PlayerInTeamTournamentEffects {
+  private router = inject(Router);
+  private actions$ = inject(Actions);
+  private playerInTeamTournamentService = inject(PlayerTeamTournamentService);
+  private playerFullDataService = inject(PlayerFullDataService);
+  private store = inject(Store);
+
   getPlayerInTeamTournamentIdFromRouteEffect = createEffect(
     () => {
       return this.actions$.pipe(
@@ -544,12 +550,4 @@ export class PlayerInTeamTournamentEffects {
     },
     { functional: true },
   );
-
-  constructor(
-    private router: Router,
-    private actions$: Actions,
-    private playerInTeamTournamentService: PlayerTeamTournamentService,
-    private playerFullDataService: PlayerFullDataService,
-    private store: Store,
-  ) {}
 }

@@ -1,8 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  ViewEncapsulation,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, ViewEncapsulation, inject } from '@angular/core';
 import { Sponsor } from '../sponsor';
 import { AsyncPipe, UpperCasePipe } from '@angular/common';
 import { urlWithProtocol } from '../../../../base/constants';
@@ -18,12 +14,14 @@ import { ImageService } from '../../../../services/image.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ItemSponsorComponent {
+  private sponsor = inject(Sponsor);
+  private imageService = inject(ImageService);
+
   sponsor$ = this.sponsor.currentSponsor$;
 
-  constructor(
-    private sponsor: Sponsor,
-    private imageService: ImageService,
-  ) {
+  constructor() {
+    const sponsor = this.sponsor;
+
     sponsor.loadCurrentSponsorByUrlId();
   }
 

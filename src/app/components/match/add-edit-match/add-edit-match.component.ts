@@ -79,7 +79,8 @@ import { Match } from '../match';
   ],
 })
 export class AddEditMatchComponent implements OnInit, OnChanges, OnDestroy {
-  constructor(private match: Match) {}
+  private match = inject(Match);
+
 
   dateTimeService = inject(DateTimeService);
   dialogService = inject(DialogService);

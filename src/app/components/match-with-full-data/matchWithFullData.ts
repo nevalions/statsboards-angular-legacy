@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { AppState } from '../../store/appstate';
@@ -9,11 +9,15 @@ import { IMatchWithFullData } from '../../type/match.type';
   providedIn: 'root',
 })
 export class MatchWithFullData {
+  private store = inject<Store<AppState>>(Store);
+
   matchWithFullData$: Observable<IMatchWithFullData | null | undefined>;
   matchesWithFullDataInSport$: Observable<IMatchWithFullData[]>;
   matchesWithFullDataInTournament$: Observable<IMatchWithFullData[]>;
 
-  constructor(private store: Store<AppState>) {
+  constructor() {
+    const store = this.store;
+
     this.matchWithFullData$ = store.select(
       (state) => state.matchWithFullData.currentMatchWithFullData,
     );

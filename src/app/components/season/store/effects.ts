@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { seasonActions } from './actions';
 import { catchError, filter, map, mergeMap, of, switchMap } from 'rxjs';
@@ -14,6 +14,11 @@ import { getAllRouteParameters } from '../../../router/router.selector';
 
 @Injectable()
 export class SeasonEffects {
+  private router = inject(Router);
+  private actions$ = inject(Actions);
+  private seasonService = inject(SeasonService);
+  private store = inject(Store);
+
   getSeasonIdFromRouteEffect = createEffect(
     () => {
       return this.actions$.pipe(
@@ -201,11 +206,4 @@ export class SeasonEffects {
     },
     { dispatch: false },
   );
-
-  constructor(
-    private router: Router,
-    private actions$: Actions,
-    private seasonService: SeasonService,
-    private store: Store,
-  ) {}
 }

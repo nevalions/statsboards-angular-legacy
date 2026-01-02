@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { BaseApiService } from '../../services/base.api.service';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
@@ -11,11 +11,12 @@ import { tap } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class MatchDataService extends BaseApiService<IMatchData> {
-  constructor(
-    http: HttpClient,
-    private router: Router,
-    errorHandlingService: ErrorHandlingService,
-  ) {
+  private router = inject(Router);
+
+  constructor() {
+    const http = inject(HttpClient);
+    const errorHandlingService = inject(ErrorHandlingService);
+
     super('matchdata', http, errorHandlingService);
   }
 

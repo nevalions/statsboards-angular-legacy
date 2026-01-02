@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { BaseApiService } from '../../services/base.api.service';
 import { IMatchData } from '../../type/matchdata.type';
 import { HttpClient } from '@angular/common/http';
@@ -12,11 +12,12 @@ import { tap } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class PlayclockService extends BaseApiService<IPlayclock> {
-  constructor(
-    http: HttpClient,
-    private router: Router,
-    errorHandlingService: ErrorHandlingService,
-  ) {
+  private router = inject(Router);
+
+  constructor() {
+    const http = inject(HttpClient);
+    const errorHandlingService = inject(ErrorHandlingService);
+
     super('playclock', http, errorHandlingService);
   }
 

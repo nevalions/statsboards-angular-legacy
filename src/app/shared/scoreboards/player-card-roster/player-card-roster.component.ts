@@ -1,7 +1,7 @@
 import { TuiInitialsPipe } from '@taiga-ui/core';
 import { TuiAvatar } from '@taiga-ui/kit';
 import { UpperCasePipe } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, Input, inject } from '@angular/core';
 import { environment } from '../../../../environments/environment';
 import { ImageService } from '../../../services/image.service';
 import { IPlayerInMatchFullData } from '../../../type/player.type';
@@ -14,9 +14,9 @@ import { IPlayerInMatchFullData } from '../../../type/player.type';
   styleUrl: './player-card-roster.component.less',
 })
 export class PlayerCardRosterComponent {
-  @Input() player: IPlayerInMatchFullData | null = null;
+  private imageService = inject(ImageService);
 
-  constructor(private imageService: ImageService) {}
+  @Input() player: IPlayerInMatchFullData | null = null;
 
   onImgError(event: Event) {
     this.imageService.handleError(event);

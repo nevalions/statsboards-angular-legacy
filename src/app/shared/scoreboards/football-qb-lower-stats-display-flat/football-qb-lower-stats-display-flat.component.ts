@@ -1,5 +1,5 @@
 import { TuiAvatar } from "@taiga-ui/kit";
-import { Component, Input } from '@angular/core';
+import { Component, Input, inject } from '@angular/core';
 import { environment } from '../../../../environments/environment';
 import { PlayerInMatch } from '../../../components/player-match/player-match';
 import { ImageService } from '../../../services/image.service';
@@ -14,14 +14,12 @@ import { AsyncPipe, UpperCasePipe } from '@angular/common';
   styleUrl: './football-qb-lower-stats-display-flat.component.less',
 })
 export class FootballQbLowerStatsDisplayFlatComponent {
+  private playerInMatch = inject(PlayerInMatch);
+  private imageService = inject(ImageService);
+
   selectedFootballQbWithFullStats$ =
     this.playerInMatch.selectSelectedFootballQbFullStatsInMatchLower$;
   @Input() teamColor: string = '#3b3b3b';
-
-  constructor(
-    private playerInMatch: PlayerInMatch,
-    private imageService: ImageService,
-  ) {}
 
   onImgError(event: Event) {
     this.imageService.handleError(event);

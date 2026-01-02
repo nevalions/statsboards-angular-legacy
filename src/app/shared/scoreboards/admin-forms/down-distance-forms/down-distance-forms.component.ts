@@ -1,6 +1,6 @@
 import { TuiInputModule, TuiInputNumberModule, TuiSelectModule } from "@taiga-ui/legacy";
 import { TuiButton } from "@taiga-ui/core";
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges, inject } from '@angular/core';
 import { AsyncPipe } from '@angular/common';
 import { Observable } from 'rxjs';
 import { IMatchFullDataWithScoreboard } from '../../../../type/match.type';
@@ -33,6 +33,10 @@ import { Websocket } from '../../../../store/websocket/websocket';
   styleUrl: './down-distance-forms.component.less',
 })
 export class DownDistanceFormsComponent implements OnChanges {
+  private matchData = inject(MatchData);
+  private scoreboardData = inject(ScoreboardData);
+  private websocket = inject(Websocket);
+
   @Input() downAndDistanceFormVisible$!: Observable<boolean>;
   @Input() data: IMatchFullDataWithScoreboard | undefined;
   @Input() disabled: boolean = false;
@@ -96,11 +100,7 @@ export class DownDistanceFormsComponent implements OnChanges {
     'Гол',
   ];
 
-  constructor(
-    private matchData: MatchData,
-    private scoreboardData: ScoreboardData,
-    private websocket: Websocket,
-  ) {
+  constructor() {
     this.downDistanceForm = this.initForm();
     this.distanceForm = this.initDistanceForm();
     this.isFlagForm = this.initFlagForm();

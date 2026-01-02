@@ -14,6 +14,8 @@ import { MatchWithFullDataService } from '../match-with-full-data/matchfulldata.
   providedIn: 'root',
 })
 export class MatchService extends BaseApiService<IMatch> {
+  private router = inject(Router);
+
   private matchesSubject = new BehaviorSubject<IMatch[]>([]);
   public matches$ = this.matchesSubject.asObservable();
 
@@ -22,11 +24,10 @@ export class MatchService extends BaseApiService<IMatch> {
 
   // matchWithFullData$ = this.matchWithFullDataService.matchWithFullData$;
 
-  constructor(
-    http: HttpClient,
-    private router: Router,
-    errorHandlingService: ErrorHandlingService,
-  ) {
+  constructor() {
+    const http = inject(HttpClient);
+    const errorHandlingService = inject(ErrorHandlingService);
+
     super('matches', http, errorHandlingService);
   }
 

@@ -50,6 +50,12 @@ export default [
     },
   },
   {
+    files: ["**/*.service.ts", "**/*effects.ts"],
+    rules: {
+      "@angular-eslint/prefer-inject": "off",
+    },
+  },
+  {
     files: ["**/*.html"],
     languageOptions: {
       parser: angularTemplateParser,

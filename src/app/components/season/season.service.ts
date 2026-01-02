@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { ISeason } from '../../type/season.type';
 import { BaseApiService } from '../../services/base.api.service';
 import { HttpClient } from '@angular/common/http';
@@ -21,7 +21,10 @@ export class SeasonService extends BaseApiService<ISeason> {
   private seasonSubject = new BehaviorSubject<ISeason>({} as ISeason);
   public season$ = this.seasonSubject.asObservable();
 
-  constructor(http: HttpClient, errorHandlingService: ErrorHandlingService) {
+  constructor() {
+    const http = inject(HttpClient);
+    const errorHandlingService = inject(ErrorHandlingService);
+
     super('seasons', http, errorHandlingService);
   }
 

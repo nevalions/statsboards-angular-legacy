@@ -1,12 +1,6 @@
 import { TuiInputModule } from '@taiga-ui/legacy';
 import { AsyncPipe } from '@angular/common';
-import {
-  Component,
-  Input,
-  OnChanges,
-  OnInit,
-  SimpleChanges,
-} from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges, inject } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { ScoreboardData } from '../../../../components/scoreboard-data/scoreboard-data';
@@ -44,6 +38,11 @@ import { OnAirToggleComponent } from '../on-air-toggle/on-air-toggle.component';
   styleUrl: './roster-forms.component.less',
 })
 export class RosterFormsComponent implements OnChanges, OnInit {
+  private footballEvent = inject(FootballEvent);
+  private scoreboardData = inject(ScoreboardData);
+  private playerInMatch = inject(PlayerInMatch);
+  private websocket = inject(Websocket);
+
   @Input() rosterFormsVisible$!: Observable<boolean>;
   @Input() data: IMatchFullDataWithScoreboard | undefined;
   @Input() homePlayersInMatch: IPlayerInMatchFullData[] | null = [];
@@ -57,12 +56,9 @@ export class RosterFormsComponent implements OnChanges, OnInit {
   homeFootballQbWithStats$ = this.footballEvent.allQuarterbacksTeamA$;
   awayFootballQbWithStats$ = this.footballEvent.allQuarterbacksTeamB$;
 
-  constructor(
-    private footballEvent: FootballEvent,
-    private scoreboardData: ScoreboardData,
-    private playerInMatch: PlayerInMatch,
-    private websocket: Websocket,
-  ) {
+  constructor() {
+    const playerInMatch = this.playerInMatch;
+
     playerInMatch.loadAllPlayersFullDataInMatch();
   }
 

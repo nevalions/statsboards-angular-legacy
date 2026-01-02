@@ -1,5 +1,5 @@
 import { TuiTextfieldControllerModule } from '@taiga-ui/legacy';
-import { Component, Input } from '@angular/core';
+import { Component, Input, inject } from '@angular/core';
 import { IMatchData } from '../../../../type/matchdata.type';
 import { Observable } from 'rxjs';
 import { IMatchFullDataWithScoreboard } from '../../../../type/match.type';
@@ -22,14 +22,12 @@ import { Websocket } from '../../../../store/websocket/websocket';
   styleUrl: './timeout-forms.component.less',
 })
 export class TimeoutFormsComponent {
+  private matchData = inject(MatchData);
+  private websocket = inject(Websocket);
+
   @Input() timeoutBtnsVisible$!: Observable<boolean>;
   @Input() data: IMatchFullDataWithScoreboard | undefined;
   @Input() disabled: boolean = false;
-
-  constructor(
-    private matchData: MatchData,
-    private websocket: Websocket,
-  ) {}
 
   updateTeamTimeout(team: 'a' | 'b', inputValue: string) {
     return (matchData: IMatchData) => {

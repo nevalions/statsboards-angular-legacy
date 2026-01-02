@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { BaseApiService } from '../../services/base.api.service';
@@ -10,11 +10,12 @@ import { ISport } from '../../type/sport.type';
   providedIn: 'root',
 })
 export class SportService extends BaseApiService<ISport> {
-  constructor(
-    http: HttpClient,
-    private router: Router,
-    errorHandlingService: ErrorHandlingService,
-  ) {
+  private router = inject(Router);
+
+  constructor() {
+    const http = inject(HttpClient);
+    const errorHandlingService = inject(ErrorHandlingService);
+
     super('sports', http, errorHandlingService);
   }
 

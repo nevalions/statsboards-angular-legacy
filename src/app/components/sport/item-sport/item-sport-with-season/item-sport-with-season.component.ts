@@ -1,10 +1,6 @@
 import { TuiBlockStatus } from '@taiga-ui/layout';
 import { TuiIslandDirective, TuiSelectModule } from '@taiga-ui/legacy';
-import {
-  ChangeDetectionStrategy,
-  Component,
-  ViewEncapsulation,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, ViewEncapsulation, inject } from '@angular/core';
 import { AsyncPipe, UpperCasePipe } from '@angular/common';
 import { TuiDataList, TuiLoader } from '@taiga-ui/core';
 import { Sport } from '../../sport';
@@ -41,19 +37,21 @@ import { Observable } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ItemSportWithSeasonComponent {
+  private sport = inject(Sport);
+  private season = inject(Season);
+  private tournament = inject(Tournament);
+  private sponsor = inject(Sponsor);
+  private sponsorLine = inject(SponsorLine);
+
   sport$ = this.sport.currentSport$;
   season$ = this.season.season$;
   allSeasonSportTournaments$ = this.tournament.allSeasonSportTournaments$;
   allSponsors$: Observable<any[]> = this.sponsor.allSponsors$;
   allSponsorLines$: Observable<any[]> = this.sponsorLine.allSponsorLines$;
 
-  constructor(
-    private sport: Sport,
-    private season: Season,
-    private tournament: Tournament,
-    private sponsor: Sponsor,
-    private sponsorLine: SponsorLine,
-  ) {
+  constructor() {
+    const tournament = this.tournament;
+
     tournament.loadSeasonSportTournaments();
   }
 }

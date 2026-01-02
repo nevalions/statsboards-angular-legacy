@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { AppState } from '../../../store/appstate';
@@ -9,12 +9,16 @@ import { sponsorLineActions } from './store/actions';
   providedIn: 'root',
 })
 export class SponsorLine {
+  private store = inject<Store<AppState>>(Store);
+
   sponsorLine$: Observable<ISponsorLine | null | undefined>;
   sponsorLineWithFullData$: Observable<ISponsorLineFullData | null | undefined>;
   matchSponsorLine$: Observable<ISponsorLineFullData | null | undefined>;
   allSponsorLines$: Observable<ISponsorLine[]>;
 
-  constructor(private store: Store<AppState>) {
+  constructor() {
+    const store = this.store;
+
     this.sponsorLine$ = store.select(
       (state) => state.sponsorLine.currentSponsorLine,
     );

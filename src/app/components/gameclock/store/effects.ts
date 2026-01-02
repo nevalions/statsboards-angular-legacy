@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { concatLatestFrom } from '@ngrx/operators';
 import {
@@ -20,6 +20,10 @@ import { GameClockService } from '../gameclock.service';
 
 @Injectable()
 export class GameclockEffects {
+  private actions$ = inject(Actions);
+  private gameclockService = inject(GameClockService);
+  private store = inject(Store);
+
   updateGameclockEffect = createEffect(
     () => {
       return this.actions$.pipe(
@@ -148,10 +152,4 @@ export class GameclockEffects {
       ),
     );
   });
-
-  constructor(
-    private actions$: Actions,
-    private gameclockService: GameClockService,
-    private store: Store,
-  ) {}
 }

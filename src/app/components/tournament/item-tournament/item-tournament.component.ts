@@ -6,11 +6,7 @@ import {
   TitleCasePipe,
   UpperCasePipe,
 } from '@angular/common';
-import {
-  ChangeDetectionStrategy,
-  Component,
-  ViewEncapsulation,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, ViewEncapsulation, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TuiAppearance, TuiLoader } from '@taiga-ui/core';
 import { urlWithProtocol } from '../../../base/constants';
@@ -88,6 +84,22 @@ import { ListOfMatchesComponent } from "../../../shared/ui/list/list-of-matches/
   changeDetection: ChangeDetectionStrategy.Default,
 })
 export class ItemTournamentComponent {
+  private season = inject(Season);
+  private sport = inject(Sport);
+  private tournament = inject(Tournament);
+  private team = inject(Team);
+  private teamTournament = inject(TeamTournament);
+  private match = inject(Match);
+  private matchWithFullData = inject(MatchWithFullData);
+  private sponsor = inject(Sponsor);
+  private sponsorLine = inject(SponsorLine);
+  private position = inject(Position);
+  private person = inject(Person);
+  private playerInTeamTournament = inject(PlayerInTeamTournament);
+  private player = inject(Player);
+  private search = inject(Search);
+  private pagination = inject(Pagination);
+
   sport$ = this.sport.currentSport$;
 
   teamsInTournament$ = this.team.teamsInTournament$;
@@ -125,23 +137,17 @@ export class ItemTournamentComponent {
     this.pagination.paginatedTablePlayerInTeamTournament$;
   totalPlayersInTeamTournament$ = this.pagination.totalPlayersInTeamTournament$;
 
-  constructor(
-    private season: Season,
-    private sport: Sport,
-    private tournament: Tournament,
-    private team: Team,
-    private teamTournament: TeamTournament,
-    private match: Match,
-    private matchWithFullData: MatchWithFullData,
-    private sponsor: Sponsor,
-    private sponsorLine: SponsorLine,
-    private position: Position,
-    private person: Person,
-    private playerInTeamTournament: PlayerInTeamTournament,
-    private player: Player,
-    private search: Search,
-    private pagination: Pagination,
-  ) {
+  constructor() {
+    const team = this.team;
+    const match = this.match;
+    const matchWithFullData = this.matchWithFullData;
+    const sponsor = this.sponsor;
+    const sponsorLine = this.sponsorLine;
+    const position = this.position;
+    const person = this.person;
+    const playerInTeamTournament = this.playerInTeamTournament;
+    const player = this.player;
+
     sponsor.loadAllSponsors();
     sponsorLine.loadAllSponsorLines();
     team.loadAllTeamsInTournament();

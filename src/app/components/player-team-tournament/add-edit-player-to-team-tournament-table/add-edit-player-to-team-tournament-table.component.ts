@@ -7,14 +7,7 @@ import {
   TitleCasePipe,
   UpperCasePipe,
 } from '@angular/common';
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-  OnChanges,
-  OnInit,
-  SimpleChanges,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnChanges, OnInit, SimpleChanges, inject } from '@angular/core';
 import {
   FormArray,
   FormBuilder,
@@ -74,6 +67,11 @@ import { calculateAge } from '../../../base/helpers';
 export class AddEditPlayerToTeamTournamentTableComponent
   implements OnChanges, OnInit
 {
+  private playerInTeamTournament = inject(PlayerInTeamTournament);
+  private dialogService = inject(DialogService);
+  private fb = inject(FormBuilder);
+  private imageService = inject(ImageService);
+
   @Input() teamId: number | null = null;
   @Input() tournamentId!: number;
   @Input() sportId!: number;
@@ -121,12 +119,7 @@ export class AddEditPlayerToTeamTournamentTableComponent
     this.playerForm.setControl('players', formArray);
   }
 
-  constructor(
-    private playerInTeamTournament: PlayerInTeamTournament,
-    private dialogService: DialogService,
-    private fb: FormBuilder,
-    private imageService: ImageService,
-  ) {
+  constructor() {
     this.playerForm = this.fb.group({
       players: this.fb.array([]),
     });

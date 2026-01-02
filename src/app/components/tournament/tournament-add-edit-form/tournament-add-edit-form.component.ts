@@ -1,14 +1,5 @@
 import { TuiTextareaModule, TuiInputModule, TuiSelectModule } from "@taiga-ui/legacy";
-import {
-  Component,
-  EventEmitter,
-  Input,
-  OnChanges,
-  OnDestroy,
-  OnInit,
-  Output,
-  SimpleChanges,
-} from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges, inject } from '@angular/core';
 
 import {
   FormControl,
@@ -66,6 +57,11 @@ import { UploadResizeImageResponse } from '../../../type/base.type';
 })
 export class TournamentAddEditFormComponent
   implements OnInit, OnDestroy, OnChanges {
+  private tournament = inject(Tournament);
+  private imageService = inject(ImageService);
+  private uploadProgressService = inject(UploadProgressService);
+  private dialogService = inject(DialogService);
+
   private dialogSubscription: Subscription | undefined;
 
   @Input() action: string = 'add';
@@ -83,13 +79,6 @@ export class TournamentAddEditFormComponent
 
   loadingFiles$ = this.uploadProgressService.loadingFiles$;
   rejectedFiles$ = this.uploadProgressService.rejectedFiles$;
-
-  constructor(
-    private tournament: Tournament,
-    private imageService: ImageService,
-    private uploadProgressService: UploadProgressService,
-    private dialogService: DialogService,
-  ) { }
 
   tournamentForm = new FormGroup({
     id: new FormControl<number | null | undefined>(undefined),

@@ -1,4 +1,4 @@
-import { concatLatestFrom } from '@ngrx/operators';import { Injectable } from '@angular/core';
+import { concatLatestFrom } from '@ngrx/operators';import { Injectable, inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, filter, map, of, switchMap, withLatestFrom } from 'rxjs';
 import { tap } from 'rxjs/operators';
@@ -17,6 +17,11 @@ import { sportActions } from '../../sport/store/actions';
 
 @Injectable()
 export class PositionEffects {
+  private router = inject(Router);
+  private actions$ = inject(Actions);
+  private positionService = inject(PositionService);
+  private store = inject(Store);
+
   getPositionIdFromRouteEffect = createEffect(
     () => {
       return this.actions$.pipe(
@@ -219,11 +224,4 @@ export class PositionEffects {
     },
     { dispatch: false },
   );
-
-  constructor(
-    private router: Router,
-    private actions$: Actions,
-    private positionService: PositionService,
-    private store: Store,
-  ) {}
 }

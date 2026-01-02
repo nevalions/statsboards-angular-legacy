@@ -1,21 +1,19 @@
-import { TuiTextfieldControllerModule, TuiInputModule, TuiInputMonthRangeModule } from "@taiga-ui/legacy";
-import { TuiValueChanges } from "@taiga-ui/cdk";
+import {
+  TuiTextfieldControllerModule,
+  TuiInputModule,
+  TuiInputMonthRangeModule,
+} from '@taiga-ui/legacy';
+import { TuiValueChanges } from '@taiga-ui/cdk';
 import {
   ChangeDetectionStrategy,
   Component,
+  inject,
   Input,
   OnInit,
 } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { UpperCasePipe } from '@angular/common';
-import {
-  debounceTime,
-  distinctUntilChanged,
-  map,
-  Observable,
-  of,
-  startWith,
-} from 'rxjs';
+import { debounceTime, distinctUntilChanged, Observable, of } from 'rxjs';
 import { SearchListService } from '../../../../services/search-list.service';
 import { FilterStrategy } from '../../../../type/filter.type';
 
@@ -45,7 +43,7 @@ export class FormSearchTextComponent<T> implements OnInit {
     searchValue: new FormControl(''),
   });
 
-  constructor(public searchListService: SearchListService<T>) {}
+  public searchListService = inject(SearchListService<T>);
 
   ngOnInit() {
     this.searchForm.setValue({ searchValue: '' });

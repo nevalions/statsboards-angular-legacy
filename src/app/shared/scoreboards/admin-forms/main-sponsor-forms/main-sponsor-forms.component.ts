@@ -1,5 +1,5 @@
 import { TuiInputSliderModule } from "@taiga-ui/legacy";
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { IMatchFullDataWithScoreboard } from '../../../../type/match.type';
 import { ScoreboardData } from '../../../../components/scoreboard-data/scoreboard-data';
@@ -26,6 +26,9 @@ import { Websocket } from '../../../../store/websocket/websocket';
   styleUrl: './main-sponsor-forms.component.less',
 })
 export class MainSponsorFormsComponent implements OnChanges {
+  private scoreboardData = inject(ScoreboardData);
+  private websocket = inject(Websocket);
+
   @Input() sponsorsFormsVisible$!: Observable<boolean>;
   @Input() data: IMatchFullDataWithScoreboard | undefined;
   @Input() isMatchDataSubmitting$?: Observable<boolean>;
@@ -39,10 +42,7 @@ export class MainSponsorFormsComponent implements OnChanges {
   readonly steps = (this.max - this.min) / this.sliderStep;
   readonly quantum = 0.01;
 
-  constructor(
-    private scoreboardData: ScoreboardData,
-    private websocket: Websocket,
-  ) {
+  constructor() {
     this.mainSponsorForm = this.initForm();
   }
 

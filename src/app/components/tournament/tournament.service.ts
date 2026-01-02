@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { BaseApiService } from '../../services/base.api.service';
 import { HttpClient } from '@angular/common/http';
 import { map, Observable } from 'rxjs';
@@ -13,11 +13,12 @@ import { ISponsor } from '../../type/sponsor.type';
   providedIn: 'root',
 })
 export class TournamentService extends BaseApiService<ITournament> {
-  constructor(
-    http: HttpClient,
-    private router: Router,
-    errorHandlingService: ErrorHandlingService,
-  ) {
+  private router = inject(Router);
+
+  constructor() {
+    const http = inject(HttpClient);
+    const errorHandlingService = inject(ErrorHandlingService);
+
     super('tournaments', http, errorHandlingService);
   }
 

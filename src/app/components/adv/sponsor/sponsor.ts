@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { ISponsor } from '../../../type/sponsor.type';
@@ -9,10 +9,14 @@ import { sponsorActions } from './store/actions';
   providedIn: 'root',
 })
 export class Sponsor {
+  private store = inject<Store<AppState>>(Store);
+
   currentSponsor$: Observable<ISponsor | null | undefined>;
   allSponsors$: Observable<ISponsor[]>;
 
-  constructor(private store: Store<AppState>) {
+  constructor() {
+    const store = this.store;
+
     this.currentSponsor$ = store.select(
       (state) => state.sponsor.currentSponsor,
     );

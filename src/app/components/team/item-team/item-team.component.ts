@@ -1,8 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  ViewEncapsulation,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, ViewEncapsulation, inject } from '@angular/core';
 import {
   AsyncPipe,
   UpperCasePipe,
@@ -58,6 +54,17 @@ import { TuiAppearance } from '@taiga-ui/core';
   changeDetection: ChangeDetectionStrategy.Default,
 })
 export class ItemTeamComponent {
+  private sport = inject(Sport);
+  private team = inject(Team);
+  private person = inject(Person);
+  private tournament = inject(Tournament);
+  private player = inject(Player);
+  private playerInTeamTournament = inject(PlayerInTeamTournament);
+  private position = inject(Position);
+  private imageService = inject(ImageService);
+  private sponsor = inject(Sponsor);
+  private sponsorLine = inject(SponsorLine);
+
   sport$ = this.sport.currentSport$;
   currentTeam$ = this.team.team$;
   currentTournament$ = this.tournament.currentTournament$;
@@ -80,18 +87,16 @@ export class ItemTeamComponent {
 
   ageStats: AgeStats | null = null;
 
-  constructor(
-    private sport: Sport,
-    private team: Team,
-    private person: Person,
-    private tournament: Tournament,
-    private player: Player,
-    private playerInTeamTournament: PlayerInTeamTournament,
-    private position: Position,
-    private imageService: ImageService,
-    private sponsor: Sponsor,
-    private sponsorLine: SponsorLine,
-  ) {
+  constructor() {
+    const team = this.team;
+    const person = this.person;
+    const tournament = this.tournament;
+    const player = this.player;
+    const playerInTeamTournament = this.playerInTeamTournament;
+    const position = this.position;
+    const sponsor = this.sponsor;
+    const sponsorLine = this.sponsorLine;
+
     team.loadCurrentTeam();
     tournament.loadCurrentTournament();
     playerInTeamTournament.loadAllPlayersInTeamTournament();

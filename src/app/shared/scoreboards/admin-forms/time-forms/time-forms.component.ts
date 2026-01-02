@@ -1,11 +1,5 @@
 import { TuiInputModule, TuiInputNumberModule } from '@taiga-ui/legacy';
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-  OnChanges,
-  SimpleChanges,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnChanges, SimpleChanges, inject } from '@angular/core';
 import { AsyncPipe } from '@angular/common';
 import { Observable } from 'rxjs';
 import { IMatchFullDataWithScoreboard } from '../../../../type/match.type';
@@ -52,6 +46,10 @@ import { getFormControl } from '../../../../base/formHelpers';
   styleUrl: './time-forms.component.less',
 })
 export class TimeFormsComponent implements OnChanges {
+  private playclockData = inject(Playclock);
+  private gameclockData = inject(Gameclock);
+  private websocket = inject(Websocket);
+
   @Input() timeFormsVisible$!: Observable<boolean>;
   @Input() data: IMatchFullDataWithScoreboard | undefined;
   @Input() gameclock!: IGameclock | undefined;
@@ -61,11 +59,7 @@ export class TimeFormsComponent implements OnChanges {
   gameClockForm: FormGroup;
   playClockForm: FormGroup;
 
-  constructor(
-    private playclockData: Playclock,
-    private gameclockData: Gameclock,
-    private websocket: Websocket,
-  ) {
+  constructor() {
     this.gameClockForm = this.initGameClockForm();
     this.playClockForm = this.initPlayClockForm();
   }

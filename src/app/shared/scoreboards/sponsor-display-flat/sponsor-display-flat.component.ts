@@ -1,4 +1,4 @@
-import { Component, Input, ViewEncapsulation } from '@angular/core';
+import { Component, Input, ViewEncapsulation, inject } from '@angular/core';
 import { SponsorLine } from '../../../components/adv/sponsor-line/sponsorLine';
 import { ImageService } from '../../../services/image.service';
 import { urlWithProtocol } from '../../../base/constants';
@@ -14,18 +14,11 @@ import { SponsorLineComponent } from '../sponsor-line/sponsor-line.component';
   // encapsulation: ViewEncapsulation.None,
 })
 export class SponsorDisplayFlatComponent {
+  private sponsorLine = inject(SponsorLine);
+
   // @Input() tournamentId!: number;
   // @Input() sponsorLineId: number | null | undefined;
   sponsorLine$ = this.sponsorLine.sponsorLineWithFullData$;
-
-  constructor(
-    private sponsorLine: SponsorLine,
-    // private imageService: ImageService,
-  ) {
-    // if (this.sponsorLineId) {
-    //   sponsorLine.loadSponsorLineWithFullData(this.sponsorLineId);
-    // }
-  }
 
   // onImgError(event: Event) {
   //   this.imageService.handleError(event);

@@ -1,6 +1,6 @@
 import { TuiButton } from '@taiga-ui/core';
 import { AsyncPipe } from '@angular/common';
-import { Component, Input, ViewEncapsulation } from '@angular/core';
+import { Component, Input, ViewEncapsulation, inject } from '@angular/core';
 import { map, Observable } from 'rxjs';
 import { MatchData } from '../../../../components/match/matchdata';
 import { Ui } from '../../../../store/ui/ui';
@@ -47,6 +47,11 @@ import { FootballEvent } from '../../../../components/match-event/football-event
   styleUrl: './all-admin-forms.component.less',
 })
 export class AllAdminFormsComponent {
+  private matchData = inject(MatchData);
+  private playerInMatch = inject(PlayerInMatch);
+  private footballEvents = inject(FootballEvent);
+  private ui = inject(Ui);
+
   @Input() data: IMatchFullDataWithScoreboard | undefined;
   @Input() playclock: IPlayclock | undefined;
   @Input() gameclock: IGameclock | undefined;
@@ -77,12 +82,9 @@ export class AllAdminFormsComponent {
   allMatchFootballEventsWithPlayers$: Observable<IFootballEventWithPlayers[]> =
     this.footballEvents.allMatchFootballEventsWithPlayers$;
 
-  constructor(
-    private matchData: MatchData,
-    private playerInMatch: PlayerInMatch,
-    private footballEvents: FootballEvent,
-    private ui: Ui,
-  ) {
+  constructor() {
+    const playerInMatch = this.playerInMatch;
+
     playerInMatch.loadAllPlayersFullDataInMatch();
 
     this.showHideAllButtonVisible$ = this.ui.formVisibility$.pipe(

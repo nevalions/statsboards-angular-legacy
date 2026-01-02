@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { concatLatestFrom } from '@ngrx/operators';
@@ -42,6 +42,12 @@ import { selectAllMatchesWithFullDataInTournament } from './reducers';
 
 @Injectable()
 export class MatchEffects {
+  private router = inject(Router);
+  private actions$ = inject(Actions);
+  private matchService = inject(MatchService);
+  private store = inject(Store);
+  private tournamentService = inject(TournamentService);
+
   getMatchIdFromRouteEffect = createEffect(
     () => {
       return this.actions$.pipe(
@@ -450,12 +456,4 @@ export class MatchEffects {
       ),
     );
   });
-
-  constructor(
-    private router: Router,
-    private actions$: Actions,
-    private matchService: MatchService,
-    private store: Store,
-    private tournamentService: TournamentService,
-  ) {}
 }

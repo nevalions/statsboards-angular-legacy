@@ -22,17 +22,18 @@ import { SortService } from '../../services/sort.service';
   providedIn: 'root',
 })
 export class TeamTournamentService extends BaseApiService<ITeamTournament> {
+  private router = inject(Router);
+
   public teamsInTournamentSubject = new BehaviorSubject<ITeam[]>([]);
   public teamsInTournament$ = this.teamsInTournamentSubject.asObservable();
 
   private teamTournamentSubject = new BehaviorSubject<ITeamTournament[]>([]);
   public teamTournament$ = this.teamTournamentSubject.asObservable();
 
-  constructor(
-    http: HttpClient,
-    private router: Router,
-    errorHandlingService: ErrorHandlingService,
-  ) {
+  constructor() {
+    const http = inject(HttpClient);
+    const errorHandlingService = inject(ErrorHandlingService);
+
     super('team_in_tournament', http, errorHandlingService);
   }
 

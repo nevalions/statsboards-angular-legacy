@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { AppState } from '../../store/appstate';
@@ -10,6 +10,8 @@ import { ITournament } from '../../type/tournament.type';
   providedIn: 'root',
 })
 export class Match {
+  private store = inject<Store<AppState>>(Store);
+
   matchIsLoading$: Observable<boolean>;
   match$: Observable<IMatch | null | undefined>;
   matchesInSport$: Observable<IMatch[]>;
@@ -17,7 +19,9 @@ export class Match {
   matchesInTournamentWithPagination$: Observable<IMatch[]>;
   matchTournament$: Observable<ITournament | null | undefined>;
 
-  constructor(private store: Store<AppState>) {
+  constructor() {
+    const store = this.store;
+
     this.matchIsLoading$ = store.select((state) => state.match.matchIsLoading);
     this.match$ = store.select((state) => state.match.currentMatch);
     this.matchesInSport$ = store.select(

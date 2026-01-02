@@ -1,5 +1,5 @@
 import { TuiAppearance, TuiLoader, TuiSurface, TuiTitle } from "@taiga-ui/core";
-import { Component, Input } from '@angular/core';
+import { Component, Input, inject } from '@angular/core';
 import { AsyncPipe, DatePipe, TitleCasePipe } from '@angular/common';
 import { IMatchWithFullData } from '../../../../type/match.type';
 import { Observable, of } from 'rxjs';
@@ -25,13 +25,11 @@ import { TuiCardLarge } from "@taiga-ui/layout";
   styleUrl: './list-of-matches.component.less',
 })
 export class ListOfMatchesComponent {
+  private router = inject(Router);
+  private route = inject(ActivatedRoute);
+
   @Input() data$: Observable<IMatchWithFullData[]> = of([]);
   @Input() emptyMessage: string = 'No data available';
-
-  constructor(
-    private router: Router,
-    private route: ActivatedRoute,
-  ) { }
 
   navigateToMatchItem(item: IMatchWithFullData): void {
     this.router.navigate(['match', item.id], { relativeTo: this.route });

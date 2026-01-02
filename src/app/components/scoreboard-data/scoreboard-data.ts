@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { AppState } from '../../store/appstate';
@@ -13,10 +13,12 @@ import { scoreboardDataActions } from './store/actions';
   providedIn: 'root',
 })
 export class ScoreboardData {
+  private store = inject<Store<AppState>>(Store);
+
   scoreboardData$: Observable<IScoreboard | null | undefined>;
   scoreboardDataIsSubmitting$: Observable<boolean>;
 
-  constructor(private store: Store<AppState>) {
+  constructor() {
     this.scoreboardData$ = this.store.select(selectCurrentScoreboardData);
     this.scoreboardDataIsSubmitting$ = this.store.select(
       selectScoreboardDataIsSubmitting,

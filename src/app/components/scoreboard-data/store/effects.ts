@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, map, of, switchMap } from 'rxjs';
 import { Router } from '@angular/router';
@@ -12,6 +12,11 @@ import { selectCurrentMatchId } from '../../match/store/reducers';
 
 @Injectable()
 export class ScoreboardDataEffects {
+  private router = inject(Router);
+  private actions$ = inject(Actions);
+  private scoreboardDataService = inject(ScoreboardDataService);
+  private store = inject(Store);
+
   updateScoreboardDataEffect = createEffect(
     () => {
       return this.actions$.pipe(
@@ -132,11 +137,4 @@ export class ScoreboardDataEffects {
     },
     { functional: false },
   );
-
-  constructor(
-    private router: Router,
-    private actions$: Actions,
-    private scoreboardDataService: ScoreboardDataService,
-    private store: Store,
-  ) {}
 }

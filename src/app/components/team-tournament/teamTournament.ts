@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { AppState } from '../../store/appstate';
@@ -9,10 +9,14 @@ import { teamTournamentActions } from './store/actions';
   providedIn: 'root',
 })
 export class TeamTournament {
+  private store = inject<Store<AppState>>(Store);
+
   teamTournamentConnection$: Observable<ITeamTournament | null | undefined>;
   allTeamTournamentsConnections$: Observable<ITeamTournament[]>;
 
-  constructor(private store: Store<AppState>) {
+  constructor() {
+    const store = this.store;
+
     this.teamTournamentConnection$ = store.select(
       (state) => state.teamTournament.currentTeamTournament,
     );

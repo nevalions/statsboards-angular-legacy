@@ -1,4 +1,4 @@
-import { concatLatestFrom } from '@ngrx/operators';import { Injectable } from '@angular/core';
+import { concatLatestFrom } from '@ngrx/operators';import { Injectable, inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import {
   catchError,
@@ -83,6 +83,10 @@ export function recalculateEventNumbers(
 
 @Injectable()
 export class FootballEventEffects {
+  private actions$ = inject(Actions);
+  private footballEventService = inject(FootballEventService);
+  private store = inject(Store);
+
   createFootballEventEffect = createEffect(
     () => {
       return this.actions$.pipe(
@@ -359,12 +363,6 @@ export class FootballEventEffects {
       }),
     );
   }
-
-  constructor(
-    private actions$: Actions,
-    private footballEventService: FootballEventService,
-    private store: Store,
-  ) {}
 
   private recalculateEventNumbersAndHandleUpdate(
     newEvent: any,

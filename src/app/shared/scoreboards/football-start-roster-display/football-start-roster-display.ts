@@ -1,6 +1,6 @@
 import { TuiAvatar } from '@taiga-ui/kit';
 import { UpperCasePipe } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, Input, inject } from '@angular/core';
 import { environment } from '../../../../environments/environment';
 import { ImageService } from '../../../services/image.service';
 import { IPlayerInMatchFullData } from '../../../type/player.type';
@@ -30,12 +30,12 @@ import { hexToRgba } from '../../../base/helpers';
   styleUrl: './football-start-roster-display.less',
 })
 export class FootballStartRosterDisplayComponent {
+  private imageService = inject(ImageService);
+
   @Input() side: 'offense' | 'defense' = 'offense';
   @Input() players: IPlayerInMatchFullData[] = [];
   @Input() team?: ITeam | null = null;
   @Input() scoreboardTeamColor: string = '9EBE9ECC';
-
-  constructor(private imageService: ImageService) {}
 
   onImgError(event: Event) {
     this.imageService.handleError(event);

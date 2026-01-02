@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Person } from '../person';
 import { ImageService } from '../../../services/image.service';
 import { urlWithProtocol } from '../../../base/constants';
@@ -23,13 +23,15 @@ import { AddEditPersonComponent } from '../add-edit-person/add-edit-person.compo
   styleUrl: './item-person.component.less',
 })
 export class ItemPersonComponent {
+  private person = inject(Person);
+  private imageService = inject(ImageService);
+
   currentPerson$ = this.person.currentPerson$;
   buttonTitle: string = 'Person';
 
-  constructor(
-    private person: Person,
-    private imageService: ImageService,
-  ) {
+  constructor() {
+    const person = this.person;
+
     person.loadCurrentPerson();
   }
 

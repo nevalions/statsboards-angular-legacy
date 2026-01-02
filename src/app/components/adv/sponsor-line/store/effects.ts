@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, filter, map, of, switchMap } from 'rxjs';
 
@@ -19,6 +19,12 @@ import { sponsorLineActions } from './actions';
 
 @Injectable()
 export class SponsorLineEffects {
+  private router = inject(Router);
+  private actions$ = inject(Actions);
+  private sponsorLineService = inject(SponsorLineService);
+  private sponsorSponsorLineConnectionService = inject(SponsorSponsorLineConnectionService);
+  private store = inject(Store);
+
   getSponsorLineIdFromRouteEffect = createEffect(
     () => {
       return this.actions$.pipe(
@@ -251,86 +257,4 @@ export class SponsorLineEffects {
     },
     { functional: true },
   );
-
-  // getSponsorLineBySuccessIdEffect = createEffect(
-  //   () => {
-  //     return this.actions$.pipe(
-  //       ofType(sponsorLineActions.getSponsorLineIdSuccessfully), // You will have to define this action
-  //       switchMap(({ sponsorLineId }) => {
-  //         return this.sponsorLineService.findById(sponsorLineId).pipe(
-  //           // Assuming you have a getTournaments method in your service
-  //           map((currentSponsorLine: ISponsorLine) => {
-  //             return sponsorLineActions.getItemSuccess({
-  //               currentSponsorLine,
-  //             });
-  //           }),
-  //           catchError(() => {
-  //             return of(sponsorLineActions.getItemFailure());
-  //           }),
-  //         );
-  //       }),
-  //     );
-  //   },
-  //   { functional: true },
-  // );
-
-  // getSponsorLineByIdEffect = createEffect(
-  //   () => {
-  //     return this.actions$.pipe(
-  //       ofType(sponsorLineActions.get), // You will have to define this action
-  //       switchMap(({ id }) => {
-  //         return this.sponsorLineService.findById(id).pipe(
-  //           // Assuming you have a getTournaments method in your service
-  //           map((store: ISponsorLine) => {
-  //             return sponsorLineActions.getItemSuccess({
-  //               store,
-  //             });
-  //           }),
-  //           catchError(() => {
-  //             return of(sponsorLineActions.getItemFailure());
-  //           }),
-  //         );
-  //       }),
-  //     );
-  //   },
-  //   { functional: true },
-  // );
-  //
-  // deleteSponsorLineEffect = createEffect(
-  //   () => {
-  //     return this.actions$.pipe(
-  //       ofType(sponsorLineActions.delete),
-  //       switchMap(({ id }) => {
-  //         // const _id = typeof id === 'string' ? Number(id) : id;
-  //         return this.sponsorLineService.deleteItem(id).pipe(
-  //           map(() => {
-  //             return sponsorLineActions.deletedSuccessfully({ id: id });
-  //           }),
-  //           catchError(() => {
-  //             return of(sponsorLineActions.deleteFailure());
-  //           }),
-  //         );
-  //       }),
-  //     );
-  //   },
-  //   { functional: true },
-  // );
-  //
-  // navigateOnSponsorLineDeletion$ = createEffect(
-  //   () => {
-  //     return this.actions$.pipe(
-  //       ofType(sponsorLineActions.deletedSuccessfully),
-  //       tap(() => this.router.navigateByUrl('/')),
-  //     );
-  //   },
-  //   { dispatch: false },
-  // );
-
-  constructor(
-    private router: Router,
-    private actions$: Actions,
-    private sponsorLineService: SponsorLineService,
-    private sponsorSponsorLineConnectionService: SponsorSponsorLineConnectionService,
-    private store: Store,
-  ) {}
 }

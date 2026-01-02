@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { positionActions } from './store/actions';
 import { Observable } from 'rxjs';
@@ -9,11 +9,15 @@ import { AppState } from '../../store/appstate';
   providedIn: 'root',
 })
 export class Position {
+  private store = inject<Store<AppState>>(Store);
+
   currentPosition$: Observable<IPosition | null | undefined>;
   allPositions$: Observable<IPosition[]>;
   allSportPositions$: Observable<IPosition[]>;
 
-  constructor(private store: Store<AppState>) {
+  constructor() {
+    const store = this.store;
+
     this.currentPosition$ = store.select(
       (state) => state.position.currentPosition,
     );

@@ -3,16 +3,7 @@ import {
   TuiInputDateTimeModule,
   TuiInputNumberModule,
 } from '@taiga-ui/legacy';
-import {
-  Component,
-  EventEmitter,
-  Input,
-  OnChanges,
-  OnDestroy,
-  OnInit,
-  Output,
-  SimpleChanges,
-} from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges, inject } from '@angular/core';
 import {
   catchError,
   finalize,
@@ -64,6 +55,12 @@ import { UploadResizeImageResponse } from '../../../type/base.type';
   styleUrl: './add-edit-person.component.less',
 })
 export class AddEditPersonComponent implements OnInit, OnDestroy, OnChanges {
+  private person = inject(Person);
+  private imageService = inject(ImageService);
+  private uploadProgressService = inject(UploadProgressService);
+  private dialogService = inject(DialogService);
+  private dateTimeService = inject(DateTimeService);
+
   private dialogSubscription: Subscription | undefined;
 
   @Input() action: string = 'add';
@@ -77,14 +74,6 @@ export class AddEditPersonComponent implements OnInit, OnDestroy, OnChanges {
 
   loadingFiles$ = this.uploadProgressService.loadingFiles$;
   rejectedFiles$ = this.uploadProgressService.rejectedFiles$;
-
-  constructor(
-    private person: Person,
-    private imageService: ImageService,
-    private uploadProgressService: UploadProgressService,
-    private dialogService: DialogService,
-    private dateTimeService: DateTimeService,
-  ) {}
 
   personForm = new FormGroup({
     id: new FormControl<number | null | undefined>(undefined),

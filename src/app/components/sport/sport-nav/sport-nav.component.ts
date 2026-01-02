@@ -1,5 +1,5 @@
 import { TuiLoader } from "@taiga-ui/core";
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { HeaderMenuComponent } from '../../../shared/ui/headermenu/header-menu.component';
 import { IBaseIdElse } from '../../../type/base.type';
 import { AsyncPipe } from '@angular/common';
@@ -16,9 +16,13 @@ import { environment } from '../../../../environments/environment';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SportNavComponent {
+  private sport = inject(Sport);
+
   sports$ = this.sport.allSports$;
 
-  constructor(private sport: Sport) {
+  constructor() {
+    const sport = this.sport;
+
     sport.loadAllSports();
   }
 
