@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { vi } from 'vitest';
-import { PersonComponent } from './person.component';
+import { MatchScoreboardDisplayComponent } from './match-scoreboard-display.component';
 
-describe('PersonComponent', () => {
-  let component: PersonComponent;
-  let fixture: ComponentFixture<PersonComponent>;
+describe('MatchScoreboardDisplayComponent', () => {
+  let component: MatchScoreboardDisplayComponent;
+  let fixture: ComponentFixture<MatchScoreboardDisplayComponent>;
 
   beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [PersonComponent],
+    TestBed.configureTestingModule({
+      imports: [MatchScoreboardDisplayComponent],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(PersonComponent);
+    fixture = TestBed.createComponent(MatchScoreboardDisplayComponent);
     component = fixture.componentInstance;
   });
 
