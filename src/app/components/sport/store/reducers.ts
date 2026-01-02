@@ -1,5 +1,5 @@
-import { createFeature, createReducer, on } from '@ngrx/store';
-import { SortService } from '../../../services/sort.service';
+import { createEntityAdapter, EntityState } from '@ngrx/entity';
+import { createFeature, createReducer, on, createSelector } from '@ngrx/store';
 import { ISport } from '../../../type/sport.type';
 import {
   crudStoreInterface,
@@ -7,150 +7,204 @@ import {
 } from '../../../type/store.intarface';
 import { sportActions } from './actions';
 
-export interface SportState extends crudStoreInterface {
+export interface SportState extends EntityState<ISport>, crudStoreInterface {
   currentSportId: number | undefined | null;
   currentSport: ISport | undefined | null;
-  allSports: ISport[];
 }
 
-const initialState: SportState = {
+const adapter = createEntityAdapter<ISport>({
+  sortComparer: (a, b) => a.title.localeCompare(b.title),
+});
+
+const initialState: SportState = adapter.getInitialState({
   ...getDefaultCrudStore(),
   currentSportId: null,
-  allSports: [],
   currentSport: null,
-};
+});
 
 const sportFeature = createFeature({
   name: 'sport',
   reducer: createReducer(
     initialState,
 
-    on(sportActions.getId, (state): SportState => ({
-      ...state,
-      isLoading: true,
-    })),
-    on(sportActions.getSportIdSuccessfully, (state, action): SportState => ({
-      ...state,
-      isLoading: false,
-      currentSportId: action.sportId,
-    })),
-    on(sportActions.getSportIdFailure, (state): SportState => ({
-      ...state,
-      isLoading: false,
-    })),
-
-    // create actions
-    on(sportActions.create, (state): SportState => ({
-      ...state,
-      isSubmitting: true,
-    })),
-    on(sportActions.createdSuccessfully, (state, action) => {
-      const newList = [...state.allSports, action.currentSport];
-      const sortedTournaments = SortService.sort(newList, 'title');
-      return {
+    on(
+      sportActions.getId,
+      (state): SportState => ({
         ...state,
-        isSubmitting: false,
-        currentSport: action.currentSport,
-        allSports: sortedTournaments, // sorted list
-      };
-    }),
-    on(sportActions.createFailure, (state, action): SportState => ({
-      ...state,
-      isSubmitting: false,
-      errors: action,
-    })),
-
-    // delete actions
-    on(sportActions.delete, (state): SportState => ({
-      ...state,
-      isSubmitting: true,
-    })),
-    on(sportActions.deletedSuccessfully, (state, action): SportState => ({
-      ...state,
-      isSubmitting: false,
-      allSports: (state.allSports || []).filter(
-        (item) => item.id !== action.id,
-      ),
-      errors: null,
-    })),
-    on(sportActions.deleteFailure, (state, action): SportState => ({
-      ...state,
-      isSubmitting: false,
-      errors: action,
-    })),
-
-    // update actions
-    on(sportActions.update, (state): SportState => ({
-      ...state,
-      isSubmitting: true,
-    })),
-    on(sportActions.updatedSuccessfully, (state, action): SportState => ({
-      ...state,
-      isSubmitting: false,
-      currentSport: action.updatedSport,
-      allSports: state.allSports.map((item) =>
-        item.id === action.updatedSport.id ? action.updatedSport : item,
-      ),
-      errors: null,
-    })),
-    on(sportActions.updateFailure, (state, action): SportState => ({
-      ...state,
-      isSubmitting: false,
-      errors: action,
-    })),
-
-    // get actions
-    on(sportActions.get, (state): SportState => ({
-      ...state,
-      isLoading: true,
-    })),
-    on(sportActions.getItemSuccess, (state, action): SportState => ({
-      ...state,
-      isLoading: false,
-      currentSportId: action.sport.id,
-      currentSport: action.sport,
-    })),
-    on(sportActions.getItemFailure, (state, action): SportState => ({
-      ...state,
-      isLoading: false,
-      errors: action,
-    })),
-    //get by match
-    on(sportActions.getSportByMatch, (state): SportState => ({
-      ...state,
-      isLoading: true,
-    })),
-    on(sportActions.getSportByMatchSuccess, (state, action): SportState => ({
-      ...state,
-      isLoading: false,
-      currentSportId: action.sport.id,
-      currentSport: action.sport,
-    })),
-    on(sportActions.getSportByMatchFailure, (state, action): SportState => ({
-      ...state,
-      isLoading: false,
-      errors: action,
-    })),
-
-    on(sportActions.getAll, (state): SportState => ({
-      ...state,
-      isLoading: true,
-    })),
-    on(sportActions.getAllItemsSuccess, (state, action) => {
-      const sortedTournaments = SortService.sort(action.sports, 'title');
-      return {
+        isLoading: true,
+      }),
+    ),
+    on(
+      sportActions.getSportIdSuccessfully,
+      (state, action): SportState => ({
         ...state,
         isLoading: false,
-        allSports: sortedTournaments,
-      };
-    }),
-    on(sportActions.getAllItemsFailure, (state, action): SportState => ({
-      ...state,
-      isLoading: false,
-      errors: action,
-    })),
+        currentSportId: action.sportId,
+      }),
+    ),
+    on(
+      sportActions.getSportIdFailure,
+      (state): SportState => ({
+        ...state,
+        isLoading: false,
+      }),
+    ),
+
+    on(
+      sportActions.create,
+      (state): SportState => ({
+        ...state,
+        isSubmitting: true,
+      }),
+    ),
+    on(
+      sportActions.createdSuccessfully,
+      (state, action): SportState =>
+        adapter.addOne(action.currentSport, {
+          ...state,
+          isSubmitting: false,
+          currentSport: action.currentSport,
+        }),
+    ),
+    on(
+      sportActions.createFailure,
+      (state, action): SportState => ({
+        ...state,
+        isSubmitting: false,
+        errors: action,
+      }),
+    ),
+
+    on(
+      sportActions.delete,
+      (state): SportState => ({
+        ...state,
+        isSubmitting: true,
+      }),
+    ),
+    on(
+      sportActions.deletedSuccessfully,
+      (state, action): SportState =>
+        adapter.removeOne(action.id, {
+          ...state,
+          isSubmitting: false,
+          errors: null,
+        }),
+    ),
+    on(
+      sportActions.deleteFailure,
+      (state, action): SportState => ({
+        ...state,
+        isSubmitting: false,
+        errors: action,
+      }),
+    ),
+
+    on(
+      sportActions.update,
+      (state): SportState => ({
+        ...state,
+        isSubmitting: true,
+      }),
+    ),
+    on(
+      sportActions.updatedSuccessfully,
+      (state, action): SportState =>
+        adapter.updateOne(
+          { id: action.updatedSport.id!, changes: action.updatedSport },
+          {
+            ...state,
+            isSubmitting: false,
+            currentSport: action.updatedSport,
+            errors: null,
+          },
+        ),
+    ),
+    on(
+      sportActions.updateFailure,
+      (state, action): SportState => ({
+        ...state,
+        isSubmitting: false,
+        errors: action,
+      }),
+    ),
+
+    on(
+      sportActions.get,
+      (state): SportState => ({
+        ...state,
+        isLoading: true,
+      }),
+    ),
+    on(
+      sportActions.getItemSuccess,
+      (state, action): SportState => ({
+        ...state,
+        isLoading: false,
+        currentSportId: action.sport.id,
+        currentSport: action.sport,
+      }),
+    ),
+    on(
+      sportActions.getItemFailure,
+      (state, action): SportState => ({
+        ...state,
+        isLoading: false,
+        errors: action,
+      }),
+    ),
+    on(
+      sportActions.getSportByMatch,
+      (state): SportState => ({
+        ...state,
+        isLoading: true,
+      }),
+    ),
+    on(
+      sportActions.getSportByMatchSuccess,
+      (state, action): SportState => ({
+        ...state,
+        isLoading: false,
+        currentSportId: action.sport.id,
+        currentSport: action.sport,
+      }),
+    ),
+    on(
+      sportActions.getSportByMatchFailure,
+      (state, action): SportState => ({
+        ...state,
+        isLoading: false,
+        errors: action,
+      }),
+    ),
+
+    on(
+      sportActions.getAll,
+      (state): SportState => ({
+        ...state,
+        isLoading: true,
+      }),
+    ),
+    on(
+      sportActions.getAllItemsSuccess,
+      (state, action): SportState =>
+        adapter.setAll(action.sports, {
+          ...state,
+          isLoading: false,
+        }),
+    ),
+    on(
+      sportActions.getAllItemsFailure,
+      (state, action): SportState => ({
+        ...state,
+        isLoading: false,
+        errors: action,
+      }),
+    ),
   ),
 });
+
+const { selectAll, selectEntities, selectTotal } = adapter.getSelectors();
 
 export const {
   name: sportFeatureKey,
@@ -159,5 +213,17 @@ export const {
   selectIsLoading,
   selectCurrentSportId,
   selectCurrentSport,
-  selectAllSports,
 } = sportFeature;
+
+export const selectAllSports = createSelector(
+  sportFeature.selectSportState,
+  selectAll,
+);
+export const selectSportEntities = createSelector(
+  sportFeature.selectSportState,
+  selectEntities,
+);
+export const selectSportTotal = createSelector(
+  sportFeature.selectSportState,
+  selectTotal,
+);
