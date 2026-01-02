@@ -23,6 +23,10 @@
     }
   },
   "command": {
+    "preflight": {
+      "description": "Verify Angular dev server health",
+      "template": "Run the Angular preflight checklist:\n\n1. Detect package manager (pnpm > yarn > npm)\n2. Install deps if needed\n3. Start/restart dev server\n4. Verify server is up\n5. Scan logs for critical errors\n6. Output PREFLIGHT_STATUS=PASS or FAIL"
+    },
     "plan-front-lint": {
       "description": "Create a Linear plan to eliminate ESLint warnings/errors (no code changes)",
       "agent": "plan",
