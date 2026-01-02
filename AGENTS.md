@@ -158,6 +158,91 @@ All state provided at route level:
 }
 ```
 
+#### Entity Adapter Patterns
+
+**Use @ngrx/entity for CRUD operations on collections:**
+
+```typescript
+import { createEntityAdapter, EntityState } from "@ngrx/entity";
+
+// State interface extends EntityState
+export interface PersonState extends EntityState<IPerson> {
+  personIsLoading: boolean;
+  personIsSubmitting: boolean;
+  currentPersonId: number | undefined | null;
+  currentPerson: IPerson | undefined | null;
+  errors: any | null;
+}
+
+// Create adapter with optional sorting
+const adapter = createEntityAdapter<IPerson>({
+  sortComparer: (a, b) => a.second_name.localeCompare(b.second_name),
+});
+
+// Initial state from adapter
+const initialState: PersonState = adapter.getInitialState({
+  personIsLoading: false,
+  personIsSubmitting: false,
+  currentPersonId: null,
+  currentPerson: null,
+  errors: null,
+});
+
+// Use adapter methods in reducer
+const personFeature = createFeature({
+  name: "person",
+  reducer: createReducer(
+    initialState,
+    on(personActions.createdSuccessfully, (state, action) =>
+      adapter.addOne(action.currentPerson, {
+        ...state,
+        personIsSubmitting: false,
+        currentPerson: action.currentPerson,
+      }),
+    ),
+    on(personActions.updatedSuccessfully, (state, action) =>
+      adapter.updateOne(
+        { id: action.updatedPerson.id, changes: action.updatedPerson },
+        {
+          ...state,
+          personIsSubmitting: false,
+          currentPerson: action.updatedPerson,
+          errors: null,
+        },
+      ),
+    ),
+    on(personActions.deletedSuccessfully, (state, action) =>
+      adapter.removeOne(action.personId, {
+        ...state,
+        personIsSubmitting: false,
+        errors: null,
+      }),
+    ),
+    on(personActions.getAllItemsSuccess, (state, action) =>
+      adapter.setAll(action.persons, {
+        ...state,
+        personIsLoading: false,
+      }),
+    ),
+  ),
+});
+
+// Built-in selectors from adapter
+const { selectAll, selectEntities, selectById, selectTotal } = adapter.getSelectors();
+export const selectAllPersons = createSelector(selectPersonState, selectAll);
+```
+
+**Important Entity Adapter Rules:**
+
+1. **DO use entity adapter for CRUD operations** - addOne, updateOne, removeOne, setAll
+2. **DO preserve custom state properties** - isLoading, isSubmitting, currentItemId, errors
+3. **DO preserve custom business logic** - don't migrate actions like getTeamsBySportId
+4. **DO NOT maintain filtered collections in state** - use selectors instead
+5. **DO NOT use SortService in reducers** - use sortComparer in adapter
+6. **DO NOT manually manipulate arrays** - let adapter handle it
+
+**See**: `docs/ngrx-entity-migration-guide.md` for complete migration guide
+
 ## Naming Conventions
 
 ### Files and Directories
