@@ -36,13 +36,6 @@ npx vitest run **/store/*.spec.ts              # Unit tests in jsdom
 npx vitest run --browser=chromiumHeadless **/*.component.spec.ts  # Component tests in browser
 ```
 
-**Important:**
-
-- Tests must be run with **Firefox** browser
-- Karma configuration is set to use `FirefoxHeadless` browser
-- Test execution requires Firefox to be installed on the system
-- Use `ng test --karma-config karma.conf.js` to explicitly specify the Karma configuration file
-
 ## Code Style Guidelines
 
 ### Editor Configuration (.editorconfig)
