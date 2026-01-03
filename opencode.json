@@ -34,7 +34,7 @@
     },
     "work": {
       "description": "Work on a Linear issue (e.g. /work STAF-8)",
-      "template": "Start working on Linear issue $ARGUMENTS.\n\nRules:\n- Linear team: StatsboardFront\n- Only change files related to the issue\n- Follow ESLint and Angular best practices\n- Re-run eslint after changes\n- Update the Linear issue with progress\n- Move to Done only when ESLint is clean for the scope"
+      "template": "Start working on Linear issue $ARGUMENTS.\n\nRules:\n- Linear team: StatsboardFront\n - Set status of linear issue $ARGUMENTS In Progress\n- Only change files related to the issue\n- Follow ESLint and Angular best practices\n- Re-run eslint after changes\n- Update the Linear issue with progress\n- Move to Done only when ESLint is clean for the scope"
     },
     "review": {
       "description": "Review work for a Linear issue (e.g. /review STAF-8)",
