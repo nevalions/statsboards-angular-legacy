@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { vi } from 'vitest';
-import { PersonComponent } from './person.component';
+import { MatchScoreboardAdminComponent } from './match-scoreboard-admin.component';
 
-describe('PersonComponent', () => {
-  let component: PersonComponent;
-  let fixture: ComponentFixture<PersonComponent>;
+describe('MatchScoreboardAdminComponent', () => {
+  let component: MatchScoreboardAdminComponent;
+  let fixture: ComponentFixture<MatchScoreboardAdminComponent>;
 
   beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [PersonComponent],
+    TestBed.configureTestingModule({
+      imports: [MatchScoreboardAdminComponent],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(PersonComponent);
+    fixture = TestBed.createComponent(MatchScoreboardAdminComponent);
     component = fixture.componentInstance;
   });
 
